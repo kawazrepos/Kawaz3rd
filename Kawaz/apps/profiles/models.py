@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 class Skill(models.Model):
     """It is the model which indicates what users can"""
@@ -16,3 +17,79 @@ class Skill(models.Model):
         ordering = ('order',)
         verbose_name = _("Skill")
         verbose_name_plural = _("Skills")
+
+class ProfileManager(models.Manager):
+    def active_users(self, request):
+        qs = self.exclude(nickname=None).exclude(user__is_active=False)
+        if request and request.user.is_authenticated():
+            return qs
+        else:
+            return qs
+
+class Profile(models.Model):
+    u"""
+    It is the model which indicates profiles of each users
+
+    このモデルはauth.Userのmoduleとして利用されます
+    user.get_profile()で取得できます
+    AbstractUserを利用しない理由として、以下の2点が挙げられます
+    - 1. Kawaz 2ndのProfileモデルとの互換性
+    - 2. 古いDjango向けに作られたプラグインとの互換性
+    """
+
+    def _get_upload_path(self, filename):
+        path = u'storage/profiles/%s' % self.user.username
+        return os.path.join(path, filename)
+
+    SEX_TYPES = (
+        ('man',   _("Man")),
+        ('woman', _("Woman"))
+    )
+    THUMBNAIL_SIZE_PATTERNS = {
+        'huge':     (288, 288, False),
+        'large':    (96, 96, False),
+        'middle':   (48, 48, False),
+        'small':    (24, 24, False),
+    }
+
+    # Required
+    nickname = models.CharField(u"ニックネーム", max_length=30, unique=True, blank=False, null=True)
+    # Non required
+    mood = models.CharField(u"ムードメッセージ", max_length=127, blank=True)
+    # icon            = ImageField(u"アイコン" , upload_to=_get_upload_path, blank=True, thumbnail_size_patterns=THUMBNAIL_SIZE_PATTERNS)
+    sex  = models.CharField(u"性別", max_length=10, choices=SEX_TYPES, blank=True)
+    birthday = models.DateField(u"誕生日", null=True, blank=True)
+    place = models.CharField(u"居住地域", max_length=255, blank=True, help_text=u"居住地域は外部ユーザーには表示されません")
+    url = models.URLField(u"URL", max_length=255, blank=True)
+    # remarks         = MarkItUpField(u"自由記入欄", default_markup_type='markdown', blank=True)
+    skills = models.ManyToManyField(Skill, verbose_name=u"役職", related_name='users', null=True, blank=True)
+    # Uneditable
+    user = models.ForeignKey(User, verbose_name=u"アカウント", related_name='profile', unique=True, primary_key=True, editable=False)
+    created_at = models.DateTimeField(u"作成日時", auto_now_add=True)
+    updated_at = models.DateTimeField(u"更新日時", auto_now=True)
+
+    objects = ProfileManager()
+
+    class Meta:
+        ordering            = ('-user__last_login', 'nickname')
+        verbose_name        = u"プロフィール"
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        if self.nickname:
+            return self.nickname
+        return u"非アクティブユーザー: %s" % self.user.username
+
+    def modify_object_permission(self, mediator, created):
+        # Permission
+        mediator.manager(self, self.user)
+        if self.pub_state == 'public':
+            mediator.viewer(self, None)
+            mediator.viewer(self, 'anonymous')
+        else:
+            mediator.viewer(self, None)
+            mediator.reject(self, 'anonymous')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ("profiles-profile-detail", (), {'slug': self.user.username})
