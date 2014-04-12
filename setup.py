@@ -8,6 +8,7 @@ setup(name='Kawaz',
       author_email='webmaster@kawaz.org',
       url='https://gitlab.kawaz.org/kawaz/third-impact',
       install_requires = [
+        'pillow',
         'Django>=1.6.0',
         'factory_boy>=2.2.1',
         'django-markupfield',

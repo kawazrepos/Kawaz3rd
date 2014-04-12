@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
@@ -21,10 +20,7 @@ class Skill(models.Model):
 class ProfileManager(models.Manager):
     def active_users(self, request):
         qs = self.exclude(nickname=None).exclude(user__is_active=False)
-        if request and request.user.is_authenticated():
-            return qs
-        else:
-            return qs
+        return qs
 
 class Profile(models.Model):
     u"""
@@ -93,3 +89,26 @@ class Profile(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ("profiles-profile-detail", (), {'slug': self.user.username})
+
+class Service(models.Model):
+
+    def _get_upload_path(self, filename):
+        return os.path.join(["storage/services", filename])
+
+    label = models.CharField(_('Label'), max_length=64, unique=True)
+    description = models.CharField(_('Description'), max_length=256)
+    icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)
+    url_pattern = models.CharField(_('URL pattern'), max_length=256, null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('Service')
+        verbose_name_plural = _('Services')
+
+class Account(models.Model):
+    user = models.ForeignKey(Profile, verbose_name=_('Profile'))
+    service = models.ForeignKey(Service, verbose_name=_('Service'))
+    account = models.CharField(_('Account'), max_length=64)
+
+    class Meta:
+        verbose_name = _('Account')
+        verbose_name_plural = _('Accounts')
