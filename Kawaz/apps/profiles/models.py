@@ -72,8 +72,8 @@ class Profile(models.Model):
 
     class Meta:
         ordering            = ('-user__last_login', 'nickname')
-        verbose_name        = u"プロフィール"
-        verbose_name_plural = verbose_name
+        verbose_name        = _("Profile")
+        verbose_name_plural = _("Profiles")
 
     def __unicode__(self):
         if self.nickname:
