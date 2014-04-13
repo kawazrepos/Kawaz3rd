@@ -52,20 +52,20 @@ class Profile(models.Model):
     }
 
     # Required
-    nickname = models.CharField(u"ニックネーム", max_length=30, unique=True, blank=False, null=True)
+    nickname = models.CharField(_('Nickname'), max_length=30, unique=True, blank=False, null=True)
     # Non required
-    mood = models.CharField(u"ムードメッセージ", max_length=127, blank=True)
-    icon = ImageField(u"アイコン" , upload_to=_get_upload_path, blank=True, thumbnail_size_patterns=THUMBNAIL_SIZE_PATTERNS)
-    sex  = models.CharField(u"性別", max_length=10, choices=SEX_TYPES, blank=True)
-    birthday = models.DateField(u"誕生日", null=True, blank=True)
-    place = models.CharField(u"居住地域", max_length=255, blank=True, help_text=u"居住地域は外部ユーザーには表示されません")
-    url = models.URLField(u"URL", max_length=255, blank=True)
-    remarks = MarkItUpField(u"自由記入欄", default_markup_type='html', blank=True)
-    skills = models.ManyToManyField(Skill, verbose_name=u"役職", related_name='users', null=True, blank=True)
+    mood = models.CharField(_('Mood message'), max_length=127, blank=True)
+    icon = ImageField(_('Avatar') , upload_to=_get_upload_path, blank=True, thumbnail_size_patterns=THUMBNAIL_SIZE_PATTERNS)
+    sex  = models.CharField('Gender', max_length=10, choices=SEX_TYPES, blank=True)
+    birthday = models.DateField(_('Birth day'), null=True, blank=True)
+    place = models.CharField(_('Address'), max_length=255, blank=True, help_text=_('Your address will not be shown by anonymous user.'))
+    url = models.URLField(_("URL"), max_length=255, blank=True)
+    remarks = MarkItUpField(_("Remarks"), default_markup_type='html', blank=True)
+    skills = models.ManyToManyField(Skill, verbose_name=_('Skills'), related_name='users', null=True, blank=True)
     # Uneditable
-    user = models.ForeignKey(User, verbose_name=u"アカウント", related_name='profile', unique=True, primary_key=True, editable=False)
-    created_at = models.DateTimeField(u"作成日時", auto_now_add=True)
-    updated_at = models.DateTimeField(u"更新日時", auto_now=True)
+    user = models.ForeignKey(User, verbose_name=_('User'), related_name='profile', unique=True, primary_key=True, editable=False)
+    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
     objects = ProfileManager()
 
@@ -77,7 +77,7 @@ class Profile(models.Model):
     def __unicode__(self):
         if self.nickname:
             return self.nickname
-        return u"非アクティブユーザー: %s" % self.user.username
+        return _('Non Active User : %(username)s') % {'username' : self.user.username}
 
     def modify_object_permission(self, mediator, created):
         # Permission
