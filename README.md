@@ -1,6 +1,6 @@
 # Kawaz Third-Impact
 
-All your game are belongs to us.
+All your game are belong to us.
 
 ## Setup for Development
 
