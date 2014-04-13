@@ -23,7 +23,7 @@ class Category(models.Model):
 class Project(models.Model):
     """The Project model"""
     def _get_upload_path(self, filename):
-        path = u'storage/projects/%s' % self.slug
+        path = 'storage/projects/%s' % self.slug
         return os.path.join(path, filename)
 
     PUB_STATES = (
@@ -68,5 +68,30 @@ class Project(models.Model):
         verbose_name        = _('Project')
         verbose_name_plural = _('Projects')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
+
+    def clean(self):
+        if self.pk is None:
+            group = Group.objects.get_or_create(name=u"project_%s" % self.slug)[0]
+            self.group = group
+        super(Project, self).clean()
+
+    def save(self, *args, **kwargs):
+        return super(Project, self).save(*args, **kwargs)
+
+    def join_member(self, user, save=True):
+        '''Add user to the project'''
+        self.members.add(user)
+        user.groups.add(self.group)
+        if save:
+            self.save(action='join')
+
+    def quit_member(self, user, save=True):
+        '''Remove user from the project'''
+        if user == self.author:
+            raise AttributeError("Author doesn't allow to quit the project")
+        self.members.remove(user)
+        user.groups.remove(self.group)
+        if save:
+            self.save(action='quit')
