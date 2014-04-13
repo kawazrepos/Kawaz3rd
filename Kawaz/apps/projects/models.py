@@ -5,6 +5,9 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 class Category(models.Model):
     """
     This model indicates category of each projects
@@ -72,12 +75,12 @@ class Project(models.Model):
         return self.title
 
     def clean(self):
-        if self.pk is None:
-            group = Group.objects.get_or_create(name=u"project_%s" % self.slug)[0]
-            self.group = group
         super(Project, self).clean()
 
     def save(self, *args, **kwargs):
+        if self.pk is None:
+            group = Group.objects.get_or_create(name=u"project_%s" % self.slug)[0]
+            self.group = group
         return super(Project, self).save(*args, **kwargs)
 
     def join_member(self, user, save=True):
@@ -85,13 +88,26 @@ class Project(models.Model):
         self.members.add(user)
         user.groups.add(self.group)
         if save:
-            self.save(action='join')
+            self.save()
 
     def quit_member(self, user, save=True):
         '''Remove user from the project'''
         if user == self.author:
             raise AttributeError("Author doesn't allow to quit the project")
+        if not user in self.members.all():
+            raise AttributeError("Username %s have not be member of this project.")
         self.members.remove(user)
         user.groups.remove(self.group)
         if save:
-            self.save(action='quit')
+            self.save()
+
+    def is_member(self, user):
+        '''Check passed user is whether member or not'''
+        return user in self.members.all()
+
+@receiver(post_save, sender=Project)
+def create_group(**kwargs):
+    created = kwargs.get('created')
+    instance = kwargs.get('instance')
+    if created:
+        instance.join_member(instance.author)
