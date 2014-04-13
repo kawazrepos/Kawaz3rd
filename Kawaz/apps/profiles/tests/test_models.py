@@ -8,16 +8,16 @@ class ProfileTestCase(TestCase):
         self.assertEqual(profile.user.get_profile(), profile)
 
 class SkillTestCase(TestCase):
-    def test_unicode(self):
-        """Tests __unicode__ returns correct value"""
+    def test_str(self):
+        """Tests __str__ returns correct value"""
         skill = SkillFactory()
-        self.assertEqual(skill.__unicode__(), skill.label)
+        self.assertEqual(skill.__str__(), skill.label)
 
 class ServiceTestCase(TestCase):
-    def test_unicode(self):
-        """Tests __unicode__ returns correct value"""
+    def test_str(self):
+        """Tests __str__ returns correct value"""
         service = ServiceFactory()
-        self.assertEqual(service.__unicode__(), service.label)
+        self.assertEqual(service.__str__(), service.label)
 
 class AccountTestCase(TestCase):
     def test_get_url(self):
@@ -25,7 +25,7 @@ class AccountTestCase(TestCase):
         account = AccountFactory(username='kawaz_tan')
         self.assertEqual(account.url, 'http://twitter.com/kawaz_tan/')
 
-    def test_unicode(self):
-        """Tests __unicode__ returns correct value"""
+    def test_test(self):
+        """Tests __str__ returns correct value"""
         account = AccountFactory(username='kawaz_tan')
-        self.assertEqual(account.__unicode__(), '%s (%s @ %s)' % (account.username, account.user.username, account.service.label))
+        self.assertEqual(account.__str__(), '%s (%s @ %s)' % (account.username, account.user.username, account.service.label))

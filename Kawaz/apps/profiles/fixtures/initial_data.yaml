@@ -76,3 +76,78 @@
     label: サーバー管理
     description: インフラ周りの管理ができます
     order: 13
+- model: profiles.service
+  pk: 1
+  fields:
+    label: Twitter
+    url_pattern: http://twitter.com/%s/
+- model: profiles.service
+  pk: 2
+  fields:
+    label: Skype
+    url_pattern: skype:%s?add
+- model: profiles.service
+  pk: 3
+  fields:
+    label: Facebook
+    url_pattern: http://www.facebook.com/%s/
+- model: profiles.service
+  pk: 4
+  fields:
+    label: Foursquare
+    url_pattern: http://foursquare.com/%s/
+- model: profiles.service
+  pk: 5
+  fields:
+    label: Google
+    url_pattern: mailto:%s@gmail.com
+- model: profiles.service
+  pk: 6
+  fields:
+    label: Pixiv
+    url_pattern: http://www.pixiv.net/member.php?id=%s
+- model: profiles.service
+  pk: 7
+  fields:
+    label: はてな
+    url_pattern: http://www.hatena.ne.jp/%s/
+- model: profiles.service
+  pk: 8
+  fields:
+    label: Dropbox
+    url_pattern: mailto:%s
+- model: profiles.service
+  pk: 9
+  fields:
+    label: Xbox Live
+    url_pattern: http://live.xbox.com/ja-JP/MyXbox/Profile?gamertag=%s
+- model: profiles.service
+  pk: 10
+  fields:
+    label: PlayStation Network
+    url_pattern: http://playstationhome.jp/community/mypage.php?OnlineID=%s
+- model: profiles.service
+  pk: 11
+  fields:
+    label: Github
+    url_pattern: http://github.com/%s/
+- model: profiles.service
+  pk: 12
+  fields:
+    label: Tumblr
+    url_pattern: http://%s.tumblr.com/
+- model: profiles.service
+  pk: 13
+  fields:
+    label: Raptr
+    url_pattern: http://raptr.com/%s/wall
+- model: profiles.service
+  pk: 14
+  fields:
+    label: Steam
+    url_pattern: http://steamcommunity.com/profiles/%s/
+- model: profiles.service
+  pk: 15
+  fields:
+    label: SoundCloud
+    url_pattern: http://soundcloud.com/%s/

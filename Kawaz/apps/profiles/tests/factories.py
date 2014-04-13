@@ -6,6 +6,7 @@ from Kawaz.apps.auth.tests.factories import UserFactory
 
 class SkillFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Skill
+    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
 
     label = u'プログラミング'
     description = u'闇の力です'
@@ -13,9 +14,9 @@ class SkillFactory(factory.django.DjangoModelFactory):
 
 class ServiceFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Service
+    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
 
     label = 'Twitter'
-    description = u'廃人向けサービスです'
     url_pattern = u'http://twitter.com/%s/'
 
 class AccountFactory(factory.django.DjangoModelFactory):
