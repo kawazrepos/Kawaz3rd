@@ -1,0 +1,135 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-14 06:17+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: apps/imagefield/widgets.py:19
+msgid "Currently:"
+msgstr ""
+
+#: apps/imagefield/widgets.py:20
+msgid "Change:"
+msgstr ""
+
+#: apps/imagefield/widgets.py:21
+msgid "Delete"
+msgstr ""
+
+#: apps/profiles/models.py:12 apps/profiles/models.py:102
+msgid "Label"
+msgstr ""
+
+#: apps/profiles/models.py:13
+msgid "Description"
+msgstr ""
+
+#: apps/profiles/models.py:14
+msgid "Order"
+msgstr ""
+
+#: apps/profiles/models.py:21
+msgid "Skill"
+msgstr ""
+
+#: apps/profiles/models.py:22 apps/profiles/models.py:65
+msgid "Skills"
+msgstr ""
+
+#: apps/profiles/models.py:45
+msgid "Man"
+msgstr ""
+
+#: apps/profiles/models.py:46
+msgid "Woman"
+msgstr ""
+
+#: apps/profiles/models.py:56
+msgid "Nickname"
+msgstr ""
+
+#: apps/profiles/models.py:58
+msgid "Mood message"
+msgstr ""
+
+#: apps/profiles/models.py:61
+msgid "Birth day"
+msgstr ""
+
+#: apps/profiles/models.py:62
+msgid "Address"
+msgstr ""
+
+#: apps/profiles/models.py:62
+msgid "Your address will not be shown by anonymous user."
+msgstr ""
+
+#: apps/profiles/models.py:63
+msgid "URL"
+msgstr ""
+
+#: apps/profiles/models.py:67
+msgid "User"
+msgstr ""
+
+#: apps/profiles/models.py:68
+msgid "Created at"
+msgstr ""
+
+#: apps/profiles/models.py:69
+msgid "Updated at"
+msgstr ""
+
+#: apps/profiles/models.py:75 apps/profiles/models.py:115
+msgid "Profile"
+msgstr ""
+
+#: apps/profiles/models.py:76
+msgid "Profiles"
+msgstr ""
+
+#: apps/profiles/models.py:81
+#, python-format
+msgid "Non Active User : %(username)s"
+msgstr ""
+
+#: apps/profiles/models.py:103
+msgid "Icon"
+msgstr ""
+
+#: apps/profiles/models.py:104
+msgid "URL pattern"
+msgstr ""
+
+#: apps/profiles/models.py:111 apps/profiles/models.py:116
+msgid "Service"
+msgstr ""
+
+#: apps/profiles/models.py:112
+msgid "Services"
+msgstr ""
+
+#: apps/profiles/models.py:117
+msgid "Username"
+msgstr ""
+
+#: apps/profiles/models.py:120
+msgid "Account"
+msgstr ""
+
+#: apps/profiles/models.py:121
+msgid "Accounts"
+msgstr ""
