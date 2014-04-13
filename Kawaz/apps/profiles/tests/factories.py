@@ -1,24 +1,29 @@
 # -*- coding: utf-8 -*-
 import factory
 import datetime
-from ..models import Skill, Profile
+from ..models import Skill, Profile, Service, Account
 from Kawaz.apps.auth.tests.factories import UserFactory
 
 class SkillFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Skill
 
     label = u'プログラミング'
+    description = u'闇の力です'
     order = 0
 
 class ServiceFactory(factory.django.DjangoModelFactory):
-    label = u'Twitter'
+    FACTORY_FOR = Service
+
+    label = 'Twitter'
     description = u'廃人向けサービスです'
-    url_pattern = u'http://www.twitter.com/%s'
+    url_pattern = u'http://twitter.com/%s/'
 
 class AccountFactory(factory.django.DjangoModelFactory):
+    FACTORY_FOR = Account
+
     service = factory.SubFactory(ServiceFactory)
-    account = 'kawaz_tan'
     user = factory.SubFactory(UserFactory)
+    username = 'kawaz_tan'
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Profile
