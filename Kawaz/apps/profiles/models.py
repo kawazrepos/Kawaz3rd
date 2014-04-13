@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
+from Kawaz.apps.markitupfield.models import MarkItUpField
+
 class Skill(models.Model):
     """It is the model which indicates what users can"""
     label = models.CharField(_("Label"), unique=True, max_length=32)
@@ -57,7 +59,7 @@ class Profile(models.Model):
     birthday = models.DateField(u"誕生日", null=True, blank=True)
     place = models.CharField(u"居住地域", max_length=255, blank=True, help_text=u"居住地域は外部ユーザーには表示されません")
     url = models.URLField(u"URL", max_length=255, blank=True)
-    # remarks         = MarkItUpField(u"自由記入欄", default_markup_type='markdown', blank=True)
+    remarks = MarkItUpField(u"自由記入欄", default_markup_type='html', blank=True)
     skills = models.ManyToManyField(Skill, verbose_name=u"役職", related_name='users', null=True, blank=True)
     # Uneditable
     user = models.ForeignKey(User, verbose_name=u"アカウント", related_name='profile', unique=True, primary_key=True, editable=False)
