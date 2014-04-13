@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
 from Kawaz.apps.markitupfield.models import MarkItUpField
+from Kawaz.apps.imagefield.fields import ImageField
 
 class Skill(models.Model):
     """It is the model which indicates what users can"""
@@ -54,7 +55,7 @@ class Profile(models.Model):
     nickname = models.CharField(u"ニックネーム", max_length=30, unique=True, blank=False, null=True)
     # Non required
     mood = models.CharField(u"ムードメッセージ", max_length=127, blank=True)
-    # icon            = ImageField(u"アイコン" , upload_to=_get_upload_path, blank=True, thumbnail_size_patterns=THUMBNAIL_SIZE_PATTERNS)
+    icon = ImageField(u"アイコン" , upload_to=_get_upload_path, blank=True, thumbnail_size_patterns=THUMBNAIL_SIZE_PATTERNS)
     sex  = models.CharField(u"性別", max_length=10, choices=SEX_TYPES, blank=True)
     birthday = models.DateField(u"誕生日", null=True, blank=True)
     place = models.CharField(u"居住地域", max_length=255, blank=True, help_text=u"居住地域は外部ユーザーには表示されません")
