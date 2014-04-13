@@ -38,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'Kawaz.apps.imagefield',
     'Kawaz.apps.markitupfield',
-    'Kawaz.apps.profiles'
+    'Kawaz.apps.profiles',
+    'Kawaz.apps.projects',
 )
 
 MIDDLEWARE_CLASSES = (

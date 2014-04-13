@@ -1,0 +1,52 @@
+- model: projects.category
+  pk: 1
+  fields:
+    label: シューティングゲーム
+- model: projects.category
+  pk: 2
+  fields:
+    label: アクションゲーム
+- model: projects.category
+  pk: 3
+  fields:
+    label: パズルゲーム
+- model: projects.category
+  pk: 4
+  fields:
+    label: ロールプレイイングゲーム
+- model: projects.category
+  pk: 5
+  fields:
+    label: アドベンチャーゲーム
+- model: projects.category
+  pk: 6
+  fields:
+    label: ノベルゲーム
+- model: projects.category
+  pk: 7
+  fields:
+    label: ミニゲーム
+- model: projects.category
+  pk: 8
+  fields:
+    label: 格闘ゲーム
+- model: projects.category
+  pk: 9
+  fields:
+    label: シミュレーションゲーム
+- model: projects.category
+  pk: 10
+  fields:
+    label: オンラインゲーム
+- model: projects.category
+  pk: 11
+  fields:
+    label: その他ゲーム
+- model: projects.category
+  pk: 12
+  fields:
+    label: その他企画
+- model: projects.category
+  pk: 13
+  fields:
+    label: 音楽ゲーム
