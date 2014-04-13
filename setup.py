@@ -9,6 +9,7 @@ setup(name='Kawaz3',
       test_suite = "runtests.runtests",
       url='http://gitlab.kawaz.org/kawaz/third-impact',
       install_requires = [
+        'pyyaml',
         'pillow',
         'Django>=1.6.0',
         'factory_boy>=2.2.1',

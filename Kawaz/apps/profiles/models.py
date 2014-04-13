@@ -17,7 +17,7 @@ class Skill(models.Model):
         return self.label
 
     class Meta:
-        ordering = ('order',)
+        ordering = ('order', 'pk',)
         verbose_name = _("Skill")
         verbose_name_plural = _("Skills")
 
