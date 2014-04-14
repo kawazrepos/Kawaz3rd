@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
@@ -26,7 +25,7 @@ class EventManager(models.Manager):
     
     def draft(self, user):
         if user and user.is_authenticated():
-            return self.filter(author=user, pub_state='draft')
+            return self.filter(organizer=user, pub_state='draft')
         else:
             return self.none()
 
@@ -45,14 +44,14 @@ class Event(models.Model):
     title = models.CharField(_("Title"), max_length=255)
     # body = MarkItUpField(_("Body"), default_markup_type="markdown")
     # Unrequired
-    period_start    = models.DateTimeField(_("Start time"), blank=True, null=True)
-    period_end      = models.DateTimeField(_("End time"), blank=True, null=True)
-    place           = models.CharField(_("Place"), max_length=255, blank=True)
+    period_start = models.DateTimeField(_("Start time"), blank=True, null=True)
+    period_end = models.DateTimeField(_("End time"), blank=True, null=True)
+    place = models.CharField(_("Place"), max_length=255, blank=True)
     # Uneditable
-    author          = models.ForeignKey(User, verbose_name=_("Organizer"), related_name="events_owned", editable=False)
-    members         = models.ManyToManyField(User, verbose_name=_("Attendee"), related_name="events_joined", null=True, editable=False)
-    created_at      = models.DateTimeField(_("Created at"), auto_now_add=True)
-    updated_at      = models.DateTimeField(_("Modified at"), auto_now=True)
+    organizer = models.ForeignKey(User, verbose_name=_("Organizer"), related_name="events_owned", editable=False)
+    attendees = models.ManyToManyField(User, verbose_name=_("Attendees"), related_name="events_attend", null=True, editable=False)
+    created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
     gcal            = models.URLField(verbose_name="GCalEditLink", blank=True, null=True, editable=False)
     
@@ -69,10 +68,8 @@ class Event(models.Model):
     def clean(self):
         if self.period_start and self.period_end:
             if self.period_start > self.period_end:
-                #終了時間が開始時間より先の場合はエラー
                 raise ValidationError(_('End time must be later than start time.'))
             elif self.period_start < datetime.datetime.now() and (not self.pk or Event.objects.filter(pk=self.pk).count() == 0):
-                # 過去のイベントかつこれが新規作成時（INSERT）だった場合はエラー
                 raise ValidationError(_('Start time must be future.'))
             elif (self.period_end - self.period_start).days > 7:
                 raise ValidationError(_('The period of event is too long.'))
@@ -80,31 +77,25 @@ class Event(models.Model):
             raise ValidationError(_('You must set end time too'))
         super(Event, self).clean()
         
-    def save(self, *args, **kwargs):
-        created = self.pk is None
-        super(Event, self).save(*args, **kwargs)
-        if created:
-            self.members.add(self.author)
-
     def attend(self, user, save=True):
         '''Add user to attendee'''
-        self.members.add(user)
+        self.attendees.add(user)
         if save:
             self.save()
 
     def quit(self, user, save=True):
         '''Remove user from attendee'''
-        if user == self.author:
-            raise AttributeError("Author doesn't allow to quit the event.")
-        if not user in self.members.all():
+        if user == self.organizer:
+            raise AttributeError("Organizer doesn't allow to quit the event.")
+        if not user in self.attendees.all():
             raise AttributeError("Username %s have not be attendee of this event")
-        self.members.remove(user)
+        self.attendees.remove(user)
         if save:
             self.save()
 
     def is_attendee(self, user):
         '''Check passed user is whether attendee or not'''
-        return user in self.members.all()
+        return user in self.attendees.all()
 
     def is_active(self):
         '''Return the boolean value which indicates event is active or not'''
@@ -113,8 +104,8 @@ class Event(models.Model):
         return self.period_end >= datetime.datetime.now()
 
 @receiver(post_save, sender=Event)
-def join_author(**kwargs):
+def join_organizer(**kwargs):
     created = kwargs.get('created')
     instance = kwargs.get('instance')
     if created:
-        instance.attend(instance.author)
+        instance.attend(instance.organizer)
