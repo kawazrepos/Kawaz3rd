@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'Kawaz.apps.markitupfield',
     'Kawaz.apps.profiles',
     'Kawaz.apps.projects',
+    'Kawaz.apps.events'
 )
 
 MIDDLEWARE_CLASSES = (
