@@ -117,3 +117,27 @@ class EventTestCase(TestCase):
             EventFactory(period_start=None, period_end=end)
         self.assertRaises(ValidationError, create)
 
+    def test_is_active(self):
+        '''Tests is_active returns correct value'''
+
+        # ToDo stubbing datetime.datetime.now()
+        now = datetime.datetime.now()
+        start = now + datetime.timedelta(hours=1)
+        end = now + datetime.timedelta(hours=4)
+        event = EventFactory.build(period_start=start, period_end=end)
+        self.assertTrue(event.is_active())
+
+        start2 = now + datetime.timedelta(hours=-4)
+        end2 = now + datetime.timedelta(hours=-1)
+        event2 = EventFactory.build(period_start=start2, period_end=end2)
+        self.assertFalse(event2.is_active())
+
+        start3 = now + datetime.timedelta(hours=-4)
+        end3 = now + datetime.timedelta(hours=1)
+        event3 = EventFactory.build(period_start=start3, period_end=end3)
+        self.assertTrue(event3.is_active())
+
+        event4 = EventFactory.build(period_start=None, period_end=None)
+        self.assertTrue(event4.is_active())
+
+
