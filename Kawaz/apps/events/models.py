@@ -5,6 +5,9 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from ..markitupfield.models import MarkItUpField
 
 import datetime
@@ -83,22 +86,35 @@ class Event(models.Model):
         if created:
             self.members.add(self.author)
 
-    def join_member(self, user, save=True):
+    def attend(self, user, save=True):
         '''Add user to attendee'''
         self.members.add(user)
         if save:
             self.save()
 
-    def quit_member(self, user, save=True):
+    def quit(self, user, save=True):
         '''Remove user from attendee'''
         if user == self.author:
             raise AttributeError("Author doesn't allow to quit the event.")
+        if not user in self.members.all():
+            raise AttributeError("Username %s have not be attendee of this event")
         self.members.remove(user)
         if save:
             self.save()
+
+    def is_attendee(self, user):
+        '''Check passed user is whether attendee or not'''
+        return user in self.members.all()
 
     def is_active(self):
         '''Return the boolean value which indicates event is active or not'''
         if not self.period_start:
             return True
         return self.period_end >= datetime.datetime.now()
+
+@receiver(post_save, sender=Event)
+def join_author(**kwargs):
+    created = kwargs.get('created')
+    instance = kwargs.get('instance')
+    if created:
+        instance.attend(instance.author)
