@@ -7,11 +7,12 @@ from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from ..markitupfield.models import MarkItUpField
+from markupfield.fields import MarkupField
 
 import datetime
 
 class EventManager(models.Manager):
+    # ToDo Test me!
     def active(self, user):
         qs = self.published(user)
         qs = qs.filter(Q(period_end__gte=datetime.datetime.now()) | Q(period_end=None)).distinct()
@@ -42,7 +43,7 @@ class Event(models.Model):
     # Required
     pub_state = models.CharField(_("Publish status"), max_length=10, choices=PUB_STATES, default="public")
     title = models.CharField(_("Title"), max_length=255)
-    # body = MarkItUpField(_("Body"), default_markup_type="markdown")
+    body = MarkupField(_("Body"), default_markup_type="markdown")
     # Unrequired
     period_start = models.DateTimeField(_("Start time"), blank=True, null=True)
     period_end = models.DateTimeField(_("End time"), blank=True, null=True)
@@ -53,8 +54,6 @@ class Event(models.Model):
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
-    gcal = models.URLField(verbose_name="GCalEditLink", blank=True, null=True, editable=False)
-    
     objects = EventManager()
     
     class Meta:
@@ -82,13 +81,13 @@ class Event(models.Model):
         return super(Event, self).save(*args, **kwargs)
         
     def attend(self, user, save=True):
-        '''Add user to attendee'''
+        '''Add user to attendees'''
         self.attendees.add(user)
         if save:
             self.save()
 
     def quit(self, user, save=True):
-        '''Remove user from attendee'''
+        '''Remove user from attendees'''
         if user == self.organizer:
             raise AttributeError("Organizer doesn't allow to quit the event.")
         if not user in self.attendees.all():
