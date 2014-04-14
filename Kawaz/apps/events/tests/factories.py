@@ -8,7 +8,7 @@ class EventFactory(factory.DjangoModelFactory):
 
     pub_state = 'public'
     title = '焼肉食べまくる会'
-    period_start = datetime.datetime(2014, 4, 14, 19, 0, 0)
-    period_end = datetime.datetime(2014, 4, 14, 22, 0, 0)
+    period_start = factory.LazyAttribute(lambda o: datetime.datetime.now() + datetime.timedelta(hours=1))
+    period_end = factory.LazyAttribute(lambda o: datetime.datetime.now() + datetime.timedelta(hours=4))
     place = 'すすきの周辺'
     organizer = factory.SubFactory(UserFactory)

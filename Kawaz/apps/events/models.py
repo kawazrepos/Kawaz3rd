@@ -53,9 +53,9 @@ class Event(models.Model):
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
-    gcal            = models.URLField(verbose_name="GCalEditLink", blank=True, null=True, editable=False)
+    gcal = models.URLField(verbose_name="GCalEditLink", blank=True, null=True, editable=False)
     
-    objects         = EventManager()
+    objects = EventManager()
     
     class Meta:
         ordering            = ('period_start', 'period_end', '-created_at', '-updated_at', 'title')
@@ -76,6 +76,10 @@ class Event(models.Model):
         elif self.period_end and not self.period_start:
             raise ValidationError(_('You must set end time too'))
         super(Event, self).clean()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(Event, self).save(*args, **kwargs)
         
     def attend(self, user, save=True):
         '''Add user to attendee'''

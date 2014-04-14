@@ -1,6 +1,7 @@
+import datetime
 from django.test import TestCase
+from django.core.exceptions import ValidationError
 from Kawaz.apps.auth.tests.factories import UserFactory
-from ..models import Event
 from .factories import EventFactory
 
 class EventTestCase(TestCase):
@@ -63,3 +64,56 @@ class EventTestCase(TestCase):
         def quit():
             event.quit(user)
         self.assertRaises(AttributeError, quit)
+
+    def test_later_than_start_time(self):
+        '''Tests end time must be later than start time'''
+        now = datetime.datetime.now()
+        start = now + datetime.timedelta(hours=6)
+        end = now + datetime.timedelta(hours=4)
+
+        def create():
+            EventFactory(period_start=start, period_end=end)
+        self.assertRaises(ValidationError, create)
+
+    def test_same_between_start_and_end_time(self):
+        '''Tests end time can be allowed same with start time'''
+        now = datetime.datetime.now()
+        start = now + datetime.timedelta(hours=5)
+        end = now + datetime.timedelta(hours=5)
+
+        self.assertIsNotNone(EventFactory(period_start=start, period_end=end))
+
+    def test_start_time_must_be_future(self):
+        '''Tests start time must be future'''
+        now = datetime.datetime.now()
+        start_time = now + datetime.timedelta(hours=-5)
+        end_time = now + datetime.timedelta(hours=5)
+
+        def create():
+            EventFactory(period_start=start_time, period_end=end_time)
+        self.assertRaises(ValidationError, create)
+
+    def test_event_period_is_too_long(self):
+        '''Tests period of event must be shorter than 8 days'''
+        now = datetime.datetime.now()
+        start = now + datetime.timedelta(days=1)
+        end = now + datetime.timedelta(days=9)
+
+        def create():
+            EventFactory(period_start=start, period_end=end)
+        self.assertRaises(ValidationError, create)
+
+        # period of event that is under 8 days is allowed (Kawaz 2nd)
+        start2 = now + datetime.timedelta(days=1)
+        end2 = now + datetime.timedelta(days=9, seconds=-1)
+        self.assertIsNotNone(EventFactory(period_start=start2, period_end=end2))
+
+    def test_set_only_end_time(self):
+        '''Tests event must not only have end time.'''
+        now = datetime.datetime.now()
+        end = now + datetime.timedelta(days=8)
+
+        def create():
+            EventFactory(period_start=None, period_end=end)
+        self.assertRaises(ValidationError, create)
+
