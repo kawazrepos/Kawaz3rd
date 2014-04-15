@@ -1,3 +1,4 @@
+import types
 from django.conf import settings
 
 def validate_on_save():
@@ -15,9 +16,9 @@ def validate_on_save():
         save = klass.save
         def wrapper(self, force_insert=False, force_update=False, **kwargs):
             if not (force_insert or force_update):
-                self.full_clean()
-            save(force_insert, force_update, **kwargs)
-        if settings.VALIDATE_ON_SAVE:
-            setattr(klass, 'save', wrapper)
+                if settings.VALIDATE_ON_SAVE:
+                    self.full_clean()
+            types.MethodType(save, self)(force_insert, force_update, **kwargs)
+        setattr(klass, 'save', wrapper)
         return klass
     return decorated

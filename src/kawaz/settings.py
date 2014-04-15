@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'kawaz.core.db',
     'kawaz.apps.imagefield',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
