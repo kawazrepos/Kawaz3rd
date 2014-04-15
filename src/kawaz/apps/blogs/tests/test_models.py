@@ -3,6 +3,8 @@ from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
 from .factories import CategoryFactory, EntryFactory
 
+from django.contrib.auth.models import AnonymousUser
+
 from kawaz.core.auth.tests.factories import UserFactory
 
 class CategoryTestCase(TestCase):
@@ -58,3 +60,44 @@ class EntryTestCase(TestCase):
         def create():
             EntryFactory(category=category)
         self.assertRaises(ValidationError, create)
+
+    def test_author_has_change_perm(self):
+        '''Tests author has change permission'''
+        entry = EntryFactory()
+        self.assertTrue(entry.author.has_perm('blogs.change_entry', entry))
+
+    def test_others_do_not_have_change_perm(self):
+        '''Tests others don't have change permission'''
+        user = UserFactory()
+        entry = EntryFactory()
+        self.assertFalse(user.has_perm('blogs.change_entry', entry))
+
+    def test_author_has_view_perm_of_draft(self):
+        '''Tests author can view own draft entry'''
+        user = UserFactory()
+        entry = EntryFactory(pub_state='draft', author=user)
+        self.assertTrue(user.has_perm('blogs.view_entry', entry))
+
+    def test_other_do_not_have_view_perm_of_draft(self):
+        '''Tests user can not view others draft entry'''
+        user = UserFactory()
+        entry = EntryFactory(pub_state='draft')
+        self.assertFalse(user.has_perm('blogs.view_entry', entry))
+
+    def test_authenticated_user_has_view_perm_of_protected(self):
+        '''Tests authenticated user can view protected entry'''
+        user = UserFactory()
+        entry = EntryFactory(pub_state='protected')
+        self.assertTrue(user.has_perm('blogs.view_entry', entry))
+
+    def test_anonymous_user_do_not_have_view_perm_of_protected(self):
+        '''Tests anonymous user can not view protected entry'''
+        user = AnonymousUser()
+        entry = EntryFactory(pub_state='protected')
+        self.assertFalse(user.has_perm('blogs.view_entry', entry))
+
+    def test_all_user_can_view_public_entry(self):
+        '''Tests all user can view public entry'''
+        user = AnonymousUser()
+        entry = EntryFactory(pub_state='public')
+        self.assertTrue(user.has_perm('blogs.view_entry', entry))

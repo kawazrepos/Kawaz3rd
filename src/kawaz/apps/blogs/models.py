@@ -44,7 +44,10 @@ class Entry(models.Model):
         unique_together = (('title', 'author',),)
         verbose_name = _('Entry')
         verbose_name_plural = _('Entries')
-    
+        permissions = (
+            ('view', 'Can view the entry'),
+        )
+
     def __str__(self):
         return self.title
 
@@ -60,3 +63,37 @@ class Entry(models.Model):
         if self.category and self.author != self.category.author:
             raise ValidationError('Category must be owned by author.')
         super(Entry, self).clean()
+
+from permission.logics import PermissionLogic
+
+class EntryPermissionLogic(PermissionLogic):
+
+    def _has_view_perm(self, user_obj, perm, obj):
+        if obj.pub_state == 'protected':
+            return user_obj.is_authenticated()
+        elif obj.pub_state == 'draft':
+            return user_obj == obj.author
+        return True
+
+    def has_perm(self, user_obj, perm, obj=None):
+        """
+        Check `obj.pub_state` and if user is authenticated
+        """
+        # treat only object permission
+        if obj is None:
+            return False
+        permission_methods = {
+            'blogs.view_entry': self._has_view_perm,
+        }
+        if perm in permission_methods:
+            return permission_methods[perm](user_obj, perm, obj)
+        return False
+
+from permission import add_permission_logic
+from permission.logics.author import AuthorPermissionLogic
+
+add_permission_logic(Entry, AuthorPermissionLogic(
+    field_name='author',
+    any_permission=True,
+))
+add_permission_logic(Entry, EntryPermissionLogic())
