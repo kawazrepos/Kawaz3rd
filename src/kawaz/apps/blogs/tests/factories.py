@@ -4,7 +4,6 @@ from kawaz.core.auth.tests.factories import UserFactory
 
 class CategoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Category
-    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
 
     label = 'イベントレポート'
     author = factory.SubFactory(UserFactory)
