@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.contrib.auth.models import Group
+
 from .factories import ProjectFactory, CategoryFactory
-from Kawaz.apps.auth.tests.factories import UserFactory
+from kawaz.core.auth.tests.factories import UserFactory
+
 
 class CategoryTestCase(TestCase):
     def test_str(self):

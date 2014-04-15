@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
-from Kawaz.apps.imagefield.fields import ImageField
+from kawaz.apps.imagefield.fields import ImageField
 
 class Skill(models.Model):
     """It is the model which indicates what users can"""
