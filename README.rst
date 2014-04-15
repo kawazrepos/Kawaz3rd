@@ -1,7 +1,7 @@
 Kawaz 3rd
 ===============================================================
 
-.. image:: https://secure.travis-ci.org/kawazrepos/third-impact.svg
+.. image:: https://secure.travis-ci.org/kawazrepos/third-impact.png
     :target: http://travis-ci.org/kawazrepos/third-impact
     :alt: Build status
 
