@@ -2,7 +2,7 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = 'Kawaz3'
+NAME = 'third-impact'
 VERSION = '0.1.0'
 
 def read(filename):
