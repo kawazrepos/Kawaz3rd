@@ -13,6 +13,7 @@ setup(name='Kawaz3',
         'pillow',
         'Django>=1.6.0',
         'factory_boy>=2.2.1',
+        'markdown',
         'django-markupfield',
         'honcho'
       ],

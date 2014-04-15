@@ -4,7 +4,6 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
-from Kawaz.apps.markitupfield.models import MarkItUpField
 from Kawaz.apps.imagefield.fields import ImageField
 
 class Skill(models.Model):

@@ -106,7 +106,7 @@ class Project(models.Model):
         return user in self.members.all()
 
 @receiver(post_save, sender=Project)
-def create_group(**kwargs):
+def join_author(**kwargs):
     created = kwargs.get('created')
     instance = kwargs.get('instance')
     if created:
