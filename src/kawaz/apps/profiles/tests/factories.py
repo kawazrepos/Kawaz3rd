@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-import factory
 import datetime
+
+import factory
 from ..models import Skill, Profile, Service, Account
-from kawaz.apps.auth.tests.factories import UserFactory
+from kawaz.core.auth.tests.factories import UserFactory
+
 
 class SkillFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Skill

@@ -1,8 +1,11 @@
 import datetime
+
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from kawaz.apps.auth.tests.factories import UserFactory
+
+from kawaz.core.auth.tests.factories import UserFactory
 from .factories import EventFactory
+
 
 class EventTestCase(TestCase):
     def test_str(self):

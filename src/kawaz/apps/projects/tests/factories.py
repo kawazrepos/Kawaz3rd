@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import factory
-from kawaz.apps.auth.tests.factories import UserFactory
+from kawaz.core.auth.tests.factories import UserFactory
 from ..models import Category, Project
 
 class CategoryFactory(factory.DjangoModelFactory):
