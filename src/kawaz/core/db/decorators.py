@@ -1,7 +1,7 @@
 import types
 from django.conf import settings
 
-def validate_on_save():
+def validate_on_save(klass):
     """
     class decorator to enable validation when model was saved.
 
@@ -12,7 +12,7 @@ def validate_on_save():
             if self.number < 0:
                 raise ValidationError('number must be positive')
     """
-    def decorated(klass):
+    def decorated():
         save = klass.save
         def wrapper(self, force_insert=False, force_update=False, **kwargs):
             if not (force_insert or force_update):
