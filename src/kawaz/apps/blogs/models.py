@@ -19,6 +19,7 @@ class Category(models.Model):
     def __str__(self):
         return '%s(%s)' % (self.label, self.author.username)
 
+@validate_on_save
 class Entry(models.Model):
     '''Entry model of blog'''
     PUB_STATES = (
@@ -48,10 +49,11 @@ class Entry(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if self.pub_state == 'draft':
-            self.publish_at = None
-        elif self.pk == None or self.publish_at == None:
-            self.publish_at = datetime.datetime.now()
+        if self.pk == None:
+            if self.pub_state == 'draft':
+                self.publish_at = None
+            elif self.publish_at == None:
+                self.publish_at = datetime.datetime.now()
         super(Entry, self).save(*args, **kwargs)
 
     def clean(self):

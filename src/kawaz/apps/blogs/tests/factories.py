@@ -14,5 +14,4 @@ class EntryFactory(factory.DjangoModelFactory):
     pub_state = 'public'
     title = '焼肉食べまくる会に参加してきました'
     body = 'カルビがおいしかった（小並感）'
-    category = factory.SubFactory(CategoryFactory)
     author = factory.SubFactory(UserFactory)
