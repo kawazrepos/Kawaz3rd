@@ -55,6 +55,7 @@ ROOT_URLCONF = 'kawaz.urls'
 
 WSGI_APPLICATION = 'kawaz.wsgi.application'
 
+VALIDATE_ON_SAVE = True
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
