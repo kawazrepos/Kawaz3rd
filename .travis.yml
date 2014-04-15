@@ -4,8 +4,8 @@ python:
 env:
   - DJANGO_VERSION=1.6
 install:
-  - pip install -q Django==$DJANGO_VERSION --use-mirrors
-  - pip install -q -e . --use-mirrors
-  - python setup.py -q install
+  - pip install -q Django==$DJANGO_VERSION
+  - pip install -qr requirements.txt
+  - pip install -qr requirements-test.txt
 script:
   - python setup.py test
