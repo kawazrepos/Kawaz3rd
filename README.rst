@@ -1,13 +1,17 @@
-# Kawaz Third-Impact
+Kawaz 3rd
+===============================================================
 
-[![Build Status](https://travis-ci.org/kawazrepos/third-impact.svg)](https://travis-ci.org/kawazrepos/third-impact)
+.. image:: https://secure.travis-ci.org/kawazrepos/third-impact.png?branch=master
+    :target: http://travis-ci.org/kawazrepos/third-impact
+    :alt: Build status
 
 All your game are belong to us.
 
-## Setup for Development
+Setup for Development
+---------------------------------------------------------------
 
-```sh
-$ python setup.py develop
-$ python manage.py 
-$ honcho start -f Procfile.dev
-```
+:
+
+    $ python setup.py develop
+    $ python manage.py 
+    $ honcho start -f Procfile.dev
