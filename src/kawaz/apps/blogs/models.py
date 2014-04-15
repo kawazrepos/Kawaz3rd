@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
@@ -32,6 +33,7 @@ class Entry(models.Model):
     author = models.ForeignKey(User, verbose_name=_('Author'), related_name='blog_entries', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Modified at'), auto_now=True)
+    publish_at = models.DateTimeField(_('Published at'), null=True, editable=False)
 
     class Meta:
         ordering = ('-updated_at', 'title')
@@ -41,3 +43,10 @@ class Entry(models.Model):
     
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.pub_state == 'draft':
+            self.publish_at = None
+        else:
+            self.publish_at = datetime.datetime.now()
+        super(Entry, self).save(*args, **kwargs)
