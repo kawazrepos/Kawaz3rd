@@ -50,7 +50,7 @@ class Event(models.Model):
     place = models.CharField(_("Place"), max_length=255, blank=True)
     # Uneditable
     organizer = models.ForeignKey(User, verbose_name=_("Organizer"), related_name="events_owned", editable=False)
-    attendees = models.ManyToManyField(User, verbose_name=_("Attendees"), related_name="events_attend", null=True, editable=False)
+    attendees = models.ManyToManyField(User, verbose_name=_("Attendees"), related_name="events_attend", editable=False)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
