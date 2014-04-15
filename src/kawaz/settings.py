@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'kawaz.apps.imagefield',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
-    'kawaz.apps.events'
+    'kawaz.apps.events',
+    'kawaz.apps.blogs'
 )
 
 MIDDLEWARE_CLASSES = (

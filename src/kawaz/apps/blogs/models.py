@@ -8,7 +8,6 @@ from markupfield.fields import MarkupField
 
 from kawaz.core.db.decorators import validate_on_save
 
-@validate_on_save
 class Category(models.Model):
     '''The model which indicates category of each entries'''
     label = models.CharField(_('Category name'), max_length=255)
@@ -51,7 +50,7 @@ class Entry(models.Model):
     def save(self, *args, **kwargs):
         if self.pub_state == 'draft':
             self.publish_at = None
-        else:
+        elif self.pk == None or self.publish_at == None:
             self.publish_at = datetime.datetime.now()
         super(Entry, self).save(*args, **kwargs)
 
