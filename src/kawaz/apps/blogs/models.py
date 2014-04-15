@@ -2,9 +2,13 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.core.exceptions import ValidationError
 
 from markupfield.fields import MarkupField
 
+from kawaz.core.db.decorators import validate_on_save
+
+@validate_on_save
 class Category(models.Model):
     '''The model which indicates category of each entries'''
     label = models.CharField(_('Category name'), max_length=255)
@@ -14,7 +18,7 @@ class Category(models.Model):
         unique_together = (('author', 'label'),) 
     
     def __str__(self):
-        return self.label
+        return '%s(%s)' % (self.label, self.author.username)
 
 class Entry(models.Model):
     '''Entry model of blog'''
@@ -50,3 +54,8 @@ class Entry(models.Model):
         else:
             self.publish_at = datetime.datetime.now()
         super(Entry, self).save(*args, **kwargs)
+
+    def clean(self):
+        if self.category and self.author != self.category.author:
+            raise ValidationError('Category must be owned by author.')
+        super(Entry, self).clean()
