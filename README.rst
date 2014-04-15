@@ -10,7 +10,7 @@ All your game are belong to us.
 Setup for Development
 ---------------------------------------------------------------
 
-:
+.. code-block:: sh
 
     $ python setup.py develop
     $ python manage.py 
