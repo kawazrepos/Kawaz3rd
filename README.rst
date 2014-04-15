@@ -12,6 +12,7 @@ Setup for Development
 
 .. code-block:: sh
 
-    $ python setup.py develop
-    $ python manage.py 
+    $ pip install -r requirements.txt
+    $ pip install -r requirements-test.txt
+    $ python manage.py syncdb
     $ honcho start -f Procfile.dev
