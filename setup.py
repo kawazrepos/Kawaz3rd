@@ -52,5 +52,5 @@ setup(
     zip_safe=True,
     install_requires=readlist('requirements.txt'),
     test_suite="runtests.runtests",
-    tests_require=readlist('requirements-test.txt'),
+    tests_require=readlist('requirements.txt')+readlist('requirements-test.txt'),
 )
