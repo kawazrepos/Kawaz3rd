@@ -1,0 +1,7 @@
+pyyaml
+pillow
+markdown
+Django>=1.6.0
+django-permission
+django-markupfield
+honcho
