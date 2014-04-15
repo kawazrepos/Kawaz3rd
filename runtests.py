@@ -10,7 +10,7 @@ def runtests(verbosity=1, interactive=False):
         if required_path not in sys.path:
             sys.path.insert(0, required_path)
     # django require DJANGO_SETTINGS_MODULE
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'Kawaz.settings'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'kawaz.settings'
 
     from django.conf import settings
     from django.test.utils import get_runner
@@ -18,7 +18,7 @@ def runtests(verbosity=1, interactive=False):
     test_runner = TestRunner(verbosity=verbosity,
                              interactive=interactive,
                              failfast=False)
-    failures = test_runner.run_tests(['Kawaz'])
+    failures = test_runner.run_tests(['kawaz'])
     sys.exit(bool(failures))
 
 if __name__ == '__main__':

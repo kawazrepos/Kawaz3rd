@@ -1,6 +1,6 @@
 import datetime
 import factory
-from Kawaz.apps.auth.tests.factories import UserFactory
+from kawaz.apps.auth.tests.factories import UserFactory
 from ..models import Event
 
 class EventFactory(factory.DjangoModelFactory):

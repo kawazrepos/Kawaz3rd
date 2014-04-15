@@ -2,7 +2,7 @@
 import factory
 import datetime
 from ..models import Skill, Profile, Service, Account
-from Kawaz.apps.auth.tests.factories import UserFactory
+from kawaz.apps.auth.tests.factories import UserFactory
 
 class SkillFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Skill

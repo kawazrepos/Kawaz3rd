@@ -36,10 +36,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Kawaz.apps.imagefield',
-    'Kawaz.apps.profiles',
-    'Kawaz.apps.projects',
-    'Kawaz.apps.events'
+    'kawaz.apps.imagefield',
+    'kawaz.apps.profiles',
+    'kawaz.apps.projects',
+    'kawaz.apps.events'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,9 +51,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Kawaz.urls'
+ROOT_URLCONF = 'kawaz.urls'
 
-WSGI_APPLICATION = 'Kawaz.wsgi.application'
+WSGI_APPLICATION = 'kawaz.wsgi.application'
 
 
 # Database

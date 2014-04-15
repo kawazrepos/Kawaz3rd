@@ -9,7 +9,7 @@ if __name__ == "__main__":
     if PATH not in sys.path:
         sys.path.insert(0, PATH)
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Kawaz.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kawaz.settings")
 
     from django.core.management import execute_from_command_line
 
