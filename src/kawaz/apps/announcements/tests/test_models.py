@@ -48,3 +48,112 @@ class AnnouncementManagerTestCase(TestCase):
         qs = Announcement.objects.published(user)
         self.assertEqual(qs.count(), 1)
         self.assertEqual(qs[0], a)
+
+class AnnouncementTestCase(TestCase):
+    def test_str(self):
+        '''Tests __str__ returns correct value'''
+        announcement = AnnouncementFactory(title='春のゲーム祭り開催のお知らせ')
+        self.assertEqual(announcement.__str__(), '春のゲーム祭り開催のお知らせ')
+
+class AnnouncementEditPermissionTestCase(TestCase):
+
+    def test_staff_has_create_perm(self):
+        '''Tests staff can create announcement'''
+        user = PersonaFactory(is_staff=True)
+        self.assertTrue(user.has_perm('announcements.create_announcement'))
+
+    def test_authorized_has_not_create_perm(self):
+        '''Tests authorized can not create announcement'''
+        user = PersonaFactory()
+        self.assertFalse(user.has_perm('announcements.create_announcement'))
+
+    def test_anonymous_has_not_create_perm(self):
+        '''Tests anonymous can not create announcement'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('announcements.create_announcement'))
+
+    def test_staff_has_change_perm(self):
+        '''Tests staff can change announcement'''
+        user = PersonaFactory(is_staff=True)
+        self.assertTrue(user.has_perm('announcements.change_announcement'))
+
+    def test_authorized_has_not_change_perm(self):
+        '''Tests authorized can not change announcement'''
+        user = PersonaFactory()
+        self.assertFalse(user.has_perm('announcements.change_announcement'))
+
+    def test_anonymous_has_not_change_perm(self):
+        '''Tests anonymous can not change announcement'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('announcements.change_announcement'))
+
+    def test_staff_has_delete_perm(self):
+        '''Tests staff can delete announcement'''
+        user = PersonaFactory(is_staff=True)
+        self.assertTrue(user.has_perm('announcements.delete_announcement'))
+
+    def test_authorized_has_not_delete_perm(self):
+        '''Tests authorized can not delete announcement'''
+        user = PersonaFactory()
+        self.assertFalse(user.has_perm('announcements.delete_announcement'))
+
+    def test_anonymous_has_not_delete_perm(self):
+        '''Tests anonymous can not delete announcement'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('announcements.delete_announcement'))
+
+class AnnouncementViewPermissionTestCase(TestCase):
+
+    def test_staff_has_view_perm_of_public(self):
+        '''Tests staff can view public announcement'''
+        obj = AnnouncementFactory(pub_state='public')
+        user = PersonaFactory(is_staff=True)
+        self.assertTrue(user.has_perm('announcements.view_announcement', obj))
+
+    def test_authorized_has_view_perm_of_public(self):
+        '''Tests authorized can view public announcement'''
+        obj = AnnouncementFactory(pub_state='public')
+        user = PersonaFactory()
+        self.assertTrue(user.has_perm('announcements.view_announcement', obj))
+
+    def test_anonymous_has_view_perm_of_public(self):
+        '''Tests anonymous can view public announcement'''
+        obj = AnnouncementFactory(pub_state='public')
+        user = AnonymousUser()
+        self.assertTrue(user.has_perm('announcements.view_announcement', obj))
+
+    def test_staff_has_view_perm_of_protected(self):
+        '''Tests staff can view protected announcement'''
+        obj = AnnouncementFactory(pub_state='protected')
+        user = PersonaFactory(is_staff=True)
+        self.assertTrue(user.has_perm('announcements.view_announcement', obj))
+
+    def test_authorized_has_view_perm_of_protected(self):
+        '''Tests authorized can view protected announcement'''
+        obj = AnnouncementFactory(pub_state='protected')
+        user = PersonaFactory()
+        self.assertTrue(user.has_perm('announcements.view_announcement', obj))
+
+    def test_anonymous_has_not_view_perm_of_protected(self):
+        '''Tests anonymous can not view protected announcement'''
+        obj = AnnouncementFactory(pub_state='protected')
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('announcements.view_announcement', obj))
+
+    def test_staff_has_view_perm_of_draft(self):
+        '''Tests staff can view draft announcement'''
+        obj = AnnouncementFactory(pub_state='draft')
+        user = PersonaFactory(is_staff=True)
+        self.assertTrue(user.has_perm('announcements.view_announcement', obj))
+
+    def test_authorized_has_not_view_perm_of_draft(self):
+        '''Tests authorized can not view draft announcement'''
+        obj = AnnouncementFactory(pub_state='draft')
+        user = PersonaFactory()
+        self.assertFalse(user.has_perm('announcements.view_announcement', obj))
+
+    def test_anonymous_has_not_view_perm_of_draft(self):
+        '''Tests anonymous can not view draft announcement'''
+        obj = AnnouncementFactory(pub_state='draft')
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('announcements.view_announcement', obj))

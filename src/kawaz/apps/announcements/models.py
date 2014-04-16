@@ -78,15 +78,16 @@ class AnnouncementPermissionLogic(PermissionLogic):
         return True
 
     def has_perm(self, user_obj, perm, obj=None):
-        # all staffs can create / change / delete all announcements
         staff_allowed_methods = (
             'announcements.create_announcement',
             'announcements.change_announcement',
             'announcements.delete_announcement',
         )
         if perm in staff_allowed_methods and user_obj.is_staff:
+            # all staffs can create / change / delete all announcements
             return True
-        if perm == 'announcements.view_announcement':
+        if perm == 'announcements.view_announcement' and obj:
+            # check view perm by pub_state
             return self._has_view_perm(user_obj, perm, obj)
         return False
 add_permission_logic(Announcement, AnnouncementPermissionLogic())
