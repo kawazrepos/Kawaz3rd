@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 
 from django.db.models.signals import post_save
@@ -53,12 +53,12 @@ class Project(models.Model):
     slug = models.SlugField(_('Project ID'), unique=True, max_length=63,
                             help_text=_("This ID will be used for its URL. You can't modify it later. You can use only alphabetical characters, _ or -."))
     body = MarkupField(_('Description'), default_markup_type='markdown')
-    administrator = models.ForeignKey(User, verbose_name=_('Organizer'), related_name="projects_owned")
+    administrator = models.ForeignKey(get_user_model(), verbose_name=_('Organizer'), related_name="projects_owned")
     # Omittable
     icon = ThumbnailField(_('Thumbnail'), upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS)
     category = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True, related_name='projects', help_text="If a category you would like to use is not exist, please contact your administrator.")
     # Uneditable
-    members = models.ManyToManyField(User, verbose_name=_('Members'), related_name="projects_joined", editable=False)
+    members = models.ManyToManyField(get_user_model(), verbose_name=_('Members'), related_name="projects_joined", editable=False)
     group = models.ForeignKey(Group, verbose_name=_('Group'), unique=True, editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)

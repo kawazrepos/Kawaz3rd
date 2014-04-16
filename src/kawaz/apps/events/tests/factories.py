@@ -1,7 +1,7 @@
 import datetime
 
 import factory
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Event
 
 
@@ -13,4 +13,4 @@ class EventFactory(factory.DjangoModelFactory):
     period_start = factory.LazyAttribute(lambda o: datetime.datetime.now() + datetime.timedelta(hours=1))
     period_end = factory.LazyAttribute(lambda o: datetime.datetime.now() + datetime.timedelta(hours=4))
     place = 'すすきの周辺'
-    organizer = factory.SubFactory(UserFactory)
+    organizer = factory.SubFactory(PersonaFactory)

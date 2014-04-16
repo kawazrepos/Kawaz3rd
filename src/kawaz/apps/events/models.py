@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 
@@ -11,6 +11,8 @@ from django.dispatch import receiver
 from kawaz.core.db.decorators import validate_on_save
 
 from markupfield.fields import MarkupField
+
+User = get_user_model()
 
 import datetime
 

@@ -1,8 +1,8 @@
 import factory
-from django.contrib.auth.models import User
+from ..models import Persona
 
-class UserFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = User
+class PersonaFactory(factory.django.DjangoModelFactory):
+    FACTORY_FOR = Persona
     FACTORY_DJANGO_GET_OR_CREATE = ('username',)
 
     last_name = 'Inonaka'
@@ -10,3 +10,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     username = factory.sequence(lambda n: 'kawaztan{0}'.format(n))
     email = 'webmaster@kawaz.org'
     password = 'pass'
+
+    nickname = 'かわずたん'
+    quotes = 'けろーん'
+    gender = 'woman'

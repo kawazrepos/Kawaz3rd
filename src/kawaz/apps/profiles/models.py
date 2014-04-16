@@ -1,11 +1,11 @@
 import os
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import User
-from django.conf import settings
+from django.contrib.auth import get_user_model
 
-from thumbnailfield.fields import ThumbnailField
 from markupfield.fields import MarkupField
+
+User = get_user_model()
 
 class Skill(models.Model):
     """It is the model which indicates what users can"""
@@ -32,13 +32,6 @@ class Profile(models.Model):
     It is the model which indicates profiles of each users
     """
 
-    def _get_upload_path(self, filename):
-        return os.path.join('thumbnails', 'profiles', self.user.username, filename)
-
-    GENDER_TYPES = (
-        ('man',   _("Man")),
-        ('woman', _("Woman"))
-    )
     PUB_STATES = (
         ('public',      _("Public")),
         ('protected',   _("Internal")),
@@ -46,11 +39,7 @@ class Profile(models.Model):
 
     # Required
     pub_state = models.CharField(_("Publish status"), max_length=10, choices=PUB_STATES, default="public")
-    nickname = models.CharField(_('Nickname'), max_length=30, unique=True, blank=False, null=True)
     # Non required
-    mood = models.CharField(_('Mood message'), max_length=127, blank=True)
-    avatar = ThumbnailField(_('Avatar') , upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS, null=True)
-    gender  = models.CharField('Gender', max_length=10, choices=GENDER_TYPES, blank=True)
     birthday = models.DateField(_('Birth day'), null=True, blank=True)
     place = models.CharField(_('Address'), max_length=255, blank=True, help_text=_('Your address will not be shown by anonymous user.'))
     url = models.URLField(_("URL"), max_length=255, blank=True)
@@ -64,7 +53,7 @@ class Profile(models.Model):
     objects = ProfileManager()
 
     class Meta:
-        ordering            = ('nickname',)
+        ordering            = ('user__nickname',)
         verbose_name        = _("Profile")
         verbose_name_plural = _("Profiles")
         permissions = (
@@ -72,13 +61,7 @@ class Profile(models.Model):
         )
 
     def __str__(self):
-        return self.nickname
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if not self.nickname:
-            self.nickname = self.user.username
-        super(Profile, self).save(force_insert, force_update, using, update_fields)
+        return self.user.nickname
 
 class Service(models.Model):
 

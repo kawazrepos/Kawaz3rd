@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'permission',
     'thumbnailfield',
+    'kawaz.core.personas',
     'kawaz.core.db',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
@@ -66,6 +67,8 @@ WSGI_APPLICATION = 'kawaz.wsgi.application'
 # validation_on_save decorator (kawaz.core.db.decorators)
 # To disable automatical validation, set this variable to False
 VALIDATE_ON_SAVE_DISABLE = False
+
+AUTH_USER_MODEL = 'personas.Persona'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

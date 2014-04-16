@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AnonymousUser
 
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import EventFactory
 
 
@@ -17,7 +17,7 @@ class EventTestCase(TestCase):
 
     def test_attend(self):
         '''Tests can attend correctly'''
-        user = UserFactory()
+        user = PersonaFactory()
         event = EventFactory()
         self.assertEqual(event.attendees.count(), 1)
 
@@ -27,8 +27,8 @@ class EventTestCase(TestCase):
 
     def test_is_attendee(self):
         '''Tests is_attendee returns correct value'''
-        user = UserFactory()
-        user2 = UserFactory()
+        user = PersonaFactory()
+        user2 = PersonaFactory()
         event = EventFactory(organizer=user)
         self.assertEqual(event.attendees.count(), 1)
         self.assertEqual(event.attendees.all()[0], user)
@@ -37,14 +37,14 @@ class EventTestCase(TestCase):
 
     def test_organizer_is_attendee(self):
         '''Tests organizer will be attend automatically'''
-        user = UserFactory()
+        user = PersonaFactory()
         event = EventFactory(organizer=user)
         self.assertTrue(event.is_attendee(user))
 
     def test_quit(self):
         '''Tests can remove member correctly'''
         event = EventFactory()
-        user = UserFactory()
+        user = PersonaFactory()
 
         event.attend(user)
         self.assertEqual(event.attendees.count(), 2)
@@ -55,7 +55,7 @@ class EventTestCase(TestCase):
 
     def test_organizer_cant_quit(self):
         '''Tests organizer can't quit from events'''
-        organizer = UserFactory()
+        organizer = PersonaFactory()
         event = EventFactory(organizer=organizer)
 
         self.assertRaises(PermissionDenied, event.quit, organizer)
@@ -63,7 +63,7 @@ class EventTestCase(TestCase):
     def test_not_attendee_cant_quit(self):
         '''Tests non attendee can't quit from events'''
         event = EventFactory()
-        user = UserFactory()
+        user = PersonaFactory()
 
         self.assertRaises(PermissionDenied, event.quit, user)
 
@@ -141,7 +141,7 @@ class EventTestCase(TestCase):
 
     def test_others_can_not_edit(self):
         '''Tests others can no edit an event'''
-        user = UserFactory()
+        user = PersonaFactory()
         event = EventFactory()
         self.assertFalse(user.has_perm('events.change_event', event))
 
@@ -158,7 +158,7 @@ class EventTestCase(TestCase):
 
     def test_others_can_not_delete(self):
         '''Tests others can not delete an event'''
-        user = UserFactory()
+        user = PersonaFactory()
         event = EventFactory()
         self.assertFalse(user.has_perm('events.delete_event', event))
 
@@ -175,7 +175,7 @@ class EventTestCase(TestCase):
 
     def test_others_can_not_view_draft(self):
         '''Tests others can not view draft'''
-        user = UserFactory()
+        user = PersonaFactory()
         event = EventFactory(pub_state='draft')
         self.assertFalse(user.has_perm('events.view_event', event))
 
@@ -192,7 +192,7 @@ class EventTestCase(TestCase):
 
     def test_others_can_view_protected(self):
         '''Tests others can view protected'''
-        user = UserFactory()
+        user = PersonaFactory()
         event = EventFactory(pub_state='protected')
         self.assertTrue(user.has_perm('events.view_event', event))
 
@@ -209,7 +209,7 @@ class EventTestCase(TestCase):
 
     def test_others_can_view_public(self):
         '''Tests others can view public'''
-        user = UserFactory()
+        user = PersonaFactory()
         event = EventFactory(pub_state='public')
         self.assertTrue(user.has_perm('events.view_event', event))
 

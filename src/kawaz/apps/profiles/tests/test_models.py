@@ -1,18 +1,14 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import ProfileFactory, AccountFactory, ServiceFactory, SkillFactory
 
 class ProfileTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
-        profile = ProfileFactory(nickname='kawaz tan')
+        persona = PersonaFactory(nickname='kawaz tan')
+        profile = ProfileFactory(user=persona)
         self.assertEqual(profile.__str__(), 'kawaz tan')
-
-    def test_set_nickname(self):
-        '''Tests nickname is set automatically'''
-        profile = ProfileFactory(nickname='')
-        self.assertEqual(profile.nickname, profile.user.username)
 
     def test_create_user(self):
         """Tests can access profile via user.get_profile()"""
@@ -27,7 +23,7 @@ class ProfileAuthorPermissionTestCase(TestCase):
 
     def test_others_can_not_edit(self):
         '''Tests others can no edit an profile'''
-        user = UserFactory()
+        user = PersonaFactory()
         profile = ProfileFactory()
         self.assertFalse(user.has_perm('profiles.change_profile', profile))
 
@@ -44,7 +40,7 @@ class ProfileAuthorPermissionTestCase(TestCase):
 
     def test_others_can_not_delete(self):
         '''Tests others can not delete an profile'''
-        user = UserFactory()
+        user = PersonaFactory()
         profile = ProfileFactory()
         self.assertFalse(user.has_perm('profiles.delete_profile', profile))
 
@@ -62,7 +58,7 @@ class ProfileViewPermissionTestCase(TestCase):
 
     def test_others_can_view_protected(self):
         '''Tests others can view protected'''
-        user = UserFactory()
+        user = PersonaFactory()
         profile = ProfileFactory(pub_state='protected')
         self.assertTrue(user.has_perm('profiles.view_profile', profile))
 
@@ -79,7 +75,7 @@ class ProfileViewPermissionTestCase(TestCase):
 
     def test_others_can_view_public(self):
         '''Tests others can view public'''
-        user = UserFactory()
+        user = PersonaFactory()
         profile = ProfileFactory(pub_state='public')
         self.assertTrue(user.has_perm('profiles.view_profile', profile))
 

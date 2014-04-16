@@ -4,7 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 
 from .factories import ProjectFactory, CategoryFactory
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 
 
 class CategoryTestCase(TestCase):
@@ -34,7 +34,7 @@ class ProjectTestCase(TestCase):
 
     def test_join_user(self):
         '''Tests can join user correctly'''
-        user2 = UserFactory()
+        user2 = PersonaFactory()
         project = ProjectFactory()
         self.assertEqual(project.members.count(), 1)
         self.assertEqual(user2.groups.count(), 0)
@@ -46,7 +46,7 @@ class ProjectTestCase(TestCase):
 
     def test_join_user_twice(self):
         '''Tests user who already have been joined can't join'''
-        user = UserFactory()
+        user = PersonaFactory()
         project = ProjectFactory()
 
         project.join(user)
@@ -69,14 +69,14 @@ class ProjectTestCase(TestCase):
     def test_user_cannot_join_draft(self):
         '''Tests user can't join to draft project.'''
         project = ProjectFactory(pub_state='draft')
-        user = UserFactory()
+        user = PersonaFactory()
 
         self.assertRaises(PermissionDenied, project.join, user)
 
     def test_is_member(self):
         '''Tests is_member returns correct value'''
-        user = UserFactory()
-        user2 = UserFactory()
+        user = PersonaFactory()
+        user2 = PersonaFactory()
         project = ProjectFactory(administrator=user)
         self.assertEqual(project.members.count(), 1)
         self.assertEqual(project.members.all()[0], user)
@@ -85,14 +85,14 @@ class ProjectTestCase(TestCase):
 
     def test_administrator_is_member(self):
         '''Tests administrator will be added into member automatically'''
-        user = UserFactory()
+        user = PersonaFactory()
         project = ProjectFactory(administrator=user)
         self.assertTrue(project.is_member(user))
 
     def test_quit(self):
         '''Tests can remove member correctly'''
         project = ProjectFactory()
-        user = UserFactory()
+        user = PersonaFactory()
 
         project.join(user)
         self.assertEqual(project.members.count(), 2)
@@ -110,7 +110,7 @@ class ProjectTestCase(TestCase):
     def test_not_member_cant_quit(self):
         '''Tests non member can't quit from projects'''
         project = ProjectFactory()
-        user = UserFactory()
+        user = PersonaFactory()
 
         self.assertRaises(PermissionDenied, project.quit, user)
 
@@ -129,13 +129,13 @@ class ProjectTestCase(TestCase):
     def test_members_can_edit(self):
         '''Tests members can edit a project'''
         project = ProjectFactory()
-        user = UserFactory()
+        user = PersonaFactory()
         project.join(user)
         self.assertTrue(user.has_perm('projects.change_project', project))
 
     def test_others_can_not_edit(self):
         '''Tests others can no edit a project'''
-        user = UserFactory()
+        user = PersonaFactory()
         project = ProjectFactory()
         self.assertFalse(user.has_perm('projects.change_project', project))
 
@@ -153,13 +153,13 @@ class ProjectTestCase(TestCase):
     def test_members_can_not_delete(self):
         '''Tests members can not delete a project'''
         project = ProjectFactory()
-        user = UserFactory()
+        user = PersonaFactory()
         project.join(user)
         self.assertFalse(user.has_perm('projects.delete_project', project))
 
     def test_others_can_not_delete(self):
         '''Tests others can not delete a project'''
-        user = UserFactory()
+        user = PersonaFactory()
         project = ProjectFactory()
         self.assertFalse(user.has_perm('projects.delete_project', project))
 
@@ -176,7 +176,7 @@ class ProjectTestCase(TestCase):
 
     def test_others_can_not_view_draft(self):
         '''Tests others can not view draft'''
-        user = UserFactory()
+        user = PersonaFactory()
         project = ProjectFactory(pub_state='draft')
         self.assertFalse(user.has_perm('projects.view_project', project))
 
@@ -193,7 +193,7 @@ class ProjectTestCase(TestCase):
 
     def test_others_can_view_protected(self):
         '''Tests others can view protected'''
-        user = UserFactory()
+        user = PersonaFactory()
         project = ProjectFactory(pub_state='protected')
         self.assertTrue(user.has_perm('projects.view_project', project))
 
@@ -210,7 +210,7 @@ class ProjectTestCase(TestCase):
 
     def test_others_can_view_public(self):
         '''Tests others can view public'''
-        user = UserFactory()
+        user = PersonaFactory()
         project = ProjectFactory(pub_state='public')
         self.assertTrue(user.has_perm('projects.view_project', project))
 

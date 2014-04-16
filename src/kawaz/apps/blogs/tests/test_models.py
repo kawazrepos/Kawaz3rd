@@ -5,7 +5,7 @@ from .factories import CategoryFactory, EntryFactory
 
 from django.contrib.auth.models import AnonymousUser
 
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 
 class CategoryTestCase(TestCase):
     def test_str(self):
@@ -16,7 +16,7 @@ class CategoryTestCase(TestCase):
 
     def test_unique_together(self):
         '''Tests unique_together works correctly'''
-        user = UserFactory()
+        user = PersonaFactory()
         category = CategoryFactory(label='独り言', author=user)
 
         def create_duplicate():
@@ -54,7 +54,7 @@ class EntryTestCase(TestCase):
 
     def test_category_must_be_owned(self):
         '''Tests category must be owned by author'''
-        user = UserFactory()
+        user = PersonaFactory()
         category = CategoryFactory(author=user)
 
         def create():
@@ -68,7 +68,7 @@ class EntryTestCase(TestCase):
 
     def test_others_do_not_have_change_perm(self):
         '''Tests others don't have change permission'''
-        user = UserFactory()
+        user = PersonaFactory()
         entry = EntryFactory()
         self.assertFalse(user.has_perm('blogs.change_entry', entry))
 
@@ -85,7 +85,7 @@ class EntryTestCase(TestCase):
 
     def test_others_do_not_have_delete_perm(self):
         '''Tests others don't have delete permission'''
-        user = UserFactory()
+        user = PersonaFactory()
         entry = EntryFactory()
         self.assertFalse(user.has_perm('blogs.delete_entry', entry))
 
@@ -97,19 +97,19 @@ class EntryTestCase(TestCase):
 
     def test_author_has_view_perm_of_draft(self):
         '''Tests author can view own draft entry'''
-        user = UserFactory()
+        user = PersonaFactory()
         entry = EntryFactory(pub_state='draft', author=user)
         self.assertTrue(user.has_perm('blogs.view_entry', entry))
 
     def test_other_do_not_have_view_perm_of_draft(self):
         '''Tests user can not view others draft entry'''
-        user = UserFactory()
+        user = PersonaFactory()
         entry = EntryFactory(pub_state='draft')
         self.assertFalse(user.has_perm('blogs.view_entry', entry))
 
     def test_authenticated_user_has_view_perm_of_protected(self):
         '''Tests authenticated user can view protected entry'''
-        user = UserFactory()
+        user = PersonaFactory()
         entry = EntryFactory(pub_state='protected')
         self.assertTrue(user.has_perm('blogs.view_entry', entry))
 
@@ -127,6 +127,6 @@ class EntryTestCase(TestCase):
 
     def test_authorized_user_can_view_public_entry(self):
         '''Tests an authorized user can view public entry'''
-        user = UserFactory()
+        user = PersonaFactory()
         entry = EntryFactory(pub_state='public')
         self.assertTrue(user.has_perm('blogs.view_entry', entry))
