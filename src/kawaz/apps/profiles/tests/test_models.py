@@ -70,7 +70,7 @@ class ProfileViewPermissionTestCase(TestCase):
         '''Tests anonymous can not view protected'''
         user = AnonymousUser()
         profile = ProfileFactory(pub_state='protected')
-        self.assertFalse(user.has_perm('profiles,view_profile', profile))
+        self.assertFalse(user.has_perm('profiles.view_profile', profile))
 
     def test_owner_can_view_public(self):
         '''Tests owner can view public'''
