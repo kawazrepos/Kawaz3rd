@@ -115,6 +115,54 @@ class ProjectTestCase(TestCase):
 
         self.assertRaises(PermissionDenied, project.quit, user)
 
+    def test_administrator_can_edit(self):
+        '''Tests administrator can edit a project'''
+        project = ProjectFactory()
+        self.assertTrue(project.administrator.has_perm('projects.change_project', project))
+
+    def test_members_can_edit(self):
+        '''Tests members can edit a project'''
+        project = ProjectFactory()
+        user = UserFactory()
+        project.join(user)
+        self.assertTrue(user.has_perm('projects.change_project', project))
+
+    def test_others_can_not_edit(self):
+        '''Tests others can no edit a project'''
+        user = UserFactory()
+        project = ProjectFactory()
+        self.assertFalse(user.has_perm('projects.change_project', project))
+
+    def test_anonymous_can_not_edit(self):
+        '''Tests anonymous user can no edit a project'''
+        user = AnonymousUser()
+        project = ProjectFactory()
+        self.assertFalse(user.has_perm('projects.change_project', project))
+
+    def test_administrator_can_delete(self):
+        '''Tests administrator can delete a project'''
+        project = ProjectFactory()
+        self.assertTrue(project.administrator.has_perm('projects.delete_project', project))
+
+    def test_members_can_not_delete(self):
+        '''Tests members can not delete a project'''
+        project = ProjectFactory()
+        user = UserFactory()
+        project.join(user)
+        self.assertFalse(user.has_perm('projects.delete_project', project))
+
+    def test_others_can_not_delete(self):
+        '''Tests others can not delete a project'''
+        user = UserFactory()
+        project = ProjectFactory()
+        self.assertFalse(user.has_perm('projects.delete_project', project))
+
+    def test_anonymous_can_not_delete(self):
+        '''Tests anonymous users can not delete a project'''
+        user = AnonymousUser()
+        project = ProjectFactory()
+        self.assertFalse(user.has_perm('projects.delete_project', project))
+
     def test_administrator_can_view_draft(self):
         '''Tests administrator can view draft'''
         project = ProjectFactory(pub_state='draft')
