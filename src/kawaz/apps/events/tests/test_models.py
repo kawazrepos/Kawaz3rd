@@ -2,6 +2,7 @@ import datetime
 
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied
 
 from kawaz.core.auth.tests.factories import UserFactory
 from .factories import EventFactory
@@ -53,20 +54,17 @@ class EventTestCase(TestCase):
 
     def test_organizer_cant_quit(self):
         '''Tests organizer can't quit from events'''
-        event = EventFactory()
+        organizer = UserFactory()
+        event = EventFactory(organizer=organizer)
 
-        def quit():
-            event.quit(event.organizer)
-        self.assertRaises(AttributeError, quit)
+        self.assertRaises(PermissionDenied, event.quit, organizer)
 
     def test_not_attendee_cant_quit(self):
         '''Tests non attendee can't quit from events'''
         event = EventFactory()
         user = UserFactory()
 
-        def quit():
-            event.quit(user)
-        self.assertRaises(AttributeError, quit)
+        self.assertRaises(PermissionDenied, event.quit, user)
 
     def test_later_than_start_time(self):
         '''Tests end time must be later than start time'''
@@ -74,9 +72,7 @@ class EventTestCase(TestCase):
         start = now + datetime.timedelta(hours=6)
         end = now + datetime.timedelta(hours=4)
 
-        def create():
-            EventFactory(period_start=start, period_end=end)
-        self.assertRaises(ValidationError, create)
+        self.assertRaises(ValidationError, EventFactory, period_start=start, period_end=end)
 
     def test_same_between_start_and_end_time(self):
         '''Tests end time can be allowed same with start time'''
@@ -92,9 +88,7 @@ class EventTestCase(TestCase):
         start_time = now + datetime.timedelta(hours=-5)
         end_time = now + datetime.timedelta(hours=5)
 
-        def create():
-            EventFactory(period_start=start_time, period_end=end_time)
-        self.assertRaises(ValidationError, create)
+        self.assertRaises(ValidationError, EventFactory, period_start=start_time, period_end=end_time)
 
     def test_event_period_is_too_long(self):
         '''Tests period of event must be shorter than 8 days'''
@@ -102,9 +96,7 @@ class EventTestCase(TestCase):
         start = now + datetime.timedelta(days=1)
         end = now + datetime.timedelta(days=9)
 
-        def create():
-            EventFactory(period_start=start, period_end=end)
-        self.assertRaises(ValidationError, create)
+        self.assertRaises(ValidationError, EventFactory, period_start=start, period_end=end)
 
         # period of event that is under 8 days is allowed (Kawaz 2nd)
         start2 = now + datetime.timedelta(days=1)
@@ -116,9 +108,7 @@ class EventTestCase(TestCase):
         now = datetime.datetime.now()
         end = now + datetime.timedelta(days=8)
 
-        def create():
-            EventFactory(period_start=None, period_end=end)
-        self.assertRaises(ValidationError, create)
+        self.assertRaises(ValidationError, EventFactory, period_start=None, period_end=end)
 
     def test_is_active(self):
         '''Tests is_active returns correct value'''

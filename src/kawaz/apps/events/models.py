@@ -8,6 +8,8 @@ from django.core.exceptions import PermissionDenied
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from kawaz.core.db.decorators import validate_on_save
+
 from markupfield.fields import MarkupField
 
 import datetime
@@ -31,6 +33,7 @@ class EventManager(models.Manager):
         else:
             return self.none()
 
+@validate_on_save
 class Event(models.Model):
     """
     The model which indicates events
@@ -62,9 +65,9 @@ class Event(models.Model):
         verbose_name        = _("Event")
         verbose_name_plural = _("Events")
         permissions = (
-            ('attend', 'Can attend the event'),
-            ('quit', 'Can quit the event'),
-            ('view', 'Can view the event'),
+            ('attend_event', 'Can attend the event'),
+            ('quit_event', 'Can quit the event'),
+            ('view_event', 'Can view the event'),
         )
 
     def __str__(self):
@@ -82,10 +85,6 @@ class Event(models.Model):
             raise ValidationError(_('You must set end time too'))
         super(Event, self).clean()
 
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        return super(Event, self).save(*args, **kwargs)
-        
     def attend(self, user, save=True):
         '''Add user to attendees'''
         if not user.has_perm('events.attend_event', obj=self):
@@ -96,8 +95,6 @@ class Event(models.Model):
 
     def quit(self, user, save=True):
         '''Remove user from attendees'''
-        if not user in self.attendees.all():
-            raise AttributeError("Username %s have not be attendee of this event")
         if not user.has_perm('events.quit_event', obj=self):
             raise PermissionDenied
         self.attendees.remove(user)
@@ -138,13 +135,11 @@ class EventPermissionLogic(PermissionLogic):
         return True
 
     def _has_attend_perm(self, user_obj, perm, obj):
-        # check if user is in children group
-        if user_obj.groups.filter(name='children'):
-            if user in obj.attendees.all():
-                # the user is already attended
-                return False
-            return True
-        return False
+        # ToDo check if user is in children group
+        if user_obj in obj.attendees.all():
+            # the user is already attended
+            return False
+        return True
 
     def _has_quit_perm(self, user_obj, perm, obj):
         # check if user is in children group
@@ -174,8 +169,10 @@ class EventPermissionLogic(PermissionLogic):
 
 from permission import add_permission_logic
 from permission.logics import AuthorPermissionLogic
-from permission.logics import CollaboratorPermissionLogic
 
+add_permission_logic(Event, AuthorPermissionLogic(
+    field_name='organizer',
+    change_permission=True,
+    delete_permission=True
+))
 add_permission_logic(Event, EventPermissionLogic())
-add_permission_logic(Event, AuthorPermissionLogic())
-add_permission_logic(Event, CollaboratorPermissionLogic())
