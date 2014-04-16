@@ -1,6 +1,6 @@
 # for Kawaz
 db.sqlite3
-src/kawaz/static/storage/*
+src/kawaz/storage/*
 
 # for Python
 # Byte-compiled / optimized / DLL files
