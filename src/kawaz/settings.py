@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'kawaz.core.db',
     'kawaz.apps.imagefield',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
@@ -55,6 +56,9 @@ ROOT_URLCONF = 'kawaz.urls'
 
 WSGI_APPLICATION = 'kawaz.wsgi.application'
 
+# validation_on_save decorator (kawaz.core.db.decorators)
+# To disable automatical validation, set this variable to False
+VALIDATE_ON_SAVE_DISABLE = False
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
