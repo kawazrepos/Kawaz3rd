@@ -4,7 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 
 from .factories import ProjectFactory, CategoryFactory
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.persona.tests.factories import UserFactory
 
 
 class CategoryTestCase(TestCase):

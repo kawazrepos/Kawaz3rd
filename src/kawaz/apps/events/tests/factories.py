@@ -1,7 +1,7 @@
 import datetime
 
 import factory
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.persona.tests.factories import UserFactory
 from ..models import Event
 
 

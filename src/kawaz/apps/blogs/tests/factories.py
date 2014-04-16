@@ -1,6 +1,6 @@
 import factory
 from ..models import Category, Entry
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.persona.tests.factories import UserFactory
 
 class CategoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Category

@@ -5,7 +5,7 @@ from .factories import CategoryFactory, EntryFactory
 
 from django.contrib.auth.models import AnonymousUser
 
-from kawaz.core.auth.tests.factories import UserFactory
+from kawaz.core.persona.tests.factories import UserFactory
 
 class CategoryTestCase(TestCase):
     def test_str(self):
