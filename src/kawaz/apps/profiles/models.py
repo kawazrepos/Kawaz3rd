@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -6,6 +5,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from thumbnailfield.fields import ThumbnailField
+from markupfield.fields import MarkupField
 
 class Skill(models.Model):
     """It is the model which indicates what users can"""
@@ -22,6 +22,7 @@ class Skill(models.Model):
         verbose_name_plural = _("Skills")
 
 class ProfileManager(models.Manager):
+    # ToDo Test me
     def active_users(self, request):
         qs = self.exclude(nickname=None).exclude(user__is_active=False)
         return qs
@@ -29,75 +30,60 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     """
     It is the model which indicates profiles of each users
-
-    このモデルはauth.Userのmoduleとして利用されます
-    user.get_profile()で取得できます
-    AbstractUserを利用しない理由として、以下の2点が挙げられます
-    - 1. Kawaz 2ndのProfileモデルとの互換性
-    - 2. 古いDjango向けに作られたプラグインとの互換性
     """
 
     def _get_upload_path(self, filename):
-        path = 'thumbnails/profiles/%s' % self.user.username
-        return os.path.join(path, filename)
+        return os.path.join('thumbnails', 'profiles', self.user.username, filename)
 
-    SEX_TYPES = (
+    GENDER_TYPES = (
         ('man',   _("Man")),
         ('woman', _("Woman"))
     )
-    THUMBNAIL_SIZE_PATTERNS = {
-        'huge':     (288, 288, False),
-        'large':    (96, 96, False),
-        'middle':   (48, 48, False),
-        'small':    (24, 24, False),
-    }
+    PUB_STATES = (
+        ('public',      _("Public")),
+        ('protected',   _("Internal")),
+    )
 
     # Required
+    pub_state = models.CharField(_("Publish status"), max_length=10, choices=PUB_STATES, default="public")
     nickname = models.CharField(_('Nickname'), max_length=30, unique=True, blank=False, null=True)
     # Non required
     mood = models.CharField(_('Mood message'), max_length=127, blank=True)
     avatar = ThumbnailField(_('Avatar') , upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS, null=True)
-    sex  = models.CharField('Gender', max_length=10, choices=SEX_TYPES, blank=True)
+    gender  = models.CharField('Gender', max_length=10, choices=GENDER_TYPES, blank=True)
     birthday = models.DateField(_('Birth day'), null=True, blank=True)
     place = models.CharField(_('Address'), max_length=255, blank=True, help_text=_('Your address will not be shown by anonymous user.'))
     url = models.URLField(_("URL"), max_length=255, blank=True)
-    #remarks = MarkItUpField(_("Remarks"), default_markup_type='html', blank=True, null=True)
+    remarks = MarkupField(_("Remarks"), default_markup_type='markdown')
     skills = models.ManyToManyField(Skill, verbose_name=_('Skills'), related_name='users', null=True, blank=True)
     # Uneditable
-    user = models.ForeignKey(User, verbose_name=_('User'), related_name='profile', unique=True, primary_key=True, editable=False)
+    user = models.OneToOneField(User, verbose_name=_('User'), related_name='profile', unique=True, primary_key=True, editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
     objects = ProfileManager()
 
     class Meta:
-        ordering            = ('-user__last_login', 'nickname')
+        ordering            = ('nickname',)
         verbose_name        = _("Profile")
         verbose_name_plural = _("Profiles")
+        permissions = (
+            ('view_profile', 'Can view the profile'),
+        )
 
     def __str__(self):
-        if self.nickname:
-            return self.nickname
-        return _('Non Active User : %(username)s') % {'username' : self.user.username}
+        return self.nickname
 
-    def modify_object_permission(self, mediator, created):
-        # Permission
-        mediator.manager(self, self.user)
-        if self.pub_state == 'public':
-            mediator.viewer(self, None)
-            mediator.viewer(self, 'anonymous')
-        else:
-            mediator.viewer(self, None)
-            mediator.reject(self, 'anonymous')
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ("profiles-profile-detail", (), {'slug': self.user.username})
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if not self.nickname:
+            self.nickname = self.user.username
+        super(Profile, self).save(force_insert, force_update, using, update_fields)
 
 class Service(models.Model):
 
     def _get_upload_path(self, filename):
-        return os.path.join(["storage/services", filename])
+        return os.path.join('services', filename)
 
     label = models.CharField(_('Label'), max_length=64, unique=True)
     icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)
@@ -126,3 +112,39 @@ class Account(models.Model):
     @property
     def url(self):
         return self.service.url_pattern % self.username
+
+from permission.logics import PermissionLogic
+class ProfilePermissionLogic(PermissionLogic):
+    """
+    Permission logic which check object publish statement and return
+    whether the user has a permission to see the object
+    """
+    def _has_view_perm(self, user_obj, perm, obj):
+        if obj.pub_state == 'protected':
+            return user_obj.is_authenticated()
+        # public
+        return True
+
+    def has_perm(self, user_obj, perm, obj=None):
+        """
+        Check `obj.pub_state` and if user is authenticated
+        """
+        # treat only object permission
+        if obj is None:
+            return False
+        permission_methods = {
+            'profiles.view_profile': self._has_view_perm,
+        }
+        if perm in permission_methods:
+            return permission_methods[perm](user_obj, perm, obj)
+        return False
+
+from permission.logics import AuthorPermissionLogic
+from permission import add_permission_logic
+
+add_permission_logic(Profile, ProfilePermissionLogic())
+add_permission_logic(Profile, AuthorPermissionLogic(
+    field_name='user',
+    change_permission=True,
+    delete_permission=False
+))

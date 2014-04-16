@@ -77,8 +77,6 @@ DATABASES = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'profiles.profile'
-
 THUMBNAIL_SIZE_PATTERNS = {
     'huge': (288, 288,),
     'large': (96, 96,),
