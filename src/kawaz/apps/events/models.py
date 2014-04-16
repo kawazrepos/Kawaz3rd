@@ -3,9 +3,12 @@ from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from kawaz.core.db.decorators import validate_on_save
 
 from markupfield.fields import MarkupField
 
@@ -30,6 +33,7 @@ class EventManager(models.Manager):
         else:
             return self.none()
 
+@validate_on_save
 class Event(models.Model):
     """
     The model which indicates events
@@ -60,6 +64,11 @@ class Event(models.Model):
         ordering            = ('period_start', 'period_end', '-created_at', '-updated_at', 'title')
         verbose_name        = _("Event")
         verbose_name_plural = _("Events")
+        permissions = (
+            ('attend_event', 'Can attend the event'),
+            ('quit_event', 'Can quit the event'),
+            ('view_event', 'Can view the event'),
+        )
 
     def __str__(self):
         return self.title
@@ -76,22 +85,18 @@ class Event(models.Model):
             raise ValidationError(_('You must set end time too'))
         super(Event, self).clean()
 
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        return super(Event, self).save(*args, **kwargs)
-        
     def attend(self, user, save=True):
         '''Add user to attendees'''
+        if not user.has_perm('events.attend_event', obj=self):
+            raise PermissionDenied
         self.attendees.add(user)
         if save:
             self.save()
 
     def quit(self, user, save=True):
         '''Remove user from attendees'''
-        if user == self.organizer:
-            raise AttributeError("Organizer doesn't allow to quit the event.")
-        if not user in self.attendees.all():
-            raise AttributeError("Username %s have not be attendee of this event")
+        if not user.has_perm('events.quit_event', obj=self):
+            raise PermissionDenied
         self.attendees.remove(user)
         if save:
             self.save()
@@ -112,3 +117,62 @@ def join_organizer(**kwargs):
     instance = kwargs.get('instance')
     if created:
         instance.attend(instance.organizer)
+
+# Logic based permissions
+from permission.logics import PermissionLogic
+
+class EventPermissionLogic(PermissionLogic):
+    """
+    Permission logic which check object pulbish statement and return
+    whether the user has a permission to see the object
+    """
+    def _has_view_perm(self, user_obj, perm, obj):
+        if obj.pub_state == 'protected':
+            return user_obj.is_authenticated()
+        if obj.pub_state == 'draft':
+            return user_obj == obj.organizer
+        # public
+        return True
+
+    def _has_attend_perm(self, user_obj, perm, obj):
+        # ToDo check if user is in children group
+        if user_obj in obj.attendees.all():
+            # the user is already attended
+            return False
+        return True
+
+    def _has_quit_perm(self, user_obj, perm, obj):
+        # check if user is in children group
+        if user_obj == obj.organizer:
+            # organizer cannot quit the event
+            return False
+        if user_obj not in obj.attendees.all():
+            # non attendees cannot quit the event
+            return False
+        return True
+
+    def has_perm(self, user_obj, perm, obj=None):
+        """
+        Check `obj.pub_state` and if user is authenticated
+        """
+        # treat only object permission
+        if obj is None:
+            return False
+        permission_methods = {
+            'events.view_event': self._has_view_perm,
+            'events.attend_event': self._has_attend_perm,
+            'events.quit_event': self._has_quit_perm,
+        }
+        if perm in permission_methods:
+            return permission_methods[perm](user_obj, perm, obj)
+        return False
+
+from permission import add_permission_logic
+from permission.logics import AuthorPermissionLogic
+
+add_permission_logic(Event, AuthorPermissionLogic(
+    field_name='organizer',
+    change_permission=True,
+    delete_permission=True
+))
+add_permission_logic(Event, EventPermissionLogic())

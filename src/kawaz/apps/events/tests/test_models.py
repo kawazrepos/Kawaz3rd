@@ -2,6 +2,8 @@ import datetime
 
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.models import AnonymousUser
 
 from kawaz.core.auth.tests.factories import UserFactory
 from .factories import EventFactory
@@ -53,20 +55,17 @@ class EventTestCase(TestCase):
 
     def test_organizer_cant_quit(self):
         '''Tests organizer can't quit from events'''
-        event = EventFactory()
+        organizer = UserFactory()
+        event = EventFactory(organizer=organizer)
 
-        def quit():
-            event.quit(event.organizer)
-        self.assertRaises(AttributeError, quit)
+        self.assertRaises(PermissionDenied, event.quit, organizer)
 
     def test_not_attendee_cant_quit(self):
         '''Tests non attendee can't quit from events'''
         event = EventFactory()
         user = UserFactory()
 
-        def quit():
-            event.quit(user)
-        self.assertRaises(AttributeError, quit)
+        self.assertRaises(PermissionDenied, event.quit, user)
 
     def test_later_than_start_time(self):
         '''Tests end time must be later than start time'''
@@ -74,9 +73,7 @@ class EventTestCase(TestCase):
         start = now + datetime.timedelta(hours=6)
         end = now + datetime.timedelta(hours=4)
 
-        def create():
-            EventFactory(period_start=start, period_end=end)
-        self.assertRaises(ValidationError, create)
+        self.assertRaises(ValidationError, EventFactory, period_start=start, period_end=end)
 
     def test_same_between_start_and_end_time(self):
         '''Tests end time can be allowed same with start time'''
@@ -92,9 +89,7 @@ class EventTestCase(TestCase):
         start_time = now + datetime.timedelta(hours=-5)
         end_time = now + datetime.timedelta(hours=5)
 
-        def create():
-            EventFactory(period_start=start_time, period_end=end_time)
-        self.assertRaises(ValidationError, create)
+        self.assertRaises(ValidationError, EventFactory, period_start=start_time, period_end=end_time)
 
     def test_event_period_is_too_long(self):
         '''Tests period of event must be shorter than 8 days'''
@@ -102,9 +97,7 @@ class EventTestCase(TestCase):
         start = now + datetime.timedelta(days=1)
         end = now + datetime.timedelta(days=9)
 
-        def create():
-            EventFactory(period_start=start, period_end=end)
-        self.assertRaises(ValidationError, create)
+        self.assertRaises(ValidationError, EventFactory, period_start=start, period_end=end)
 
         # period of event that is under 8 days is allowed (Kawaz 2nd)
         start2 = now + datetime.timedelta(days=1)
@@ -116,9 +109,7 @@ class EventTestCase(TestCase):
         now = datetime.datetime.now()
         end = now + datetime.timedelta(days=8)
 
-        def create():
-            EventFactory(period_start=None, period_end=end)
-        self.assertRaises(ValidationError, create)
+        self.assertRaises(ValidationError, EventFactory, period_start=None, period_end=end)
 
     def test_is_active(self):
         '''Tests is_active returns correct value'''
@@ -143,4 +134,87 @@ class EventTestCase(TestCase):
         event4 = EventFactory.build(period_start=None, period_end=None)
         self.assertTrue(event4.is_active())
 
+    def test_organizer_can_edit(self):
+        '''Tests organizer can edit an event'''
+        event = EventFactory()
+        self.assertTrue(event.organizer.has_perm('events.change_event', event))
 
+    def test_others_can_not_edit(self):
+        '''Tests others can no edit an event'''
+        user = UserFactory()
+        event = EventFactory()
+        self.assertFalse(user.has_perm('events.change_event', event))
+
+    def test_anonymous_can_not_edit(self):
+        '''Tests anonymous user can no edit an event'''
+        user = AnonymousUser()
+        event = EventFactory()
+        self.assertFalse(user.has_perm('events.change_event', event))
+
+    def test_organizer_can_delete(self):
+        '''Tests organizer can delete an event'''
+        event = EventFactory()
+        self.assertTrue(event.organizer.has_perm('events.delete_event', event))
+
+    def test_others_can_not_delete(self):
+        '''Tests others can not delete an event'''
+        user = UserFactory()
+        event = EventFactory()
+        self.assertFalse(user.has_perm('events.delete_event', event))
+
+    def test_anonymous_can_not_delete(self):
+        '''Tests anonymous users can not delete an event'''
+        user = AnonymousUser()
+        event = EventFactory()
+        self.assertFalse(user.has_perm('events.delete_event', event))
+
+    def test_organizer_can_view_draft(self):
+        '''Tests organizer can view draft'''
+        event = EventFactory(pub_state='draft')
+        self.assertTrue(event.organizer.has_perm('events.view_event', event))
+
+    def test_others_can_not_view_draft(self):
+        '''Tests others can not view draft'''
+        user = UserFactory()
+        event = EventFactory(pub_state='draft')
+        self.assertFalse(user.has_perm('events.view_event', event))
+
+    def test_anonymous_can_not_view_draft(self):
+        '''Tests anonymous can not view draft'''
+        user = AnonymousUser()
+        event = EventFactory(pub_state='draft')
+        self.assertFalse(user.has_perm('events,view_event', event))
+
+    def test_organizer_can_view_protected(self):
+        '''Tests organizer can view protected'''
+        event = EventFactory(pub_state='protected')
+        self.assertTrue(event.organizer.has_perm('events.view_event', event))
+
+    def test_others_can_view_protected(self):
+        '''Tests others can view protected'''
+        user = UserFactory()
+        event = EventFactory(pub_state='protected')
+        self.assertTrue(user.has_perm('events.view_event', event))
+
+    def test_anonymous_can_not_view_protected(self):
+        '''Tests anonymous can not view protected'''
+        user = AnonymousUser()
+        event = EventFactory(pub_state='protected')
+        self.assertFalse(user.has_perm('events,view_event', event))
+
+    def test_organizer_can_view_public(self):
+        '''Tests organizer can view public'''
+        event = EventFactory(pub_state='public')
+        self.assertTrue(event.organizer.has_perm('events.view_event', event))
+
+    def test_others_can_view_public(self):
+        '''Tests others can view public'''
+        user = UserFactory()
+        event = EventFactory(pub_state='public')
+        self.assertTrue(user.has_perm('events.view_event', event))
+
+    def test_anonymous_can_not_view_public(self):
+        '''Tests anonymous can view public'''
+        user = AnonymousUser()
+        event = EventFactory(pub_state='public')
+        self.assertTrue(user.has_perm('events.view_event', event))
