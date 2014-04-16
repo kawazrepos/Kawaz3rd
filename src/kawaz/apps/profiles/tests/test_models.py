@@ -5,7 +5,7 @@ class ProfileTestCase(TestCase):
     def test_create_user(self):
         """Tests can access profile via user.get_profile()"""
         profile = ProfileFactory()
-        self.assertEqual(profile.user.get_profile(), profile)
+        self.assertEqual(profile.user.profile, profile)
 
 class SkillTestCase(TestCase):
     def test_str(self):

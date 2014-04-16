@@ -33,7 +33,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
     nickname = u'かわずたん'
     mood = u'けろーん'
-    sex = 'woman'
+    gender = 'woman'
     birthday = datetime.datetime(2009, 10, 15)
     place = u'グランエターナ'
     url = 'http://www.kawaz.org/'
