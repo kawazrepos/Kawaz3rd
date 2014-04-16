@@ -19,6 +19,7 @@ class ProfileTestCase(TestCase):
         profile = ProfileFactory()
         self.assertEqual(profile.user.profile, profile)
 
+class ProfileAuthorPermissionTestCase(TestCase):
     def test_owner_can_edit(self):
         '''Tests owner can edit an profile'''
         profile = ProfileFactory()
@@ -53,11 +54,11 @@ class ProfileTestCase(TestCase):
         profile = ProfileFactory()
         self.assertFalse(user.has_perm('profiles.delete_profile', profile))
 
+class ProfileViewPermissionTestCase(TestCase):
     def test_owner_can_view_protected(self):
         '''Tests owner can view protected'''
         profile = ProfileFactory(pub_state='protected')
         self.assertTrue(profile.user.has_perm('profiles.view_profile', profile))
-
 
     def test_others_can_view_protected(self):
         '''Tests others can view protected'''
