@@ -1,4 +1,4 @@
-from mock import MagicMock
+from unittest.mock import MagicMock
 from django.test import TestCase
 from django.conf import settings
 from django.test.utils import override_settings
