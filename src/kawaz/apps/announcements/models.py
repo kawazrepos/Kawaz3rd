@@ -7,16 +7,15 @@ from markupfield.fields import MarkupField
 User = get_user_model()
 
 class AnnouncementManager(models.Manager):
-    def published(self, request):
-        if request and request.user.is_authenticated():
+    def published(self, user):
+        if user and user.is_authenticated():
             return self.exclude(pub_state='draft')
-        else:
-            return self.filter(pub_state='public')
-    def draft(self, request):
-        if request and request.user.is_authenticated():
-            return self.filter(pub_state='draft', author=request.user)
-        else:
-            return self.none()
+        return self.filter(pub_state='public')
+
+    def draft(self, user):
+        if user and user.is_authenticated():
+            return self.filter(pub_state='draft', author=user)
+        return self.none()
         
 class Announcement(models.Model):
     """
@@ -32,8 +31,8 @@ class Announcement(models.Model):
     pub_state = models.CharField(_('Publish status'), max_length=10, choices=PUB_STATES)
     title = models.CharField(_('Title'), max_length=128)
     body = MarkupField(_('Body'), default_markup_type='markdown')
-    sage = models.BooleanField(_('Silently'), default=False,
-                               help_text=_('If you checked this field. This will not be notified anybody.'))
+    silently = models.BooleanField(_('Silently'), default=False,
+                                   help_text=_('If you checked this field. This will not be notified anybody.'))
     # Uneditable
     author = models.ForeignKey(User, related_name='created_announcements')
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
