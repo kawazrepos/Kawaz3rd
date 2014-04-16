@@ -26,6 +26,12 @@ class ProjectTestCase(TestCase):
         project = ProjectFactory()
         self.assertEqual(project.__str__(), project.title)
 
+    def test_creation_group(self):
+        '''Tests to create group when project was created'''
+        project = ProjectFactory(slug='my-awesome-shooting-game')
+        self.assertIsNotNone(project.group)
+        self.assertEqual(project.group.name, 'project_my-awesome-shooting-game')
+
     def test_join_user(self):
         '''Tests can join user correctly'''
         user2 = UserFactory()
