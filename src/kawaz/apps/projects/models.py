@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -52,12 +53,11 @@ class Project(models.Model):
     slug = models.SlugField(_('Project ID'), unique=True, max_length=63,
                             help_text=_("This ID will be used for its URL. You can't modify it later. You can use only alphabetical characters, _ or -."))
     body = MarkupField(_('Description'), default_markup_type='markdown')
+    administrator = models.ForeignKey(User, verbose_name=_('Organizer'), related_name="projects_owned")
     # Omittable
     icon = ThumbnailField(_('Thumbnail'), upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS)
     category = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True, related_name='projects', help_text="If a category you would like to use is not exist, please contact your administrator.")
     # Uneditable
-    administrator = models.ForeignKey(User, verbose_name=_('Organizer'), related_name="projects_owned", editable=False)
-    updated_by = models.ForeignKey(User, verbose_name=_('Last modifier'), related_name="projects_updated", editable=False)
     members = models.ManyToManyField(User, verbose_name=_('Members'), related_name="projects_joined", editable=False)
     group = models.ForeignKey(Group, verbose_name=_('Group'), unique=True, editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -77,6 +77,8 @@ class Project(models.Model):
         return self.title
 
     def clean(self):
+        if not self.administrator in self.members.all():
+            raise ValidationError('''The administrator can't quit from the project''')
         super(Project, self).clean()
 
     def save(self, *args, **kwargs):
@@ -135,12 +137,21 @@ class ProjectPermissionLogic(PermissionLogic):
         if obj.pub_state == 'draft':
             # nobody can join to draft projects
             return False
-        return not user_obj in obj.members.all()
+        if not user_obj.is_authenticated():
+            # anonymous user can't join to projects.
+            return False
+        if user_obj in obj.members.all():
+            # member can not join to projects
+            return False
+        return True
 
     def _has_quit_perm(self, user_obj, perm, obj):
         # ToDo check if user is in children group
         if user_obj == obj.administrator:
             # administrator cannot quit the event
+            return False
+        if not user_obj.is_authenticated():
+            # anonymous user cannot quit from projects.
             return False
         if user_obj not in obj.members.all():
             # non members cannot quit the event

@@ -20,4 +20,3 @@ class ProjectFactory(factory.DjangoModelFactory):
 
     category = factory.SubFactory(CategoryFactory)
     administrator = factory.SubFactory(UserFactory)
-    updated_by = factory.SubFactory(UserFactory)
