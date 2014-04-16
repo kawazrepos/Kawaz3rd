@@ -8,13 +8,21 @@ User = get_user_model()
 
 class AnnouncementManager(models.Manager):
     def published(self, user):
+        '''
+        Returns published announcement for each user
+        If `user` is authenticated, it will return public and protected announcements,
+        else return public announcements only.
+        '''
         if user and user.is_authenticated():
             return self.exclude(pub_state='draft')
         return self.filter(pub_state='public')
 
     def draft(self, user):
-        if user and user.is_authenticated():
-            return self.filter(pub_state='draft', author=user)
+        '''
+        If `user` is staff user, returns all drafts.
+        '''
+        if user and user.is_staff:
+            return self.filter(pub_state='draft')
         return self.none()
         
 class Announcement(models.Model):
@@ -45,8 +53,6 @@ class Announcement(models.Model):
         verbose_name_plural = _('Announcements')
         permissions = (
             ('create_announcement', 'Can create new announcement'),
-            ('change_announcement', 'Can change the announcement'),
-            ('delete_announcement', 'Can delete the announcement'),
             ('view_announcement', 'Can view the announcement'),
         )
 
@@ -67,19 +73,20 @@ class AnnouncementPermissionLogic(PermissionLogic):
             return user_obj.is_authenticated()
         if obj.pub_state == 'draft':
             # only staff user can show draft announcement
-            return user_obj.is_staff()
+            return user_obj.is_staff
         # public
         return True
 
     def has_perm(self, user_obj, perm, obj=None):
+        # all staffs can create / change / delete all announcements
         staff_allowed_methods = (
             'announcements.create_announcement',
             'announcements.change_announcement',
             'announcements.delete_announcement',
         )
-        if perm in staff_allowed_methods and user_obj.is_staff():
+        if perm in staff_allowed_methods and user_obj.is_staff:
             return True
         if perm == 'announcements.view_announcement':
             return self._has_view_perm(user_obj, perm, obj)
         return False
-add_permission_logic(Announcement, AnnouncementPermissionLogic)
+add_permission_logic(Announcement, AnnouncementPermissionLogic())
