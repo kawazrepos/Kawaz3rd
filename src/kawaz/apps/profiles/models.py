@@ -33,8 +33,7 @@ class Profile(models.Model):
     """
 
     def _get_upload_path(self, filename):
-        path = 'thumbnails/profiles/%s' % self.user.username
-        return os.path.join(path, filename)
+        return os.path.join('thumbnails', 'profiles', self.user.username, filename)
 
     GENDER_TYPES = (
         ('man',   _("Man")),
@@ -73,9 +72,46 @@ class Profile(models.Model):
         )
 
     def __str__(self):
-        if self.nickname:
-            return self.nickname
-        return _('Non Active User : %(username)s') % {'username' : self.user.username}
+        return self.nickname
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if not self.nickname:
+            self.nickname = self.user.username
+        super(Profile, self).save(force_insert, force_update, using, update_fields)
+
+class Service(models.Model):
+
+    def _get_upload_path(self, filename):
+        return os.path.join('services', filename)
+
+    label = models.CharField(_('Label'), max_length=64, unique=True)
+    icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)
+    url_pattern = models.CharField(_('URL pattern'), max_length=256, null=True, blank=True)
+
+    def __str__(self):
+        return self.label
+
+    class Meta:
+        ordering = ('pk',)
+        verbose_name = _('Service')
+        verbose_name_plural = _('Services')
+
+class Account(models.Model):
+    user = models.ForeignKey(User, verbose_name=_('Profile'))
+    service = models.ForeignKey(Service, verbose_name=_('Service'))
+    username = models.CharField(_('Username'), max_length=64)
+
+    class Meta:
+        verbose_name = _('Account')
+        verbose_name_plural = _('Accounts')
+
+    def __str__(self):
+        return "%s (%s @ %s)" % (self.username, self.user.username, self.service.label)
+
+    @property
+    def url(self):
+        return self.service.url_pattern % self.username
 
 from permission.logics import PermissionLogic
 class ProfilePermissionLogic(PermissionLogic):
@@ -112,36 +148,3 @@ add_permission_logic(Profile, AuthorPermissionLogic(
     change_permission=True,
     delete_permission=False
 ))
-
-class Service(models.Model):
-
-    def _get_upload_path(self, filename):
-        return os.path.join(["services", filename])
-
-    label = models.CharField(_('Label'), max_length=64, unique=True)
-    icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)
-    url_pattern = models.CharField(_('URL pattern'), max_length=256, null=True, blank=True)
-
-    def __str__(self):
-        return self.label
-
-    class Meta:
-        ordering = ('pk',)
-        verbose_name = _('Service')
-        verbose_name_plural = _('Services')
-
-class Account(models.Model):
-    user = models.ForeignKey(User, verbose_name=_('Profile'))
-    service = models.ForeignKey(Service, verbose_name=_('Service'))
-    username = models.CharField(_('Username'), max_length=64)
-
-    class Meta:
-        verbose_name = _('Account')
-        verbose_name_plural = _('Accounts')
-
-    def __str__(self):
-        return "%s (%s @ %s)" % (self.username, self.user.username, self.service.label)
-
-    @property
-    def url(self):
-        return self.service.url_pattern % self.username

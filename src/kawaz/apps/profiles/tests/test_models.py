@@ -4,6 +4,16 @@ from kawaz.core.auth.tests.factories import UserFactory
 from .factories import ProfileFactory, AccountFactory, ServiceFactory, SkillFactory
 
 class ProfileTestCase(TestCase):
+    def test_str(self):
+        '''Tests __str__ returns correct value'''
+        profile = ProfileFactory(nickname='kawaz tan')
+        self.assertEqual(profile.__str__(), 'kawaz tan')
+
+    def test_set_nickname(self):
+        '''Tests nickname is set automatically'''
+        profile = ProfileFactory(nickname='')
+        self.assertEqual(profile.nickname, profile.user.username)
+
     def test_create_user(self):
         """Tests can access profile via user.get_profile()"""
         profile = ProfileFactory()
