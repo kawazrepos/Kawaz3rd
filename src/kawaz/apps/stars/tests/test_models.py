@@ -46,9 +46,9 @@ class StarManagerTestCase(TestCase):
         user1 = PersonaFactory()
         user2 = PersonaFactory()
 
-        for i in range(1): Star.objects.add_for_object(user, user)
-        for i in range(2): Star.objects.add_for_object(user1, user)
-        for i in range(3): Star.objects.add_for_object(user2, user)
+        for i in range(1): StarFactory(content_object=user, author=user)
+        for i in range(2): StarFactory(content_object=user1, author=user)
+        for i in range(3): StarFactory(content_object=user2, author=user)
 
         self.assertEqual(Star.objects.get_for_object(user).count(), 1)
         self.assertEqual(Star.objects.get_for_object(user1).count(), 2)
@@ -59,8 +59,8 @@ class StarManagerTestCase(TestCase):
         '''Tests clean up all stars via cleanup_object'''
         user = PersonaFactory()
         user1 = PersonaFactory()
-        for i in range(1): Star.objects.add_for_object(user, user)
-        for i in range(2): Star.objects.add_for_object(user1, user)
+        for i in range(1): StarFactory(content_object=user, author=user)
+        for i in range(2): StarFactory(content_object=user1, author=user)
         self.assertEqual(Star.objects.count(), 3)
 
         Star.objects.cleanup_object(user)
