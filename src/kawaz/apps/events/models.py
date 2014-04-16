@@ -12,6 +12,8 @@ from kawaz.core.db.decorators import validate_on_save
 
 from markupfield.fields import MarkupField
 
+User = get_user_model()
+
 import datetime
 
 class EventManager(models.Manager):
@@ -53,8 +55,8 @@ class Event(models.Model):
     period_end = models.DateTimeField(_("End time"), blank=True, null=True)
     place = models.CharField(_("Place"), max_length=255, blank=True)
     # Uneditable
-    organizer = models.ForeignKey(get_user_model(), verbose_name=_("Organizer"), related_name="events_owned", editable=False)
-    attendees = models.ManyToManyField(get_user_model(), verbose_name=_("Attendees"), related_name="events_attend", editable=False)
+    organizer = models.ForeignKey(User, verbose_name=_("Organizer"), related_name="events_owned", editable=False)
+    attendees = models.ManyToManyField(User, verbose_name=_("Attendees"), related_name="events_attend", editable=False)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
