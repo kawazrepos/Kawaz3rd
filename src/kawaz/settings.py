@@ -87,6 +87,10 @@ THUMBNAIL_SIZE_PATTERNS = {
     'small': (24, 24,),
 }
 
+# Permission presence check in DEBUG mode
+# from django-permission 0.5.3
+PERMISSION_CHECK_PERMISSION_PRESENCE = DEBUG
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 

@@ -2,6 +2,7 @@
 db.sqlite3
 storage/*
 !storage/.gitkeep
+img
 
 # for Python
 # Byte-compiled / optimized / DLL files
