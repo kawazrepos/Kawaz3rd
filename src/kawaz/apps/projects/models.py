@@ -76,11 +76,6 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-    def clean(self):
-        if not self.administrator in self.members.all():
-            raise ValidationError('''The administrator can't quit from the project''')
-        super(Project, self).clean()
-
     def save(self, *args, **kwargs):
         if self.pk is None:
             group = Group.objects.get_or_create(name="project_%s" % self.slug)[0]
