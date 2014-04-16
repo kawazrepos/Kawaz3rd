@@ -19,5 +19,5 @@ class ProjectFactory(factory.DjangoModelFactory):
     slug = 'my-fantastic-rpg'
 
     category = factory.SubFactory(CategoryFactory)
-    author = factory.SubFactory(UserFactory)
+    administrator = factory.SubFactory(UserFactory)
     updated_by = factory.SubFactory(UserFactory)

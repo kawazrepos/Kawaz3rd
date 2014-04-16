@@ -40,16 +40,16 @@ class ProjectTestCase(TestCase):
         '''Tests is_member returns correct value'''
         user = UserFactory()
         user2 = UserFactory()
-        project = ProjectFactory(author=user)
+        project = ProjectFactory(administrator=user)
         self.assertEqual(project.members.count(), 1)
         self.assertEqual(project.members.all()[0], user)
         self.assertTrue(project.is_member(user))
         self.assertFalse(project.is_member(user2))
 
-    def test_author_is_member(self):
-        '''Tests author will be added into member automatically'''
+    def test_administrator_is_member(self):
+        '''Tests administrator will be added into member automatically'''
         user = UserFactory()
-        project = ProjectFactory(author=user)
+        project = ProjectFactory(administrator=user)
         self.assertTrue(project.is_member(user))
 
     def test_quit_member(self):
@@ -64,12 +64,12 @@ class ProjectTestCase(TestCase):
         self.assertEqual(project.members.count(), 1)
         self.assertFalse(user in user.groups.all())
 
-    def test_author_cant_quit(self):
-        '''Tests author can't quit from projects'''
+    def test_administrator_cant_quit(self):
+        '''Tests administrator can't quit from projects'''
         project = ProjectFactory()
 
         def quit():
-            project.quit_member(project.author)
+            project.quit_member(project.administrator)
         self.assertRaises(AttributeError, quit)
 
     def test_not_member_cant_quit(self):
