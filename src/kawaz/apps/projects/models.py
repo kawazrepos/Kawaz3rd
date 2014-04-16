@@ -29,7 +29,7 @@ class Category(models.Model):
 class Project(models.Model):
     """The Project model"""
     def _get_upload_path(self, filename):
-        path = 'storage/projects/%s' % self.slug
+        path = 'thumbnails/projects/%s' % self.slug
         return os.path.join(path, filename)
 
     PUB_STATES = (

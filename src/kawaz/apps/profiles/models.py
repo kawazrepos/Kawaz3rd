@@ -38,7 +38,7 @@ class Profile(models.Model):
     """
 
     def _get_upload_path(self, filename):
-        path = 'storage/profiles/%s' % self.user.username
+        path = 'thumbnails/profiles/%s' % self.user.username
         return os.path.join(path, filename)
 
     SEX_TYPES = (
@@ -56,7 +56,7 @@ class Profile(models.Model):
     nickname = models.CharField(_('Nickname'), max_length=30, unique=True, blank=False, null=True)
     # Non required
     mood = models.CharField(_('Mood message'), max_length=127, blank=True)
-    avator = ThumbnailField(_('Avatar') , upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS, null=True)
+    avatar = ThumbnailField(_('Avatar') , upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS, null=True)
     sex  = models.CharField('Gender', max_length=10, choices=SEX_TYPES, blank=True)
     birthday = models.DateField(_('Birth day'), null=True, blank=True)
     place = models.CharField(_('Address'), max_length=255, blank=True, help_text=_('Your address will not be shown by anonymous user.'))
