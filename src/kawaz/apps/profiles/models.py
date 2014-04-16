@@ -22,6 +22,7 @@ class Skill(models.Model):
         verbose_name_plural = _("Skills")
 
 class ProfileManager(models.Manager):
+    # ToDo Test me
     def active_users(self, request):
         qs = self.exclude(nickname=None).exclude(user__is_active=False)
         return qs
@@ -64,14 +65,53 @@ class Profile(models.Model):
     objects = ProfileManager()
 
     class Meta:
-        ordering            = ('-user__last_login', 'nickname')
+        ordering            = ('nickname',)
         verbose_name        = _("Profile")
         verbose_name_plural = _("Profiles")
+        permissions = (
+            ('view_profile', 'Can view the profile'),
+        )
 
     def __str__(self):
         if self.nickname:
             return self.nickname
         return _('Non Active User : %(username)s') % {'username' : self.user.username}
+
+from permission.logics import PermissionLogic
+class ProfilePermissionLogic(PermissionLogic):
+    """
+    Permission logic which check object publish statement and return
+    whether the user has a permission to see the object
+    """
+    def _has_view_perm(self, user_obj, perm, obj):
+        if obj.pub_state == 'protected':
+            return user_obj.is_authenticated()
+        # public
+        return True
+
+    def has_perm(self, user_obj, perm, obj=None):
+        """
+        Check `obj.pub_state` and if user is authenticated
+        """
+        # treat only object permission
+        if obj is None:
+            return False
+        permission_methods = {
+            'profiles.view_profile': self._has_view_perm,
+        }
+        if perm in permission_methods:
+            return permission_methods[perm](user_obj, perm, obj)
+        return False
+
+from permission.logics import AuthorPermissionLogic
+from permission import add_permission_logic
+
+add_permission_logic(Profile, ProfilePermissionLogic())
+add_permission_logic(Profile, AuthorPermissionLogic(
+    field_name='user',
+    change_permission=True,
+    delete_permission=False
+))
 
 class Service(models.Model):
 
