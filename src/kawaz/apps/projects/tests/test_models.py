@@ -114,3 +114,54 @@ class ProjectTestCase(TestCase):
         user = AnonymousUser()
 
         self.assertRaises(PermissionDenied, project.quit, user)
+
+    def test_administrator_can_view_draft(self):
+        '''Tests administrator can view draft'''
+        project = ProjectFactory(pub_state='draft')
+        self.assertTrue(project.administrator.has_perm('projects.view_project', project))
+
+    def test_others_can_not_view_draft(self):
+        '''Tests others can not view draft'''
+        user = UserFactory()
+        project = ProjectFactory(pub_state='draft')
+        self.assertFalse(user.has_perm('projects.view_project', project))
+
+    def test_anonymous_can_not_view_draft(self):
+        '''Tests anonymous can not view draft'''
+        user = AnonymousUser()
+        project = ProjectFactory(pub_state='draft')
+        self.assertFalse(user.has_perm('projects,view_project', project))
+
+    def test_administrator_can_view_protected(self):
+        '''Tests administrator can view protected'''
+        project = ProjectFactory(pub_state='protected')
+        self.assertTrue(project.administrator.has_perm('projects.view_project', project))
+
+    def test_others_can_view_protected(self):
+        '''Tests others can view protected'''
+        user = UserFactory()
+        project = ProjectFactory(pub_state='protected')
+        self.assertTrue(user.has_perm('projects.view_project', project))
+
+    def test_anonymous_can_not_view_protected(self):
+        '''Tests anonymous can not view protected'''
+        user = AnonymousUser()
+        project = ProjectFactory(pub_state='protected')
+        self.assertFalse(user.has_perm('projects,view_project', project))
+
+    def test_administrator_can_view_public(self):
+        '''Tests administrator can view public'''
+        project = ProjectFactory(pub_state='public')
+        self.assertTrue(project.administrator.has_perm('projects.view_project', project))
+
+    def test_others_can_view_public(self):
+        '''Tests others can view public'''
+        user = UserFactory()
+        project = ProjectFactory(pub_state='public')
+        self.assertTrue(user.has_perm('projects.view_project', project))
+
+    def test_anonymous_can_not_view_public(self):
+        '''Tests anonymous can view public'''
+        user = AnonymousUser()
+        project = ProjectFactory(pub_state='public')
+        self.assertTrue(user.has_perm('projects.view_project', project))
