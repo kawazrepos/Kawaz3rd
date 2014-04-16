@@ -80,7 +80,7 @@ class Project(models.Model):
         if self.pk is None:
             group = Group.objects.get_or_create(name="project_%s" % self.slug)[0]
             self.group = group
-        return super(Project, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def join(self, user, save=True):
         '''Add user to the project'''
