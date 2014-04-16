@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import Group
+from django.core.exceptions import PermissionDenied
 
 from .factories import ProjectFactory, CategoryFactory
 from kawaz.core.auth.tests.factories import UserFactory
@@ -68,15 +69,11 @@ class ProjectTestCase(TestCase):
         '''Tests administrator can't quit from projects'''
         project = ProjectFactory()
 
-        def quit():
-            project.quit_member(project.administrator)
-        self.assertRaises(AttributeError, quit)
+        self.assertRaises(PermissionDenied, project.quit_member, project.administrator)
 
     def test_not_member_cant_quit(self):
         '''Tests non member can't quit from projects'''
         project = ProjectFactory()
         user = UserFactory()
 
-        def quit():
-            project.quit_member(user)
-        self.assertRaises(AttributeError, quit)
+        self.assertRaises(PermissionDenied, project.quit_member, user)

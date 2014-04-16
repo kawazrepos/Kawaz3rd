@@ -1,5 +1,6 @@
 import os
 from django.db import models
+from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -66,6 +67,11 @@ class Project(models.Model):
         ordering = ('status', '-updated_at', 'title')
         verbose_name = _('Project')
         verbose_name_plural = _('Projects')
+        permissions = (
+            ('join_project', 'Can join to the project'),
+            ('quit_project', 'Can quit from the project'),
+            ('view_project', 'Can view the project'),
+        )
 
     def __str__(self):
         return self.title
@@ -81,6 +87,8 @@ class Project(models.Model):
 
     def join_member(self, user, save=True):
         '''Add user to the project'''
+        if not user.has_perm('projects.join_project', self):
+            raise PermissionDenied
         self.members.add(user)
         user.groups.add(self.group)
         if save:
@@ -88,10 +96,8 @@ class Project(models.Model):
 
     def quit_member(self, user, save=True):
         '''Remove user from the project'''
-        if user == self.administrator:
-            raise AttributeError("Author doesn't allow to quit the project")
-        if not user in self.members.all():
-            raise AttributeError("Username %s have not be member of this project.")
+        if not user.has_perm('projects.quit_project', self):
+            raise PermissionDenied
         self.members.remove(user)
         user.groups.remove(self.group)
         if save:
@@ -107,3 +113,65 @@ def join_administrator(**kwargs):
     instance = kwargs.get('instance')
     if created:
         instance.join_member(instance.administrator)
+
+from permission.logics import PermissionLogic
+
+class ProjectPermissionLogic(PermissionLogic):
+    """
+    Permission logic which check object publish statement and return
+    whether the user has a permission to see the object
+    """
+    def _has_view_perm(self, user_obj, perm, obj):
+        if obj.pub_state == 'protected':
+            # only authorized user can show protected project
+            return user_obj.is_authenticated()
+        if obj.pub_state == 'draft':
+            # only administrator user can show draft project
+            return user_obj == obj.administrator
+        # public
+        return True
+
+    def _has_join_perm(self, user_obj, perm, obj):
+        if obj.pub_state == 'draft':
+            # nobody can join to draft projects
+            return False
+        return not user_obj in obj.members.all()
+
+    def _has_quit_perm(self, user_obj, perm, obj):
+        # ToDo check if user is in children group
+        if user_obj == obj.administrator:
+            # administrator cannot quit the event
+            return False
+        if user_obj not in obj.members.all():
+            # non members cannot quit the event
+            return False
+        return True
+
+    def has_perm(self, user_obj, perm, obj=None):
+        # treat only object permission
+        if obj is None:
+            return False
+        permission_methods = {
+            'projects.view_project': self._has_view_perm,
+            'projects.join_project': self._has_join_perm,
+            'projects.quit_project': self._has_quit_perm,
+        }
+        if perm in permission_methods:
+            return permission_methods[perm](user_obj, perm, obj)
+        return False
+
+from permission import add_permission_logic
+from permission.logics import AuthorPermissionLogic
+from permission.logics import CollaboratorsPermissionLogic
+
+add_permission_logic(Project, AuthorPermissionLogic(
+    field_name='administrator',
+    change_permission=True,
+    delete_permission=True
+))
+add_permission_logic(Project, CollaboratorsPermissionLogic(
+    field_name='members',
+    change_permission=True,
+    delete_permission=False
+))
+add_permission_logic(Project, ProjectPermissionLogic())
