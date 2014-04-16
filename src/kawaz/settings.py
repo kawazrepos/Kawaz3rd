@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'permission',
+    'thumbnailfield',
     'kawaz.core.db',
     'kawaz.apps.imagefield',
     'kawaz.apps.profiles',

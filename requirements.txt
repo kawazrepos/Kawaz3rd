@@ -4,4 +4,5 @@ markdown
 Django>=1.6.0
 django-permission
 django-markupfield
+django-thumbnailfield==0.2.0
 honcho
