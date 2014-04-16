@@ -59,12 +59,12 @@ class Entry(models.Model):
                 self.publish_at = None
             elif self.publish_at == None:
                 self.publish_at = datetime.datetime.now()
-        super(Entry, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def clean(self):
         if self.category and self.author != self.category.author:
             raise ValidationError('Category must be owned by author.')
-        super(Entry, self).clean()
+        super().clean()
 
 from permission.logics import PermissionLogic
 

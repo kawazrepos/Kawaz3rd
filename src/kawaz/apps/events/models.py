@@ -85,7 +85,7 @@ class Event(models.Model):
                 raise ValidationError(_('The period of event is too long.'))
         elif self.period_end and not self.period_start:
             raise ValidationError(_('You must set end time too'))
-        super(Event, self).clean()
+        super().clean()
 
     def attend(self, user, save=True):
         '''Add user to attendees'''
