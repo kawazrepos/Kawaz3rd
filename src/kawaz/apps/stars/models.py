@@ -46,3 +46,11 @@ class Star(models.Model):
 
     def __str__(self):
         return self.content_object.__str__()
+
+from permission.logics import AuthorPermissionLogic
+from permission import add_permission_logic
+add_permission_logic(Star, AuthorPermissionLogic(
+    field_name='author',
+    change_permission=False,
+    delete_permission=True
+))

@@ -7,3 +7,5 @@ class StarFactory(factory.DjangoModelFactory):
 
     author = factory.SubFactory(PersonaFactory)
     content_object = factory.SubFactory(PersonaFactory)
+    comment = 'コメント'
+    tag = 'tag'
