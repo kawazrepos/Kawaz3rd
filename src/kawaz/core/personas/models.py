@@ -17,8 +17,8 @@ class Persona(AbstractUser):
         ('unknown', _("Unknown"))
     )
 
-    nickname = models.CharField(_('Nickname'), max_length=30, unique=True, blank=False, null=True)
-    quotes = models.CharField(_('Mood message'), max_length=127, blank=True)
+    nickname = models.CharField(_('Nickname'), max_length=30)
+    quotes = models.CharField(_('Mood message'), max_length=127, blank=True, null=True)
     avatar = ThumbnailField(_('Avatar') , upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS, null=True)
     gender = models.CharField('Gender', max_length=10, choices=GENDER_TYPES, default='unknown')
 

@@ -10,3 +10,7 @@ class PersonaFactory(factory.django.DjangoModelFactory):
     username = factory.sequence(lambda n: 'kawaztan{0}'.format(n))
     email = 'webmaster@kawaz.org'
     password = 'pass'
+
+    nickname = 'かわずたん'
+    quotes = 'けろーん'
+    gender = 'woman'
