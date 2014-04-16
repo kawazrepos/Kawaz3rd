@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+REPOSITORY_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,8 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'permission',
+    'thumbnailfield',
     'kawaz.core.db',
-    'kawaz.apps.imagefield',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
     'kawaz.apps.events',
@@ -73,11 +73,18 @@ VALIDATE_ON_SAVE_DISABLE = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(REPOSITORY_ROOT, 'db.sqlite3'),
     }
 }
 
 AUTH_PROFILE_MODULE = 'profiles.profile'
+
+THUMBNAIL_SIZE_PATTERNS = {
+    'huge': (288, 288,),
+    'large': (96, 96,),
+    'middle': (48, 48,),
+    'small': (24, 24,),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -92,6 +99,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+MEDIA_ROOT = os.path.abspath(os.path.join(REPOSITORY_ROOT, 'storage'))
+MEDIA_URL = '/storage/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/

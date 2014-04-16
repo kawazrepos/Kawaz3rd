@@ -2,11 +2,14 @@
 import os
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from thumbnailfield.fields import ThumbnailField
 
 class Category(models.Model):
     """
@@ -26,7 +29,7 @@ class Category(models.Model):
 class Project(models.Model):
     """The Project model"""
     def _get_upload_path(self, filename):
-        path = 'storage/projects/%s' % self.slug
+        path = 'thumbnails/projects/%s' % self.slug
         return os.path.join(path, filename)
 
     PUB_STATES = (
@@ -41,12 +44,6 @@ class Project(models.Model):
         ("done",        _("Released")),
     )
 
-    THUMBNAIL_SIZE_PATTERNS = {
-        'huge':     (288, 288, False),
-        'large':    (96, 96, False),
-        'middle':   (48, 48, False),
-        'small':    (24, 24, False),
-    }
     # Required
     pub_state       = models.CharField(_('Publish state'), choices=PUB_STATES, max_length=10, default='public')
     status          = models.CharField(_("Status"), default="planning", max_length=15, choices=STATUS)
@@ -55,7 +52,7 @@ class Project(models.Model):
                                        help_text=_("This ID will be used for its URL. You can't modify it later. You can use only alphabetical characters, _ or -."))
     #body            = MarkItUpField(_('Description'), default_markup_type='markdown')
     # Omittable
-    #icon            = ImageField(_('Thumbnail'), upload_to=_get_upload_path, blank=True, thumbnail_size_patterns=THUMBNAIL_SIZE_PATTERNS)
+    icon = ThumbnailField(_('Thumbnail'), upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS)
     category        = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True, related_name='projects',
                                         help_text="If a category you would like to use is not exist, please contact your administrator.")
     # Uneditable
