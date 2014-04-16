@@ -183,7 +183,7 @@ class EventTestCase(TestCase):
         '''Tests anonymous can not view draft'''
         user = AnonymousUser()
         event = EventFactory(pub_state='draft')
-        self.assertFalse(user.has_perm('events,view_event', event))
+        self.assertFalse(user.has_perm('events.view_event', event))
 
     def test_organizer_can_view_protected(self):
         '''Tests organizer can view protected'''
@@ -200,7 +200,7 @@ class EventTestCase(TestCase):
         '''Tests anonymous can not view protected'''
         user = AnonymousUser()
         event = EventFactory(pub_state='protected')
-        self.assertFalse(user.has_perm('events,view_event', event))
+        self.assertFalse(user.has_perm('events.view_event', event))
 
     def test_organizer_can_view_public(self):
         '''Tests organizer can view public'''

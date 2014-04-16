@@ -184,7 +184,7 @@ class ProjectTestCase(TestCase):
         '''Tests anonymous can not view draft'''
         user = AnonymousUser()
         project = ProjectFactory(pub_state='draft')
-        self.assertFalse(user.has_perm('projects,view_project', project))
+        self.assertFalse(user.has_perm('projects.view_project', project))
 
     def test_administrator_can_view_protected(self):
         '''Tests administrator can view protected'''
@@ -201,7 +201,7 @@ class ProjectTestCase(TestCase):
         '''Tests anonymous can not view protected'''
         user = AnonymousUser()
         project = ProjectFactory(pub_state='protected')
-        self.assertFalse(user.has_perm('projects,view_project', project))
+        self.assertFalse(user.has_perm('projects.view_project', project))
 
     def test_administrator_can_view_public(self):
         '''Tests administrator can view public'''
