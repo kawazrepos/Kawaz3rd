@@ -15,7 +15,7 @@ class ProjectFactory(factory.DjangoModelFactory):
 
     pub_state = 'public'
     status = 'active'
-    title = u'ぼくのかんがえた最強のRPG'
+    title = 'ぼくのかんがえた最強のRPG'
     slug = 'my-fantastic-rpg'
 
     category = factory.SubFactory(CategoryFactory)
