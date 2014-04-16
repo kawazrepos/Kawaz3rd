@@ -167,3 +167,54 @@ class EventTestCase(TestCase):
         user = AnonymousUser()
         event = EventFactory()
         self.assertFalse(user.has_perm('events.delete_event', event))
+
+    def test_organizer_can_view_draft(self):
+        '''Tests organizer can view draft'''
+        event = EventFactory(pub_state='draft')
+        self.assertTrue(event.organizer.has_perm('events.view_event', event))
+
+    def test_others_can_not_view_draft(self):
+        '''Tests others can not view draft'''
+        user = UserFactory()
+        event = EventFactory(pub_state='draft')
+        self.assertFalse(user.has_perm('events.view_event', event))
+
+    def test_anonymous_can_not_view_draft(self):
+        '''Tests anonymous can not view draft'''
+        user = AnonymousUser()
+        event = EventFactory(pub_state='draft')
+        self.assertFalse(user.has_perm('events,view_event', event))
+
+    def test_organizer_can_view_protected(self):
+        '''Tests organizer can view protected'''
+        event = EventFactory(pub_state='protected')
+        self.assertTrue(event.organizer.has_perm('events.view_event', event))
+
+    def test_others_can_view_protected(self):
+        '''Tests others can view protected'''
+        user = UserFactory()
+        event = EventFactory(pub_state='protected')
+        self.assertTrue(user.has_perm('events.view_event', event))
+
+    def test_anonymous_can_not_view_protected(self):
+        '''Tests anonymous can not view protected'''
+        user = AnonymousUser()
+        event = EventFactory(pub_state='protected')
+        self.assertFalse(user.has_perm('events,view_event', event))
+
+    def test_organizer_can_view_public(self):
+        '''Tests organizer can view public'''
+        event = EventFactory(pub_state='public')
+        self.assertTrue(event.organizer.has_perm('events.view_event', event))
+
+    def test_others_can_view_public(self):
+        '''Tests others can view public'''
+        user = UserFactory()
+        event = EventFactory(pub_state='public')
+        self.assertTrue(user.has_perm('events.view_event', event))
+
+    def test_anonymous_can_not_view_public(self):
+        '''Tests anonymous can view public'''
+        user = AnonymousUser()
+        event = EventFactory(pub_state='public')
+        self.assertTrue(user.has_perm('events.view_event', event))
