@@ -56,7 +56,9 @@ ROOT_URLCONF = 'kawaz.urls'
 
 WSGI_APPLICATION = 'kawaz.wsgi.application'
 
-VALIDATE_ON_SAVE = True
+# validation_on_save decorator (kawaz.core.db.decorators)
+# To disable automatical validation, set this variable to False
+VALIDATE_ON_SAVE_DISABLE = False
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
