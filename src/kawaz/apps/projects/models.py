@@ -87,7 +87,7 @@ class Project(models.Model):
             self.group = group
         return super(Project, self).save(*args, **kwargs)
 
-    def join_member(self, user, save=True):
+    def join(self, user, save=True):
         '''Add user to the project'''
         if not user.has_perm('projects.join_project', self):
             raise PermissionDenied
@@ -96,7 +96,7 @@ class Project(models.Model):
         if save:
             self.save()
 
-    def quit_member(self, user, save=True):
+    def quit(self, user, save=True):
         '''Remove user from the project'''
         if not user.has_perm('projects.quit_project', self):
             raise PermissionDenied
@@ -113,8 +113,8 @@ class Project(models.Model):
 def join_administrator(**kwargs):
     created = kwargs.get('created')
     instance = kwargs.get('instance')
-    if created:
-        instance.join_member(instance.administrator)
+    if created and instance.pub_state != 'draft':
+        instance.join(instance.administrator)
 
 from permission.logics import PermissionLogic
 

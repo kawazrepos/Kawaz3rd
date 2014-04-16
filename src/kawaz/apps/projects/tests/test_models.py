@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import Group
+from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 
 from .factories import ProjectFactory, CategoryFactory
@@ -32,10 +33,39 @@ class ProjectTestCase(TestCase):
         self.assertEqual(project.members.count(), 1)
         self.assertEqual(user2.groups.count(), 0)
 
-        project.join_member(user2)
+        project.join(user2)
 
         self.assertEqual(project.members.count(), 2)
         self.assertEqual(user2.groups.count(), 1)
+
+    def test_join_user_twice(self):
+        '''Tests user who already have been joined can't join'''
+        user = UserFactory()
+        project = ProjectFactory()
+
+        project.join(user)
+
+        self.assertRaises(PermissionDenied, project.join, user)
+
+    def test_join_anonymous(self):
+        '''Tests anonymous user can't join'''
+        user = AnonymousUser()
+        project = ProjectFactory()
+
+        self.assertRaises(PermissionDenied, project.join, user)
+
+    def test_administrator_cannot_join_draft(self):
+        '''Tests administrator can't join to draft project.'''
+        project = ProjectFactory(pub_state='draft')
+
+        self.assertRaises(PermissionDenied, project.join, project.administrator)
+
+    def test_user_cannot_join_draft(self):
+        '''Tests user can't join to draft project.'''
+        project = ProjectFactory(pub_state='draft')
+        user = UserFactory()
+
+        self.assertRaises(PermissionDenied, project.join, user)
 
     def test_is_member(self):
         '''Tests is_member returns correct value'''
@@ -53,15 +83,15 @@ class ProjectTestCase(TestCase):
         project = ProjectFactory(administrator=user)
         self.assertTrue(project.is_member(user))
 
-    def test_quit_member(self):
+    def test_quit(self):
         '''Tests can remove member correctly'''
         project = ProjectFactory()
         user = UserFactory()
 
-        project.join_member(user)
+        project.join(user)
         self.assertEqual(project.members.count(), 2)
 
-        project.quit_member(user)
+        project.quit(user)
         self.assertEqual(project.members.count(), 1)
         self.assertFalse(user in user.groups.all())
 
@@ -69,11 +99,18 @@ class ProjectTestCase(TestCase):
         '''Tests administrator can't quit from projects'''
         project = ProjectFactory()
 
-        self.assertRaises(PermissionDenied, project.quit_member, project.administrator)
+        self.assertRaises(PermissionDenied, project.quit, project.administrator)
 
     def test_not_member_cant_quit(self):
         '''Tests non member can't quit from projects'''
         project = ProjectFactory()
         user = UserFactory()
 
-        self.assertRaises(PermissionDenied, project.quit_member, user)
+        self.assertRaises(PermissionDenied, project.quit, user)
+
+    def test_anonymous_cant_quit(self):
+        '''Tests anonymous can't quit from projects'''
+        project = ProjectFactory()
+        user = AnonymousUser()
+
+        self.assertRaises(PermissionDenied, project.quit, user)
