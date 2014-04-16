@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'permission',
     'thumbnailfield',
     'kawaz.core.db',
-    'kawaz.apps.imagefield',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
     'kawaz.apps.events',
@@ -80,6 +79,13 @@ DATABASES = {
 
 AUTH_PROFILE_MODULE = 'profiles.profile'
 
+THUMBNAIL_SIZE_PATTERNS = {
+    'huge': (288, 288,),
+    'large': (96, 96,),
+    'middle': (48, 48,),
+    'small': (24, 24,),
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -93,6 +99,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'static')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
