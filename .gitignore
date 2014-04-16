@@ -1,6 +1,7 @@
 # for Kawaz
 db.sqlite3
-src/kawaz/storage/*
+storage/*
+!storage/.gitkeep
 
 # for Python
 # Byte-compiled / optimized / DLL files
