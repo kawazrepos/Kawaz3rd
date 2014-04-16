@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 
@@ -53,8 +53,8 @@ class Event(models.Model):
     period_end = models.DateTimeField(_("End time"), blank=True, null=True)
     place = models.CharField(_("Place"), max_length=255, blank=True)
     # Uneditable
-    organizer = models.ForeignKey(User, verbose_name=_("Organizer"), related_name="events_owned", editable=False)
-    attendees = models.ManyToManyField(User, verbose_name=_("Attendees"), related_name="events_attend", editable=False)
+    organizer = models.ForeignKey(get_user_model(), verbose_name=_("Organizer"), related_name="events_owned", editable=False)
+    attendees = models.ManyToManyField(get_user_model(), verbose_name=_("Attendees"), related_name="events_attend", editable=False)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 

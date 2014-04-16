@@ -1,8 +1,8 @@
 import factory
-from django.contrib.auth.models import User
+from ..models import Persona
 
-class UserFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = User
+class PersonaFactory(factory.django.DjangoModelFactory):
+    FACTORY_FOR = Persona
     FACTORY_DJANGO_GET_OR_CREATE = ('username',)
 
     last_name = 'Inonaka'

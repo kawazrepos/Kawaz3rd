@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
-from kawaz.core.persona.tests.factories import UserFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import ProfileFactory, AccountFactory, ServiceFactory, SkillFactory
 
 class ProfileTestCase(TestCase):
@@ -17,7 +17,7 @@ class ProfileAuthorPermissionTestCase(TestCase):
 
     def test_others_can_not_edit(self):
         '''Tests others can no edit an profile'''
-        user = UserFactory()
+        user = PersonaFactory()
         profile = ProfileFactory()
         self.assertFalse(user.has_perm('profiles.change_profile', profile))
 
@@ -34,7 +34,7 @@ class ProfileAuthorPermissionTestCase(TestCase):
 
     def test_others_can_not_delete(self):
         '''Tests others can not delete an profile'''
-        user = UserFactory()
+        user = PersonaFactory()
         profile = ProfileFactory()
         self.assertFalse(user.has_perm('profiles.delete_profile', profile))
 
@@ -52,7 +52,7 @@ class ProfileViewPermissionTestCase(TestCase):
 
     def test_others_can_view_protected(self):
         '''Tests others can view protected'''
-        user = UserFactory()
+        user = PersonaFactory()
         profile = ProfileFactory(pub_state='protected')
         self.assertTrue(user.has_perm('profiles.view_profile', profile))
 
@@ -69,7 +69,7 @@ class ProfileViewPermissionTestCase(TestCase):
 
     def test_others_can_view_public(self):
         '''Tests others can view public'''
-        user = UserFactory()
+        user = PersonaFactory()
         profile = ProfileFactory(pub_state='public')
         self.assertTrue(user.has_perm('profiles.view_profile', profile))
 

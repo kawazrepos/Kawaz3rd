@@ -3,7 +3,7 @@ import datetime
 
 import factory
 from ..models import Skill, Profile, Service, Account
-from kawaz.core.persona.tests.factories import UserFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 
 
 class SkillFactory(factory.django.DjangoModelFactory):
@@ -25,7 +25,7 @@ class AccountFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Account
 
     service = factory.SubFactory(ServiceFactory)
-    user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(PersonaFactory)
     username = 'kawaz_tan'
 
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -34,4 +34,4 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     birthday = datetime.datetime(2009, 10, 15)
     place = u'グランエターナ'
     url = 'http://www.kawaz.org/'
-    user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(PersonaFactory)

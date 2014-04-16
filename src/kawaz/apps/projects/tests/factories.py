@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import factory
-from kawaz.core.persona.tests.factories import UserFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Category, Project
 
 class CategoryFactory(factory.DjangoModelFactory):
@@ -19,4 +19,4 @@ class ProjectFactory(factory.DjangoModelFactory):
     slug = 'my-fantastic-rpg'
 
     category = factory.SubFactory(CategoryFactory)
-    administrator = factory.SubFactory(UserFactory)
+    administrator = factory.SubFactory(PersonaFactory)

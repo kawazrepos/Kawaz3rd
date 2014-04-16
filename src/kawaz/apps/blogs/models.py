@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 
@@ -11,7 +11,7 @@ from kawaz.core.db.decorators import validate_on_save
 class Category(models.Model):
     '''The model which indicates category of each entries'''
     label = models.CharField(_('Category name'), max_length=255)
-    author = models.ForeignKey(User, verbose_name=_('Author'), related_name='blog_categories', editable=False)
+    author = models.ForeignKey(get_user_model(), verbose_name=_('Author'), related_name='blog_categories', editable=False)
     
     class Meta:
         unique_together = (('author', 'label'),) 
@@ -34,7 +34,7 @@ class Entry(models.Model):
     body = MarkupField(_('Body'), default_markup_type='markdown')
     category = models.ForeignKey(Category, verbose_name=_('Category'), related_name="entries", blank=True, null=True)
     
-    author = models.ForeignKey(User, verbose_name=_('Author'), related_name='blog_entries', editable=False)
+    author = models.ForeignKey(get_user_model(), verbose_name=_('Author'), related_name='blog_entries', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Modified at'), auto_now=True)
     publish_at = models.DateTimeField(_('Published at'), null=True, editable=False)
