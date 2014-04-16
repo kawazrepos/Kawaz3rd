@@ -27,8 +27,7 @@ class Persona(AbstractUser):
         verbose_name = _('Persona')
         verbose_name_plural = _('Personas')
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    def save(self, *args, **kwargs):
         if not self.nickname:
             self.nickname = self.username
-        super(Persona, self).save(force_insert, force_update, using, update_fields)
+        super().save(*args, **kwargs)
