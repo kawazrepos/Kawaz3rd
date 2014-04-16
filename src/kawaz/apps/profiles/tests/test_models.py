@@ -4,6 +4,12 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import ProfileFactory, AccountFactory, ServiceFactory, SkillFactory
 
 class ProfileTestCase(TestCase):
+    def test_str(self):
+        '''Tests __str__ returns correct value'''
+        persona = PersonaFactory(nickname='kawaz tan')
+        profile = ProfileFactory(user=persona)
+        self.assertEqual(profile.__str__(), 'kawaz tan')
+
     def test_create_user(self):
         """Tests can access profile via user.get_profile()"""
         profile = ProfileFactory()
