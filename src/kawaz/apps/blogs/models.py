@@ -45,7 +45,7 @@ class Entry(models.Model):
         verbose_name = _('Entry')
         verbose_name_plural = _('Entries')
         permissions = (
-            ('view', 'Can view the entry'),
+            ('view_entry', 'Can view the entry'),
         )
 
     def __str__(self):
