@@ -3,6 +3,7 @@ import datetime
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.models import AnonymousUser
 
 from kawaz.core.auth.tests.factories import UserFactory
 from .factories import EventFactory
@@ -133,4 +134,36 @@ class EventTestCase(TestCase):
         event4 = EventFactory.build(period_start=None, period_end=None)
         self.assertTrue(event4.is_active())
 
+    def test_organizer_can_edit(self):
+        '''Tests organizer can edit an event'''
+        event = EventFactory()
+        self.assertTrue(event.organizer.has_perm('events.change_event', event))
 
+    def test_others_can_not_edit(self):
+        '''Tests others can no edit an event'''
+        user = UserFactory()
+        event = EventFactory()
+        self.assertFalse(user.has_perm('events.change_event', event))
+
+    def test_anonymous_can_not_edit(self):
+        '''Tests anonymous user can no edit an event'''
+        user = AnonymousUser()
+        event = EventFactory()
+        self.assertFalse(user.has_perm('events.change_event', event))
+
+    def test_organizer_can_delete(self):
+        '''Tests organizer can delete an event'''
+        event = EventFactory()
+        self.assertTrue(event.organizer.has_perm('events.delete_event', event))
+
+    def test_others_can_not_delete(self):
+        '''Tests others can not delete an event'''
+        user = UserFactory()
+        event = EventFactory()
+        self.assertFalse(user.has_perm('events.delete_event', event))
+
+    def test_anonymous_can_not_delete(self):
+        '''Tests anonymous users can not delete an event'''
+        user = AnonymousUser()
+        event = EventFactory()
+        self.assertFalse(user.has_perm('events.delete_event', event))
