@@ -22,7 +22,7 @@ class StarManager(models.Manager):
         '''Remove all related stars from 'obj'.'''
         stars = self.get_for_object(obj)
         for star in stars:
-            star.remove()
+            star.delete()
 
 class Star(models.Model):
     '''
