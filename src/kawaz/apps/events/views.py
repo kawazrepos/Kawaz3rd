@@ -1,5 +1,5 @@
 from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
+from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, DayArchiveView
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,11 @@ from permission.decorators import permission_required
 
 from kawaz.core.views.decorators import class_view_decorator
 from .models import Event
+
+class EventQuerySetMixin(MultipleObjectMixin):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs
 
 class EventListView(ListView):
     model = Event

@@ -1,4 +1,6 @@
 import datetime
+from unittest import mock
+from unittest.mock import MagicMock
 
 from django.test import TestCase
 from django.core.exceptions import ValidationError
@@ -6,14 +8,66 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AnonymousUser
 
 from kawaz.core.personas.tests.factories import PersonaFactory
+from ..models import Event
 from .factories import EventFactory
 
+from datetime import datetime as original_datetime
+
+class EventManagerTestCase(TestCase):
+
+    def test_active(self):
+        '''Tests active() returns correct querysets'''
+        now = original_datetime.now()
+        user = PersonaFactory()
+        e0 = EventFactory(period_start=now + datetime.timedelta(days=1), period_end=now + datetime.timedelta(days=2))
+        e1 = EventFactory(period_start=now + datetime.timedelta(days=1), period_end=now + datetime.timedelta(days=1))
+        e2 = EventFactory(period_start=now + datetime.timedelta(days=4), period_end=now + datetime.timedelta(days=5))
+        qs = Event.objects.active(user)
+        # e0 will be active
+        e0.period_start = now + datetime.timedelta(days=-3)
+        e0.period_start = now
+        e0.save()
+        # e1 will be not active
+        e1.period_start = now + datetime.timedelta(days=-2)
+        e1.period_end = now + datetime.timedelta(days=-1)
+        e1.save()
+
+        self.assertEqual(Event.objects.count(), 3)
+        self.assertEqual(qs.count(), 2)
+        self.assertEqual(qs[0], e0)
+        self.assertEqual(qs[1], e2)
+
+    def test_published_with_authenticated_user(self):
+        '''Tests publish() with authenticated user returns correct querysets'''
+
+    def test_published_with_anonymous_user(self):
+        '''Tests publish() with anonymous user returns correct querysets'''
+
+    def test_draft_with_organizer(self):
+        '''Tests draft() with organizer returns correct querysets'''
+
+    def test_draft_with_other(self):
+        '''Tests draft() with others returns correct querysets'''
 
 class EventTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct values'''
         event = EventFactory()
         self.assertEqual(event.__str__(), event.title)
+
+    def test_ordering(self):
+        '''Tests events were ordered correctly'''
+        now = original_datetime.now()
+        e0 = EventFactory(period_start=now + datetime.timedelta(days=2), period_end=now + datetime.timedelta(days=2))
+        e1 = EventFactory(period_start=now + datetime.timedelta(days=1), period_end=now + datetime.timedelta(days=3))
+        e2 = EventFactory(period_start=now + datetime.timedelta(days=1), period_end=now + datetime.timedelta(days=2))
+        e3 = EventFactory(period_start=now + datetime.timedelta(days=5), period_end=now + datetime.timedelta(days=7))
+
+        qs = Event.objects.all()
+        self.assertEqual(qs[0], e2)
+        self.assertEqual(qs[1], e1)
+        self.assertEqual(qs[2], e0)
+        self.assertEqual(qs[3], e3)
 
     def test_attend(self):
         '''Tests can attend correctly'''
@@ -134,6 +188,8 @@ class EventTestCase(TestCase):
         event4 = EventFactory.build(period_start=None, period_end=None)
         self.assertTrue(event4.is_active())
 
+class EventChangePermissionTestCase(TestCase):
+
     def test_organizer_can_edit(self):
         '''Tests organizer can edit an event'''
         event = EventFactory()
@@ -167,6 +223,8 @@ class EventTestCase(TestCase):
         user = AnonymousUser()
         event = EventFactory()
         self.assertFalse(user.has_perm('events.delete_event', event))
+
+class EventViewPermissionTestCase(TestCase):
 
     def test_organizer_can_view_draft(self):
         '''Tests organizer can view draft'''
