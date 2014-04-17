@@ -4,41 +4,56 @@ from ..models import Star
 from .factories import StarFactory
 
 class StarManagerTestCase(TestCase):
-    def test_add_for_object(self):
-        '''Tests add star to an object via add_for_object'''
+    def test_add_to_object(self):
+        '''Tests add star to an object via add_to_object'''
         user = PersonaFactory()
         target = PersonaFactory()
 
         count = Star.objects.count()
 
-        star = Star.objects.add_for_object(target, user)
+        star = Star.objects.add_to_object(target, user)
         self.assertIsNotNone(star)
         self.assertTrue(Star.objects.count(), count + 1)
 
-
-    def test_add_for_object_with_comment(self):
-        '''Tests add star to an object with comment via add_for_object'''
+    def test_add_to_object_with_comment(self):
+        '''Tests add star to an object with comment via add_to_object'''
         user = PersonaFactory()
         target = PersonaFactory()
 
         count = Star.objects.count()
 
-        star = Star.objects.add_for_object(target, user, comment='イイネ!')
+        star = Star.objects.add_to_object(target, user, comment='イイネ!')
         self.assertIsNotNone(star)
         self.assertTrue(Star.objects.count(), count + 1)
         self.assertEqual(star.comment, 'イイネ!')
 
-    def test_add_for_object_with_tag(self):
-        '''Tests add star to an object with tag via add_for_object'''
+    def test_add_to_object_with_tag(self):
+        '''Tests add star to an object with tag via add_to_object'''
         user = PersonaFactory()
         target = PersonaFactory()
 
         count = Star.objects.count()
 
-        star = Star.objects.add_for_object(target, user, tag='red')
+        star = Star.objects.add_to_object(target, user, tag='red')
         self.assertIsNotNone(star)
         self.assertTrue(Star.objects.count(), count + 1)
         self.assertEqual(star.tag, 'red')
+
+    def test_remove_from_object(self):
+        '''Tests remove_from_object works correctly'''
+        object = PersonaFactory()
+
+        star = StarFactory(content_object=object)
+
+        Star.objects.remove_from_object(object, star)
+        self.assertEqual(Star.objects.get_for_object(object).count(), 0)
+
+    def test_remove_from_object_with_wrong_object(self):
+        '''Tests remove_from_object don't work correctly'''
+        object = PersonaFactory()
+        star = StarFactory()
+
+        self.assertRaises(AttributeError, Star.objects.remove_from_object, object, star)
 
     def test_get_for_object(self):
         '''Tests get star for object via get_for_object'''
