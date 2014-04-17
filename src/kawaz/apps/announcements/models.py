@@ -52,7 +52,6 @@ class Announcement(models.Model):
         verbose_name = _('Announcement')
         verbose_name_plural = _('Announcements')
         permissions = (
-            ('create_announcement', 'Can create new announcement'),
             ('view_announcement', 'Can view the announcement'),
         )
 
@@ -79,7 +78,7 @@ class AnnouncementPermissionLogic(PermissionLogic):
 
     def has_perm(self, user_obj, perm, obj=None):
         staff_allowed_methods = (
-            'announcements.create_announcement',
+            'announcements.add_announcement',
             'announcements.change_announcement',
             'announcements.delete_announcement',
         )

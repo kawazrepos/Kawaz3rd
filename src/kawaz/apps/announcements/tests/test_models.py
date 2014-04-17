@@ -53,24 +53,24 @@ class AnnouncementTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
         announcement = AnnouncementFactory(title='春のゲーム祭り開催のお知らせ')
-        self.assertEqual(announcement.__str__(), '春のゲーム祭り開催のお知らせ')
+        self.assertEqual(str(announcement), '春のゲーム祭り開催のお知らせ')
 
 class AnnouncementEditPermissionTestCase(TestCase):
 
-    def test_staff_has_create_perm(self):
-        '''Tests staff can create announcement'''
+    def test_staff_has_add_perm(self):
+        '''Tests staff can add announcement'''
         user = PersonaFactory(is_staff=True)
-        self.assertTrue(user.has_perm('announcements.create_announcement'))
+        self.assertTrue(user.has_perm('announcements.add_announcement'))
 
-    def test_authorized_has_not_create_perm(self):
-        '''Tests authorized can not create announcement'''
+    def test_authorized_has_not_add_perm(self):
+        '''Tests authorized can not add announcement'''
         user = PersonaFactory()
-        self.assertFalse(user.has_perm('announcements.create_announcement'))
+        self.assertFalse(user.has_perm('announcements.add_announcement'))
 
-    def test_anonymous_has_not_create_perm(self):
-        '''Tests anonymous can not create announcement'''
+    def test_anonymous_has_not_add_perm(self):
+        '''Tests anonymous can not add announcement'''
         user = AnonymousUser()
-        self.assertFalse(user.has_perm('announcements.create_announcement'))
+        self.assertFalse(user.has_perm('announcements.add_announcement'))
 
     def test_staff_has_change_perm(self):
         '''Tests staff can change announcement'''
