@@ -3,6 +3,11 @@ from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, DayArchiveView
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.core.exceptions import PermissionDenied
+from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
+from django.utils.functional import lazy
+reverse_lazy = lazy(reverse, str)
 
 from permission.decorators import permission_required
 
@@ -12,9 +17,9 @@ from .models import Event
 class EventQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs
+        return qs.published(self.request.user)
 
-class EventListView(ListView):
+class EventListView(ListView, EventQuerySetMixin):
     model = Event
 
 @permission_required('event.view_event')
@@ -32,24 +37,64 @@ class EventUpdateView(UpdateView):
 @permission_required('event.delete_event')
 class EventDeleteView(DeleteView):
     model = Event
+    success_url = reverse_lazy('events_event_list')
 
 @permission_required('event.attend_event')
 class EventJoinView(UpdateView):
     model = Event
+    success_url = reverse_lazy('events_event_list')
+
+    def attend(self, request, *args, **kwargs):
+        """
+        Calls the attend() method on the fetched object and then
+        redirects to the success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            self.object.attend(request.user)
+            return HttpResponseRedirect(success_url)
+        except PermissionDenied:
+            return HttpResponseForbidden
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed()
+
+    def post(self, request, *args, **kwargs):
+        return self.attend(request, *args, **kwargs)
 
 @permission_required('event.quit_event')
 class EventQuitView(UpdateView):
     model = Event
+    success_url = reverse_lazy('events_event_list')
 
-class EventYearListView(YearArchiveView):
+    def quit(self, request, *args, **kwargs):
+        """
+        Calls the attend() method on the fetched object and then
+        redirects to the success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            self.object.quit(request.user)
+            return HttpResponseRedirect(success_url)
+        except PermissionDenied:
+            return HttpResponseForbidden
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed()
+
+    def post(self, request, *args, **kwargs):
+        return self.quit(request, *args, **kwargs)
+
+class EventYearListView(YearArchiveView, EventQuerySetMixin):
     model = Event
     date_field = 'period_start'
 
-class EventMonthListView(MonthArchiveView):
+class EventMonthListView(MonthArchiveView, EventQuerySetMixin):
     model = Event
     date_field = 'period_start'
 
-class EventDayListView(DayArchiveView):
+class EventDayListView(DayArchiveView, EventQuerySetMixin):
     model = Event
     date_field = 'period_start'
-
