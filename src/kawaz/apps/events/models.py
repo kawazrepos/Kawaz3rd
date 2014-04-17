@@ -17,7 +17,8 @@ User = get_user_model()
 import datetime
 
 class EventManager(models.Manager):
-    # ToDo Test me!
+    '''ObjectManager for Event model'''
+
     def active(self, user):
         qs = self.published(user)
         qs = qs.filter(Q(period_end__gte=datetime.datetime.now()) | Q(period_end=None)).distinct()
@@ -32,8 +33,7 @@ class EventManager(models.Manager):
     def draft(self, user):
         if user and user.is_authenticated():
             return self.filter(organizer=user, pub_state='draft')
-        else:
-            return self.none()
+        return self.none()
 
 @validate_on_save
 class Event(models.Model):
