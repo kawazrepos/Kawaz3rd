@@ -10,18 +10,17 @@ class KawazIndexViewTestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory()
         self.user.set_password('password')
+        self.user.save()
 
     def test_anonymous_user(self):
         '''Tests an anonymous user can view anonymous index'''
-        c = Client()
         url = reverse('kawaz_index')
-        response = c.get(url)
-        self.assertListEqual(response.template_name, ['kawaz/anonymous_index.html',])
+        response = self.client.get(url)
+        self.assertTemplateUsed(response.template_name, 'kawaz/anonymous_index.html')
 
     def test_authorized_user(self):
         '''Tests an authorized user can view anonymous index'''
-        c = Client()
         url = reverse('kawaz_index')
-        c.login(username=self.user.username, password='password')
-        response = c.get(url)
-        self.assertListEqual(response.template_name, ['kawaz/anonymous_index.html'])
+        self.assertTrue(self.client.login(username=self.user.username, password='password'))
+        response = self.client.get(url)
+        self.assertTemplateUsed(response.template_name, 'kawaz/anonymous_index.html')
