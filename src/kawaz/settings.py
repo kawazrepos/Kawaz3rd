@@ -109,6 +109,10 @@ USE_TZ = True
 MEDIA_ROOT = os.path.abspath(os.path.join(REPOSITORY_ROOT, 'storage'))
 MEDIA_URL = '/storage/'
 
+TEMPLATE_DIRS = (
+    os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'templates'),
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
