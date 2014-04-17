@@ -7,10 +7,6 @@ from django.conf import settings
 from kawaz.core.personas.tests.factories import PersonaFactory
 
 class KawazIndexViewTestCase(TestCase):
-    def setUp(self):
-        self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
 
     def test_anonymous_user(self):
         '''Tests an anonymous user can view anonymous index'''
@@ -20,7 +16,11 @@ class KawazIndexViewTestCase(TestCase):
 
     def test_authorized_user(self):
         '''Tests an authorized user can view anonymous index'''
+        user = PersonaFactory()
+        user.set_password('password')
+        user.save()
+
         url = reverse('kawaz_index')
-        self.assertTrue(self.client.login(username=self.user.username, password='password'))
+        self.assertTrue(self.client.login(username=user.username, password='password'))
         response = self.client.get(url)
         self.assertTemplateUsed(response.template_name, 'kawaz/anonymous_index.html')
