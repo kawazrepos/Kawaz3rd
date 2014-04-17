@@ -33,7 +33,9 @@ class Star(models.Model):
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_id")
 
     author = models.ForeignKey(User, verbose_name=_('Author'))
+    # `comment'はユーザーの引用を格納します。選択した状態で☆を付けると、選択部分がcommentに格納されます。
     comment = models.CharField(_('Comment'), max_length=512, blank=True)
+    # 'tag'は☆の種類を表す短い文字列です。例えば将来的にカラースターのような☆に区別を付ける際に利用します
     tag = models.CharField(_('Tag'), max_length=32, blank=True)
 
     created_at = models.DateTimeField(_('Created at'), auto_now=True)
