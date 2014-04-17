@@ -3,7 +3,7 @@ from django.views.generic.base import View
 from django.views.generic.base import TemplateView
 
 class IndexView(TemplateView):
-    base_dir = 'kawaz'
+    base_dir = 'core'
     authenticated_template_name = os.path.join(base_dir, 'authenticated_index.html')
     anonymous_template_name = os.path.join(base_dir, 'anonymous_index.html')
 
