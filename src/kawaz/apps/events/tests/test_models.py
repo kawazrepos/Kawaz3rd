@@ -15,39 +15,101 @@ from datetime import datetime as original_datetime
 
 class EventManagerTestCase(TestCase):
 
+    class FakeDateTime(original_datetime):
+        '''
+        A fake replacement for datetime.datetime that can be mocked for testing.
+        http://williamjohnbert.com/2011/07/how-to-unit-testing-in-django-with-mocking-and-patching/
+        '''
+        def __new__(cls, *args, **kwargs):
+            return original_datetime.__new__(original_datetime, *args, **kwargs)
+
+    def _create_test_events(self):
+        now = original_datetime.now()
+        self.FakeDateTime.now = classmethod(lambda cls: original_datetime(1885, 9, 2)) # to skip validation. mock datetime.datetime.now()
+        e0 = EventFactory(period_start=now + datetime.timedelta(days=-3), period_end=now + datetime.timedelta(days=0))
+        e1 = EventFactory(period_start=now + datetime.timedelta(days=-2), period_end=now + datetime.timedelta(days=-1))
+        e2 = EventFactory(period_start=now + datetime.timedelta(days=4), period_end=now + datetime.timedelta(days=5))
+        e3 = EventFactory(period_start=now + datetime.timedelta(days=5), period_end=now + datetime.timedelta(days=6), pub_state='draft')
+        e4 = EventFactory(period_start=now + datetime.timedelta(days=0), period_end=now + datetime.timedelta(days=3), pub_state='protected')
+        self.FakeDateTime.now = classmethod(lambda cls: original_datetime.now()) # revert datetime.datetime.now()
+        return [e0, e1, e2, e3, e4]
+
+    @mock.patch('datetime.datetime', FakeDateTime)
     def test_active(self):
         '''Tests active() returns correct querysets'''
-        now = original_datetime.now()
         user = PersonaFactory()
-        e0 = EventFactory(period_start=now + datetime.timedelta(days=1), period_end=now + datetime.timedelta(days=2))
-        e1 = EventFactory(period_start=now + datetime.timedelta(days=1), period_end=now + datetime.timedelta(days=1))
-        e2 = EventFactory(period_start=now + datetime.timedelta(days=4), period_end=now + datetime.timedelta(days=5))
+
+        es = self._create_test_events()
         qs = Event.objects.active(user)
-        # e0 will be active
-        e0.period_start = now + datetime.timedelta(days=-3)
-        e0.period_start = now
-        e0.save()
-        # e1 will be not active
-        e1.period_start = now + datetime.timedelta(days=-2)
-        e1.period_end = now + datetime.timedelta(days=-1)
-        e1.save()
 
-        self.assertEqual(Event.objects.count(), 3)
+        self.assertEqual(Event.objects.count(), 5)
+        self.assertEqual(qs.count(), 3)
+        self.assertEqual(qs[0], es[0])
+        self.assertEqual(qs[1], es[4])
+        self.assertEqual(qs[2], es[2])
+
+    @mock.patch('datetime.datetime', FakeDateTime)
+    def test_active_with_anonymous(self):
+        '''Tests active() returns correct querysets with anonymous user'''
+        user = AnonymousUser()
+
+        es = self._create_test_events()
+        qs = Event.objects.active(user)
+
+        self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 2)
-        self.assertEqual(qs[0], e0)
-        self.assertEqual(qs[1], e2)
+        self.assertEqual(qs[0], es[0])
+        self.assertEqual(qs[1], es[2])
 
+    @mock.patch('datetime.datetime', FakeDateTime)
     def test_published_with_authenticated_user(self):
         '''Tests publish() with authenticated user returns correct querysets'''
+        user = PersonaFactory()
 
+        es = self._create_test_events()
+        qs = Event.objects.published(user)
+
+        self.assertEqual(Event.objects.count(), 5)
+        self.assertEqual(qs.count(), 4)
+        self.assertEqual(qs[0], es[0])
+        self.assertEqual(qs[1], es[1])
+        self.assertEqual(qs[2], es[4])
+        self.assertEqual(qs[3], es[2])
+
+    @mock.patch('datetime.datetime', FakeDateTime)
     def test_published_with_anonymous_user(self):
         '''Tests publish() with anonymous user returns correct querysets'''
+        user = AnonymousUser()
 
+        es = self._create_test_events()
+        qs = Event.objects.published(user)
+
+        self.assertEqual(Event.objects.count(), 5)
+        self.assertEqual(qs.count(), 3)
+        self.assertEqual(qs[0], es[0])
+        self.assertEqual(qs[1], es[1])
+        self.assertEqual(qs[2], es[2])
+
+    @mock.patch('datetime.datetime', FakeDateTime)
     def test_draft_with_organizer(self):
         '''Tests draft() with organizer returns correct querysets'''
+        es = self._create_test_events()
+        qs = Event.objects.draft(user=es[3].organizer)
 
+        self.assertEqual(Event.objects.count(), 5)
+        self.assertEqual(qs.count(), 1)
+        self.assertEqual(qs[0], es[3])
+
+    @mock.patch('datetime.datetime', FakeDateTime)
     def test_draft_with_other(self):
         '''Tests draft() with others returns correct querysets'''
+        user = PersonaFactory()
+
+        es = self._create_test_events()
+        qs = Event.objects.draft(user)
+
+        self.assertEqual(Event.objects.count(), 5)
+        self.assertEqual(qs.count(), 0)
 
 class EventTestCase(TestCase):
     def test_str(self):
