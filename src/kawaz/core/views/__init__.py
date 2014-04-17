@@ -3,9 +3,9 @@ from django.views.generic.base import View
 from django.views.generic.base import TemplateView
 
 class IndexView(TemplateView):
-
-    authenticated_template_name = 'kawaz/authenticated_index.html'
-    anonymous_template_name = 'kawaz/anonymous_index.html'
+    base_dir = 'kawaz'
+    authenticated_template_name = os.path.join(base_dir, 'authenticated_index.html')
+    anonymous_template_name = os.path.join(base_dir, 'anonymous_index.html')
 
     def get_template_names(self):
         # If user is authenticated, returns authenticated template else returns anonymous template

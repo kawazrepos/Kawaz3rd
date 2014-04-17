@@ -1,8 +1,5 @@
 from django.test import TestCase
-from django.test import Client
 from django.core.urlresolvers import reverse
-
-from django.conf import settings
 
 from kawaz.core.personas.tests.factories import PersonaFactory
 
