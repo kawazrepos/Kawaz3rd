@@ -12,7 +12,7 @@ class StarManager(models.Manager):
         ct = ContentType.objects.get_for_model(obj)
         return self.filter(content_type=ct, object_id=obj.pk)
 
-    def add_for_object(self, obj, author, comment=None, tag=None):
+    def add_for_object(self, obj, author, comment='', tag=''):
         '''Add a star to 'obj' and return Star instance.'''
         ct = ContentType.objects.get_for_model(obj)
         star = self.create(author=author, comment=comment, content_type=ct, object_id=obj.pk, tag=tag)
@@ -33,8 +33,8 @@ class Star(models.Model):
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_id")
 
     author = models.ForeignKey(User, verbose_name=_('Author'))
-    comment = models.CharField(_('Comment'), max_length=512, null=True, blank=True)
-    tag = models.CharField(_('Tag'), max_length=32, null=True, blank=True)
+    comment = models.CharField(_('Comment'), max_length=512, blank=True)
+    tag = models.CharField(_('Tag'), max_length=32, blank=True)
 
     created_at = models.DateTimeField(_('Created at'), auto_now=True)
     objects = StarManager()
