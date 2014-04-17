@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from permission.decorators import permission_required
 
+from kawaz.core.views.decorators import class_view_decorator
 from .models import Event
 
 class EventListView(ListView):
@@ -15,6 +16,7 @@ class EventListView(ListView):
 class EventDetailView(DetailView):
     model = Event
 
+@class_view_decorator(login_required)
 class EventCreateView(CreateView):
     model = Event
 
