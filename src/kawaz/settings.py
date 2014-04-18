@@ -113,6 +113,8 @@ TEMPLATE_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'templates'),
 )
 
+LOGIN_URL = '/registration/login/'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
