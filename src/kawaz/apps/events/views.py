@@ -11,6 +11,7 @@ from permission.decorators import permission_required
 
 from kawaz.core.views.decorators import class_view_decorator
 from .models import Event
+from .forms import EventForm
 
 class EventQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
@@ -27,10 +28,20 @@ class EventDetailView(DetailView):
 @class_view_decorator(login_required)
 class EventCreateView(CreateView):
     model = Event
+    form_class = EventForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if self.request.method == 'POST':
+            data = kwargs['data'].copy()
+            data['organizer'] = str(self.request.user.pk)
+            kwargs['data'] = data
+        return kwargs
 
 @permission_required('events.change_event')
 class EventUpdateView(UpdateView):
     model = Event
+    form_class = EventForm
 
 @permission_required('events.delete_event')
 class EventDeleteView(DeleteView):
