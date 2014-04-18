@@ -3,11 +3,9 @@ from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, DayArchiveView
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
-from django.utils.functional import lazy
-reverse_lazy = lazy(reverse, str)
 
 from permission.decorators import permission_required
 
