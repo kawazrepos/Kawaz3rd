@@ -20,7 +20,7 @@ class EventQuerySetMixin(MultipleObjectMixin):
 class EventListView(ListView, EventQuerySetMixin):
     model = Event
 
-@permission_required('event.view_event')
+@permission_required('events.view_event')
 class EventDetailView(DetailView):
     model = Event
 
@@ -28,11 +28,11 @@ class EventDetailView(DetailView):
 class EventCreateView(CreateView):
     model = Event
 
-@permission_required('event.change_event')
+@permission_required('events.change_event')
 class EventUpdateView(UpdateView):
     model = Event
 
-@permission_required('event.delete_event')
+@permission_required('events.delete_event')
 class EventDeleteView(DeleteView):
     model = Event
     success_url = reverse_lazy('events_event_list')
@@ -61,7 +61,7 @@ class EventJoinView(UpdateView):
     def post(self, request, *args, **kwargs):
         return self.attend(request, *args, **kwargs)
 
-@permission_required('event.quit_event')
+@permission_required('events.quit_event')
 class EventQuitView(UpdateView):
     model = Event
     success_url = reverse_lazy('events_event_list')

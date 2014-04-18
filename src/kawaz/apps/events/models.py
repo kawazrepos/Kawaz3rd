@@ -115,9 +115,9 @@ class Event(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('events_event_detail', (), {
-            'object_id': self.pk,
-        })
+        if self.pub_state == 'draft':
+            return ('events_event_update', (str(self.pk)))
+        return ('events_event_detail', (str(self.pk)))
 
 @receiver(post_save, sender=Event)
 def join_organizer(**kwargs):
