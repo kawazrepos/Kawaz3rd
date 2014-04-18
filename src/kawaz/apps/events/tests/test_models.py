@@ -115,7 +115,7 @@ class EventTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct values'''
         event = EventFactory()
-        self.assertEqual(event.__str__(), event.title)
+        self.assertEqual(str(event), event.title)
 
     def test_ordering(self):
         '''Tests events were ordered correctly'''
@@ -169,6 +169,35 @@ class EventTestCase(TestCase):
         self.assertEqual(event.attendees.count(), 1)
         self.assertFalse(user in user.groups.all())
 
+    def test_is_active(self):
+        '''Tests is_active returns correct value'''
+
+        # ToDo stubbing datetime.datetime.now()
+        now = datetime.datetime.now()
+        start = now + datetime.timedelta(hours=1)
+        end = now + datetime.timedelta(hours=4)
+        event = EventFactory.build(period_start=start, period_end=end)
+        self.assertTrue(event.is_active())
+
+        start2 = now + datetime.timedelta(hours=-4)
+        end2 = now + datetime.timedelta(hours=-1)
+        event2 = EventFactory.build(period_start=start2, period_end=end2)
+        self.assertFalse(event2.is_active())
+
+        start3 = now + datetime.timedelta(hours=-4)
+        end3 = now + datetime.timedelta(hours=1)
+        event3 = EventFactory.build(period_start=start3, period_end=end3)
+        self.assertTrue(event3.is_active())
+
+        event4 = EventFactory.build(period_start=None, period_end=None)
+        self.assertTrue(event4.is_active())
+
+    def test_get_absolute_url(self):
+        '''Tests get_absolute_url returns correct value'''
+        event = EventFactory()
+        self.assertEqual(event.get_absolute_url(), '/events/{0}/'.format(event.pk))
+
+class EventValidationTestCase(TestCase):
     def test_organizer_cant_quit(self):
         '''Tests organizer can't quit from events'''
         organizer = PersonaFactory()
@@ -226,29 +255,6 @@ class EventTestCase(TestCase):
         end = now + datetime.timedelta(days=8)
 
         self.assertRaises(ValidationError, EventFactory, period_start=None, period_end=end)
-
-    def test_is_active(self):
-        '''Tests is_active returns correct value'''
-
-        # ToDo stubbing datetime.datetime.now()
-        now = datetime.datetime.now()
-        start = now + datetime.timedelta(hours=1)
-        end = now + datetime.timedelta(hours=4)
-        event = EventFactory.build(period_start=start, period_end=end)
-        self.assertTrue(event.is_active())
-
-        start2 = now + datetime.timedelta(hours=-4)
-        end2 = now + datetime.timedelta(hours=-1)
-        event2 = EventFactory.build(period_start=start2, period_end=end2)
-        self.assertFalse(event2.is_active())
-
-        start3 = now + datetime.timedelta(hours=-4)
-        end3 = now + datetime.timedelta(hours=1)
-        event3 = EventFactory.build(period_start=start3, period_end=end3)
-        self.assertTrue(event3.is_active())
-
-        event4 = EventFactory.build(period_start=None, period_end=None)
-        self.assertTrue(event4.is_active())
 
 class EventChangePermissionTestCase(TestCase):
 

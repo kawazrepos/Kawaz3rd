@@ -113,6 +113,12 @@ class Event(models.Model):
             return True
         return self.period_end >= datetime.datetime.now()
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('events_event_detail', (), {
+            'object_id': self.pk,
+        })
+
 @receiver(post_save, sender=Event)
 def join_organizer(**kwargs):
     created = kwargs.get('created')
