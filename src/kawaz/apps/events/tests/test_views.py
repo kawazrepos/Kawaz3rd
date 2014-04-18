@@ -57,3 +57,23 @@ class EventDetailViewTestCase(TestCase):
         r = self.client.get(event.get_absolute_url())
         self.assertTemplateUsed(r, 'events/event_form.html')
         self.assertEqual(r.context_data['object'], event)
+
+class EventCreateViewTestCase(TestCase):
+    def setUp(self):
+        self.user = PersonaFactory()
+        self.user.set_password('password')
+        self.user.save()
+
+    def test_anonymous_user_can_not_view_event_create_view(self):
+        '''Tests anonymous user can not view event creation view'''
+        event = EventFactory()
+        r = self.client.get('/events/create/')
+        self.assertEqual(r.status_code, 302) # ToDo check redirects after implement inspectional_registration
+
+    def test_authorized_user_can_view_public_event(self):
+        '''Tests authorized user can view event creation view'''
+        event = EventFactory()
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.get('/events/create/')
+        self.assertTemplateUsed(r, 'events/event_form.html')
+        self.assertFalse('object' in r.context_data)
