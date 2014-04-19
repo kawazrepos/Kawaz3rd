@@ -1,0 +1,8 @@
+[report]
+include =
+    src/kawaz/*.py
+omit =
+    src/kawaz/__init__.py
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
