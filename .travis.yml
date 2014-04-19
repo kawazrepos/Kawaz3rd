@@ -1,11 +1,14 @@
 language: python
 python:
   - "3.3"
-env:
-  - DJANGO_VERSION=1.6
+
 install:
-  - pip install -q Django==$DJANGO_VERSION
-  - pip install -qr requirements.txt
-  - pip install -qr requirements-test.txt
+  - pip install tox
+  - pip install coverage coveralls
+
 script:
-  - python setup.py test
+  - tox
+
+after_success:
+  - coverage report
+  - coveralls
