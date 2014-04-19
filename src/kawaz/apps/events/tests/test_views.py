@@ -236,6 +236,7 @@ class EventUpdateViewTestCase(TestCase):
 
 class EventListViewTestCase(TestCase):
     def setUp(self):
+        now = datetime.datetime.now()
         self.events = (
             EventFactory(pub_state='public'),
             EventFactory(pub_state='public'),
@@ -271,3 +272,4 @@ class EventListViewTestCase(TestCase):
         self.assertEqual(list[0], self.events[0])
         self.assertEqual(list[1], self.events[1])
         self.assertEqual(list[2], self.events[2])
+

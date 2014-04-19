@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from .views import EventListView, EventCreateView, EventDetailView, EventUpdateView, EventDeleteView, EventJoinView, EventQuitView, EventYearListView, EventMonthListView, EventDayListView
+from .views import EventListView, EventCreateView, EventDetailView, EventUpdateView, EventDeleteView, EventJoinView, EventQuitView, EventYearListView, EventMonthListView
 
 urlpatterns = patterns('',
     url(r'^$', EventListView.as_view(), name='events_event_list'),
@@ -14,6 +14,4 @@ urlpatterns = patterns('',
     url(r'^archive/(?P<year>\d+)/$', EventYearListView.as_view(), name='events_event_archive-year'),
     url(r'^archive/(?P<year>\d+)/(?P<month>\d+)/$',
         EventMonthListView.as_view(), name='events_event_archive_month'),
-    url(r'^archive/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$',
-        EventDayListView, name='events_event_archive-day'),
 )

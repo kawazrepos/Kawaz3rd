@@ -13,9 +13,14 @@ from kawaz.core.views.decorators import class_view_decorator
 from .models import Event
 from .forms import EventForm
 
-class EventQuerySetMixin(MultipleObjectMixin):
+class EventPublishedQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
         return Event.objects.published(self.request.user)
+
+
+class EventActiveQuerySetMixin(MultipleObjectMixin):
+    def get_queryset(self):
+        return Event.objects.active(self.request.user)
 
 
 class EventSetOrganizerMixin(ModelFormMixin):
@@ -27,7 +32,7 @@ class EventSetOrganizerMixin(ModelFormMixin):
             kwargs['data'] = data
         return kwargs
 
-class EventListView(ListView, EventQuerySetMixin):
+class EventListView(ListView, EventActiveQuerySetMixin):
     model = Event
 
 
@@ -104,16 +109,16 @@ class EventQuitView(UpdateView):
         return self.quit(request, *args, **kwargs)
 
 
-class EventYearListView(YearArchiveView, EventQuerySetMixin):
+class EventYearListView(YearArchiveView, EventPublishedQuerySetMixin):
     model = Event
     date_field = 'period_start'
+    allow_empty = True
+    allow_future = True
 
 
-class EventMonthListView(MonthArchiveView, EventQuerySetMixin):
+class EventMonthListView(MonthArchiveView, EventPublishedQuerySetMixin):
     model = Event
     date_field = 'period_start'
-
-
-class EventDayListView(DayArchiveView, EventQuerySetMixin):
-    model = Event
-    date_field = 'period_start'
+    allow_empty = True
+    allow_future = True
+    month_format = '%m'

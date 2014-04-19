@@ -1,9 +1,6 @@
 import datetime
-from unittest import mock
-from unittest.mock import MagicMock
 
 from django.test import TestCase
-from django.db.models.query import QuerySet
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AnonymousUser
@@ -13,36 +10,14 @@ from kawaz.core.tests.datetime import patch_datetime_now
 from ..models import Event
 from .factories import EventFactory
 
+from .utils import static_now, event_factory_with_relative
 
-def _static_now():
-    """
-    Return fixed datetime instance for testing.
-    It is mainly for skip Event validation
-    """
-    return datetime.datetime(2000, 9, 4)
-
-def _event_factory(b, a, kwargs={}):
-    """
-    Event factory shortcut function.
-    """
-    standard_time = _static_now()
-    kwargs.update(dict(
-            period_start=standard_time + datetime.timedelta(days=b),
-            period_end=standard_time + datetime.timedelta(days=a),
-        ))
-    # Event validation system does not allow to make the PAST event thus
-    # mock datetime.now to return 1999 for preventing this validation
-    _last_year = lambda: _static_now() + datetime.timedelta(days=-365)
-    with patch_datetime_now(_last_year):
-        return EventFactory(**kwargs)
-
-
-@patch_datetime_now(_static_now)
+@patch_datetime_now(static_now)
 class EventManagerTestCase(TestCase):
     def setUp(self):
         # specify standard time. it should be later than the time returned by
         # `_static_now` function.
-        standard_time = _static_now()
+        standard_time = static_now()
         # create event list for testing.
         arguments_list = (
                 (-3, 0),                                # 2000/9/1-4
@@ -51,7 +26,7 @@ class EventManagerTestCase(TestCase):
                 (5, 6, {'pub_state': 'draft'}),         # 2000/9/9-10
                 (0, 3, {'pub_state': 'protected'}),     # 2000/9/4-7
             )
-        self.event_list = [_event_factory(*args) for args in arguments_list]
+        self.event_list = [event_factory_with_relative(*args) for args in arguments_list]
 
     def test_active_with_authenticated_user(self):
         """
@@ -144,7 +119,7 @@ class EventManagerTestCase(TestCase):
         self.assertEqual(qs.count(), 0)
 
 
-@patch_datetime_now(_static_now)
+@patch_datetime_now(static_now)
 class EventTestCase(TestCase):
     def test_str(self):
         """str(event) should return the event title"""
@@ -157,10 +132,10 @@ class EventTestCase(TestCase):
         Events should be orered by period_start, period_end, created_at,
         updated_at, and title with respecting the appearance order.
         """
-        e0 = _event_factory(2, 2)
-        e1 = _event_factory(1, 3)
-        e2 = _event_factory(1, 2)
-        e3 = _event_factory(5, 7)
+        e0 = event_factory_with_relative(2, 2)
+        e1 = event_factory_with_relative(1, 3)
+        e2 = event_factory_with_relative(1, 2)
+        e3 = event_factory_with_relative(5, 7)
         
         qs = Event.objects.all()
         self.assertEqual(qs[0], e2)
@@ -234,16 +209,16 @@ class EventTestCase(TestCase):
         """
         is_active() should return False for events which held before
         """
-        standard_time = _static_now()
+        standard_time = static_now()
         # create an event which just end 1 day before
-        event = _event_factory(-4, -1)
+        event = event_factory_with_relative(-4, -1)
         self.assertFalse(event.is_active())
 
     def test_is_active_with_event_have_not_started(self):
         """
         is_active() should return True for events have not started
         """
-        standard_time = _static_now()
+        standard_time = static_now()
         # create an event which will start just 1 hour later
         kwargs = dict(
                 period_start=standard_time+datetime.timedelta(hours=1),
@@ -256,10 +231,10 @@ class EventTestCase(TestCase):
         """
         is_active() should return True for events going
         """
-        standard_time = _static_now()
+        standard_time = static_now()
         # create an event which have started just 1 day before and end
         # just 1 day later
-        event = _event_factory(-1, 1)
+        event = event_factory_with_relative(-1, 1)
         self.assertTrue(event.is_active())
 
     def test_is_active_with_event_without_period(self):
@@ -283,7 +258,7 @@ class EventTestCase(TestCase):
                          '/events/{0}/'.format(event.pk))
 
 
-@patch_datetime_now(_static_now)
+@patch_datetime_now(static_now)
 class EventValidationTestCase(TestCase):
     def test_organizer_cannot_quit(self):
         """
@@ -306,7 +281,7 @@ class EventValidationTestCase(TestCase):
         """
         Raise ValidationError when period_start is later than period_end
         """
-        standard_time = _static_now()
+        standard_time = static_now()
         kwargs = dict(
                 period_start=standard_time+datetime.timedelta(hours=1),
                 period_end=standard_time,
@@ -317,7 +292,7 @@ class EventValidationTestCase(TestCase):
         """
         Raise ValidationError when the period_start is specified as a past date
         """
-        standard_time = _static_now()
+        standard_time = static_now()
         kwargs = dict(
                 period_start=standard_time+datetime.timedelta(hours=-1),
                 period_end=standard_time,
@@ -328,7 +303,7 @@ class EventValidationTestCase(TestCase):
         """
         Raise ValidationError when the event period is longer than 8 days
         """
-        standard_time = _static_now()
+        standard_time = static_now()
         kwargs = dict(
                 period_start=standard_time,
                 period_end=standard_time+datetime.timedelta(days=8),
@@ -340,7 +315,7 @@ class EventValidationTestCase(TestCase):
         Raise ValidationError when period_end is specified without specifing
         period_start
         """
-        standard_time = _static_now()
+        standard_time = static_now()
         kwargs = dict(
                 period_start=None,
                 period_end=standard_time,
