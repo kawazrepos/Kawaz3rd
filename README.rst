@@ -34,7 +34,7 @@ Thus you can checkout the repository and install required package with
     $ pip install -r requirements-test.txt
 
 Remember that if you will need to push the changes to the repository_,
-You need to use `git@github.com:kawazrepos/third-impact`_ instead.
+You need to use git@github.com:kawazrepos/third-impact instead.
 
 .. code-block:: sh
     
