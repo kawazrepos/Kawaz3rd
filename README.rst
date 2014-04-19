@@ -8,8 +8,8 @@ Kawaz 3rd
     :alt: Coverage
 
 Author
-    Alisue <lambdalisue@hashnote.net>
-    Giginet
+    - Alisue <lambdalisue@hashnote.net>  
+    - Giginet
 Supported python versions
     Python 3.3
 Supported django versions
