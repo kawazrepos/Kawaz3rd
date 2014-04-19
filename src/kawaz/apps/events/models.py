@@ -63,8 +63,8 @@ class Event(models.Model):
     objects = EventManager()
     
     class Meta:
-        ordering            = ('period_start', 'period_end', '-created_at', '-updated_at', 'title')
-        verbose_name        = _("Event")
+        ordering = ('period_start', 'period_end', '-created_at', '-updated_at', 'title', '-pk')
+        verbose_name = _("Event")
         verbose_name_plural = _("Events")
         permissions = (
             ('attend_event', 'Can attend the event'),

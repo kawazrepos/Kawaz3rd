@@ -15,7 +15,7 @@ from .forms import EventForm
 
 class EventPublishedQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
-        return Event.objects.published(self.request.user)
+        return Event.objects.published(self.request.user).order_by()
 
 
 class EventActiveQuerySetMixin(MultipleObjectMixin):
@@ -114,6 +114,8 @@ class EventYearListView(YearArchiveView, EventPublishedQuerySetMixin):
     date_field = 'period_start'
     allow_empty = True
     allow_future = True
+    make_object_list = True
+    paginate_by = 10
 
 
 class EventMonthListView(MonthArchiveView, EventPublishedQuerySetMixin):
