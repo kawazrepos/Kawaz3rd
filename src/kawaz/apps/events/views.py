@@ -27,7 +27,6 @@ class EventSetOrganizerMixin(ModelFormMixin):
             kwargs['data'] = data
         return kwargs
 
-
 class EventListView(ListView, EventQuerySetMixin):
     model = Event
 
