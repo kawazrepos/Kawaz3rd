@@ -42,9 +42,9 @@ class EventManagerTestCase(TestCase):
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 3)
         # event has finished (2000/9/2-3) and draft event is not appeared.
-        self.assertEqual(qs[0], self.event_list[0]) # 2000/9/1-4
-        self.assertEqual(qs[1], self.event_list[4]) # 2000/9/4-7 (protected)
-        self.assertEqual(qs[2], self.event_list[2]) # 2000/9/8-9
+        self.assertEqual(qs[0], self.event_list[0], '2000/9/1-4')
+        self.assertEqual(qs[1], self.event_list[4], '2000/9/4-7 (protected)')
+        self.assertEqual(qs[2], self.event_list[2], '2000/9/8-9')
 
     def test_active_with_anonymous_user(self):
         """
@@ -58,8 +58,8 @@ class EventManagerTestCase(TestCase):
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 2)
         # event has finished (2000/9/2-3) and protected or draft are not appeared.
-        self.assertEqual(qs[0], self.event_list[0]) # 2000/9/1-4
-        self.assertEqual(qs[1], self.event_list[2]) # 2000/9/8-9
+        self.assertEqual(qs[0], self.event_list[0], '2000/9/1-4')
+        self.assertEqual(qs[1], self.event_list[2], '2000/9/8-9')
 
     def test_published_with_authenticated_user(self):
         """
@@ -73,10 +73,10 @@ class EventManagerTestCase(TestCase):
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 4)
         # protected or public events are appeared
-        self.assertEqual(qs[0], self.event_list[0]) # 2000/9/1-4
-        self.assertEqual(qs[1], self.event_list[1]) # 2000/9/2-3
-        self.assertEqual(qs[2], self.event_list[4]) # 2000/9/4-7 (protected)
-        self.assertEqual(qs[3], self.event_list[2]) # 2000/9/8-9
+        self.assertEqual(qs[0], self.event_list[0], '2000/9/1-4')
+        self.assertEqual(qs[1], self.event_list[1], '2000/9/2-3')
+        self.assertEqual(qs[2], self.event_list[4], '2000/9/4-7 (protected)')
+        self.assertEqual(qs[3], self.event_list[2], '2000/9/8-9')
 
     def test_published_with_anonymous_user(self):
         """
@@ -89,9 +89,9 @@ class EventManagerTestCase(TestCase):
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 3)
         # protected or public events are appeared
-        self.assertEqual(qs[0], self.event_list[0]) # 2000/9/1-4
-        self.assertEqual(qs[1], self.event_list[1]) # 2000/9/2-3
-        self.assertEqual(qs[2], self.event_list[2]) # 2000/9/8-9
+        self.assertEqual(qs[0], self.event_list[0], '2000/9/1-4')
+        self.assertEqual(qs[1], self.event_list[1], '2000/9/2-3')
+        self.assertEqual(qs[2], self.event_list[2], '2000/9/8-9')
 
     def test_draft_with_organizer(self):
         """
@@ -104,7 +104,7 @@ class EventManagerTestCase(TestCase):
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 1)
         # only self organized draft event is appeard
-        self.assertEqual(qs[0], self.event_list[3]) # 2000/9/9-10
+        self.assertEqual(qs[0], self.event_list[3], '2000/9/9-10')
 
     def test_draft_with_authenticated_user(self):
         """
