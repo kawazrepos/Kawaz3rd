@@ -278,13 +278,16 @@ class EventListViewTestCase(TestCase):
         self.assertEqual(list[0], self.events[3], '2000/9/5 ~ 6 protected')
         self.assertEqual(list[1], self.events[1], '2000/9/5 ~ 6 public')
 
-class EventYearListViewTestCase(TestCase):
+@patch_datetime_now(static_now)
+class EventMonthListViewTestCase(TestCase):
     def setUp(self):
         self.events = (
             event_factory_with_relative(-3, -2, {'pub_state':'public'}), # 2000/9/2 ~ 2000/9/3
             event_factory_with_relative(1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
+            event_factory_with_relative(31, 32, {'pub_state':'public'}), # 2000/10/5 ~ 2000/10/6
             event_factory_with_relative(-3, -2, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
             event_factory_with_relative(1, 2, {'pub_state':'protected'}), # 2000/9/5 ~ 2000/9/6
+            event_factory_with_relative(31, 32, {'pub_state':'protected'}), # 2000/10/5 ~ 2000/10/6
             event_factory_with_relative(-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
             event_factory_with_relative(1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
         )
@@ -296,24 +299,53 @@ class EventYearListViewTestCase(TestCase):
         '''
         Tests anonymous user can view public Events only.
         The protected events are not displayed.
+        The ended events are also displayed.
         '''
-        user = AnonymousUser()
-        r = self.client.get('/events/')
-        self.assertTemplateUsed('events/event_archive_year.html')
-        self.assertTrue('years', r.context_data)
+        r = self.client.get('/events/archive/2000/9/')
+        self.assertTemplateUsed('events/event_archive_month.html')
+        self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
-        self.assertEqual(list[0], self.events[0])
-        self.assertEqual(list[1], self.events[1])
+        self.assertEqual(list.count(), 2, 'object_list has two events')
+        self.assertEqual(list[0], self.events[0], '2000/9/2 ~ 3 public')
+        self.assertEqual(list[1], self.events[1], '2000/9/5 ~ 6 public')
+
+    def test_anonymous_can_view_only_public_events_other_month(self):
+        '''
+        Tests anonymous user can view public Events only.
+        The protected events are not displayed.
+        The ended events are also displayed.
+        '''
+        r = self.client.get('/events/archive/2000/10/')
+        self.assertTemplateUsed('events/event_archive_month.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 1, 'object_list has one event')
+        self.assertEqual(list[0], self.events[2], '2000/10/5 ~ 6 public')
 
     def test_authenticated_can_view_all_publish_events(self):
         '''
         Tests authenticated user can view all published events.
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/events/')
-        self.assertTemplateUsed('events/event_list.html')
+        r = self.client.get('/events/archive/2000/9/')
+        self.assertTemplateUsed('events/event_archive_month.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
-        self.assertEqual(list[0], self.events[0])
-        self.assertEqual(list[1], self.events[1])
-        self.assertEqual(list[2], self.events[2])
+        self.assertEqual(list.count(), 4, 'object_list has four event')
+        self.assertEqual(list[0], self.events[3], '2000/9/2 ~ 3 public')
+        self.assertEqual(list[1], self.events[0], '2000/9/2 ~ 3 protected')
+        self.assertEqual(list[2], self.events[4], '2000/9/5 ~ 6 public')
+        self.assertEqual(list[3], self.events[1], '2000/9/5 ~ 6 protected')
+
+    def test_authenticated_can_view_all_publish_events_other_month(self):
+        '''
+        Tests authenticated user can view all published events.
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.get('/events/archive/2000/10/')
+        self.assertTemplateUsed('events/event_archive_month.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 2, 'object_list has two event')
+        self.assertEqual(list[0], self.events[5], '2000/10/5 ~ 6 public')
+        self.assertEqual(list[1], self.events[2], '2000/10/5 ~ 6 protected')
