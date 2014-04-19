@@ -1,6 +1,6 @@
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView, MultipleObjectMixin
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import ModelFormMixin, CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, DayArchiveView
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
@@ -18,18 +18,8 @@ class EventQuerySetMixin(MultipleObjectMixin):
         qs = super().get_queryset()
         return qs.published(self.request.user)
 
-class EventListView(ListView, EventQuerySetMixin):
-    model = Event
 
-@permission_required('events.view_event')
-class EventDetailView(DetailView):
-    model = Event
-
-@class_view_decorator(login_required)
-class EventCreateView(CreateView):
-    model = Event
-    form_class = EventForm
-
+class EventSetOrganizerMixin(ModelFormMixin):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         if self.request.method == 'POST':
@@ -38,15 +28,33 @@ class EventCreateView(CreateView):
             kwargs['data'] = data
         return kwargs
 
-@permission_required('events.change_event')
-class EventUpdateView(UpdateView):
+
+class EventListView(ListView, EventQuerySetMixin):
+    model = Event
+
+
+@permission_required('events.view_event')
+class EventDetailView(DetailView):
+    model = Event
+
+
+@class_view_decorator(login_required)
+class EventCreateView(CreateView, EventSetOrganizerMixin):
     model = Event
     form_class = EventForm
+
+
+@permission_required('events.change_event')
+class EventUpdateView(UpdateView, EventSetOrganizerMixin):
+    model = Event
+    form_class = EventForm
+
 
 @permission_required('events.delete_event')
 class EventDeleteView(DeleteView):
     model = Event
     success_url = reverse_lazy('events_event_list')
+
 
 @permission_required('event.attend_event')
 class EventJoinView(UpdateView):
@@ -72,6 +80,7 @@ class EventJoinView(UpdateView):
     def post(self, request, *args, **kwargs):
         return self.attend(request, *args, **kwargs)
 
+
 @permission_required('events.quit_event')
 class EventQuitView(UpdateView):
     model = Event
@@ -96,13 +105,16 @@ class EventQuitView(UpdateView):
     def post(self, request, *args, **kwargs):
         return self.quit(request, *args, **kwargs)
 
+
 class EventYearListView(YearArchiveView, EventQuerySetMixin):
     model = Event
     date_field = 'period_start'
 
+
 class EventMonthListView(MonthArchiveView, EventQuerySetMixin):
     model = Event
     date_field = 'period_start'
+
 
 class EventDayListView(DayArchiveView, EventQuerySetMixin):
     model = Event
