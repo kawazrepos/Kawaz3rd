@@ -15,8 +15,7 @@ from .forms import EventForm
 
 class EventQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.published(self.request.user)
+        return Event.objects.published(self.request.user)
 
 
 class EventSetOrganizerMixin(ModelFormMixin):

@@ -1,9 +1,14 @@
 import datetime
 from django.conf import settings
 from django.test import TestCase
+from django.contrib.auth.models import AnonymousUser
 from .factories import EventFactory
 from ..models import Event
 from kawaz.core.personas.tests.factories import PersonaFactory
+
+# Notice
+# Test cases for EventDeleteView, EventJoinView, EventQuitView have not be implemented.
+# Because these views will be replaced to API.
 
 class EventDetailViewTestCase(TestCase):
     def setUp(self):
@@ -139,6 +144,7 @@ class EventUpdateViewTestCase(TestCase):
         self.other = PersonaFactory()
         self.other.set_password('password')
         self.user.save()
+        self.other.save()
         self.event = EventFactory(title='変更前のイベントです', organizer=self.user)
 
     def test_anonymous_user_can_not_view_event_update_view(self):
@@ -227,3 +233,41 @@ class EventUpdateViewTestCase(TestCase):
         self.assertEqual(e.organizer, self.user)
         self.assertNotEqual(e.organizer, other)
         self.assertEqual(e.title, '変更後のイベントです')
+
+class EventListViewTestCase(TestCase):
+    def setUp(self):
+        self.events = (
+            EventFactory(pub_state='public'),
+            EventFactory(pub_state='public'),
+            EventFactory(pub_state='protected'),
+            EventFactory(pub_state='draft'),
+        )
+        self.user = PersonaFactory()
+        self.user.set_password('password')
+        self.user.save()
+
+    def test_anonymous_can_view_only_public_events(self):
+        '''
+        Tests anonymous user can view public Events only.
+        The protected events are not displayed.
+        '''
+        user = AnonymousUser()
+        r = self.client.get('/events/')
+        self.assertTemplateUsed('events/event_list.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list[0], self.events[0])
+        self.assertEqual(list[1], self.events[1])
+
+    def test_authenticated_can_view_all_publish_events(self):
+        '''
+        Tests authenticated user can view all published events.
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.get('/events/')
+        self.assertTemplateUsed('events/event_list.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list[0], self.events[0])
+        self.assertEqual(list[1], self.events[1])
+        self.assertEqual(list[2], self.events[2])
