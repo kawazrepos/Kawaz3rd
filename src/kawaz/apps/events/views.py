@@ -2,14 +2,12 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import ModelFormMixin, CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseArchiveIndexView
-from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
 
 from permission.decorators import permission_required
 
-from kawaz.core.views.decorators import class_view_decorator
 from .models import Event
 from .forms import EventForm
 
@@ -49,7 +47,7 @@ class EventDetailView(DetailView):
     model = Event
 
 
-@class_view_decorator(login_required)
+@permission_required('events.add_event')
 class EventCreateView(CreateView, EventSetOrganizerMixin):
     model = Event
     form_class = EventForm

@@ -163,9 +163,9 @@ class EventPermissionLogic(PermissionLogic):
         """
         Check `obj.pub_state` and if user is authenticated
         """
-        # treat only object permission
         if obj is None:
-            return False
+            if perm == 'events.add_event':
+                return user_obj.is_authenticated()
         permission_methods = {
             'events.view_event': self._has_view_perm,
             'events.attend_event': self._has_attend_perm,
