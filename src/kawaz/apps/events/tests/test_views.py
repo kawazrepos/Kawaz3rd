@@ -5,6 +5,9 @@ from django.contrib.auth.models import AnonymousUser
 from .factories import EventFactory
 from ..models import Event
 from kawaz.core.personas.tests.factories import PersonaFactory
+from kawaz.core.tests.datetime import patch_datetime_now
+
+from .utils import static_now, event_factory_with_relative
 
 # Notice
 # Test cases for EventDeleteView, EventJoinView, EventQuitView have not be implemented.
@@ -234,14 +237,16 @@ class EventUpdateViewTestCase(TestCase):
         self.assertNotEqual(e.organizer, other)
         self.assertEqual(e.title, '変更後のイベントです')
 
+@patch_datetime_now(static_now)
 class EventListViewTestCase(TestCase):
     def setUp(self):
-        now = datetime.datetime.now()
         self.events = (
-            EventFactory(pub_state='public'),
-            EventFactory(pub_state='public'),
-            EventFactory(pub_state='protected'),
-            EventFactory(pub_state='draft'),
+            event_factory_with_relative(-3, -2, {'pub_state':'public'}), # 2000/9/2 ~ 2000/9/3
+            event_factory_with_relative(1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
+            event_factory_with_relative(-3, -2, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
+            event_factory_with_relative(1, 2, {'pub_state':'protected'}), # 2000/9/5 ~ 2000/9/6
+            event_factory_with_relative(-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
+            event_factory_with_relative(1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
         )
         self.user = PersonaFactory()
         self.user.set_password('password')
@@ -256,6 +261,46 @@ class EventListViewTestCase(TestCase):
         r = self.client.get('/events/')
         self.assertTemplateUsed('events/event_list.html')
         self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 1, 'object_list has one event')
+        self.assertEqual(list[0], self.events[1], '2000/9/5 ~ 6 public')
+
+    def test_authenticated_can_view_all_publish_events(self):
+        '''
+        Tests authenticated user can view all published events.
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.get('/events/')
+        self.assertTemplateUsed('events/event_list.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 2, 'object_list has two events')
+        self.assertEqual(list[0], self.events[3], '2000/9/5 ~ 6 protected')
+        self.assertEqual(list[1], self.events[1], '2000/9/5 ~ 6 public')
+
+class EventYearListViewTestCase(TestCase):
+    def setUp(self):
+        self.events = (
+            event_factory_with_relative(-3, -2, {'pub_state':'public'}), # 2000/9/2 ~ 2000/9/3
+            event_factory_with_relative(1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
+            event_factory_with_relative(-3, -2, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
+            event_factory_with_relative(1, 2, {'pub_state':'protected'}), # 2000/9/5 ~ 2000/9/6
+            event_factory_with_relative(-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
+            event_factory_with_relative(1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
+        )
+        self.user = PersonaFactory()
+        self.user.set_password('password')
+        self.user.save()
+
+    def test_anonymous_can_view_only_public_events(self):
+        '''
+        Tests anonymous user can view public Events only.
+        The protected events are not displayed.
+        '''
+        user = AnonymousUser()
+        r = self.client.get('/events/')
+        self.assertTemplateUsed('events/event_archive_year.html')
+        self.assertTrue('years', r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list[0], self.events[0])
         self.assertEqual(list[1], self.events[1])
@@ -272,4 +317,3 @@ class EventListViewTestCase(TestCase):
         self.assertEqual(list[0], self.events[0])
         self.assertEqual(list[1], self.events[1])
         self.assertEqual(list[2], self.events[2])
-
