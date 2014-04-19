@@ -1,7 +1,7 @@
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import ModelFormMixin, CreateView, UpdateView, DeleteView
-from django.views.generic.dates import YearArchiveView, MonthArchiveView, DayArchiveView
+from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseArchiveIndexView
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
@@ -22,6 +22,14 @@ class EventActiveQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
         return Event.objects.active(self.request.user)
 
+class EventDateArchiveMixin(BaseArchiveIndexView):
+    def get(self, request, *args, **kwargs):
+        self.date_list, self.object_list, extra_context = self.get_dated_items()
+        self.object_list = self.object_list.order_by('period_start') # 日付昇順にならない
+        context = self.get_context_data(object_list=self.object_list,
+                                        date_list=self.date_list)
+        context.update(extra_context)
+        return self.render_to_response(context)
 
 class EventSetOrganizerMixin(ModelFormMixin):
     def get_form_kwargs(self):
@@ -109,7 +117,7 @@ class EventQuitView(UpdateView):
         return self.quit(request, *args, **kwargs)
 
 
-class EventYearListView(YearArchiveView, EventPublishedQuerySetMixin):
+class EventYearListView(YearArchiveView, EventPublishedQuerySetMixin, EventDateArchiveMixin):
     model = Event
     date_field = 'period_start'
     allow_empty = True
@@ -118,9 +126,10 @@ class EventYearListView(YearArchiveView, EventPublishedQuerySetMixin):
     paginate_by = 10
 
 
-class EventMonthListView(MonthArchiveView, EventPublishedQuerySetMixin):
+class EventMonthListView(MonthArchiveView, EventPublishedQuerySetMixin, EventDateArchiveMixin):
     model = Event
     date_field = 'period_start'
     allow_empty = True
     allow_future = True
     month_format = '%m'
+

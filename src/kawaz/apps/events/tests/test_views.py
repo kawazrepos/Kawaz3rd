@@ -286,7 +286,7 @@ class EventMonthListViewTestCase(TestCase):
             event_factory_with_relative(1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
             event_factory_with_relative(31, 32, {'pub_state':'public'}), # 2000/10/5 ~ 2000/10/6
             event_factory_with_relative(-2, -1, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
-            event_factory_with_relative(0, 3, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
+            event_factory_with_relative(0, 1, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
             event_factory_with_relative(32, 33, {'pub_state':'protected'}), # 2000/10/6 ~ 2000/10/7
             event_factory_with_relative(-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
             event_factory_with_relative(1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
@@ -378,8 +378,8 @@ class EventYearListViewTestCase(TestCase):
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two events')
-        self.assertEqual(list[0], self.events[1], '2000/9/5 ~ 6 public')
-        self.assertEqual(list[1], self.events[0], '2000/9/1 ~ 2 public')
+        self.assertEqual(list[0], self.events[0], '2000/9/5 ~ 6 public')
+        self.assertEqual(list[1], self.events[1], '2000/9/1 ~ 2 public')
 
     def test_anonymous_can_view_only_public_events_other_year(self):
         '''
@@ -404,10 +404,10 @@ class EventYearListViewTestCase(TestCase):
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 4, 'object_list has four events')
-        self.assertEqual(list[0], self.events[1], '2000/9/5 ~ 6 public')
-        self.assertEqual(list[1], self.events[4], '2000/9/5 ~ 6 protected')
-        self.assertEqual(list[2], self.events[3], '2000/9/2 ~ 3 public')
-        self.assertEqual(list[3], self.events[0], '2000/9/2 ~ 3 protected')
+        self.assertEqual(list[0], self.events[0], '2000/9/5 ~ 6 public')
+        self.assertEqual(list[1], self.events[3], '2000/9/5 ~ 6 protected')
+        self.assertEqual(list[2], self.events[4], '2000/9/2 ~ 3 public')
+        self.assertEqual(list[3], self.events[1], '2000/9/2 ~ 3 protected')
 
     def test_authenticated_can_view_all_publish_events_other_year(self):
         '''
@@ -419,5 +419,5 @@ class EventYearListViewTestCase(TestCase):
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two events')
-        self.assertEqual(list[0], self.events[5], '2001/9/6 ~ 7 protected')
-        self.assertEqual(list[1], self.events[2], '2001/9/4 ~ 5 public')
+        self.assertEqual(list[0], self.events[2], '2001/9/6 ~ 7 protected')
+        self.assertEqual(list[1], self.events[5], '2001/9/4 ~ 5 public')
