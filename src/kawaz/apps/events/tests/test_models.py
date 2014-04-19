@@ -3,128 +3,165 @@ from unittest import mock
 from unittest.mock import MagicMock
 
 from django.test import TestCase
+from django.db.models.query import QuerySet
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AnonymousUser
 
 from kawaz.core.personas.tests.factories import PersonaFactory
+from kawaz.core.tests.datetime import patch_datetime_now
 from ..models import Event
 from .factories import EventFactory
 
-from datetime import datetime as original_datetime
 
+def _static_now():
+    """
+    Return fixed datetime instance for testing.
+    It is mainly for skip Event validation
+    """
+    return datetime.datetime(2000, 9, 4)
+
+def _event_factory(b, a, kwargs={}):
+    """
+    Event factory shortcut function.
+    """
+    standard_time = _static_now()
+    kwargs.update(dict(
+            period_start=standard_time + datetime.timedelta(days=b),
+            period_end=standard_time + datetime.timedelta(days=a),
+        ))
+    # Event validation system does not allow to make the PAST event thus
+    # mock datetime.now to return 1999 for preventing this validation
+    _last_year = lambda: _static_now() + datetime.timedelta(days=-365)
+    with patch_datetime_now(_last_year):
+        return EventFactory(**kwargs)
+
+
+@patch_datetime_now(_static_now)
 class EventManagerTestCase(TestCase):
+    def setUp(self):
+        # specify standard time. it should be later than the time returned by
+        # `_static_now` function.
+        standard_time = _static_now()
+        # create event list for testing.
+        arguments_list = (
+                (-3, 0),                                # 2000/9/1-4
+                (-2, -1),                               # 2000/9/2-3
+                (4, 5),                                 # 2000/9/8-9
+                (5, 6, {'pub_state': 'draft'}),         # 2000/9/9-10
+                (0, 3, {'pub_state': 'protected'}),     # 2000/9/4-7
+            )
+        self.event_list = [_event_factory(*args) for args in arguments_list]
 
-    class FakeDateTime(original_datetime):
-        '''
-        A fake replacement for datetime.datetime that can be mocked for testing.
-        http://williamjohnbert.com/2011/07/how-to-unit-testing-in-django-with-mocking-and-patching/
-        '''
-        def __new__(cls, *args, **kwargs):
-            return original_datetime.__new__(original_datetime, *args, **kwargs)
-
-    def _create_test_events(self):
-        now = original_datetime.now()
-        self.FakeDateTime.now = classmethod(lambda cls: original_datetime(1885, 9, 2)) # to skip validation. mock datetime.datetime.now()
-        e0 = EventFactory(period_start=now + datetime.timedelta(days=-3), period_end=now + datetime.timedelta(days=0))
-        e1 = EventFactory(period_start=now + datetime.timedelta(days=-2), period_end=now + datetime.timedelta(days=-1))
-        e2 = EventFactory(period_start=now + datetime.timedelta(days=4), period_end=now + datetime.timedelta(days=5))
-        e3 = EventFactory(period_start=now + datetime.timedelta(days=5), period_end=now + datetime.timedelta(days=6), pub_state='draft')
-        e4 = EventFactory(period_start=now + datetime.timedelta(days=0), period_end=now + datetime.timedelta(days=3), pub_state='protected')
-        self.FakeDateTime.now = classmethod(lambda cls: original_datetime.now()) # revert datetime.datetime.now()
-        return [e0, e1, e2, e3, e4]
-
-    @mock.patch('datetime.datetime', FakeDateTime)
-    def test_active(self):
-        '''Tests active() returns correct querysets'''
+    def test_active_with_authenticated_user(self):
+        """
+        active(authenticated_user) should return event queryset which only
+        contain events have not finished yet and the status is public or
+        protected.
+        """
+        # create authenticated user for getting protected events as well
         user = PersonaFactory()
-
-        es = self._create_test_events()
+        # specify authenticated user
         qs = Event.objects.active(user)
 
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 3)
-        self.assertEqual(qs[0], es[0])
-        self.assertEqual(qs[1], es[4])
-        self.assertEqual(qs[2], es[2])
+        # event has finished (2000/9/2-3) and draft event is not appeared.
+        self.assertEqual(qs[0], self.event_list[0]) # 2000/9/1-4
+        self.assertEqual(qs[1], self.event_list[4]) # 2000/9/4-7 (protected)
+        self.assertEqual(qs[2], self.event_list[2]) # 2000/9/8-9
 
-    @mock.patch('datetime.datetime', FakeDateTime)
-    def test_active_with_anonymous(self):
-        '''Tests active() returns correct querysets with anonymous user'''
+    def test_active_with_anonymous_user(self):
+        """
+        active(anonymous_user) should return event queryset which only
+        contain events have not finished yet and the status is public.
+        """
         user = AnonymousUser()
 
-        es = self._create_test_events()
         qs = Event.objects.active(user)
 
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 2)
-        self.assertEqual(qs[0], es[0])
-        self.assertEqual(qs[1], es[2])
+        # event has finished (2000/9/2-3) and protected or draft are not appeared.
+        self.assertEqual(qs[0], self.event_list[0]) # 2000/9/1-4
+        self.assertEqual(qs[1], self.event_list[2]) # 2000/9/8-9
 
-    @mock.patch('datetime.datetime', FakeDateTime)
     def test_published_with_authenticated_user(self):
-        '''Tests publish() with authenticated user returns correct querysets'''
+        """
+        publish(authenticated_user) should return event queryset which stats is
+        protected or public
+        """
+        # create authenticated user for getting protected events as well
         user = PersonaFactory()
-
-        es = self._create_test_events()
         qs = Event.objects.published(user)
 
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 4)
-        self.assertEqual(qs[0], es[0])
-        self.assertEqual(qs[1], es[1])
-        self.assertEqual(qs[2], es[4])
-        self.assertEqual(qs[3], es[2])
+        # protected or public events are appeared
+        self.assertEqual(qs[0], self.event_list[0]) # 2000/9/1-4
+        self.assertEqual(qs[1], self.event_list[1]) # 2000/9/2-3
+        self.assertEqual(qs[2], self.event_list[4]) # 2000/9/4-7 (protected)
+        self.assertEqual(qs[3], self.event_list[2]) # 2000/9/8-9
 
-    @mock.patch('datetime.datetime', FakeDateTime)
     def test_published_with_anonymous_user(self):
-        '''Tests publish() with anonymous user returns correct querysets'''
+        """
+        publish(anonymous_user) should return event queryset which stats is
+        public
+        """
         user = AnonymousUser()
-
-        es = self._create_test_events()
         qs = Event.objects.published(user)
 
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 3)
-        self.assertEqual(qs[0], es[0])
-        self.assertEqual(qs[1], es[1])
-        self.assertEqual(qs[2], es[2])
+        # protected or public events are appeared
+        self.assertEqual(qs[0], self.event_list[0]) # 2000/9/1-4
+        self.assertEqual(qs[1], self.event_list[1]) # 2000/9/2-3
+        self.assertEqual(qs[2], self.event_list[2]) # 2000/9/8-9
 
-    @mock.patch('datetime.datetime', FakeDateTime)
     def test_draft_with_organizer(self):
-        '''Tests draft() with organizer returns correct querysets'''
-        es = self._create_test_events()
-        qs = Event.objects.draft(user=es[3].organizer)
+        """
+        draft(organizer) should return event queryset which contains organized
+        draft events
+        """
+        user = self.event_list[3].organizer
+        qs = Event.objects.draft(user=user)
 
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 1)
-        self.assertEqual(qs[0], es[3])
+        # only self organized draft event is appeard
+        self.assertEqual(qs[0], self.event_list[3]) # 2000/9/9-10
 
-    @mock.patch('datetime.datetime', FakeDateTime)
-    def test_draft_with_other(self):
-        '''Tests draft() with others returns correct querysets'''
+    def test_draft_with_authenticated_user(self):
+        """
+        draft(authenticated_user) should not return queryset which contains
+        draft events if the user does not have any organized draft events.
+        """
         user = PersonaFactory()
 
-        es = self._create_test_events()
         qs = Event.objects.draft(user)
 
         self.assertEqual(Event.objects.count(), 5)
         self.assertEqual(qs.count(), 0)
 
+
+@patch_datetime_now(_static_now)
 class EventTestCase(TestCase):
     def test_str(self):
-        '''Tests __str__ returns correct values'''
+        """str(event) should return the event title"""
         event = EventFactory()
         self.assertEqual(str(event), event.title)
 
     def test_ordering(self):
         '''Tests events were ordered correctly'''
-        now = original_datetime.now()
-        e0 = EventFactory(period_start=now + datetime.timedelta(days=2), period_end=now + datetime.timedelta(days=2))
-        e1 = EventFactory(period_start=now + datetime.timedelta(days=1), period_end=now + datetime.timedelta(days=3))
-        e2 = EventFactory(period_start=now + datetime.timedelta(days=1), period_end=now + datetime.timedelta(days=2))
-        e3 = EventFactory(period_start=now + datetime.timedelta(days=5), period_end=now + datetime.timedelta(days=7))
-
+        """
+        Events should be orered by period_start, period_end, created_at,
+        updated_at, and title with respecting the appearance order.
+        """
+        e0 = _event_factory(2, 2)
+        e1 = _event_factory(1, 3)
+        e2 = _event_factory(1, 2)
+        e3 = _event_factory(5, 7)
+        
         qs = Event.objects.all()
         self.assertEqual(qs[0], e2)
         self.assertEqual(qs[1], e1)
@@ -132,36 +169,60 @@ class EventTestCase(TestCase):
         self.assertEqual(qs[3], e3)
 
     def test_attend(self):
-        '''Tests can attend correctly'''
+        """
+        attend(user) method should add the specified user to the attendees
+        """
         user = PersonaFactory()
         event = EventFactory()
+        # organizer is automatically attended to the event
         self.assertEqual(event.attendees.count(), 1)
-
+        # add new user
         event.attend(user)
-
         self.assertEqual(event.attendees.count(), 2)
 
-    def test_is_attendee(self):
-        '''Tests is_attendee returns correct value'''
+    def test_attendees(self):
+        """
+        attendees should be the user queryset
+        """
         user = PersonaFactory()
-        user2 = PersonaFactory()
         event = EventFactory(organizer=user)
+        # organizer attend the event automatically
         self.assertEqual(event.attendees.count(), 1)
         self.assertEqual(event.attendees.all()[0], user)
-        self.assertTrue(event.is_attendee(user))
+        # in case, test `in` operator
+        self.assertTrue(user in event.attendees.all())
+
+    def test_is_attendee(self):
+        """
+        is_attendee(user) method should return True if the specified user is in
+        attendee
+        """
+        user1 = PersonaFactory()
+        user2 = PersonaFactory()
+        event = EventFactory()
+        event.attend(user1)
+        self.assertTrue(event.is_attendee(user1))
         self.assertFalse(event.is_attendee(user2))
 
-    def test_organizer_is_attendee(self):
-        '''Tests organizer will be attend automatically'''
-        user = PersonaFactory()
-        event = EventFactory(organizer=user)
-        self.assertTrue(event.is_attendee(user))
+    def test_organizer_attend_event_automatically(self):
+        """
+        Event organizer attend the event automatically
+        """
+        user1 = PersonaFactory()
+        user2 = PersonaFactory()
+        event = EventFactory(organizer=user1)
+        self.assertEqual(event.organizer, user1)
+        self.assertTrue(event.is_attendee(user1))
+        self.assertFalse(event.is_attendee(user2))
 
     def test_quit(self):
-        '''Tests can remove member correctly'''
+        """
+        quit(user) method remove the specified user from the attendee
+        """
         event = EventFactory()
         user = PersonaFactory()
 
+        # Note: organizer attend the class automatically
         event.attend(user)
         self.assertEqual(event.attendees.count(), 2)
 
@@ -169,101 +230,131 @@ class EventTestCase(TestCase):
         self.assertEqual(event.attendees.count(), 1)
         self.assertFalse(user in user.groups.all())
 
-    def test_is_active(self):
-        '''Tests is_active returns correct value'''
+    def test_is_active_with_inactive_event(self):
+        """
+        is_active() should return False for events which held before
+        """
+        standard_time = _static_now()
+        # create an event which just end 1 day before
+        event = _event_factory(-4, -1)
+        self.assertFalse(event.is_active())
 
-        # ToDo stubbing datetime.datetime.now()
-        now = datetime.datetime.now()
-        start = now + datetime.timedelta(hours=1)
-        end = now + datetime.timedelta(hours=4)
-        event = EventFactory.build(period_start=start, period_end=end)
+    def test_is_active_with_event_have_not_started(self):
+        """
+        is_active() should return True for events have not started
+        """
+        standard_time = _static_now()
+        # create an event which will start just 1 hour later
+        kwargs = dict(
+                period_start=standard_time+datetime.timedelta(hours=1),
+                period_end=standard_time+datetime.timedelta(hours=3),
+            )
+        event = EventFactory(**kwargs)
         self.assertTrue(event.is_active())
 
-        start2 = now + datetime.timedelta(hours=-4)
-        end2 = now + datetime.timedelta(hours=-1)
-        event2 = EventFactory.build(period_start=start2, period_end=end2)
-        self.assertFalse(event2.is_active())
+    def test_is_active_with_event_going(self):
+        """
+        is_active() should return True for events going
+        """
+        standard_time = _static_now()
+        # create an event which have started just 1 day before and end
+        # just 1 day later
+        event = _event_factory(-1, 1)
+        self.assertTrue(event.is_active())
 
-        start3 = now + datetime.timedelta(hours=-4)
-        end3 = now + datetime.timedelta(hours=1)
-        event3 = EventFactory.build(period_start=start3, period_end=end3)
-        self.assertTrue(event3.is_active())
-
-        event4 = EventFactory.build(period_start=None, period_end=None)
-        self.assertTrue(event4.is_active())
+    def test_is_active_with_event_without_period(self):
+        """
+        is_active() should return True for events without period
+        """
+        # create an event without period_start and period_end
+        kwargs = dict(
+                period_start=None,
+                period_end=None,
+            )
+        event = EventFactory(**kwargs)
+        self.assertTrue(event.is_active())
 
     def test_get_absolute_url(self):
-        '''Tests get_absolute_url returns correct value'''
+        """
+        get_absolute_url() should return /events/pk
+        """
         event = EventFactory()
-        self.assertEqual(event.get_absolute_url(), '/events/{0}/'.format(event.pk))
+        self.assertEqual(event.get_absolute_url(),
+                         '/events/{0}/'.format(event.pk))
 
+
+@patch_datetime_now(_static_now)
 class EventValidationTestCase(TestCase):
-    def test_organizer_cant_quit(self):
-        '''Tests organizer can't quit from events'''
-        organizer = PersonaFactory()
-        event = EventFactory(organizer=organizer)
-
-        self.assertRaises(PermissionDenied, event.quit, organizer)
-
-    def test_not_attendee_cant_quit(self):
-        '''Tests non attendee can't quit from events'''
-        event = EventFactory()
+    def test_organizer_cannot_quit(self):
+        """
+        Event organizer is not allowed to quit the event and raise
+        PermissionDenied
+        """
         user = PersonaFactory()
-
+        event = EventFactory(organizer=user)
         self.assertRaises(PermissionDenied, event.quit, user)
 
-    def test_later_than_start_time(self):
-        '''Tests end time must be later than start time'''
-        now = datetime.datetime.now()
-        start = now + datetime.timedelta(hours=6)
-        end = now + datetime.timedelta(hours=4)
+    def test_non_attendee_cannot_quit(self):
+        """
+        Ofcourse non attendee cannot quit the event
+        """
+        user = PersonaFactory()
+        event = EventFactory()
+        self.assertRaises(PermissionDenied, event.quit, user)
 
-        self.assertRaises(ValidationError, EventFactory, period_start=start, period_end=end)
-
-    def test_same_between_start_and_end_time(self):
-        '''Tests end time can be allowed same with start time'''
-        now = datetime.datetime.now()
-        start = now + datetime.timedelta(hours=5)
-        end = now + datetime.timedelta(hours=5)
-
-        self.assertIsNotNone(EventFactory(period_start=start, period_end=end))
+    def test_backgoing_event_is_not_allowed(self):
+        """
+        Raise ValidationError when period_start is later than period_end
+        """
+        standard_time = _static_now()
+        kwargs = dict(
+                period_start=standard_time+datetime.timedelta(hours=1),
+                period_end=standard_time,
+            )
+        self.assertRaises(ValidationError, EventFactory, **kwargs)
 
     def test_start_time_must_be_future(self):
-        '''Tests start time must be future'''
-        now = datetime.datetime.now()
-        start_time = now + datetime.timedelta(hours=-5)
-        end_time = now + datetime.timedelta(hours=5)
+        """
+        Raise ValidationError when the period_start is specified as a past date
+        """
+        standard_time = _static_now()
+        kwargs = dict(
+                period_start=standard_time+datetime.timedelta(hours=-1),
+                period_end=standard_time,
+            )
+        self.assertRaises(ValidationError, EventFactory, **kwargs)
 
-        self.assertRaises(ValidationError, EventFactory, period_start=start_time, period_end=end_time)
+    def test_event_period_cannot_be_longer_than_8_days(self):
+        """
+        Raise ValidationError when the event period is longer than 8 days
+        """
+        standard_time = _static_now()
+        kwargs = dict(
+                period_start=standard_time,
+                period_end=standard_time+datetime.timedelta(days=8),
+            )
+        self.assertRaises(ValidationError, EventFactory, **kwargs)
 
-    def test_event_period_is_too_long(self):
-        '''Tests period of event must be shorter than 8 days'''
-        now = datetime.datetime.now()
-        start = now + datetime.timedelta(days=1)
-        end = now + datetime.timedelta(days=9)
+    def test_period_end_without_period_start_is_now_allowed(self):
+        """
+        Raise ValidationError when period_end is specified without specifing
+        period_start
+        """
+        standard_time = _static_now()
+        kwargs = dict(
+                period_start=None,
+                period_end=standard_time,
+            )
+        self.assertRaises(ValidationError, EventFactory, **kwargs)
 
-        self.assertRaises(ValidationError, EventFactory, period_start=start, period_end=end)
-
-        # period of event that is under 8 days is allowed (Kawaz 2nd)
-        start2 = now + datetime.timedelta(days=1)
-        end2 = now + datetime.timedelta(days=9, seconds=-1)
-        self.assertIsNotNone(EventFactory(period_start=start2, period_end=end2))
-
-    def test_set_only_end_time(self):
-        '''Tests event must not only have end time.'''
-        now = datetime.datetime.now()
-        end = now + datetime.timedelta(days=8)
-
-        self.assertRaises(ValidationError, EventFactory, period_start=None, period_end=end)
 
 class EventChangePermissionTestCase(TestCase):
-
     def test_organizer_can_edit(self):
         '''Tests organizer can edit an event'''
         event = EventFactory()
         self.assertTrue(event.organizer.has_perm('events.change_event', event))
 
-    def test_others_can_not_edit(self):
+    def test_others_cannot_edit(self):
         '''Tests others can no edit an event'''
         user = PersonaFactory()
         event = EventFactory()
@@ -292,8 +383,8 @@ class EventChangePermissionTestCase(TestCase):
         event = EventFactory()
         self.assertFalse(user.has_perm('events.delete_event', event))
 
-class EventViewPermissionTestCase(TestCase):
 
+class EventViewPermissionTestCase(TestCase):
     def test_organizer_can_view_draft(self):
         '''Tests organizer can view draft'''
         event = EventFactory(pub_state='draft')
