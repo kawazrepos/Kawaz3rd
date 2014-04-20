@@ -1,6 +1,6 @@
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView, MultipleObjectMixin
-from django.views.generic.edit import ModelFormMixin, CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseArchiveIndexView
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
@@ -20,6 +20,7 @@ class EventActiveQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
         return Event.objects.active(self.request.user)
 
+
 class EventDateArchiveMixin(BaseArchiveIndexView):
     def get(self, request, *args, **kwargs):
         self.date_list, self.object_list, extra_context = self.get_dated_items()
@@ -29,10 +30,6 @@ class EventDateArchiveMixin(BaseArchiveIndexView):
         context.update(extra_context)
         return self.render_to_response(context)
 
-class EventSetOrganizerMixin(ModelFormMixin):
-    def form_valid(self, form):
-        form.instance.organizer = self.request.user
-        return super().form_valid(form)
 
 class EventListView(ListView, EventActiveQuerySetMixin):
     model = Event
@@ -44,12 +41,16 @@ class EventDetailView(DetailView):
 
 
 @permission_required('events.add_event')
-class EventCreateView(CreateView, EventSetOrganizerMixin):
+class EventCreateView(CreateView):
     model = Event
     form_class = EventForm
 
+    def form_valid(self, form):
+        form.instance.organizer = self.request.user
+        return super().form_valid(form)
+
 @permission_required('events.change_event')
-class EventUpdateView(UpdateView, EventSetOrganizerMixin):
+class EventUpdateView(UpdateView):
     model = Event
     form_class = EventForm
 
