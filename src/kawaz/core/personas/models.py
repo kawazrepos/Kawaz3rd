@@ -3,9 +3,13 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext as _
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 from thumbnailfield.fields import ThumbnailField
 
+from kawaz.core.db.decorators import validate_on_save
+
+@validate_on_save
 class Persona(AbstractUser):
 
     def _get_upload_path(self, filename):
@@ -40,6 +44,13 @@ class Persona(AbstractUser):
             ('change_persona_is_active', 'Can change is_active'),
             ('view_persona', 'Can view the persona info'),
         )
+
+    def clean(self):
+        if self.is_staff and not (self.role == 'seele' or self.role == 'nerv'):
+            raise ValidationError('staff user must be seele of Nerv role')
+        elif self.is_superuser and not self.role == 'seele':
+            raise ValidationError('superuser must be Seele role')
+        return super().clean()
 
     def save(self, *args, **kwargs):
         if not self.nickname:

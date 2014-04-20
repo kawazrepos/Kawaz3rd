@@ -14,3 +14,5 @@ class PersonaFactory(factory.django.DjangoModelFactory):
     nickname = 'かわずたん'
     quotes = 'けろーん'
     gender = 'woman'
+
+    role = 'children'
