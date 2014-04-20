@@ -1,9 +1,9 @@
 Kawaz 3rd
 ===============================================================
-.. image:: https://secure.travis-ci.org/kawazrepos/third-impact.png
+.. image:: https://secure.travis-ci.org/kawazrepos/third-impact.png?branch=develop
     :target: http://travis-ci.org/kawazrepos/third-impact
     :alt: Build status
-.. image:: https://coveralls.io/repos/kawazrepos/third-impact/badge.png
+.. image:: https://coveralls.io/repos/kawazrepos/third-impact/badge.png?branch=develop
     :target: https://coveralls.io/r/kawazrepos/third-impact/
     :alt: Coverage
 
