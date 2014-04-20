@@ -9,7 +9,6 @@ from thumbnailfield.fields import ThumbnailField
 
 from kawaz.core.db.decorators import validate_on_save
 
-@validate_on_save
 class Persona(AbstractUser):
 
     def _get_upload_path(self, filename):
@@ -47,9 +46,9 @@ class Persona(AbstractUser):
 
     def clean(self):
         if self.is_staff and not (self.role == 'seele' or self.role == 'nerv'):
-            raise ValidationError('staff user must be seele of Nerv role')
+            raise ValidationError('Staff user must be seele of Nerv role')
         elif self.is_superuser and not self.role == 'seele':
-            raise ValidationError('superuser must be Seele role')
+            raise ValidationError('Superuser must be Seele role')
         return super().clean()
 
     def save(self, *args, **kwargs):
@@ -63,6 +62,11 @@ class Persona(AbstractUser):
         else:
             self.is_staff = False
             self.is_superuser = False
+        # saveで値を変えてからcleanを呼んでやらないとvalidationErrorが発生するため
+        # validate_on_save decoratorを使用していない
+        from django.conf import settings    # this should be loaded in run time
+        if not getattr(settings, 'VALIDATE_ON_SAVE_DISABLE', False):
+            self.full_clean()
         super().save(*args, **kwargs)
 
 from permission.logics import PermissionLogic

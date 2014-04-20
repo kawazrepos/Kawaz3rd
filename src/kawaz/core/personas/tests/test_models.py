@@ -53,16 +53,3 @@ class PersonaTestCase(TestCase):
         user.save()
         self.assertFalse(user.is_staff, 'Children role is not staff')
         self.assertFalse(user.is_superuser, 'Children role is not superuser')
-
-    def test_role_validation_staff(self):
-        '''Tests is_staff is must be nerf or seele'''
-        self.assertRaises(ValidationError, PersonaFactory, is_staff=True, role='children')
-        self.assertRaises(ValidationError, PersonaFactory, is_staff=True, role='wille')
-        self.assertRaises(ValidationError, PersonaFactory, is_staff=True, role='adam')
-
-    def test_role_validation_superuser(self):
-        '''Tests is_staff is must be seele'''
-        self.assertRaises(ValidationError, PersonaFactory, is_superuser=True, role='children')
-        self.assertRaises(ValidationError, PersonaFactory, is_superuser=True, role='wille')
-        self.assertRaises(ValidationError, PersonaFactory, is_superuser=True, role='adam')
-        self.assertRaises(ValidationError, PersonaFactory, is_superuser=True, role='nerv')
