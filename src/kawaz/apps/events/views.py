@@ -30,13 +30,9 @@ class EventDateArchiveMixin(BaseArchiveIndexView):
         return self.render_to_response(context)
 
 class EventSetOrganizerMixin(ModelFormMixin):
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        if self.request.method == 'POST':
-            data = kwargs['data'].copy()
-            data['organizer'] = str(self.request.user.pk)
-            kwargs['data'] = data
-        return kwargs
+    def form_valid(self, form):
+        form.instance.organizer = self.request.user
+        return super().form_valid(form)
 
 class EventListView(ListView, EventActiveQuerySetMixin):
     model = Event
@@ -52,7 +48,6 @@ class EventCreateView(CreateView, EventSetOrganizerMixin):
     model = Event
     form_class = EventForm
 
-
 @permission_required('events.change_event')
 class EventUpdateView(UpdateView, EventSetOrganizerMixin):
     model = Event
@@ -64,9 +59,8 @@ class EventDeleteView(DeleteView):
     model = Event
     success_url = reverse_lazy('events_event_list')
 
-
 @permission_required('event.attend_event')
-class EventJoinView(UpdateView):
+class EventAttendView(UpdateView):
     model = Event
     success_url = reverse_lazy('events_event_list')
 

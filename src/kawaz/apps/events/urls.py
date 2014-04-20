@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from .views import EventListView, EventCreateView, EventDetailView, EventUpdateView, EventDeleteView, EventJoinView, EventQuitView, EventYearListView, EventMonthListView
+from .views import EventListView, EventCreateView, EventDetailView, EventUpdateView, EventDeleteView, EventAttendView, EventQuitView, EventYearListView, EventMonthListView
 
 urlpatterns = patterns('',
     url(r'^$', EventListView.as_view(), name='events_event_list'),
@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^create/$', EventCreateView.as_view(), name='events_event_create'),
     url(r'^(?P<pk>\d+)/update/$', EventUpdateView.as_view(), name='events_event_update'),
     url(r'^(?P<pk>\d+)/delete/$', EventDeleteView.as_view(), name='events_event_delete'),
-    url(r'^(?P<pk>\d+)/join/$', EventJoinView.as_view(), name='events_event_join'),
+    url(r'^(?P<pk>\d+)/join/$', EventAttendView.as_view(), name='events_event_join'),
     url(r'^(?P<pk>\d+)/quit/$', EventQuitView.as_view(), name='events_event_quit'),
     url(r'^(?P<pk>\d+)/quit/(?P<user>[^/]+)/$', EventQuitView.as_view(), name='events_event_quit'),
     url(r'^archive/(?P<year>\d+)/$', EventYearListView.as_view(), name='events_event_archive-year'),
