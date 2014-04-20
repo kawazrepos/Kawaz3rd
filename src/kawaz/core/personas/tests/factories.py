@@ -16,3 +16,4 @@ class PersonaFactory(factory.django.DjangoModelFactory):
     gender = 'woman'
 
     role = 'children'
+
