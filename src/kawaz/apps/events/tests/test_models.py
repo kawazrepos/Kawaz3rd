@@ -359,6 +359,26 @@ class EventChangePermissionTestCase(TestCase):
         event = EventFactory()
         self.assertFalse(user.has_perm('events.delete_event', event))
 
+    def test_authorized_user_has_add_perm(self):
+        '''authorized users have add_permission for all objects'''
+        user = PersonaFactory()
+        self.assertTrue(user.has_perm('events.add_event'))
+
+    def test_anonymous_user_dont_have_add_perm(self):
+        '''anonymous users don't have add_permission for all objects'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('events.add_event'))
+
+    def test_change_event_treat_object_permission_only(self):
+        '''events.change_event with no object, return False permanently'''
+        user = PersonaFactory()
+        self.assertFalse(user.has_perm('events.change_event'))
+
+    def test_delete_event_treat_object_permission_only(self):
+        '''events.delete_event with no object, return False permanently'''
+        user = PersonaFactory()
+        self.assertFalse(user.has_perm('events.delete_event'))
+
 
 class EventViewPermissionTestCase(TestCase):
     def test_organizer_can_view_draft(self):

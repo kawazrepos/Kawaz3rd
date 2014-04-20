@@ -168,7 +168,7 @@ class EventPermissionLogic(PermissionLogic):
                 return user_obj.is_authenticated()
             else:
                 # When other perms, treat only object-permission
-                return None
+                return False
         permission_methods = {
             'events.view_event': self._has_view_perm,
             'events.attend_event': self._has_attend_perm,
