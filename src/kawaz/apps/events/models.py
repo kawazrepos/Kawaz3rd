@@ -17,7 +17,8 @@ User = get_user_model()
 import datetime
 
 class EventManager(models.Manager):
-    # ToDo Test me!
+    '''ObjectManager for Event model'''
+
     def active(self, user):
         qs = self.published(user)
         qs = qs.filter(Q(period_end__gte=datetime.datetime.now()) | Q(period_end=None)).distinct()
@@ -32,8 +33,7 @@ class EventManager(models.Manager):
     def draft(self, user):
         if user and user.is_authenticated():
             return self.filter(organizer=user, pub_state='draft')
-        else:
-            return self.none()
+        return self.none()
 
 @validate_on_save
 class Event(models.Model):
@@ -63,8 +63,8 @@ class Event(models.Model):
     objects = EventManager()
     
     class Meta:
-        ordering            = ('period_start', 'period_end', '-created_at', '-updated_at', 'title')
-        verbose_name        = _("Event")
+        ordering = ('period_start', 'period_end', '-created_at', '-updated_at', 'title', '-pk')
+        verbose_name = _("Event")
         verbose_name_plural = _("Events")
         permissions = (
             ('attend_event', 'Can attend the event'),
@@ -113,6 +113,12 @@ class Event(models.Model):
             return True
         return self.period_end >= datetime.datetime.now()
 
+    @models.permalink
+    def get_absolute_url(self):
+        if self.pub_state == 'draft':
+            return ('events_event_update', (str(self.pk)))
+        return ('events_event_detail', (str(self.pk)))
+
 @receiver(post_save, sender=Event)
 def join_organizer(**kwargs):
     created = kwargs.get('created')
@@ -157,9 +163,12 @@ class EventPermissionLogic(PermissionLogic):
         """
         Check `obj.pub_state` and if user is authenticated
         """
-        # treat only object permission
         if obj is None:
-            return False
+            if perm == 'events.add_event':
+                return user_obj.is_authenticated()
+            else:
+                # When other perms, treat only object-permission
+                return False
         permission_methods = {
             'events.view_event': self._has_view_perm,
             'events.attend_event': self._has_attend_perm,
