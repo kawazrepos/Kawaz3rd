@@ -7,7 +7,8 @@ from ..models import Event
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.tests.datetime import patch_datetime_now
 
-from .utils import static_now, event_factory_with_relative
+from .utils import static_now
+from .utils import event_factory_with_relative
 
 # Notice
 # Test cases for EventDeleteView, EventJoinView, EventQuitView have not be implemented.
@@ -240,14 +241,15 @@ class EventUpdateViewTestCase(TestCase):
 @patch_datetime_now(static_now)
 class EventListViewTestCase(TestCase):
     def setUp(self):
-        self.events = (
-            event_factory_with_relative(-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
-            event_factory_with_relative(1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
-            event_factory_with_relative(-2, -1, {'pub_state':'protected'}), # 2000/9/3 ~ 2000/9/4
-            event_factory_with_relative(0, 1, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
-            event_factory_with_relative(-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
-            event_factory_with_relative(1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
+        arguments_list = (
+            (-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
+            (1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
+            (-2, -1, {'pub_state':'protected'}), # 2000/9/3 ~ 2000/9/4
+            (0, 1, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
+            (-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
+            (1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
         )
+        self.events = [event_factory_with_relative(*args) for args in arguments_list]
         self.user = PersonaFactory()
         self.user.set_password('password')
         self.user.save()
@@ -281,16 +283,17 @@ class EventListViewTestCase(TestCase):
 @patch_datetime_now(static_now)
 class EventMonthListViewTestCase(TestCase):
     def setUp(self):
-        self.events = (
-            event_factory_with_relative(-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
-            event_factory_with_relative(1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
-            event_factory_with_relative(31, 32, {'pub_state':'public'}), # 2000/10/5 ~ 2000/10/6
-            event_factory_with_relative(-2, -1, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
-            event_factory_with_relative(0, 1, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
-            event_factory_with_relative(32, 33, {'pub_state':'protected'}), # 2000/10/6 ~ 2000/10/7
-            event_factory_with_relative(-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
-            event_factory_with_relative(1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
+        arguments_list = (
+            (-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
+            (1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
+            (31, 32, {'pub_state':'public'}), # 2000/10/5 ~ 2000/10/6
+            (-2, -1, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
+            (0, 1, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
+            (32, 33, {'pub_state':'protected'}), # 2000/10/6 ~ 2000/10/7
+            (-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
+            (1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
         )
+        self.events = [event_factory_with_relative(*args) for args in arguments_list]
         self.user = PersonaFactory()
         self.user.set_password('password')
         self.user.save()
@@ -353,16 +356,17 @@ class EventMonthListViewTestCase(TestCase):
 @patch_datetime_now(static_now)
 class EventYearListViewTestCase(TestCase):
     def setUp(self):
-        self.events = (
-            event_factory_with_relative(-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
-            event_factory_with_relative(1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
-            event_factory_with_relative(365, 366, {'pub_state':'public'}), # 2001/9/5 ~ 2001/9/6
-            event_factory_with_relative(-2, -1, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
-            event_factory_with_relative(0, 3, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
-            event_factory_with_relative(367, 368, {'pub_state':'protected'}), # 2001/9/7 ~ 2001/9/8
-            event_factory_with_relative(-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
-            event_factory_with_relative(1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
+        arguments_list = (
+            (-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
+            (1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
+            (365, 366, {'pub_state':'public'}), # 2001/9/5 ~ 2001/9/6
+            (-2, -1, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
+            (0, 3, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
+            (367, 368, {'pub_state':'protected'}), # 2001/9/7 ~ 2001/9/8
+            (-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
+            (1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
         )
+        self.events = [event_factory_with_relative(*args) for args in arguments_list]
         self.user = PersonaFactory()
         self.user.set_password('password')
         self.user.save()

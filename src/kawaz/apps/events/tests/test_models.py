@@ -10,7 +10,8 @@ from kawaz.core.tests.datetime import patch_datetime_now
 from ..models import Event
 from .factories import EventFactory
 
-from .utils import static_now, event_factory_with_relative
+from .utils import static_now
+from .utils import event_factory_with_relative
 
 @patch_datetime_now(static_now)
 class EventManagerTestCase(TestCase):
