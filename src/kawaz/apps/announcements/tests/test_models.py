@@ -11,7 +11,7 @@ class AnnouncementManagerTestCase(TestCase):
         AnnouncementFactory(pub_state='protected')
         c = AnnouncementFactory(pub_state='draft')
 
-        staff = PersonaFactory(is_staff=True)
+        staff = PersonaFactory(role='nerv')
         qs = Announcement.objects.draft(staff)
         self.assertEqual(qs.count(), 1)
         self.assertEqual(qs[0], c)
@@ -59,7 +59,7 @@ class AnnouncementEditPermissionTestCase(TestCase):
 
     def test_staff_has_add_perm(self):
         '''Tests staff can add announcement'''
-        user = PersonaFactory(is_staff=True)
+        user = PersonaFactory(role='nerv')
         self.assertTrue(user.has_perm('announcements.add_announcement'))
 
     def test_authorized_has_not_add_perm(self):
@@ -74,7 +74,7 @@ class AnnouncementEditPermissionTestCase(TestCase):
 
     def test_staff_has_change_perm(self):
         '''Tests staff can change announcement'''
-        user = PersonaFactory(is_staff=True)
+        user = PersonaFactory(role='nerv')
         self.assertTrue(user.has_perm('announcements.change_announcement'))
 
     def test_authorized_has_not_change_perm(self):
@@ -89,7 +89,7 @@ class AnnouncementEditPermissionTestCase(TestCase):
 
     def test_staff_has_delete_perm(self):
         '''Tests staff can delete announcement'''
-        user = PersonaFactory(is_staff=True)
+        user = PersonaFactory(role='nerv')
         self.assertTrue(user.has_perm('announcements.delete_announcement'))
 
     def test_authorized_has_not_delete_perm(self):
@@ -107,7 +107,7 @@ class AnnouncementViewPermissionTestCase(TestCase):
     def test_staff_has_view_perm_of_public(self):
         '''Tests staff can view public announcement'''
         obj = AnnouncementFactory(pub_state='public')
-        user = PersonaFactory(is_staff=True)
+        user = PersonaFactory(role='nerv')
         self.assertTrue(user.has_perm('announcements.view_announcement', obj))
 
     def test_authorized_has_view_perm_of_public(self):
@@ -125,7 +125,7 @@ class AnnouncementViewPermissionTestCase(TestCase):
     def test_staff_has_view_perm_of_protected(self):
         '''Tests staff can view protected announcement'''
         obj = AnnouncementFactory(pub_state='protected')
-        user = PersonaFactory(is_staff=True)
+        user = PersonaFactory(role='nerv')
         self.assertTrue(user.has_perm('announcements.view_announcement', obj))
 
     def test_authorized_has_view_perm_of_protected(self):
@@ -143,7 +143,7 @@ class AnnouncementViewPermissionTestCase(TestCase):
     def test_staff_has_view_perm_of_draft(self):
         '''Tests staff can view draft announcement'''
         obj = AnnouncementFactory(pub_state='draft')
-        user = PersonaFactory(is_staff=True)
+        user = PersonaFactory(role='nerv')
         self.assertTrue(user.has_perm('announcements.view_announcement', obj))
 
     def test_authorized_has_not_view_perm_of_draft(self):
