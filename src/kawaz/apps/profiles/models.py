@@ -118,7 +118,18 @@ class ProfilePermissionLogic(PermissionLogic):
 
 from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
+from kawaz.core.permissions.logics import NervPermissionLogic
 
+add_permission_logic(Skill, NervPermissionLogic(
+    any_permission=True
+))
+add_permission_logic(Service, NervPermissionLogic(
+    any_permission=True
+))
+add_permission_logic(Account, AuthorPermissionLogic(
+    field_name='user',
+    any_permission=True
+))
 add_permission_logic(Profile, ProfilePermissionLogic())
 add_permission_logic(Profile, AuthorPermissionLogic(
     field_name='user',

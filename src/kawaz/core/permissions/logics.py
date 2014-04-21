@@ -1,3 +1,4 @@
+from django.conf import settings
 from permission.logics import AuthorPermissionLogic
 from permission.utils.permissions import get_perm_codename
 
@@ -11,6 +12,7 @@ class RolePermissionLogic(AuthorPermissionLogic):
 
     def __init__(self,
                  any_permission=None,
+                 add_permission=None,
                  change_permission=None,
                  delete_permission=None):
         """
@@ -22,6 +24,13 @@ class RolePermissionLogic(AuthorPermissionLogic):
             True for give any permission of the specified object to the author
             Default value will be taken from
             ``PERMISSION_DEFAULT_APL_ANY_PERMISSION`` in
+            settings.
+        add_permission : boolean
+            True for give change permission of the specified object to the
+            author.
+            It will be ignored if :attr:`any_permission` is True.
+            Default value will be taken from
+            ``PERMISSION_DEFAULT_APL_ADD_PERMISSION`` in
             settings.
         change_permission : boolean
             True for give change permission of the specified object to the
@@ -38,6 +47,10 @@ class RolePermissionLogic(AuthorPermissionLogic):
             ``PERMISSION_DEFAULT_APL_DELETE_PERMISSION`` in
             settings.
         """
+        self.add_permission = add_permission
+        if self.add_permission is None:
+            self.add_permission = \
+                settings.PERMISSION_DEFAULT_APL_ADD_PERMISSION
         super().__init__(
             field_name=None,
             any_permission=any_permission,
@@ -48,6 +61,8 @@ class RolePermissionLogic(AuthorPermissionLogic):
     def has_perm(self, user_obj, perm, obj=None):
         codename = get_perm_codename(perm)
         if obj is None:
+            if (self.any_permission or self.add_permission) and codename.startswith('change'):
+                return True
             return False
         elif user_obj.is_active:
             if user_obj:

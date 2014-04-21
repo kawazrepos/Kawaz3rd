@@ -9,7 +9,22 @@ class RolePermissionLogicTestCase(TestCase):
     def setUp(self):
         [setattr(self, key, PersonaFactory(role=key)) for key in dict(Persona.ROLE_TYPES).keys()]
 
-    def test_seele_permission_logic(self):
+    def test_add_permission(self):
+        '''
+        Tests to check that RolePermissionLogic permits to add the model by add_permission value.
+        '''
+        logic = AdamPermissionLogic(
+            add_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertFalse(self.seele.has_perm('permissions.change_article', obj=article))
+        self.assertFalse(self.nerv.has_perm('permissions.change_article', obj=article))
+        self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
+        self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
+        remove_permission_logic(Article, logic)
+
+    def test_adam_permission_logic(self):
         '''
         Tests to check that AdamPermissionLogic permits adam users only.
         '''
@@ -18,8 +33,8 @@ class RolePermissionLogicTestCase(TestCase):
             change_permission=True
         )
         add_permission_logic(Article, logic)
-        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertFalse(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
@@ -34,8 +49,8 @@ class RolePermissionLogicTestCase(TestCase):
         )
         article = Article.objects.create(title='hoge')
         add_permission_logic(Article, logic)
-        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
@@ -50,8 +65,8 @@ class RolePermissionLogicTestCase(TestCase):
         )
         article = Article.objects.create(title='hoge')
         add_permission_logic(Article, logic)
-        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
@@ -66,8 +81,8 @@ class RolePermissionLogicTestCase(TestCase):
         )
         article = Article.objects.create(title='hoge')
         add_permission_logic(Article, logic)
-        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
