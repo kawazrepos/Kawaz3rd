@@ -17,11 +17,11 @@ class RolePermissionLogicTestCase(TestCase):
             add_permission=True
         )
         add_permission_logic(Article, logic)
-        self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
-        self.assertFalse(self.seele.has_perm('permissions.change_article', obj=article))
-        self.assertFalse(self.nerv.has_perm('permissions.change_article', obj=article))
-        self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
-        self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
+        self.assertTrue(self.adam.has_perm('permissions.add_article'), 'adam has all permissions')
+        self.assertFalse(self.seele.has_perm('permissions.add_article'))
+        self.assertFalse(self.nerv.has_perm('permissions.add_article'))
+        self.assertFalse(self.children.has_perm('permissions.add_article'))
+        self.assertFalse(self.wille.has_perm('permissions.add_article'))
         remove_permission_logic(Article, logic)
 
     def test_adam_permission_logic(self):
