@@ -39,6 +39,7 @@ class BaseRolePermissionLogic(PermissionLogic):
     def has_perm(self, user_obj, perm, obj=None):
         """
         Check if user have permission (of object)
+        It is determined from the `user_obj.role`.
 
         If no object is specified, if any_permission is True it returns ``True`` .
         if else returns ``False``.

@@ -22,9 +22,9 @@ class PubStatePermissionLogic(PermissionLogic):
     def has_perm(self, user_obj, perm, obj=None):
         """
         Check if user have permission (of object)
+        It is determined from the ``pub_state`` of the obj instance.
 
-        If no object is specified, it always return ``False`` so you need to
-        add *add* permission to users in normal way.
+        If no object is specified, it always return ``False``.
 
         If an object is specified, it will return ``True`` if ``user_obj`` can see this object.
         It will be judged by the object's pub_state.
