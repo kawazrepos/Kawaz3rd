@@ -19,9 +19,17 @@ class BaseRolePermissionLogic(PermissionLogic):
         Parameters
         ----------
         any_permission : boolean
+            True for give any permission of the specified object or model to the role
+            Default value will be `False`
         add_permission : boolean
+            True for give add permission of the specified model to the role.
+            Default value will be 'False'
         change_permission : boolean
+            True for give change permission of the specified model to the role.
+            Default value will be 'False'
         delete_permission : boolean
+            True for give delete permission of the specified model to the role.
+            Default value will be 'False'
         """
         self.any_permission = any_permission
         self.add_permission = add_permission
@@ -29,15 +37,37 @@ class BaseRolePermissionLogic(PermissionLogic):
         self.delete_permission = delete_permission
 
     def has_perm(self, user_obj, perm, obj=None):
+        """
+        Check if user have permission (of object)
+
+        Parameters
+        ----------
+        user_obj : django user model instance
+            A django user model instance which be checked
+        perm : string
+            `app_label.codename` formatted permission string
+        obj : None or django model instance
+            None or django model instance for object permission
+
+        Returns
+        -------
+        boolean
+            Whether the specified user have specified permission (of specified
+            object).
+
+        .. note::
+            Sub class must override this method.
+        """
         add_name = self.get_full_permission_string('add')
         change_name = self.get_full_permission_string('change')
         delete_name = self.get_full_permission_string('delete')
         if not user_obj.is_active:
             return False
-        if user_obj:
-            role = getattr(user_obj, 'role', None)
+        role = getattr(user_obj, 'role', None)
         if obj is None:
-            if (self.any_permission or self.add_permission) and perm == add_name:
+            if self.any_permission:
+                return True
+            if self.add_permission and perm == add_name:
                 if role and role in self.role_names:
                     return True
             return False
@@ -54,16 +84,28 @@ class BaseRolePermissionLogic(PermissionLogic):
 
 
 class ChildrenPermissionLogic(BaseRolePermissionLogic):
+    """
+    Permission logic class to allow permissions to over `Children` role user.
+    """
     role_names = ['seele', 'nerv', 'children', 'adam']
 
 
 class NervPermissionLogic(BaseRolePermissionLogic):
+    """
+    Permission logic class to allow permissions to over `Nerv`(staff) role user.
+    """
     role_names = ['adam', 'seele', 'nerv',]
 
 
 class SeelePermissionLogic(BaseRolePermissionLogic):
+    """
+    Permission logic class to allow permissions to over `Seele` role user.
+    """
     role_names = ['adam', 'seele',]
 
 
 class AdamPermissionLogic(BaseRolePermissionLogic):
+    """
+    Permission logic class to allow permissions to over `Adam`(superuser) role user.
+    """
     role_names = ['adam',]

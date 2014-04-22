@@ -1,19 +1,25 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
-from ..logics import AdamPermissionLogic, SeelePermissionLogic, NervPermissionLogic, ChildrenPermissionLogic, PubStatePermissionLogic
-from permission import add_permission_logic, remove_permission_logic
+from ..logics import AdamPermissionLogic
+from ..logics import SeelePermissionLogic
+from ..logics import NervPermissionLogic
+from ..logics import ChildrenPermissionLogic
+from ..logics import PubStatePermissionLogic
+from permission import add_permission_logic
+from permission import remove_permission_logic
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.personas.models import Persona
 from .models import Article
 
 class RolePermissionLogicTestCase(TestCase):
+
     def setUp(self):
         [setattr(self, key, PersonaFactory(role=key)) for key in dict(Persona.ROLE_TYPES).keys()]
         self.anonymous = AnonymousUser()
 
     def test_add_permission(self):
         '''
-        Tests to check that RolePermissionLogic permits to add the model by add_permission value.
+        Tests RolePermissionLogic permits to add the model by add_permission value.
         '''
         logic = ChildrenPermissionLogic(
             add_permission=True
@@ -29,7 +35,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_add_permission_without_add_permission(self):
         '''
-        Tests to check that RolePermissionLogic permits to add the model by add_permission value with add_permission=False.
+        Tests RolePermissionLogic permits to add the model by add_permission value with add_permission=False.
         '''
         logic = ChildrenPermissionLogic()
         article = Article.objects.create(title='hoge', written_by=PersonaFactory())
@@ -43,7 +49,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_add_permission_with_obj(self):
         '''
-        Tests to check that RolePermissionLogic without object with add always returns False
+        Tests RolePermissionLogic without object with add always returns False
         '''
         logic = ChildrenPermissionLogic(
             add_permission=True
@@ -58,7 +64,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_change_permission_without_obj_change(self):
         '''
-        Tests to check that RolePermissionLogic without object with change always returns False
+        Tests RolePermissionLogic without object with change always returns False
         '''
         logic = ChildrenPermissionLogic(
             change_permission=True
@@ -73,7 +79,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_delete_permission_without_obj_delete(self):
         '''
-        Tests to check that RolePermissionLogic without object with delete always returns False
+        Tests RolePermissionLogic without object with delete always returns False
         '''
         logic = ChildrenPermissionLogic(
             delete_permission=True
@@ -88,7 +94,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_adam_permission_logic_change(self):
         '''
-        Tests to check that AdamPermissionLogic permits adam users only.
+        Tests AdamPermissionLogic permits adam users only.
         '''
         article = Article.objects.create(title='hoge', written_by=PersonaFactory())
         logic = AdamPermissionLogic(
@@ -105,7 +111,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_seele_permission_logic_change(self):
         '''
-        Tests to check that SeelePermissionLogic permits changing seele or adam users only.
+        Tests SeelePermissionLogic permits changing seele or adam users only.
         '''
         logic = SeelePermissionLogic(
             change_permission=True
@@ -122,7 +128,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_nerv_permission_logic_change(self):
         '''
-        Tests to check that NervPermissionLogic permits changing nerv, seele or adam users.
+        Tests NervPermissionLogic permits changing nerv, seele or adam users.
         '''
         logic = NervPermissionLogic(
             change_permission=True
@@ -139,7 +145,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_children_permission_logic_change(self):
         '''
-        Tests to check that ChildrenPermissionLogic permits changing children, nerv, seele or adam users.
+        Tests ChildrenPermissionLogic permits changing children, nerv, seele or adam users.
         '''
         logic = ChildrenPermissionLogic(
             change_permission=True
@@ -156,7 +162,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_adam_permission_logic_delete(self):
         '''
-        Tests to check that AdamPermissionLogic permits deletion adam users only.
+        Tests AdamPermissionLogic permits deletion adam users only.
         '''
         article = Article.objects.create(title='hoge', written_by=PersonaFactory())
         logic = AdamPermissionLogic(
@@ -173,7 +179,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_seele_permission_logic_delete(self):
         '''
-        Tests to check that SeelePermissionLogic permits deletion seele or adam users only.
+        Tests SeelePermissionLogic permits deletion seele or adam users only.
         '''
         logic = SeelePermissionLogic(
             delete_permission=True
@@ -190,7 +196,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_nerv_permission_logic_delete(self):
         '''
-        Tests to check that NervPermissionLogic permits deletion nerv, seele or adam users.
+        Tests NervPermissionLogic permits deletion nerv, seele or adam users.
         '''
         logic = NervPermissionLogic(
             delete_permission=True
@@ -207,7 +213,7 @@ class RolePermissionLogicTestCase(TestCase):
 
     def test_children_permission_logic_delete(self):
         '''
-        Tests to check that ChildrenPermissionLogic permits deletion children, nerv, seele or adam users.
+        Tests ChildrenPermissionLogic permits deletion children, nerv, seele or adam users.
         '''
         logic = ChildrenPermissionLogic(
             delete_permission=True
@@ -223,6 +229,7 @@ class RolePermissionLogicTestCase(TestCase):
         remove_permission_logic(Article, logic)
 
 class PubStatePermissionLogicTestCase(TestCase):
+
     def setUp(self):
         self.users = dict(
                 adam=PersonaFactory(role='adam'),
@@ -238,7 +245,7 @@ class PubStatePermissionLogicTestCase(TestCase):
         '''
         Tests PubStatePermissionLogic don't treat non object permission.
         '''
-        logic = PubStatePermissionLogic(author_field_name='written_by', publish_field_name='publish_status')
+        logic = PubStatePermissionLogic(author_field_name='written_by', pub_state_field_name='publish_status')
         add_permission_logic(Article, logic)
         self.assertFalse(self.users.get('seele').has_perm('permissions.view_article'), 'do not treat non object permission')
         self.assertFalse(self.users.get('nerv').has_perm('permissions.view_article'), 'do not treat non object permission')
@@ -251,7 +258,7 @@ class PubStatePermissionLogicTestCase(TestCase):
         '''
         Tests when pub_state is public, everyone can see the article.
         '''
-        logic = PubStatePermissionLogic(author_field_name='written_by', publish_field_name='publish_status')
+        logic = PubStatePermissionLogic(author_field_name='written_by', pub_state_field_name='publish_status')
         article = Article.objects.create(title='hoge', written_by=self.user)
         add_permission_logic(Article, logic)
         self.assertTrue(self.users.get('seele').has_perm('permissions.view_article', obj=article), 'everyone can see public object')
@@ -265,7 +272,7 @@ class PubStatePermissionLogicTestCase(TestCase):
         '''
         Tests when pub_state is private, authorized users who has the role 'seele', 'nerv', 'adam' or 'children' can see the article.
         '''
-        logic = PubStatePermissionLogic(author_field_name='written_by', publish_field_name='publish_status')
+        logic = PubStatePermissionLogic(author_field_name='written_by', pub_state_field_name='publish_status')
         article = Article.objects.create(title='hoge', written_by=self.user, publish_status='protected')
         add_permission_logic(Article, logic)
         self.assertTrue(self.users.get('seele').has_perm('permissions.view_article', obj=article), 'authorized can see protected object')
@@ -277,7 +284,7 @@ class PubStatePermissionLogicTestCase(TestCase):
         '''
         Tests when pub_state is private, authorized users who has the role 'wille' cannot see the article.
         '''
-        logic = PubStatePermissionLogic(author_field_name='written_by', publish_field_name='publish_status')
+        logic = PubStatePermissionLogic(author_field_name='written_by', pub_state_field_name='publish_status')
         article = Article.objects.create(title='hoge', written_by=self.user, publish_status='protected')
         add_permission_logic(Article, logic)
         self.assertFalse(self.users.get('wille').has_perm('permissions.view_article', obj=article), 'wille user cannot see protected object')
@@ -287,7 +294,7 @@ class PubStatePermissionLogicTestCase(TestCase):
         '''
         Tests when pub_state is private, anonymous users cannot see the article.
         '''
-        logic = PubStatePermissionLogic(author_field_name='written_by', publish_field_name='publish_status')
+        logic = PubStatePermissionLogic(author_field_name='written_by', pub_state_field_name='publish_status')
         article = Article.objects.create(title='hoge', written_by=self.user, publish_status='protected')
         add_permission_logic(Article, logic)
         self.assertFalse(self.users.get('anonymous').has_perm('permissions.view_article', obj=article), 'anonymous cannot see protected object')
@@ -297,7 +304,7 @@ class PubStatePermissionLogicTestCase(TestCase):
         '''
         Tests when pub_state is draft, author can see the article
         '''
-        logic = PubStatePermissionLogic(author_field_name='written_by', publish_field_name='publish_status')
+        logic = PubStatePermissionLogic(author_field_name='written_by', pub_state_field_name='publish_status')
         article = Article.objects.create(title='hoge', written_by=self.user, publish_status='draft')
         add_permission_logic(Article, logic)
         self.assertTrue(self.user.has_perm('permissions.view_article', obj=article), 'author can see draft object')
@@ -307,7 +314,7 @@ class PubStatePermissionLogicTestCase(TestCase):
         '''
         Tests when pub_state is draft, all users who don't create this object cannot see it.
         '''
-        logic = PubStatePermissionLogic(author_field_name='written_by', publish_field_name='publish_status')
+        logic = PubStatePermissionLogic(author_field_name='written_by', pub_state_field_name='publish_status')
         article = Article.objects.create(title='hoge', written_by=self.user, publish_status='draft')
         add_permission_logic(Article, logic)
         self.assertTrue(self.users.get('adam').has_perm('permissions.view_article', obj=article), '''adam can see other's draft object''')

@@ -27,6 +27,8 @@ class Profile(models.Model):
     It is the model which indicates profiles of each users
     """
 
+    # Profiles don't have 'draft' status.
+    # So PUB_STATES is defined redundantly.
     PUB_STATES = (
         ('public',      _("Public")),
         ('protected',   _("Internal")),
