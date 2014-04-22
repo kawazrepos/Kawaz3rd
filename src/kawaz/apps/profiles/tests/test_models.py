@@ -74,6 +74,13 @@ class ProfileTestCase(TestCase):
         profile = ProfileFactory()
         self.assertEqual(profile.user.profile, profile)
 
+    def test_profile_get_absolute_url(self):
+        '''
+        Tests Profile.get_absolute_url returns `/members/<username>/`
+        '''
+        profile = ProfileFactory()
+        self.assertEqual(profile.get_absolute_url(), '/members/{}/'.format(profile.user.username))
+
 class ProfileAuthorPermissionTestCase(TestCase):
 
     def test_owner_can_edit(self):

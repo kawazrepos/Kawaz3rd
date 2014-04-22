@@ -81,6 +81,10 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.nickname
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('profiles_profile_detail', (), {'slug' : self.user.username})
+
 class Service(models.Model):
 
     def _get_upload_path(self, filename):
@@ -119,6 +123,7 @@ class Account(models.Model):
     @property
     def url(self):
         return self.service.url_pattern % self.username
+
 
 from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
