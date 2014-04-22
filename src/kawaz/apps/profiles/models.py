@@ -21,17 +21,14 @@ class Skill(models.Model):
         verbose_name = _("Skill")
         verbose_name_plural = _("Skills")
 
-class ProfileManager(models.Manager):
-    # ToDo Test me
-    def active_users(self, request):
-        qs = self.exclude(nickname=None).exclude(user__is_active=False)
-        return qs
 
 class Profile(models.Model):
     """
     It is the model which indicates profiles of each users
     """
 
+    # Profiles don't have 'draft' status.
+    # So PUB_STATES is defined redundantly.
     PUB_STATES = (
         ('public',      _("Public")),
         ('protected',   _("Internal")),
@@ -50,7 +47,6 @@ class Profile(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
-    objects = ProfileManager()
 
     class Meta:
         ordering            = ('user__nickname',)
@@ -96,38 +92,27 @@ class Account(models.Model):
     def url(self):
         return self.service.url_pattern % self.username
 
-from permission.logics import PermissionLogic
-class ProfilePermissionLogic(PermissionLogic):
-    """
-    Permission logic which check object publish statement and return
-    whether the user has a permission to see the object
-    """
-    def _has_view_perm(self, user_obj, perm, obj):
-        if obj.pub_state == 'protected':
-            return user_obj.is_authenticated()
-        # public
-        return True
-
-    def has_perm(self, user_obj, perm, obj=None):
-        """
-        Check `obj.pub_state` and if user is authenticated
-        """
-        # treat only object permission
-        if obj is None:
-            return False
-        permission_methods = {
-            'profiles.view_profile': self._has_view_perm,
-        }
-        if perm in permission_methods:
-            return permission_methods[perm](user_obj, perm, obj)
-        return False
-
 from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
+from kawaz.core.permissions.logics import PubStatePermissionLogic
 
-add_permission_logic(Profile, ProfilePermissionLogic())
+from kawaz.core.permissions.logics import NervPermissionLogic
+
+add_permission_logic(Skill, NervPermissionLogic(
+    any_permission=True
+))
+add_permission_logic(Service, NervPermissionLogic(
+    any_permission=True
+))
+add_permission_logic(Account, AuthorPermissionLogic(
+    field_name='user',
+    any_permission=True
+))
 add_permission_logic(Profile, AuthorPermissionLogic(
     field_name='user',
     change_permission=True,
     delete_permission=False
+))
+add_permission_logic(Profile, PubStatePermissionLogic(
+    author_field_name='user'
 ))

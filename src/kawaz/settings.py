@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'thumbnailfield',
     'kawaz.core.personas',
     'kawaz.core.db',
+    'kawaz.core.permissions',
     'kawaz.apps.announcements',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
+from kawaz.core.permissions.logics import PUB_STATES
 
 from markupfield.fields import MarkupField
 
@@ -30,11 +31,6 @@ class Announcement(models.Model):
     An announcement that came from staff user
     """
 
-    PUB_STATES = (
-        ('public', _("Public")),
-        ('protected', _("Internal")),
-        ('draft', _("Draft")),
-    )
     # Required
     pub_state = models.CharField(_('Publish status'), max_length=10, choices=PUB_STATES)
     title = models.CharField(_('Title'), max_length=128)
@@ -66,10 +62,12 @@ class AnnouncementPermissionLogic(PermissionLogic):
     Permission logic which check object publish statement and return
     whether the user has a permission to see the object
     """
+
+    # announcementは、draftの扱いが異なるため、PubStatePermissionLogicを使用していない
     def _has_view_perm(self, user_obj, perm, obj):
         if obj.pub_state == 'protected':
             # only authorized user can show protected announcement
-            return user_obj.is_authenticated()
+            return user_obj and user_obj.is_authenticated() and user_obj.role != 'wille'
         if obj.pub_state == 'draft':
             # only staff user can show draft announcement
             return user_obj.is_staff
