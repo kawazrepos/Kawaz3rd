@@ -1,3 +1,29 @@
-from django.shortcuts import render
+from django.views.generic.list import ListView
+from django.views.generic.edit import UpdateView
+from django.views.generic.detail import DetailView
 
-# Create your views here.
+from permission.decorators.classbase import permission_required
+
+from .models import Profile
+
+class ProfileListView(ListView):
+    model =  Profile
+
+    def get_queryset(self):
+        return Profile.object.published(self.request.user)
+
+
+@permission_required('profiles.change_profile')
+class ProfileUpdateView(UpdateView):
+    model = Profile
+
+    def get_object(self, queryset=None):
+        if self.request.user:
+            return self.request.user.profile
+        return None
+
+
+@permission_required('profiles.view_profile')
+class ProfileDetailView(DetailView):
+    model = Profile
+    slug_field = 'user__username'
