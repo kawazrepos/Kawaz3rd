@@ -109,7 +109,12 @@ add_permission_logic(Service, NervPermissionLogic(
 ))
 add_permission_logic(Account, AuthorPermissionLogic(
     field_name='user',
-    any_permission=True
+    any_permission=False,
+    change_permission=False,
+    delete_permission=True
+))
+add_permission_logic(Account, PubStatePermissionLogic(
+    author_field_name='user'
 ))
 add_permission_logic(Profile, AuthorPermissionLogic(
     field_name='user',

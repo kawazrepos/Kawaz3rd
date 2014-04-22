@@ -1,7 +1,10 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory
-from .factories import ProfileFactory, AccountFactory, ServiceFactory, SkillFactory
+from .factories import ProfileFactory
+from .factories import AccountFactory
+from .factories import ServiceFactory
+from .factories import SkillFactory
 
 class ProfileViewPermissionTestCase(TestCase):
     def test_owner_can_view_protected(self):
@@ -37,6 +40,38 @@ class ProfileViewPermissionTestCase(TestCase):
         user = AnonymousUser()
         profile = ProfileFactory(pub_state='public')
         self.assertTrue(user.has_perm('profiles.view_profile', profile))
+
+
+class ProfileEditPermissionTestCase(TestCase):
+
+    def setUp(self):
+        self.user = PersonaFactory()
+        self.anonymous = AnonymousUser()
+        self.profile = ProfileFactory()
+
+    def test_owner_can_change_profile(self):
+        '''Tests owner has change permission of Profile'''
+        self.assertTrue(self.profile.user.has_perm('profiles.change_profile', obj=self.profile))
+
+    def test_others_cannot_change_profile(self):
+        '''Tests others don't have change permission of Profile'''
+        self.assertFalse(self.user.has_perm('profiles.change_profile', obj=self.profile))
+
+    def test_anonymous_cannot_change_profile(self):
+        '''Tests anonymous don't have change permission of Profile'''
+        self.assertFalse(self.anonymous.has_perm('profiles.change_profile', obj=self.profile))
+
+    def test_owner_cannot_delete_profile(self):
+        '''Tests owner don't have delete permission of Profile'''
+        self.assertFalse(self.profile.user.has_perm('profiles.delete_profile', obj=self.profile))
+
+    def test_others_cannot_delete_profile(self):
+        '''Tests others don't have delete permission of Profile'''
+        self.assertFalse(self.user.has_perm('profiles.delete_profile', obj=self.profile))
+
+    def test_anonymous_cannot_delete_profile(self):
+        '''Tests anonymous don't have change permission of Profile'''
+        self.assertFalse(self.anonymous.has_perm('profiles.delete_profile', obj=self.profile))
 
 
 class SkillPermissionTestCase(TestCase):
