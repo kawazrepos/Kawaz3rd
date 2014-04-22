@@ -22,6 +22,26 @@ class Skill(models.Model):
         verbose_name_plural = _("Skills")
 
 
+class ProfileManager(models.Manager):
+
+    def active(self):
+        '''
+        Returns the QuerySet which contains all active profiles
+        '''
+        return self.filter(user__is_active=True)
+
+    def published(self, user):
+        '''
+        Return the QuerySet which contains all active viewable profiles by passed user.
+        '''
+        qs = self.active()
+        if user.is_authenticated() and user.role != 'wille':
+            # authorized user and whose role isn't wille. returns all profiles
+            return qs
+        # return public profiles
+        return qs.filter(pub_state='public')
+
+
 class Profile(models.Model):
     """
     It is the model which indicates profiles of each users
@@ -46,6 +66,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name=_('User'), related_name='profile', unique=True, primary_key=True, editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+
+    object = ProfileManager()
 
 
     class Meta:
