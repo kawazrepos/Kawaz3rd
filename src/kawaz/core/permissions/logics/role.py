@@ -40,8 +40,8 @@ class BaseRolePermissionLogic(PermissionLogic):
         """
         Check if user have permission (of object)
 
-        If no object is specified, it always return ``False`` so you need to
-        add *add* permission to users in normal way.
+        If no object is specified, if any_permission is True it returns ``True`` .
+        if else returns ``False``.
 
         If an object is specified, it will return ``True`` if the user's role is
         contained in ``role_names``.
