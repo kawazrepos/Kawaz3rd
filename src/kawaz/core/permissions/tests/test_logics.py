@@ -9,23 +9,84 @@ from .models import Article
 class RolePermissionLogicTestCase(TestCase):
     def setUp(self):
         [setattr(self, key, PersonaFactory(role=key)) for key in dict(Persona.ROLE_TYPES).keys()]
+        self.anonymous = AnonymousUser()
 
     def test_add_permission(self):
         '''
         Tests to check that RolePermissionLogic permits to add the model by add_permission value.
         '''
-        logic = SeelePermissionLogic(
+        logic = ChildrenPermissionLogic(
             add_permission=True
         )
         add_permission_logic(Article, logic)
         self.assertTrue(self.adam.has_perm('permissions.add_article'), 'adam has all permissions')
         self.assertTrue(self.seele.has_perm('permissions.add_article'))
-        self.assertFalse(self.nerv.has_perm('permissions.add_article'))
-        self.assertFalse(self.children.has_perm('permissions.add_article'))
+        self.assertTrue(self.nerv.has_perm('permissions.add_article'))
+        self.assertTrue(self.children.has_perm('permissions.add_article'))
         self.assertFalse(self.wille.has_perm('permissions.add_article'))
+        self.assertFalse(self.anonymous.has_perm('permissions.add_article'))
         remove_permission_logic(Article, logic)
 
-    def test_adam_permission_logic(self):
+    def test_add_permission_without_add_permission(self):
+        '''
+        Tests to check that RolePermissionLogic permits to add the model by add_permission value with add_permission=False.
+        '''
+        logic = ChildrenPermissionLogic()
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
+        add_permission_logic(Article, logic)
+        self.assertFalse(self.seele.has_perm('permissions.add_article', obj=article))
+        self.assertFalse(self.nerv.has_perm('permissions.add_article', obj=article))
+        self.assertFalse(self.children.has_perm('permissions.add_article', obj=article))
+        self.assertFalse(self.wille.has_perm('permissions.add_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.add_article', obj=article))
+        remove_permission_logic(Article, logic)
+
+    def test_add_permission_with_obj(self):
+        '''
+        Tests to check that RolePermissionLogic without object with add always returns False
+        '''
+        logic = ChildrenPermissionLogic(
+            add_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertFalse(self.seele.has_perm('permissions.change_article'))
+        self.assertFalse(self.nerv.has_perm('permissions.change_article'))
+        self.assertFalse(self.children.has_perm('permissions.change_article'))
+        self.assertFalse(self.wille.has_perm('permissions.change_article'))
+        self.assertFalse(self.anonymous.has_perm('permissions.change_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_change_permission_without_obj_change(self):
+        '''
+        Tests to check that RolePermissionLogic without object with change always returns False
+        '''
+        logic = ChildrenPermissionLogic(
+            change_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertFalse(self.seele.has_perm('permissions.change_article'))
+        self.assertFalse(self.nerv.has_perm('permissions.change_article'))
+        self.assertFalse(self.children.has_perm('permissions.change_article'))
+        self.assertFalse(self.wille.has_perm('permissions.change_article'))
+        self.assertFalse(self.anonymous.has_perm('permissions.change_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_delete_permission_without_obj_delete(self):
+        '''
+        Tests to check that RolePermissionLogic without object with delete always returns False
+        '''
+        logic = ChildrenPermissionLogic(
+            delete_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertFalse(self.seele.has_perm('permissions.delete_article'))
+        self.assertFalse(self.nerv.has_perm('permissions.delete_article'))
+        self.assertFalse(self.children.has_perm('permissions.delete_article'))
+        self.assertFalse(self.wille.has_perm('permissions.delete_article'))
+        self.assertFalse(self.anonymous.has_perm('permissions.delete_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_adam_permission_logic_change(self):
         '''
         Tests to check that AdamPermissionLogic permits adam users only.
         '''
@@ -39,11 +100,12 @@ class RolePermissionLogicTestCase(TestCase):
         self.assertFalse(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.change_article'))
         remove_permission_logic(Article, logic)
 
-    def test_seele_permission_logic(self):
+    def test_seele_permission_logic_change(self):
         '''
-        Tests to check that SeelePermissionLogic permits seele or adam users only.
+        Tests to check that SeelePermissionLogic permits changing seele or adam users only.
         '''
         logic = SeelePermissionLogic(
             change_permission=True
@@ -55,11 +117,12 @@ class RolePermissionLogicTestCase(TestCase):
         self.assertFalse(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.change_article'))
         remove_permission_logic(Article, logic)
 
-    def test_nerv_permission_logic(self):
+    def test_nerv_permission_logic_change(self):
         '''
-        Tests to check that NervPermissionLogic permits nerv, seele or adam users.
+        Tests to check that NervPermissionLogic permits changing nerv, seele or adam users.
         '''
         logic = NervPermissionLogic(
             change_permission=True
@@ -71,11 +134,12 @@ class RolePermissionLogicTestCase(TestCase):
         self.assertTrue(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.change_article'))
         remove_permission_logic(Article, logic)
 
-    def test_children_permission_logic(self):
+    def test_children_permission_logic_change(self):
         '''
-        Tests to check that ChildrenPermissionLogic permits children, nerv, seele or adam users.
+        Tests to check that ChildrenPermissionLogic permits changing children, nerv, seele or adam users.
         '''
         logic = ChildrenPermissionLogic(
             change_permission=True
@@ -87,6 +151,75 @@ class RolePermissionLogicTestCase(TestCase):
         self.assertTrue(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.change_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_adam_permission_logic_delete(self):
+        '''
+        Tests to check that AdamPermissionLogic permits deletion adam users only.
+        '''
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
+        logic = AdamPermissionLogic(
+            delete_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.delete_article', obj=article), 'adam has all permissions')
+        self.assertFalse(self.seele.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.nerv.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.children.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.wille.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.delete_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_seele_permission_logic_delete(self):
+        '''
+        Tests to check that SeelePermissionLogic permits deletion seele or adam users only.
+        '''
+        logic = SeelePermissionLogic(
+            delete_permission=True
+        )
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.delete_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.nerv.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.children.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.wille.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.delete_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_nerv_permission_logic_delete(self):
+        '''
+        Tests to check that NervPermissionLogic permits deletion nerv, seele or adam users.
+        '''
+        logic = NervPermissionLogic(
+            delete_permission=True
+        )
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.delete_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.delete_article', obj=article))
+        self.assertTrue(self.nerv.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.children.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.wille.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.delete_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_children_permission_logic_delete(self):
+        '''
+        Tests to check that ChildrenPermissionLogic permits deletion children, nerv, seele or adam users.
+        '''
+        logic = ChildrenPermissionLogic(
+            delete_permission=True
+        )
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.delete_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.delete_article', obj=article))
+        self.assertTrue(self.nerv.has_perm('permissions.delete_article', obj=article))
+        self.assertTrue(self.children.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.wille.has_perm('permissions.delete_article', obj=article))
+        self.assertFalse(self.anonymous.has_perm('permissions.delete_article'))
         remove_permission_logic(Article, logic)
 
 class PubStatePermissionLogicTestCase(TestCase):
