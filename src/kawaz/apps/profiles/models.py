@@ -104,9 +104,9 @@ class Service(models.Model):
 
 
 class Account(models.Model):
-    user = models.ForeignKey(User, verbose_name=_('Profile'))
+    user = models.ForeignKey(User, verbose_name=_('Profile'), editable=False)
     service = models.ForeignKey(Service, verbose_name=_('Service'))
-    pub_state = models.CharField(_('Publish State'), choices=Profile.PUB_STATES, max_length=10)
+    pub_state = models.CharField(_('Publish State'), choices=Profile.PUB_STATES, max_length=10, default='public')
     username = models.CharField(_('Username'), max_length=64)
 
     class Meta:

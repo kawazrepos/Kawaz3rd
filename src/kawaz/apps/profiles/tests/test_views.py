@@ -111,6 +111,12 @@ class ProfileUpdateViewTestCase(TestCase):
         e = Profile.objects.get(pk=1)
         self.assertEqual(e.place, '札幌市北区')
 
+    def test_account_formset(self):
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.get('/members/update/')
+        self.assertTemplateUsed(r, 'profiles/profile_form.html')
+        self.assertTrue('formset' in r.context_data)
+
 
 class ProfileListViewTestCase(TestCase):
     def setUp(self):

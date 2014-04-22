@@ -2,6 +2,9 @@
 {% block content %}
     <form method="POST" action=".">{% csrf_token %}
         {{ form }}
+        {% for account_form in formset.forms %}
+            {{ account_form }}
+        {% endfor %}
         <input type="submit" value="保存">
     </form>
 {% endblock %}
