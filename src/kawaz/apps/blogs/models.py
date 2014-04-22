@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from markupfield.fields import MarkupField
 
 from kawaz.core.db.decorators import validate_on_save
+from kawaz.core.permissions import PUB_STATES
 
 User = get_user_model()
 
@@ -24,12 +25,6 @@ class Category(models.Model):
 @validate_on_save
 class Entry(models.Model):
     '''Entry model of blog'''
-    PUB_STATES = (
-        ('public',      _("Public")),
-        ('protected',   _("Internal")),
-        ('draft',       _("Draft")),
-    )
-
     pub_state = models.CharField(_('Publish status'), max_length=10, choices=PUB_STATES, default="public")
     title = models.CharField(_('Title'), max_length=255)
     
@@ -66,36 +61,12 @@ class Entry(models.Model):
             raise ValidationError('Category must be owned by author.')
         super().clean()
 
-from permission.logics import PermissionLogic
-
-class EntryPermissionLogic(PermissionLogic):
-
-    def _has_view_perm(self, user_obj, perm, obj):
-        if obj.pub_state == 'protected':
-            return user_obj.is_authenticated()
-        elif obj.pub_state == 'draft':
-            return user_obj == obj.author
-        return True
-
-    def has_perm(self, user_obj, perm, obj=None):
-        """
-        Check `obj.pub_state` and if user is authenticated
-        """
-        # treat only object permission
-        if obj is None:
-            return False
-        permission_methods = {
-            'blogs.view_entry': self._has_view_perm,
-        }
-        if perm in permission_methods:
-            return permission_methods[perm](user_obj, perm, obj)
-        return False
-
 from permission import add_permission_logic
 from permission.logics.author import AuthorPermissionLogic
+from kawaz.core.permissions.logics import PubStatePermissionLogic
 
 add_permission_logic(Entry, AuthorPermissionLogic(
     field_name='author',
     any_permission=True,
 ))
-add_permission_logic(Entry, EntryPermissionLogic())
+add_permission_logic(Entry, PubStatePermissionLogic())

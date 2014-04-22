@@ -1,11 +1,4 @@
-from django.utils.translation import ugettext as _
 from permission.logics import PermissionLogic
-
-PUB_STATES = (
-    ('public',      _("Public")),
-    ('protected',   _("Internal")),
-    ('draft',       _("Draft")),
-)
 
 class PubStatePermissionLogic(PermissionLogic):
     def __init__(self, author_field_name='author', publish_field_name='pub_state'):

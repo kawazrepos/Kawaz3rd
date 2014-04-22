@@ -9,6 +9,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from kawaz.core.db.decorators import validate_on_save
+from kawaz.core.permissions import PUB_STATES
 
 from markupfield.fields import MarkupField
 
@@ -41,11 +42,6 @@ class Event(models.Model):
     The model which indicates events
     """
 
-    PUB_STATES = (
-        ('public',      _("Public")),
-        ('protected',   _("Internal")),
-        ('draft',       _("Draft")),
-    )
     # Required
     pub_state = models.CharField(_("Publish status"), max_length=10, choices=PUB_STATES, default="public")
     title = models.CharField(_("Title"), max_length=255)
@@ -134,14 +130,6 @@ class EventPermissionLogic(PermissionLogic):
     Permission logic which check object pulbish statement and return
     whether the user has a permission to see the object
     """
-    def _has_view_perm(self, user_obj, perm, obj):
-        if obj.pub_state == 'protected':
-            return user_obj.is_authenticated()
-        if obj.pub_state == 'draft':
-            return user_obj == obj.organizer
-        # public
-        return True
-
     def _has_attend_perm(self, user_obj, perm, obj):
         # ToDo check if user is in children group
         if user_obj in obj.attendees.all():
@@ -170,7 +158,6 @@ class EventPermissionLogic(PermissionLogic):
                 # When other perms, treat only object-permission
                 return False
         permission_methods = {
-            'events.view_event': self._has_view_perm,
             'events.attend_event': self._has_attend_perm,
             'events.quit_event': self._has_quit_perm,
         }
@@ -180,6 +167,7 @@ class EventPermissionLogic(PermissionLogic):
 
 from permission import add_permission_logic
 from permission.logics import AuthorPermissionLogic
+from kawaz.core.permissions.logics import PubStatePermissionLogic
 
 add_permission_logic(Event, AuthorPermissionLogic(
     field_name='organizer',
@@ -187,3 +175,6 @@ add_permission_logic(Event, AuthorPermissionLogic(
     delete_permission=True
 ))
 add_permission_logic(Event, EventPermissionLogic())
+add_permission_logic(Event, PubStatePermissionLogic(
+    author_field_name='organizer'
+))

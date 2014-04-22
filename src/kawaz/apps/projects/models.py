@@ -1,7 +1,6 @@
 import os
 from django.db import models
 from django.core.exceptions import PermissionDenied
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -12,6 +11,8 @@ from django.dispatch import receiver
 
 from thumbnailfield.fields import ThumbnailField
 from markupfield.fields import MarkupField
+
+from kawaz.core.permissions import PUB_STATES
 
 class Category(models.Model):
     """
@@ -34,11 +35,6 @@ class Project(models.Model):
         path = 'thumbnails/projects/%s' % self.slug
         return os.path.join(path, filename)
 
-    PUB_STATES = (
-        ('public',      _("Public")),
-        ('protected',   _("Internal")),
-        ('draft',       _("Draft")),
-    )
     STATUS = (
         ("planning",    _("Planning")),
         ("active",      _("Active")),
@@ -118,15 +114,6 @@ class ProjectPermissionLogic(PermissionLogic):
     Permission logic which check object publish statement and return
     whether the user has a permission to see the object
     """
-    def _has_view_perm(self, user_obj, perm, obj):
-        if obj.pub_state == 'protected':
-            # only authorized user can show protected project
-            return user_obj.is_authenticated()
-        if obj.pub_state == 'draft':
-            # only administrator user can show draft project
-            return user_obj == obj.administrator
-        # public
-        return True
 
     def _has_join_perm(self, user_obj, perm, obj):
         if obj.pub_state == 'draft':
@@ -158,7 +145,6 @@ class ProjectPermissionLogic(PermissionLogic):
         if obj is None:
             return False
         permission_methods = {
-            'projects.view_project': self._has_view_perm,
             'projects.join_project': self._has_join_perm,
             'projects.quit_project': self._has_quit_perm,
         }
@@ -169,6 +155,7 @@ class ProjectPermissionLogic(PermissionLogic):
 from permission import add_permission_logic
 from permission.logics import AuthorPermissionLogic
 from permission.logics import CollaboratorsPermissionLogic
+from kawaz.core.permissions.logics import PubStatePermissionLogic
 
 add_permission_logic(Project, AuthorPermissionLogic(
     field_name='administrator',
@@ -181,3 +168,6 @@ add_permission_logic(Project, CollaboratorsPermissionLogic(
     delete_permission=False
 ))
 add_permission_logic(Project, ProjectPermissionLogic())
+add_permission_logic(Project, PubStatePermissionLogic(
+    author_field_name='administrator'
+))

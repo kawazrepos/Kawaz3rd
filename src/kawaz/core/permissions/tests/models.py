@@ -1,5 +1,5 @@
 from django.db import models
-from kawaz.core.permissions.logics.publish import PUB_STATES
+from kawaz.core.permissions import PUB_STATES
 from kawaz.core.personas.models import Persona
 
 class Article(models.Model):
