@@ -35,7 +35,7 @@ class ProfileManager(models.Manager):
         Return the QuerySet which contains all active viewable profiles by passed user.
         '''
         qs = self.active()
-        if user.is_authenticated() and user.role != 'wille':
+        if user.is_authenticated() and not user.role in 'wille':
             # authorized user and whose role isn't wille. returns all profiles
             return qs
         # return public profiles
@@ -67,7 +67,7 @@ class Profile(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
-    object = ProfileManager()
+    objects = ProfileManager()
 
 
     class Meta:
