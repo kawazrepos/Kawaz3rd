@@ -1,14 +1,14 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
+from permission import add_permission_logic
+from permission import remove_permission_logic
+from kawaz.core.personas.tests.factories import PersonaFactory
+from kawaz.core.personas.models import Persona
 from ..logics import AdamPermissionLogic
 from ..logics import SeelePermissionLogic
 from ..logics import NervPermissionLogic
 from ..logics import ChildrenPermissionLogic
 from ..logics import PubStatePermissionLogic
-from permission import add_permission_logic
-from permission import remove_permission_logic
-from kawaz.core.personas.tests.factories import PersonaFactory
-from kawaz.core.personas.models import Persona
 from .models import Article
 
 class RolePermissionLogicTestCase(TestCase):

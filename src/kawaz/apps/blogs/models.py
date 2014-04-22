@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from markupfield.fields import MarkupField
 
 from kawaz.core.db.decorators import validate_on_save
-from kawaz.core.permissions import PUB_STATES
+from kawaz.core.permissions.logics import PUB_STATES
 
 User = get_user_model()
 

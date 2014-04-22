@@ -113,4 +113,6 @@ add_permission_logic(Profile, AuthorPermissionLogic(
     change_permission=True,
     delete_permission=False
 ))
-add_permission_logic(Profile, PubStatePermissionLogic())
+add_permission_logic(Profile, PubStatePermissionLogic(
+    author_field_name='user'
+))

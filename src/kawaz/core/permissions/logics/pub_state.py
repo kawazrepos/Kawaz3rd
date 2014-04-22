@@ -23,6 +23,13 @@ class PubStatePermissionLogic(PermissionLogic):
         """
         Check if user have permission (of object)
 
+        If no object is specified, it always return ``False`` so you need to
+        add *add* permission to users in normal way.
+
+        If an object is specified, it will return ``True`` if ``user_obj`` can see this object.
+        It will be judged by the object's pub_state.
+        object pub_state are taken from the field which named ``pub_state_field_name``.
+
         Parameters
         ----------
         user_obj : django user model instance
@@ -35,19 +42,16 @@ class PubStatePermissionLogic(PermissionLogic):
         Returns
         -------
         boolean
-            Whether the specified user have specified permission (of specified
+            Wheter the specified user have specified permission (of specified
             object).
-
-        .. note::
-            Sub class must override this method.
         """
         if obj is None:
             # only treat object permission
             return False
         permission_name = self.get_full_permission_string('view')
         if perm == permission_name:
-            author = getattr(obj, self.author_field_name, None)
-            pub_state = getattr(obj, self.pub_state_field_name, '')
+            author = getattr(obj, self.author_field_name)
+            pub_state = getattr(obj, self.pub_state_field_name)
             if pub_state == 'public':
                 # if pub_state is public, everyone see this object
                 return True

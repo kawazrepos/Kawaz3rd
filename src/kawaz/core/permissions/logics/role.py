@@ -25,10 +25,10 @@ class BaseRolePermissionLogic(PermissionLogic):
             True for give add permission of the specified model to the role.
             Default value will be 'False'
         change_permission : boolean
-            True for give change permission of the specified model to the role.
+            True for give change permission of the specified object to the role.
             Default value will be 'False'
         delete_permission : boolean
-            True for give delete permission of the specified model to the role.
+            True for give delete permission of the specified object to the role.
             Default value will be 'False'
         """
         self.any_permission = any_permission
@@ -39,6 +39,12 @@ class BaseRolePermissionLogic(PermissionLogic):
     def has_perm(self, user_obj, perm, obj=None):
         """
         Check if user have permission (of object)
+
+        If no object is specified, it always return ``False`` so you need to
+        add *add* permission to users in normal way.
+
+        If an object is specified, it will return ``True`` if the user's role is
+        contained in ``role_names``.
 
         Parameters
         ----------
@@ -52,11 +58,8 @@ class BaseRolePermissionLogic(PermissionLogic):
         Returns
         -------
         boolean
-            Whether the specified user have specified permission (of specified
+            Wheter the specified user have specified permission (of specified
             object).
-
-        .. note::
-            Sub class must override this method.
         """
         add_name = self.get_full_permission_string('add')
         change_name = self.get_full_permission_string('change')

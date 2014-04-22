@@ -12,7 +12,7 @@ from django.dispatch import receiver
 from thumbnailfield.fields import ThumbnailField
 from markupfield.fields import MarkupField
 
-from kawaz.core.permissions import PUB_STATES
+from kawaz.core.permissions.logics import PUB_STATES
 
 class Category(models.Model):
     """

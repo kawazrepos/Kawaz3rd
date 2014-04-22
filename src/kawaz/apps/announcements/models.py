@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
-from kawaz.core.permissions import PUB_STATES
+from kawaz.core.permissions.logics import PUB_STATES
 
 from markupfield.fields import MarkupField
 

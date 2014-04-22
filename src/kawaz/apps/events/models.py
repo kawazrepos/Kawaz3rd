@@ -9,7 +9,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from kawaz.core.db.decorators import validate_on_save
-from kawaz.core.permissions import PUB_STATES
+from kawaz.core.permissions.logics import PUB_STATES
 
 from markupfield.fields import MarkupField
 
