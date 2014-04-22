@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from kawaz.core.views import IndexView
 
+import permission; permission.autodiscover()
 admin.autodiscover()
 
 urlpatterns = patterns('',

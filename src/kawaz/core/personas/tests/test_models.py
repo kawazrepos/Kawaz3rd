@@ -91,8 +91,8 @@ class PersonaModelPermissionTestCase(TestCase):
         Nobody except adam should have view permission as non object permission
         """
         self._test_permission('adam', 'view')
-        self._test_permission('seele', 'view', negative=True)
-        self._test_permission('nerv', 'view', negative=True)
+        self._test_permission('seele', 'view')
+        self._test_permission('nerv', 'view')
         self._test_permission('children', 'view', negative=True)
         self._test_permission('wille', 'view', negative=True)
 
@@ -122,8 +122,8 @@ class PersonaModelPermissionTestCase(TestCase):
         Nobody except adam should have change permission as non object permission
         """
         self._test_permission('adam', 'change')
-        self._test_permission('seele', 'change', negative=True)
-        self._test_permission('nerv', 'change', negative=True)
+        self._test_permission('seele', 'change')
+        self._test_permission('nerv', 'change')
         self._test_permission('children', 'change', negative=True)
         self._test_permission('wille', 'change', negative=True)
 
@@ -134,7 +134,7 @@ class PersonaModelPermissionTestCase(TestCase):
         """
         self._test_permission('adam', 'change', obj=self.user)
         self._test_permission('seele', 'change', obj=self.user)
-        self._test_permission('nerv', 'change', obj=self.user, negative=True)
+        self._test_permission('nerv', 'change', obj=self.user)
         self._test_permission('children', 'change', obj=self.user, negative=True)
         self._test_permission('wille', 'change', obj=self.user, negative=True)
 
@@ -183,8 +183,8 @@ class PersonaModelPermissionTestCase(TestCase):
         Nobody except adam should have activate permission as non object permission
         """
         self._test_permission('adam', 'activate')
-        self._test_permission('seele', 'activate', negative=True)
-        self._test_permission('nerv', 'activate', negative=True)
+        self._test_permission('seele', 'activate')
+        self._test_permission('nerv', 'activate')
         self._test_permission('children', 'activate', negative=True)
         self._test_permission('wille', 'activate', negative=True)
 
@@ -215,7 +215,7 @@ class PersonaModelPermissionTestCase(TestCase):
         Nobody except adam should have assign_role permission as non object permission
         """
         self._test_permission('adam', 'assign_role')
-        self._test_permission('seele', 'assign_role', negative=True)
+        self._test_permission('seele', 'assign_role')
         self._test_permission('nerv', 'assign_role', negative=True)
         self._test_permission('children', 'assign_role', negative=True)
         self._test_permission('wille', 'assign_role', negative=True)
