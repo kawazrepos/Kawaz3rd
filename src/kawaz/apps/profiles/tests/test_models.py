@@ -50,40 +50,6 @@ class ProfileAuthorPermissionTestCase(TestCase):
         profile = ProfileFactory()
         self.assertFalse(user.has_perm('profiles.delete_profile', profile))
 
-class ProfileViewPermissionTestCase(TestCase):
-    def test_owner_can_view_protected(self):
-        '''Tests owner can view protected'''
-        profile = ProfileFactory(pub_state='protected')
-        self.assertTrue(profile.user.has_perm('profiles.view_profile', profile))
-
-    def test_others_can_view_protected(self):
-        '''Tests others can view protected'''
-        user = PersonaFactory()
-        profile = ProfileFactory(pub_state='protected')
-        self.assertTrue(user.has_perm('profiles.view_profile', profile))
-
-    def test_anonymous_can_not_view_protected(self):
-        '''Tests anonymous can not view protected'''
-        user = AnonymousUser()
-        profile = ProfileFactory(pub_state='protected')
-        self.assertFalse(user.has_perm('profiles.view_profile', profile))
-
-    def test_owner_can_view_public(self):
-        '''Tests owner can view public'''
-        profile = ProfileFactory(pub_state='public')
-        self.assertTrue(profile.user.has_perm('profiles.view_profile', profile))
-
-    def test_others_can_view_public(self):
-        '''Tests others can view public'''
-        user = PersonaFactory()
-        profile = ProfileFactory(pub_state='public')
-        self.assertTrue(user.has_perm('profiles.view_profile', profile))
-
-    def test_anonymous_can_not_view_public(self):
-        '''Tests anonymous can view public'''
-        user = AnonymousUser()
-        profile = ProfileFactory(pub_state='public')
-        self.assertTrue(user.has_perm('profiles.view_profile', profile))
 
 class SkillTestCase(TestCase):
     def test_str(self):
