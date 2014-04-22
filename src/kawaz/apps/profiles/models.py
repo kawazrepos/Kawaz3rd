@@ -22,6 +22,26 @@ class Skill(models.Model):
         verbose_name_plural = _("Skills")
 
 
+class ProfileManager(models.Manager):
+
+    def active(self):
+        '''
+        Returns the QuerySet which contains all active profiles
+        '''
+        return self.filter(user__is_active=True)
+
+    def published(self, user):
+        '''
+        Return the QuerySet which contains all active viewable profiles by passed user.
+        '''
+        qs = self.active()
+        if user.is_authenticated() and not user.role in 'wille':
+            # authorized user and whose role isn't wille. returns all profiles
+            return qs
+        # return public profiles
+        return qs.filter(pub_state='public')
+
+
 class Profile(models.Model):
     """
     It is the model which indicates profiles of each users
@@ -47,6 +67,8 @@ class Profile(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
+    objects = ProfileManager()
+
 
     class Meta:
         ordering            = ('user__nickname',)
@@ -58,6 +80,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.nickname
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('profiles_profile_detail', (), {'slug' : self.user.username})
 
 class Service(models.Model):
 
@@ -76,14 +102,20 @@ class Service(models.Model):
         verbose_name = _('Service')
         verbose_name_plural = _('Services')
 
+
 class Account(models.Model):
-    user = models.ForeignKey(User, verbose_name=_('Profile'))
+    user = models.ForeignKey(User, verbose_name=_('Profile'), editable=False)
     service = models.ForeignKey(Service, verbose_name=_('Service'))
+    pub_state = models.CharField(_('Publish State'), choices=Profile.PUB_STATES, max_length=10, default='public')
     username = models.CharField(_('Username'), max_length=64)
 
     class Meta:
         verbose_name = _('Account')
         verbose_name_plural = _('Accounts')
+        unique_together = ('service', 'username'),
+        permissions = (
+            ('view_account', 'Can view the account'),
+        )
 
     def __str__(self):
         return "%s (%s @ %s)" % (self.username, self.user.username, self.service.label)
@@ -91,6 +123,7 @@ class Account(models.Model):
     @property
     def url(self):
         return self.service.url_pattern % self.username
+
 
 from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
@@ -106,7 +139,12 @@ add_permission_logic(Service, NervPermissionLogic(
 ))
 add_permission_logic(Account, AuthorPermissionLogic(
     field_name='user',
-    any_permission=True
+    any_permission=False,
+    change_permission=False,
+    delete_permission=True
+))
+add_permission_logic(Account, PubStatePermissionLogic(
+    author_field_name='user'
 ))
 add_permission_logic(Profile, AuthorPermissionLogic(
     field_name='user',
