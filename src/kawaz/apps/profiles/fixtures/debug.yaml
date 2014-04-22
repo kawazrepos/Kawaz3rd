@@ -1,0 +1,26 @@
+- model: personas.persona
+  pk: 1
+  fields:
+    username: system
+    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    email: webmaster@kawaz.org
+    is_active: true
+    is_superuser: true
+    is_staff: true
+    nickname: 井ノ中かわず
+    quotes: あっかんべー♡
+    gender: woman
+    role: adam
+    avatar: fixtures/profiles/profile-admin.jpg
+- model: profiles.profile
+  pk: 1
+  fields:
+    user: 1
+    remarks: |
+      あは♡
+    url: http://www.kawaz.org/
+    birthday: 2010-11-01
+    place: 安息の地
+    pub_state: public
+    created_at: 2010-11-01
+    updated_at: 2010-11-01
