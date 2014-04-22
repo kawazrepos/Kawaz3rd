@@ -22,7 +22,7 @@ class PubStatePermissionLogic(PermissionLogic):
         permission_name = self.get_full_permission_string('view')
         if perm == permission_name:
             author = getattr(obj, self.field_name, None)
-            pub_state = getattr(author, self.publish_field_name, '')
+            pub_state = getattr(obj, self.publish_field_name, '')
             if pub_state == 'public':
                 # if pub_state is public, everyone see this object
                 return True
