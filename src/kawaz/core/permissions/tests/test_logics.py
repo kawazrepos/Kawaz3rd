@@ -13,7 +13,7 @@ class RolePermissionLogicTestCase(TestCase):
         '''
         Tests to check that AdamPermissionLogic permits adam users only.
         '''
-        article = Article.objects.create(title='hoge')
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
         logic = AdamPermissionLogic(
             change_permission=True
         )
@@ -32,7 +32,7 @@ class RolePermissionLogicTestCase(TestCase):
         logic = SeelePermissionLogic(
             change_permission=True
         )
-        article = Article.objects.create(title='hoge')
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
         add_permission_logic(Article, logic)
         self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
@@ -48,7 +48,8 @@ class RolePermissionLogicTestCase(TestCase):
         logic = NervPermissionLogic(
             change_permission=True
         )
-        article = Article.objects.create(title='hoge')
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
+        add_permission_logic(Article, logic)
         add_permission_logic(Article, logic)
         self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
@@ -64,7 +65,7 @@ class RolePermissionLogicTestCase(TestCase):
         logic = ChildrenPermissionLogic(
             change_permission=True
         )
-        article = Article.objects.create(title='hoge')
+        article = Article.objects.create(title='hoge', written_by=PersonaFactory())
         add_permission_logic(Article, logic)
         self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
