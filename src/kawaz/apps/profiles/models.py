@@ -76,14 +76,17 @@ class Service(models.Model):
         verbose_name = _('Service')
         verbose_name_plural = _('Services')
 
+
 class Account(models.Model):
     user = models.ForeignKey(User, verbose_name=_('Profile'))
     service = models.ForeignKey(Service, verbose_name=_('Service'))
+    pub_state = models.CharField(_('Publish State'), choices=Profile.PUB_STATES)
     username = models.CharField(_('Username'), max_length=64)
 
     class Meta:
         verbose_name = _('Account')
         verbose_name_plural = _('Accounts')
+        unique_together = ('service', 'username'),
 
     def __str__(self):
         return "%s (%s @ %s)" % (self.username, self.user.username, self.service.label)
