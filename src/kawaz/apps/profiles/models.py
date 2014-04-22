@@ -21,11 +21,6 @@ class Skill(models.Model):
         verbose_name = _("Skill")
         verbose_name_plural = _("Skills")
 
-class ProfileManager(models.Manager):
-    # ToDo Test me
-    def active_users(self, request):
-        qs = self.exclude(nickname=None).exclude(user__is_active=False)
-        return qs
 
 class Profile(models.Model):
     """
@@ -50,7 +45,6 @@ class Profile(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
-    objects = ProfileManager()
 
     class Meta:
         ordering            = ('user__nickname',)
@@ -100,6 +94,18 @@ from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
 from kawaz.core.permissions.logics import PubStatePermissionLogic
 
+from kawaz.core.permissions.logics import NervPermissionLogic
+
+add_permission_logic(Skill, NervPermissionLogic(
+    any_permission=True
+))
+add_permission_logic(Service, NervPermissionLogic(
+    any_permission=True
+))
+add_permission_logic(Account, AuthorPermissionLogic(
+    field_name='user',
+    any_permission=True
+))
 add_permission_logic(Profile, AuthorPermissionLogic(
     field_name='user',
     change_permission=True,

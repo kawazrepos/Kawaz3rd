@@ -1,2 +1,2 @@
-from .role import RolePermissionLogic, AdamPermissionLogic, SeelePermissionLogic, NervPermissionLogic, ChildrenPermissionLogic
+from .role import BaseRolePermissionLogic, AdamPermissionLogic, SeelePermissionLogic, NervPermissionLogic, ChildrenPermissionLogic
 from .pub_state import PubStatePermissionLogic

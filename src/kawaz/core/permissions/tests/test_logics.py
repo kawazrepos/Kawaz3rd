@@ -1,16 +1,31 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
+from ..logics import AdamPermissionLogic, SeelePermissionLogic, NervPermissionLogic, ChildrenPermissionLogic, PubStatePermissionLogic
 from permission import add_permission_logic, remove_permission_logic
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.personas.models import Persona
-from ..logics import AdamPermissionLogic, SeelePermissionLogic, NervPermissionLogic, ChildrenPermissionLogic, PubStatePermissionLogic
 from .models import Article
 
 class RolePermissionLogicTestCase(TestCase):
     def setUp(self):
         [setattr(self, key, PersonaFactory(role=key)) for key in dict(Persona.ROLE_TYPES).keys()]
 
-    def test_seele_permission_logic(self):
+    def test_add_permission(self):
+        '''
+        Tests to check that RolePermissionLogic permits to add the model by add_permission value.
+        '''
+        logic = SeelePermissionLogic(
+            add_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.add_article'), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.add_article'))
+        self.assertFalse(self.nerv.has_perm('permissions.add_article'))
+        self.assertFalse(self.children.has_perm('permissions.add_article'))
+        self.assertFalse(self.wille.has_perm('permissions.add_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_adam_permission_logic(self):
         '''
         Tests to check that AdamPermissionLogic permits adam users only.
         '''
@@ -19,8 +34,8 @@ class RolePermissionLogicTestCase(TestCase):
             change_permission=True
         )
         add_permission_logic(Article, logic)
-        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertFalse(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
@@ -35,8 +50,8 @@ class RolePermissionLogicTestCase(TestCase):
         )
         article = Article.objects.create(title='hoge', written_by=PersonaFactory())
         add_permission_logic(Article, logic)
-        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
@@ -51,9 +66,8 @@ class RolePermissionLogicTestCase(TestCase):
         )
         article = Article.objects.create(title='hoge', written_by=PersonaFactory())
         add_permission_logic(Article, logic)
-        add_permission_logic(Article, logic)
-        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
@@ -68,8 +82,8 @@ class RolePermissionLogicTestCase(TestCase):
         )
         article = Article.objects.create(title='hoge', written_by=PersonaFactory())
         add_permission_logic(Article, logic)
-        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.adam.has_perm('permissions.change_article', obj=article), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.nerv.has_perm('permissions.change_article', obj=article))
         self.assertTrue(self.children.has_perm('permissions.change_article', obj=article))
         self.assertFalse(self.wille.has_perm('permissions.change_article', obj=article))
@@ -92,7 +106,6 @@ class PubStatePermissionLogicTestCase(TestCase):
         Tests PubStatePermissionLogic don't treat non object permission.
         '''
         logic = PubStatePermissionLogic(author_field_name='written_by', publish_field_name='publish_status')
-        article = Article.objects.create(title='hoge', written_by=self.user)
         add_permission_logic(Article, logic)
         self.assertFalse(self.users.get('seele').has_perm('permissions.view_article'), 'do not treat non object permission')
         self.assertFalse(self.users.get('nerv').has_perm('permissions.view_article'), 'do not treat non object permission')

@@ -120,3 +120,11 @@ LOGIN_URL = '/'
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# django-permission
+
+PERMISSION_DEFAULT_APL_ANY_PERMISSION = False
+PERMISSION_DEFAULT_APL_ADD_PERMISSION = False
+PERMISSION_DEFAULT_APL_CHANGE_PERMISSION = False
+PERMISSION_DEFAULT_APL_DELETE_PERMISSION = False
+

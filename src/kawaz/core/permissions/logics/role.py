@@ -1,7 +1,6 @@
-from permission.logics import AuthorPermissionLogic
-from permission.utils.permissions import get_perm_codename
+from permission.logics import PermissionLogic
 
-class RolePermissionLogic(AuthorPermissionLogic):
+class BaseRolePermissionLogic(PermissionLogic):
     """
     Permission logic class for role based permission system
     It is checked by user_obj.role
@@ -10,72 +9,61 @@ class RolePermissionLogic(AuthorPermissionLogic):
     role_names = []
 
     def __init__(self,
-                 any_permission=None,
-                 change_permission=None,
-                 delete_permission=None):
+                 any_permission=False,
+                 add_permission=False,
+                 change_permission=False,
+                 delete_permission=False):
         """
         Constructor
 
         Parameters
         ----------
         any_permission : boolean
-            True for give any permission of the specified object to the author
-            Default value will be taken from
-            ``PERMISSION_DEFAULT_APL_ANY_PERMISSION`` in
-            settings.
+        add_permission : boolean
         change_permission : boolean
-            True for give change permission of the specified object to the
-            author.
-            It will be ignored if :attr:`any_permission` is True.
-            Default value will be taken from
-            ``PERMISSION_DEFAULT_APL_CHANGE_PERMISSION`` in
-            settings.
         delete_permission : boolean
-            True for give delete permission of the specified object to the
-            author.
-            It will be ignored if :attr:`any_permission` is True.
-            Default value will be taken from
-            ``PERMISSION_DEFAULT_APL_DELETE_PERMISSION`` in
-            settings.
         """
-        super().__init__(
-            field_name=None,
-            any_permission=any_permission,
-            change_permission=change_permission,
-            delete_permission=delete_permission
-        )
+        self.any_permission = any_permission
+        self.add_permission = add_permission
+        self.change_permission = change_permission
+        self.delete_permission = delete_permission
 
     def has_perm(self, user_obj, perm, obj=None):
-        codename = get_perm_codename(perm)
-        if obj is None:
+        add_name = self.get_full_permission_string('add')
+        change_name = self.get_full_permission_string('change')
+        delete_name = self.get_full_permission_string('delete')
+        if not user_obj.is_active:
             return False
-        elif user_obj.is_active:
-            if user_obj:
-                role = getattr(user_obj, 'role', None)
+        if user_obj:
+            role = getattr(user_obj, 'role', None)
+        if obj is None:
+            if (self.any_permission or self.add_permission) and perm == add_name:
+                if role and role in self.role_names:
+                    return True
+            return False
+        else:
             if role and role in self.role_names:
                 if self.any_permission:
                     # have any kind of permissions to the obj
                     return True
-                if (self.change_permission and
-                    codename.startswith('change_')):
+                if self.change_permission and perm == change_name:
                     return True
-                if (self.delete_permission and
-                    codename.startswith('delete_')):
+                if self.delete_permission and perm == delete_name:
                     return True
         return False
 
 
-class ChildrenPermissionLogic(RolePermissionLogic):
+class ChildrenPermissionLogic(BaseRolePermissionLogic):
     role_names = ['seele', 'nerv', 'children', 'adam']
 
 
-class NervPermissionLogic(RolePermissionLogic):
+class NervPermissionLogic(BaseRolePermissionLogic):
     role_names = ['adam', 'seele', 'nerv',]
 
 
-class SeelePermissionLogic(RolePermissionLogic):
+class SeelePermissionLogic(BaseRolePermissionLogic):
     role_names = ['adam', 'seele',]
 
 
-class AdamPermissionLogic(RolePermissionLogic):
+class AdamPermissionLogic(BaseRolePermissionLogic):
     role_names = ['adam',]
