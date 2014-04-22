@@ -87,6 +87,9 @@ class Account(models.Model):
         verbose_name = _('Account')
         verbose_name_plural = _('Accounts')
         unique_together = ('service', 'username'),
+        permissions = (
+            ('view_account', 'Can view the account'),
+        )
 
     def __str__(self):
         return "%s (%s @ %s)" % (self.username, self.user.username, self.service.label)

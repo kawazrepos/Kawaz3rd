@@ -26,6 +26,7 @@ class AccountFactory(factory.django.DjangoModelFactory):
     service = factory.SubFactory(ServiceFactory)
     user = factory.SubFactory(PersonaFactory)
     username = 'kawaz_tan'
+    pub_state = 'public'
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Profile

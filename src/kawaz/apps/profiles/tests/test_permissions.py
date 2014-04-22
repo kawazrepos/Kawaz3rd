@@ -7,6 +7,7 @@ from .factories import ServiceFactory
 from .factories import SkillFactory
 
 class ProfileViewPermissionTestCase(TestCase):
+
     def test_owner_can_view_protected(self):
         '''Tests owner can view protected'''
         profile = ProfileFactory(pub_state='protected')
@@ -70,7 +71,7 @@ class ProfileEditPermissionTestCase(TestCase):
         self.assertFalse(self.user.has_perm('profiles.delete_profile', obj=self.profile))
 
     def test_anonymous_cannot_delete_profile(self):
-        '''Tests anonymous don't have change permission of Profile'''
+        '''Tests anonymous don't have delete permission of Profile'''
         self.assertFalse(self.anonymous.has_perm('profiles.delete_profile', obj=self.profile))
 
 
@@ -214,3 +215,72 @@ class ServicePermissionTestCase(TestCase):
     def test_wille_cannnot_delete_service(self):
         '''Tests seele users can delete exist services'''
         self._test_permission('wille', 'delete', obj=self.service, negative=True)
+
+
+class AccountViewPermissionTestCase(TestCase):
+
+    def test_owner_can_view_protected(self):
+        '''Tests owner can view protected accounts'''
+        account = AccountFactory(pub_state='protected')
+        self.assertTrue(account.user.has_perm('profiles.view_account', account))
+
+    def test_others_can_view_protected(self):
+        '''Tests others can view protected accounts'''
+        user = PersonaFactory()
+        account = AccountFactory(pub_state='protected')
+        self.assertTrue(user.has_perm('profiles.view_account', account))
+
+    def test_anonymous_can_not_view_protected(self):
+        '''Tests anonymous can not view protected accounts'''
+        user = AnonymousUser()
+        account = AccountFactory(pub_state='protected')
+        self.assertFalse(user.has_perm('profiles.view_account', account))
+
+    def test_owner_can_view_public(self):
+        '''Tests owner can view public accounts'''
+        account = AccountFactory(pub_state='public')
+        self.assertTrue(account.user.has_perm('profiles.view_account', account))
+
+    def test_others_can_view_public(self):
+        '''Tests others can view public accounts'''
+        user = PersonaFactory()
+        account = AccountFactory(pub_state='public')
+        self.assertTrue(user.has_perm('profiles.view_account', account))
+
+    def test_anonymous_can_not_view_public(self):
+        '''Tests anonymous can view public accounts'''
+        user = AnonymousUser()
+        account = AccountFactory(pub_state='public')
+        self.assertTrue(user.has_perm('profiles.view_account', account))
+
+
+class AccountEditPermissionTestCase(TestCase):
+
+    def setUp(self):
+        self.user = PersonaFactory()
+        self.anonymous = AnonymousUser()
+        self.account = AccountFactory()
+
+    def test_owner_cannot_change_account(self):
+        '''Tests owners don't have change permission of Account'''
+        self.assertFalse(self.account.user.has_perm('profiles.change_account', obj=self.account))
+
+    def test_others_cannot_change_account(self):
+        '''Tests others don't have change permission of Account'''
+        self.assertFalse(self.user.has_perm('profiles.change_account', obj=self.account))
+
+    def test_anonymous_cannot_change_account(self):
+        '''Tests anonymous don't have change permission of Account'''
+        self.assertFalse(self.anonymous.has_perm('profiles.change_account', obj=self.account))
+
+    def test_owner_can_delete_account(self):
+        '''Tests owners have delete permission of Account'''
+        self.assertTrue(self.account.user.has_perm('profiles.delete_account', obj=self.account))
+
+    def test_others_cannot_delete_account(self):
+        '''Tests others don't have delete permission of Account'''
+        self.assertFalse(self.user.has_perm('profiles.delete_account', obj=self.account))
+
+    def test_anonymous_cannot_delete_account(self):
+        '''Tests anonymous don't have delete permission of Account'''
+        self.assertFalse(self.anonymous.has_perm('profiles.delete_account', obj=self.account))
