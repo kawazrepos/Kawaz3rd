@@ -65,7 +65,7 @@ class BaseRolePermissionLogic(PermissionLogic):
             return False
         role = getattr(user_obj, 'role', None)
         if obj is None:
-            if self.any_permission:
+            if self.any_permission and role in self.role_names:
                 return True
             if self.add_permission and perm == add_name:
                 if role and role in self.role_names:

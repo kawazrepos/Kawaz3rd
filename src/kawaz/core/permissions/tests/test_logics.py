@@ -17,6 +17,54 @@ class RolePermissionLogicTestCase(TestCase):
         [setattr(self, key, PersonaFactory(role=key)) for key in dict(Persona.ROLE_TYPES).keys()]
         self.anonymous = AnonymousUser()
 
+    def test_any_permission_add(self):
+        '''
+        Tests RolePermissionLogic permits to add the model when any_permission=True
+        '''
+        logic = ChildrenPermissionLogic(
+            any_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.add_article'), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.add_article'))
+        self.assertTrue(self.nerv.has_perm('permissions.add_article'))
+        self.assertTrue(self.children.has_perm('permissions.add_article'))
+        self.assertFalse(self.wille.has_perm('permissions.add_article'))
+        self.assertFalse(self.anonymous.has_perm('permissions.add_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_any_permission_change(self):
+        '''
+        Tests RolePermissionLogic permits to change the model when any_permission=True
+        '''
+        logic = ChildrenPermissionLogic(
+            any_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.change_article'), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.change_article'))
+        self.assertTrue(self.nerv.has_perm('permissions.change_article'))
+        self.assertTrue(self.children.has_perm('permissions.change_article'))
+        self.assertFalse(self.wille.has_perm('permissions.change_article'))
+        self.assertFalse(self.anonymous.has_perm('permissions.change_article'))
+        remove_permission_logic(Article, logic)
+
+    def test_any_permission_delete(self):
+        '''
+        Tests RolePermissionLogic permits to delete the model when any_permission=True
+        '''
+        logic = ChildrenPermissionLogic(
+            any_permission=True
+        )
+        add_permission_logic(Article, logic)
+        self.assertTrue(self.adam.has_perm('permissions.delete_article'), 'adam has all permissions')
+        self.assertTrue(self.seele.has_perm('permissions.delete_article'))
+        self.assertTrue(self.nerv.has_perm('permissions.delete_article'))
+        self.assertTrue(self.children.has_perm('permissions.delete_article'))
+        self.assertFalse(self.wille.has_perm('permissions.delete_article'))
+        self.assertFalse(self.anonymous.has_perm('permissions.delete_article'))
+        remove_permission_logic(Article, logic)
+
     def test_add_permission(self):
         '''
         Tests RolePermissionLogic permits to add the model by add_permission value.
