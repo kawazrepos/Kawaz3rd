@@ -46,8 +46,8 @@ class EntryManagerTestCase(TestCase):
         user = PersonaFactory()
         qs = Entry.objects.published(user)
         self.assertEqual(qs.count(), 2)
-        self.assertEqual(qs[0], self.entries[0])
-        self.assertEqual(qs[1], self.entries[2])
+        self.assertEqual(qs[0], self.entries[1])
+        self.assertEqual(qs[1], self.entries[0])
 
     def test_published_with_wille(self):
         '''Tests Entry.objects.published() with wille user returns only public entries '''
@@ -65,14 +65,14 @@ class EntryManagerTestCase(TestCase):
 
     def test_draft_with_owner(self):
         '''Tests Entry.objects.published() with authenticated user returns all publish entries '''
-        qs = Entry.objects.published(self.entries[2].author)
+        qs = Entry.objects.draft(self.entries[2].author)
         self.assertEqual(qs.count(), 1)
         self.assertEqual(qs[0], self.entries[2])
 
     def test_draft_with_other(self):
         '''Tests Entry.objects.draft() with owner user returns all own draft entries'''
         user = PersonaFactory()
-        qs = Entry.objects.published(user)
+        qs = Entry.objects.draft(user)
         self.assertEqual(qs.count(), 0)
 
 
