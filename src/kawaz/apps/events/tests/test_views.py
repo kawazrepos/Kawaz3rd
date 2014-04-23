@@ -186,7 +186,7 @@ class EventUpdateViewTestCase(TestCase):
         Tests other user cannot update event via EventUpdateView
         It will redirect to LOGIN_URL
         '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
+        self.assertTrue(self.client.login(username=self.other, password='password'))
         r = self.client.post('/events/1/update/', {
             'pub_state' : 'public',
             'title' : '変更後のイベントです',
@@ -194,10 +194,8 @@ class EventUpdateViewTestCase(TestCase):
             'period_start' : datetime.datetime.now() + datetime.timedelta(hours=1),
             'period_end' : datetime.datetime.now() + datetime.timedelta(hours=3)
         })
-        self.assertRedirects(r, '/events/1/')
-        self.assertEqual(Event.objects.count(), 1)
-        e = Event.objects.get(pk=1)
-        self.assertEqual(e.title, '変更後のイベントです')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/1/update/')
+        self.assertEqual(self.event.title, '変更前のイベントです')
 
     def test_organizer_can_update_via_update_view(self):
         '''Tests authorized user can update event via EventUpdateView'''
