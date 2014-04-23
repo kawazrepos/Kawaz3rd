@@ -1,1 +1,2 @@
 factory_boy>=2.2.1
+coverage

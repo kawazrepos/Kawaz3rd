@@ -1,7 +1,6 @@
 pyyaml
 pillow
 markdown
-Django>=1.6.0
 django-permission>=0.7.1
 django-markupfield
 django-thumbnailfield>=0.2.0
