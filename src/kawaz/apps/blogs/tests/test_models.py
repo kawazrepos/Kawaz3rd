@@ -132,6 +132,35 @@ class EntryModelTestCase(TestCase):
         entry = EntryFactory(publish_at=publish_at)
         self.assertEqual(entry.publish_at_date, datetime.date(2112, 9, 21))
 
+    def test_publish_at_automatically(self):
+        '''
+        Tests publish_at is set for current time automatically
+        '''
+        today = datetime.date.today()
+        entry = EntryFactory()
+        self.assertEqual(entry.publish_at_date, today)
+
+    def test_publish_at_is_not_set_draft(self):
+        '''
+        Tests publish_at isn't set when pub_state is draft
+        '''
+        entry = EntryFactory(pub_state='draft')
+        self.assertIsNone(entry.publish_at)
+        self.assertIsNone(entry.publish_at_date)
+
+    def test_publish_at_is_not_updated(self):
+        '''
+        Tests publish_at isn't updated, this value never change.
+        '''
+        entry = EntryFactory()
+        old_publish_at = entry.publish_at
+        entry.pub_state = 'draft'
+        entry.save()
+        self.assertEqual(entry.publish_at, old_publish_at)
+        entry.pub_state = 'public'
+        entry.save()
+        self.assertEqual(entry.publish_at, old_publish_at)
+
 
 class EventPermissionTestCase(TestCase):
 

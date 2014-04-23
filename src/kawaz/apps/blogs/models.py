@@ -97,6 +97,8 @@ class Entry(models.Model):
     @property
     def publish_at_date(self):
         '''return Publish date'''
+        if not self.publish_at:
+            return None
         return datetime.datetime.date(self.publish_at)
 
 from permission import add_permission_logic
