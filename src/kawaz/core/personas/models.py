@@ -144,3 +144,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
         if not self.nickname:
             self.nickname = self.username
         super().clean_fields(exclude=exclude, **kwargs)
+
+from permission import add_permission_logic
+from .perms import PersonaPermissionLogic
+add_permission_logic(Persona, PersonaPermissionLogic())

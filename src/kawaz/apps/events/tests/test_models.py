@@ -13,6 +13,7 @@ from .factories import EventFactory
 from .utils import static_now
 from .utils import event_factory_with_relative
 
+
 @patch_datetime_now(static_now)
 class EventManagerTestCase(TestCase):
     def setUp(self):
@@ -323,6 +324,8 @@ class EventValidationTestCase(TestCase):
             )
         self.assertRaises(ValidationError, EventFactory, **kwargs)
 
+<<<<<<< HEAD
+=======
 
 class EventChangePermissionTestCase(TestCase):
     def test_organizer_can_edit(self):
@@ -370,16 +373,34 @@ class EventChangePermissionTestCase(TestCase):
         self.assertFalse(user.has_perm('events.add_event'))
 
     def test_change_event_treat_object_permission_only(self):
-        '''events.change_event with no object, return True permanently'''
-        # https://code.djangoproject.com/wiki/RowLevelPermissions
+        '''events.change_event with no object with authenticated_user, return True permanently'''
         user = PersonaFactory()
         self.assertTrue(user.has_perm('events.change_event'))
 
     def test_delete_event_treat_object_permission_only(self):
-        '''events.delete_event with no object, return True permanently'''
-        # https://code.djangoproject.com/wiki/RowLevelPermissions
+        '''events.delete_event with no object with authenticated_user, return True permanently'''
         user = PersonaFactory()
         self.assertTrue(user.has_perm('events.delete_event'))
+
+    def test_change_event_without_object_wille(self):
+        '''events.change_event with no object with wille user, return False permanently'''
+        user = PersonaFactory(role='wille')
+        self.assertFalse(user.has_perm('events.change_event'))
+
+    def test_delete_event_without_object_wille(self):
+        '''events.delete_event with no object with wille user, return False permanently'''
+        user = PersonaFactory(role='wille')
+        self.assertFalse(user.has_perm('events.delete_event'))
+
+    def test_change_event_without_object_anonymous(self):
+        '''events.change_event with no object with anonymous user, return False permanently'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('events.change_event'))
+
+    def test_delete_event_without_object_anonymous(self):
+        '''events.delete_event with no object with anonymous user, return False permanently'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('events.delete_event'))
 
 
 class EventViewPermissionTestCase(TestCase):
@@ -433,3 +454,4 @@ class EventViewPermissionTestCase(TestCase):
         user = AnonymousUser()
         event = EventFactory(pub_state='public')
         self.assertTrue(user.has_perm('events.view_event', event))
+>>>>>>> 1cc4365... Fix test failing with latest django-permission, but still broken

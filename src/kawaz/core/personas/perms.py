@@ -2,9 +2,7 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-from permission import add_permission_logic
 from permission.logics import PermissionLogic
-from .models import Persona
 
 
 class PersonaPermissionLogic(PermissionLogic):
@@ -34,7 +32,7 @@ class PersonaPermissionLogic(PermissionLogic):
 
     def _has_assign_role_perm(self, user_obj, perm, obj):
         # admin user can change user's role
-        return user_obj.role in ('seele')
+        return user_obj.role in ('seele',)
 
     def has_perm(self, user_obj, perm, obj=None):
         permission_methods = {
@@ -49,6 +47,3 @@ class PersonaPermissionLogic(PermissionLogic):
             return permission_methods[perm](user_obj, perm, obj)
         return False
 
-PERMISSION_LOGICS = (
-        (Persona, PersonaPermissionLogic()),
-    )

@@ -1,11 +1,10 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from kawaz.core.permissions.logics import PUB_STATES
 
 from markupfield.fields import MarkupField
-
-User = get_user_model()
 
 class AnnouncementManager(models.Manager):
     def published(self, user):
@@ -38,7 +37,7 @@ class Announcement(models.Model):
     silently = models.BooleanField(_('Silently'), default=False,
                                    help_text=_('If you checked this field. This will not be notified anybody.'))
     # Uneditable
-    author = models.ForeignKey(User, related_name='created_announcements')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_announcements')
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Modified at'), auto_now=True)
     objects = AnnouncementManager()

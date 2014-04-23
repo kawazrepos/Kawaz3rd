@@ -1,5 +1,6 @@
 from permission.logics import PermissionLogic
 
+
 class BaseRolePermissionLogic(PermissionLogic):
     """
     Permission logic class for role based permission system
@@ -91,7 +92,7 @@ class ChildrenPermissionLogic(BaseRolePermissionLogic):
     """
     Permission logic class to allow permissions to over `Children` role user.
     """
-    role_names = ['seele', 'nerv', 'children', 'adam']
+    role_names = ['adam', 'seele', 'nerv', 'children']
 
 
 class NervPermissionLogic(BaseRolePermissionLogic):
