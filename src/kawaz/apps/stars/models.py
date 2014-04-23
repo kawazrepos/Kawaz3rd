@@ -1,10 +1,10 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.utils.translation import ugettext_lazy as _
 
-User = get_user_model()
 
 class StarManager(models.Manager):
     def get_for_object(self, obj):
@@ -39,7 +39,7 @@ class Star(models.Model):
     object_id = models.PositiveIntegerField('Object ID')
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_id")
 
-    author = models.ForeignKey(User, verbose_name=_('Author'))
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Author'))
     # `comment'はユーザーの引用を格納します。選択した状態で☆を付けると、選択部分がcommentに格納されます。
     comment = models.CharField(_('Comment'), max_length=512, blank=True)
     # 'tag'は☆の種類を表す短い文字列です。例えば将来的にカラースターのような☆に区別を付ける際に利用します

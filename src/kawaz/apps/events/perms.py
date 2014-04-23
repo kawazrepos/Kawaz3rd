@@ -77,7 +77,3 @@ class EventPermissionLogic(PermissionLogic):
         return False
 
 
-PERMISSION_LOGICS = (
-    ('events.Event', EventPermissionLogic()),
-    ('events.Event', PubStatePermissionLogic(author_field_name='organizer')),
-)

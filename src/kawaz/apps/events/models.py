@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
@@ -13,7 +14,6 @@ from kawaz.core.permissions.logics import PUB_STATES
 
 from markupfield.fields import MarkupField
 
-User = get_user_model()
 
 import datetime
 
@@ -41,7 +41,6 @@ class Event(models.Model):
     """
     The model which indicates events
     """
-
     # Required
     pub_state = models.CharField(_("Publish status"), max_length=10, choices=PUB_STATES, default="public")
     title = models.CharField(_("Title"), max_length=255)
@@ -51,8 +50,8 @@ class Event(models.Model):
     period_end = models.DateTimeField(_("End time"), blank=True, null=True)
     place = models.CharField(_("Place"), max_length=255, blank=True)
     # Uneditable
-    organizer = models.ForeignKey(User, verbose_name=_("Organizer"), related_name="events_owned", editable=False)
-    attendees = models.ManyToManyField(User, verbose_name=_("Attendees"), related_name="events_attend", editable=False)
+    organizer = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Organizer"), related_name="events_owned", editable=False)
+    attendees = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Attendees"), related_name="events_attend", editable=False)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
@@ -123,6 +122,7 @@ def join_organizer(**kwargs):
         instance.attend(instance.organizer)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 # Logic based permissions
 from permission.logics import PermissionLogic
@@ -133,7 +133,9 @@ class EventPermissionLogic(PermissionLogic):
     whether the user has a permission to see the object
     """
     def _has_attend_perm(self, user_obj, perm, obj):
-        # ToDo check if user is in children group
+        if not user_obj.is_authenticated():
+            # only logged in user can attend
+            return False
         if user_obj in obj.attendees.all():
             # the user is already attended
             return False
@@ -157,8 +159,12 @@ class EventPermissionLogic(PermissionLogic):
             if perm == 'events.add_event':
                 return user_obj.is_authenticated()
             else:
-                # When other perms, treat only object-permission
-                return user_obj.is_authenticated()
+                # anonymous user and wille user return False
+                if not user_obj.is_authenticated():
+                    return False
+                if user_obj.role == 'wille':
+                    return False
+                return True
         permission_methods = {
             'events.attend_event': self._has_attend_perm,
             'events.quit_event': self._has_quit_perm,
@@ -181,3 +187,10 @@ add_permission_logic(Event, PubStatePermissionLogic(
     author_field_name='organizer'
 ))
 >>>>>>> 1cc4365... Fix test failing with latest django-permission, but still broken
+=======
+from permission import add_permission_logic
+from .perms import EventPermissionLogic
+from .perms import PubStatePermissionLogic
+add_permission_logic(Event, EventPermissionLogic()),
+add_permission_logic(Event, PubStatePermissionLogic(author_field_name='organizer')),
+>>>>>>> 6fa428a... Trial
