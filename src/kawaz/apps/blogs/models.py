@@ -84,6 +84,16 @@ class Entry(models.Model):
             raise ValidationError('Category must be owned by author.')
         super().clean()
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('blogs_entry_detail', (), {
+            'author' : self.author.username,
+            'year' : self.publish_at.year,
+            'month' : self.publish_at.month,
+            'day' : self.publish_at.day,
+            'object_id' : self.pk
+        })
+
     @property
     def publish_at_date(self):
         '''return Publish date'''

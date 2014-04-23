@@ -1,3 +1,4 @@
+import datetime
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
@@ -76,7 +77,7 @@ class EntryManagerTestCase(TestCase):
         self.assertEqual(qs.count(), 0)
 
 
-class EntryTestCase(TestCase):
+class EntryModelTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
         entry = EntryFactory()
@@ -113,6 +114,26 @@ class EntryTestCase(TestCase):
         def create():
             EntryFactory(category=category)
         self.assertRaises(ValidationError, create)
+
+    def test_get_absolute_url(self):
+        '''
+        Tests get_absolute_url returns /<author>/<year>/<month>/<day>/<pk>/
+        '''
+        user = PersonaFactory(username='mecha_kawaztan')
+        publish_at = datetime.date(2112, 9, 21)
+        entry = EntryFactory(publish_at=publish_at, author=user)
+        self.assertEqual(entry.get_absolute_url(), '/blogs/mecha_kawaztan/2112/9/21/1/')
+
+    def test_publish_at_date_property(self):
+        '''
+        Tests publish_at_date returns datetime
+        '''
+        publish_at = datetime.date(2112, 9, 21)
+        entry = EntryFactory(publish_at=publish_at)
+        self.assertEqual(entry.publish_at_date, datetime.date(2112, 9, 21))
+
+
+class EventPermissionTestCase(TestCase):
 
     def test_author_has_change_perm(self):
         '''Tests author has change permission'''
