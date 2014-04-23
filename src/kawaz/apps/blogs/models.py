@@ -24,20 +24,21 @@ class Category(models.Model):
         return '%s(%s)' % (self.label, self.author.username)
 
 
-class EntryManager(models.Model):
+class EntryManager(models.Manager):
     '''The model manager for Entry'''
 
     def published(self, user):
         '''Returns Queryset which contains viewable objects by ``user``.'''
         q = Q(pub_state='public')
         if user and user.is_authenticated():
-            q |= Q(pub_state='protected')
+            if not user.role in 'wille':
+                q |= Q(pub_state='protected')
         return self.filter(q).distinct()
 
     def draft(self, user):
         '''Returns Queryset contains draft entries which owned by ``user``.'''
         if user and user.is_authenticated():
-            return self.filter(organizer=user, pub_state='draft')
+            return self.filter(author=user, pub_state='draft')
         return self.none()
 
 
