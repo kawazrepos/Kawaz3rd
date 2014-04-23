@@ -369,15 +369,17 @@ class EventChangePermissionTestCase(TestCase):
         user = AnonymousUser()
         self.assertFalse(user.has_perm('events.add_event'))
 
-    def test_change_event_treat_object_permission_only(self):
-        '''events.change_event with no object, return False permanently'''
+    def test_change_event_treat_object_permission_only_and_return_true(self):
+        '''events.change_event with no object, return True permanently'''
+        # See: https://code.djangoproject.com/wiki/RowLevelPermissions
         user = PersonaFactory()
-        self.assertFalse(user.has_perm('events.change_event'))
+        self.assertTrue(user.has_perm('events.change_event'))
 
-    def test_delete_event_treat_object_permission_only(self):
-        '''events.delete_event with no object, return False permanently'''
+    def test_delete_event_treat_object_permission_only_and_return_true(self):
+        '''events.delete_event with no object, return True permanently'''
+        # See: https://code.djangoproject.com/wiki/RowLevelPermissions
         user = PersonaFactory()
-        self.assertFalse(user.has_perm('events.delete_event'))
+        self.assertTrue(user.has_perm('events.delete_event'))
 
 
 class EventViewPermissionTestCase(TestCase):
