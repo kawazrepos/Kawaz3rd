@@ -9,6 +9,9 @@ install:
 script:
   - tox -r
 
+notifications:
+  slack: kawaz:Dh59b2T0KqhQnBR6qHYUDdpn
+
 after_success:
   - coverage report
   - coveralls
