@@ -81,7 +81,6 @@ class Event(models.Model):
                 raise ValidationError(_('The period of event is too long.'))
         elif self.period_end and not self.period_start:
             raise ValidationError(_('You must set end time too'))
-        super().clean()
 
     def attend(self, user, save=True):
         '''Add user to attendees'''
@@ -115,6 +114,7 @@ class Event(models.Model):
             return ('events_event_update', (str(self.pk)))
         return ('events_event_detail', (str(self.pk)))
 
+
 @receiver(post_save, sender=Event)
 def join_organizer(**kwargs):
     created = kwargs.get('created')
@@ -122,65 +122,3 @@ def join_organizer(**kwargs):
     if created:
         instance.attend(instance.organizer)
 
-# Logic based permissions
-from permission.logics import PermissionLogic
-
-class EventPermissionLogic(PermissionLogic):
-    """
-    Permission logic which check object pulbish statement and return
-    whether the user has a permission to see the object
-    """
-    def _has_attend_perm(self, user_obj, perm, obj):
-        if not user_obj.is_authenticated():
-            # only logged in user can attend
-            return False
-        if user_obj in obj.attendees.all():
-            # the user is already attended
-            return False
-        return True
-
-    def _has_quit_perm(self, user_obj, perm, obj):
-        # check if user is in children group
-        if user_obj == obj.organizer:
-            # organizer cannot quit the event
-            return False
-        if user_obj not in obj.attendees.all():
-            # non attendees cannot quit the event
-            return False
-        return True
-
-    def has_perm(self, user_obj, perm, obj=None):
-        """
-        Check `obj.pub_state` and if user is authenticated
-        """
-        if obj is None:
-            if perm == 'events.add_event':
-                return user_obj.is_authenticated()
-            else:
-                # anonymous user and wille user return False
-                if not user_obj.is_authenticated():
-                    return False
-                if user_obj.role == 'wille':
-                    return False
-                return True
-        permission_methods = {
-            'events.attend_event': self._has_attend_perm,
-            'events.quit_event': self._has_quit_perm,
-        }
-        if perm in permission_methods:
-            return permission_methods[perm](user_obj, perm, obj)
-        return False
-
-from permission import add_permission_logic
-from permission.logics import AuthorPermissionLogic
-from kawaz.core.permissions.logics import PubStatePermissionLogic
-
-add_permission_logic(Event, AuthorPermissionLogic(
-    field_name='organizer',
-    change_permission=True,
-    delete_permission=True
-))
-add_permission_logic(Event, EventPermissionLogic())
-add_permission_logic(Event, PubStatePermissionLogic(
-    author_field_name='organizer'
-))
