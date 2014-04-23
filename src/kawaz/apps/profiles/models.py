@@ -1,11 +1,11 @@
 import os
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth import get_user_model
 
 from markupfield.fields import MarkupField
 
-User = get_user_model()
 
 class Skill(models.Model):
     """It is the model which indicates what users can"""
@@ -63,7 +63,7 @@ class Profile(models.Model):
     remarks = MarkupField(_("Remarks"), default_markup_type='markdown')
     skills = models.ManyToManyField(Skill, verbose_name=_('Skills'), related_name='users', null=True, blank=True)
     # Uneditable
-    user = models.OneToOneField(User, verbose_name=_('User'), related_name='profile', unique=True, primary_key=True, editable=False)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_('User'), related_name='profile', unique=True, primary_key=True, editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
@@ -104,7 +104,7 @@ class Service(models.Model):
 
 
 class Account(models.Model):
-    user = models.ForeignKey(User, verbose_name=_('Profile'), editable=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Profile'), editable=False)
     service = models.ForeignKey(Service, verbose_name=_('Service'))
     pub_state = models.CharField(_('Publish State'), choices=Profile.PUB_STATES, max_length=10, default='public')
     username = models.CharField(_('Username'), max_length=64)
