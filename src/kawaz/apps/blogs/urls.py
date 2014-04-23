@@ -15,7 +15,7 @@ from .views import EntryTodayArchiveView
 from .views import EntryUpdateView
 from .views import EntryYearArchiveView
 
-author_patterns = ('',
+author_patterns = patterns('',
    url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<object_id>\d+)/$', EntryDetailView.as_view(), name='blogs_entry_detail'),
    url(r'^create/$', EntryCreateView.as_view(), name='blogs_entry_create'),
    url(r'^(?P<object_id>\d+)/update/$', EntryUpdateView.as_view(), name='blogs_entry_update'),
