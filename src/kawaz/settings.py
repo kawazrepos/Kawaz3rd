@@ -38,15 +38,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'permission',
     'thumbnailfield',
-    'kawaz.core.personas',
     'kawaz.core.db',
+    'kawaz.core.personas',
     'kawaz.core.permissions',
     'kawaz.apps.announcements',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
     'kawaz.apps.events',
     'kawaz.apps.blogs',
-    'kawaz.apps.stars'
+    'kawaz.apps.stars',
 )
 
 MIDDLEWARE_CLASSES = (
