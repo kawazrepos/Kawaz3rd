@@ -7,7 +7,7 @@ install:
   - pip install coverage coveralls
 
 script:
-  - tox
+  - tox -r
 
 after_success:
   - coverage report
