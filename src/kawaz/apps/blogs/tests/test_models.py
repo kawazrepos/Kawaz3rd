@@ -7,6 +7,9 @@ from django.contrib.auth.models import AnonymousUser
 
 from kawaz.core.personas.tests.factories import PersonaFactory
 
+from ..models import Entry
+from ..models import EntryManager
+
 class CategoryTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
@@ -22,6 +25,56 @@ class CategoryTestCase(TestCase):
         def create_duplicate():
             CategoryFactory(label='独り言', author=user)
         self.assertRaises(IntegrityError, create_duplicate)
+
+
+class EntryManagerTestCase(TestCase):
+
+    def setUp(self):
+        self.entries = (
+            EntryFactory(),
+            EntryFactory(pub_state='protected'),
+            EntryFactory(pub_state='draft'),
+            EntryFactory(pub_state='draft'),
+        )
+
+    def test_entry_manager_is_assigned(self):
+        '''Tests Entry.objects returns EntryManager instance'''
+        self.assertEqual(type(Entry.objects), EntryManager)
+
+    def test_published_with_authenticated(self):
+        '''Tests Entry.objects.published() with authenticated user returns all publish entries '''
+        user = PersonaFactory()
+        qs = Entry.objects.published(user)
+        self.assertEqual(qs.count(), 2)
+        self.assertEqual(qs[0], self.entries[0])
+        self.assertEqual(qs[1], self.entries[2])
+
+    def test_published_with_wille(self):
+        '''Tests Entry.objects.published() with wille user returns only public entries '''
+        user = PersonaFactory(role='wille')
+        qs = Entry.objects.published(user)
+        self.assertEqual(qs.count(), 1)
+        self.assertEqual(qs[0], self.entries[0])
+
+    def test_published_with_anonymous(self):
+        '''Tests Entry.objects.published() with anonymous user returns only public entries '''
+        user = AnonymousUser()
+        qs = Entry.objects.published(user)
+        self.assertEqual(qs.count(), 1)
+        self.assertEqual(qs[0], self.entries[0])
+
+    def test_draft_with_owner(self):
+        '''Tests Entry.objects.published() with authenticated user returns all publish entries '''
+        qs = Entry.objects.published(self.entries[2].author)
+        self.assertEqual(qs.count(), 1)
+        self.assertEqual(qs[0], self.entries[2])
+
+    def test_draft_with_other(self):
+        '''Tests Entry.objects.draft() with owner user returns all own draft entries'''
+        user = PersonaFactory()
+        qs = Entry.objects.published(user)
+        self.assertEqual(qs.count(), 0)
+
 
 class EntryTestCase(TestCase):
     def test_str(self):
