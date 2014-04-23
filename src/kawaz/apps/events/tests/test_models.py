@@ -387,6 +387,26 @@ class EventChangePermissionTestCase(TestCase):
         user = PersonaFactory()
         self.assertTrue(user.has_perm('events.delete_event'))
 
+    def test_change_event_without_object_wille(self):
+        '''events.change_event with no object with wille user, return False permanently'''
+        user = PersonaFactory(role='wille')
+        self.assertFalse(user.has_perm('events.change_event'))
+
+    def test_delete_event_without_object_wille(self):
+        '''events.delete_event with no object with wille user, return False permanently'''
+        user = PersonaFactory(role='wille')
+        self.assertFalse(user.has_perm('events.delete_event'))
+
+    def test_change_event_without_object_anonymous(self):
+        '''events.change_event with no object with anonymous user, return False permanently'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('events.change_event'))
+
+    def test_delete_event_without_object_anonymous(self):
+        '''events.delete_event with no object with anonymous user, return False permanently'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('events.delete_event'))
+
 
 class EventViewPermissionTestCase(TestCase):
     def test_organizer_can_view_draft(self):

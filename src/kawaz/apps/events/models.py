@@ -131,7 +131,9 @@ class EventPermissionLogic(PermissionLogic):
     whether the user has a permission to see the object
     """
     def _has_attend_perm(self, user_obj, perm, obj):
-        # ToDo check if user is in children group
+        if not user_obj.is_authenticated():
+            # only logged in user can attend
+            return False
         if user_obj in obj.attendees.all():
             # the user is already attended
             return False
@@ -155,8 +157,12 @@ class EventPermissionLogic(PermissionLogic):
             if perm == 'events.add_event':
                 return user_obj.is_authenticated()
             else:
-                # When other perms, treat only object-permission
-                return user_obj.is_authenticated()
+                # anonymous user and wille user return False
+                if not user_obj.is_authenticated():
+                    return False
+                if user_obj.role == 'wille':
+                    return False
+                return True
         permission_methods = {
             'events.attend_event': self._has_attend_perm,
             'events.quit_event': self._has_quit_perm,
