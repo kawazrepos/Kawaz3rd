@@ -51,7 +51,7 @@ class EntryDetailViewTestCase(TestCase):
     def test_others_can_not_view_draft_entry(self):
         '''
         Tests others can not view draft entry
-        User will redirect to '/entrys/1/update/'
+        User will redirect to '/entries/1/update/'
         '''
         entry = EntryFactory(pub_state='draft')
         self.assertTrue(self.client.login(username=self.user, password='password'))
@@ -219,185 +219,53 @@ class EntryUpdateViewTestCase(TestCase):
 
 class EntryListViewTestCase(TestCase):
     def setUp(self):
-        arguments_list = (
-            (-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
-            (1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
-            (-2, -1, {'pub_state':'protected'}), # 2000/9/3 ~ 2000/9/4
-            (0, 1, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
-            (-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
-            (1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
+        self.entries = (
+            EntryFactory(),
+            EntryFactory(pub_state='protected'),
+            EntryFactory(pub_state='draft'),
         )
-        self.entrys = [entry_factory_with_relative(*args) for args in arguments_list]
         self.user = PersonaFactory()
         self.user.set_password('password')
         self.user.save()
+        self.wille = PersonaFactory(role='wille')
+        self.wille.set_password('password')
+        self.wille.save()
 
-    def test_anonymous_can_view_only_public_entrys(self):
+    def test_anonymous_can_view_only_public_entries(self):
         '''
-        Tests anonymous user can view public Entrys only.
-        The protected entrys are not displayed.
+        Tests anonymous user can view public Entry only.
+        The protected entries are not displayed.
         '''
         user = AnonymousUser()
-        r = self.client.get('/entrys/')
+        r = self.client.get('/blogs/')
         self.assertTemplateUsed('blogs/entry_list.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 1, 'object_list has one entry')
-        self.assertEqual(list[0], self.entrys[1], '2000/9/5 ~ 6 public')
+        self.assertEqual(list[0], self.entries[0])
 
-    def test_authenticated_can_view_all_publish_entrys(self):
+    def test_wille_can_view_only_public_entries(self):
         '''
-        Tests authenticated user can view all published entrys.
+        Tests wille user can view public Entry only.
+        The protected entries are not displayed.
         '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/entrys/')
+        user = AnonymousUser()
+        r = self.client.get('/blogs/')
         self.assertTemplateUsed('blogs/entry_list.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
-        self.assertEqual(list.count(), 2, 'object_list has two entrys')
-        self.assertEqual(list[0], self.entrys[3], '2000/9/5 ~ 6 protected')
-        self.assertEqual(list[1], self.entrys[1], '2000/9/5 ~ 6 public')
-
-class EntryMonthListViewTestCase(TestCase):
-    def setUp(self):
-        arguments_list = (
-            (-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
-            (1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
-            (31, 32, {'pub_state':'public'}), # 2000/10/5 ~ 2000/10/6
-            (-2, -1, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
-            (0, 1, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
-            (32, 33, {'pub_state':'protected'}), # 2000/10/6 ~ 2000/10/7
-            (-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
-            (1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
-        )
-        self.entrys = [entry_factory_with_relative(*args) for args in arguments_list]
-        self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
-
-    def test_anonymous_can_view_only_public_entrys(self):
-        '''
-        Tests anonymous user can view public Entrys only via EntryMonthListView.
-        The protected entrys are not displayed.
-        The ended entrys are also displayed.
-        '''
-        r = self.client.get('/entrys/archive/2000/9/')
-        self.assertTemplateUsed('blogs/entry_archive_month.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 2, 'object_list has two entrys')
-        self.assertEqual(list[0], self.entrys[0], '2000/9/1 ~ 2 public')
-        self.assertEqual(list[1], self.entrys[1], '2000/9/5 ~ 6 public')
-
-    def test_anonymous_can_view_only_public_entrys_other_month(self):
-        '''
-        Tests anonymous user can view public Entrys only via EntryMonthListView.
-        The protected entrys are not displayed.
-        The ended entrys are also displayed.
-        '''
-        r = self.client.get('/entrys/archive/2000/10/')
-        self.assertTemplateUsed('blogs/entry_archive_month.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
         self.assertEqual(list.count(), 1, 'object_list has one entry')
-        self.assertEqual(list[0], self.entrys[2], '2000/10/5 ~ 6 public')
+        self.assertEqual(list[0], self.entries[0])
 
-    def test_authenticated_can_view_all_publish_entrys(self):
+    def test_authenticated_can_view_all_publish_entries(self):
         '''
-        Tests authenticated user can view all published entrys via EntryMonthListView.
+        Tests authenticated user can view all published entries.
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/entrys/archive/2000/9/')
-        self.assertTemplateUsed('blogs/entry_archive_month.html')
+        r = self.client.get('/blogs/')
+        self.assertTemplateUsed('blogs/entry_list.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
-        self.assertEqual(list.count(), 4, 'object_list has four entrys')
-        self.assertEqual(list[0], self.entrys[0], '2000/9/1 ~ 2 public')
-        self.assertEqual(list[1], self.entrys[3], '2000/9/2 ~ 3 protected')
-        self.assertEqual(list[2], self.entrys[4], '2000/9/4 ~ 5 protected')
-        self.assertEqual(list[3], self.entrys[1], '2000/9/5 ~ 6 public')
-
-    def test_authenticated_can_view_all_publish_entrys_other_month(self):
-        '''
-        Tests authenticated user can view all published entrys via EntryMonthListView.
-        '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/entrys/archive/2000/10/')
-        self.assertTemplateUsed('blogs/entry_archive_month.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 2, 'object_list has two entrys')
-        self.assertEqual(list[0], self.entrys[2], '2000/10/5 ~ 6 public')
-        self.assertEqual(list[1], self.entrys[5], '2000/10/6 ~ 7 protected')
-
-class EntryYearListViewTestCase(TestCase):
-    def setUp(self):
-        arguments_list = (
-            (-3, -2, {'pub_state':'public'}), # 2000/9/1 ~ 2000/9/2
-            (1, 2, {'pub_state':'public'}), # 2000/9/5 ~ 2000/9/6
-            (365, 366, {'pub_state':'public'}), # 2001/9/5 ~ 2001/9/6
-            (-2, -1, {'pub_state':'protected'}), # 2000/9/2 ~ 2000/9/3
-            (0, 3, {'pub_state':'protected'}), # 2000/9/4 ~ 2000/9/5
-            (367, 368, {'pub_state':'protected'}), # 2001/9/7 ~ 2001/9/8
-            (-3, -2, {'pub_state':'draft'}), # 2000/9/2 ~ 2000/9/3
-            (1, 2, {'pub_state':'draft'}), # 2000/9/5 ~ 2000/9/6
-        )
-        self.entrys = [entry_factory_with_relative(*args) for args in arguments_list]
-        self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
-
-    def test_anonymous_can_view_only_public_entrys(self):
-        '''
-        Tests anonymous user can view public Entrys only via EntryYearListView.
-        The protected entrys are not displayed.
-        The ended entrys are also displayed.
-        '''
-        r = self.client.get('/entrys/archive/2000/')
-        self.assertTemplateUsed('blogs/entry_archive_year.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 2, 'object_list has two entrys')
-        self.assertEqual(list[0], self.entrys[0], '2000/9/5 ~ 6 public')
-        self.assertEqual(list[1], self.entrys[1], '2000/9/1 ~ 2 public')
-
-    def test_anonymous_can_view_only_public_entrys_other_year(self):
-        '''
-        Tests anonymous user can view public Entrys only via EntryYearListView.
-        The protected entrys are not displayed.
-        The ended entrys are also displayed.
-        '''
-        r = self.client.get('/entrys/archive/2001/')
-        self.assertTemplateUsed('blogs/entry_archive_year.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 1, 'object_list has one entry')
-        self.assertEqual(list[0], self.entrys[2], '2001/9/5 ~ 6 public')
-
-    def test_authenticated_can_view_all_publish_entrys(self):
-        '''
-        Tests authenticated user can view all published entrys via EntryYearListView.
-        '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/entrys/archive/2000/')
-        self.assertTemplateUsed('blogs/entry_archive_year.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 4, 'object_list has four entrys')
-        self.assertEqual(list[0], self.entrys[0], '2000/9/5 ~ 6 public')
-        self.assertEqual(list[1], self.entrys[3], '2000/9/5 ~ 6 protected')
-        self.assertEqual(list[2], self.entrys[4], '2000/9/2 ~ 3 public')
-        self.assertEqual(list[3], self.entrys[1], '2000/9/2 ~ 3 protected')
-
-    def test_authenticated_can_view_all_publish_entrys_other_year(self):
-        '''
-        Tests authenticated user can view all published entrys via EntryYearListView.
-        '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/entrys/archive/2001/')
-        self.assertTemplateUsed('blogs/entry_archive_year.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 2, 'object_list has two entrys')
-        self.assertEqual(list[0], self.entrys[2], '2001/9/6 ~ 7 protected')
-        self.assertEqual(list[1], self.entrys[5], '2001/9/4 ~ 5 public')
+        self.assertEqual(list.count(), 2, 'object_list has two entries')
+        self.assertEqual(list[0], self.entries[1], 'protected')
+        self.assertEqual(list[1], self.entries[0], 'public')

@@ -18,7 +18,12 @@ from .forms import EntryForm
 
 from .models import Entry
 
-class EntryListView(ListView):
+class EntryMultipleObjectMixin(MultipleObjectMixin):
+    def get_queryset(self):
+        return Entry.objects.published(self.request.user)
+
+
+class EntryListView(ListView, EntryMultipleObjectMixin):
     '''
     View class for listing all entries
     '''
@@ -62,35 +67,35 @@ class EntryDeleteView(DeleteView):
     model = Entry
 
 
-class EntryTodayArchiveView(TodayArchiveView):
+class EntryTodayArchiveView(TodayArchiveView, EntryMultipleObjectMixin):
     '''
     View class for listing blog entries written on today.
     '''
     model = Entry
 
 
-class EntryDayArchiveView(DayArchiveView):
+class EntryDayArchiveView(DayArchiveView, EntryMultipleObjectMixin):
     '''
     View class for listing blog entries written in the day.
     '''
     model = Entry
 
 
-class EntryMonthArchiveView(MonthArchiveView):
+class EntryMonthArchiveView(MonthArchiveView, EntryMultipleObjectMixin):
     '''
     View class for listing blog entries written in the month
     '''
     model = Entry
 
 
-class EntryYearArchiveView(YearArchiveView):
+class EntryYearArchiveView(YearArchiveView, EntryMultipleObjectMixin):
     '''
     View class for listing blog entries written in the year.
     '''
     model = Entry
 
 
-class EntryAuthorMixin(MultipleObjectMixin):
+class EntryAuthorMixin(EntryMultipleObjectMixin):
 
     def get_queryset(self):
         qs = super().get_queryset()
