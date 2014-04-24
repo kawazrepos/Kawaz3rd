@@ -16,10 +16,10 @@ from .views import EntryUpdateView
 from .views import EntryYearArchiveView
 
 author_patterns = patterns('',
-   url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<object_id>\d+)/$', EntryDetailView.as_view(), name='blogs_entry_detail'),
+   url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<pk>\d+)/$', EntryDetailView.as_view(), name='blogs_entry_detail'),
    url(r'^create/$', EntryCreateView.as_view(), name='blogs_entry_create'),
-   url(r'^(?P<object_id>\d+)/update/$', EntryUpdateView.as_view(), name='blogs_entry_update'),
-   url(r'^(?P<object_id>\d+)/delete/$', EntryDeleteView.as_view(), name='blogs_entry_delete'),
+   url(r'^(?P<pk>\d+)/update/$', EntryUpdateView.as_view(), name='blogs_entry_update'),
+   url(r'^(?P<pk>\d+)/delete/$', EntryDeleteView.as_view(), name='blogs_entry_delete'),
    url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', EntryAuthorDayArchiveView.as_view(), name='blogs_entry_author_archive-day'),
    url(r'^(?P<year>\d+)/(?P<month>\d+)/$', EntryAuthorMonthArchiveView.as_view(), name='blogs_entry_author_archive-month'),
    url(r'^(?P<year>\d+)/$', EntryAuthorYearArchiveView.as_view(), name='blogs_entry_author_archive-year'),

@@ -86,12 +86,17 @@ class Entry(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('blogs_entry_detail', (), {
+        if self.publish_at:
+            return ('blogs_entry_detail', (), {
+                'author' : self.author.username,
+                'year' : self.publish_at.year,
+                'month' : self.publish_at.month,
+                'day' : self.publish_at.day,
+                'pk' : self.pk
+            })
+        return ('blogs_entry_update', (), {
             'author' : self.author.username,
-            'year' : self.publish_at.year,
-            'month' : self.publish_at.month,
-            'day' : self.publish_at.day,
-            'object_id' : self.pk
+            'pk' : self.pk
         })
 
     @property

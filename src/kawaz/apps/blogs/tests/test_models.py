@@ -124,6 +124,14 @@ class EntryModelTestCase(TestCase):
         entry = EntryFactory(publish_at=publish_at, author=user)
         self.assertEqual(entry.get_absolute_url(), '/blogs/mecha_kawaztan/2112/9/21/1/')
 
+    def test_get_absolute_url_of_draft(self):
+        '''
+        Tests get_absolute_url of draft returns update page.
+        '''
+        user = PersonaFactory(username='kawaztan_kawaztan')
+        entry = EntryFactory(pub_state='draft', author=user)
+        self.assertEqual(entry.get_absolute_url(), '/blogs/kawaztan_kawaztan/1/update/')
+
     def test_publish_at_date_property(self):
         '''
         Tests publish_at_date returns datetime

@@ -11,7 +11,10 @@ from django.views.generic.dates import MultipleObjectMixin
 
 from django.shortcuts import get_object_or_404
 
+from permission.decorators import permission_required
+
 from kawaz.core.personas.models import Persona
+from .forms import EntryForm
 
 from .models import Entry
 
@@ -22,6 +25,7 @@ class EntryListView(ListView):
     model = Entry
 
 
+@permission_required('blogs.view_entry')
 class EntryDetailView(DetailView):
     '''
     View class for details of blog entries.
@@ -29,20 +33,28 @@ class EntryDetailView(DetailView):
     model = Entry
 
 
+@permission_required('blogs.add_entry')
 class EntryCreateView(CreateView):
     '''
     View class for blog entry creation
     '''
     model = Entry
+    form_class = EntryForm
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
+@permission_required('blogs.change_entry')
 class EntryUpdateView(UpdateView):
     '''
     View class for updating blog entries
     '''
     model = Entry
+    form_class = EntryForm
 
 
+@permission_required('blogs.delete_entry')
 class EntryDeleteView(DeleteView):
     '''
     View class for deleting blog entries.
