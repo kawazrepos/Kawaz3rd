@@ -19,6 +19,9 @@ from .forms import EntryForm
 from .models import Entry
 
 class EntryMultipleObjectMixin(MultipleObjectMixin):
+    '''
+    Class based view mixin for getting published entry by request user.
+    '''
     def get_queryset(self):
         return Entry.objects.published(self.request.user)
 
@@ -102,6 +105,9 @@ class EntryYearArchiveView(YearArchiveView, EntryMultipleObjectMixin):
 
 
 class EntryAuthorMixin(EntryMultipleObjectMixin):
+    '''
+    Class based view mixin to filter entries written by the author.
+    '''
 
     def get_queryset(self):
         qs = super().get_queryset()
