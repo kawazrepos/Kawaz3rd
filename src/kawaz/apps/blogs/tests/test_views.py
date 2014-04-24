@@ -132,25 +132,25 @@ class EntryCreateViewTestCase(TestCase):
 
 class EntryUpdateViewTestCase(TestCase):
     def setUp(self):
-        self.user = PersonaFactory()
+        self.user = PersonaFactory(username='author_kawaztan')
         self.user.set_password('password')
-        self.other = PersonaFactory()
+        self.other = PersonaFactory(username='black_kawaztan')
         self.other.set_password('password')
         self.user.save()
         self.other.save()
-        self.entry = EntryFactory(title='変更前のイベントです', organizer=self.user)
+        self.entry = EntryFactory(title='かわずたんだよ☆', author=self.user)
 
     def test_anonymous_user_can_not_view_entry_update_view(self):
         '''Tests anonymous user can not view EntryUpdateView'''
-        r = self.client.get('/entrys/1/update/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/entrys/1/update/')
+        r = self.client.get('/blogs/author_kawaztan/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/update/')
 
     def test_authorized_user_can_view_entry_update_view(self):
         '''
         Tests authorized user can view EntryUpdateView
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/entrys/1/update/')
+        r = self.client.get('/blogs/author_kawaztan/1/update/')
         self.assertTemplateUsed(r, 'blogs/entry_form.html')
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.entry)
@@ -160,15 +160,13 @@ class EntryUpdateViewTestCase(TestCase):
         Tests anonymous user can not update entry via EntryUpdateView
         It will redirect to LOGIN_URL
         '''
-        r = self.client.post('/entrys/1/update/', {
+        r = self.client.post('/blogs/author_kawaztan/1/update/', {
             'pub_state' : 'public',
-            'title' : '変更後のイベントです',
+            'title' : 'クラッカーだよー',
             'body' : 'うえーい',
-            'period_start' : datetime.datetime.now() + datetime.timedelta(hours=1),
-            'period_end' : datetime.datetime.now() + datetime.timedelta(hours=3),
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/entrys/1/update/')
-        self.assertEqual(self.entry.title, '変更前のイベントです')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/update/')
+        self.assertEqual(self.entry.title, 'かわずたんだよ☆')
 
     def test_other_user_cannot_update_via_update_view(self):
         '''
@@ -176,54 +174,48 @@ class EntryUpdateViewTestCase(TestCase):
         It will redirect to LOGIN_URL
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
-        r = self.client.post('/entrys/1/update/', {
+        r = self.client.post('/blogs/author_kawaztan/1/update/', {
             'pub_state' : 'public',
-            'title' : '変更後のイベントです',
-            'body' : 'うえーい',
-            'period_start' : datetime.datetime.now() + datetime.timedelta(hours=1),
-            'period_end' : datetime.datetime.now() + datetime.timedelta(hours=3)
+            'title' : 'いたずら日記です',
+            'body' : '黒かわずたんだよーん',
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/entrys/1/update/')
-        self.assertEqual(self.entry.title, '変更前のイベントです')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/update/')
+        self.assertEqual(self.entry.title, 'かわずたんだよ☆')
 
-    def test_organizer_can_update_via_update_view(self):
-        '''Tests authorized user can update entry via EntryUpdateView'''
+    def test_author_can_update_via_update_view(self):
+        '''Tests author user can update entry via EntryUpdateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/entrys/1/update/', {
+        r = self.client.post('/blogs/author_kawaztan/1/update/', {
             'pub_state' : 'public',
-            'title' : '変更後のイベントです',
+            'title' : 'やっぱり書き換えます！',
             'body' : 'うえーい',
-            'period_start' : datetime.datetime.now() + datetime.timedelta(hours=1),
-            'period_end' : datetime.datetime.now() + datetime.timedelta(hours=3)
         })
-        self.assertRedirects(r, '/entrys/1/')
+        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(self.entry.publish_at.year, self.entry.publish_at.month, self.entry.publish_at.day))
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
-        self.assertEqual(e.title, '変更後のイベントです')
+        self.assertEqual(e.title, 'やっぱり書き換えます！')
 
-    def test_user_cannot_modify_organizer_id(self):
+    def test_user_cannot_modify_author_id(self):
         '''
-        Tests authorized user cannot modify organizer id.
-        In entry update form, `organizer` is exist as hidden field.
-        So user can modify `organizer` to invalid values.
-        This test checks that `organizer` will be set by `request.user`
+        Tests authorized user cannot modify author id.
+        In entry update form, `author` is exist as hidden field.
+        So user can modify `author` to invalid values.
+        This test checks that `author` will be set by `request.user`
         '''
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/entrys/1/update/', {
+        r = self.client.post('/blogs/author_kawaztan/1/update/', {
             'pub_state' : 'public',
-            'title' : '変更後のイベントです',
+            'title' : 'ID書き換えます！',
             'body' : 'うえーい',
-            'period_start' : datetime.datetime.now() + datetime.timedelta(hours=1),
-            'period_end' : datetime.datetime.now() + datetime.timedelta(hours=3),
-            'organizer' : other.pk # crackers attempt to masquerade
+            'author' : other.pk # crackers attempt to masquerade
         })
-        self.assertRedirects(r, '/entrys/1/')
+        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(self.entry.publish_at.year, self.entry.publish_at.month, self.entry.publish_at.day))
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
-        self.assertEqual(e.organizer, self.user)
-        self.assertNotEqual(e.organizer, other)
-        self.assertEqual(e.title, '変更後のイベントです')
+        self.assertEqual(e.author, self.user)
+        self.assertNotEqual(e.author, other)
+        self.assertEqual(e.title, 'ID書き換えます！')
 
 class EntryListViewTestCase(TestCase):
     def setUp(self):
