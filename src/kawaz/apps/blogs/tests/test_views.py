@@ -269,3 +269,58 @@ class EntryListViewTestCase(TestCase):
         self.assertEqual(list.count(), 2, 'object_list has two entries')
         self.assertEqual(list[0], self.entries[1], 'protected')
         self.assertEqual(list[1], self.entries[0], 'public')
+
+class EntryAuthorListViewTestCase(TestCase):
+    def setUp(self):
+        self.user = PersonaFactory()
+        self.user.set_password('password')
+        self.user.save()
+        self.wille = PersonaFactory(role='wille')
+        self.wille.set_password('password')
+        self.wille.save()
+        self.entries = (
+            EntryFactory(),
+            EntryFactory(author=self.user),
+            EntryFactory(pub_state='protected'),
+            EntryFactory(pub_state='protected', author=self.user),
+            EntryFactory(pub_state='draft'),
+        )
+
+    def test_anonymous_can_view_only_public_entries_of_the_author(self):
+        '''
+        Tests anonymous user can view public Entry written by specific author only.
+        The protected entries are not displayed.
+        '''
+        user = AnonymousUser()
+        r = self.client.get('/blogs/{}/'.format(self.user.username))
+        self.assertTemplateUsed('blogs/entry_list.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 1, 'object_list has one entry')
+        self.assertEqual(list[0], self.entries[1])
+
+    def test_wille_can_view_only_public_entries_of_the_author(self):
+        '''
+        Tests wille user can view public Entry written by specific author only.
+        The protected entries are not displayed.
+        '''
+        user = AnonymousUser()
+        r = self.client.get('/blogs/{}/'.format(self.user.username))
+        self.assertTemplateUsed('blogs/entry_list.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 1, 'object_list has one entry')
+        self.assertEqual(list[0], self.entries[1])
+
+    def test_authenticated_can_view_all_publish_entries_of_the_author(self):
+        '''
+        Tests authenticated user can view all published entries written by specific author.
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.get('/blogs/{}/'.format(self.user.username))
+        self.assertTemplateUsed('blogs/entry_list.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 2, 'object_list has two entries')
+        self.assertEqual(list[0], self.entries[3], 'protected')
+        self.assertEqual(list[1], self.entries[1], 'public')

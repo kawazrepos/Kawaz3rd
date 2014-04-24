@@ -60,7 +60,6 @@ class Entry(models.Model):
 
     class Meta:
         ordering = ('-updated_at', 'title')
-        unique_together = (('title', 'author',),)
         verbose_name = _('Entry')
         verbose_name_plural = _('Entries')
         permissions = (
