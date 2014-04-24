@@ -72,6 +72,7 @@ class EntryTodayArchiveView(TodayArchiveView, EntryMultipleObjectMixin):
     View class for listing blog entries written on today.
     '''
     model = Entry
+    date_field = 'publish_at'
 
 
 class EntryDayArchiveView(DayArchiveView, EntryMultipleObjectMixin):
@@ -79,6 +80,8 @@ class EntryDayArchiveView(DayArchiveView, EntryMultipleObjectMixin):
     View class for listing blog entries written in the day.
     '''
     model = Entry
+    date_field = 'publish_at'
+    month_format = '%m'
 
 
 class EntryMonthArchiveView(MonthArchiveView, EntryMultipleObjectMixin):
@@ -86,6 +89,8 @@ class EntryMonthArchiveView(MonthArchiveView, EntryMultipleObjectMixin):
     View class for listing blog entries written in the month
     '''
     model = Entry
+    date_field = 'publish_at'
+    month_format = '%m'
 
 
 class EntryYearArchiveView(YearArchiveView, EntryMultipleObjectMixin):
@@ -93,6 +98,7 @@ class EntryYearArchiveView(YearArchiveView, EntryMultipleObjectMixin):
     View class for listing blog entries written in the year.
     '''
     model = Entry
+    date_field = 'publish_at'
 
 
 class EntryAuthorMixin(EntryMultipleObjectMixin):
