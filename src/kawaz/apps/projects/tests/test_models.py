@@ -70,6 +70,29 @@ class ProjectManagerTestCase(TestCase):
         qs = Project.objects.draft(user)
         self.assertEqual(qs.count(), 0)
 
+    def _create_projects_with_status(self, pub_state='public'):
+        d = {}
+        for status_tuple in Project.STATUS:
+            status = status_tuple[0]
+            d.update({status :ProjectFactory(status=status, pub_state=pub_state)})
+        return d
+
+    def test_active_with_authenticated(self):
+        '''Tests Project.objects.active() with authenticated user returns done, planning or released projects'''
+        # Project.objects.public may return 2 projects
+        d0 = self._create_projects_with_status(pub_state='public') # +3
+        d1 = self._create_projects_with_status(pub_state='protected') # +3
+        qs = Project.objects.active(self.user)
+        self.assertEqual(qs.count(), 8)
+
+    def test_active_with_anonymous(self):
+        '''Tests Project.objects.active() with anonymous user returns done, planning or released projects'''
+        # Project.objects.public may return 1 project
+        d0 = self._create_projects_with_status(pub_state='public') # +3
+        d1 = self._create_projects_with_status(pub_state='protected') # +0
+        qs = Project.objects.active(self.anonymous)
+        self.assertEqual(qs.count(), 4)
+
 
 class ProjectModelTestCase(TestCase):
     def test_create_group(self):

@@ -36,8 +36,8 @@ class ProjectManager(models.Manager):
 
     def active(self, user):
         qs = self.published(user)
-        qs = qs.exclude(status='eternal').distinct()
-        return qs
+        qs = qs.exclude(status='eternal')
+        return qs.distinct()
 
     def published(self, user):
         q = Q(pub_state='public')
