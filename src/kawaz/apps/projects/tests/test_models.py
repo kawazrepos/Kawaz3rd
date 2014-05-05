@@ -5,15 +5,73 @@ from django.core.exceptions import PermissionDenied
 
 from .factories import ProjectFactory, CategoryFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
+from ..models import Project
+from ..models import ProjectManager
 
 
 class CategoryTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
         category = CategoryFactory()
-        self.assertEqual(category.__str__(), category.label)
+        self.assertEqual(str(category), category.label)
 
-class ProjectTestCase(TestCase):
+class ProjectManagerTestCase(TestCase):
+
+    def setUp(self):
+        self.public_project = ProjectFactory()
+        self.draft_project = ProjectFactory(pub_state='draft')
+        self.protected_project = ProjectFactory(pub_state='protected')
+        self.user = PersonaFactory()
+        self.wille = PersonaFactory(role='wille')
+        self.anonymous = AnonymousUser()
+
+    def test_project_manager(self):
+        '''Tests Project.objects returns ProjectManager instance'''
+        self.assertEqual(type(Project.objects), ProjectManager)
+
+    def test_published_with_authorized(self):
+        '''
+        Tests Project.objects.published() returns QuerySet which contains all active users
+        when passed authorized user as its argument.
+        '''
+        qs = Project.objects.published(self.user)
+        self.assertEqual(Project.objects.count(), 3)
+        self.assertEqual(qs.count(), 2, 'Queryset have two projects')
+        self.assertEqual(qs[0], self.protected_project, 'Queryset have internal project')
+        self.assertEqual(qs[1], self.public_project, 'Queryset have public project')
+
+    def test_published_with_wille(self):
+        '''
+        Tests Project.objects.published() returns QuerySet which contains public users
+        when passed users whose role is `wille` as its argument.
+        '''
+        qs = Project.objects.published(self.wille)
+        self.assertEqual(qs.count(), 1, 'Queryset have one project')
+        self.assertEqual(qs[0], self.public_project, 'Queryset have public project')
+
+    def test_published_with_anonymous(self):
+        '''
+        Tests Project.objects.published() returns QuerySet which contains public users
+        when passed anonymous user as its argument.
+        '''
+        qs = Project.objects.published(self.anonymous)
+        self.assertEqual(qs.count(), 1, 'Queryset have one project')
+        self.assertEqual(qs[0], self.public_project, 'Queryset have public project')
+
+    def test_draft_with_owner(self):
+        '''Tests Project.objects.published() with authenticated user returns all publish projects '''
+        qs = Project.objects.draft(self.draft_project.administrator)
+        self.assertEqual(qs.count(), 1)
+        self.assertEqual(qs[0], self.draft_project)
+
+    def test_draft_with_other(self):
+        '''Tests Project.objects.draft() with owner user returns all own draft projects'''
+        user = PersonaFactory()
+        qs = Project.objects.draft(user)
+        self.assertEqual(qs.count(), 0)
+
+
+class ProjectModelTestCase(TestCase):
     def test_create_group(self):
         '''Tests to create a group when project was created'''
         project = ProjectFactory()
@@ -24,7 +82,7 @@ class ProjectTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
         project = ProjectFactory()
-        self.assertEqual(project.__str__(), project.title)
+        self.assertEqual(str(project), project.title)
 
     def test_creation_group(self):
         '''Tests to create group when project was created'''
