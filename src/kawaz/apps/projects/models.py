@@ -124,6 +124,12 @@ class Project(models.Model):
         '''Check passed user is whether member or not'''
         return user in self.members.all()
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('projects_project_detail', (), {
+            'slug' : self.slug
+        })
+
 @receiver(post_save, sender=Project)
 def join_administrator(**kwargs):
     created = kwargs.get('created')

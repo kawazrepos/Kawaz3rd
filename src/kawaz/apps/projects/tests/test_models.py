@@ -202,3 +202,8 @@ class ProjectModelTestCase(TestCase):
 
         self.assertRaises(PermissionDenied, project.quit, user)
 
+    def test_get_absolute_url(self):
+        '''Tests get_absolute_url() returns '/projects/<slug>/'. '''
+        project = ProjectFactory(slug="my-awesome-game")
+        self.assertEqual(project.get_absolute_url(), '/projects/my-awesome-game/')
+
