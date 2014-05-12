@@ -4,6 +4,8 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 from django.core.urlresolvers import reverse_lazy
+from django.core.exceptions import PermissionDenied
+from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
 
 from .forms import ProjectCreateForm
 from .forms import ProjectUpdateForm
@@ -44,3 +46,50 @@ class ProjectListView(ListView):
 
     def get_queryset(self):
         return Project.objects.published(self.request.user)
+
+@permission_required('projects.join_project')
+class ProjectJoinView(UpdateView):
+    model = Project
+
+    def join(self, request, *args, **kwargs):
+        """
+        Calls the join() method on the fetched object and then
+        redirects to the success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            self.object.join(request.user)
+            return HttpResponseRedirect(success_url)
+        except PermissionDenied:
+            return HttpResponseForbidden
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed()
+
+    def post(self, request, *args, **kwargs):
+        return self.join(request, *args, **kwargs)
+
+
+@permission_required('projects.quit_project')
+class ProjectQuitView(UpdateView):
+    model = Project
+
+    def quit(self, request, *args, **kwargs):
+        """
+        Calls the join() method on the fetched object and then
+        redirects to the success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            self.object.quit(request.user)
+            return HttpResponseRedirect(success_url)
+        except PermissionDenied:
+            return HttpResponseForbidden
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed()
+
+    def post(self, request, *args, **kwargs):
+        return self.quit(request, *args, **kwargs)
