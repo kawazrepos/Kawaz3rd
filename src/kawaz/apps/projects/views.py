@@ -13,7 +13,7 @@ class ProjectCreateView(CreateView):
     model = Project
 
 
-@permission_required('projects.edit_project')
+@permission_required('projects.change_project')
 class ProjectUpdateView(UpdateView):
     model = Project
 
@@ -31,10 +31,3 @@ class ProjectDetailView(DetailView):
 class ProjectListView(ListView):
     model = Project
 
-
-class ProjectAuthorListView(ListView):
-    model = Project
-
-
-class ProjectCategoryListView(ListView):
-    model = Project

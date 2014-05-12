@@ -126,6 +126,10 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
+        if self.pub_state == 'draft':
+            return ('projects_project_update', (), {
+                'pk' : self.pk
+            })
         return ('projects_project_detail', (), {
             'slug' : self.slug
         })
