@@ -334,6 +334,60 @@ class ProjectUpdateViewTestCase(TestCase):
         self.assertNotEqual(e.administrator, other)
         self.assertEqual(e.title, 'ID書き換えます！')
 
+class ProjectDeleteViewTestCase(TestCase):
+    def setUp(self):
+        self.user = PersonaFactory()
+        self.user.set_password('password')
+        self.user.save()
+        self.wille = PersonaFactory(role='wille')
+        self.wille.set_password('password')
+        self.wille.save()
+        self.other = PersonaFactory()
+        self.other.set_password('password')
+        self.other.save()
+        self.project = ProjectFactory(administrator=self.user)
+
+    def test_administrator_can_delete_via_project_delete_view(self):
+        '''
+        Tests administrators can delete its own projects via ProjectDeleteView
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.post('/projects/1/delete/', {})
+        self.assertEqual(Project.objects.count(), 0)
+
+    def test_member_cannot_delete_via_project_delete_view(self):
+        '''
+        Tests members cannot delete its projects via ProjectDeleteView
+        '''
+        self.assertTrue(self.client.login(username=self.other, password='password'))
+        self.project.join(self.other)
+        r = self.client.post('/projects/1/delete/', {})
+        self.assertEqual(Project.objects.count(), 1)
+
+    def test_other_cannot_delete_via_project_delete_view(self):
+        '''
+        Tests others cannot delete projects via ProjectDeleteView
+        '''
+        self.assertTrue(self.client.login(username=self.other, password='password'))
+        r = self.client.post('/projects/1/delete/', {})
+        self.assertEqual(Project.objects.count(), 1)
+
+    def test_wille_cannot_delete_via_project_delete_view(self):
+        '''
+        Tests wille cannot delete projects via ProjectDeleteView
+        '''
+        self.assertTrue(self.client.login(username=self.wille, password='password'))
+        r = self.client.post('/projects/1/delete/', {})
+        self.assertEqual(Project.objects.count(), 1)
+
+    def test_anonymous_cannot_delete_via_project_delete_view(self):
+        '''
+        Tests anonymous cannot delete projects via ProjectDeleteView
+        '''
+        r = self.client.post('/projects/1/delete/', {})
+        self.assertEqual(Project.objects.count(), 1)
+
+
 class ProjectListViewTestCase(TestCase):
     def setUp(self):
         self.projects = (

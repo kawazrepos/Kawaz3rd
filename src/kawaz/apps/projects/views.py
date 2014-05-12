@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
+from django.core.urlresolvers import reverse_lazy
 
 from .forms import ProjectCreateForm
 from .forms import ProjectUpdateForm
@@ -30,6 +31,7 @@ class ProjectUpdateView(UpdateView):
 @permission_required('projects.delete_project')
 class ProjectDeleteView(DeleteView):
     model = Project
+    success_url = reverse_lazy('projects_project_list')
 
 
 @permission_required('projects.view_project')
