@@ -258,13 +258,30 @@ class ProjectUpdateViewTestCase(TestCase):
             'title' : 'やっぱり書き換えます！',
             'body' : 'うえーい',
             'status' : 'planning',
-            'slug' : self.project.slug,
             'category' : self.category.pk
         })
         self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.title, 'やっぱり書き換えます！')
+
+    def test_user_cannot_update_slug(self):
+        '''Tests anyone cannot update prject's slug'''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        old_slug = self.project.slug
+        r = self.client.post('/projects/1/update/', {
+            'pub_state' : 'public',
+            'title' : 'やっぱり書き換えます！',
+            'body' : 'うえーい',
+            'status' : 'planning',
+            'category' : self.category.pk,
+            'slug' : 'new-slug'
+        })
+        self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
+        self.assertEqual(Project.objects.count(), 1)
+        e = Project.objects.get(pk=1)
+        self.assertEqual(e.slug, old_slug)
+        self.assertNotEqual(e.slug, 'new-slug')
 
     def test_user_cannot_modify_administrator_id(self):
         '''
@@ -280,7 +297,6 @@ class ProjectUpdateViewTestCase(TestCase):
             'title' : 'ID書き換えます！',
             'body' : 'うえーい',
             'status' : 'planning',
-            'slug' : self.project.slug,
             'category' : self.category.pk,
             'administrator' : other.pk # crackers attempt to masquerade
         })

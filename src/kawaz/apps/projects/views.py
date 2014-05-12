@@ -4,7 +4,8 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 
-from .forms import ProjectForm
+from .forms import ProjectCreateForm
+from .forms import ProjectUpdateForm
 
 from .models import Project
 
@@ -13,7 +14,7 @@ from permission.decorators import permission_required
 @permission_required('projects.add_project')
 class ProjectCreateView(CreateView):
     model = Project
-    form_class = ProjectForm
+    form_class = ProjectCreateForm
 
     def form_valid(self, form):
         form.instance.administrator = self.request.user
@@ -23,7 +24,7 @@ class ProjectCreateView(CreateView):
 @permission_required('projects.change_project')
 class ProjectUpdateView(UpdateView):
     model = Project
-    form_class = ProjectForm
+    form_class = ProjectUpdateForm
 
 
 @permission_required('projects.delete_project')
