@@ -63,7 +63,7 @@ class ProjectPermissionLogic(PermissionLogic):
         def author_required(user_obj, perm, obj):
             if user_obj.role not in ('seele', 'nerv', 'children'):
                 return False
-            return obj.organizer == user_obj
+            return obj.administrator == user_obj
         # object permission
         permission_methods = {
             'projects.change_project': author_required,

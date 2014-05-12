@@ -58,8 +58,8 @@ class ProjectDetailViewTestCase(TestCase):
         r = self.client.get(project.get_absolute_url())
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/{}/update/'.format(project.pk))
 
-    def test_organizer_can_view_draft_project(self):
-        '''Tests organizer can view draft project on update view'''
+    def test_administrator_can_view_draft_project(self):
+        '''Tests administrator can view draft project on update view'''
         project = ProjectFactory(pub_state='draft', administrator=self.user)
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.get(project.get_absolute_url())
@@ -146,19 +146,20 @@ class ProjectUpdateViewTestCase(TestCase):
         self.other.set_password('password')
         self.user.save()
         self.other.save()
-        self.project = ProjectFactory(title='かわずたんだよ☆', administrator=self.user)
+        self.project = ProjectFactory(title='かわずたんのゲームだよ☆', administrator=self.user)
+        self.category = CategoryFactory()
 
     def test_anonymous_user_can_not_view_project_update_view(self):
         '''Tests anonymous user can not view ProjectUpdateView'''
-        r = self.client.get('/projects/administrator_kawaztan/1/update/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/administrator_kawaztan/1/update/')
+        r = self.client.get('/projects/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/1/update/')
 
     def test_authorized_user_can_view_project_update_view(self):
         '''
         Tests authorized user can view ProjectUpdateView
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/projects/administrator_kawaztan/1/update/')
+        r = self.client.get('/projects/1/update/')
         self.assertTemplateUsed(r, 'projects/project_form.html')
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.project)
@@ -168,13 +169,13 @@ class ProjectUpdateViewTestCase(TestCase):
         Tests anonymous user can not update project via ProjectUpdateView
         It will redirect to LOGIN_URL
         '''
-        r = self.client.post('/projects/administrator_kawaztan/1/update/', {
+        r = self.client.post('/projects/1/update/', {
             'pub_state' : 'public',
             'title' : 'クラッカーだよー',
             'body' : 'うえーい',
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/administrator_kawaztan/1/update/')
-        self.assertEqual(self.project.title, 'かわずたんだよ☆')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/1/update/')
+        self.assertEqual(self.project.title, 'かわずたんのゲームだよ☆')
 
     def test_other_user_cannot_update_via_update_view(self):
         '''
@@ -182,23 +183,26 @@ class ProjectUpdateViewTestCase(TestCase):
         It will redirect to LOGIN_URL
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
-        r = self.client.post('/projects/administrator_kawaztan/1/update/', {
+        r = self.client.post('/projects/1/update/', {
             'pub_state' : 'public',
             'title' : 'いたずら日記です',
             'body' : '黒かわずたんだよーん',
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/administrator_kawaztan/1/update/')
-        self.assertEqual(self.project.title, 'かわずたんだよ☆')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/1/update/')
+        self.assertEqual(self.project.title, 'かわずたんのゲームだよ☆')
 
     def test_administrator_can_update_via_update_view(self):
         '''Tests administrator user can update project via ProjectUpdateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/projects/administrator_kawaztan/1/update/', {
+        r = self.client.post('/projects/1/update/', {
             'pub_state' : 'public',
             'title' : 'やっぱり書き換えます！',
             'body' : 'うえーい',
+            'status' : 'planning',
+            'slug' : self.project.slug,
+            'category' : self.category.pk
         })
-        self.assertRedirects(r, '/projects/administrator_kawaztan/{0}/{1}/{2}/1/'.format(self.project.publish_at.year, self.project.publish_at.month, self.project.publish_at.day))
+        self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.title, 'やっぱり書き換えます！')
@@ -212,13 +216,16 @@ class ProjectUpdateViewTestCase(TestCase):
         '''
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/projects/administrator_kawaztan/1/update/', {
+        r = self.client.post('/projects/1/update/', {
             'pub_state' : 'public',
             'title' : 'ID書き換えます！',
             'body' : 'うえーい',
+            'status' : 'planning',
+            'slug' : self.project.slug,
+            'category' : self.category.pk,
             'administrator' : other.pk # crackers attempt to masquerade
         })
-        self.assertRedirects(r, '/projects/administrator_kawaztan/{0}/{1}/{2}/1/'.format(self.project.publish_at.year, self.project.publish_at.month, self.project.publish_at.day))
+        self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.administrator, self.user)
