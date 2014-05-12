@@ -49,16 +49,16 @@ class ProjectPermissionLogic(PermissionLogic):
                         'projects.quit_project'):
             return False
         if obj is None:
-            # generally, authenticated user have join/quit permission
-            if perm in ('projects.join_project', 'projects.quit_project'):
-                return True
-            # seele, nerv, children have an add permission
+            # seele, nerv, children have following permissions
             permissions = ('projects.add_project',
                            'projects.change_project',
-                           'projects.delete_project')
+                           'projects.delete_project',
+                           'projects.join_project',
+                           'projects.quit_project'
+            )
             roles = ('seele', 'nerv', 'children')
             if perm in permissions and user_obj.role in roles:
-                # seele, nerv, children have permissions of add, change, project
+                # seele, nerv, children have permissions of add, change, delete, join and quit project
                 # generally
                 return True
             return False
