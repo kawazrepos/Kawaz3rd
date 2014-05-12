@@ -39,3 +39,5 @@ class ProjectDetailView(DetailView):
 class ProjectListView(ListView):
     model = Project
 
+    def get_queryset(self):
+        return Project.objects.published(self.request.user)
