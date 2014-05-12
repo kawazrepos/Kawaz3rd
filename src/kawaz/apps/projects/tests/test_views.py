@@ -209,6 +209,17 @@ class ProjectUpdateViewTestCase(TestCase):
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.project)
 
+    def test_member_can_view_project_update_view(self):
+        '''
+        Tests project members can view ProjectUpdateView
+        '''
+        self.project.join(self.other)
+        self.assertTrue(self.client.login(username=self.other, password='password'))
+        r = self.client.get('/projects/1/update/')
+        self.assertTemplateUsed(r, 'projects/project_form.html')
+        self.assertTrue('object' in r.context_data)
+        self.assertEqual(r.context_data['object'], self.project)
+
     def test_anonymous_user_can_not_update_via_update_view(self):
         '''
         Tests anonymous user can not update project via ProjectUpdateView
@@ -253,6 +264,22 @@ class ProjectUpdateViewTestCase(TestCase):
     def test_administrator_can_update_via_update_view(self):
         '''Tests administrator user can update project via ProjectUpdateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.post('/projects/1/update/', {
+            'pub_state' : 'public',
+            'title' : 'やっぱり書き換えます！',
+            'body' : 'うえーい',
+            'status' : 'planning',
+            'category' : self.category.pk
+        })
+        self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
+        self.assertEqual(Project.objects.count(), 1)
+        e = Project.objects.get(pk=1)
+        self.assertEqual(e.title, 'やっぱり書き換えます！')
+
+    def test_member_can_update_via_update_view(self):
+        '''Tests project member can update project via ProjectUpdateView'''
+        self.project.join(self.other)
+        self.assertTrue(self.client.login(username=self.other, password='password'))
         r = self.client.post('/projects/1/update/', {
             'pub_state' : 'public',
             'title' : 'やっぱり書き換えます！',
