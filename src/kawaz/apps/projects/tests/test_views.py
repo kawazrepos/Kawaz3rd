@@ -12,6 +12,9 @@ class ProjectDetailViewTestCase(TestCase):
         self.user = PersonaFactory()
         self.user.set_password('password')
         self.user.save()
+        self.wille = PersonaFactory(role='wille')
+        self.wille.set_password('password')
+        self.wille.save()
 
     def test_anonymous_user_can_view_public_project(self):
         '''Tests anonymous user can view public project'''
@@ -42,11 +45,22 @@ class ProjectDetailViewTestCase(TestCase):
         self.assertTemplateUsed(r, 'projects/project_detail.html')
         self.assertEqual(r.context_data['object'], project)
 
+    def test_wille_user_can_not_view_protected_project(self):
+        '''
+        Tests wille user can not view any protected projects
+        '''
+        project = ProjectFactory(pub_state='protected')
+        self.assertTrue(self.client.login(username=self.wille, password='password'))
+        r = self.client.get(project.get_absolute_url())
+        self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, project.get_absolute_url()))
+
+
     def test_anonymous_user_can_not_view_draft_project(self):
         '''Tests anonymous user can not view draft project'''
         project = ProjectFactory(pub_state='draft')
         r = self.client.get(project.get_absolute_url())
         self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, project.get_absolute_url()))
+
 
     def test_others_can_not_view_draft_project(self):
         '''
@@ -72,9 +86,18 @@ class ProjectCreateViewTestCase(TestCase):
         self.user.set_password('password')
         self.user.save()
         self.category = CategoryFactory()
+        self.wille = PersonaFactory(role='wille')
+        self.wille.set_password('password')
+        self.wille.save()
 
     def test_anonymous_user_can_not_create_view(self):
         '''Tests anonymous user can not view ProjectCreateView'''
+        r = self.client.get('/projects/create/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/create/')
+
+    def test_wille_user_can_not_view_project_create_view(self):
+        '''Tests wille user can not view ProjectCreateView'''
+        self.assertTrue(self.client.login(username=self.wille, password='password'))
         r = self.client.get('/projects/create/')
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/create/')
 
@@ -87,6 +110,19 @@ class ProjectCreateViewTestCase(TestCase):
 
     def test_anonymous_user_can_not_create_via_create_view(self):
         '''Tests anonymous user can not create project via ProjectCreateView'''
+        r = self.client.post('/projects/create/', {
+            'pub_state' : 'public',
+            'title' : '音楽ファンタジー',
+            'status' : 'planning',
+            'body' : 'ルシがファルシでコクーン',
+            'slug' : 'music-fantasy',
+            'category' : self.category.pk
+        })
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/create/')
+
+    def test_wille_user_can_not_create_via_create_view(self):
+        '''Tests wille user can not create project via ProjectCreateView'''
+        self.assertTrue(self.client.login(username=self.wille, password='password'))
         r = self.client.post('/projects/create/', {
             'pub_state' : 'public',
             'title' : '音楽ファンタジー',
@@ -148,9 +184,18 @@ class ProjectUpdateViewTestCase(TestCase):
         self.other.save()
         self.project = ProjectFactory(title='かわずたんのゲームだよ☆', administrator=self.user)
         self.category = CategoryFactory()
+        self.wille = PersonaFactory(role='wille')
+        self.wille.set_password('password')
+        self.wille.save()
 
     def test_anonymous_user_can_not_view_project_update_view(self):
         '''Tests anonymous user can not view ProjectUpdateView'''
+        r = self.client.get('/projects/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/1/update/')
+
+    def test_wille_user_can_not_view_project_update_view(self):
+        '''Tests wille user can not view ProjectUpdateView'''
+        self.assertTrue(self.client.login(username=self.wille, password='password'))
         r = self.client.get('/projects/1/update/')
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/1/update/')
 
@@ -172,6 +217,20 @@ class ProjectUpdateViewTestCase(TestCase):
         r = self.client.post('/projects/1/update/', {
             'pub_state' : 'public',
             'title' : 'クラッカーだよー',
+            'body' : 'うえーい',
+        })
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/1/update/')
+        self.assertEqual(self.project.title, 'かわずたんのゲームだよ☆')
+
+    def test_wille_user_can_not_update_via_update_view(self):
+        '''
+        Tests wille user can not update project via ProjectUpdateView
+        It will redirect to LOGIN_URL
+        '''
+        self.assertTrue(self.client.login(username=self.wille, password='password'))
+        r = self.client.post('/projects/1/update/', {
+            'pub_state' : 'public',
+            'title' : '外部ユーザーだよーん',
             'body' : 'うえーい',
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/1/update/')
