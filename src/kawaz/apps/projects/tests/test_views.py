@@ -3,6 +3,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from .factories import ProjectFactory
+from .factories import CategoryFactory
 from ..models import Project
 from kawaz.core.personas.tests.factories import PersonaFactory
 
@@ -19,8 +20,8 @@ class ProjectDetailViewTestCase(TestCase):
         self.assertTemplateUsed(r, 'projects/project_detail.html')
         self.assertEqual(r.context_data['object'], project)
 
-    def test_administratorized_user_can_view_public_project(self):
-        '''Tests administratorized user can view public project'''
+    def test_authorized_user_can_view_public_project(self):
+        '''Tests authorized user can view public project'''
         project = ProjectFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.get(project.get_absolute_url())
@@ -33,8 +34,8 @@ class ProjectDetailViewTestCase(TestCase):
         r = self.client.get(project.get_absolute_url())
         self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, project.get_absolute_url()))
 
-    def test_administratorized_user_can_view_protected_project(self):
-        '''Tests administratorized user can view public project'''
+    def test_authorized_user_can_view_protected_project(self):
+        '''Tests authorized user can view public project'''
         project = ProjectFactory(pub_state='protected')
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.get(project.get_absolute_url())
@@ -70,59 +71,67 @@ class ProjectCreateViewTestCase(TestCase):
         self.user = PersonaFactory()
         self.user.set_password('password')
         self.user.save()
+        self.category = CategoryFactory()
 
     def test_anonymous_user_can_not_create_view(self):
         '''Tests anonymous user can not view ProjectCreateView'''
-        r = self.client.get('/projects/{}/create/'.format(self.user.username))
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/{}/create/'.format(self.user.username))
+        r = self.client.get('/projects/create/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/create/')
 
-    def test_administratorized_user_can_view_project_create_view(self):
-        '''Tests administratorized user can view ProjectCreateView'''
+    def test_authorized_user_can_view_project_create_view(self):
+        '''Tests authorized user can view ProjectCreateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/projects/{}/create/'.format(self.user.username))
+        r = self.client.get('/projects/create/')
         self.assertTemplateUsed(r, 'projects/project_form.html')
         self.assertFalse('object' in r.context_data)
 
     def test_anonymous_user_can_not_create_via_create_view(self):
         '''Tests anonymous user can not create project via ProjectCreateView'''
-        r = self.client.post('/projects/{}/create/'.format(self.user.username), {
+        r = self.client.post('/projects/create/', {
             'pub_state' : 'public',
-            'title' : '日記です',
-            'body' : '天気が良かったです',
+            'title' : '音楽ファンタジー',
+            'status' : 'planning',
+            'body' : 'ルシがファルシでコクーン',
+            'slug' : 'music-fantasy',
+            'category' : self.category.pk
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/{}/create/'.format(self.user.username))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/create/')
 
-    def test_administratorized_user_can_create_via_create_view(self):
-        '''Tests administratorized user can create project via ProjectCreateView'''
+    def test_authorized_user_can_create_via_create_view(self):
+        '''Tests authorized user can create project via ProjectCreateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/projects/{}/create/'.format(self.user.username), {
+        r = self.client.post('/projects/create/', {
             'pub_state' : 'public',
-            'title' : '日記です',
-            'body' : '天気が良かったです',
+            'title' : '音楽ファンタジー',
+            'status' : 'planning',
+            'body' : 'ルシがファルシでコクーン',
+            'slug' : 'music-fantasy',
+            'category' : self.category.pk
         })
-        today = datetime.date.today()
-        self.assertRedirects(r, '/projects/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
+        self.assertRedirects(r, '/projects/music-fantasy/')
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
-        self.assertEqual(e.title, '日記です')
+        self.assertEqual(e.title, '音楽ファンタジー')
 
     def test_user_cannot_modify_administrator_id(self):
         '''
-        Tests administratorized user cannot modify administrator id.
+        Tests authorized user cannot modify administrator id.
         In project creation form, `administrator` is exist as hidden field.
         So user can modify `administrator` to invalid values.
         This test checks that `administrator` will be set by `request.user`
         '''
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/projects/{0}/create/'.format(self.user.username), {
+        r = self.client.post('/projects/create/', {
             'pub_state' : 'public',
-            'title' : '日記です',
-            'body' : '天気が良かったです',
+            'title' : '音楽ファンタジー',
+            'status' : 'planning',
+            'body' : 'ルシがファルシでコクーン',
+            'slug' : 'music-fantasy',
+            'category' : self.category.pk,
             'administrator' : other.pk # crackers attempt to masquerade
         })
-        today = datetime.date.today()
-        self.assertRedirects(r, '/projects/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
+        self.assertRedirects(r, '/projects/music-fantasy/')
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.administrator, self.user)
@@ -144,9 +153,9 @@ class ProjectUpdateViewTestCase(TestCase):
         r = self.client.get('/projects/administrator_kawaztan/1/update/')
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/projects/administrator_kawaztan/1/update/')
 
-    def test_administratorized_user_can_view_project_update_view(self):
+    def test_authorized_user_can_view_project_update_view(self):
         '''
-        Tests administratorized user can view ProjectUpdateView
+        Tests authorized user can view ProjectUpdateView
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.get('/projects/administrator_kawaztan/1/update/')
@@ -196,7 +205,7 @@ class ProjectUpdateViewTestCase(TestCase):
 
     def test_user_cannot_modify_administrator_id(self):
         '''
-        Tests administratorized user cannot modify administrator id.
+        Tests authorized user cannot modify administrator id.
         In project update form, `administrator` is exist as hidden field.
         So user can modify `administrator` to invalid values.
         This test checks that `administrator` will be set by `request.user`

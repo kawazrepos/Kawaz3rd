@@ -71,11 +71,11 @@ class Project(models.Model):
     slug = models.SlugField(_('Project ID'), unique=True, max_length=63,
                             help_text=_("This ID will be used for its URL. You can't modify it later. You can use only alphabetical characters, _ or -."))
     body = MarkupField(_('Description'), default_markup_type='markdown')
-    administrator = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Administrator'), related_name="projects_owned")
     # Omittable
     icon = ThumbnailField(_('Thumbnail'), upload_to=_get_upload_path, blank=True, patterns=settings.THUMBNAIL_SIZE_PATTERNS)
     category = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True, related_name='projects', help_text="If a category you would like to use is not exist, please contact your administrator.")
     # Uneditable
+    administrator = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Administrator'), related_name="projects_owned", editable=False)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('Members'), related_name="projects_joined", editable=False)
     group = models.ForeignKey(Group, verbose_name=_('Group'), unique=True, editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -141,55 +141,11 @@ def join_administrator(**kwargs):
     if created and instance.pub_state != 'draft':
         instance.join(instance.administrator)
 
-from permission.logics import PermissionLogic
-
-class ProjectPermissionLogic(PermissionLogic):
-    """
-    Permission logic which check object publish statement and return
-    whether the user has a permission to see the object
-    """
-
-    def _has_join_perm(self, user_obj, perm, obj):
-        if obj.pub_state == 'draft':
-            # nobody can join to draft projects
-            return False
-        if not user_obj.is_authenticated():
-            # anonymous user can't join to projects.
-            return False
-        if user_obj in obj.members.all():
-            # member can not join to projects
-            return False
-        return True
-
-    def _has_quit_perm(self, user_obj, perm, obj):
-        # ToDo check if user is in children group
-        if user_obj == obj.administrator:
-            # administrator cannot quit the event
-            return False
-        if not user_obj.is_authenticated():
-            # anonymous user cannot quit from projects.
-            return False
-        if user_obj not in obj.members.all():
-            # non members cannot quit the event
-            return False
-        return True
-
-    def has_perm(self, user_obj, perm, obj=None):
-        # treat only object permission
-        if obj is None:
-            return False
-        permission_methods = {
-            'projects.join_project': self._has_join_perm,
-            'projects.quit_project': self._has_quit_perm,
-        }
-        if perm in permission_methods:
-            return permission_methods[perm](user_obj, perm, obj)
-        return False
-
 from permission import add_permission_logic
 from permission.logics import AuthorPermissionLogic
 from permission.logics import CollaboratorsPermissionLogic
 from kawaz.core.permissions.logics import PubStatePermissionLogic
+from .perms import ProjectPermissionLogic
 
 add_permission_logic(Project, AuthorPermissionLogic(
     field_name='administrator',
