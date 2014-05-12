@@ -4,7 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from .factories import ProjectFactory, CategoryFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
 
-class ProjectPermissionTestCase(TestCase):
+class ProjectEditPermissionTestCase(TestCase):
     def test_administrator_can_edit(self):
         '''Tests administrator can edit a project'''
         project = ProjectFactory()
@@ -29,6 +29,7 @@ class ProjectPermissionTestCase(TestCase):
         project = ProjectFactory()
         self.assertFalse(user.has_perm('projects.change_project', project))
 
+class ProjectDeletePermissionTestCase(TestCase):
     def test_administrator_can_delete(self):
         '''Tests administrator can delete a project'''
         project = ProjectFactory()
@@ -53,6 +54,7 @@ class ProjectPermissionTestCase(TestCase):
         project = ProjectFactory()
         self.assertFalse(user.has_perm('projects.delete_project', project))
 
+class ProjectViewPermissionTestCase(TestCase):
     def test_administrator_can_view_draft(self):
         '''Tests administrator can view draft'''
         project = ProjectFactory(pub_state='draft')
@@ -87,6 +89,12 @@ class ProjectPermissionTestCase(TestCase):
         project = ProjectFactory(pub_state='protected')
         self.assertFalse(user.has_perm('projects.view_project', project))
 
+    def test_wille_cannot_view_protected(self):
+        '''Tests wille can not view protected'''
+        user = PersonaFactory(role='wille')
+        project = ProjectFactory(pub_state='protected')
+        self.assertFalse(user.has_perm('projects.view_project', project))
+
     def test_administrator_can_view_public(self):
         '''Tests administrator can view public'''
         project = ProjectFactory(pub_state='public')
@@ -103,3 +111,88 @@ class ProjectPermissionTestCase(TestCase):
         user = AnonymousUser()
         project = ProjectFactory(pub_state='public')
         self.assertTrue(user.has_perm('projects.view_project', project))
+
+class ProjectAddPermissionTestCase(TestCase):
+
+    def _test_add(self, role, enable):
+        user = PersonaFactory(role=role)
+        if enable:
+            self.assertTrue(user.has_perm('projects.add_project'))
+        else:
+            self.assertFalse(user.has_perm('projects.add_project'))
+
+    def test_seele_can_add_project(self):
+        '''Tests seele user can add project'''
+        self._test_add('seele', True)
+
+    def test_nerv_can_add_project(self):
+        '''Tests nerv user can add project'''
+        self._test_add('nerv', True)
+
+    def test_children_can_add_project(self):
+        '''Tests children user can add project'''
+        self._test_add('children', True)
+
+    def test_wille_cannot_add_project(self):
+        '''Tests wille user cannot add project'''
+        self._test_add('wille', False)
+
+    def test_anonymous_cannot_add_project(self):
+        '''Tests anonymous user cannot add project'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('projects.add_project'))
+
+
+class ProjectJoinPermissionTestCase(TestCase):
+
+    def setUp(self):
+        self.project = ProjectFactory()
+
+    def test_authorized_can_join_project(self):
+        '''Tests authorized user can join to projects'''
+        user = PersonaFactory()
+        self.assertTrue(user.has_perm('projects.join_project', self.project))
+
+    def test_wille_cannot_join_project(self):
+        '''Tests wille user cannot join to projects'''
+        user = PersonaFactory(role='wille')
+        self.assertFalse(user.has_perm('projects.join_project', self.project))
+
+    def test_anonymous_cannot_join_project(self):
+        '''Tests anonymous user cannot join to projects'''
+        user = AnonymousUser()
+        self.assertFalse(user.has_perm('projects.join_project', self.project))
+
+    def test_member_cannot_join_project(self):
+        '''Tests already member user cannot join to projects'''
+        user = PersonaFactory()
+        self.project.join(user)
+        self.assertFalse(user.has_perm('projects.join_project', self.project))
+
+    def test_anyone_cannot_join_draft_project(self):
+        '''Any user can not join to draft projects'''
+        project = ProjectFactory(pub_state='draft')
+        user = PersonaFactory()
+        self.assertFalse(user.has_perm('projects.join_project', project))
+        self.assertFalse(project.administrator.has_perm('projects.join_project', project))
+
+class ProjectQuitPermissionTestCase(TestCase):
+
+    def setUp(self):
+        self.project = ProjectFactory()
+
+    def test_member_can_quit_project(self):
+        '''Tests member can quit from projects'''
+        user = PersonaFactory()
+        self.project.join(user)
+        self.assertTrue(user.has_perm('projects.quit_project', self.project))
+
+    def test_not_member_cannot_quit_project(self):
+        '''Tests not member user cannot quit from projects'''
+        user = PersonaFactory()
+        self.assertFalse(user.has_perm('projects.quit_project', self.project))
+
+    def test_administrator_cannot_quit_project(self):
+        '''Tests administrator cannot quit from projects'''
+        self.assertFalse(self.project.administrator.has_perm('projects.quit_project', self.project))
+

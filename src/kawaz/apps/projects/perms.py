@@ -16,6 +16,9 @@ class ProjectPermissionLogic(PermissionLogic):
         if user_obj in obj.members.all():
             # member can not join to projects
             return False
+        if user_obj.is_authenticated() and user_obj.role == 'wille':
+            # Wille users cannot join to projects
+            return False
         return True
 
     def _has_quit_perm(self, user_obj, perm, obj):
