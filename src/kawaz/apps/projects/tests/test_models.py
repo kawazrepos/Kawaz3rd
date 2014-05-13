@@ -5,15 +5,96 @@ from django.core.exceptions import PermissionDenied
 
 from .factories import ProjectFactory, CategoryFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
+from ..models import Project
+from ..models import ProjectManager
 
 
 class CategoryTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
         category = CategoryFactory()
-        self.assertEqual(category.__str__(), category.label)
+        self.assertEqual(str(category), category.label)
 
-class ProjectTestCase(TestCase):
+class ProjectManagerTestCase(TestCase):
+
+    def setUp(self):
+        self.public_project = ProjectFactory()
+        self.draft_project = ProjectFactory(pub_state='draft')
+        self.protected_project = ProjectFactory(pub_state='protected')
+        self.user = PersonaFactory()
+        self.wille = PersonaFactory(role='wille')
+        self.anonymous = AnonymousUser()
+
+    def test_project_manager(self):
+        '''Tests Project.objects returns ProjectManager instance'''
+        self.assertEqual(type(Project.objects), ProjectManager)
+
+    def test_published_with_authorized(self):
+        '''
+        Tests Project.objects.published() returns QuerySet which contains all active users
+        when passed authorized user as its argument.
+        '''
+        qs = Project.objects.published(self.user)
+        self.assertEqual(Project.objects.count(), 3)
+        self.assertEqual(qs.count(), 2, 'Queryset have two projects')
+        self.assertEqual(qs[0], self.protected_project, 'Queryset have internal project')
+        self.assertEqual(qs[1], self.public_project, 'Queryset have public project')
+
+    def test_published_with_wille(self):
+        '''
+        Tests Project.objects.published() returns QuerySet which contains public users
+        when passed users whose role is `wille` as its argument.
+        '''
+        qs = Project.objects.published(self.wille)
+        self.assertEqual(qs.count(), 1, 'Queryset have one project')
+        self.assertEqual(qs[0], self.public_project, 'Queryset have public project')
+
+    def test_published_with_anonymous(self):
+        '''
+        Tests Project.objects.published() returns QuerySet which contains public users
+        when passed anonymous user as its argument.
+        '''
+        qs = Project.objects.published(self.anonymous)
+        self.assertEqual(qs.count(), 1, 'Queryset have one project')
+        self.assertEqual(qs[0], self.public_project, 'Queryset have public project')
+
+    def test_draft_with_owner(self):
+        '''Tests Project.objects.published() with authenticated user returns all publish projects '''
+        qs = Project.objects.draft(self.draft_project.administrator)
+        self.assertEqual(qs.count(), 1)
+        self.assertEqual(qs[0], self.draft_project)
+
+    def test_draft_with_other(self):
+        '''Tests Project.objects.draft() with owner user returns all own draft projects'''
+        user = PersonaFactory()
+        qs = Project.objects.draft(user)
+        self.assertEqual(qs.count(), 0)
+
+    def _create_projects_with_status(self, pub_state='public'):
+        d = {}
+        for status_tuple in Project.STATUS:
+            status = status_tuple[0]
+            d.update({status :ProjectFactory(status=status, pub_state=pub_state)})
+        return d
+
+    def test_active_with_authenticated(self):
+        '''Tests Project.objects.active() with authenticated user returns done, planning or released projects'''
+        # Project.objects.public may return 2 projects
+        d0 = self._create_projects_with_status(pub_state='public') # +3
+        d1 = self._create_projects_with_status(pub_state='protected') # +3
+        qs = Project.objects.active(self.user)
+        self.assertEqual(qs.count(), 8)
+
+    def test_active_with_anonymous(self):
+        '''Tests Project.objects.active() with anonymous user returns done, planning or released projects'''
+        # Project.objects.public may return 1 project
+        d0 = self._create_projects_with_status(pub_state='public') # +3
+        d1 = self._create_projects_with_status(pub_state='protected') # +0
+        qs = Project.objects.active(self.anonymous)
+        self.assertEqual(qs.count(), 4)
+
+
+class ProjectModelTestCase(TestCase):
     def test_create_group(self):
         '''Tests to create a group when project was created'''
         project = ProjectFactory()
@@ -24,7 +105,7 @@ class ProjectTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
         project = ProjectFactory()
-        self.assertEqual(project.__str__(), project.title)
+        self.assertEqual(str(project), project.title)
 
     def test_creation_group(self):
         '''Tests to create group when project was created'''
@@ -121,101 +202,8 @@ class ProjectTestCase(TestCase):
 
         self.assertRaises(PermissionDenied, project.quit, user)
 
-    def test_administrator_can_edit(self):
-        '''Tests administrator can edit a project'''
-        project = ProjectFactory()
-        self.assertTrue(project.administrator.has_perm('projects.change_project', project))
+    def test_get_absolute_url(self):
+        '''Tests get_absolute_url() returns '/projects/<slug>/'. '''
+        project = ProjectFactory(slug="my-awesome-game")
+        self.assertEqual(project.get_absolute_url(), '/projects/my-awesome-game/')
 
-    def test_members_can_edit(self):
-        '''Tests members can edit a project'''
-        project = ProjectFactory()
-        user = PersonaFactory()
-        project.join(user)
-        self.assertTrue(user.has_perm('projects.change_project', project))
-
-    def test_others_can_not_edit(self):
-        '''Tests others can no edit a project'''
-        user = PersonaFactory()
-        project = ProjectFactory()
-        self.assertFalse(user.has_perm('projects.change_project', project))
-
-    def test_anonymous_can_not_edit(self):
-        '''Tests anonymous user can no edit a project'''
-        user = AnonymousUser()
-        project = ProjectFactory()
-        self.assertFalse(user.has_perm('projects.change_project', project))
-
-    def test_administrator_can_delete(self):
-        '''Tests administrator can delete a project'''
-        project = ProjectFactory()
-        self.assertTrue(project.administrator.has_perm('projects.delete_project', project))
-
-    def test_members_can_not_delete(self):
-        '''Tests members can not delete a project'''
-        project = ProjectFactory()
-        user = PersonaFactory()
-        project.join(user)
-        self.assertFalse(user.has_perm('projects.delete_project', project))
-
-    def test_others_can_not_delete(self):
-        '''Tests others can not delete a project'''
-        user = PersonaFactory()
-        project = ProjectFactory()
-        self.assertFalse(user.has_perm('projects.delete_project', project))
-
-    def test_anonymous_can_not_delete(self):
-        '''Tests anonymous users can not delete a project'''
-        user = AnonymousUser()
-        project = ProjectFactory()
-        self.assertFalse(user.has_perm('projects.delete_project', project))
-
-    def test_administrator_can_view_draft(self):
-        '''Tests administrator can view draft'''
-        project = ProjectFactory(pub_state='draft')
-        self.assertTrue(project.administrator.has_perm('projects.view_project', project))
-
-    def test_others_can_not_view_draft(self):
-        '''Tests others can not view draft'''
-        user = PersonaFactory()
-        project = ProjectFactory(pub_state='draft')
-        self.assertFalse(user.has_perm('projects.view_project', project))
-
-    def test_anonymous_can_not_view_draft(self):
-        '''Tests anonymous can not view draft'''
-        user = AnonymousUser()
-        project = ProjectFactory(pub_state='draft')
-        self.assertFalse(user.has_perm('projects.view_project', project))
-
-    def test_administrator_can_view_protected(self):
-        '''Tests administrator can view protected'''
-        project = ProjectFactory(pub_state='protected')
-        self.assertTrue(project.administrator.has_perm('projects.view_project', project))
-
-    def test_others_can_view_protected(self):
-        '''Tests others can view protected'''
-        user = PersonaFactory()
-        project = ProjectFactory(pub_state='protected')
-        self.assertTrue(user.has_perm('projects.view_project', project))
-
-    def test_anonymous_can_not_view_protected(self):
-        '''Tests anonymous can not view protected'''
-        user = AnonymousUser()
-        project = ProjectFactory(pub_state='protected')
-        self.assertFalse(user.has_perm('projects.view_project', project))
-
-    def test_administrator_can_view_public(self):
-        '''Tests administrator can view public'''
-        project = ProjectFactory(pub_state='public')
-        self.assertTrue(project.administrator.has_perm('projects.view_project', project))
-
-    def test_others_can_view_public(self):
-        '''Tests others can view public'''
-        user = PersonaFactory()
-        project = ProjectFactory(pub_state='public')
-        self.assertTrue(user.has_perm('projects.view_project', project))
-
-    def test_anonymous_can_not_view_public(self):
-        '''Tests anonymous can view public'''
-        user = AnonymousUser()
-        project = ProjectFactory(pub_state='public')
-        self.assertTrue(user.has_perm('projects.view_project', project))
