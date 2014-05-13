@@ -6,6 +6,7 @@ from django.views.generic import UpdateView
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
+from django.views.generic.detail import SingleObjectTemplateResponseMixin, BaseDetailView
 
 from .forms import ProjectCreateForm
 from .forms import ProjectUpdateForm
@@ -47,8 +48,7 @@ class ProjectListView(ListView):
     def get_queryset(self):
         return Project.objects.published(self.request.user)
 
-@permission_required('projects.join_project')
-class ProjectJoinView(UpdateView):
+class ProjectJoinMixin(object):
     model = Project
 
     def join(self, request, *args, **kwargs):
@@ -65,19 +65,30 @@ class ProjectJoinView(UpdateView):
             return HttpResponseForbidden
 
     def get(self, request, *args, **kwargs):
-        return HttpResponseNotAllowed()
+        return HttpResponseNotAllowed(['POST'])
 
     def post(self, request, *args, **kwargs):
         return self.join(request, *args, **kwargs)
 
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
-@permission_required('projects.quit_project')
-class ProjectQuitView(UpdateView):
+
+class BaseProjectJoinView(ProjectJoinMixin, BaseDetailView):
+    ''''''
+
+
+@permission_required('projects.join_project')
+class ProjectJoinView(SingleObjectTemplateResponseMixin, BaseProjectJoinView):
+    '''The view class to enable users to join to the specific project'''
+
+
+class ProjectQuitMixin(object):
     model = Project
 
     def quit(self, request, *args, **kwargs):
         """
-        Calls the join() method on the fetched object and then
+        Calls the quit() method on the fetched object and then
         redirects to the success URL.
         """
         self.object = self.get_object()
@@ -89,7 +100,17 @@ class ProjectQuitView(UpdateView):
             return HttpResponseForbidden
 
     def get(self, request, *args, **kwargs):
-        return HttpResponseNotAllowed()
+        return HttpResponseNotAllowed(['POST',])
 
     def post(self, request, *args, **kwargs):
         return self.quit(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
+
+class BaseProjectQuitView(ProjectQuitMixin, BaseDetailView):
+    ''''''
+
+@permission_required('projects.quit_project')
+class ProjectQuitView(SingleObjectTemplateResponseMixin, BaseProjectQuitView):
+    '''The view class to enable users to quit from the specific project'''

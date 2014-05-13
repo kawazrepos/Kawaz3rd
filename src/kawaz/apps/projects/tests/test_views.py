@@ -440,3 +440,79 @@ class ProjectListViewTestCase(TestCase):
         self.assertEqual(list.count(), 2, 'object_list has two projects')
         self.assertEqual(list[0], self.projects[1], 'protected')
         self.assertEqual(list[1], self.projects[0], 'public')
+
+
+class ProjectJoinViewTestCase(TestCase):
+    def setUp(self):
+        self.project = ProjectFactory()
+        self.user = PersonaFactory()
+        self.user.set_password('password')
+        self.user.save()
+
+    def test_anonymous_cannnot_join_project(self):
+        '''
+        Tests anonymous users attempt to access to ProjectJoinViewTestCase with GET method,
+        redirects to Login page.
+        '''
+        r = self.client.get('/projects/1/join/')
+        self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, '/projects/1/join/'))
+
+    def test_get_method_is_not_allowed(self):
+        '''
+        Tests authorized attempt to access to ProjectJoinViewTestCase with GET method,
+        it returns 405
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.get('/projects/1/join/')
+        self.assertEqual(r.status_code, 405)
+
+    def test_user_can_join_project_via_project_join_view(self):
+        '''
+        Tests user can join to project via ProjectJoinView
+        then redirects to project permalinks
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.post('/projects/1/join/')
+        self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
+        self.assertEqual(self.project.members.count(), 2)
+        self.assertTrue(self.user in self.project.members.all())
+
+
+class ProjectQuitViewTestCase(TestCase):
+    def setUp(self):
+        self.project = ProjectFactory()
+        self.user = PersonaFactory()
+        self.user.set_password('password')
+        self.user.save()
+
+    def test_anonymous_cannnot_quit_project(self):
+        '''
+        Tests anonymous users attempt to access to ProjectQuitViewTestCase with GET method,
+        redirects to Login page.
+        '''
+        r = self.client.get('/projects/1/quit/')
+        self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, '/projects/1/quit/'))
+
+    def test_get_method_is_not_allowed(self):
+        '''
+        Tests authorized attempt to access to ProjectQuitViewTestCase with GET method,
+        it returns 405
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        self.project.join(self.user)
+        r = self.client.get('/projects/1/quit/')
+        self.assertEqual(r.status_code, 405)
+
+    def test_user_can_quit_project_via_project_quit_view(self):
+        '''
+        Tests user can quit from project via ProjectQuitView
+        then redirects to project permalinks
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        self.project.join(self.user)
+        self.assertEqual(self.project.members.count(), 2)
+        self.assertTrue(self.project.members.all())
+        r = self.client.post('/projects/1/quit/')
+        self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
+        self.assertEqual(self.project.members.count(), 1)
+        self.assertFalse(self.user in self.project.members.all())
