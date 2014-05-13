@@ -5,6 +5,7 @@ from ..models import Category, Project
 
 class CategoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Category
+    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
 
     label = 'RPG'
     parent = None
@@ -15,8 +16,8 @@ class ProjectFactory(factory.DjangoModelFactory):
 
     pub_state = 'public'
     status = 'active'
-    title = 'ぼくのかんがえた最強のRPG'
-    slug = 'my-fantastic-rpg'
+    title = factory.Sequence(lambda n: 'ぼくのかんがえた最強のRPG{}'.format(n))
+    slug = factory.Sequence(lambda n: 'my-fantastic-rpg{}'.format(n))
 
     category = factory.SubFactory(CategoryFactory)
     administrator = factory.SubFactory(PersonaFactory)

@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^events/', include('kawaz.apps.events.urls')),
     url(r'^members/', include('kawaz.apps.profiles.urls')),
     url(r'^blogs/', include('kawaz.apps.blogs.urls')),
+    url(r'^projects/', include('kawaz.apps.projects.urls')),
     url(r'^$', IndexView.as_view(), name='kawaz_index')
 )
