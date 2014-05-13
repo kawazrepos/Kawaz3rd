@@ -49,6 +49,17 @@ class AnnouncementManagerTestCase(TestCase):
         self.assertEqual(qs.count(), 1)
         self.assertEqual(qs[0], a)
 
+    def test_published_by_wille(self):
+        '''Tests published() with wille user returns public announcements only'''
+        a = AnnouncementFactory(pub_state='public')
+        AnnouncementFactory(pub_state='protected')
+        AnnouncementFactory(pub_state='draft')
+
+        user = PersonaFactory(role='wille')
+        qs = Announcement.objects.published(user)
+        self.assertEqual(qs.count(), 1)
+        self.assertEqual(qs[0], a)
+
 class AnnouncementTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''

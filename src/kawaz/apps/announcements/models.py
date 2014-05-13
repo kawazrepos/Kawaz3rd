@@ -14,7 +14,9 @@ class AnnouncementManager(models.Manager):
         else return public announcements only.
         '''
         if user and user.is_authenticated():
-            return self.exclude(pub_state='draft')
+            if not user.role in ['wille',]:
+                # wille user can't view protected annoucement
+                return self.exclude(pub_state='draft')
         return self.filter(pub_state='public')
 
     def draft(self, user):
