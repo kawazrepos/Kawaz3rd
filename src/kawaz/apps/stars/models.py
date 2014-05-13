@@ -41,9 +41,9 @@ class Star(models.Model):
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Author'))
     # `comment'はユーザーの引用を格納します。選択した状態で☆を付けると、選択部分がcommentに格納されます。
-    comment = models.CharField(_('Comment'), max_length=512, blank=True)
+    comment = models.CharField(_('Comment'), max_length=512, blank=True, default='')
     # 'tag'は☆の種類を表す短い文字列です。例えば将来的にカラースターのような☆に区別を付ける際に利用します
-    tag = models.CharField(_('Tag'), max_length=32, blank=True)
+    tag = models.CharField(_('Tag'), max_length=32, blank=True, default='')
 
     created_at = models.DateTimeField(_('Created at'), auto_now=True)
     objects = StarManager()
@@ -54,12 +54,8 @@ class Star(models.Model):
         verbose_name_plural = _('Stars')
 
     def __str__(self):
-        return self.content_object.__str__()
+        return str(self.content_object)
 
-from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
-add_permission_logic(Star, AuthorPermissionLogic(
-    field_name='author',
-    change_permission=False,
-    delete_permission=True
-))
+from .perms import StarPermissionLogic
+add_permission_logic(Star, StarPermissionLogic())
