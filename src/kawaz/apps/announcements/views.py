@@ -17,7 +17,7 @@ class AnnouncementCreateView(CreateView):
     form_class = AnnouncementForm
 
     def form_valid(self, form):
-        form.instance.administrator = self.request.user
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 
