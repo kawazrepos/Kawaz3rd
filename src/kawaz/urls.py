@@ -3,8 +3,9 @@ from django.contrib import admin
 
 from kawaz.core.views import IndexView
 from kawaz.core.api.urls import v1_api
+from kawaz.apps.stars.api.resources import StarResource
 
-from django.conf.urls.defaults import *
+v1_api.register(StarResource())
 
 admin.autodiscover()
 
@@ -16,5 +17,6 @@ urlpatterns = patterns('',
     url(r'^members/', include('kawaz.apps.profiles.urls')),
     url(r'^blogs/', include('kawaz.apps.blogs.urls')),
     url(r'^projects/', include('kawaz.apps.projects.urls')),
+    url(r'^stars/', include('kawaz.apps.stars.urls')),
     url(r'^$', IndexView.as_view(), name='kawaz_index')
 )
