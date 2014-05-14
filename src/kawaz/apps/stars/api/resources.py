@@ -1,8 +1,14 @@
+from django.contrib.contenttypes.models import ContentType
+
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+from tastypie import fields
 from ..models import Star
 from .authorizations import StarAuthorization
 
 class StarResource(ModelResource):
+
+    content_type = fields.IntegerField(attribute='content_type_id')
+
     class Meta:
         queryset = Star.objects.all()
         resource_name = 'star'
