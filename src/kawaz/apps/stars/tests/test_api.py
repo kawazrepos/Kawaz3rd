@@ -38,3 +38,66 @@ class StarListAPITestCase(TestCase):
         self.assertIsNotNone(obj)
         self.assertEqual(len(obj['objects']), 1)
 
+class StarCreateAPITestCase(TestCase):
+    def setUp(self):
+        self.user = PersonaFactory()
+        self.wille = PersonaFactory(role='wille')
+
+    def test_anonymous_can_not_create_star_via_api(self):
+        '''
+        Tests anonymous users attempt to create stars via api, then it returns 401 unauthorized.
+        '''
+        ct = ContentType.objects.get_for_model(Persona)
+        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
+        r = self.client.post('/api/v1/star/', data=data, content_type='application/json')
+        self.assertEqual(r.status_code, 401)
+
+    def test_wille_can_not_create_star_via_api(self):
+        '''
+        Tests wille users attempt to create stars via api, then it returns 401 unauthorized.
+        '''
+        self.assertTrue(self.client.login(username=self.wille, password='password'))
+        ct = ContentType.objects.get_for_model(Persona)
+        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
+        r = self.client.post('/api/v1/star/', data=data, content_type='application/json')
+        self.assertEqual(r.status_code, 401)
+
+    def test_authorized_can_create_star_via_api(self):
+        '''
+        Tests authorized users can create stars via api
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        ct = ContentType.objects.get_for_model(Persona)
+        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
+        self.assertEqual(Star.objects.count(), 0)
+        r = self.client.post('/api/v1/star/', data=data, content_type='application/json')
+        self.assertEqual(r.status_code, 201)
+        self.assertEqual(Star.objects.count(), 1)
+
+class StarDeleteAPITestCase(TestCase):
+    def setUp(self):
+        self.user = PersonaFactory()
+        self.other = PersonaFactory()
+        self.star = Star.objects.add_to_object(self.user, self.user)
+
+    def test_other_can_not_delete_star_via_api(self):
+        '''
+        Tests other users attempt to delete a star via api, then it returns 401 unauthorized.
+        '''
+        self.assertTrue(self.client.login(username=self.other, password='password'))
+        ct = ContentType.objects.get_for_model(Persona)
+        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
+        r = self.client.delete('/api/v1/star/1/', data=data, content_type='application/json')
+        self.assertEqual(r.status_code, 401)
+        self.assertEqual(Star.objects.count(), 1)
+
+    def test_owner_can_delete_star_via_api(self):
+        '''
+        Tests owner can delete their own star via API.
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        ct = ContentType.objects.get_for_model(Persona)
+        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
+        r = self.client.delete('/api/v1/star/1/', data=data, content_type='application/json')
+        self.assertEqual(r.status_code, 204)
+        self.assertEqual(Star.objects.count(), 0)
