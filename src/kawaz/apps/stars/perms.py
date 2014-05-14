@@ -1,10 +1,21 @@
 from permission.logics import PermissionLogic
+from kawaz.core.permissions.utils import get_full_permission_name
 
 class StarPermissionLogic(PermissionLogic):
     """
     Permission logic which check object publish statement and return
     whether the user has a permission to see the object
     """
+    def _has_perm_of_content_object(self, user_obj, perm_codename, star):
+        """
+        Check if user have permissions for a content object of `star`
+        """
+        content_object = star.content_object
+        full_perm_name = get_full_permission_name(perm_codename, content_object)
+        if not full_perm_name in content_object._meta.permissions:
+            # if object don't have `perm_codename` return True permanently
+            return True
+        return user_obj.has_perm(full_perm_name, obj=content_object)
 
     def has_perm(self, user_obj, perm, obj=None):
         """
@@ -16,7 +27,8 @@ class StarPermissionLogic(PermissionLogic):
         # filter interest permissions
         if perm not in ('stars.add_star',
                         'stars.change_star',
-                        'stars.delete_star'):
+                        'stars.delete_star',
+                        'stars.view_star'):
             return False
         if perm == 'stars.change_star':
             # nobody can change stars
@@ -31,16 +43,24 @@ class StarPermissionLogic(PermissionLogic):
                 # seele, nerv, children have permissions of add, change and delete star
                 # generally
                 return True
+            if perm == 'stars.view_star':
+                # everybody may be enable to view star.
+                return True
             return False
-        # macros
-        def author_required(user_obj, perm, obj):
+        # object permission
+        if perm == 'stars.view_star':
+            # users can view a star in following cases.
+            # 1 user can view the content_object of star
+            # 基本的に全てのスターは誰でも見ることができ、Starそのものには公開状態がないが
+            # このチェックをしないと、非公開オブジェクトのStarがpublicなAPIで取れてしまって
+            # 引用などが見られてしまう可能性があるので、content_objectが見れる場合のみ閲覧権限がある
+            return self._has_perm_of_content_object(user_obj, 'view', obj)
+        elif perm == 'stars.delete_star':
             if user_obj.role not in ('seele', 'nerv', 'children'):
                 return False
-            return obj.author == user_obj
-        # object permission
-        permission_methods = {
-            'stars.delete_star': author_required,
-        }
-        if perm in permission_methods:
-            return permission_methods[perm](user_obj, perm, obj)
+            # users can delete a star in following cases.
+            # 1 user owns the star
+            # 2 user can change the content_object of star.
+            # このチェックを加えることにより「自分の所持してるオブジェクト」についているStarも削除可能になって嬉しい
+            return obj.author == user_obj or self._has_perm_of_content_object(user_obj, 'change', obj)
         return False

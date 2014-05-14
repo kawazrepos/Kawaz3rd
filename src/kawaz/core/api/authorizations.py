@@ -1,5 +1,6 @@
 from django.core.exceptions import ImproperlyConfigured
 from tastypie.authorization import Authorization
+from kawaz.core.permissions.utils import get_full_permission_name
 
 class KawazAuthorization(Authorization):
     model = None
@@ -8,9 +9,7 @@ class KawazAuthorization(Authorization):
         if not self.model:
             raise ImproperlyConfigured(
                 "No model to build Authorization. Provide a `model`.")
-        app_label = self.model._meta.app_label
-        model_name = self.model._meta.object_name.lower()
-        return '{}.{}_{}'.format(app_label, perm, model_name)
+        return get_full_permission_name(perm, self.model)
 
     def _check_has_perm(self, bundle, perm, object_permission=False):
         user = bundle.request.user
