@@ -33,7 +33,7 @@ class KawazAuthorization(Authorization):
         return object_list
 
     def create_detail(self, object_list, bundle):
-        return self._check_has_perm(bundle, 'create', False)
+        return self._check_has_perm(bundle, 'add', False)
 
     def update_list(self, object_list, bundle):
         perm = self._get_full_permission_string('update')
