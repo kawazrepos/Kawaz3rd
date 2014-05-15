@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'kawaz.apps.projects',
     'kawaz.apps.events',
     'kawaz.apps.blogs',
+    'kawaz.apps.products',
     'kawaz.apps.stars',
 )
 

@@ -22,6 +22,7 @@ class Platform(models.Model):
         verbose_name_plural = _('Platforms')
 
 class Category(models.Model):
+
     label       = models.CharField(_('Label'), max_length=32, unique=True)
     description = models.CharField(_('Description'), max_length=128)
 
@@ -31,9 +32,14 @@ class Category(models.Model):
         verbose_name_plural = _('Categories')
 
 class Product(models.Model):
+
+    def _get_upload_path(self, filename):
+        path = 'products/{}/advertisement_images'.format(self.slug)
+        return os.path.join(path, filename)
+
     title               = models.CharField(_('Title'), max_length=128, unique=True)
     slug                = models.SlugField(_('Slug'), unique=True)
-    advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True)
+    advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True, upload_to=_get_upload_path)
     trailer             = models.URLField(_('Trailer'), null=True, blank=True)
     description         = MarkupField(_('Description'), max_length=4096)
     platforms           = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
@@ -49,7 +55,8 @@ class Product(models.Model):
         verbose_name_plural = _('Products')
 
 class Release(models.Model):
-    label      = models.CharField(_('labels'), max_length=32)
+
+    label      = models.CharField(_('Label'), max_length=32)
     platform   = models.ForeignKey(Platform, verbose_name=_('Platform'))
     version    = models.CharField(_('Version'), max_length=32)
     product    = models.ForeignKey(Product, verbose_name=_('Product'), related_name='%(class)ss')
@@ -62,12 +69,17 @@ class Release(models.Model):
 
 
 class PackageRelease(Release):
-    file     = models.FileField(_('File'))
+
+    def _get_upload_path(self, filename):
+        path = 'products/{}/releases/'.format(self.product.slug)
+        return os.path.join(path, filename)
+
+    file     = models.FileField(_('File'), upload_to=_get_upload_path)
     download = models.PositiveIntegerField(_('Downloads'), default=0, editable=False)
 
     class Meta(Release.Meta):
-        verbose_name = _('PackageRelease')
-        verbose_name_plural = _('PackageReleases')
+        verbose_name = _('Package release')
+        verbose_name_plural = _('Package releases')
 
 
 class URLRelease(Release):
@@ -75,14 +87,19 @@ class URLRelease(Release):
     pageview = models.PositiveIntegerField(_('Page view'), default=0, editable=False)
 
     class Meta(Release.Meta):
-        verbose_name = _('URLRelease')
-        verbose_name_plural = _('URLReleases')
+        verbose_name = _('URL release')
+        verbose_name_plural = _('URL releases')
 
 class ScreenShot(models.Model):
-    image   = ThumbnailField(_('Image'))
+
+    def _get_upload_path(self, filename):
+        path = 'products/{}/screenshots/%s'.format(self.product.slug)
+        return os.path.join(path, filename)
+
+    image   = ThumbnailField(_('Image'), upload_to=_get_upload_path)
     product = models.ForeignKey(Product, verbose_name=_('Product'))
 
     class Meta:
-        ordering = _('pk',)
-        verbose_name = _('Screenshot')
-        verbose_name_plural = _('Screenshots')
+        ordering = ('pk',)
+        verbose_name = _('Screen shot')
+        verbose_name_plural = _('Screen shots')
