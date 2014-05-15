@@ -1,3 +1,5 @@
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import Permission
 from permission.logics import PermissionLogic
 from kawaz.core.permissions.utils import get_full_permission_name
 
@@ -6,14 +8,20 @@ class StarPermissionLogic(PermissionLogic):
     Permission logic which check object publish statement and return
     whether the user has a permission to see the object
     """
-    def _has_perm_of_content_object(self, user_obj, perm_codename, star):
+    def _has_perm_of_content_object(self, user_obj, perm_name, star):
         """
         Check if user have permissions for a content object of `star`
         """
         content_object = star.content_object
-        full_perm_name = get_full_permission_name(perm_codename, content_object)
-        if not full_perm_name in content_object._meta.permissions:
-            # if object don't have `perm_codename` return True permanently
+        full_perm_name = get_full_permission_name(perm_name, content_object)
+        app_label, codename = full_perm_name.split('.')
+        ct = ContentType.objects.get_for_model(content_object)
+        if Permission.objects.filter(codename=codename, content_type=ct).count() == 0:
+            # もし、該当するパーミッションが存在しなければ、常にTrueを返します
+            # おもに、perm_nameにviewが渡ってきたときに
+            # content_objectのモデルにview権限がそもそも存在しなかった場合は
+            # 無条件にTrueが返ります
+            # if object don't have `perm_name` return True permanently
             return True
         return user_obj.has_perm(full_perm_name, obj=content_object)
 
@@ -21,9 +29,6 @@ class StarPermissionLogic(PermissionLogic):
         """
         Check if user have a specified star permissions (of obj)
         """
-        # anonymous use has no permissions
-        if not user_obj.is_authenticated():
-            return False
         # filter interest permissions
         if perm not in ('stars.add_star',
                         'stars.change_star',
@@ -39,7 +44,7 @@ class StarPermissionLogic(PermissionLogic):
                            'stars.delete_star',
             )
             roles = ('seele', 'nerv', 'children')
-            if perm in permissions and user_obj.role in roles:
+            if perm in permissions and user_obj.is_authenticated() and user_obj.role in roles:
                 # seele, nerv, children have permissions of add, change and delete star
                 # generally
                 return True
@@ -56,6 +61,9 @@ class StarPermissionLogic(PermissionLogic):
             # 引用などが見られてしまう可能性があるので、content_objectが見れる場合のみ閲覧権限がある
             return self._has_perm_of_content_object(user_obj, 'view', obj)
         elif perm == 'stars.delete_star':
+            if not user_obj.is_authenticated():
+                # anonymous user don't have view perm
+                return False
             if user_obj.role not in ('seele', 'nerv', 'children'):
                 return False
             # users can delete a star in following cases.
