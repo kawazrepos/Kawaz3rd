@@ -65,7 +65,9 @@ class Star(models.Model):
     def clean(self):
         from kawaz.core.permissions.utils import get_full_permission_name
         full_view_perm_name = get_full_permission_name('view', self.content_object)
-        if full_view_perm_name in self.content_object._meta.permissions:
+        app_label, codename = full_view_perm_name.split('.')
+        codenames = [cns for cns, names in self.content_object._meta.permissions]
+        if codename in codenames:
             # if model have view permission
             if not self.author.has_perm(full_view_perm_name, obj=self.content_object):
                 # 閲覧権限がないオブジェクトにStarをつけようとしたとき、失敗する
