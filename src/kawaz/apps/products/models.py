@@ -21,6 +21,9 @@ class Platform(models.Model):
         verbose_name = _('Platform')
         verbose_name_plural = _('Platforms')
 
+    def __str__(self):
+        return self.label
+
 class Category(models.Model):
 
     label       = models.CharField(_('Label'), max_length=32, unique=True)
@@ -30,6 +33,9 @@ class Category(models.Model):
         ordering = ('pk',)
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
+
+    def __str__(self):
+        return self.label
 
 class Product(models.Model):
 
@@ -61,6 +67,9 @@ class Product(models.Model):
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
 
+    def __str__(self):
+        return self.title
+
 class Release(models.Model):
 
     label      = models.CharField(_('Label'), max_length=32)
@@ -74,6 +83,8 @@ class Release(models.Model):
         abstract = True
         ordering = ('platform__pk', 'product__pk')
 
+    def __str__(self):
+        return "{}({})".format(str(self.product), str(self.platform))
 
 class PackageRelease(Release):
 
@@ -87,7 +98,6 @@ class PackageRelease(Release):
     class Meta(Release.Meta):
         verbose_name = _('Package release')
         verbose_name_plural = _('Package releases')
-
 
 class URLRelease(Release):
     url      = models.URLField(_('URL'))
@@ -110,3 +120,6 @@ class ScreenShot(models.Model):
         ordering = ('pk',)
         verbose_name = _('Screen shot')
         verbose_name_plural = _('Screen shots')
+
+    def __str__(self):
+        return "ScreenShot of {}".format(str(self.product))
