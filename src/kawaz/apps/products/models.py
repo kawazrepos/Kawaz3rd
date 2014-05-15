@@ -37,6 +37,13 @@ class Product(models.Model):
         path = 'products/{}/advertisement_images'.format(self.slug)
         return os.path.join(path, filename)
 
+    DISPLAY_MODES = (
+        (0, _('Carousel ')),
+        (1, _('Pickup')),
+        (2, _('Tiled')),
+        (3, _('Text')),
+    )
+
     title               = models.CharField(_('Title'), max_length=128, unique=True)
     slug                = models.SlugField(_('Slug'), unique=True)
     advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True, upload_to=_get_upload_path)
@@ -45,7 +52,7 @@ class Product(models.Model):
     platforms           = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     project             = models.ForeignKey(Project, verbose_name=_('Project'), null=True, blank=True)
     administrators      = models.ManyToManyField(Persona, verbose_name=_('Administrators'))
-    display_mode        = models.IntegerField()
+    display_mode        = models.PositiveSmallIntegerField(_('Display mode'), choices=DISPLAY_MODES)
     created_at          = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at          = models.DateTimeField(_('Updated at'), auto_now=True)
 
