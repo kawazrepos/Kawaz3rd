@@ -1,4 +1,5 @@
 import factory
+from django.contrib.auth.hashers import make_password
 from ..models import Persona
 
 class PersonaFactory(factory.django.DjangoModelFactory):
@@ -9,7 +10,8 @@ class PersonaFactory(factory.django.DjangoModelFactory):
     first_name = 'Kawaz'
     username = factory.sequence(lambda n: 'kawaztan{0}'.format(n))
     email = 'webmaster@kawaz.org'
-    password = 'pass'
+    # using PostGenerationMethodCall is not working
+    password = make_password('password')
 
     nickname = 'かわずたん'
     quotes = 'けろーん'

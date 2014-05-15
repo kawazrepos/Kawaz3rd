@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tastypie',
     'permission',
     'thumbnailfield',
     'kawaz.core.db',
@@ -120,3 +121,7 @@ LOGIN_URL = '/'
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# tastypie
+
+TASTYPIE_DEFAULT_FORMATS = ['json',]
