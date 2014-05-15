@@ -21,7 +21,7 @@ class KawazAuthorization(Authorization):
     def read_list(self, object_list, bundle):
         perm = self._get_full_permission_string('view')
         allowed = filter(lambda o: bundle.request.user.has_perm(perm, obj=o), object_list)
-        return allowed
+        return list(allowed)
 
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
@@ -37,7 +37,7 @@ class KawazAuthorization(Authorization):
     def update_list(self, object_list, bundle):
         perm = self._get_full_permission_string('update')
         allowed = filter(lambda o: bundle.request.user.has_perm(perm, obj=o), object_list)
-        return allowed
+        return list(allowed)
 
     def update_detail(self, object_list, bundle):
         return self._check_has_perm(bundle, 'update', True)
@@ -45,7 +45,7 @@ class KawazAuthorization(Authorization):
     def delete_list(self, object_list, bundle):
         perm = self._get_full_permission_string('delete')
         allowed = filter(lambda o: bundle.request.user.has_perm(perm, obj=o), object_list)
-        return allowed
+        return list(allowed)
 
     def delete_detail(self, object_list, bundle):
         return self._check_has_perm(bundle, 'delete', True)

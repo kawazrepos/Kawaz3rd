@@ -15,18 +15,31 @@ def _response_to_dict(response):
 
 class StarListAPITestCase(TestCase):
     def setUp(self):
-        self.entry =EntryFactory()
+        self.entry = EntryFactory()
+        self.protectedEntry = EntryFactory(pub_state='protected')
+        self.user = PersonaFactory()
         self.star0 = StarFactory()
         self.star1 = StarFactory(content_object=self.entry)
+        self.star2 = StarFactory(content_object=self.protectedEntry)
 
     def test_anonymous_get_star_list_via_api(self):
         '''
-        Tests anonymous user can get star list of all stars via API
+        Tests anonymous user can get star list of viewable stars via API
         '''
         r = self.client.get('/api/v1/star/')
         obj = _response_to_dict(r)
         self.assertIsNotNone(obj)
         self.assertEqual(len(obj['objects']), 2)
+
+    def test_authorized_get_star_list_via_api(self):
+        '''
+        Tests authorized user can get all star list via API
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.get('/api/v1/star/')
+        obj = _response_to_dict(r)
+        self.assertIsNotNone(obj)
+        self.assertEqual(len(obj['objects']), 3)
 
     def test_anonymous_get_star_list_via_api_with_object(self):
         '''
@@ -78,7 +91,8 @@ class StarDeleteAPITestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory()
         self.other = PersonaFactory()
-        self.star = Star.objects.add_to_object(self.user, self.user)
+        self.star = StarFactory(content_object=self.user, author=self.user)
+        self.entry = EntryFactory()
 
     def test_other_can_not_delete_star_via_api(self):
         '''
@@ -86,8 +100,7 @@ class StarDeleteAPITestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
         ct = ContentType.objects.get_for_model(Persona)
-        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
-        r = self.client.delete('/api/v1/star/1/', data=data, content_type='application/json')
+        r = self.client.delete('/api/v1/star/1/', content_type='application/json')
         self.assertEqual(r.status_code, 401)
         self.assertEqual(Star.objects.count(), 1)
 
@@ -97,7 +110,17 @@ class StarDeleteAPITestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
         ct = ContentType.objects.get_for_model(Persona)
-        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
-        r = self.client.delete('/api/v1/star/1/', data=data, content_type='application/json')
+        r = self.client.delete('/api/v1/star/1/', content_type='application/json')
         self.assertEqual(r.status_code, 204)
         self.assertEqual(Star.objects.count(), 0)
+
+    def test_content_object_author_can_delete_star_via_api(self):
+        '''
+        Tests users who owns content object can also delete the star
+        '''
+        self.assertTrue(self.client.login(username=self.entry.author, password='password'))
+        ct = ContentType.objects.get_for_model(Persona)
+        self.entryStar = StarFactory(content_object=self.entry)
+        r = self.client.delete('/api/v1/star/2/', content_type='application/json')
+        self.assertEqual(r.status_code, 204)
+        self.assertEqual(Star.objects.count(), 1)
