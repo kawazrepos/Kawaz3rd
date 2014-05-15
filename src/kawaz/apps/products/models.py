@@ -110,7 +110,7 @@ class URLRelease(Release):
 class ScreenShot(models.Model):
 
     def _get_upload_path(self, filename):
-        path = 'products/{}/screenshots/%s'.format(self.product.slug)
+        path = 'products/{}/screenshots/'.format(self.product.slug)
         return os.path.join(path, filename)
 
     image   = ThumbnailField(_('Image'), upload_to=_get_upload_path)
