@@ -91,6 +91,14 @@ THUMBNAIL_SIZE_PATTERNS = {
     'small': (24, 24,),
 }
 
+ADVERTISEMENT_IMAGE_SIZE_PATTERNS = {
+    None : (None, None,),
+}
+
+SCREENSHOT_IMAGE_SIZE_PATTERNS = {
+    None : (None, None,),
+}
+
 # Permission presence check in DEBUG mode
 # from django-permission 0.5.3
 PERMISSION_CHECK_PERMISSION_PRESENCE = DEBUG

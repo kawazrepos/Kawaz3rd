@@ -1,11 +1,13 @@
 import os
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.conf import settings
 from markupfield.fields import MarkupField
 from thumbnailfield.fields import ThumbnailField
 
 from kawaz.core.personas.models import Persona
 from kawaz.apps.projects.models import Project
+
 
 class Platform(models.Model):
 
@@ -52,9 +54,9 @@ class Product(models.Model):
 
     title               = models.CharField(_('Title'), max_length=128, unique=True)
     slug                = models.SlugField(_('Slug'), unique=True)
-    advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True, upload_to=_get_upload_path)
+    advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True, upload_to=_get_upload_path, patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS)
     trailer             = models.URLField(_('Trailer'), null=True, blank=True)
-    description         = MarkupField(_('Description'), max_length=4096)
+    description         = MarkupField(_('Description'), max_length=4096, markup_type='markdown')
     platforms           = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     project             = models.ForeignKey(Project, verbose_name=_('Project'), null=True, blank=True)
     administrators      = models.ManyToManyField(Persona, verbose_name=_('Administrators'))
@@ -99,6 +101,7 @@ class PackageRelease(Release):
         verbose_name = _('Package release')
         verbose_name_plural = _('Package releases')
 
+
 class URLRelease(Release):
     url      = models.URLField(_('URL'))
     pageview = models.PositiveIntegerField(_('Page view'), default=0, editable=False)
@@ -113,7 +116,7 @@ class ScreenShot(models.Model):
         path = 'products/{}/screenshots/'.format(self.product.slug)
         return os.path.join(path, filename)
 
-    image   = ThumbnailField(_('Image'), upload_to=_get_upload_path)
+    image   = ThumbnailField(_('Image'), upload_to=_get_upload_path, patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
     product = models.ForeignKey(Product, verbose_name=_('Product'))
 
     class Meta:
@@ -122,4 +125,4 @@ class ScreenShot(models.Model):
         verbose_name_plural = _('Screen shots')
 
     def __str__(self):
-        return "ScreenShot of {}".format(str(self.product))
+        return '{}({})'.format(self.image.name, self.product.title)

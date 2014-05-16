@@ -31,7 +31,6 @@ class ProductFactory(factory.DjangoModelFactory):
     advertisement_image = 'products/kawaz-tan-adventure/advertisement_images/kawaztan.png'
     trailer = 'http://www.youtube.com/watch?v=0wIGRDKELFg'
     description = 'かわずたんが井戸から飛び出す一大スペクタクルです'
-    platforms = (factory.SubFactory(PlatformFactory))
     project = factory.SubFactory(ProjectFactory)
     display_mode = 0
 
