@@ -105,6 +105,7 @@ class Product(models.Model):
             'slug' : self.slug
         })
 
+
 class Release(models.Model):
     '''
     Abstract model for product releases
