@@ -12,6 +12,10 @@ from kawaz.apps.projects.models import Project
 
 
 class Platform(models.Model):
+    '''
+    Model for supports platform of products
+    e.g. Windows, Mac, Browser, iOS or PS Vita etc...
+    '''
 
     def _get_upload_path(self, filename):
         path = 'icons/platforms/%s' % self.label.lower()
@@ -29,6 +33,10 @@ class Platform(models.Model):
         return self.label
 
 class Category(models.Model):
+    '''
+    Model for categories of products
+    e.g. ACT, STG, ADV or Casual Game etc...
+    '''
 
     label       = models.CharField(_('Label'), max_length=32, unique=True)
     description = models.CharField(_('Description'), max_length=128)
@@ -43,6 +51,9 @@ class Category(models.Model):
 
 @validate_on_save
 class Product(models.Model):
+    '''
+    Model for products
+    '''
 
     def _get_upload_path(self, filename):
         path = 'products/{}/advertisement_images'.format(self.slug)
@@ -57,13 +68,21 @@ class Product(models.Model):
 
     title               = models.CharField(_('Title'), max_length=128, unique=True)
     slug                = models.SlugField(_('Slug'), unique=True)
-    advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True, upload_to=_get_upload_path, patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS)
-    trailer             = models.URLField(_('Trailer'), null=True, blank=True)
+    advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True,
+                                         upload_to=_get_upload_path, patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
+                                         help_text=_('This image will be insert on top page. Aspect ratio of this image should be 16:9.')
+                                        )
+    trailer             = models.URLField(_('Trailer'), null=True, blank=True,
+                                          help_text='Enter URL of your trailer on YouTube, then you can embed the trailer.'
+                                          )
     description         = MarkupField(_('Description'), max_length=4096, markup_type='markdown')
     platforms           = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     project             = models.ForeignKey(Project, verbose_name=_('Project'), null=True, blank=True)
     administrators      = models.ManyToManyField(Persona, verbose_name=_('Administrators'))
-    display_mode        = models.PositiveSmallIntegerField(_('Display mode'), choices=DISPLAY_MODES)
+    display_mode        = models.PositiveSmallIntegerField(_('Display mode'), choices=DISPLAY_MODES,
+                                                           help_text=_('Display mode on Kawaz top. '
+                                                                       'If this have no `Advertisement Image`, You can choose `Text` only.')
+                                                           )
     created_at          = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at          = models.DateTimeField(_('Updated at'), auto_now=True)
 
@@ -80,6 +99,9 @@ class Product(models.Model):
             raise ValidationError(_('''`display_mode` is allowed only `Text` without setting `advertisement_image`'''))
 
 class Release(models.Model):
+    '''
+    Abstract model for product releases
+    '''
 
     label      = models.CharField(_('Label'), max_length=32)
     platform   = models.ForeignKey(Platform, verbose_name=_('Platform'))
@@ -96,6 +118,10 @@ class Release(models.Model):
         return "{}({})".format(str(self.product), str(self.platform))
 
 class PackageRelease(Release):
+    '''
+    Model for file contains release
+    developers can host game binaries on Kawaz
+    '''
 
     def _get_upload_path(self, filename):
         path = 'products/{}/releases/'.format(self.product.slug)
@@ -110,6 +136,13 @@ class PackageRelease(Release):
 
 
 class URLRelease(Release):
+    '''
+    Model for URL release
+    If games are hosted on other website, developers can link to there.
+    e.g. Google Play, iTunes App Store etc...
+    '''
+
+
     url      = models.URLField(_('URL'))
     pageview = models.PositiveIntegerField(_('Page view'), default=0, editable=False)
 
@@ -119,13 +152,19 @@ class URLRelease(Release):
 
     @property
     def is_appstore(self):
+        '''Return `True` if this release is hosted on App Store'''
         return self.url.startswith('https://itunes.apple.com')
 
     @property
     def is_googleplay(self):
+        '''Return `True` if this release is hosted on Google Play'''
         return self.url.startswith('https://play.google.com')
 
 class ScreenShot(models.Model):
+    '''
+    Model for product screen shots
+    developers can attach as many screenshots as they would like.
+    '''
 
     def _get_upload_path(self, filename):
         path = 'products/{}/screenshots/'.format(self.product.slug)
