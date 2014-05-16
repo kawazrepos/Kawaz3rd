@@ -2,9 +2,11 @@ import os
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from markupfield.fields import MarkupField
 from thumbnailfield.fields import ThumbnailField
 
+from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.personas.models import Persona
 from kawaz.apps.projects.models import Project
 
@@ -39,6 +41,7 @@ class Category(models.Model):
     def __str__(self):
         return self.label
 
+@validate_on_save
 class Product(models.Model):
 
     def _get_upload_path(self, filename):
@@ -71,6 +74,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if not self.advertisement_image and self.display_mode != 3:
+            raise ValidationError(_('''`display_mode` is allowed only `Text` without setting `advertisement_image`'''))
 
 class Release(models.Model):
 
@@ -109,6 +116,14 @@ class URLRelease(Release):
     class Meta(Release.Meta):
         verbose_name = _('URL release')
         verbose_name_plural = _('URL releases')
+
+    @property
+    def is_appstore(self):
+        return self.url.startswith('https://itunes.apple.com')
+
+    @property
+    def is_googleplay(self):
+        return self.url.startswith('https://play.google.com')
 
 class ScreenShot(models.Model):
 
