@@ -141,6 +141,7 @@ class PackageRelease(Release):
         verbose_name = _('Package release')
         verbose_name_plural = _('Package releases')
 
+
 class URLRelease(Release):
     '''
     Model for URL release
