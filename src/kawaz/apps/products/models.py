@@ -77,6 +77,7 @@ class Product(models.Model):
                                           )
     description         = MarkupField(_('Description'), max_length=4096, markup_type='markdown')
     platforms           = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
+    categories          = models.ManyToManyField(Category, verbose_name=_('Categories'))
     project             = models.ForeignKey(Project, verbose_name=_('Project'), null=True, blank=True)
     administrators      = models.ManyToManyField(Persona, verbose_name=_('Administrators'))
     display_mode        = models.PositiveSmallIntegerField(_('Display mode'), choices=DISPLAY_MODES,
