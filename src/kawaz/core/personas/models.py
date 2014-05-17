@@ -129,6 +129,10 @@ class Persona(AbstractUser, metaclass=PersonaBase):
     def is_superuser(self):
         return self.role in ('adam',)
 
+    @property
+    def is_member(self):
+        return self.role in ('adam', 'seele', 'nerv', 'children')
+
     class Meta:
         ordering = ('username',)
         verbose_name = _('Persona')
