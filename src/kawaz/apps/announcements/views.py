@@ -37,6 +37,7 @@ class AnnouncementDetailView(DetailView):
     model = Announcement
 
 
+@permission_required('announcements.view_announcement')
 class AnnouncementListView(ListView):
     model = Announcement
 
