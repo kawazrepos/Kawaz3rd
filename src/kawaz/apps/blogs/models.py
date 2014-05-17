@@ -13,48 +13,67 @@ from kawaz.core.permissions.logics import PUB_STATES
 
 
 class Category(models.Model):
-    '''The model which indicates category of each entries'''
+    """
+    ブログが所属するカテゴリーモデル
+
+    カテゴリーは各ユーザーがそれぞれ所有するもので、自身のブログの整理に利用する
+    目的で存在する。
+    """
     label = models.CharField(_('Category name'), max_length=255)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Author'), related_name='blog_categories', editable=False)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               verbose_name=_('Author'),
+                               related_name='blog_categories',
+                               editable=False)
     
     class Meta:
+        # カテゴリはユーザーが所有するものなので unique together を指定
         unique_together = (('author', 'label'),) 
-    
+
     def __str__(self):
-        return '%s(%s)' % (self.label, self.author.username)
+        return "{}({})".format(self.label, self.author.username)
 
 
 class EntryManager(models.Manager):
-    '''The model manager for Entry'''
-
     def published(self, user):
-        '''Returns Queryset which contains viewable objects by ``user``.'''
+        """
+        指定されたユーザが閲覧可能な記事を含むクエリを返す
+
+        ユーザーがメンバーだった場合は全体・内部公開記事、それ以外の場合は
+        内部公開記事のみを含むクエリを返す
+        """
         q = Q(pub_state='public')
-        if user and user.is_authenticated():
-            if not user.role in 'wille':
-                q |= Q(pub_state='protected')
+        if user and user.is_authenticated() and user.is_member:
+            q |= Q(pub_state='protected')
         return self.filter(q).distinct()
 
     def draft(self, user):
-        '''Returns Queryset contains draft entries which owned by ``user``.'''
-        if user and user.is_authenticated():
+        """
+        指定されたユーザが所有する下書き記事を含むクエリを返す
+        """
+        if user and user.is_authenticated() and user.is_member:
             return self.filter(author=user, pub_state='draft')
         return self.none()
 
 
 @validate_on_save
 class Entry(models.Model):
-    '''Entry model of blog'''
-    pub_state = models.CharField(_('Publish status'), max_length=10, choices=PUB_STATES, default="public")
+    """
+    ブログ記事モデル
+    """
+    pub_state = models.CharField(_('Publish status'), max_length=10,
+                                 choices=PUB_STATES, default="public")
     title = models.CharField(_('Title'), max_length=255)
-    
     body = MarkupField(_('Body'), default_markup_type='markdown')
-    category = models.ForeignKey(Category, verbose_name=_('Category'), related_name="entries", blank=True, null=True)
-    
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Author'), related_name='blog_entries', editable=False)
+    category = models.ForeignKey(Category, verbose_name=_('Category'),
+                                 related_name="entries",
+                                 blank=True, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               verbose_name=_('Author'),
+                               related_name='blog_entries', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Modified at'), auto_now=True)
-    publish_at = models.DateTimeField(_('Published at'), null=True, editable=False)
+    publish_at = models.DateTimeField(_('Published at'),
+                                      null=True, editable=False)
 
     objects = EntryManager()
 
@@ -69,12 +88,19 @@ class Entry(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def publish_at_date(self):
+        """公開日"""
+        if not self.publish_at:
+            return None
+        return datetime.datetime.date(self.publish_at)
+
     def save(self, *args, **kwargs):
         if not self.publish_at:
-            if self.pub_state == 'draft':
-                # if drafted and haven't published yet set publish_at = None
-                self.publish_at = None
-            else:
+            # 記事の状態が下書き以外の場合は公開日時を自動的に指定
+            # これは最初の公開時のみに行われるため 公開->下書き->公開 としても
+            # 最初の公開日が変更されることはない
+            if self.pub_state != 'draft':
                 self.publish_at = datetime.datetime.now()
         super().save(*args, **kwargs)
 
@@ -87,23 +113,17 @@ class Entry(models.Model):
     def get_absolute_url(self):
         if self.publish_at:
             return ('blogs_entry_detail', (), {
-                'author' : self.author.username,
-                'year' : self.publish_at.year,
-                'month' : self.publish_at.month,
-                'day' : self.publish_at.day,
-                'pk' : self.pk
+                'author': self.author.username,
+                'year': self.publish_at.year,
+                'month': self.publish_at.month,
+                'day': self.publish_at.day,
+                'pk': self.pk
             })
         return ('blogs_entry_update', (), {
-            'author' : self.author.username,
-            'pk' : self.pk
+            'author': self.author.username,
+            'pk': self.pk
         })
 
-    @property
-    def publish_at_date(self):
-        '''return Publish date'''
-        if not self.publish_at:
-            return None
-        return datetime.datetime.date(self.publish_at)
 
 from permission import add_permission_logic
 from permission.logics.author import AuthorPermissionLogic
