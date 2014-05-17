@@ -3,13 +3,12 @@ from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
-
 from django.core.urlresolvers import reverse_lazy
+from permission.decorators import permission_required
 
 from .models import Announcement
 from .forms import AnnouncementForm
 
-from permission.decorators import permission_required
 
 @permission_required('announcements.add_announcement')
 class AnnouncementCreateView(CreateView):
