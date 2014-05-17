@@ -181,3 +181,17 @@ class ScreenShot(models.Model):
 
     def __str__(self):
         return '{}({})'.format(self.image.name, self.product.title)
+
+from kawaz.core.permissions.logics import ChildrenPermissionLogic
+from permission import add_permission_logic
+from permission.logics import CollaboratorsPermissionLogic
+add_permission_logic(Product, ChildrenPermissionLogic(
+    add_permission=True,
+    change_permission=False,
+    delete_permission=False
+))
+add_permission_logic(Product, CollaboratorsPermissionLogic(
+    field_name='administrators',
+    change_permission=True,
+    delete_permission=True
+))
