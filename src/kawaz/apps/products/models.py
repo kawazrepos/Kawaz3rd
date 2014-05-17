@@ -99,6 +99,12 @@ class Product(models.Model):
         if not self.advertisement_image and self.display_mode != 3:
             raise ValidationError(_('''`display_mode` is allowed only `Text` without setting `advertisement_image`'''))
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('products_product_detail', (), {
+            'slug' : self.slug
+        })
+
 class Release(models.Model):
     '''
     Abstract model for product releases

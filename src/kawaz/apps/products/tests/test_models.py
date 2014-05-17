@@ -45,6 +45,13 @@ class ProductModelTestCase(TestCase):
         self.assertRaises(ValidationError, ProductFactory, advertisement_image=None, display_mode=2)
         self.assertIsNotNone(ProductFactory(advertisement_image=None, display_mode=3))
 
+    def test_get_absolute_url(self):
+        """
+        Tests get_absolute_url() returns '/products/<slug>/'.
+        """
+        product = ProductFactory(slug='super-kawaz-adventure')
+        self.assertEqual(product.get_absolute_url(), '/products/super-kawaz-adventure/')
+
 
 class PackageReleaseModelTestCase(TestCase):
 

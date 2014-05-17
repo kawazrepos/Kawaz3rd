@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     url('^create/$',                        ProductCreateView.as_view(),       name='products_product_create'),
     url('^(?P<pk>\d+)/update/$',            ProductUpdateView.as_view(),       name='products_product_update'),
     url('^(?P<pk>\d+)/delete/$',            ProductDeleteView.as_view(),       name='products_product_delete'),
-    url('^(?P<pk>\d+)/$',                   ProductDetailView.as_view(),       name='products_product_detail'),
+    url('^(?P<slug>[\w_-]+)/$',             ProductDetailView.as_view(),       name='products_product_detail'),
 )
