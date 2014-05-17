@@ -8,137 +8,103 @@ from django.views.generic import DayArchiveView
 from django.views.generic import MonthArchiveView
 from django.views.generic import YearArchiveView
 from django.views.generic.dates import MultipleObjectMixin
-
 from django.shortcuts import get_object_or_404
-
 from permission.decorators import permission_required
-
 from kawaz.core.personas.models import Persona
-from .forms import EntryForm
 
+from .forms import EntryForm
 from .models import Entry
 
+
 class EntryMultipleObjectMixin(MultipleObjectMixin):
-    '''
-    Class based view mixin for getting published entry by request user.
-    '''
+    """
+    アクセスしたユーザーにより閲覧可能な記事を指定するためのMixin
+    """
     def get_queryset(self):
         return Entry.objects.published(self.request.user)
 
 
+@permission_required('blogs.view_entry')
 class EntryListView(ListView, EntryMultipleObjectMixin):
-    '''
-    View class for listing all entries
-    '''
     model = Entry
 
 
 @permission_required('blogs.view_entry')
 class EntryDetailView(DetailView):
-    '''
-    View class for details of blog entries.
-    '''
     model = Entry
 
 
 @permission_required('blogs.add_entry')
 class EntryCreateView(CreateView):
-    '''
-    View class for blog entry creation
-    '''
     model = Entry
     form_class = EntryForm
 
     def form_valid(self, form):
+        # 記事の作成者を自動的に指定
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
 @permission_required('blogs.change_entry')
 class EntryUpdateView(UpdateView):
-    '''
-    View class for updating blog entries
-    '''
     model = Entry
     form_class = EntryForm
 
 
 @permission_required('blogs.delete_entry')
 class EntryDeleteView(DeleteView):
-    '''
-    View class for deleting blog entries.
-    '''
     model = Entry
 
 
 class EntryTodayArchiveView(TodayArchiveView, EntryMultipleObjectMixin):
-    '''
-    View class for listing blog entries written on today.
-    '''
     model = Entry
     date_field = 'publish_at'
 
 
 class EntryDayArchiveView(DayArchiveView, EntryMultipleObjectMixin):
-    '''
-    View class for listing blog entries written in the day.
-    '''
     model = Entry
     date_field = 'publish_at'
     month_format = '%m'
 
 
 class EntryMonthArchiveView(MonthArchiveView, EntryMultipleObjectMixin):
-    '''
-    View class for listing blog entries written in the month
-    '''
     model = Entry
     date_field = 'publish_at'
     month_format = '%m'
 
 
 class EntryYearArchiveView(YearArchiveView, EntryMultipleObjectMixin):
-    '''
-    View class for listing blog entries written in the year.
-    '''
     model = Entry
     date_field = 'publish_at'
 
 
 class EntryAuthorMixin(EntryMultipleObjectMixin):
-    '''
-    Class based view mixin to filter entries written by the author.
-    '''
-
+    """
+    特定ユーザーが執筆した記事に限定して閲覧するためのMixin
+    """
     def get_queryset(self):
-        qs = super().get_queryset()
-        username = self.kwargs.get('author')
+        # urlにて渡されたユーザーの名前を取得
+        # | get('author')だとバグにより urlpattern に author が指定されていない
+        # | 場合は None が帰るためバグに気が付きにくい。
+        # | したがって敢えて kwargs['author'] と指定している
+        username = self.kwargs['author']
+        # 名前からインスタンスを指定、存在しない場合は強制404
         author = get_object_or_404(Persona, username=username)
-        return qs.filter(author=author)
+        # 著者でQuerySetを更に絞る
+        return super().get_queryset().filter(author=author)
 
 
 class EntryAuthorListView(EntryListView, EntryAuthorMixin):
-    '''
-    View class for listing for all entries of specific author.
-    '''
+    pass
 
 class EntryAuthorTodayArchiveView(EntryTodayArchiveView, EntryAuthorMixin):
-    '''
-    View class for listing for entries written on today of specific author.
-    '''
-
+    pass
 
 class EntryAuthorDayArchiveView(EntryDayArchiveView, EntryAuthorMixin):
-    '''
-    View class for listing for entries written in the day of specific author.
-    '''
-
+    pass
 
 class EntryAuthorMonthArchiveView(EntryMonthArchiveView, EntryAuthorMixin):
-    '''
-    View class for listing for entries written in the month of specific author.
-    '''
+    pass
 
 class EntryAuthorYearArchiveView(EntryYearArchiveView, EntryAuthorMixin):
-    '''
-    View class for listing for entries written in the year of specific author.
-    '''
+    pass
