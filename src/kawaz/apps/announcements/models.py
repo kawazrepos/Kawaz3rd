@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from kawaz.core.permissions.logics import PUB_STATES
@@ -13,11 +14,12 @@ class AnnouncementManager(models.Manager):
         If `user` is authenticated, it will return public and protected announcements,
         else return public announcements only.
         '''
+        q = Q(pub_state='public')
         if user and user.is_authenticated():
-            if not user.role in ['wille',]:
-                # wille user can't view protected annoucement
-                return self.exclude(pub_state='draft')
-        return self.filter(pub_state='public')
+            if user.role in ['seele', 'nerv', 'children']:
+                # Seele, Nerv, Children can see the protected announcement
+                q |= Q(pub_state='protected')
+        return self.filter(q)
 
     def draft(self, user):
         '''
