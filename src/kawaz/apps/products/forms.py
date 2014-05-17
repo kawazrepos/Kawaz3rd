@@ -1,0 +1,12 @@
+from django.forms import ModelForm
+from .models import Product
+
+class ProductCreateForm(ModelForm):
+    class Meta:
+        model = Product
+        exclude = ('description_markup_type', 'administrators',)
+
+class ProductUpdateForm(ModelForm):
+    class Meta:
+        model = Product
+        exclude = ('description_markup_type', 'slug', 'administrators')
