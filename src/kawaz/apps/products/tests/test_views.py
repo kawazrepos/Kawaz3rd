@@ -121,16 +121,10 @@ class ProductCreateViewTestCase(TestCase):
 class ProductUpdateViewTestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory(username='administrator_kawaztan')
-        self.user.set_password('password')
         self.other = PersonaFactory(username='black_kawaztan')
-        self.other.set_password('password')
-        self.user.save()
-        self.other.save()
-        self.product = ProductFactory(title='かわずたんのゲームだよ☆', administrator=self.user)
+        self.product = ProductFactory(title='かわずたんのゲームだよ☆', administrators=(self.user,))
         self.category = CategoryFactory()
         self.wille = PersonaFactory(role='wille')
-        self.wille.set_password('password')
-        self.wille.save()
 
     def test_anonymous_user_can_not_view_product_update_view(self):
         '''Tests anonymous user can not view ProductUpdateView'''
@@ -153,11 +147,11 @@ class ProductUpdateViewTestCase(TestCase):
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.product)
 
-    def test_member_can_view_product_update_view(self):
+    def test_administrators_can_view_product_update_view(self):
         '''
-        Tests product members can view ProductUpdateView
+        Tests product administrators can view ProductUpdateView
         '''
-        self.product.join(self.other)
+        self.product.administrators.add(self.other)
         self.assertTrue(self.client.login(username=self.other, password='password'))
         r = self.client.get('/products/1/update/')
         self.assertTemplateUsed(r, 'products/product_form.html')
@@ -170,9 +164,11 @@ class ProductUpdateViewTestCase(TestCase):
         It will redirect to LOGIN_URL
         '''
         r = self.client.post('/products/1/update/', {
-            'pub_state' : 'public',
-            'title' : 'クラッカーだよー',
-            'body' : 'うえーい',
+            'title' : 'クラッカーだよ！！！',
+            'platforms' : [1,],
+            'categories' : [1,],
+            'description' : '剣と魔法の物語です',
+            'display_mode' : 3
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
@@ -184,9 +180,11 @@ class ProductUpdateViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
         r = self.client.post('/products/1/update/', {
-            'pub_state' : 'public',
-            'title' : '外部ユーザーだよーん',
-            'body' : 'うえーい',
+            'title' : 'クラッカーだよ！！！',
+            'platforms' : [1,],
+            'categories' : [1,],
+            'description' : '剣と魔法の物語です',
+            'display_mode' : 3
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
@@ -198,55 +196,42 @@ class ProductUpdateViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
         r = self.client.post('/products/1/update/', {
-            'pub_state' : 'public',
-            'title' : 'いたずら日記です',
-            'body' : '黒かわずたんだよーん',
+            'title' : 'クラッカーだよ！！！',
+            'platforms' : [1,],
+            'categories' : [1,],
+            'description' : '剣と魔法の物語です',
+            'display_mode' : 3
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
 
-    def test_administrator_can_update_via_update_view(self):
-        '''Tests administrator user can update product via ProductUpdateView'''
+    def test_administrators_can_update_via_update_view(self):
+        '''Tests administrators user can update product via ProductUpdateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.post('/products/1/update/', {
-            'pub_state' : 'public',
-            'title' : 'やっぱり書き換えます！',
-            'body' : 'うえーい',
-            'status' : 'planning',
-            'category' : self.category.pk
+            'title' : 'かわずたんファンタジー',
+            'platforms' : [1,],
+            'categories' : [1,],
+            'description' : 'かわずたんファンタジー',
+            'display_mode' : 3
         })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
         self.assertEqual(Product.objects.count(), 1)
         e = Product.objects.get(pk=1)
-        self.assertEqual(e.title, 'やっぱり書き換えます！')
+        self.assertEqual(e.title, 'かわずたんファンタジー')
 
-    def test_member_can_update_via_update_view(self):
-        '''Tests product member can update product via ProductUpdateView'''
-        self.product.join(self.other)
-        self.assertTrue(self.client.login(username=self.other, password='password'))
-        r = self.client.post('/products/1/update/', {
-            'pub_state' : 'public',
-            'title' : 'やっぱり書き換えます！',
-            'body' : 'うえーい',
-            'status' : 'planning',
-            'category' : self.category.pk
-        })
-        self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
-        self.assertEqual(Product.objects.count(), 1)
-        e = Product.objects.get(pk=1)
-        self.assertEqual(e.title, 'やっぱり書き換えます！')
 
     def test_user_cannot_update_slug(self):
         '''Tests anyone cannot update prject's slug'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
         old_slug = self.product.slug
         r = self.client.post('/products/1/update/', {
-            'pub_state' : 'public',
-            'title' : 'やっぱり書き換えます！',
-            'body' : 'うえーい',
-            'status' : 'planning',
-            'category' : self.category.pk,
-            'slug' : 'new-slug'
+            'title' : 'かわずたんファンタジー',
+            'slug' : 'new-slug',
+            'platforms' : [1,],
+            'categories' : [1,],
+            'description' : '剣と魔法の物語です',
+            'display_mode' : 3
         })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
         self.assertEqual(Product.objects.count(), 1)
@@ -264,19 +249,19 @@ class ProductUpdateViewTestCase(TestCase):
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.post('/products/1/update/', {
-            'pub_state' : 'public',
-            'title' : 'ID書き換えます！',
-            'body' : 'うえーい',
-            'status' : 'planning',
-            'category' : self.category.pk,
-            'administrator' : other.pk # crackers attempt to masquerade
+            'title' : 'クラッカーだよ！！！',
+            'platforms' : [1,],
+            'categories' : [1,],
+            'description' : '剣と魔法の物語です',
+            'display_mode' : 3,
+            'administrators' : (other.pk,) # crackers attempt to masquerade
         })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
         self.assertEqual(Product.objects.count(), 1)
         e = Product.objects.get(pk=1)
-        self.assertEqual(e.administrator, self.user)
-        self.assertNotEqual(e.administrator, other)
-        self.assertEqual(e.title, 'ID書き換えます！')
+        self.assertTrue(self.user in e.administrators.all())
+        self.assertFalse(other in e.administrators.all())
+        self.assertEqual(e.title, 'クラッカーだよ！！！')
 
 class ProductDeleteViewTestCase(TestCase):
     def setUp(self):
