@@ -1,0 +1,102 @@
+- model: products.category
+  pk: 1
+  fields:
+    label: シューティングゲーム
+- model: products.category
+  pk: 2
+  fields:
+    label: アクションゲーム
+- model: products.category
+  pk: 3
+  fields:
+    label: パズルゲーム
+- model: products.category
+  pk: 4
+  fields:
+    label: ロールプレイイングゲーム
+- model: products.category
+  pk: 5
+  fields:
+    label: アドベンチャーゲーム
+- model: products.category
+  pk: 6
+  fields:
+    label: ノベルゲーム
+- model: products.category
+  pk: 7
+  fields:
+    label: ミニゲーム
+- model: products.category
+  pk: 8
+  fields:
+    label: 格闘ゲーム
+- model: products.category
+  pk: 9
+  fields:
+    label: シミュレーションゲーム
+- model: products.category
+  pk: 10
+  fields:
+    label: オンラインゲーム
+- model: products.category
+  pk: 1
+  fields:
+    label: その他ゲーム
+- model: products.category
+  pk: 12
+  fields:
+    label: その他企画
+- model: products.category
+  pk: 13
+  fields:
+    label: 音楽ゲーム
+- model: products.platform
+  pk: 1
+  fields:
+    label: Windows
+    icon: icons/platforms/windows.png
+- model: products.platform
+  pk: 2
+  fields:
+    label: Mac
+    icon: icons/platforms/mac.png
+- model: products.platform
+  pk: 3
+  fields:
+    label: Linux
+    icon: icons/platforms/linux.png
+- model: products.platform
+  pk: 4
+  fields:
+    label: ブラウザ
+    icon: icons/platforms/browser.png
+- model: products.platform
+  pk: 5
+  fields:
+    label: iOS
+    icon: icons/platforms/ios.png
+- model: products.platform
+  pk: 6
+  fields:
+    label: Android
+    icon: icons/platforms/android.png
+- model: products.platform
+  pk: 7
+  fields:
+    label: Windows Phone 8
+    icon: icons/platforms/wp8.png
+- model: products.platform
+  pk: 8
+  fields:
+    label: PS Vita
+    icon: icons/platforms/vita.png
+- model: products.platform
+  pk: 9
+  fields:
+    label: Xbox Live Arcade
+    icon: icons/platforms/xbla.png
+- model: products.platform
+  pk: 10
+  fields:
+    label: その他
+    icon: icons/platforms/misc.png

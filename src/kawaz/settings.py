@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'kawaz.apps.projects',
     'kawaz.apps.events',
     'kawaz.apps.blogs',
+    'kawaz.apps.products',
     'kawaz.apps.stars',
 )
 
@@ -88,6 +89,18 @@ THUMBNAIL_SIZE_PATTERNS = {
     'large': (96, 96,),
     'middle': (48, 48,),
     'small': (24, 24,),
+}
+
+PRODUCT_THUMBNAIL_SIZE_PATTERNS = {
+    None : (32, 32),
+}
+
+ADVERTISEMENT_IMAGE_SIZE_PATTERNS = {
+    None : (32, 32),
+}
+
+SCREENSHOT_IMAGE_SIZE_PATTERNS = {
+    None : (32, 32),
 }
 
 # Permission presence check in DEBUG mode
