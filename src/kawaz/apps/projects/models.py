@@ -34,14 +34,14 @@ class ProjectManager(models.Manager):
 
     def active(self, user):
         qs = self.published(user)
-        qs = qs.exclude(status='eternal')
-        return qs.distinct()
+        return qs.exclude(status='eternal')
 
     def published(self, user):
         q = Q(pub_state='public')
-        if user.is_authenticated() and not user.role in ['wille',]:
+        if user and user.is_authenticated() and user.is_member:
+            # メンバーは内部公開記事も閲覧可能
             q |= Q(pub_state='protected')
-        return self.filter(q).distinct()
+        return self.filter(q)
 
     def draft(self, user):
         if user and user.is_authenticated():
@@ -52,8 +52,8 @@ class ProjectManager(models.Manager):
 class Project(models.Model):
     """The Project model"""
     def _get_upload_path(self, filename):
-        path = 'thumbnails/projects/%s' % self.slug
-        return os.path.join(path, filename)
+        basedir = os.path.join('thumbnails', 'projects', self.slug)
+        return os.path.join(basedir, filename)
 
     STATUS = (
         ("planning",    _("Planning")),
