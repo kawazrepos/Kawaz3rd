@@ -3,7 +3,7 @@ from kawaz.core.personas.models import Persona
 from kawaz.core.permissions.logics import PUB_STATES
 
 
-class Article(models.Model):
+class PermissionsTestArticle(models.Model):
     pub_state = models.CharField('Publish State', choices=PUB_STATES,
                                  max_length=10, default='public')
     author = models.ForeignKey(Persona)
@@ -12,5 +12,5 @@ class Article(models.Model):
     class Meta:
         app_label = 'permissions'
         permissions = (
-            ('view_article', 'Can view the articles'),
+            ('view_permissionstestarticle', 'Can view the articles'),
         )

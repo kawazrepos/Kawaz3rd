@@ -4,51 +4,75 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 
 from kawaz.core.db.decorators import validate_on_save
 
 class StarManager(models.Manager):
     def get_for_object(self, obj):
-        '''Return stars related to the 'obj'.'''
+        """
+        指定されたオブジェクトに関係するスターを含むクエリを返す
+        """
         ct = ContentType.objects.get_for_model(obj)
         return self.filter(content_type=ct, object_id=obj.pk)
 
-    def add_to_object(self, obj, author, comment='', tag=''):
-        '''Add a star to 'obj' and return Star instance.'''
+    def add_to_object(self, obj, author, quote=''):
+        """
+        指定されたオブジェクトに新たにスターを作成
+        """
         ct = ContentType.objects.get_for_model(obj)
-        star = self.create(author=author, comment=comment, content_type=ct, object_id=obj.pk, tag=tag)
+        star = self.create(content_type=ct,
+                           object_id=obj.pk,
+                           author=author,
+                           quote=quote)
         return star
 
     def remove_from_object(self, obj, star):
-        '''Remove 'star' from 'obj'.'''
+        """
+        指定されたオブジェクトから指定されたスターを削除
+
+        Raises:
+            ObjectDoesNotExist: 指定されたスターがオブジェクトに関連付けられて
+                居ない場合に発生
+        """
         stars = self.get_for_object(obj)
         if not star in stars.all():
-            raise AttributeError('The star have not been added to this object.')
+            raise ObjectDoesNotExist(
+                    _('The star have not been added to this object.'))
         star.delete()
 
     def cleanup_object(self, obj):
-        '''Remove all related stars from 'obj'.'''
+        """
+        指定されたオブジェクトに付加されている全てのスターを削除
+        """
         stars = self.get_for_object(obj)
         for star in stars:
             star.delete()
 
+
 @validate_on_save
 class Star(models.Model):
-    '''
-    Model which indicates stars(like!)
-    '''
-    content_type = models.ForeignKey(ContentType, verbose_name='Content Type', related_name="content_type_set_for_%(class)s")
+    """
+    はてなスター的なモデル。主にJavaScriptで処理を行う
+    """
+    content_type = models.ForeignKey(ContentType,
+                            verbose_name='Content Type',
+                            related_name="content_type_set_for_%(class)s")
     object_id = models.PositiveIntegerField('Object ID')
-    content_object = GenericForeignKey(ct_field="content_type", fk_field="object_id")
-
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Author'))
-    # `comment'はユーザーの引用を格納します。選択した状態で☆を付けると、選択部分がcommentに格納されます。
-    comment = models.CharField(_('Comment'), max_length=512, blank=True, default='')
-    # 'tag'は☆の種類を表す短い文字列です。例えば将来的にカラースターのような☆に区別を付ける際に利用します
-    tag = models.CharField(_('Tag'), max_length=32, blank=True, default='')
-
+    content_object = GenericForeignKey(ct_field="content_type",
+                                       fk_field="object_id")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               verbose_name=_('Author'))
+    # ユーザーが記事の一部分を選択した状態でスターを押した場合、その部分を
+    # 引用として格納する
+    quote = models.CharField(_('Quote'),
+                             max_length=512, blank=True, default='',
+                             help_text=_("This is used for quotation. "
+                                         "When the user add a star with text "
+                                         "selection, the selected text is "
+                                         "passed to this."))
     created_at = models.DateTimeField(_('Created at'), auto_now=True)
+
     objects = StarManager()
 
     class Meta:
@@ -62,16 +86,6 @@ class Star(models.Model):
     def __str__(self):
         return str(self.content_object)
 
-    def clean(self):
-        from kawaz.core.permissions.utils import get_full_permission_name
-        full_view_perm_name = get_full_permission_name('view', self.content_object)
-        app_label, codename = full_view_perm_name.split('.')
-        codenames = [cns for cns, names in self.content_object._meta.permissions]
-        if codename in codenames:
-            # if model have view permission
-            if not self.author.has_perm(full_view_perm_name, obj=self.content_object):
-                # 閲覧権限がないオブジェクトにStarをつけようとしたとき、失敗する
-                raise PermissionDenied(_("User can't add star to unviewable object"))
 
 from permission import add_permission_logic
 from .perms import StarPermissionLogic

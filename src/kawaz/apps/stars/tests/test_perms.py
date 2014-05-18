@@ -1,213 +1,123 @@
 from django.test import TestCase
-from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory
-from kawaz.apps.blogs.tests.factories import EntryFactory
+from kawaz.core.tests.testcases.permissions import BasePermissionLogicTestCase
 from ..models import Star
-from .factories import StarFactory
+from .factories import ArticleFactory, StarFactory
 
-class StarAddPermissionTestCase(TestCase):
+
+class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
+    app_label = 'stars'
+    model_name = 'star'
+
     def setUp(self):
-        self.user = PersonaFactory()
-        self.wille = PersonaFactory(role='wille')
-        self.anonymous = AnonymousUser()
+        super().setUp()
 
-    def test_users_have_add_star_permission(self):
-        '''
-        Tests users have permission to add stars
-        '''
-        self.assertTrue(self.user.has_perm('stars.add_star'))
+        self.article_author = PersonaFactory(username='article_author',
+                                             role='children')
+        self.star_author = PersonaFactory(username='star_author',
+                                          role='children')
+        self.users['article_author'] = self.article_author
+        self.users['star_author'] = self.article_author
+        self.article = ArticleFactory(author=self.article_author)
+        self.protected_article = ArticleFactory(author=self.article_author,
+                                                pub_state='protected')
+        self.star = StarFactory(content_object=self.article,
+                                author=self.star_author)
+        self.protected_star = StarFactory(content_object=self.protected_article,
+                                          author=self.star_author)
 
-    def test_wille_dont_have_add_star_permission(self):
-        '''
-        Tests wille users do not have permission to add stars
-        '''
-        self.assertFalse(self.wille.has_perm('stars.add_star'))
+    def test_add_star_permission(self):
+        """
+        メンバーはスターを追加する権限を持つがそれ以外は持たない
+        """
+        self._test('adam', 'add')
+        self._test('seele', 'add')
+        self._test('nerv', 'add')
+        self._test('children', 'add')
+        self._test('wille', 'add', neg=True)
+        self._test('anonymous', 'add', neg=True)
 
-    def test_anonymous_dont_have_add_star_permission(self):
-        '''
-        Tests anonymous users do not have permission to add stars
-        '''
-        self.assertFalse(self.anonymous.has_perm('stars.add_star'))
+    def test_change_permission_without_obj(self):
+        """
+        基本的に変更権限は誰も持たない（神を除く）
+        """
+        self._test('adam', 'change')
+        self._test('seele', 'change', neg=True)
+        self._test('nerv', 'change', neg=True)
+        self._test('children', 'change', neg=True)
+        self._test('wille', 'change', neg=True)
+        self._test('anonymous', 'change', neg=True)
 
+    def test_change_permission_with_obj(self):
+        """
+        基本的に変更権限は誰も持たない（神を除く）
+        """
+        self._test('adam', 'change', obj=self.star)
+        self._test('seele', 'change', obj=self.star, neg=True)
+        self._test('nerv', 'change', obj=self.star, neg=True)
+        self._test('children', 'change', obj=self.star, neg=True)
+        self._test('wille', 'change', obj=self.star, neg=True)
+        self._test('anonymous', 'change', obj=self.star, neg=True)
+        # スターの所有者・スター先の所有者も持たない
+        self._test('star_author', 'change', obj=self.star, neg=True)
+        self._test('article_author', 'change', obj=self.star, neg=True)
 
-class StarChangePermissionTestCase(TestCase):
-    def setUp(self):
-        self.user = PersonaFactory()
-        self.wille = PersonaFactory(role='wille')
-        self.anonymous = AnonymousUser()
-        self.star = StarFactory()
+    def test_delete_permission_without_obj(self):
+        """
+        メンバーはスターを消去する権限を持つが、それ以外は持たない
+        """
+        self._test('adam', 'delete')
+        self._test('seele', 'delete')
+        self._test('nerv', 'delete')
+        self._test('children', 'delete')
+        self._test('wille', 'delete', neg=True)
+        self._test('anonymous', 'delete', neg=True)
 
-    def test_users_dont_have_change_star_permission(self):
-        '''
-        Tests users do not have permission to change stars
-        '''
-        self.assertFalse(self.user.has_perm('stars.change_star'))
+    def test_delete_permission_with_obj(self):
+        """
+        スターもしくはスター先オブジェクトの所有者のみがスターを削除する権限
+        を持つ
+        """
+        self._test('adam', 'delete', obj=self.star)
+        self._test('seele', 'delete', obj=self.star, neg=True)
+        self._test('nerv', 'delete', obj=self.star, neg=True)
+        self._test('children', 'delete', obj=self.star, neg=True)
+        self._test('wille', 'delete', obj=self.star, neg=True)
+        self._test('anonymous', 'delete', obj=self.star, neg=True)
+        # スターの所有者・スター先の所有者は持つ
+        self._test('article_author', 'delete', obj=self.star)
+        self._test('star_author', 'delete', obj=self.star)
 
-    def test_wille_dont_have_change_star_permission(self):
-        '''
-        Tests wille users do not have permission to change stars
-        '''
-        self.assertFalse(self.wille.has_perm('stars.change_star'))
+    def test_view_permission_without_obj(self):
+        """
+        あらゆるユーザーがスターを見る権限を持つ可能性がある
+        """
+        self._test('adam', 'view')
+        self._test('seele', 'view')
+        self._test('nerv', 'view')
+        self._test('children', 'view')
+        self._test('wille', 'view')
+        self._test('anonymous', 'view')
 
-    def test_anonymous_dont_have_change_star_permission(self):
-        '''
-        Tests anonymous users do not have permission to change stars
-        '''
-        self.assertFalse(self.anonymous.has_perm('stars.change_star'))
+    def test_view_permission_with_obj(self):
+        """
+        あらゆるユーザーがスターを見る権限を持つ
+        """
+        self._test('adam', 'view', obj=self.star)
+        self._test('seele', 'view', obj=self.star)
+        self._test('nerv', 'view', obj=self.star)
+        self._test('children', 'view', obj=self.star)
+        self._test('wille', 'view', obj=self.star)
+        self._test('anonymous', 'view', obj=self.star)
 
-    def test_users_dont_have_change_star_permission_with_object(self):
-        '''
-        Tests users do not have permission to change specific star
-        '''
-        self.assertFalse(self.user.has_perm('stars.change_star', obj=self.star))
+    def test_view_permission_with_protected_obj(self):
+        """
+        メンバーのみ内部公開に付加されたスターを閲覧できる
+        """
+        self._test('adam', 'view', obj=self.protected_star)
+        self._test('seele', 'view', obj=self.protected_star)
+        self._test('nerv', 'view', obj=self.protected_star)
+        self._test('children', 'view', obj=self.protected_star)
+        self._test('wille', 'view', obj=self.protected_star, neg=True)
+        self._test('anonymous', 'view', obj=self.protected_star, neg=True)
 
-    def test_author_dont_have_change_permission(self):
-        '''
-        Tests onwers have permission to delete own star
-        '''
-        self.assertFalse(self.star.author.has_perm('stars.change_star', obj=self.star))
-
-    def test_wille_dont_have_change_star_permission_with_object(self):
-        '''
-        Tests wille users do not have permission to change specific star
-        '''
-        self.assertFalse(self.wille.has_perm('stars.change_star', obj=self.star))
-
-    def test_anonymous_dont_have_change_star_permission_with_object(self):
-        '''
-        Tests anonymous users do not have permission to change specific star
-        '''
-        self.assertFalse(self.anonymous.has_perm('stars.change_star', obj=self.star))
-
-
-class StarDeletePermissionTestCase(TestCase):
-    def setUp(self):
-        self.user = PersonaFactory()
-        self.wille = PersonaFactory(role='wille')
-        self.entry =  EntryFactory()
-        self.anonymous = AnonymousUser()
-        self.star = StarFactory(content_object=self.entry)
-
-    def test_users_have_delete_star_permission(self):
-        '''
-        Tests users have permission to delete stars
-        '''
-        self.assertTrue(self.user.has_perm('stars.delete_star'))
-
-    def test_wille_dont_have_delete_star_permission(self):
-        '''
-        Tests wille users do not have permission to delete stars
-        '''
-        self.assertFalse(self.wille.has_perm('stars.delete_star'))
-
-    def test_anonymous_dont_have_delete_star_permission(self):
-        '''
-        Tests anonymous users do not have permission to delete stars
-        '''
-        self.assertFalse(self.anonymous.has_perm('stars.delete_star'))
-
-    def test_others_dont_have_delete_star_permission_with_object(self):
-        '''
-        Tests others do not have permission to delete specific star
-        '''
-        self.assertFalse(self.user.has_perm('stars.delete_star', obj=self.star))
-
-    def test_content_object_owner_have_delete_star_permission_with_object(self):
-        '''
-        Tests owner of content object also have permission to delete specific star
-        '''
-        self.assertTrue(self.entry.author.has_perm('stars.delete_star', obj=self.star))
-
-    def test_author_have_delete_permission_with_object(self):
-        '''
-        Tests star owners have permission to delete own star
-        '''
-        self.assertTrue(self.star.author.has_perm('stars.delete_star', obj=self.star))
-
-    def test_wille_dont_have_delete_star_permission_with_object(self):
-        '''
-        Tests wille users do not have permission to delete specific star
-        '''
-        self.assertFalse(self.wille.has_perm('stars.delete_star', obj=self.star))
-
-    def test_anonymous_dont_have_delete_star_permission_with_object(self):
-        '''
-        Tests anonymous users do not have permission to delete specific star
-        '''
-        self.assertFalse(self.anonymous.has_perm('stars.delete_star', obj=self.star))
-
-class StarViewPermissionTestCase(TestCase):
-    def setUp(self):
-        self.user = PersonaFactory()
-        self.wille = PersonaFactory(role='wille')
-        self.entry =  EntryFactory()
-        self.protectedEntry =  EntryFactory(pub_state='protected')
-        self.anonymous = AnonymousUser()
-        self.star = StarFactory(content_object=self.entry)
-        self.protectedStar = StarFactory(content_object=self.protectedEntry)
-
-    def test_users_have_view_star_permission(self):
-        '''
-        Tests users have permission to view stars
-        '''
-        self.assertTrue(self.user.has_perm('stars.view_star'))
-
-    def test_wille_have_view_star_permission(self):
-        '''
-        Tests wille users have permission to view stars
-        '''
-        self.assertTrue(self.wille.has_perm('stars.view_star'))
-
-    def test_anonymous_have_view_star_permission(self):
-        '''
-        Tests anonymous users have permission to view stars
-        '''
-        self.assertTrue(self.anonymous.has_perm('stars.view_star'))
-
-    def test_authorized_have_view_star_permission_of_public_object(self):
-        '''
-        Tests authorized users have permission to view specific star assigned to public object
-        '''
-        self.assertTrue(self.user.has_perm('stars.view_star', obj=self.star))
-
-    def test_author_have_view_permission_of_public_object(self):
-        '''
-        Tests star owners have permission to view own star
-        '''
-        self.assertTrue(self.star.author.has_perm('stars.view_star', obj=self.star))
-
-    def test_wille_have_view_star_permission_of_public_object(self):
-        '''
-        Tests wille users have permission to view specific star assigned to public object
-        '''
-        self.assertTrue(self.wille.has_perm('stars.view_star', obj=self.star))
-
-    def test_anonymous_have_view_star_permission_of_public_object(self):
-        '''
-        Tests anonymous users have permission to view specific star assigned to public object
-        '''
-        self.assertTrue(self.anonymous.has_perm('stars.view_star', obj=self.star))
-
-    def test_authorized_have_view_star_permission_of_protected_object(self):
-        '''
-        Tests authorized users have permission to view specific star assigned to protected object
-        '''
-        self.assertTrue(self.user.has_perm('stars.view_star', obj=self.protectedStar))
-
-    def test_author_have_view_permission_of_protected_object(self):
-        '''
-        Tests star owners have permission to view own star
-        '''
-        self.assertTrue(self.protectedStar.author.has_perm('stars.view_star', obj=self.protectedStar))
-
-    def test_wille_dont_have_view_star_permission_of_protected_object(self):
-        '''
-        Tests wille users don't have permission to view specific star assigned to protected object
-        '''
-        self.assertFalse(self.wille.has_perm('stars.view_star', obj=self.protectedStar))
-
-    def test_anonymous_dont_have_view_star_permission_of_protected_object(self):
-        '''
-        Tests anonymous users don't have permission to view specific star assigned to protected object
-        '''
-        self.assertFalse(self.anonymous.has_perm('stars.view_star', obj=self.protectedStar))

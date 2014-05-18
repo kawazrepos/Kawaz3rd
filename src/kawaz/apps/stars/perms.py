@@ -1,34 +1,40 @@
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ObjectDoesNotExist
 from permission.logics import PermissionLogic
+from permission.utils.permissions import perm_to_permission
 from kawaz.core.permissions.utils import get_full_permission_name
 
+
 class StarPermissionLogic(PermissionLogic):
-    """
-    Permission logic which check object publish statement and return
-    whether the user has a permission to see the object
-    """
-    def _has_perm_of_content_object(self, user_obj, perm_name, star):
+    def _has_perm_of_content_object(self, user_obj, perm, star):
         """
-        Check if user have permissions for a content object of `star`
+        スター付加先のオブジェクトの公開状態をチェックし、内部公開であれば
+        ユーザーにその記事の閲覧権限があるかどうかによりスターの閲覧権限を
+        規定する
         """
-        content_object = star.content_object
-        full_perm_name = get_full_permission_name(perm_name, content_object)
-        app_label, codename = full_perm_name.split('.')
-        ct = ContentType.objects.get_for_model(content_object)
-        if Permission.objects.filter(codename=codename, content_type=ct).count() == 0:
-            # もし、該当するパーミッションが存在しなければ、常にTrueを返します
-            # おもに、perm_nameにviewが渡ってきたときに
-            # content_objectのモデルにview権限がそもそも存在しなかった場合は
-            # 無条件にTrueが返ります
-            # if object don't have `perm_name` return True permanently
+        try:
+            # 対象オブジェクトのパーミッションを取得
+            perm = get_full_permission_name(perm, star.content_object)
+            # 文字列 permission を実体に変換
+            perm_to_permission(perm)
+            # 指定されたパーミッションが存在するためチェックを行う
+            return user_obj.has_perm(perm, obj=star.content_object)
+        except ObjectDoesNotExist:
+            # 指定されたパーミッションが存在しない。
+            # Star自体に閲覧権限があるわけではないので、今場合は常にTrue
             return True
-        return user_obj.has_perm(full_perm_name, obj=content_object)
 
     def has_perm(self, user_obj, perm, obj=None):
         """
-        Check if user have a specified star permissions (of obj)
+        Starのパーミッションを処理する
+
+        add - 全てのメンバーが持つ
+        change - 誰も持たない
+        delete - 所有者のみ持つ
+        view - 付加対象の公開状態依存
         """
+
         # filter interest permissions
         if perm not in ('stars.add_star',
                         'stars.change_star',
@@ -39,36 +45,30 @@ class StarPermissionLogic(PermissionLogic):
             # nobody can change stars
             return False
         if obj is None:
-            # seele, nerv, children have following permissions
-            permissions = ('stars.add_star',
-                           'stars.delete_star',
-            )
-            roles = ('seele', 'nerv', 'children')
-            if perm in permissions and user_obj.is_authenticated() and user_obj.role in roles:
-                # seele, nerv, children have permissions of add, change and delete star
-                # generally
-                return True
+            permissions = ('stars.add_star', 'stars.delete_star',)
+            if perm in permissions:
+                if user_obj.is_authenticated() and user_obj.is_member:
+                    # メンバーはスターの付加・削除が可能
+                    return True
             if perm == 'stars.view_star':
-                # everybody may be enable to view star.
+                # あらゆるユーザがスターを見る権利を持つ可能性がある
                 return True
             return False
         # object permission
         if perm == 'stars.view_star':
-            # users can view a star in following cases.
-            # 1 user can view the content_object of star
-            # 基本的に全てのスターは誰でも見ることができ、Starそのものには公開状態がないが
-            # このチェックをしないと、非公開オブジェクトのStarがpublicなAPIで取れてしまって
-            # 引用などが見られてしまう可能性があるので、content_objectが見れる場合のみ閲覧権限がある
+            # 基本的に全てのスターは誰でも見ることができ、Starそのものには
+            # 公開状態がないが、このチェックをしないと非公開オブジェクトの
+            # StarがpublicなAPIで取れてしまって引用などが見られてしまう
+            # 可能性があるので、content_objectが見れる場合のみ閲覧権限がある
             return self._has_perm_of_content_object(user_obj, 'view', obj)
         elif perm == 'stars.delete_star':
-            if not user_obj.is_authenticated():
-                # anonymous user don't have view perm
-                return False
-            if user_obj.role not in ('seele', 'nerv', 'children'):
-                return False
-            # users can delete a star in following cases.
-            # 1 user owns the star
-            # 2 user can change the content_object of star.
-            # このチェックを加えることにより「自分の所持してるオブジェクト」についているStarも削除可能になって嬉しい
-            return obj.author == user_obj or self._has_perm_of_content_object(user_obj, 'change', obj)
+            if user_obj == obj.author:
+                # 自分が付加したスターは削除可能
+                return True
+            elif self._has_perm_of_content_object(user_obj, 'change', obj):
+                # 付加先のコンテンツを編集可能な権限を持っている場合も削除可能
+                return True
+            elif self._has_perm_of_content_object(user_obj, 'delete', obj):
+                # 付加先のコンテンツを削除可能な権限を持っている場合も削除可能
+                return True
         return False
