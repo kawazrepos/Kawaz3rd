@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied
 from markupfield.fields import MarkupField
 from thumbnailfield.fields import ThumbnailField
 
@@ -92,6 +93,10 @@ class Product(models.Model):
         ordering = ('display_mode',)
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
+        permissions = (
+            ('join_product', 'Can join to the product'),
+            ('quit_product', 'Can quit from the product'),
+        )
 
     def __str__(self):
         return self.title
@@ -100,6 +105,32 @@ class Product(models.Model):
         if not self.advertisement_image and self.display_mode != 3:
             # advertisement_imageがセットされていないときはdisplay_modeをTextにしか設定できない
             raise ValidationError(_('''`display_mode` is allowed only `Text` without setting `advertisement_image`'''))
+
+    def join(self, user, save=True):
+        """
+        指定されたユーザーを管理者にする
+
+        ユーザーに参加権限がない場合は `PermissionDenied` を投げる
+        """
+        if not user.has_perm('projects.join_project', self):
+            raise PermissionDenied
+        self.members.add(user)
+        user.groups.add(self.group)
+        if save:
+            self.save()
+
+    def quit(self, user, save=True):
+        """
+        指定されたユーザーを管理者から外す
+
+        ユーザーに脱退権限がない場合は `PermissionDenied` を投げる
+        """
+        if not user.has_perm('projects.quit_project', self):
+            raise PermissionDenied
+        self.members.remove(user)
+        user.groups.remove(self.group)
+        if save:
+            self.save()
 
     @models.permalink
     def get_absolute_url(self):
@@ -163,11 +194,13 @@ class URLRelease(Release):
     @property
     def is_appstore(self):
         '''Return `True` if this release is hosted on App Store'''
+        # ProductページにApp Storeのバッジを置いたりするのに使います
         return self.url.startswith('https://itunes.apple.com')
 
     @property
     def is_googleplay(self):
         '''Return `True` if this release is hosted on Google Play'''
+        # ProductページにGoogle Playのバッジを置いたりするのに使います
         return self.url.startswith('https://play.google.com')
 
 class ScreenShot(models.Model):
@@ -195,6 +228,7 @@ class ScreenShot(models.Model):
 from kawaz.core.permissions.logics import ChildrenPermissionLogic
 from permission import add_permission_logic
 from permission.logics import CollaboratorsPermissionLogic
+from .perms import ProductPermissionLogic
 add_permission_logic(Product, ChildrenPermissionLogic(
     add_permission=True,
     change_permission=False,
@@ -205,3 +239,4 @@ add_permission_logic(Product, CollaboratorsPermissionLogic(
     change_permission=True,
     delete_permission=True
 ))
+add_permission_logic(Product, ProductPermissionLogic())
