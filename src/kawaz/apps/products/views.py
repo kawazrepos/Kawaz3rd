@@ -20,7 +20,7 @@ class ProductCreateView(CreateView):
         # 作成時のユーザーを管理者に追加します
         # ToDo FIX ME
         instance = super().form_valid(form)
-        form.instance.administrators.add(self.request.user)
+        form.instance.join(self.request.user)
         return instance
 
 @permission_required('products.change_product')

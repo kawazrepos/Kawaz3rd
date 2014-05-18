@@ -92,6 +92,8 @@ class ProductCreateViewTestCase(TestCase):
         self.assertEqual(Product.objects.count(), 1)
         e = Product.objects.get(pk=1)
         self.assertEqual(e.title, 'かわずたんファンタジー')
+        self.assertTrue(self.user in e.administrators.all())
+        self.assertEqual(e.administrators.count(), 1)
 
     def test_user_cannot_modify_administrators_id(self):
         '''
