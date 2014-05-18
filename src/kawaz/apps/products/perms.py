@@ -1,13 +1,13 @@
 from permission.logics import PermissionLogic
 
-class ProductPermissionLogic(PermissionLogic):
 
+class ProductPermissionLogic(PermissionLogic):
     def _has_join_perm(self, user_obj, perm, obj=None):
         if not user_obj.is_authenticated:
             # 非ログインユーザーは参加できない
             return False
-        elif not user_obj.role in ['nerv', 'children', 'seele']:
-            # Nerv, Seele, Children以外は参加できない
+        elif not user_obj.is_member:
+            # メンバー以外は参加できない
             return False
         elif obj and user_obj in obj.administrators.all():
             # 既に参加済みのユーザーは参加できない
@@ -35,10 +35,11 @@ class ProductPermissionLogic(PermissionLogic):
         if not user_obj.is_authenticated():
             # Anonymous Userはパーミッションを持たない
             return False
-        if not user_obj.role in ['seele', 'nerv', 'children']:
-            # Willeはパーミッションを持たない
+        if not user_obj.is_member:
+            # メンバー以外はパーミッションを持たない
             return False
-        if obj: # オブジェクトパーミッション
+        if obj:
+            # オブジェクトパーミッション
             if perm in (
                 'products.change_product',
                 'products.delete_product'

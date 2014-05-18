@@ -1,13 +1,13 @@
 import datetime
 import factory
+from kawaz.apps.projects.tests.factories import ProjectFactory
 from ..models import Platform
 from ..models import Category
 from ..models import Product
 from ..models import URLRelease
 from ..models import PackageRelease
-from ..models import ScreenShot
+from ..models import Screenshot
 
-from kawaz.apps.projects.tests.factories import ProjectFactory
 
 class PlatformFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Platform
@@ -16,6 +16,7 @@ class PlatformFactory(factory.DjangoModelFactory):
     label = "Mac"
     icon = "icons/platforms/mac.png"
 
+
 class CategoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Category
     FACTORY_DJANGO_GET_OR_CREATE = ('label',)
@@ -23,18 +24,20 @@ class CategoryFactory(factory.DjangoModelFactory):
     label = 'アクションゲーム'
     description = 'アクションゲームです'
 
+
 class ProductFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Product
     FACTORY_DJANGO_GET_OR_CREATE = ('slug',)
 
     title = 'かわずたんアドベンチャー'
     slug = 'kawaz-tan-adventure'
-    advertisement_image = 'products/kawaz-tan-adventure/advertisement_images/kawaztan.png'
+    advertisement_image = ('products/kawaz-tan-adventure/'
+                           'advertisement_images/kawaztan.png')
     thumbnail = 'products/kawaz-tan-adventure/thumbnails/kawaztan.png'
     trailer = 'http://www.youtube.com/watch?v=0wIGRDKELFg'
     description = 'かわずたんが井戸から飛び出す一大スペクタクルです'
     project = factory.SubFactory(ProjectFactory)
-    display_mode = 0
+    display_mode = 'featured'
     publish_at = datetime.date(2009, 10, 15)
 
     @factory.post_generation
@@ -59,25 +62,29 @@ class ProductFactory(factory.DjangoModelFactory):
             for platform in extracted:
                 self.platforms.add(platform)
 
-class ReleaseFactory(factory.DjangoModelFactory):
 
+class ReleaseFactory(factory.DjangoModelFactory):
     label = 'Mac版'
     platform = factory.SubFactory(PlatformFactory)
     version = 'β版'
     product = factory.SubFactory(ProductFactory)
 
+
 class PackageReleaseFactory(ReleaseFactory):
     FACTORY_FOR = PackageRelease
 
-    file = 'products/kawaz-tan-adventure/releases/kawaz_mac.zip'
+    file_content = 'products/kawaz-tan-adventure/releases/kawaz_mac.zip'
+
 
 class URLReleaseFactory(ReleaseFactory):
     FACTORY_FOR = URLRelease
 
     url = 'https://itunes.apple.com/jp/app/kawazutantataki!/id447763556?mt=8'
 
-class ScreenShotFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = ScreenShot
+
+class ScreenshotFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Screenshot
 
     image = 'products/kawaz-tan-adventure/screenshots/cute_kawaz_tan.png'
     product = factory.SubFactory(ProductFactory)
+

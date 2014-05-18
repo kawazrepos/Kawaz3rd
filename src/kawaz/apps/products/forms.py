@@ -9,4 +9,7 @@ class ProductCreateForm(ModelForm):
 class ProductUpdateForm(ModelForm):
     class Meta:
         model = Product
-        exclude = ('description_markup_type', 'slug', 'administrators', 'display_mode')
+        exclude = (
+                'description_markup_type', 'slug', 
+                'administrators', 'display_mode'
+            )

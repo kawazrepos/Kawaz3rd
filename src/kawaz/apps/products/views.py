@@ -8,25 +8,7 @@ from django.core.urlresolvers import reverse_lazy
 from permission.decorators import permission_required
 
 from .forms import ProductCreateForm, ProductUpdateForm
-
 from .models import Product
-
-@permission_required('products.add_product')
-class ProductCreateView(CreateView):
-    model = Product
-    form_class = ProductCreateForm
-
-    def form_valid(self, form):
-        # 作成時のユーザーを管理者に追加します
-        # ToDo FIX ME
-        instance = super().form_valid(form)
-        form.instance.join(self.request.user)
-        return instance
-
-@permission_required('products.change_product')
-class ProductUpdateView(UpdateView):
-    model = Product
-    form_class = ProductUpdateForm
 
 
 class ProductListView(ListView):
@@ -35,6 +17,31 @@ class ProductListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
+
+
+@permission_required('products.add_product')
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductCreateForm
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if self.object:
+            # 作成に成功した場合は作成したユーザーを自動的に管理者に加える
+            #
+            # Note:
+            #   これはManyToManyRelationになるためinstanceが存在しないと
+            #   行えない。したがってまずインスタンスの生成を行なっている
+            #   self.object は親の form_valid で設定される
+            #
+            self.object.join(self.request.user)
+        return response
+
+
+@permission_required('products.change_product')
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductUpdateForm
 
 
 @permission_required('products.delete_product')
