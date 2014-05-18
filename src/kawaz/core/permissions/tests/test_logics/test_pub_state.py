@@ -9,7 +9,7 @@ from ...logics import SeelePermissionLogic
 from ...logics import NervPermissionLogic
 from ...logics import ChildrenPermissionLogic
 from ...logics import PubStatePermissionLogic
-from ..models import Article
+from ..models import PermissionsTestArticle as Article
 
 
 class PubStatePermissionLogicTestCase(TestCase):
@@ -38,7 +38,7 @@ class PubStatePermissionLogicTestCase(TestCase):
     def _test_permission(self, role, obj=None, neg=False, perm='view'):
         user = self.users.get(role)
         obj = self.articles.get(obj, None)
-        perm = "permissions.{}_article".format(perm)
+        perm = "permissions.{}_permissionstestarticle".format(perm)
         if neg:
             self.assertFalse(user.has_perm(perm, obj=obj),
                 "{} should not have '{}'".format(role.capitalize(), perm))

@@ -71,7 +71,7 @@ class PubStatePermissionLogic(PermissionLogic):
                 return True
             elif pub_state == 'protected':
                 # if pub_state is protected, users who logged in and role isn't wille see this object
-                return user_obj.is_authenticated() and user_obj.role != 'wille'
+                return user_obj.is_authenticated() and user_obj.is_member
             elif pub_state == 'draft':
                 # if pub_state is draft, Only author can see this object.
                 return author == user_obj

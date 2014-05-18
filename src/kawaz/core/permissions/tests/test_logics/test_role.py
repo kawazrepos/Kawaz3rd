@@ -6,7 +6,7 @@ from ...logics import AdamPermissionLogic
 from ...logics import SeelePermissionLogic
 from ...logics import NervPermissionLogic
 from ...logics import ChildrenPermissionLogic
-from ..models import Article
+from ..models import PermissionsTestArticle as Article
 
 
 class ChildrenPermissionLogicTestCase(TestCase):
@@ -32,7 +32,7 @@ class ChildrenPermissionLogicTestCase(TestCase):
     def _test_permission(self, role, perm, obj=None, neg=False):
         user = self.users.get(role)
         obj = None if obj is None else self.article
-        perm = "permissions.{}_article".format(perm)
+        perm = "permissions.{}_permissionstestarticle".format(perm)
         if neg:
             self.assertFalse(user.has_perm(perm, obj=obj),
                 "{} should not have '{}'".format(role.capitalize(), perm))

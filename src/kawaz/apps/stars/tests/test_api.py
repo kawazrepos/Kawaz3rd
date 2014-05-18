@@ -1,126 +1,195 @@
 import json
 from django.test import TestCase
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from kawaz.core.personas.models import Persona
-from kawaz.apps.blogs.tests.factories import EntryFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Star
-from .factories import StarFactory
+from .factories import ArticleFactory, StarFactory
 
-def _response_to_dict(response):
+API_URL = "/api/v1/star/"
+
+def response_to_dict(response):
     json_string = response.content.decode(encoding='UTF-8')
-    obj = json.loads(json_string)
-    return obj
+    return json.loads(json_string)
 
 
-class StarListAPITestCase(TestCase):
+class BaseTestCase(TestCase):
     def setUp(self):
-        self.entry = EntryFactory()
-        self.protectedEntry = EntryFactory(pub_state='protected')
-        self.user = PersonaFactory()
-        self.star0 = StarFactory()
-        self.star1 = StarFactory(content_object=self.entry)
-        self.star2 = StarFactory(content_object=self.protectedEntry)
+        persona_factory = lambda x: PersonaFactory(username=x, role=x)
+        article_factory = lambda **kwargs: ArticleFactory(
+                author=self.users['article_author'], **kwargs)
+        star_factory = lambda **kwargs: StarFactory(
+                author=self.users['star_author'], **kwargs)
 
-    def test_anonymous_get_star_list_via_api(self):
-        '''
-        Tests anonymous user can get star list of viewable stars via API
-        '''
-        r = self.client.get('/api/v1/star/')
-        obj = _response_to_dict(r)
-        self.assertIsNotNone(obj)
-        self.assertEqual(len(obj['objects']), 2)
+        self.users = dict(
+            adam = persona_factory('adam'),
+            seele = persona_factory('seele'),
+            nerv = persona_factory('nerv'),
+            children = persona_factory('children'),
+            wille = persona_factory('wille'),
+            anonymous = AnonymousUser(),
+            article_author = PersonaFactory(username='article_author',
+                                            role='children'),
+            star_author = PersonaFactory(username='star_author',
+                                         role='children'),
+        )
+        self.article = article_factory()
+        self.protected_article = article_factory(pub_state='protected')
 
-    def test_authorized_get_star_list_via_api(self):
-        '''
-        Tests authorized user can get all star list via API
-        '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/api/v1/star/')
-        obj = _response_to_dict(r)
-        self.assertIsNotNone(obj)
-        self.assertEqual(len(obj['objects']), 3)
+        self.star0 = star_factory(content_object=self.article)
+        self.star1 = star_factory(content_object=self.article)
+        self.star2 = star_factory(content_object=self.protected_article)
+        self.star3 = star_factory(content_object=self.protected_article)
 
-    def test_anonymous_get_star_list_via_api_with_object(self):
-        '''
-        Tests anonymous user can get star list of specific object via API
-        '''
-        ct = ContentType.objects.get_for_model(self.entry)
-        r = self.client.get('/api/v1/star/?content_type={}&object_id={}'.format(ct.pk, self.entry.pk))
-        obj = _response_to_dict(r)
-        self.assertIsNotNone(obj)
-        self.assertEqual(len(obj['objects']), 1)
 
-class StarCreateAPITestCase(TestCase):
-    def setUp(self):
-        self.user = PersonaFactory()
-        self.wille = PersonaFactory(role='wille')
+class StarListAPITestCase(BaseTestCase):
+    def _test_list(self, user, object_count, obj=None):
+        if isinstance(user, str):
+            user = self.users[user]
+        if user is not None and not isinstance(user, AnonymousUser):
+            self.assertTrue(self.client.login(
+                username=user,
+                password='password'))
+        if obj:
+            ct = ContentType.objects.get_for_model(obj)
+            url = API_URL + "?content_type={}&object_id={:d}"
+            url = url.format(ct.pk, obj.pk)
+        else:
+            url = API_URL
+        response = self.client.get(url)
+        response_obj = response_to_dict(response)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNotNone(response_obj)
+        self.assertEqual(len(response_obj['objects']), object_count)
 
-    def test_anonymous_can_not_create_star_via_api(self):
-        '''
-        Tests anonymous users attempt to create stars via api, then it returns 401 unauthorized.
-        '''
-        ct = ContentType.objects.get_for_model(Persona)
-        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
-        r = self.client.post('/api/v1/star/', data=data, content_type='application/json')
-        self.assertEqual(r.status_code, 401)
+    def test_api_list(self):
+        """スターリスト取得テスト"""
+        self._test_list('adam', 4)
+        self._test_list('seele', 4)
+        self._test_list('nerv', 4)
+        self._test_list('children', 4)
+        self._test_list('wille', 2)
+        self._test_list('anonymous', 2)
 
-    def test_wille_can_not_create_star_via_api(self):
-        '''
-        Tests wille users attempt to create stars via api, then it returns 401 unauthorized.
-        '''
-        self.assertTrue(self.client.login(username=self.wille, password='password'))
-        ct = ContentType.objects.get_for_model(Persona)
-        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
-        r = self.client.post('/api/v1/star/', data=data, content_type='application/json')
-        self.assertEqual(r.status_code, 401)
+    def test_api_list_with_obj(self):
+        """オブジェクト関連スターリスト取得テスト"""
+        self._test_list('adam', 2, obj=self.article)
+        self._test_list('seele', 2, obj=self.article)
+        self._test_list('nerv', 2, obj=self.article)
+        self._test_list('children', 2, obj=self.article)
+        self._test_list('wille', 2, obj=self.article)
+        self._test_list('anonymous', 2, obj=self.article)
 
-    def test_authorized_can_create_star_via_api(self):
-        '''
-        Tests authorized users can create stars via api
-        '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        ct = ContentType.objects.get_for_model(Persona)
-        data = json.dumps({'content_type' : ct.pk, 'object_id' : 1})
-        self.assertEqual(Star.objects.count(), 0)
-        r = self.client.post('/api/v1/star/', data=data, content_type='application/json')
-        self.assertEqual(r.status_code, 201)
-        self.assertEqual(Star.objects.count(), 1)
+    def test_api_list_with_protected_obj(self):
+        """内部公開オブジェクト関連スターリスト取得テスト"""
+        self._test_list('adam', 2, obj=self.protected_article)
+        self._test_list('seele', 2, obj=self.protected_article)
+        self._test_list('nerv', 2, obj=self.protected_article)
+        self._test_list('children', 2, obj=self.protected_article)
+        self._test_list('wille', 0, obj=self.protected_article)
+        self._test_list('anonymous', 0, obj=self.protected_article)
 
-class StarDeleteAPITestCase(TestCase):
-    def setUp(self):
-        self.user = PersonaFactory()
-        self.other = PersonaFactory()
-        self.star = StarFactory(content_object=self.user, author=self.user)
-        self.entry = EntryFactory()
 
-    def test_other_can_not_delete_star_via_api(self):
-        '''
-        Tests other users attempt to delete a star via api, then it returns 401 unauthorized.
-        '''
-        self.assertTrue(self.client.login(username=self.other, password='password'))
-        ct = ContentType.objects.get_for_model(Persona)
-        r = self.client.delete('/api/v1/star/1/', content_type='application/json')
-        self.assertEqual(r.status_code, 401)
-        self.assertEqual(Star.objects.count(), 1)
+class StarCreateAPITestCase(BaseTestCase):
+    def _test_create(self, user, obj, neg=False):
+        get_object_count = lambda: Star.objects.count()
+        previous_object_count = get_object_count()
+        if isinstance(user, str):
+            user = self.users[user]
+        if user is not None and not isinstance(user, AnonymousUser):
+            self.assertTrue(self.client.login(
+                username=user,
+                password='password'))
+        ct = ContentType.objects.get_for_model(obj)
+        data = json.dumps({'content_type': ct.pk, 'object_id': obj.pk})
+        response = self.client.post(API_URL, data=data,
+                                    content_type='application/json')
+        if neg:
+            self.assertEqual(response.status_code, 401)
+            self.assertEqual(get_object_count(), previous_object_count)
+        else:
+            self.assertEqual(response.status_code, 201)
+            self.assertEqual(get_object_count(), previous_object_count + 1)
+            # get instance from response_obj
+            response_obj = response_to_dict(response)
+            star = Star.objects.get(pk=response_obj['id'])
+            # check if the user correctly applied
+            self.assertEqual(star.author, user)
 
-    def test_owner_can_delete_star_via_api(self):
-        '''
-        Tests owner can delete their own star via API.
-        '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        ct = ContentType.objects.get_for_model(Persona)
-        r = self.client.delete('/api/v1/star/1/', content_type='application/json')
-        self.assertEqual(r.status_code, 204)
-        self.assertEqual(Star.objects.count(), 0)
+    def test_api_create_adam(self):
+        """スター作成テスト（adam）"""
+        self._test_create('adam', obj=self.article)
 
-    def test_content_object_author_can_delete_star_via_api(self):
-        '''
-        Tests users who owns content object can also delete the star
-        '''
-        self.assertTrue(self.client.login(username=self.entry.author, password='password'))
-        ct = ContentType.objects.get_for_model(Persona)
-        self.entryStar = StarFactory(content_object=self.entry)
-        r = self.client.delete('/api/v1/star/2/', content_type='application/json')
-        self.assertEqual(r.status_code, 204)
-        self.assertEqual(Star.objects.count(), 1)
+    def test_api_create_seele(self):
+        """スター作成テスト（seele）"""
+        self._test_create('seele', obj=self.article)
+
+    def test_api_create_nerv(self):
+        """スター作成テスト（nerv）"""
+        self._test_create('nerv', obj=self.article)
+
+    def test_api_create_children(self):
+        """スター作成テスト（children）"""
+        self._test_create('children', obj=self.article)
+
+    def test_api_create_wille(self):
+        """スター作成テスト（wille）"""
+        self._test_create('wille', obj=self.article, neg=True)
+
+    def test_api_create_anonymous(self):
+        """スター作成テスト（anonymous）"""
+        self._test_create('anonymous', obj=self.article, neg=True)
+
+
+class StarDeleteAPITestCase(BaseTestCase):
+    def _test_delete(self, user, obj, neg=False):
+        get_object_count = lambda: Star.objects.count()
+        previous_object_count = get_object_count()
+        if isinstance(user, str):
+            user = self.users[user]
+        if user is not None and not isinstance(user, AnonymousUser):
+            self.assertTrue(self.client.login(
+                username=user,
+                password='password'))
+        url = API_URL + str(obj.pk) + "/"
+        response = self.client.delete(url, content_type='application/json')
+        if neg:
+            self.assertEqual(response.status_code, 401)
+            self.assertEqual(get_object_count(), previous_object_count)
+        else:
+            self.assertEqual(response.status_code, 204)
+            self.assertEqual(get_object_count(), previous_object_count - 1)
+
+    def test_api_delete_adam(self):
+        """スター削除テスト（adam）"""
+        self._test_delete('adam', obj=self.star0)
+
+    def test_api_delete_seele(self):
+        """スター削除テスト（seele）"""
+        self._test_delete('seele', obj=self.star0, neg=True)
+
+    def test_api_delete_nerv(self):
+        """スター削除テスト（nerv）"""
+        self._test_delete('nerv', obj=self.star0, neg=True)
+
+    def test_api_delete_children(self):
+        """スター削除テスト（children）"""
+        self._test_delete('children', obj=self.star0, neg=True)
+
+    def test_api_delete_wille(self):
+        """スター削除テスト（wille）"""
+        self._test_delete('wille', obj=self.star0, neg=True)
+
+    def test_api_delete_anonymous(self):
+        """スター削除テスト（anonymous）"""
+        self._test_delete('anonymous', obj=self.star0, neg=True)
+
+    def test_api_delete_article_author(self):
+        """スター削除テスト（article_author）"""
+        self._test_delete('article_author', obj=self.star0)
+
+    def test_api_delete_star_author(self):
+        """スター削除テスト（star_author）"""
+        self._test_delete('star_author', obj=self.star0)
+

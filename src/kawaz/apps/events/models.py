@@ -29,7 +29,7 @@ class EventManager(models.Manager):
         q = Q(pub_state='public')
         if user and user.is_authenticated():
             q |= Q(pub_state='protected')
-        return self.filter(q).distinct()
+        return self.filter(q)
     
     def draft(self, user):
         if user and user.is_authenticated():

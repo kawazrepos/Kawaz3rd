@@ -1,29 +1,22 @@
-from tastypie.resources import ModelResource
 from tastypie import fields
+from tastypie.authentication import SessionAuthentication
+from kawaz.core.api.resources import KawazModelResource
+from kawaz.core.api.authorizations import PermissionBasedAuthorization
 from ..models import Star
-from .authorizations import StarAuthorization
 
-class StarResource(ModelResource):
-
+class StarResource(KawazModelResource):
+    author_field_name = 'author'
     content_type = fields.IntegerField(attribute='content_type_id')
 
     class Meta:
-        queryset = Star.objects.all()
         resource_name = 'star'
+        queryset = Star.objects.all()
         list_allowed_methods = ['get','post']
         detail_allowed_methods = ['delete',]
-        authorization = StarAuthorization()
+        always_return_data = True
+        authorization = PermissionBasedAuthorization()
+        authentication = SessionAuthentication()
         filtering = {
             'content_type' : ('exact',),
             'object_id' : ('exact',)
         }
-
-    def hydrate(self, bundle):
-        # set author automatically
-        if bundle.obj.pk is None:
-            # This method seems to be called before checking authorization by StarAuthorization
-            # request.user may be AnonymousUser
-            # So, I checked authentication status of the user.
-            if bundle.request.user.is_authenticated():
-                bundle.obj.author = bundle.request.user
-        return bundle
