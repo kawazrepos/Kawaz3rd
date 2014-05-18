@@ -69,6 +69,6 @@ class StarPermissionLogic(PermissionLogic):
                 # 付加先のコンテンツを編集可能な権限を持っている場合も削除可能
                 return True
             elif self._has_perm_of_content_object(user_obj, 'delete', obj):
-                # 付加先のコンテンツを編集可能な権限を持っている場合も削除可能
+                # 付加先のコンテンツを削除可能な権限を持っている場合も削除可能
                 return True
         return False
