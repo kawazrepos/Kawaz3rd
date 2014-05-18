@@ -34,6 +34,28 @@ class ProductFactory(factory.DjangoModelFactory):
     project = factory.SubFactory(ProjectFactory)
     display_mode = 0
 
+    @factory.post_generation
+    def administrators(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for user in extracted:
+                self.administrators.add(user)
+
+    @factory.post_generation
+    def platforms(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for platform in extracted:
+                self.platforms.add(platform)
+
 class ReleaseFactory(factory.DjangoModelFactory):
 
     label = 'Mac版'

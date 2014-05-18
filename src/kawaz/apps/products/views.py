@@ -3,6 +3,7 @@ from django.views.generic import UpdateView
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import DeleteView
+from django.core.urlresolvers import reverse_lazy
 
 from permission.decorators import permission_required
 
@@ -39,3 +40,4 @@ class ProductDetailView(DetailView):
 @permission_required('products.delete_product')
 class ProductDeleteView(DeleteView):
     model = Product
+    success_url = reverse_lazy('products_product_list')

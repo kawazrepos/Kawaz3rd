@@ -281,15 +281,9 @@ class ProductUpdateViewTestCase(TestCase):
 class ProductDeleteViewTestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
         self.wille = PersonaFactory(role='wille')
-        self.wille.set_password('password')
-        self.wille.save()
         self.other = PersonaFactory()
-        self.other.set_password('password')
-        self.other.save()
-        self.product = ProductFactory(administrator=self.user)
+        self.product = ProductFactory(administrators=(self.user,))
 
     def test_administrator_can_delete_via_product_delete_view(self):
         '''
@@ -298,15 +292,17 @@ class ProductDeleteViewTestCase(TestCase):
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.post('/products/1/delete/', {})
         self.assertEqual(Product.objects.count(), 0)
+        self.assertRedirects(r, '/products/')
 
-    def test_member_cannot_delete_via_product_delete_view(self):
+    def test_administrators_can_delete_via_product_delete_view(self):
         '''
-        Tests members cannot delete its products via ProductDeleteView
+        Tests members can delete its products via ProductDeleteView
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
-        self.product.join(self.other)
+        self.product.administrators.add(self.other)
         r = self.client.post('/products/1/delete/', {})
-        self.assertEqual(Product.objects.count(), 1)
+        self.assertEqual(Product.objects.count(), 0)
+        self.assertRedirects(r, '/products/')
 
     def test_other_cannot_delete_via_product_delete_view(self):
         '''
