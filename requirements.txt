@@ -1,3 +1,4 @@
+django>=1.6.2
 pyyaml
 pillow
 markdown
