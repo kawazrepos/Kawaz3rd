@@ -2,13 +2,13 @@ var gulp = require("gulp"),
     plug = require("gulp-load-plugins")();
 
 var src = {
-  coffee: "src/statics/coffee/**/**.coffee",
-  less: "src/statics/less/**/**.less"
+  coffee: "src/kawaz/statics/coffee/**/**.coffee",
+  less: "src/kawaz/statics/less/**/**.less"
 };
 
 var dest = {
-  js: "src/statics/js",
-  css: "src/statics/css"
+  js: "src/kawaz/statics/js",
+  css: "src/kawaz/statics/css"
 };
 
 gulp.task("coffee", function () {
