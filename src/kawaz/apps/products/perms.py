@@ -18,7 +18,7 @@ class ProductPermissionLogic(PermissionLogic):
         if not user_obj in obj.administrators.all():
             # 参加してないユーザーは脱退できない
             return False
-        elif obj.administrators.all() == 1:
+        elif obj.administrators.count() == 1:
             # 最後の一人は脱退できない
             return False
         return True
