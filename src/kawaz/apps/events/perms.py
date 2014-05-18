@@ -21,6 +21,12 @@ class EventPermissionLogic(PermissionLogic):
         # duplicated attendance is not permitted
         if obj.attendees.filter(pk=user_obj.pk):
             return False
+        # 人数制限を超えていた場合は参加不可
+        if obj.is_over_restriction():
+            return False
+        # 参加締め切りを過ぎていた場合は参加不可
+        if obj.is_over_deadline():
+            return False
         return True
 
     def _has_quit_perm(self, user_obj, perm, obj):
