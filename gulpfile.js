@@ -3,7 +3,8 @@ var gulp = require("gulp"),
 
 var src = {
   coffee: "src/kawaz/statics/coffee/**/**.coffee",
-  less: "src/kawaz/statics/less/**/**.less"
+  less: "src/kawaz/statics/less/**/**.less",
+  template: "src/kawaz/templates/**/**.html"
 };
 
 var dest = {
@@ -15,14 +16,22 @@ gulp.task("coffee", function () {
   plug.watch({glob: src.coffee})
       .pipe(plug.plumber())
       .pipe(plug.coffee({bare: true}))
-      .pipe(gulp.dest(dest.js));
+      .pipe(gulp.dest(dest.js))
+      .pipe(plug.livereload());
 });
 
 gulp.task("less", function () {
   plug.watch({glob: src.less})
       .pipe(plug.plumber())
       .pipe(plug.less())
-      .pipe(gulp.dest(dest.css));
+      .pipe(gulp.dest(dest.css))
+      .pipe(plug.livereload());
 });
 
-gulp.task("default", ["coffee", "less"]);
+gulp.task("template", function () {
+  plug.watch({glob: src.template})
+      .pipe(plug.plumber())
+      .pipe(plug.livereload());
+});
+
+gulp.task("default", ["coffee", "less", "template"]);
