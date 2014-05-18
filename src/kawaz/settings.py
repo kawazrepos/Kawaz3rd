@@ -8,7 +8,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 REPOSITORY_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
@@ -120,7 +119,11 @@ LOGIN_URL = '/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/statics/'
+
+STATICFILES_DIRS = (
+    os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'statics'),
+)
 
 # tastypie
 

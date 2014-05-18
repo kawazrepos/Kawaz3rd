@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 from kawaz.core.views import IndexView
 from kawaz.core.api import v1_api
@@ -16,4 +18,4 @@ urlpatterns = patterns('',
     url(r'^stars/', include('kawaz.apps.stars.urls')),
     url(r'^$', IndexView.as_view(), name='kawaz_index'),
     url(r'^api/', include(v1_api.urls)),
-)
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
