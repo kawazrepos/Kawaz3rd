@@ -116,3 +116,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# for Node.js (Gulp)
+node_modules
+src/statics/js/*
+src/statics/css/*

@@ -1,0 +1,28 @@
+{
+  "name": "third-impact",
+  "version": "0.0.0",
+  "description": "Kawaz 3rd",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kawazrepos/third-impact"
+  },
+  "author": "Kawaz",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/kawazrepos/third-impact/issues"
+  },
+  "homepage": "https://github.com/kawazrepos/third-impact",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "gulp-coffee": "^1.4.3",
+    "gulp-less": "^1.2.3",
+    "gulp-load-plugins": "^0.5.1",
+    "gulp-plumber": "^0.6.1",
+    "gulp-watch": "^0.6.4"
+  }
+}
