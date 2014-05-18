@@ -18,8 +18,9 @@ class Platform(models.Model):
     '''
 
     def _get_upload_path(self, filename):
-        path = 'icons/platforms/%s' % self.label.lower()
-        return os.path.join(path, filename)
+        basedir = os.path.join('icons', 'platforms', self.label.lower())
+        return os.path.join(basedir, filename)
+
 
     label = models.CharField(_('Label'), max_length=32)
     icon  = models.ImageField(_('Icon'), upload_to=_get_upload_path)
@@ -56,8 +57,8 @@ class Product(models.Model):
     '''
 
     def _get_upload_path(self, filename):
-        path = 'products/{}/advertisement_images'.format(self.slug)
-        return os.path.join(path, filename)
+        basedir = os.path.join('products', self.slug, 'advertisement_images')
+        return os.path.join(basedir, filename)
 
     DISPLAY_MODES = (
         (0, _('Carousel ')),
@@ -67,7 +68,7 @@ class Product(models.Model):
     )
 
     title               = models.CharField(_('Title'), max_length=128, unique=True)
-    slug                = models.SlugField(_('Slug'), unique=True)
+    slug                = models.SlugField(_('Slug'), unique=True, help_text=_('You can not modify this field later.'))
     advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True,
                                          upload_to=_get_upload_path, patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
                                          help_text=_('This image will be insert on top page. Aspect ratio of this image should be 16:9.')
@@ -97,6 +98,7 @@ class Product(models.Model):
 
     def clean(self):
         if not self.advertisement_image and self.display_mode != 3:
+            # advertisement_imageがセットされていないときはdisplay_modeをTextにしか設定できない
             raise ValidationError(_('''`display_mode` is allowed only `Text` without setting `advertisement_image`'''))
 
     @models.permalink
@@ -132,8 +134,8 @@ class PackageRelease(Release):
     '''
 
     def _get_upload_path(self, filename):
-        path = 'products/{}/releases/'.format(self.product.slug)
-        return os.path.join(path, filename)
+        basedir = os.path.join('products', self.product.slug, 'releases')
+        return os.path.join(basedir, filename)
 
     file     = models.FileField(_('File'), upload_to=_get_upload_path)
     download = models.PositiveIntegerField(_('Downloads'), default=0, editable=False)
@@ -175,10 +177,11 @@ class ScreenShot(models.Model):
     '''
 
     def _get_upload_path(self, filename):
-        path = 'products/{}/screenshots/'.format(self.product.slug)
-        return os.path.join(path, filename)
+        basedir = os.path.join('products', self.product.slug, 'screenshots')
+        return os.path.join(basedir, filename)
 
-    image   = ThumbnailField(_('Image'), upload_to=_get_upload_path, patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
+    image   = ThumbnailField(_('Image'), upload_to=_get_upload_path,
+                             patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
     product = models.ForeignKey(Product, verbose_name=_('Product'))
 
     class Meta:
