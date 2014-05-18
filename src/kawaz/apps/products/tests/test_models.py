@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied
+from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import PlatformFactory
 from .factories import CategoryFactory
 from .factories import ProductFactory
@@ -51,6 +53,71 @@ class ProductModelTestCase(TestCase):
         """
         product = ProductFactory(slug='super-kawaz-adventure')
         self.assertEqual(product.get_absolute_url(), '/products/super-kawaz-adventure/')
+
+    def test_authorized_can_join(self):
+        """
+        Tests authorized users can add to administrators via join()
+        """
+        product = ProductFactory()
+        user = PersonaFactory()
+        self.assertEqual(product.administrators.count(), 0)
+        product.join(user)
+        self.assertEqual(product.administrators.count(), 1)
+
+    def test_wille_can_not_join(self):
+        """
+        Tests wille users can not add to administrators via join()
+        """
+        product = ProductFactory()
+        user = PersonaFactory(role='wille')
+        self.assertEqual(product.administrators.count(), 0)
+        self.assertRaises(PermissionDenied, product.join, user)
+        self.assertEqual(product.administrators.count(), 0)
+
+    def test_administrators_can_not_join(self):
+        """
+        Tests administrators can not add to administrators via join()
+        """
+        user = PersonaFactory()
+        product = ProductFactory(administrators=(user,))
+        self.assertEqual(product.administrators.count(), 1)
+        self.assertRaises(PermissionDenied, product.join, user)
+        self.assertEqual(product.administrators.count(), 1)
+
+    def test_other_cannot_quit(self):
+        """
+        Tests authorized users can not leave from administrators via quit()
+        """
+        user = PersonaFactory()
+        product = ProductFactory()
+        self.assertEqual(product.administrators.count(), 0)
+        self.assertRaises(PermissionDenied, product.quit, user)
+        self.assertEqual(product.administrators.count(), 0)
+
+    def test_last_administrator_cannot_quit(self):
+        """
+        Tests last administrator can not leave from administrators via quit()
+        """
+        user = PersonaFactory()
+        product = ProductFactory(administrators=(user,))
+        self.assertEqual(product.administrators.count(), 1)
+        self.assertRaises(PermissionDenied, product.quit, user)
+        self.assertEqual(product.administrators.count(), 1)
+
+    def test_administrators_can_quit(self):
+        """
+        Tests administrators can leave from administrators via quit()
+        """
+        user = PersonaFactory()
+        user1 = PersonaFactory()
+        product = ProductFactory(administrators=(user, user1))
+        self.assertEqual(product.administrators.count(), 2)
+        product.quit(user)
+        self.assertEqual(product.administrators.count(), 1)
+        self.assertFalse(user in product.administrators.all())
+        self.assertTrue(user1 in product.administrators.all())
+
+
 
 
 class PackageReleaseModelTestCase(TestCase):

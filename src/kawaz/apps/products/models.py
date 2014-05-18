@@ -112,10 +112,9 @@ class Product(models.Model):
 
         ユーザーに参加権限がない場合は `PermissionDenied` を投げる
         """
-        if not user.has_perm('projects.join_project', self):
+        if not user.has_perm('products.join_product', self):
             raise PermissionDenied
-        self.members.add(user)
-        user.groups.add(self.group)
+        self.administrators.add(user)
         if save:
             self.save()
 
@@ -125,10 +124,9 @@ class Product(models.Model):
 
         ユーザーに脱退権限がない場合は `PermissionDenied` を投げる
         """
-        if not user.has_perm('projects.quit_project', self):
+        if not user.has_perm('products.quit_product', self):
             raise PermissionDenied
-        self.members.remove(user)
-        user.groups.remove(self.group)
+        self.administrators.remove(user)
         if save:
             self.save()
 
