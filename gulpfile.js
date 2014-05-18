@@ -3,7 +3,8 @@ var gulp = require("gulp"),
 
 var src = {
   coffee: "src/kawaz/statics/coffee/**/**.coffee",
-  less: "src/kawaz/statics/less/**/**.less"
+  less: "src/kawaz/statics/less/**/**.less",
+  template: "src/kawaz/templates/**/**.html"
 };
 
 var dest = {
@@ -27,4 +28,10 @@ gulp.task("less", function () {
       .pipe(plug.livereload());
 });
 
-gulp.task("default", ["coffee", "less"]);
+gulp.task("template", function () {
+  plug.watch({glob: src.template})
+      .pipe(plug.plumber())
+      .pipe(plug.livereload());
+});
+
+gulp.task("default", ["coffee", "less", "template"]);
