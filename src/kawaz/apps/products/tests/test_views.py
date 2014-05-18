@@ -64,7 +64,6 @@ class ProductCreateViewTestCase(TestCase):
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/create/')
 
@@ -79,7 +78,6 @@ class ProductCreateViewTestCase(TestCase):
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/create/')
 
@@ -95,7 +93,6 @@ class ProductCreateViewTestCase(TestCase):
                 'platforms' : [1,],
                 'categories' : [1,],
                 'description' : '剣と魔法の物語です',
-                'display_mode' : 2
             })
         self.assertRedirects(r, '/products/kawaztan-fantasy/')
         self.assertEqual(Product.objects.count(), 1)
@@ -122,7 +119,6 @@ class ProductCreateViewTestCase(TestCase):
                 'platforms' : [1,],
                 'categories' : [1,],
                 'description' : '剣と魔法の物語です',
-                'display_mode' : 2,
                 'administrators' : [other.pk,] # cracker attempt to masquerade
             })
         self.assertRedirects(r, '/products/kawaztan-fantasy/')
@@ -183,7 +179,6 @@ class ProductUpdateViewTestCase(TestCase):
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
@@ -199,7 +194,6 @@ class ProductUpdateViewTestCase(TestCase):
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
@@ -215,7 +209,6 @@ class ProductUpdateViewTestCase(TestCase):
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
@@ -231,7 +224,6 @@ class ProductUpdateViewTestCase(TestCase):
                 'platforms' : [1,],
                 'categories' : [1,],
                 'description' : 'かわずたんファンタジー',
-                'display_mode' : 2
             })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
         self.assertEqual(Product.objects.count(), 1)
@@ -252,7 +244,6 @@ class ProductUpdateViewTestCase(TestCase):
                 'platforms' : [1,],
                 'categories' : [1,],
                 'description' : '剣と魔法の物語です',
-                'display_mode' : 2
             })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
         self.assertEqual(Product.objects.count(), 1)
@@ -277,7 +268,6 @@ class ProductUpdateViewTestCase(TestCase):
                 'platforms' : [1,],
                 'categories' : [1,],
                 'description' : '剣と魔法の物語です',
-                'display_mode' : 2,
                 'administrators' : (other.pk,) # crackers attempt to masquerade
             })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))

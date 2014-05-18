@@ -89,7 +89,14 @@ class Product(models.Model):
     categories          = models.ManyToManyField(Category, verbose_name=_('Categories'))
     project             = models.ForeignKey(Project, verbose_name=_('Project'), null=True, blank=True)
     administrators      = models.ManyToManyField(Persona, verbose_name=_('Administrators'))
-    display_mode        = models.PositiveSmallIntegerField(_('Display mode'), choices=DISPLAY_MODES,
+
+    #
+    # Productの表示順番を制御する値です。ユーザーからは変更できません
+    #  0. Featured : トップページのカルーセル + トップページにタイル表示されます。設定するにはadvertisement_imageの設定が必要です
+    #  1. Tiled : トップページにタイル表示されます。タイル表示はthumbnailsが使われます
+    #  2. Normal : トップページには表示されず、see more内でのみタイル表示されます
+    #
+    display_mode        = models.PositiveSmallIntegerField(_('Display mode'), choices=DISPLAY_MODES, default=2,
                                                            help_text=_("""Display mode on Kawaz top. '
                                                                        'If this have no `Advertisement Image`, You can't choose `Featured`.""")
                                                            )
@@ -98,7 +105,7 @@ class Product(models.Model):
     updated_at          = models.DateTimeField(_('Updated at'), auto_now=True)
 
     class Meta:
-        ordering = ('display_mode',)
+        ordering = ('display_mode', '-publish_at',)
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
         permissions = (
