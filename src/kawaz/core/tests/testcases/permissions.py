@@ -4,12 +4,26 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import ImproperlyConfigured
 from kawaz.core.personas.tests.factories import PersonaFactory
 
 
 class BasePermissionLogicTestCase(TestCase):
     app_label = None
     model_name = None
+
+    def __init__(self, *args, **kwargs):
+        # 指定が必要なアトリビュートのチェック
+        exception_message = ("{} does not have a `{}` attribute. "
+                             "The attribute is required to specify in class "
+                             "level.")
+        if not self.app_label:
+            raise ImproperlyConfigured(exception_message.format(
+                self.__class__.__name__, 'app_label'))
+        if not self.model_name:
+            raise ImproperlyConfigured(exception_message.format(
+                self.__class__.__name__, 'model_name'))
+        super().__init__(*args, **kwargs)
 
     def setUp(self):
         factory = lambda x: PersonaFactory(username=x, role=x)

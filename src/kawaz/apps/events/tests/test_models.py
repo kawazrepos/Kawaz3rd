@@ -1,15 +1,12 @@
 import datetime
-
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AnonymousUser
-
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.tests.datetime import patch_datetime_now
 from ..models import Event
 from .factories import EventFactory
-
 from .utils import static_now
 from .utils import event_factory_with_relative
 
@@ -28,7 +25,8 @@ class EventManagerTestCase(TestCase):
                 (5, 6, {'pub_state': 'draft'}),         # 2000/9/9-10
                 (0, 3, {'pub_state': 'protected'}),     # 2000/9/4-7
             )
-        self.event_list = [event_factory_with_relative(*args) for args in arguments_list]
+        self.event_list = [event_factory_with_relative(*args)
+                           for args in arguments_list]
 
     def test_active_with_authenticated_user(self):
         """
@@ -122,6 +120,64 @@ class EventManagerTestCase(TestCase):
 
 
 @patch_datetime_now(static_now)
+class EventManagerAttendanceRestrictionTestCase(TestCase):
+    def setUp(self):
+        # specify standard time. it should be later than the time returned by
+        # `_static_now` function.
+        standard_time = static_now()
+        attendance_deadline = standard_time - datetime.timedelta(hours=24)
+        # create event list for testing.
+        arguments_list = (
+                (-3, 0),                                # 2000/9/1-4
+                (-2, -1),                               # 2000/9/2-3
+                (4, 5),                                 # 2000/9/8-9
+                (5, 6, {'pub_state': 'draft'}),         # 2000/9/9-10
+                (0, 3, {'pub_state': 'protected'}),     # 2000/9/4-7
+                (5, 6, {'number_restriction': 1}),
+                (5, 6,),
+            )
+        self.event_list = [event_factory_with_relative(*args)
+                           for args in arguments_list]
+        static_now_past = lambda: static_now() - datetime.timedelta(hours=48)
+        with patch_datetime_now(static_now_past):
+            self.event_list[-1].attendance_deadline = attendance_deadline
+            self.event_list[-1].save()
+
+    def test_attendable_with_authenticated_user(self):
+        """
+        active(authenticated_user) should return event queryset which only
+        contain events have not finished yet and the status is public or
+        protected.
+        """
+        # create authenticated user for getting protected events as well
+        user = PersonaFactory()
+        # specify authenticated user
+        qs = Event.objects.attendable(user)
+
+        self.assertEqual(Event.objects.count(), 7)
+        self.assertEqual(qs.count(), 3)
+        # event has finished (2000/9/2-3) and draft event is not appeared.
+        self.assertEqual(qs[0], self.event_list[0], '2000/9/1-4')
+        self.assertEqual(qs[1], self.event_list[4], '2000/9/4-7 (protected)')
+        self.assertEqual(qs[2], self.event_list[2], '2000/9/8-9')
+
+    def test_attendable_with_anonymous_user(self):
+        """
+        active(anonymous_user) should return event queryset which only
+        contain events have not finished yet and the status is public.
+        """
+        user = AnonymousUser()
+
+        qs = Event.objects.attendable(user)
+
+        self.assertEqual(Event.objects.count(), 7)
+        self.assertEqual(qs.count(), 2)
+        # event has finished (2000/9/2-3) and protected or draft are not appeared.
+        self.assertEqual(qs[0], self.event_list[0], '2000/9/1-4')
+        self.assertEqual(qs[1], self.event_list[2], '2000/9/8-9')
+
+
+@patch_datetime_now(static_now)
 class EventTestCase(TestCase):
     def test_str(self):
         """str(event) should return the event title"""
@@ -129,7 +185,6 @@ class EventTestCase(TestCase):
         self.assertEqual(str(event), event.title)
 
     def test_ordering(self):
-        '''Tests events were ordered correctly'''
         """
         Events should be orered by period_start, period_end, created_at,
         updated_at, and title with respecting the appearance order.
@@ -156,6 +211,29 @@ class EventTestCase(TestCase):
         # add new user
         event.attend(user)
         self.assertEqual(event.attendees.count(), 2)
+
+    def test_attend_with_number_restriction(self):
+        """
+        """
+        user = PersonaFactory()
+        event = EventFactory(number_restriction=1)
+        # organizer is automatically attended to the event
+        self.assertEqual(event.attendees.count(), 1)
+        # add new user
+        self.assertRaises(PermissionDenied, event.attend, user)
+
+    def test_attend_with_attendance_deadline(self):
+        """
+        """
+        static_now_past = lambda: static_now() - datetime.timedelta(hours=48)
+        attendance_deadline = static_now() - datetime.timedelta(hours=24)
+        user = PersonaFactory()
+        with patch_datetime_now(static_now_past):
+            event = EventFactory(attendance_deadline=attendance_deadline)
+        # organizer is automatically attended to the event
+        self.assertEqual(event.attendees.count(), 1)
+        # add new user
+        self.assertRaises(PermissionDenied, event.attend, user)
 
     def test_attendees(self):
         """
@@ -324,3 +402,21 @@ class EventValidationTestCase(TestCase):
             )
         self.assertRaises(ValidationError, EventFactory, **kwargs)
 
+    def test_number_restriction_should_be_grater_than_zero(self):
+        """
+        人数制限は一人以上からしか認めない
+        """
+        kwargs = dict(
+                number_restriction=0,
+            )
+        self.assertRaises(ValidationError, EventFactory, **kwargs)
+
+    def test_attendance_deadline_must_be_future(self):
+        """
+        参加締め切りは未来でなければいけない
+        """
+        standard_time = static_now()
+        kwargs = dict(
+                attendance_deadline=standard_time-datetime.timedelta(hours=1),
+            )
+        self.assertRaises(ValidationError, EventFactory, **kwargs)
