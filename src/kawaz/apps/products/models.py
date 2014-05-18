@@ -227,16 +227,10 @@ class ScreenShot(models.Model):
 
 from kawaz.core.permissions.logics import ChildrenPermissionLogic
 from permission import add_permission_logic
-from permission.logics import CollaboratorsPermissionLogic
 from .perms import ProductPermissionLogic
 add_permission_logic(Product, ChildrenPermissionLogic(
     add_permission=True,
     change_permission=False,
     delete_permission=False
-))
-add_permission_logic(Product, CollaboratorsPermissionLogic(
-    field_name='administrators',
-    change_permission=True,
-    delete_permission=True
 ))
 add_permission_logic(Product, ProductPermissionLogic())

@@ -39,6 +39,11 @@ class ProductPermissionLogic(PermissionLogic):
             # Willeはパーミッションを持たない
             return False
         if obj: # オブジェクトパーミッション
+            if perm in (
+                'products.change_product',
+                'products.delete_product'
+            ):
+                return user_obj in obj.administrators.all()
             if perm == 'products.join_product':
                 return self._has_join_perm(user_obj, perm, obj)
             elif perm == 'products.quit_product':
