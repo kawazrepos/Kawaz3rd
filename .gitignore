@@ -119,5 +119,5 @@ Temporary Items
 
 # for Node.js (Gulp)
 node_modules
-src/statics/js/*
-src/statics/css/*
+src/kawaz/statics/js/*
+src/kawaz/statics/css/*
