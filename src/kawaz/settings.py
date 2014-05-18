@@ -91,12 +91,16 @@ THUMBNAIL_SIZE_PATTERNS = {
     'small': (24, 24,),
 }
 
+PRODUCT_THUMBNAIL_SIZE_PATTERNS = {
+    None : (32, 32),
+}
+
 ADVERTISEMENT_IMAGE_SIZE_PATTERNS = {
-    None : (None, None,),
+    None : (32, 32),
 }
 
 SCREENSHOT_IMAGE_SIZE_PATTERNS = {
-    None : (None, None,),
+    None : (32, 32),
 }
 
 # Permission presence check in DEBUG mode

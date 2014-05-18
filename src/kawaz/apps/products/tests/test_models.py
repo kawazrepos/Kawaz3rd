@@ -40,12 +40,11 @@ class ProductModelTestCase(TestCase):
 
     def test_display_mode_validation(self):
         '''
-        Tests the validation that without `advertisement_image`, `display_mode` must be `Text`.
+        Tests the validation that without `advertisement_image`, `display_mode` must be `Featured` or `Tiled`.
         '''
         self.assertRaises(ValidationError, ProductFactory, advertisement_image=None, display_mode=0)
-        self.assertRaises(ValidationError, ProductFactory, advertisement_image=None, display_mode=1)
-        self.assertRaises(ValidationError, ProductFactory, advertisement_image=None, display_mode=2)
-        self.assertIsNotNone(ProductFactory(advertisement_image=None, display_mode=3))
+        self.assertIsNotNone(ProductFactory(advertisement_image=None, display_mode=1))
+        self.assertIsNotNone(ProductFactory(advertisement_image=None, display_mode=2))
 
     def test_get_absolute_url(self):
         """

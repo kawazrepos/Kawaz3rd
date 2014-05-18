@@ -1,3 +1,5 @@
+import os
+import datetime
 from django.test import TestCase
 from django.conf import settings
 from ..models import Product
@@ -57,10 +59,12 @@ class ProductCreateViewTestCase(TestCase):
         r = self.client.post('/products/create/', {
             'title' : 'かわずたんファンタジー',
             'slug' : 'kawaztan-fantasy',
+            'thumbnail' : 'thumbnail.png',
+            'publish_at' : datetime.date.today(),
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 3
+            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/create/')
 
@@ -70,24 +74,29 @@ class ProductCreateViewTestCase(TestCase):
         r = self.client.post('/products/create/', {
             'title' : 'かわずたんファンタジー',
             'slug' : 'kawaztan-fantasy',
+            'thumbnail' : 'thumbnail.png',
+            'publish_at' : datetime.date.today(),
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 3
+            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/create/')
 
     def test_authorized_user_can_create_via_create_view(self):
         '''Tests authorized user can create product via ProductCreateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/products/create/', {
-            'title' : 'かわずたんファンタジー',
-            'slug' : 'kawaztan-fantasy',
-            'platforms' : [1,],
-            'categories' : [1,],
-            'description' : '剣と魔法の物語です',
-            'display_mode' : 3
-        })
+        with open(os.path.join(settings.REPOSITORY_ROOT, 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png'), 'rb') as fp:
+            r = self.client.post('/products/create/', {
+                'title' : 'かわずたんファンタジー',
+                'slug' : 'kawaztan-fantasy',
+                'thumbnail' : fp,
+                'publish_at' : datetime.date.today(),
+                'platforms' : [1,],
+                'categories' : [1,],
+                'description' : '剣と魔法の物語です',
+                'display_mode' : 2
+            })
         self.assertRedirects(r, '/products/kawaztan-fantasy/')
         self.assertEqual(Product.objects.count(), 1)
         e = Product.objects.get(pk=1)
@@ -104,15 +113,18 @@ class ProductCreateViewTestCase(TestCase):
         '''
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/products/create/', {
-            'title' : 'かわずたんファンタジー',
-            'slug' : 'kawaztan-fantasy',
-            'platforms' : [1,],
-            'categories' : [1,],
-            'description' : '剣と魔法の物語です',
-            'display_mode' : 3,
-            'administrators' : [other.pk,] # cracker attempt to masquerade
-        })
+        with open(os.path.join(settings.REPOSITORY_ROOT, 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png'), 'rb') as fp:
+            r = self.client.post('/products/create/', {
+                'title' : 'かわずたんファンタジー',
+                'slug' : 'kawaztan-fantasy',
+                'publish_at' : datetime.date.today(),
+                'thumbnail' : fp,
+                'platforms' : [1,],
+                'categories' : [1,],
+                'description' : '剣と魔法の物語です',
+                'display_mode' : 2,
+                'administrators' : [other.pk,] # cracker attempt to masquerade
+            })
         self.assertRedirects(r, '/products/kawaztan-fantasy/')
         self.assertEqual(Product.objects.count(), 1)
         e = Product.objects.get(pk=1)
@@ -167,10 +179,11 @@ class ProductUpdateViewTestCase(TestCase):
         '''
         r = self.client.post('/products/1/update/', {
             'title' : 'クラッカーだよ！！！',
+            'publish_at' : datetime.date.today(),
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 3
+            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
@@ -186,7 +199,7 @@ class ProductUpdateViewTestCase(TestCase):
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 3
+            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
@@ -202,7 +215,7 @@ class ProductUpdateViewTestCase(TestCase):
             'platforms' : [1,],
             'categories' : [1,],
             'description' : '剣と魔法の物語です',
-            'display_mode' : 3
+            'display_mode' : 2
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/products/1/update/')
         self.assertEqual(self.product.title, 'かわずたんのゲームだよ☆')
@@ -210,13 +223,16 @@ class ProductUpdateViewTestCase(TestCase):
     def test_administrators_can_update_via_update_view(self):
         '''Tests administrators user can update product via ProductUpdateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/products/1/update/', {
-            'title' : 'かわずたんファンタジー',
-            'platforms' : [1,],
-            'categories' : [1,],
-            'description' : 'かわずたんファンタジー',
-            'display_mode' : 3
-        })
+        with open(os.path.join(settings.REPOSITORY_ROOT, 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png'), 'rb') as fp:
+            r = self.client.post('/products/1/update/', {
+                'title' : 'かわずたんファンタジー',
+                'thumbnail' : fp,
+                'publish_at' : datetime.date.today(),
+                'platforms' : [1,],
+                'categories' : [1,],
+                'description' : 'かわずたんファンタジー',
+                'display_mode' : 2
+            })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
         self.assertEqual(Product.objects.count(), 1)
         e = Product.objects.get(pk=1)
@@ -227,14 +243,17 @@ class ProductUpdateViewTestCase(TestCase):
         '''Tests anyone cannot update prject's slug'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
         old_slug = self.product.slug
-        r = self.client.post('/products/1/update/', {
-            'title' : 'かわずたんファンタジー',
-            'slug' : 'new-slug',
-            'platforms' : [1,],
-            'categories' : [1,],
-            'description' : '剣と魔法の物語です',
-            'display_mode' : 3
-        })
+        with open(os.path.join(settings.REPOSITORY_ROOT, 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png'), 'rb') as fp:
+            r = self.client.post('/products/1/update/', {
+                'title' : 'かわずたんファンタジー',
+                'slug' : 'new-slug',
+                'thumbnail' : fp,
+                'publish_at' : datetime.date.today(),
+                'platforms' : [1,],
+                'categories' : [1,],
+                'description' : '剣と魔法の物語です',
+                'display_mode' : 2
+            })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
         self.assertEqual(Product.objects.count(), 1)
         e = Product.objects.get(pk=1)
@@ -250,14 +269,17 @@ class ProductUpdateViewTestCase(TestCase):
         '''
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/products/1/update/', {
-            'title' : 'クラッカーだよ！！！',
-            'platforms' : [1,],
-            'categories' : [1,],
-            'description' : '剣と魔法の物語です',
-            'display_mode' : 3,
-            'administrators' : (other.pk,) # crackers attempt to masquerade
-        })
+        with open(os.path.join(settings.REPOSITORY_ROOT, 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png'), 'rb') as fp:
+            r = self.client.post('/products/1/update/', {
+                'title' : 'クラッカーだよ！！！',
+                'thumbnail' : fp,
+                'publish_at' : datetime.date.today(),
+                'platforms' : [1,],
+                'categories' : [1,],
+                'description' : '剣と魔法の物語です',
+                'display_mode' : 2,
+                'administrators' : (other.pk,) # crackers attempt to masquerade
+            })
         self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
         self.assertEqual(Product.objects.count(), 1)
         e = Product.objects.get(pk=1)

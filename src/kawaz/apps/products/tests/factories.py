@@ -1,3 +1,4 @@
+import datetime
 import factory
 from ..models import Platform
 from ..models import Category
@@ -29,10 +30,12 @@ class ProductFactory(factory.DjangoModelFactory):
     title = 'かわずたんアドベンチャー'
     slug = 'kawaz-tan-adventure'
     advertisement_image = 'products/kawaz-tan-adventure/advertisement_images/kawaztan.png'
+    thumbnail = 'products/kawaz-tan-adventure/thumbnails/kawaztan.png'
     trailer = 'http://www.youtube.com/watch?v=0wIGRDKELFg'
     description = 'かわずたんが井戸から飛び出す一大スペクタクルです'
     project = factory.SubFactory(ProjectFactory)
     display_mode = 0
+    publish_at = datetime.date(2009, 10, 15)
 
     @factory.post_generation
     def administrators(self, create, extracted, **kwargs):

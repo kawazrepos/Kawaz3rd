@@ -57,22 +57,29 @@ class Product(models.Model):
     Model for products
     '''
 
-    def _get_upload_path(self, filename):
+    def _get_advertisement_image_upload_path(self, filename):
         basedir = os.path.join('products', self.slug, 'advertisement_images')
         return os.path.join(basedir, filename)
 
+    def _get_thumbnail_upload_path(self, filename):
+        basedir = os.path.join('products', self.slug, 'thumbnails')
+        return os.path.join(basedir, filename)
+
     DISPLAY_MODES = (
-        (0, _('Carousel ')),
-        (1, _('Pickup')),
-        (2, _('Tiled')),
-        (3, _('Text')),
+        (0, _('Featured')),
+        (1, _('Tiled')),
+        (2, _('Normal')),
     )
 
     title               = models.CharField(_('Title'), max_length=128, unique=True)
     slug                = models.SlugField(_('Slug'), unique=True, help_text=_('You can not modify this field later.'))
     advertisement_image = ThumbnailField(_('Advertisement Image'), null=True, blank=True,
-                                         upload_to=_get_upload_path, patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
+                                         upload_to=_get_advertisement_image_upload_path, patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
                                          help_text=_('This image will be insert on top page. Aspect ratio of this image should be 16:9.')
+                                        )
+    thumbnail           = ThumbnailField(_('Thumbnail'),
+                                         upload_to=_get_thumbnail_upload_path, patterns=settings.PRODUCT_THUMBNAIL_SIZE_PATTERNS,
+                                         help_text=_('This image will be used as product thumbnail. Aspect ratio of this image should be 16:9.')
                                         )
     trailer             = models.URLField(_('Trailer'), null=True, blank=True,
                                           help_text='Enter URL of your trailer on YouTube, then you can embed the trailer.'
@@ -83,9 +90,10 @@ class Product(models.Model):
     project             = models.ForeignKey(Project, verbose_name=_('Project'), null=True, blank=True)
     administrators      = models.ManyToManyField(Persona, verbose_name=_('Administrators'))
     display_mode        = models.PositiveSmallIntegerField(_('Display mode'), choices=DISPLAY_MODES,
-                                                           help_text=_('Display mode on Kawaz top. '
-                                                                       'If this have no `Advertisement Image`, You can choose `Text` only.')
+                                                           help_text=_("""Display mode on Kawaz top. '
+                                                                       'If this have no `Advertisement Image`, You can't choose `Featured`.""")
                                                            )
+    publish_at          = models.DateField(_('Publish at'))
     created_at          = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at          = models.DateTimeField(_('Updated at'), auto_now=True)
 
@@ -102,9 +110,9 @@ class Product(models.Model):
         return self.title
 
     def clean(self):
-        if not self.advertisement_image and self.display_mode != 3:
-            # advertisement_imageがセットされていないときはdisplay_modeをTextにしか設定できない
-            raise ValidationError(_('''`display_mode` is allowed only `Text` without setting `advertisement_image`'''))
+        if not self.advertisement_image and self.display_mode == 0:
+            # advertisement_imageがセットされていないときはdisplay_modeをFeaturedに設定できない
+            raise ValidationError(_('''`display_mode` is not allowed for 'Featured' without setting `advertisement_image`'''))
 
     def join(self, user, save=True):
         """
