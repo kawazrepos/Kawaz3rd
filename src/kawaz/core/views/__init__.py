@@ -22,7 +22,7 @@ class AnonymousIndexView(TemplateView):
         context['featured_products'] = Product.objects.filter(featured).order_by('-publish_at')
         context['products'] = Product.objects.filter(featured | tiled).order_by('-publish_at')
         context['entries'] = Entry.objects.published(user).order_by('-publish_at')[:5]
-        context['events'] = Event.objects.active(user).order_by('-start_period')[:5]
+        context['events'] = Event.objects.active(user)[:5]
         context['announcements'] = Announcement.objects.published(user).order_by('-created_at')[:5]
         return context
 
