@@ -5,8 +5,6 @@
     password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
     email: webmaster@kawaz.org
     is_active: true
-    is_superuser: true
-    is_staff: true
     nickname: 井ノ中かわず
     quotes: あっかんべー♡
     gender: woman
