@@ -3,7 +3,8 @@ db.sqlite3
 !storage/.gitkeep
 !storage/fixtures/*
 storage/products/*
-# storage/*
+storage/profiles/*
+storage/projects/*
 img
 
 # for Python
