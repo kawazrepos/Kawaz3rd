@@ -1,10 +1,12 @@
 var gulp = require("gulp"),
+    concat = require("gulp-concat"),
     plug = require("gulp-load-plugins")();
 
 var src = {
   coffee: "src/kawaz/statics/coffee/**/**.coffee",
   less: "src/kawaz/statics/less/**/**.less",
-  template: "src/kawaz/templates/**/**.html"
+  template: "src/kawaz/templates/**/**.html",
+  bootstrapjs: "vendor/bootstrap/js/*.js"
 };
 
 var dest = {
@@ -34,4 +36,11 @@ gulp.task("template", function () {
       .pipe(plug.livereload());
 });
 
-gulp.task("default", ["coffee", "less", "template"]);
+gulp.task("bootstrapjsconcat", function () {
+  gulp.src(src.bootstrapjs)
+      .pipe(plug.plumber())
+      .pipe(concat("bootstrap.js"))
+      .pipe(gulp.dest(dest.js));
+});
+
+gulp.task("default", ["coffee", "less", "template", "bootstrapjsconcat"]);

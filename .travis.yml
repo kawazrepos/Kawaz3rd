@@ -2,6 +2,9 @@ language: python
 python:
   - "3.3"
 
+before_install:
+  - git submodule update --init --recursive
+
 install:
   - pip install tox
   - pip install coverage coveralls
