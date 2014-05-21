@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'tastypie',
     'permission',
     'thumbnailfield',
+    'registration',
+    'registration.supplements.default',
     'kawaz.core.db',
     'kawaz.core.personas',
     'kawaz.core.permissions',
@@ -137,6 +139,10 @@ STATIC_URL = '/statics/'
 STATICFILES_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'statics'),
 )
+
+# inspectional-registration
+REGISTRATION_SUPPLEMENT_CLASS = None
+ACCOUNT_ACTIVATION_DAYS = 7
 
 # tastypie
 
