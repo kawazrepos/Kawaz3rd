@@ -1,7 +1,10 @@
 # for Kawaz
 db.sqlite3
-storage/*
 !storage/.gitkeep
+!storage/fixtures/*
+storage/products/*
+storage/profiles/*
+storage/projects/*
 img
 
 # for Python
