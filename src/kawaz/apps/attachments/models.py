@@ -13,6 +13,7 @@ class Material(models.Model):
 
     content_file = models.FileField(_('Content file'), upload_to=_get_upload_path)
     author = models.ForeignKey(Persona, verbose_name=_('Author'), editable=False)
+    slug = models.SlugField(_('Slug'), unique=True, editable=False)
     ip_address  = models.IPAddressField("IP Address", editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
 
@@ -58,3 +59,17 @@ class Material(models.Model):
         """
         extensions = ['mov', 'mp4']
         return self.ext in extensions
+
+from permission import add_permission_logic
+from permission.logics import AuthorPermissionLogic
+from kawaz.core.permissions.logics import ChildrenPermissionLogic
+add_permission_logic(Material, AuthorPermissionLogic(
+    field_name='author',
+    change_permission=True,
+    delete_permission=True
+))
+add_permission_logic(Material, ChildrenPermissionLogic(
+    add_permission=True,
+    change_permission=False,
+    delete_permission=False
+))
