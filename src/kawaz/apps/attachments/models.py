@@ -18,7 +18,7 @@ class Material(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
 
     class Meta:
-        ordering = _('created_at',)
+        ordering = ('created_at',)
         verbose_name = _('Material')
         verbose_name_plural = _('Materials')
 
