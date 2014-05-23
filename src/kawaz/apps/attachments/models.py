@@ -8,7 +8,7 @@ class Material(models.Model):
     添付素材用のモデルです
     """
     def _get_upload_path(self, filename):
-        basedir = os.path.join('materials', self.author.username)
+        basedir = os.path.join('attachments', self.author.username)
         return os.path.join(basedir, filename)
 
     content_file = models.FileField(_('Content file'), upload_to=_get_upload_path)
@@ -21,6 +21,19 @@ class Material(models.Model):
         ordering = ('created_at',)
         verbose_name = _('Material')
         verbose_name_plural = _('Materials')
+
+    def __str__(self):
+        return self.filename
+
+    def save(self, *args, **kwargs):
+        # 相対パスのhashをslugとして自動設定します
+        import hashlib
+        self.slug = hashlib.sha1(self.content_file.name).hexdigest()
+        return super().save(*args, **kwargs)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('attachments_material_detail', (self.slug,), {})
 
     @property
     def ext(self):
@@ -59,6 +72,13 @@ class Material(models.Model):
         """
         extensions = ['mov', 'mp4']
         return self.ext in extensions
+
+    @property
+    def filename(self):
+        """
+        ファイル名を返します
+        """
+        return os.path.split(self.content_file.name)[1]
 
 from permission import add_permission_logic
 from permission.logics import AuthorPermissionLogic

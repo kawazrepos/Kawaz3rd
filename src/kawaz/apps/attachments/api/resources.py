@@ -1,4 +1,3 @@
-import hashlib
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from kawaz.core.api.resources import KawazModelResource
@@ -25,10 +24,4 @@ class MaterialResource(KawazModelResource):
         except:
             # 取得に失敗したら0.0.0.0を格納する
             bundle.data['ip_address'] = '0.0.0.0'
-        return bundle
-
-    def hydrate_slug(self, bundle):
-        # pathのhashをslugとして自動設定します
-        slug = hashlib.sha1(self.content_file.path).hexdigest()
-        bundle.data['slug'] = slug
         return bundle
