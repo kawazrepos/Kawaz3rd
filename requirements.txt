@@ -5,5 +5,5 @@ django-tastypie
 django-permission>=0.7.1
 django-markupfield
 django-thumbnailfield>=0.2.0
-django-inspectional-registration
+django-inspectional-registration>=0.3.4
 honcho
