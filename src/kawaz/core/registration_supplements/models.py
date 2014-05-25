@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from registration.supplements import RegistrationSupplementBase
+from registration.models import RegistrationProfile
 
 class KawazRegistrationSupplement(RegistrationSupplementBase):
 
@@ -14,3 +15,18 @@ class KawazRegistrationSupplement(RegistrationSupplementBase):
         # a summary of this supplement
         user = self.registration_profile.user
         return user.username
+from permission import add_permission_logic
+from kawaz.core.permissions.logics import NervPermissionLogic
+add_permission_logic(RegistrationProfile, NervPermissionLogic(
+    add_permission=True,
+    change_permission=True,
+    delete_permission=True
+))
+
+from django.dispatch import receiver
+from registration.signals import user_activated
+
+@receiver(user_activated)
+def add_role_to_new_user(user, password, is_generated, request):
+    user.role = 'children' # ユーザーをChildrenにする
+    user.save()
