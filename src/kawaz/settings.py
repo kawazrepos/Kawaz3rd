@@ -39,10 +39,10 @@ INSTALLED_APPS = (
     'permission',
     'thumbnailfield',
     'registration',
-    'registration.supplements.default',
     'kawaz.core.db',
     'kawaz.core.personas',
     'kawaz.core.permissions',
+    'kawaz.core.registration_supplements',
     'kawaz.apps.announcements',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
@@ -141,7 +141,7 @@ STATICFILES_DIRS = (
 )
 
 # inspectional-registration
-REGISTRATION_SUPPLEMENT_CLASS = None
+REGISTRATION_SUPPLEMENT_CLASS = 'kawaz.core.registration_supplements.models.KawazRegistrationSupplement'
 ACCOUNT_ACTIVATION_DAYS = 7
 
 # tastypie
