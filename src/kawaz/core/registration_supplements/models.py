@@ -15,6 +15,7 @@ class KawazRegistrationSupplement(RegistrationSupplementBase):
         # a summary of this supplement
         user = self.registration_profile.user
         return user.username
+
 from permission import add_permission_logic
 from kawaz.core.permissions.logics import NervPermissionLogic
 add_permission_logic(RegistrationProfile, NervPermissionLogic(
