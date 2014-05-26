@@ -12,7 +12,6 @@ class KawazRegistrationSupplement(RegistrationSupplementBase):
     remarks = models.TextField(_("Remarks"), blank=True)
 
     def __str__(self):
-        # a summary of this supplement
         user = self.registration_profile.user
         return user.username
 
@@ -28,6 +27,6 @@ from django.dispatch import receiver
 from registration.signals import user_activated
 
 @receiver(user_activated)
-def add_role_to_new_user(user, password, is_generated, request):
+def add_role_to_new_user(user, password, is_generated, request, **kwargs):
     user.role = 'children' # ユーザーをChildrenにする
     user.save()
