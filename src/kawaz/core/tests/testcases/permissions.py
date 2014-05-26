@@ -11,6 +11,11 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 class BasePermissionLogicTestCase(TestCase):
     app_label = None
     model_name = None
+    # use_model_name指定が`True`のとき、自動的にperm名にmodel名を付けます
+    # {app_label}.{perm}_{model_name}
+    # `False`のとき、perm名をそのまま扱います
+    # {app_label}.{perm}
+    use_model_name = True
 
     def __init__(self, *args, **kwargs):
         # 指定が必要なアトリビュートのチェック
@@ -50,7 +55,10 @@ class BasePermissionLogicTestCase(TestCase):
         if isinstance(user, str):
             user = self.users[user]
         # create full permission name
-        perm = "{}.{}".format(self.app_label, perm)
+        if self.use_model_name:
+            perm = "{}.{}_{}".format(self.app_label, perm, self.model_name)
+        else:
+            perm = "{}.{}".format(self.app_label, perm)
         # assert
         if not neg:
             self.assertTrue(user.has_perm(perm, obj=obj),

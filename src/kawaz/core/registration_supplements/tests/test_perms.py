@@ -3,6 +3,7 @@ from kawaz.core.tests.testcases.permissions import BasePermissionLogicTestCase
 class RegistrationPermissionTestCase(BasePermissionLogicTestCase):
     app_label = 'registration'
     model_name = 'registration_profile'
+    use_model_name = False
 
     def test_accept_registration_model_permission(self):
         """
