@@ -143,7 +143,7 @@ STATICFILES_DIRS = (
 )
 
 # inspectional-registration
-REGISTRATION_SUPPLEMENT_CLASS = 'kawaz.core.registration_supplements.models.KawazRegistrationSupplement'
+REGISTRATION_SUPPLEMENT_CLASS = 'kawaz.core.registration_supplements.models.RegistrationSupplement'
 ACCOUNT_ACTIVATION_DAYS = 7
 
 # tastypie

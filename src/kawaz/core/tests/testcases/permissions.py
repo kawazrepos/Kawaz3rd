@@ -41,7 +41,7 @@ class BasePermissionLogicTestCase(TestCase):
         Test PermissionLogic
 
         Args:
-            user (Persona instance): A persona instance of interest
+            user (Persona instance or string): A persona instance of interest or string which indicates target role name
             perm (string): A permission string of interest
             obj (instance or None): An object of interest or None
             neg (bool): False for `assertTrue`, True for `assertFalse`
@@ -50,7 +50,7 @@ class BasePermissionLogicTestCase(TestCase):
         if isinstance(user, str):
             user = self.users[user]
         # create full permission name
-        perm = "{}.{}_{}".format(self.app_label, perm, self.model_name)
+        perm = "{}.{}".format(self.app_label, perm)
         # assert
         if not neg:
             self.assertTrue(user.has_perm(perm, obj=obj),
