@@ -9,7 +9,7 @@ class KawazRegistrationSupplement(RegistrationSupplementBase):
                              help_text=_("Fill your address. You must be related with Sapporo or neighbor cities."))
     skill = models.TextField(_("Skill"), max_length=2048,
                              help_text=_("Fill your skills or what you want to do which related to game development."))
-    remarks = models.TextField(_("Remarks"), blank=True)
+    remarks = models.TextField(_("Remarks"), blank=True, null=True)
 
     def __str__(self):
         user = self.registration_profile.user
