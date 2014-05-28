@@ -40,9 +40,10 @@ INSTALLED_APPS = (
     'thumbnailfield',
     'registration',
     'kawaz.core.db',
+    'kawaz.core.utils',
     'kawaz.core.personas',
-    'kawaz.core.permissions',
-    'kawaz.core.registration_supplements',
+    'kawaz.core.publishments',
+    'kawaz.core.registrations',
     'kawaz.apps.announcements',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
@@ -143,7 +144,8 @@ STATICFILES_DIRS = (
 )
 
 # inspectional-registration
-REGISTRATION_SUPPLEMENT_CLASS = 'kawaz.core.registration_supplements.models.RegistrationSupplement'
+REGISTRATION_SUPPLEMENT_CLASS = (
+    'kawaz.core.registrations.models.RegistrationSupplement')
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
 
