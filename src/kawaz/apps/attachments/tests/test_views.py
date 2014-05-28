@@ -10,6 +10,8 @@ class MaterialDetailViewTestCase(TestCase):
     def setUp(self):
         # ユーザーとユーザー用のディレクトリを作成
         base_dir = os.path.join(settings.MEDIA_ROOT, 'attachments')
+        if not os.path.exists(base_dir):
+            os.mkdir(base_dir)
         tmp_dir = tempfile.mkdtemp(dir=base_dir)
         self.author_name = os.path.split(tmp_dir)[-1]
         self.author_dir = tmp_dir
