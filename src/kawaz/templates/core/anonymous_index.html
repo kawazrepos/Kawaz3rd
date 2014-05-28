@@ -1,27 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron">
-  <h1>Welcome to Kawaz!</h1>
-  <p>Kawaz is an ultimate community for all game creators</p>
-  <p><a class="btn btn-primary btn-lg" role="button">See all games!</a></p>
-</div>
-<div id="products" class="row list-group">
-{% for product in products %}
-    <div class="item col-xs-4 col-lg-4">
-        <div class="thumbnail">
-            <img class="group list-group-image" src="storage/{{ product.thumbnail }}" style="max-width: 100%;" />
-            <div class="caption">
-                <h4 class="group inner list-group-item-heading">{{ product.title }}</h4>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">{{ product.description }}</div>
-                    <div class="col-xs-12 col-md-6">
-                        <a class="btn btn-success" href="{{ product.get_absolute_url }}">View More Details</a>
-                    </div>
+<div id="featured_products" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+    {% for product in featured_products %}
+        {% if forloop.first %}
+        <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+        {% else %}
+        <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}"></li>
+        {% endif %}
+    {% endfor %}
+    </ol>
+
+    <div class="carousel-inner">
+    {% for product in featured_products %}
+        {% if forloop.first %}
+        <div class="item active">
+        {% else %}
+        <div class="item">
+        {% endif %}
+            <img src="storage/{{ product.advertisement_image }}" alt="{{ product.title }}">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h3>{{ product.title }}</h3>
+                    <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
                 </div>
             </div>
         </div>
+    {% endfor %}
     </div>
-{% endfor %}
+    <a class="left carousel-control" href="#featured_products" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#featured_products" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
 </div>
-
+<div class="container">
+    <h2>最新のゲーム</h2>
+    <div id="recent_products" class="row list-group">
+    {% for product in recent_products %}
+        <div class="item col-xs-4 col-lg-4">
+            <div class="thumbnail">
+                <img class="group list-group-image" src="storage/{{ product.thumbnail }}" style="max-width: 100%;" />
+                <div class="caption">
+                        <h4 class="group inner list-group-item-heading">{{ product.title }}</h4>
+                        <a class="btn btn-default" href="{{ product.get_absolute_url }}">詳細ページ &raquo;</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    <h2>注目のゲーム</h2>
+    <div id="products" class="row list-group">
+    {% for product in products %}
+        <div class="item col-xs-4 col-lg-4">
+            <div class="thumbnail">
+                <img class="group list-group-image" src="storage/{{ product.thumbnail }}" style="max-width: 100%;" />
+                <div class="caption">
+                        <h4 class="group inner list-group-item-heading">{{ product.title }}</h4>
+                        <a class="btn btn-default" href="{{ product.get_absolute_url }}">詳細ページ &raquo;</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
 {% endblock %}

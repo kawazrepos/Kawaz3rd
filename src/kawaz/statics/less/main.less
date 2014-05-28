@@ -1,5 +1,40 @@
 @import "../../../../vendor/bootstrap/less/bootstrap.less";
 
 @brand-primary: #00c290; //Kawaz Green Color
+@footer-color: #344765;
 
-@font-family-sans-serif: 'Lato', sans-serif;
+/*@font-family-sans-serif: 'Lato', sans-serif;*/
+@font-family-sans-selif: 'Lucida Grande', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Meiryo, 'メイリオ', 'ＭＳ Ｐゴシック', 'Lucida Sans Unicode', Arial, Verdana, sans-serif;
+
+@footer-height: 60px;
+body {
+    padding-top: 50px;
+}
+html {
+    background-color: @footer-color;
+}
+#footer {
+    width: 100%;
+    height: @footer-height;
+    background-color: @footer-color;
+    color: white;
+    .container {
+        padding-right: 15px;
+        padding-left: 15px;
+        .text-muted {
+            margin: 20px 0;
+        }
+    }
+}
+.btn-default, .btn-primary {
+    border-bottom-width: 3px;
+}
+img.logo-header {
+    margin-top: -5px;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: bold;
+}
+#featured_products>.carousel-inner>.item>img{
+    min-width: 100%;
+}

@@ -4,7 +4,7 @@
     title: 音楽ファンタジー2
     slug: music-fantasy2
     thumbnail: "fixtures/products/thumbnails/featured.png"
-    advertisement_image: "fixtures/products/advertisement_images/featured.png"
+    advertisement_image: "fixtures/products/advertisement_images/music-fantasy2.jpg"
     description: "神ゲーです"
     trailer: http://www.youtube.com/watch?v=YokP83OKMOc
     platforms: [1,]
@@ -20,7 +20,7 @@
     title: WaveWeaver
     slug: waveweaver
     thumbnail: "fixtures/products/thumbnails/featured.png"
-    advertisement_image: "fixtures/products/advertisement_images/featured.png"
+    advertisement_image: "fixtures/products/advertisement_images/waveweaver.jpg"
     description: "Wave Weaverはやってくる波をひたすら避け続けるアクションゲームです。
 操作は簡単、波と同じ色を選び続けるだけ。"
     trailer: http://www.youtube.com/watch?v=6eqc5wqbgdU
@@ -37,7 +37,7 @@
     title: VOXQUARTER
     slug: vq3
     thumbnail: "fixtures/products/thumbnails/featured.png"
-    advertisement_image: "fixtures/products/advertisement_images/featured.png"
+    advertisement_image: "fixtures/products/advertisement_images/voxquarter.jpg"
     description: "VOXQUEST 3"
     trailer: http://www.youtube.com/watch?v=kV3tspXFhbQ
     platforms: [1, 5,]
