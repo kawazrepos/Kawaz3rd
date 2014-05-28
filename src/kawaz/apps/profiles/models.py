@@ -2,7 +2,6 @@ import os
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
-
 from markupfield.fields import MarkupField
 
 
@@ -139,7 +138,7 @@ class Account(models.Model):
 
 from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
-from kawaz.core.permissions.logics import PubStatePermissionLogic
+from kawaz.core.publishment.perms import PublishmentPermissionLogic
 
 from kawaz.core.permissions.logics import NervPermissionLogic
 
@@ -155,7 +154,7 @@ add_permission_logic(Account, AuthorPermissionLogic(
     change_permission=False,
     delete_permission=True
 ))
-add_permission_logic(Account, PubStatePermissionLogic(
+add_permission_logic(Account, PublishmentPermissionLogic(
     author_field_name='user'
 ))
 add_permission_logic(Profile, AuthorPermissionLogic(
@@ -163,6 +162,6 @@ add_permission_logic(Profile, AuthorPermissionLogic(
     change_permission=True,
     delete_permission=False
 ))
-add_permission_logic(Profile, PubStatePermissionLogic(
+add_permission_logic(Profile, PublishmentPermissionLogic(
     author_field_name='user'
 ))

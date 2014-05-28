@@ -6,7 +6,6 @@ from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from markupfield.fields import MarkupField
 from thumbnailfield.fields import ThumbnailField
-
 from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.personas.models import Persona
 from kawaz.apps.projects.models import Project
@@ -15,7 +14,7 @@ from kawaz.apps.projects.models import Project
 class Platform(models.Model):
     """
     プロダクトがサポートしているプラットフォームを表すモデル
-    
+
     e.g. Windows, Mac, Browser, iOS, PS Vita など
     """
     def _get_upload_path(self, filename):
@@ -38,7 +37,7 @@ class Platform(models.Model):
 class Category(models.Model):
     """
     プロダクトが所属するカテゴリーを表すモデル
-    
+
     e.g. ACT, STG, ADV など
     """
     label = models.CharField(_('Label'), max_length=32, unique=True)
@@ -86,23 +85,27 @@ class Product(models.Model):
                                         "Additionally this value cannot be "
                                         "modified for preventing the URL "
                                         "changes."))
-    thumbnail = ThumbnailField(_('Thumbnail'),
-            upload_to=_get_thumbnail_upload_path,
-            patterns=settings.PRODUCT_THUMBNAIL_SIZE_PATTERNS,
-            help_text=_("This would be used as a product thumbnail image. "
-                        "The aspect ratio of the image should be 16:9."))
-    description         = MarkupField(_('Description'), max_length=4096, markup_type='markdown')
+    thumbnail = ThumbnailField(
+        _('Thumbnail'),
+        upload_to=_get_thumbnail_upload_path,
+        patterns=settings.PRODUCT_THUMBNAIL_SIZE_PATTERNS,
+        help_text=_("This would be used as a product thumbnail image. "
+                    "The aspect ratio of the image should be 16:9."))
+    description = MarkupField(_('Description'), max_length=4096,
+                              markup_type='markdown')
 
     # 省略可能フィールド
-    advertisement_image = ThumbnailField(_('Advertisement Image'),
-            null=True, blank=True,
-            upload_to=_get_advertisement_image_upload_path,
-            patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
-            help_text=_("This would be used in the top page. "
-                        "The aspect ratio of the image should be 16:9"))
-    trailer = models.URLField(_('Trailer'), null=True, blank=True,
-            help_text=_("Enter URL of your trailer movie on the YouTube. "
-                        "The movie would be embeded to the product page."))
+    advertisement_image = ThumbnailField(
+        _('Advertisement Image'),
+        null=True, blank=True,
+        upload_to=_get_advertisement_image_upload_path,
+        patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
+        help_text=_("This would be used in the top page. "
+                    "The aspect ratio of the image should be 16:9"))
+    trailer = models.URLField(
+        _('Trailer'), null=True, blank=True,
+        help_text=_("Enter URL of your trailer movie on the YouTube. "
+                    "The movie would be embeded to the product page."))
     project = models.ForeignKey(Project, verbose_name=_('Project'),
                                 null=True, blank=True)
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
@@ -125,11 +128,11 @@ class Product(models.Model):
     #         タイル表示は thumbnails が使われます
     # normal : トップページには表示されず、see more内でのみタイル表示されます
     #
-    display_mode = models.CharField(_('Display mode'),
-            max_length=10, choices=DISPLAY_MODES, default='normal',
-            help_text=_("How the product displayed on the site top. "
-                        "To use `featured`, it require `advertisement_image`."))
-
+    display_mode = models.CharField(
+        _('Display mode'),
+        max_length=10, choices=DISPLAY_MODES, default='normal',
+        help_text=_("How the product displayed on the site top. "
+                    "To use `featured`, it require `advertisement_image`."))
 
     class Meta:
         ordering = ('display_mode', '-publish_at',)
@@ -177,8 +180,9 @@ class Product(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('products_product_detail', (), {
-            'slug' : self.slug
+            'slug': self.slug
         })
+
 
 class AbstractRelease(models.Model):
     """
@@ -209,9 +213,10 @@ class PackageRelease(AbstractRelease):
         return os.path.join(basedir, filename)
 
     file_content = models.FileField(_('File'), upload_to=_get_upload_path)
-    downloads = models.PositiveIntegerField(_('Downloads'), default=0,
-            editable=False,
-            help_text=_("The number of downloads"))
+    downloads = models.PositiveIntegerField(
+        _('Downloads'), default=0,
+        editable=False,
+        help_text=_("The number of downloads"))
 
     class Meta(AbstractRelease.Meta):
         verbose_name = _('Package release')
@@ -225,9 +230,10 @@ class URLRelease(AbstractRelease):
     e.g. iTunes App Store, Google Play, Vector など
     """
     url = models.URLField(_('URL'))
-    pageview = models.PositiveIntegerField(_('Page view'), default=0,
-            editable=False,
-            help_text=_("The number of page views"))
+    pageview = models.PositiveIntegerField(
+        _('Page view'), default=0,
+        editable=False,
+        help_text=_("The number of page views"))
 
     class Meta(AbstractRelease.Meta):
         verbose_name = _('URL release')
@@ -256,8 +262,9 @@ class Screenshot(models.Model):
         basedir = os.path.join('products', self.product.slug, 'screenshots')
         return os.path.join(basedir, filename)
 
-    image = ThumbnailField(_('Image'), upload_to=_get_upload_path,
-            patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
+    image = ThumbnailField(
+        _('Image'), upload_to=_get_upload_path,
+        patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
     product = models.ForeignKey(Product, verbose_name=_('Product'))
 
     class Meta:

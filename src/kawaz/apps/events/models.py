@@ -6,10 +6,9 @@ from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from markupfield.fields import MarkupField
-
 from kawaz.core.db.decorators import validate_on_save
-from kawaz.core.db.models import AbstractPublishmentModel
-from kawaz.core.db.models import PublishmentManagerMixin
+from kawaz.core.publishment.models import AbstractPublishmentModel
+from kawaz.core.publishment.models import PublishmentManagerMixin
 
 
 class EventManager(models.Manager, PublishmentManagerMixin):
@@ -74,7 +73,7 @@ class Event(AbstractPublishmentModel):
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
     objects = EventManager()
-    
+
     class Meta:
         ordering = (
             'period_start', 'period_end',
@@ -185,7 +184,7 @@ def join_organizer(**kwargs):
 
 from permission import add_permission_logic
 from .perms import EventPermissionLogic
-from .perms import PubStatePermissionLogic
+from kawaz.core.publishment.perms import PublishmentPermissionLogic
 add_permission_logic(Event, EventPermissionLogic()),
-add_permission_logic(Event, PubStatePermissionLogic(
+add_permission_logic(Event, PublishmentPermissionLogic(
     author_field_name='organizer')),

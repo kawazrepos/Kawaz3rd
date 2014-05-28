@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'registration',
     'kawaz.core.db',
     'kawaz.core.personas',
+    'kawaz.core.publishment',
     'kawaz.core.permissions',
     'kawaz.core.registration_supplements',
     'kawaz.apps.announcements',

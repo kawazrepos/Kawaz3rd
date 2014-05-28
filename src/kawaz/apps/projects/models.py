@@ -6,9 +6,8 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group
 from thumbnailfield.fields import ThumbnailField
 from markupfield.fields import MarkupField
-
-from kawaz.core.db.models import AbstractPublishmentModel
-from kawaz.core.db.models import PublishmentManagerMixin
+from kawaz.core.publishment.models import AbstractPublishmentModel
+from kawaz.core.publishment.models import PublishmentManagerMixin
 
 
 class Category(models.Model):
@@ -78,7 +77,7 @@ class Project(AbstractPublishmentModel):
 
     # 省略可能フィールド
     icon = ThumbnailField(_('Thumbnail'), upload_to=_get_upload_path,
-                          blank=True, 
+                          blank=True,
                           patterns=settings.THUMBNAIL_SIZE_PATTERNS)
     category = models.ForeignKey(Category, verbose_name=_('Category'),
                                  null=True, blank=True,
@@ -184,7 +183,7 @@ def join_administrator(**kwargs):
 from permission import add_permission_logic
 from permission.logics import AuthorPermissionLogic
 from permission.logics import CollaboratorsPermissionLogic
-from kawaz.core.permissions.logics import PubStatePermissionLogic
+from kawaz.core.publishment.perms import PublishmentPermissionLogic
 from .perms import ProjectPermissionLogic
 
 add_permission_logic(Project, AuthorPermissionLogic(
@@ -198,6 +197,6 @@ add_permission_logic(Project, CollaboratorsPermissionLogic(
     delete_permission=False
 ))
 add_permission_logic(Project, ProjectPermissionLogic())
-add_permission_logic(Project, PubStatePermissionLogic(
+add_permission_logic(Project, PublishmentPermissionLogic(
     author_field_name='administrator'
 ))

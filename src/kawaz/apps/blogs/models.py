@@ -1,15 +1,12 @@
 import datetime
 from django.conf import settings
 from django.db import models
-from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
-
 from markupfield.fields import MarkupField
-
 from kawaz.core.db.decorators import validate_on_save
-from kawaz.core.db.models import AbstractPublishmentModel
-from kawaz.core.db.models import PublishmentManagerMixin
+from kawaz.core.publishment.models import AbstractPublishmentModel
+from kawaz.core.publishment.models import PublishmentManagerMixin
 
 
 class Category(models.Model):
@@ -24,10 +21,10 @@ class Category(models.Model):
                                verbose_name=_('Author'),
                                related_name='blog_categories',
                                editable=False)
-    
+
     class Meta:
         # カテゴリはユーザーが所有するものなので unique together を指定
-        unique_together = (('author', 'label'),) 
+        unique_together = (('author', 'label'),)
 
     def __str__(self):
         return "{}({})".format(self.label, self.author.username)
@@ -107,10 +104,10 @@ class Entry(AbstractPublishmentModel):
 
 from permission import add_permission_logic
 from permission.logics.author import AuthorPermissionLogic
-from kawaz.core.permissions.logics import PubStatePermissionLogic
+from kawaz.core.publishment.perms import PublishmentPermissionLogic
 
 add_permission_logic(Entry, AuthorPermissionLogic(
     field_name='author',
     any_permission=True,
 ))
-add_permission_logic(Entry, PubStatePermissionLogic())
+add_permission_logic(Entry, PublishmentPermissionLogic())

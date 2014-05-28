@@ -4,12 +4,10 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.db import models
 from kawaz.core.personas.models import Persona
-from kawaz.core.permissions.logics import PUB_STATES
+from kawaz.core.publishment.models import AbstractPublishmentModel
 
 
-class StarTestArticle(models.Model):
-    pub_state = models.CharField('Publish State', choices=PUB_STATES,
-                                 max_length=10, default='public')
+class StarTestArticle(AbstractPublishmentModel):
     author = models.ForeignKey(Persona)
     title = models.CharField('Title', max_length=30)
 
@@ -22,6 +20,6 @@ class StarTestArticle(models.Model):
 
 from permission import add_permission_logic
 from permission.logics.author import AuthorPermissionLogic
-from kawaz.core.permissions.logics import PubStatePermissionLogic
-add_permission_logic(StarTestArticle, PubStatePermissionLogic())
+from kawaz.core.publishment.perms import PublishmentPermissionLogic
+add_permission_logic(StarTestArticle, PublishmentPermissionLogic())
 add_permission_logic(StarTestArticle, AuthorPermissionLogic())

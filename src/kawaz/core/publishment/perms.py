@@ -1,9 +1,11 @@
 from permission.logics import PermissionLogic
 
 
-class PubStatePermissionLogic(PermissionLogic):
+class PublishmentPermissionLogic(PermissionLogic):
     """
-    General permission logic which for 'view' permission
+    Permission logic of AbstractPublishmentModel subclass.
+    This permission logic handle the 'view' permission based on the publishment
+    status
     """
     def __init__(self, author_field_name='author',
                  pub_state_field_name='pub_state'):
@@ -63,7 +65,8 @@ class PubStatePermissionLogic(PermissionLogic):
                 # if pub_state is public, everyone see this object
                 return True
             elif pub_state == 'protected':
-                # if pub_state is protected, users who logged in and role isn't wille see this object
+                # if pub_state is protected, users who logged in and role isn't
+                # wille see this object
                 return user_obj.is_authenticated() and user_obj.is_member
             elif pub_state == 'draft':
                 # if pub_state is draft, Only author can see this object.
