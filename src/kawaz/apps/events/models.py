@@ -3,16 +3,18 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q, F, Count
 from django.utils.translation import ugettext as _
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from markupfield.fields import MarkupField
 
 from kawaz.core.db.decorators import validate_on_save
-from kawaz.core.permissions.logics import PUB_STATES
+from kawaz.core.db.models import AbstractPublishmentModel
+from kawaz.core.db.models import PublishmentManagerMixin
 
 
-class EventManager(models.Manager):
+class EventManager(models.Manager, PublishmentManagerMixin):
+    author_field_name = 'organizer'
+
     def active(self, user):
         """
         指定されたユーザーに公開されたイベントの中で、まだ終わっていない
@@ -36,34 +38,11 @@ class EventManager(models.Manager):
         q2 = (Q(number_restriction__gt=F('attendees_count')) |
               Q(number_restriction=None))
         return qs.annotate(attendees_count=Count('attendees')).filter(q1 & q2)
-    
-    def published(self, user):
-        """
-        指定されたユーザーに公開されたイベントを含むクエリを返す
-
-        メンバーは全体および内部公開イベント、その他は全体公開イベントのみ
-        を含むクエリを返す
-        """
-        q = Q(pub_state='public')
-        if user and user.is_authenticated() and user.is_member:
-            q |= Q(pub_state='protected')
-        return self.filter(q)
-    
-    def draft(self, user):
-        """
-        指定されたユーザが所有する下書きイベントを含むクエリを返す
-        """
-        if user and user.is_authenticated():
-            return self.filter(organizer=user, pub_state='draft')
-        return self.none()
 
 
 @validate_on_save
-class Event(models.Model):
+class Event(AbstractPublishmentModel):
     # 必須フィールド
-    pub_state = models.CharField(_("Publish status"),
-                                 max_length=10, choices=PUB_STATES,
-                                 default="public")
     title = models.CharField(_("Title"), max_length=255)
     body = MarkupField(_("Body"), default_markup_type="markdown")
 
@@ -73,13 +52,15 @@ class Event(models.Model):
     period_end = models.DateTimeField(_("End time"),
                                       blank=True, null=True)
     place = models.CharField(_("Place"), max_length=255, blank=True)
-    number_restriction = models.PositiveIntegerField(_('Number restriction'),
-            default=None, blank=True, null=True,
-            help_text=_("Use this to limit the number of attendees."))
-    attendance_deadline = models.DateTimeField(_('Attendance deadline'),
-            default=None, blank=True, null=True,
-            help_text=_("A deadline of the attendance. "
-                        "No member can attend the event after this deadline."))
+    number_restriction = models.PositiveIntegerField(
+        _('Number restriction'),
+        default=None, blank=True, null=True,
+        help_text=_("Use this to limit the number of attendees."))
+    attendance_deadline = models.DateTimeField(
+        _('Attendance deadline'),
+        default=None, blank=True, null=True,
+        help_text=_("A deadline of the attendance. "
+                    "No member can attend the event after this deadline."))
     # 編集不可フィールド
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   verbose_name=_("Organizer"),
@@ -96,9 +77,9 @@ class Event(models.Model):
     
     class Meta:
         ordering = (
-                'period_start', 'period_end',
-                '-created_at', '-updated_at',
-                'title', '-pk')
+            'period_start', 'period_end',
+            '-created_at', '-updated_at',
+            'title', '-pk')
         verbose_name = _("Event")
         verbose_name_plural = _("Events")
         permissions = (
@@ -124,10 +105,10 @@ class Event(models.Model):
         if self.period_start and self.period_end:
             if self.period_start > self.period_end:
                 raise ValidationError(
-                        _('End time must be later than start time.'))
-            elif (self.period_start < datetime.datetime.now() and 
-                 (not self.pk or
-                  Event.objects.filter(pk=self.pk).count() == 0)):
+                    _('End time must be later than start time.'))
+            elif (self.period_start < datetime.datetime.now() and
+                  (not self.pk or
+                   Event.objects.filter(pk=self.pk).count() == 0)):
                 raise ValidationError(_('Start time must be future.'))
             elif (self.period_end - self.period_start).days > 7:
                 raise ValidationError(_('The period of event is too long.'))
@@ -136,9 +117,9 @@ class Event(models.Model):
         if self.number_restriction is not None and self.number_restriction < 1:
             raise ValidationError(
                 _("Number restriction should be grater than 0"))
-        if (self.attendance_deadline and 
-                self.attendance_deadline < datetime.datetime.now() and 
-                (not self.pk or
+        if (self.attendance_deadline and
+                self.attendance_deadline < datetime.datetime.now() and
+            (not self.pk or
                 Event.objects.filter(pk=self.pk).count() == 0)):
             raise ValidationError(_('Attendance deadline must be future.'))
 
@@ -189,6 +170,7 @@ class Event(models.Model):
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 
 @receiver(post_save, sender=Event)
 def join_organizer(**kwargs):

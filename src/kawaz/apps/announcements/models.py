@@ -1,13 +1,13 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
-from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from markupfield.fields import MarkupField
-from kawaz.core.permissions.logics import PUB_STATES
+from kawaz.core.db.models import AbstractPublishmentModel
+from kawaz.core.db.models import PublishmentManagerMixin
 
 
-class AnnouncementManager(models.Manager):
+class AnnouncementManager(models.Manager, PublishmentManagerMixin):
     def published(self, user):
         """
         指定されたユーザーに対して公開されているAnnouncementインスタンスを含む
@@ -27,7 +27,7 @@ class AnnouncementManager(models.Manager):
         """
         q = Q(pub_state='public')
         if user and user.is_authenticated():
-            if user.role in ['seele', 'nerv', 'children']:
+            if user.is_member:
                 # Seele, Nerv, Children can see the protected announcement
                 q |= Q(pub_state='protected')
         return self.filter(q)
@@ -51,14 +51,12 @@ class AnnouncementManager(models.Manager):
         return self.none()
 
 
-class Announcement(models.Model):
+class Announcement(AbstractPublishmentModel):
     """
     スタッフがメンバーに告知する際に使用するモデル
     """
 
     # 必須フィールド
-    pub_state = models.CharField(_('Publish status'),
-                                 max_length=10, choices=PUB_STATES)
     title = models.CharField(_('Title'), max_length=128)
     body = MarkupField(_('Body'), default_markup_type='markdown')
     silently = models.BooleanField(_('Silently'), default=False,

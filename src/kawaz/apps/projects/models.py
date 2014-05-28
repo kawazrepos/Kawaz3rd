@@ -1,15 +1,14 @@
 import os
 from django.conf import settings
 from django.db import models
-from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from thumbnailfield.fields import ThumbnailField
 from markupfield.fields import MarkupField
 
-from kawaz.core.permissions.logics import PUB_STATES
+from kawaz.core.db.models import AbstractPublishmentModel
+from kawaz.core.db.models import PublishmentManagerMixin
 
 
 class Category(models.Model):
@@ -31,7 +30,9 @@ class Category(models.Model):
         return self.label
 
 
-class ProjectManager(models.Manager):
+class ProjectManager(models.Manager, PublishmentManagerMixin):
+    author_field_name = 'administrator'
+
     def active(self, user):
         """
         指定されたユーザーが閲覧可能なプロジェクトのうち、アクティブなもののみ
@@ -40,31 +41,9 @@ class ProjectManager(models.Manager):
         qs = self.published(user)
         return qs.exclude(status='eternal')
 
-    def published(self, user):
-        """
-        指定されたユーザーが閲覧可能なプロジェクトのみを含むクエリを返す
-
-        メンバーの場合は全体・内部公開のものを、それ以外の場合は全体公開のもの
-        のみを含む
-        """
-        q = Q(pub_state='public')
-        if user and user.is_authenticated() and user.is_member:
-            # メンバーは内部公開記事も閲覧可能
-            q |= Q(pub_state='protected')
-        return self.filter(q)
-
-    def draft(self, user):
-        """
-        指定されたユーザが所有している下書き状態のプロジェクトを含むクエリを
-        返す
-        """
-        if user and user.is_authenticated():
-            return self.filter(administrator=user, pub_state='draft')
-        return self.none()
-
 
 # TODO: 所有権限の委託を可能にする
-class Project(models.Model):
+class Project(AbstractPublishmentModel):
     """
     現在進行形で作成しているプロジェクトを示すモデル
 
@@ -83,8 +62,6 @@ class Project(models.Model):
     )
 
     # 必須フィールド
-    pub_state = models.CharField(_('Publish status'), choices=PUB_STATES,
-                                 max_length=10, default='public')
     status = models.CharField(_("Status"), default="planning",
                               max_length=15, choices=STATUS)
     title = models.CharField(_('Title'), max_length=127, unique=True)
@@ -182,15 +159,16 @@ class Project(models.Model):
     def get_absolute_url(self):
         if self.pub_state == 'draft':
             return ('projects_project_update', (), {
-                'pk' : self.pk
+                'pk': self.pk
             })
         return ('projects_project_detail', (), {
-            'slug' : self.slug
+            'slug': self.slug
         })
 
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 
 @receiver(post_save, sender=Project)
 def join_administrator(**kwargs):

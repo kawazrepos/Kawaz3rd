@@ -2,7 +2,6 @@ import os
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.contrib.auth import get_user_model
 
 from markupfield.fields import MarkupField
 
@@ -32,10 +31,11 @@ class ProfileManager(models.Manager):
 
     def published(self, user):
         '''
-        Return the QuerySet which contains all active viewable profiles by passed user.
+        Return the QuerySet which contains all active viewable profiles by
+        passed user.
         '''
         qs = self.active()
-        if user.is_authenticated() and not user.role in 'wille':
+        if user.is_authenticated() and user.role not in 'wille':
             # authorized user and whose role isn't wille. returns all profiles
             return qs
         # return public profiles
@@ -55,24 +55,30 @@ class Profile(models.Model):
     )
 
     # Required
-    pub_state = models.CharField(_("Publish status"), max_length=10, choices=PUB_STATES, default="public")
+    pub_state = models.CharField(_("Publish status"), max_length=10,
+                                 choices=PUB_STATES, default="public")
     # Non required
     birthday = models.DateField(_('Birth day'), null=True, blank=True)
-    place = models.CharField(_('Address'), max_length=255, blank=True, help_text=_('Your address will not be shown by anonymous user.'))
+    place = models.CharField(
+        _('Address'), max_length=255, blank=True,
+        help_text=_('Your address will not be shown by anonymous user.'))
     url = models.URLField(_("URL"), max_length=255, blank=True)
     remarks = MarkupField(_("Remarks"), default_markup_type='markdown')
-    skills = models.ManyToManyField(Skill, verbose_name=_('Skills'), related_name='users', null=True, blank=True)
+    skills = models.ManyToManyField(Skill, verbose_name=_('Skills'),
+                                    related_name='users',
+                                    null=True, blank=True)
     # Uneditable
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_('User'), related_name='profile', unique=True, primary_key=True, editable=False)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, verbose_name=_('User'),
+        related_name='profile', unique=True, primary_key=True, editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
     objects = ProfileManager()
 
-
     class Meta:
-        ordering            = ('user__nickname',)
-        verbose_name        = _("Profile")
+        ordering = ('user__nickname',)
+        verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
         permissions = (
             ('view_profile', 'Can view the profile'),
@@ -83,7 +89,8 @@ class Profile(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('profiles_profile_detail', (), {'slug' : self.user.username})
+        return ('profiles_profile_detail', (), {'slug': self.user.username})
+
 
 class Service(models.Model):
 
@@ -92,7 +99,8 @@ class Service(models.Model):
 
     label = models.CharField(_('Label'), max_length=64, unique=True)
     icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)
-    url_pattern = models.CharField(_('URL pattern'), max_length=256, null=True, blank=True)
+    url_pattern = models.CharField(_('URL pattern'), max_length=256,
+                                   null=True, blank=True)
 
     def __str__(self):
         return self.label
@@ -104,9 +112,12 @@ class Service(models.Model):
 
 
 class Account(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Profile'), editable=False)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name=_('Profile'), editable=False)
     service = models.ForeignKey(Service, verbose_name=_('Service'))
-    pub_state = models.CharField(_('Publish State'), choices=Profile.PUB_STATES, max_length=10, default='public')
+    pub_state = models.CharField(_('Publish State'),
+                                 choices=Profile.PUB_STATES,
+                                 max_length=10, default='public')
     username = models.CharField(_('Username'), max_length=64)
 
     class Meta:
@@ -118,7 +129,8 @@ class Account(models.Model):
         )
 
     def __str__(self):
-        return "%s (%s @ %s)" % (self.username, self.user.username, self.service.label)
+        return "%s (%s @ %s)" % (self.username,
+                                 self.user.username, self.service.label)
 
     @property
     def url(self):
