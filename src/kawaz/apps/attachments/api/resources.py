@@ -6,7 +6,7 @@ from ..models import Material
 
 class MaterialResource(KawazModelResource):
     author_field_name = 'author'
-    content_file = fields.FileField(attribute='content_file')
+    file = fields.FileField(attribute='content_file')
 
     class Meta:
         resource_name = 'attachments/material'
