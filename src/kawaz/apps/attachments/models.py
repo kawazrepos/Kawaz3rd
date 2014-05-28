@@ -28,7 +28,7 @@ class Material(models.Model):
     def save(self, *args, **kwargs):
         # 相対パスのhashをslugとして自動設定します
         import hashlib
-        self.slug = hashlib.sha1(self.content_file.name).hexdigest()
+        self.slug = hashlib.sha1(self.content_file.name.encode('utf-8')).hexdigest()
         return super().save(*args, **kwargs)
 
     @models.permalink
@@ -43,6 +43,7 @@ class Material(models.Model):
             hoge.mp3 -> mp3
             hoge.tar.gz -> gz
             hoge.WAV -> wav
+            README ->
         """
         ext = os.path.splitext(self.content_file.name)[1]
         if ext:
@@ -62,7 +63,7 @@ class Material(models.Model):
         """
         音声ファイルかどうかを返します
         """
-        extensions = ['wav', 'mp3']
+        extensions = ['wav', 'mp3', 'ogg']
         return self.ext in extensions
 
     @property
@@ -72,6 +73,13 @@ class Material(models.Model):
         """
         extensions = ['mov', 'mp4']
         return self.ext in extensions
+
+    @property
+    def is_pdf(self):
+        """
+        PDFかどうかを返します
+        """
+        return self.ext == 'pdf'
 
     @property
     def filename(self):
