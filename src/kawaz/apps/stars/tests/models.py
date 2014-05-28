@@ -4,10 +4,13 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.db import models
 from kawaz.core.personas.models import Persona
-from kawaz.core.publishments.models import AbstractPublishmentModel
+from kawaz.core.publishments.models import PUB_STATES
 
 
-class StarTestArticle(AbstractPublishmentModel):
+class StarTestArticle(models.Model):
+    pub_state = models.CharField("Publish status",
+                                 max_length=10, choices=PUB_STATES,
+                                 default="public")
     author = models.ForeignKey(Persona)
     title = models.CharField('Title', max_length=30)
 

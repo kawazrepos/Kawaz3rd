@@ -3,8 +3,8 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from markupfield.fields import MarkupField
-from kawaz.core.publishments.models import AbstractPublishmentModel
 from kawaz.core.publishments.models import PublishmentManagerMixin
+from kawaz.core.publishments.models import PUB_STATES
 
 
 class AnnouncementManager(models.Manager, PublishmentManagerMixin):
@@ -51,12 +51,15 @@ class AnnouncementManager(models.Manager, PublishmentManagerMixin):
         return self.none()
 
 
-class Announcement(AbstractPublishmentModel):
+class Announcement(models.Model):
     """
     スタッフがメンバーに告知する際に使用するモデル
     """
 
     # 必須フィールド
+    pub_state = models.CharField(_("Publish status"),
+                                 max_length=10, choices=PUB_STATES,
+                                 default="public")
     title = models.CharField(_('Title'), max_length=128)
     body = MarkupField(_('Body'), default_markup_type='markdown')
     silently = models.BooleanField(_('Silently'), default=False,

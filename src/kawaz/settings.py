@@ -144,7 +144,8 @@ STATICFILES_DIRS = (
 )
 
 # inspectional-registration
-REGISTRATION_SUPPLEMENT_CLASS = 'kawaz.core.registration_supplements.models.RegistrationSupplement'
+REGISTRATION_SUPPLEMENT_CLASS = (
+    'kawaz.core.registrations.models.RegistrationSupplement')
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
 

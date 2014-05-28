@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group
 from thumbnailfield.fields import ThumbnailField
 from markupfield.fields import MarkupField
-from kawaz.core.publishments.models import AbstractPublishmentModel
+from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
 
 
@@ -42,7 +42,7 @@ class ProjectManager(models.Manager, PublishmentManagerMixin):
 
 
 # TODO: 所有権限の委託を可能にする
-class Project(AbstractPublishmentModel):
+class Project(models.Model):
     """
     現在進行形で作成しているプロジェクトを示すモデル
 
@@ -61,6 +61,9 @@ class Project(AbstractPublishmentModel):
     )
 
     # 必須フィールド
+    pub_state = models.CharField(_("Publish status"),
+                                 max_length=10, choices=PUB_STATES,
+                                 default="public")
     status = models.CharField(_("Status"), default="planning",
                               max_length=15, choices=STATUS)
     title = models.CharField(_('Title'), max_length=127, unique=True)
