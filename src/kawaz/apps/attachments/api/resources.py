@@ -1,7 +1,7 @@
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from kawaz.core.api.resources import KawazModelResource
-from kawaz.core.api.authorizations import PermissionBasedAuthorization
+from .authorizations import MaterialAuthorization
 from ..models import Material
 
 class MaterialResource(KawazModelResource):
@@ -12,9 +12,9 @@ class MaterialResource(KawazModelResource):
         resource_name = 'attachments/material'
         queryset = Material.objects.all()
         list_allowed_methods = ['post',]
-        detail_allowed_methods = ['put', 'delete',]
+        detail_allowed_methods = []
         always_return_data = True
-        authorization = PermissionBasedAuthorization()
+        authorization = MaterialAuthorization()
         authentication = SessionAuthentication()
 
     def hydrate_ip_address(self, bundle):
