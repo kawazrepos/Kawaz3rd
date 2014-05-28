@@ -19,6 +19,13 @@ class MaterialModelTestCase(TestCase):
         material = MaterialFactory(content_file='fantastic_music.mp3')
         self.assertEqual(str(material), 'fantastic_music.mp3')
 
+    def test_get_absolute_url(self):
+        """
+        material.get_absolute_url()が`attachments/<slug>/`を返します
+        """
+        material = MaterialFactory(author__username='material_kawaztan')
+        self.assertEqual(material.get_absolute_url(), "/attachments/2acf1e273e96b94ba26f76faf7a9b2b46199c0b1/")
+
     def test_filename(self):
         """
         material.filenameがファイル名を返す
