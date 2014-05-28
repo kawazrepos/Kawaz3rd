@@ -54,6 +54,9 @@ class BasePermissionLogicTestCase(TestCase):
         # if the specified user is string, find it from the dictionary
         if isinstance(user, str):
             user = self.users[user]
+        username = 'anonymous'
+        if user.is_authenticated():
+            username = user.username
         # create full permission name
         if self.use_model_name:
             perm = "{}.{}_{}".format(self.app_label, perm, self.model_name)
@@ -62,8 +65,8 @@ class BasePermissionLogicTestCase(TestCase):
         # assert
         if not neg:
             self.assertTrue(user.has_perm(perm, obj=obj),
-                            "{} should have '{}'".format(user.username, perm))
+                            "{} should have '{}'".format(username, perm))
         else:
             self.assertFalse(user.has_perm(perm, obj=obj),
-                             "{} should not have '{}'".format(user.username, perm))
+                             "{} should not have '{}'".format(username, perm))
 
