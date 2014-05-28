@@ -89,13 +89,7 @@ class Material(models.Model):
         return os.path.split(self.content_file.name)[1]
 
 from permission import add_permission_logic
-from permission.logics import AuthorPermissionLogic
 from kawaz.core.permissions.logics import ChildrenPermissionLogic
-add_permission_logic(Material, AuthorPermissionLogic(
-    field_name='author',
-    change_permission=True,
-    delete_permission=True
-))
 add_permission_logic(Material, ChildrenPermissionLogic(
     add_permission=True,
     change_permission=False,
