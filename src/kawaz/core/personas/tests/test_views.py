@@ -35,7 +35,7 @@ class PersonaViewTestCase(TestCase):
         ログインユーザーが/registration/password/change/done/に到達できるか
         """
         self.client.login(username='user', password='password')
-        self._test_can_reach('password/change', 'password_change_done')
+        self._test_can_reach('password/change/done', 'password_change_done')
 
     def test_can_reach_password_reset_view(self):
         """

@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^stars/', include('kawaz.apps.stars.urls')),
     url(r'^$', get_index_view, name='kawaz_index'),
     url(r'^api/', include(v1_api.urls)),
-    url('^registration/', include('registration.urls')),
+    url(r'^registration/', include('kawaz.core.personas.urls')),
+    url(r'^registration/', include('registration.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
