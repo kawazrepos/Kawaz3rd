@@ -7,8 +7,8 @@ from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from markupfield.fields import MarkupField
 from kawaz.core.db.decorators import validate_on_save
-from kawaz.core.publishment.models import AbstractPublishmentModel
-from kawaz.core.publishment.models import PublishmentManagerMixin
+from kawaz.core.publishments.models import AbstractPublishmentModel
+from kawaz.core.publishments.models import PublishmentManagerMixin
 
 
 class EventManager(models.Manager, PublishmentManagerMixin):
@@ -184,7 +184,7 @@ def join_organizer(**kwargs):
 
 from permission import add_permission_logic
 from .perms import EventPermissionLogic
-from kawaz.core.publishment.perms import PublishmentPermissionLogic
+from kawaz.core.publishments.perms import PublishmentPermissionLogic
 add_permission_logic(Event, EventPermissionLogic()),
 add_permission_logic(Event, PublishmentPermissionLogic(
     author_field_name='organizer')),

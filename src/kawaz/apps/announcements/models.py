@@ -3,8 +3,8 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from markupfield.fields import MarkupField
-from kawaz.core.publishment.models import AbstractPublishmentModel
-from kawaz.core.publishment.models import PublishmentManagerMixin
+from kawaz.core.publishments.models import AbstractPublishmentModel
+from kawaz.core.publishments.models import PublishmentManagerMixin
 
 
 class AnnouncementManager(models.Manager, PublishmentManagerMixin):

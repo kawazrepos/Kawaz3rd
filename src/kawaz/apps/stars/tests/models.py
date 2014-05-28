@@ -4,7 +4,7 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.db import models
 from kawaz.core.personas.models import Persona
-from kawaz.core.publishment.models import AbstractPublishmentModel
+from kawaz.core.publishments.models import AbstractPublishmentModel
 
 
 class StarTestArticle(AbstractPublishmentModel):
@@ -20,6 +20,6 @@ class StarTestArticle(AbstractPublishmentModel):
 
 from permission import add_permission_logic
 from permission.logics.author import AuthorPermissionLogic
-from kawaz.core.publishment.perms import PublishmentPermissionLogic
+from kawaz.core.publishments.perms import PublishmentPermissionLogic
 add_permission_logic(StarTestArticle, PublishmentPermissionLogic())
 add_permission_logic(StarTestArticle, AuthorPermissionLogic())

@@ -276,9 +276,9 @@ class Screenshot(models.Model):
         return '{}({})'.format(self.image.name, self.product.title)
 
 
-from kawaz.core.permissions.logics import ChildrenPermissionLogic
 from permission import add_permission_logic
 from .perms import ProductPermissionLogic
+from kawaz.core.personas.perms import ChildrenPermissionLogic
 add_permission_logic(Product, ChildrenPermissionLogic(
     add_permission=True,
     change_permission=False,

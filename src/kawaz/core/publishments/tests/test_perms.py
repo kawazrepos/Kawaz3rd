@@ -32,7 +32,7 @@ class PublishmentPermissionLogicTestCase(TestCase):
     def _test_permission(self, role, obj=None, neg=False, perm='view'):
         user = self.users.get(role)
         obj = self.articles.get(obj, None)
-        perm = "publishment.{}_publishmenttestarticle".format(perm)
+        perm = "publishments.{}_publishmenttestarticle".format(perm)
         if neg:
             self.assertFalse(
                 user.has_perm(perm, obj=obj),

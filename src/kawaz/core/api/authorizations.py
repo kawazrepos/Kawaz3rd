@@ -1,6 +1,5 @@
-from django.core.exceptions import ImproperlyConfigured
 from tastypie.authorization import Authorization
-from kawaz.core.permissions.utils import get_full_permission_name
+from kawaz.core.utils.permission import get_full_permission_name
 
 
 def check_perm(bundle, perm, object_permission=False):

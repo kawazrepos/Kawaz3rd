@@ -1,3 +1,9 @@
+# coding=utf-8
+"""
+"""
+__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
+
 def get_full_permission_name(codename, obj):
     """
     Return permission string from codename and model

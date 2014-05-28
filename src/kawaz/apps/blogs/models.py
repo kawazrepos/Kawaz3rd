@@ -5,8 +5,8 @@ from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from markupfield.fields import MarkupField
 from kawaz.core.db.decorators import validate_on_save
-from kawaz.core.publishment.models import AbstractPublishmentModel
-from kawaz.core.publishment.models import PublishmentManagerMixin
+from kawaz.core.publishments.models import AbstractPublishmentModel
+from kawaz.core.publishments.models import PublishmentManagerMixin
 
 
 class Category(models.Model):
@@ -104,7 +104,7 @@ class Entry(AbstractPublishmentModel):
 
 from permission import add_permission_logic
 from permission.logics.author import AuthorPermissionLogic
-from kawaz.core.publishment.perms import PublishmentPermissionLogic
+from kawaz.core.publishments.perms import PublishmentPermissionLogic
 
 add_permission_logic(Entry, AuthorPermissionLogic(
     field_name='author',

@@ -6,8 +6,8 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group
 from thumbnailfield.fields import ThumbnailField
 from markupfield.fields import MarkupField
-from kawaz.core.publishment.models import AbstractPublishmentModel
-from kawaz.core.publishment.models import PublishmentManagerMixin
+from kawaz.core.publishments.models import AbstractPublishmentModel
+from kawaz.core.publishments.models import PublishmentManagerMixin
 
 
 class Category(models.Model):
@@ -183,7 +183,7 @@ def join_administrator(**kwargs):
 from permission import add_permission_logic
 from permission.logics import AuthorPermissionLogic
 from permission.logics import CollaboratorsPermissionLogic
-from kawaz.core.publishment.perms import PublishmentPermissionLogic
+from kawaz.core.publishments.perms import PublishmentPermissionLogic
 from .perms import ProjectPermissionLogic
 
 add_permission_logic(Project, AuthorPermissionLogic(

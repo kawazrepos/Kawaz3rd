@@ -1,8 +1,9 @@
 from permission.logics import PermissionLogic
 
+
 class RegistrationProfilePermissionLogic(PermissionLogic):
     def has_perm(self, user_obj, perm, obj=None):
-        if not perm in (
+        if perm not in (
             'registration.add_registrationprofile',
             'registration.change_registrationprofile',
             'registration.delete_registrationprofile',

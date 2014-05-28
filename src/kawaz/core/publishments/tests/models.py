@@ -9,7 +9,7 @@ class PublishmentTestArticle(AbstractPublishmentModel):
     title = models.CharField('Title', max_length=30)
 
     class Meta:
-        app_label = 'publishment'
+        app_label = 'publishments'
         permissions = (
             ('view_publishmenttestarticle', 'Can view the articles'),
         )

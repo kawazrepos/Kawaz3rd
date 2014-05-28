@@ -138,9 +138,8 @@ class Account(models.Model):
 
 from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
-from kawaz.core.publishment.perms import PublishmentPermissionLogic
-
-from kawaz.core.permissions.logics import NervPermissionLogic
+from kawaz.core.publishments.perms import PublishmentPermissionLogic
+from kawaz.core.personas.perms import NervPermissionLogic
 
 add_permission_logic(Skill, NervPermissionLogic(
     any_permission=True
