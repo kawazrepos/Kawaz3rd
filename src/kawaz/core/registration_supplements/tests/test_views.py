@@ -1,10 +1,11 @@
 from django.test import TestCase
 from django.test.utils import override_settings
+from .factories import RegistrationProfileFactory
 
 class RegistrationViewTestCase(TestCase):
-    def test_can_reach_register_view(self):
+    def test_can_display_register_view(self):
         """
-        /registration/register/に到達できるか
+        /registration/register/が表示できるか
         """
         r = self.client.get("/registration/register/")
         self.assertTemplateUsed(r, "registration/registration_form.html")
@@ -33,9 +34,9 @@ class RegistrationViewTestCase(TestCase):
         })
         self.assertRedirects(r, '/registration/register/complete/')
 
-    def test_can_reach_registration_complete(self):
+    def test_can_display_registration_complete(self):
         """
-        /registration/register/complete/に到達できるか
+        /registration/register/complete/が表示できるか
         """
         r = self.client.get("/registration/register/complete/")
         self.assertTemplateUsed(r, 'registration/registration_complete.html')
@@ -50,9 +51,25 @@ class RegistrationViewTestCase(TestCase):
         r = self.client.get("/registration/register/")
         self.assertRedirects(r, '/registration/register/closed/')
 
-    def test_can_reach_registration_closed(self):
+    def test_can_display_registration_closed(self):
         """
-        /registration/register/closed/に到達できるか
+        /registration/register/closed/が表示できるか
         """
         r = self.client.get("/registration/register/closed/")
         self.assertTemplateUsed(r, "registration/registration_closed.html")
+
+class ActivationViewTestCase(TestCase):
+    def test_can_display_activate_complete(self):
+        """
+        /registration/activate/complete/が表示できるか
+        """
+        r = self.client.get("/registration/activate/complete/")
+        self.assertTemplateUsed(r, "registration/activation_complete.html")
+
+    def test_can_display_activate(self):
+        """
+        /registration/activate/<activation_key>が表示できるか
+        """
+        RegistrationProfileFactory(activation_key="hello", _status='accepted')
+        r = self.client.get("/registration/activate/hello/")
+        self.assertTemplateUsed(r, "registration/activation_form.html")
