@@ -38,9 +38,11 @@ INSTALLED_APPS = (
     'tastypie',
     'permission',
     'thumbnailfield',
+    'registration',
     'kawaz.core.db',
     'kawaz.core.personas',
     'kawaz.core.permissions',
+    'kawaz.core.registration_supplements',
     'kawaz.apps.announcements',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
@@ -127,7 +129,9 @@ TEMPLATE_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'templates'),
 )
 
-LOGIN_URL = '/'
+LOGIN_URL = '/registration/login/'
+LOGOUT_URL = '/registration/logout/'
+LOGIN_REDIRECT_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -137,6 +141,11 @@ STATIC_URL = '/statics/'
 STATICFILES_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'statics'),
 )
+
+# inspectional-registration
+REGISTRATION_SUPPLEMENT_CLASS = 'kawaz.core.registration_supplements.models.RegistrationSupplement'
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
 
 # tastypie
 
