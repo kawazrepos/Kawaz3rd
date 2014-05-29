@@ -1,10 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.conf import settings
 from django.conf.urls.static import static
 
 from kawaz.core.views import get_index_view
-from kawaz.core.api import v1_api
 
 admin.autodiscover()
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -20,7 +18,6 @@ urlpatterns = patterns('',
     url(r'^projects/', include('kawaz.apps.projects.urls')),
     url(r'^stars/', include('kawaz.apps.stars.urls')),
     url(r'^$', get_index_view, name='kawaz_index'),
-    url(r'^api/', include(v1_api.urls)),
     url(r'^registration/', include('kawaz.core.personas.urls')),
     url(r'^registration/', include('registration.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

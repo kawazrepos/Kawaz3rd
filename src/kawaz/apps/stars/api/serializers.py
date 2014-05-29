@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 from rest_framework import serializers
 from ..models import Star
 
