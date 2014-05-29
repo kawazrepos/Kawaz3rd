@@ -7,7 +7,7 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Star
 from .factories import ArticleFactory, StarFactory
 
-API_URL = "/api/v1/star/"
+API_URL = "/stars/stars.json"
 
 def response_to_dict(response):
     json_string = response.content.decode(encoding='UTF-8')
@@ -61,7 +61,7 @@ class StarListAPITestCase(BaseTestCase):
         response_obj = response_to_dict(response)
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response_obj)
-        self.assertEqual(len(response_obj['objects']), object_count)
+        self.assertEqual(len(response_obj), object_count)
 
     def test_api_list(self):
         """スターリスト取得テスト"""

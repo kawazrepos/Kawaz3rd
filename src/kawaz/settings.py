@@ -149,6 +149,7 @@ REGISTRATION_SUPPLEMENT_CLASS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
 
-# tastypie
-
-TASTYPIE_DEFAULT_FORMATS = ['json',]
+# rest-framework
+DEFAULT_RENDERER_CLASSES = (
+    'rest_framework.renderers.JSONRenderer',
+)

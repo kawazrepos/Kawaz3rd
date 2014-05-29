@@ -6,7 +6,7 @@ from rest_framework import filters
 from kawaz.core.utils.permission import filter_with_perm
 
 
-class KawazObjectPermissionFilter(filters.BaseFilterBackend):
+class KawazObjectPermissionFilterBackend(filters.BaseFilterBackend):
     """
     A filter backend that limits results to those where the requesting user
     has read object level permissions.

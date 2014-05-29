@@ -1,9 +1,9 @@
 from django.conf.urls import patterns, url
+from rest_framework import routers
+from .api.views import StarViewSet
+from rest_framework.urlpatterns import format_suffix_patterns
 
-from kawaz.core.api import v1_api
-from .api.resources import StarResource
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'stars', StarViewSet, base_name='star')
 
-v1_api.register(StarResource())
-
-urlpatterns = patterns('',
-)
+urlpatterns =  router.urls
