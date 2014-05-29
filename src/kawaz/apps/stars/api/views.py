@@ -1,8 +1,8 @@
 from kawaz.api.views import KawazModelViewSet
+from django.shortcuts import get_object_or_404
 from .serializers import StarSerializer
 from ..models import Star
 from rest_framework.response import Response
-from rest_framework import filters
 
 class StarViewSet(KawazModelViewSet):
     model = Star

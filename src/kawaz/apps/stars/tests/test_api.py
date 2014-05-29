@@ -7,7 +7,7 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Star
 from .factories import ArticleFactory, StarFactory
 
-API_URL = "/stars/stars.json"
+API_URL = "/stars/stars"
 
 def response_to_dict(response):
     json_string = response.content.decode(encoding='UTF-8')
@@ -106,7 +106,7 @@ class StarCreateAPITestCase(BaseTestCase):
         response = self.client.post(API_URL, data=data,
                                     content_type='application/json')
         if neg:
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, 403)
             self.assertEqual(get_object_count(), previous_object_count)
         else:
             self.assertEqual(response.status_code, 201)
@@ -152,10 +152,10 @@ class StarDeleteAPITestCase(BaseTestCase):
             self.assertTrue(self.client.login(
                 username=user,
                 password='password'))
-        url = API_URL + str(obj.pk) + "/"
+        url = API_URL + "/" + str(obj.pk)
         response = self.client.delete(url, content_type='application/json')
         if neg:
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, 403)
             self.assertEqual(get_object_count(), previous_object_count)
         else:
             self.assertEqual(response.status_code, 204)

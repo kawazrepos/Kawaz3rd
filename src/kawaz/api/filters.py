@@ -13,5 +13,6 @@ class KawazObjectPermissionFilterBackend(filters.BaseFilterBackend):
     """
     def filter_queryset(self, request, queryset, view):
         user = request.user
-        queryset = filter_with_perm(user, queryset, 'view')
+        if request.method == 'GET':
+            queryset = filter_with_perm(user, queryset, 'view')
         return queryset
