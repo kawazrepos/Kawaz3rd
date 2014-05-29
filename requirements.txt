@@ -1,7 +1,6 @@
 pyyaml
 pillow
 markdown
-django-tastypie
 djangorestframework
 django-permission>=0.7.1
 django-markupfield
