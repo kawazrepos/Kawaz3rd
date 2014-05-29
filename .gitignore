@@ -5,7 +5,6 @@ db.sqlite3
 storage/products/*
 storage/profiles/*
 storage/projects/*
-img
 
 # for Python
 # Byte-compiled / optimized / DLL files
