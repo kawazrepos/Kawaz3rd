@@ -10,8 +10,8 @@ class MaterialDetailView(BaseDetailView):
     slug_field = 'slug'
 
     def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
         try:
-            self.object = self.get_object()
             name = self.object.filename
             mime_type_guess = mimetypes.guess_type(name)
             path = self.object.content_file.path

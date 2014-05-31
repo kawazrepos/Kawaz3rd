@@ -27,8 +27,14 @@ class Material(models.Model):
 
     def save(self, *args, **kwargs):
         # 相対パスのhashをslugとして自動設定します
+        # 相対パス + str(datetime.now())の値をsha1でhash化します
+        # 時刻を足している理由として、同じファイル名のファイルがアップロードされたときに
+        # saveが呼ばれる前の段階では、Storage.get_available_nameで同名ファイルを回避する前であり
+        # 同名ファイルがあると同じslugが生成されてしまうため
         import hashlib
-        self.slug = hashlib.sha1(self.content_file.name.encode('utf-8')).hexdigest()
+        import datetime
+        datetime = datetime.datetime.now()
+        self.slug = hashlib.sha1((self.content_file.name + str(datetime)).encode('utf-8')).hexdigest()
         return super().save(*args, **kwargs)
 
     @models.permalink

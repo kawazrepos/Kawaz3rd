@@ -3,9 +3,10 @@ from ..models import Material
 
 
 class MaterialSerializer(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Material
         fields = (
-            'content_file', 'author', 'slug', 'id_address', 'create_at'
+            'content_file', 'author', 'slug', 'ip_address'
         )
