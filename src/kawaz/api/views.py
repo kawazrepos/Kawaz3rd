@@ -4,7 +4,7 @@ from rest_framework.permissions import DjangoObjectPermissions, DjangoModelPermi
 from rest_framework import filters
 from .filters import KawazObjectPermissionFilterBackend
 
-class KawazModelViewSet(viewsets.ModelViewSet):
+class KawazModelViewSet(viewsets.GenericViewSet):
     renderer_classes = (JSONRenderer,)
     author_field_name = None
     permission_classes = (DjangoObjectPermissions, DjangoModelPermissions)

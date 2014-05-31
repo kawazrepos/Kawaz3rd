@@ -6,12 +6,7 @@ from rest_framework.test import APITestCase
 
 from kawaz.core.personas.tests.factories import PersonaFactory
 
-class MaterialCreateAPITestCase(APITestCase):
-    def setUp(self):
-        self.file = tempfile.NamedTemporaryFile(mode='rb')
-
-    def tearDown(self):
-        self.file.close()
+class MaterialAPITestCase(APITestCase):
 
     def _test_create_material_with_user(self, role, success):
         if not role == 'anonymous':
@@ -25,9 +20,14 @@ class MaterialCreateAPITestCase(APITestCase):
         }
         r = self.client.post('/attachments/materials.json', data)
         if success:
-            self.assertEqual(r.status_code, 201, '{} should upload materials via API'.format(role))
+            self.assertEqual(r.status_code, 201,
+                             '{} should upload materials via API'.format(role))
         else:
-            self.assertEqual(r.status_code, 403, '{} should not be enable to upload material via API'.format(role))
+            self.assertEqual(r.status_code, 403,
+                             '{} should not be enable to upload material via API'.format(role))
+        file.close()
+
+class MaterialCreateAPITestCase(MaterialAPITestCase):
 
     def test_create_material_via_api(self):
         """
