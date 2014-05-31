@@ -5,8 +5,9 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework import mixins
 from ..models import Material
 
-class MaterialViewSet(mixins.CreateModelMixin,
-                      KawazModelViewSet):
+class MaterialViewSet(KawazModelViewSet,
+                      mixins.CreateModelMixin):
+    lookup_field = 'slug'
     model = Material
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
