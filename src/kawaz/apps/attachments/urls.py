@@ -1,11 +1,13 @@
 from django.conf.urls import patterns, url
+from rest_framework import routers
 
-from kawaz.core.api import v1_api
-from .api.resources import MaterialResource
 from .views import MaterialDetailView
+from .api.views import MaterialViewSet
 
-v1_api.register(MaterialResource())
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'attachments', MaterialViewSet, base_name='material')
 
-urlpatterns = patterns('',
+urlpatterns =  router.urls
+urlpatterns += patterns('',
     url(r'^(?P<slug>[^/]+)/$', MaterialDetailView.as_view(), name='attachments_material_detail'),
 )
