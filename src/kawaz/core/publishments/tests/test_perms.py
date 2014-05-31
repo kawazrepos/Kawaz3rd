@@ -1,57 +1,52 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from permission import add_permission_logic
-from permission import remove_permission_logic
 from kawaz.core.personas.tests.factories import PersonaFactory
-from kawaz.core.personas.models import Persona
-from ...logics import AdamPermissionLogic
-from ...logics import SeelePermissionLogic
-from ...logics import NervPermissionLogic
-from ...logics import ChildrenPermissionLogic
-from ...logics import PubStatePermissionLogic
-from ..models import PermissionsTestArticle as Article
+from ..perms import PublishmentPermissionLogic
+from .models import PublishmentTestArticle as Article
 
 
-class PubStatePermissionLogicTestCase(TestCase):
+class PublishmentPermissionLogicTestCase(TestCase):
     def setUp(self):
         self.users = dict(
-                adam=PersonaFactory(role='adam'),
-                seele=PersonaFactory(role='seele'),
-                nerv=PersonaFactory(role='nerv'),
-                children=PersonaFactory(role='children'),
-                wille=PersonaFactory(role='wille'),
-                anonymous=AnonymousUser(),
-                author=PersonaFactory(role='children'),
-            )
+            adam=PersonaFactory(role='adam'),
+            seele=PersonaFactory(role='seele'),
+            nerv=PersonaFactory(role='nerv'),
+            children=PersonaFactory(role='children'),
+            wille=PersonaFactory(role='wille'),
+            anonymous=AnonymousUser(),
+            author=PersonaFactory(role='children'),
+        )
         self.articles = dict(
-                public=Article.objects.create(title="public",
-                            author=self.users['author'],
-                            pub_state='public'),
-                protected=Article.objects.create(title="protected",
-                            author=self.users['author'],
-                            pub_state='protected'),
-                draft=Article.objects.create(title="draft",
-                            author=self.users['author'],
-                            pub_state='draft'),
-            )
+            public=Article.objects.create(title="public",
+                                          author=self.users['author'],
+                                          pub_state='public'),
+            protected=Article.objects.create(title="protected",
+                                             author=self.users['author'],
+                                             pub_state='protected'),
+            draft=Article.objects.create(title="draft",
+                                         author=self.users['author'],
+                                         pub_state='draft'),
+        )
 
     def _test_permission(self, role, obj=None, neg=False, perm='view'):
         user = self.users.get(role)
         obj = self.articles.get(obj, None)
-        perm = "permissions.{}_permissionstestarticle".format(perm)
+        perm = "publishments.{}_publishmenttestarticle".format(perm)
         if neg:
-            self.assertFalse(user.has_perm(perm, obj=obj),
+            self.assertFalse(
+                user.has_perm(perm, obj=obj),
                 "{} should not have '{}'".format(role.capitalize(), perm))
         else:
-            self.assertTrue(user.has_perm(perm, obj=obj),
+            self.assertTrue(
+                user.has_perm(perm, obj=obj),
                 "{} should have '{}'".format(role.capitalize(), perm))
-
 
     def test_view_permission_without_obj(self):
         """
         Anyone have a potential to see the model
         """
-        permission_logic = PubStatePermissionLogic()
+        permission_logic = PublishmentPermissionLogic()
         add_permission_logic(Article, permission_logic)
         self._test_permission('adam')
         self._test_permission('seele')
@@ -64,7 +59,7 @@ class PubStatePermissionLogicTestCase(TestCase):
         """
         Anyone can see the public model
         """
-        permission_logic = PubStatePermissionLogic()
+        permission_logic = PublishmentPermissionLogic()
         add_permission_logic(Article, permission_logic)
         self._test_permission('adam', 'public')
         self._test_permission('seele', 'public')
@@ -77,26 +72,25 @@ class PubStatePermissionLogicTestCase(TestCase):
         """
         Authenticated user except wille can see the protected model
         """
-        permission_logic = PubStatePermissionLogic()
+        permission_logic = PublishmentPermissionLogic()
         add_permission_logic(Article, permission_logic)
         self._test_permission('adam', 'protected')
         self._test_permission('seele', 'protected')
         self._test_permission('nerv', 'protected')
         self._test_permission('children', 'protected')
         self._test_permission('wille', 'protected', neg=True)
-        self._test_permission('anonymous', 'protected',neg=True)
+        self._test_permission('anonymous', 'protected', neg=True)
 
-    # Suspended ToDo FIX ME
-    def _test_view_permission_with_draft(self):
+    def test_view_permission_with_draft(self):
         """
         Nobody except the author and adam can see the draft model
         """
-        permission_logic = PubStatePermissionLogic()
+        permission_logic = PublishmentPermissionLogic()
         add_permission_logic(Article, permission_logic)
         self._test_permission('adam', 'draft')
         self._test_permission('seele', 'draft', neg=True)
         self._test_permission('nerv', 'draft', neg=True)
         self._test_permission('children', 'draft', neg=True)
         self._test_permission('wille', 'draft', neg=True)
-        self._test_permission('anonymous', 'draft',neg=True)
+        self._test_permission('anonymous', 'draft', neg=True)
         self._test_permission('author', 'draft')

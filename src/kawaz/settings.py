@@ -35,12 +35,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tastypie',
+    'rest_framework',
     'permission',
     'thumbnailfield',
+    'registration',
     'kawaz.core.db',
+    'kawaz.core.utils',
     'kawaz.core.personas',
-    'kawaz.core.permissions',
+    'kawaz.core.publishments',
+    'kawaz.core.registrations',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
     'kawaz.apps.profiles',
@@ -128,7 +131,9 @@ TEMPLATE_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'templates'),
 )
 
-LOGIN_URL = '/'
+LOGIN_URL = '/registration/login/'
+LOGOUT_URL = '/registration/logout/'
+LOGIN_REDIRECT_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -139,6 +144,13 @@ STATICFILES_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'statics'),
 )
 
-# tastypie
+# inspectional-registration
+REGISTRATION_SUPPLEMENT_CLASS = (
+    'kawaz.core.registrations.models.RegistrationSupplement')
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
 
-TASTYPIE_DEFAULT_FORMATS = ['json',]
+# rest-framework
+DEFAULT_RENDERER_CLASSES = (
+    'rest_framework.renderers.JSONRenderer',
+)

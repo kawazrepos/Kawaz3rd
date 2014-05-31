@@ -6,7 +6,6 @@ storage/products/*
 storage/profiles/*
 storage/projects/*
 storage/attachments/*
-img
 
 # for Python
 # Byte-compiled / optimized / DLL files

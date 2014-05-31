@@ -3,7 +3,6 @@
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from permission.logics import PermissionLogic
-from kawaz.core.permissions.logics import PubStatePermissionLogic
 
 
 class EventPermissionLogic(PermissionLogic):
@@ -66,6 +65,7 @@ class EventPermissionLogic(PermissionLogic):
                 # generally
                 return True
             return False
+
         # macros
         def author_required(user_obj, perm, obj):
             if user_obj.role not in ('seele', 'nerv', 'children'):

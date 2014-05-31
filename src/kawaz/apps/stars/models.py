@@ -1,12 +1,11 @@
 from django.conf import settings
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
-
+from django.core.exceptions import ObjectDoesNotExist
 from kawaz.core.db.decorators import validate_on_save
+
 
 class StarManager(models.Manager):
     def get_for_object(self, obj):
@@ -36,9 +35,9 @@ class StarManager(models.Manager):
                 居ない場合に発生
         """
         stars = self.get_for_object(obj)
-        if not star in stars.all():
+        if star not in stars.all():
             raise ObjectDoesNotExist(
-                    _('The star have not been added to this object.'))
+                _('The star have not been added to this object.'))
         star.delete()
 
     def cleanup_object(self, obj):
@@ -55,9 +54,10 @@ class Star(models.Model):
     """
     はてなスター的なモデル。主にJavaScriptで処理を行う
     """
-    content_type = models.ForeignKey(ContentType,
-                            verbose_name='Content Type',
-                            related_name="content_type_set_for_%(class)s")
+    content_type = models.ForeignKey(
+        ContentType,
+        verbose_name='Content Type',
+        related_name="content_type_set_for_%(class)s")
     object_id = models.PositiveIntegerField('Object ID')
     content_object = GenericForeignKey(ct_field="content_type",
                                        fk_field="object_id")
@@ -76,8 +76,8 @@ class Star(models.Model):
     objects = StarManager()
 
     class Meta:
-        ordering            = ('created_at',)
-        verbose_name        = _('Star')
+        ordering = ('created_at',)
+        verbose_name = _('Star')
         verbose_name_plural = _('Stars')
         permissions = (
             ('view_star', 'Can view the Star'),
