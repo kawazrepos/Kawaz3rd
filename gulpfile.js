@@ -1,16 +1,28 @@
 var gulp = require("gulp"),
     plug = require("gulp-load-plugins")();
 
+var bootstrapjsprefix = "vendor/bootstrap/js/";
+
 var src = {
   coffee: "src/kawaz/statics/coffee/**/**.coffee",
   less: "src/kawaz/statics/less/**/**.less",
   template: "src/kawaz/templates/**/**.html",
-  bootstrapjs: "vendor/bootstrap/js/*.js"
+  bootstrapjs: [
+          //transition.jsを先頭にしてjsの結合を行わないと
+          //BootstrapベースのCSS3アニメーションが動かない
+          //トラブルが発生したのと、本家のjs結合gruntfile
+          //も、このような結合の仕方になっていたのでそれに
+          //ならう実装にする
+          bootstrapjsprefix + "transition.js",
+          bootstrapjsprefix + "*.js"
+    ],
+  bootstrapfont: "vendor/bootstrap/fonts/*"
 };
 
 var dest = {
   js: "src/kawaz/statics/js",
-  css: "src/kawaz/statics/css"
+  css: "src/kawaz/statics/css",
+  font: "src/kawaz/statics/fonts"
 };
 
 gulp.task("coffee", function () {
@@ -39,7 +51,7 @@ gulp.task("template", function () {
       .pipe(plug.livereload());
 });
 
-gulp.task("bootstrapjsconcat", function () {
+gulp.task("bootstrap-js-concat", function () {
   var stream = gulp.src(src.bootstrapjs)
       .pipe(plug.plumber())
       .pipe(plug.concat("bootstrap.js"))
@@ -49,11 +61,18 @@ gulp.task("bootstrapjsconcat", function () {
     stream.pipe(plug.livereload());
 });
 
-gulp.task("default", ["coffee", "less", "bootstrapjsconcat"]);
+gulp.task("bootstrap-copy-font", function() {
+  gulp.src(src.bootstrapfont)
+    .pipe(plug.plumber())
+    .pipe(gulp.dest(dest.font));
+});
+
+gulp.task("default", ["coffee", "less", "bootstrap-js-concat", "bootstrap-copy-font"]);
 
 gulp.task("watch", ["default"], function () {
   gulp.watch(src.coffee, ["coffee"]);
   gulp.watch(src.less, ["less"]);
   gulp.watch(src.template, ["template"]);
-  gulp.watch(src.bootstrapjs, ["bootstrapjsconcat"]);
+  gulp.watch(src.bootstrapjs, ["bootstrap-js-concat"]);
+  gulp.watch(src.bootstrapfont, ["bootstrap-copy-font"]);
 });
