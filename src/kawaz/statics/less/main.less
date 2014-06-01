@@ -46,19 +46,21 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .thumbnail {
     padding: 0;
 }
-.item .thumbnail {
-    position: relative;
-}
-.item .caption {
-    background-color: rgba(0,0,0,0.5);
-    top: 0;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-}
-.item .caption .caption_inner {
-    position: absolute;
-    bottom: 9px;
+.item {
+    .thumbnail {
+        position: relative;
+    }
+    .caption {
+        background-color: rgba(0,0,0,0.5);
+        top: 0;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        .caption_inner {
+            position: absolute;
+            bottom: 9px;
+        }
+    }
 }
 .fade-in() {
     0% {opacity: 0;}
@@ -66,18 +68,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 @keyframes fade-in { .fade-in(); }
 @-webkit-keyframes fade-in { .fade-in(); }
-a.product_caption .caption {
-    opacity: 0;
-}
-a.product_caption:hover .caption {
-    opacity: 1;
-    animation-duration: 0.5s;
-    animation-name: fade-in;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fade-in;
-}
-a.product_caption .caption {
-    h4, p{
-        color: white;
+a.product_caption {
+    .caption {
+        opacity: 0;
+        h4, p{
+            color: white;
+        }
+    }
+    &:hover .caption {
+        opacity: 1;
+        animation-duration: 0.5s;
+        animation-name: fade-in;
+        -webkit-animation-duration: 0.5s;
+        -webkit-animation-name: fade-in;
     }
 }

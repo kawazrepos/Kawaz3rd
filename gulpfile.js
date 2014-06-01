@@ -1,23 +1,25 @@
 var gulp = require("gulp"),
     plug = require("gulp-load-plugins")();
 
+var bootstrapjsprefix = "vendor/bootstrap/js/";
+
 var src = {
   coffee: "src/kawaz/statics/coffee/**/**.coffee",
   less: "src/kawaz/statics/less/**/**.less",
   template: "src/kawaz/templates/**/**.html",
   bootstrapjs: [
-          "vendor/bootstrap/js/transition.js",
-          "vendor/bootstrap/js/alert.js",
-          "vendor/bootstrap/js/button.js",
-          "vendor/bootstrap/js/carousel.js",
-          "vendor/bootstrap/js/collapse.js",
-          "vendor/bootstrap/js/dropdown.js",
-          "vendor/bootstrap/js/modal.js",
-          "vendor/bootstrap/js/tooltip.js",
-          "vendor/bootstrap/js/popover.js",
-          "vendor/bootstrap/js/scrollspy.js",
-          "vendor/bootstrap/js/tab.js",
-          "vendor/bootstrap/js/affix.js"
+          bootstrapjsprefix + "transition.js",
+          bootstrapjsprefix + "alert.js",
+          bootstrapjsprefix + "button.js",
+          bootstrapjsprefix + "carousel.js",
+          bootstrapjsprefix + "collapse.js",
+          bootstrapjsprefix + "dropdown.js",
+          bootstrapjsprefix + "modal.js",
+          bootstrapjsprefix + "tooltip.js",
+          bootstrapjsprefix + "popover.js",
+          bootstrapjsprefix + "scrollspy.js",
+          bootstrapjsprefix + "tab.js",
+          bootstrapjsprefix + "affix.js"
     ],
   bootstrapfont: "vendor/bootstrap/fonts/*"
 };
