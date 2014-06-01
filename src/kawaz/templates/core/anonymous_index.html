@@ -17,7 +17,7 @@
         {% else %}
         <div class="item">
         {% endif %}
-            <img src="storage/{{ product.advertisement_image }}" alt="{{ product.title }}">
+            <img src="{{ MEDIA_URL }}{{ product.advertisement_image }}" alt="{{ product.title }}">
             <div class="container">
                 <div class="carousel-caption">
                     <h3>{{ product.title }}</h3>

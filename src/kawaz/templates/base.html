@@ -48,8 +48,9 @@
     </div><!-- /.navbar-collapse -->
 </div><!-- /.container-fluid -->
 </nav>
-{%  block content %}
+{% block content %}
 {% endblock %}
+{% block footer %}
 <div id="footer">
     <div class="container">
         <h2>札幌ゲーム制作者コミュニティ“Kawaz”とは？</h2>
@@ -88,7 +89,10 @@
         Copyright &copy; 2009-2014 Kawaz. All rights reserved.</p>
     </div>
 </div>
+{% endblock %}
+{% block post_javascript %}
 <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
 <script src="{% static "js/bootstrap.js" %}"></script>
+{% endblock %}
 </body>
 </html>
