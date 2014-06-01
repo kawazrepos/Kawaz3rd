@@ -12,6 +12,7 @@ body {
 }
 html {
     background-color: @footer-color;
+    overflow-y: scroll;
 }
 #footer {
     width: 100%;
@@ -37,4 +38,46 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 #featured_products>.carousel-inner>.item>img{
     min-width: 100%;
+}
+.navbar-default {
+    background-color: rgba(248,248,248,0.8);
+    border-color: rgba(231,231,231,0.8);
+}
+.thumbnail {
+    padding: 0;
+}
+.item .thumbnail {
+    position: relative;
+}
+.item .caption {
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.item .caption .caption_inner {
+    position: absolute;
+    bottom: 9px;
+}
+.fade-in() {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@keyframes fade-in { .fade-in(); }
+@-webkit-keyframes fade-in { .fade-in(); }
+a.product_caption .caption {
+    opacity: 0;
+}
+a.product_caption:hover .caption {
+    opacity: 1;
+    animation-duration: 0.5s;
+    animation-name: fade-in;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fade-in;
+}
+a.product_caption .caption {
+    h4, p{
+        color: white;
+    }
 }
