@@ -8,18 +8,13 @@ var src = {
   less: "src/kawaz/statics/less/**/**.less",
   template: "src/kawaz/templates/**/**.html",
   bootstrapjs: [
+          //transition.jsを先頭にしてjsの結合を行わないと
+          //BootstrapベースのCSS3アニメーションが動かない
+          //トラブルが発生したのと、本家のjs結合gruntfile
+          //も、このような結合の仕方になっていたのでそれに
+          //ならう実装にする
           bootstrapjsprefix + "transition.js",
-          bootstrapjsprefix + "alert.js",
-          bootstrapjsprefix + "button.js",
-          bootstrapjsprefix + "carousel.js",
-          bootstrapjsprefix + "collapse.js",
-          bootstrapjsprefix + "dropdown.js",
-          bootstrapjsprefix + "modal.js",
-          bootstrapjsprefix + "tooltip.js",
-          bootstrapjsprefix + "popover.js",
-          bootstrapjsprefix + "scrollspy.js",
-          bootstrapjsprefix + "tab.js",
-          bootstrapjsprefix + "affix.js"
+          bootstrapjsprefix + "*.js"
     ],
   bootstrapfont: "vendor/bootstrap/fonts/*"
 };
