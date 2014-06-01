@@ -1,9 +1,7 @@
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from permission.logics import PermissionLogic
 from permission.utils.permissions import perm_to_permission
-from kawaz.core.permissions.utils import get_full_permission_name
+from kawaz.core.utils.permission import get_full_permission_name
 
 
 class StarPermissionLogic(PermissionLogic):

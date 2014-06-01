@@ -1,15 +1,12 @@
 import datetime
 from django.conf import settings
 from django.db import models
-from django.db.models import Q
-from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
-
 from markupfield.fields import MarkupField
-
 from kawaz.core.db.decorators import validate_on_save
-from kawaz.core.permissions.logics import PUB_STATES
+from kawaz.core.publishments.models import PUB_STATES
+from kawaz.core.publishments.models import PublishmentManagerMixin
 
 
 class Category(models.Model):
@@ -24,35 +21,17 @@ class Category(models.Model):
                                verbose_name=_('Author'),
                                related_name='blog_categories',
                                editable=False)
-    
+
     class Meta:
         # カテゴリはユーザーが所有するものなので unique together を指定
-        unique_together = (('author', 'label'),) 
+        unique_together = (('author', 'label'),)
 
     def __str__(self):
         return "{}({})".format(self.label, self.author.username)
 
 
-class EntryManager(models.Manager):
-    def published(self, user):
-        """
-        指定されたユーザが閲覧可能な記事を含むクエリを返す
-
-        ユーザーがメンバーだった場合は全体・内部公開記事、それ以外の場合は
-        内部公開記事のみを含むクエリを返す
-        """
-        q = Q(pub_state='public')
-        if user and user.is_authenticated() and user.is_member:
-            q |= Q(pub_state='protected')
-        return self.filter(q).distinct()
-
-    def draft(self, user):
-        """
-        指定されたユーザが所有する下書き記事を含むクエリを返す
-        """
-        if user and user.is_authenticated() and user.is_member:
-            return self.filter(author=user, pub_state='draft')
-        return self.none()
+class EntryManager(models.Manager, PublishmentManagerMixin):
+    pass
 
 
 @validate_on_save
@@ -60,8 +39,9 @@ class Entry(models.Model):
     """
     ブログ記事モデル
     """
-    pub_state = models.CharField(_('Publish status'), max_length=10,
-                                 choices=PUB_STATES, default="public")
+    pub_state = models.CharField(_("Publish status"),
+                                 max_length=10, choices=PUB_STATES,
+                                 default="public")
     title = models.CharField(_('Title'), max_length=255)
     body = MarkupField(_('Body'), default_markup_type='markdown')
     category = models.ForeignKey(Category, verbose_name=_('Category'),
@@ -127,10 +107,10 @@ class Entry(models.Model):
 
 from permission import add_permission_logic
 from permission.logics.author import AuthorPermissionLogic
-from kawaz.core.permissions.logics import PubStatePermissionLogic
+from kawaz.core.publishments.perms import PublishmentPermissionLogic
 
 add_permission_logic(Entry, AuthorPermissionLogic(
     field_name='author',
     any_permission=True,
 ))
-add_permission_logic(Entry, PubStatePermissionLogic())
+add_permission_logic(Entry, PublishmentPermissionLogic())

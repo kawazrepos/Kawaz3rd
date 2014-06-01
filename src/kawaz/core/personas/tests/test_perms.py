@@ -2,11 +2,11 @@ from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from permission import add_permission_logic
 from kawaz.core.personas.tests.factories import PersonaFactory
-from ...logics import AdamPermissionLogic
-from ...logics import SeelePermissionLogic
-from ...logics import NervPermissionLogic
-from ...logics import ChildrenPermissionLogic
-from ..models import PermissionsTestArticle as Article
+from ..perms import AdamPermissionLogic
+from ..perms import SeelePermissionLogic
+from ..perms import NervPermissionLogic
+from ..perms import ChildrenPermissionLogic
+from .models import PersonaTestArticle as Article
 
 
 class ChildrenPermissionLogicTestCase(TestCase):
@@ -16,28 +16,30 @@ class ChildrenPermissionLogicTestCase(TestCase):
 
     def setUp(self):
         self.users = dict(
-                adam=PersonaFactory(role='adam'),
-                seele=PersonaFactory(role='seele'),
-                nerv=PersonaFactory(role='nerv'),
-                children=PersonaFactory(role='children'),
-                wille=PersonaFactory(role='wille'),
-                anonymous=AnonymousUser(),
-            )
+            adam=PersonaFactory(role='adam'),
+            seele=PersonaFactory(role='seele'),
+            nerv=PersonaFactory(role='nerv'),
+            children=PersonaFactory(role='children'),
+            wille=PersonaFactory(role='wille'),
+            anonymous=AnonymousUser(),
+        )
         self.user = PersonaFactory()
         self.article = Article.objects.create(
-                title="public",
-                author=self.user,
-                pub_state='public')
+            title="public",
+            author=self.user,
+            pub_state='public')
 
     def _test_permission(self, role, perm, obj=None, neg=False):
         user = self.users.get(role)
         obj = None if obj is None else self.article
-        perm = "permissions.{}_permissionstestarticle".format(perm)
+        perm = "personas.{}_personatestarticle".format(perm)
         if neg:
-            self.assertFalse(user.has_perm(perm, obj=obj),
+            self.assertFalse(
+                user.has_perm(perm, obj=obj),
                 "{} should not have '{}'".format(role.capitalize(), perm))
         else:
-            self.assertTrue(user.has_perm(perm, obj=obj),
+            self.assertTrue(
+                user.has_perm(perm, obj=obj),
                 "{} should have '{}'".format(role.capitalize(), perm))
 
     def _auto_test_permission(self, perm, obj=None):
@@ -70,3 +72,4 @@ class ChildrenPermissionLogicTestCase(TestCase):
         self._auto_test_permission('change')
         self._auto_test_permission('change', obj=True)
 
+# TODO: Write the permission test for other permission logics

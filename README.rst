@@ -1,10 +1,10 @@
-Kawaz 3rd
+Kawaz3rd
 ===============================================================
-.. image:: https://secure.travis-ci.org/kawazrepos/third-impact.png?branch=develop
-    :target: http://travis-ci.org/kawazrepos/third-impact
+.. image:: https://secure.travis-ci.org/kawazrepos/Kawaz3rd.png?branch=develop
+    :target: http://travis-ci.org/kawazrepos/Kawaz3rd
     :alt: Build status
-.. image:: https://coveralls.io/repos/kawazrepos/third-impact/badge.png?branch=develop
-    :target: https://coveralls.io/r/kawazrepos/third-impact/
+.. image:: https://coveralls.io/repos/kawazrepos/Kawaz3rd/badge.png?branch=develop
+    :target: https://coveralls.io/r/kawazrepos/Kawaz3rd
     :alt: Coverage
 
 Author
@@ -29,7 +29,7 @@ Thus you can checkout the repository and install required package with
 
 .. code-block:: sh
     
-    $ git clone https://github.com/kawazrepos/third-impact
+    $ git clone https://github.com/kawazrepos/Kawaz3rd
     $ pip install -r requirements.txt
     $ pip install -r requirements-test.txt
 
@@ -38,10 +38,10 @@ You need to use git@github.com:kawazrepos/third-impact instead.
 
 .. code-block:: sh
     
-    $ git clone git@github.com:kawazrepos/third-impact
+    $ git clone git@github.com:kawazrepos/Kawaz3rd
     $ pip install -r requirements.txt
 
-.. _repository: https://github.com/kawazrepos/third-impact 
+.. _repository: https://github.com/kawazrepos/Kawaz3rd 
 
 .. note::
     Kawaz 3rd does not require to install it on the system.

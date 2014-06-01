@@ -1,5 +1,4 @@
 var gulp = require("gulp"),
-    concat = require("gulp-concat"),
     plug = require("gulp-load-plugins")();
 
 var src = {
@@ -30,32 +29,39 @@ var dest = {
 };
 
 gulp.task("coffee", function () {
-  plug.watch({glob: src.coffee})
+  var stream = gulp.src(src.coffee)
       .pipe(plug.plumber())
       .pipe(plug.coffee({bare: true}))
-      .pipe(gulp.dest(dest.js))
-      .pipe(plug.livereload());
+      .pipe(gulp.dest(dest.js));
+
+  if (~ this.seq.indexOf("watch"))
+    stream.pipe(plug.livereload());
 });
 
 gulp.task("less", function () {
-  plug.watch({glob: src.less})
+  var stream = gulp.src(src.less)
       .pipe(plug.plumber())
       .pipe(plug.less())
-      .pipe(gulp.dest(dest.css))
-      .pipe(plug.livereload());
+      .pipe(gulp.dest(dest.css));
+
+  if (~ this.seq.indexOf("watch"))
+    stream.pipe(plug.livereload());
 });
 
 gulp.task("template", function () {
-  plug.watch({glob: src.template})
+  gulp.src(src.template)
       .pipe(plug.plumber())
       .pipe(plug.livereload());
 });
 
 gulp.task("bootstrap-js-concat", function () {
-  gulp.src(src.bootstrapjs)
+  var stream = gulp.src(src.bootstrapjs)
       .pipe(plug.plumber())
-      .pipe(concat("bootstrap.js"))
+      .pipe(plug.concat("bootstrap.js"))
       .pipe(gulp.dest(dest.js));
+
+  if (~ this.seq.indexOf("watch"))
+    stream.pipe(plug.livereload());
 });
 
 gulp.task("bootstrap-copy-font", function() {
@@ -64,4 +70,12 @@ gulp.task("bootstrap-copy-font", function() {
     .pipe(gulp.dest(dest.font));
 });
 
-gulp.task("default", ["coffee", "less", "template", "bootstrap-js-concat", "bootstrap-copy-font"]);
+gulp.task("default", ["coffee", "less", "bootstrap-js-concat", "bootstrap-copy-font"]);
+
+gulp.task("watch", ["default"], function () {
+  gulp.watch(src.coffee, ["coffee"]);
+  gulp.watch(src.less, ["less"]);
+  gulp.watch(src.template, ["template"]);
+  gulp.watch(src.bootstrapjs, ["bootstrap-js-concat"]);
+  gulp.watch(src.bootstrapfont, ["bootstrap-copy-font"]);
+});

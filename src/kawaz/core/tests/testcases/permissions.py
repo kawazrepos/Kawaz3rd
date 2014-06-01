@@ -11,6 +11,11 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 class BasePermissionLogicTestCase(TestCase):
     app_label = None
     model_name = None
+    # use_model_name指定が`True`のとき、自動的にperm名にmodel名を付けます
+    # {app_label}.{perm}_{model_name}
+    # `False`のとき、perm名をそのまま扱います
+    # {app_label}.{perm}
+    use_model_name = True
 
     def __init__(self, *args, **kwargs):
         # 指定が必要なアトリビュートのチェック
@@ -41,7 +46,7 @@ class BasePermissionLogicTestCase(TestCase):
         Test PermissionLogic
 
         Args:
-            user (Persona instance): A persona instance of interest
+            user (Persona instance or string): A persona instance of interest or string which indicates target role name
             perm (string): A permission string of interest
             obj (instance or None): An object of interest or None
             neg (bool): False for `assertTrue`, True for `assertFalse`
@@ -49,13 +54,19 @@ class BasePermissionLogicTestCase(TestCase):
         # if the specified user is string, find it from the dictionary
         if isinstance(user, str):
             user = self.users[user]
+        username = 'anonymous'
+        if user.is_authenticated():
+            username = user.username
         # create full permission name
-        perm = "{}.{}_{}".format(self.app_label, perm, self.model_name)
+        if self.use_model_name:
+            perm = "{}.{}_{}".format(self.app_label, perm, self.model_name)
+        else:
+            perm = "{}.{}".format(self.app_label, perm)
         # assert
         if not neg:
             self.assertTrue(user.has_perm(perm, obj=obj),
-                            "{} should have '{}'".format(user.username, perm))
+                            "{} should have '{}'".format(username, perm))
         else:
             self.assertFalse(user.has_perm(perm, obj=obj),
-                             "{} should not have '{}'".format(user.username, perm))
+                             "{} should not have '{}'".format(username, perm))
 
