@@ -1,5 +1,4 @@
 var gulp = require("gulp"),
-    concat = require("gulp-concat"),
     plug = require("gulp-load-plugins")();
 
 var src = {
@@ -15,32 +14,46 @@ var dest = {
 };
 
 gulp.task("coffee", function () {
-  plug.watch({glob: src.coffee})
+  var stream = gulp.src(src.coffee)
       .pipe(plug.plumber())
       .pipe(plug.coffee({bare: true}))
-      .pipe(gulp.dest(dest.js))
-      .pipe(plug.livereload());
+      .pipe(gulp.dest(dest.js));
+
+  if (~ this.seq.indexOf("watch"))
+    stream.pipe(plug.livereload());
 });
 
 gulp.task("less", function () {
-  plug.watch({glob: src.less})
+  var stream = gulp.src(src.less)
       .pipe(plug.plumber())
       .pipe(plug.less())
-      .pipe(gulp.dest(dest.css))
-      .pipe(plug.livereload());
+      .pipe(gulp.dest(dest.css));
+
+  if (~ this.seq.indexOf("watch"))
+    stream.pipe(plug.livereload());
 });
 
 gulp.task("template", function () {
-  plug.watch({glob: src.template})
+  gulp.src(src.template)
       .pipe(plug.plumber())
       .pipe(plug.livereload());
 });
 
 gulp.task("bootstrapjsconcat", function () {
-  gulp.src(src.bootstrapjs)
+  var stream = gulp.src(src.bootstrapjs)
       .pipe(plug.plumber())
-      .pipe(concat("bootstrap.js"))
+      .pipe(plug.concat("bootstrap.js"))
       .pipe(gulp.dest(dest.js));
+
+  if (~ this.seq.indexOf("watch"))
+    stream.pipe(plug.livereload());
 });
 
-gulp.task("default", ["coffee", "less", "template", "bootstrapjsconcat"]);
+gulp.task("default", ["coffee", "less", "bootstrapjsconcat"]);
+
+gulp.task("watch", ["default"], function () {
+  gulp.watch(src.coffee, ["coffee"]);
+  gulp.watch(src.less, ["less"]);
+  gulp.watch(src.template, ["template"]);
+  gulp.watch(src.bootstrapjs, ["bootstrapjsconcat"]);
+});

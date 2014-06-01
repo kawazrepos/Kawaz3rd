@@ -4,7 +4,8 @@
   "description": "Kawaz 3rd",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "gulp"
+    "start": "gulp watch",
+    "build": "gulp"
   },
   "repository": {
     "type": "git",
@@ -18,13 +19,12 @@
   "homepage": "https://github.com/kawazrepos/Kawaz3rd",
   "private": true,
   "devDependencies": {
-    "gulp": "^3.6.2",
+    "gulp": "^3.7.0",
     "gulp-coffee": "^1.4.3",
+    "gulp-concat": "^2.2.0",
     "gulp-less": "^1.2.3",
     "gulp-livereload": "^1.5.0",
     "gulp-load-plugins": "^0.5.1",
-    "gulp-plumber": "^0.6.1",
-    "gulp-watch": "^0.6.4",
-    "gulp-concat": "^2.2.0"
+    "gulp-plumber": "^0.6.2"
   }
 }
