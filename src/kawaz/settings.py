@@ -154,3 +154,5 @@ REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
 DEFAULT_RENDERER_CLASSES = (
     'rest_framework.renderers.JSONRenderer',
 )
+
+TEST_RUNNER = 'kawaz.core.tests.runner.MediaRootTestSuiteRunner'

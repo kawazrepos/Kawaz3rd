@@ -7,34 +7,19 @@ from .factories import MaterialFactory
 from ..models import Material
 
 class MaterialDetailViewTestCase(TestCase):
-    media_root = ''
-
-    def setUp(self):
-        # ユーザーとユーザー用のディレクトリを作成
-        self.media_root = tempfile.mkdtemp()
-        self.original_setting = settings.MEDIA_ROOT
-        # override_settingsは、遅延して設定できないようなので
-        # 普通にsettingsを変更している
-        settings.MEDIA_ROOT = self.media_root
 
     def _generate_material(self, ext=None):
         """
         拡張子がextの一時ファイルを生成します
         @return Material
         """
-        path = os.path.join(self.media_root, 'attachments', 'username')
+        path = os.path.join(settings.MEDIA_ROOT, 'attachments', 'username')
         if not os.path.exists(path): os.makedirs(path)
         tmp_file = tempfile.mkstemp(dir=path, suffix=ext)[1]
         name = os.path.split(tmp_file)[-1]
-        settings.MEDIA_ROOT = self.media_root
         material = MaterialFactory(content_file=name, author__username='username')
         self.assertTrue(os.path.exists(material.content_file.path))
         return material
-
-    def tearDown(self):
-        # tmpfileを削除
-        shutil.rmtree(self.media_root)
-        settings.MEDIA_ROOT = self.original_setting
 
     def _download_file(self, ext):
         """
