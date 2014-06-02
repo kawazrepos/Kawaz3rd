@@ -21,6 +21,7 @@ class MaterialDetailView(BaseDetailView):
             response = HttpResponse(FileWrapper(file), content_type=mime_type_guess[0])
             response['Content-Disposition'] = 'attachment; filename={}'.format(name)
             return response
-        except:
-            pass
-        return HttpResponseNotFound()
+        except FileNotFoundError:
+            # もし、レコードには存在するが、ファイルがなかったり、読み込めなかったとき
+            self.object.delete() # DBと不整合なため、レコードを削除する
+            return HttpResponseNotFound()

@@ -13,7 +13,7 @@ class Material(models.Model):
 
     content_file = models.FileField(_('Content file'), upload_to=_get_upload_path)
     author = models.ForeignKey(Persona, verbose_name=_('Author'), editable=False)
-    slug = models.SlugField(_('Slug'), unique=True, editable=False)
+    slug = models.SlugField(_('Slug'), unique=True, editable=False, blank=True)
     ip_address  = models.IPAddressField("IP Address", editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
 
@@ -26,16 +26,14 @@ class Material(models.Model):
         return self.filename
 
     def save(self, *args, **kwargs):
-        # 相対パスのhashをslugとして自動設定します
-        # 相対パス + str(datetime.now())の値をsha1でhash化します
-        # 時刻を足している理由として、同じファイル名のファイルがアップロードされたときに
-        # saveが呼ばれる前の段階では、Storage.get_available_nameで同名ファイルを回避する前であり
-        # 同名ファイルがあると同じslugが生成されてしまうため
-        import hashlib
-        import datetime
-        datetime = datetime.datetime.now()
-        self.slug = hashlib.sha1((self.content_file.name + str(datetime)).encode('utf-8')).hexdigest()
-        return super().save(*args, **kwargs)
+        # 同名ファイルの存在衝突を避けるためにまずファイルを保存する
+        super().save(*args, **kwargs)
+        # 変更されたファイル名を元に slug を作成し、適用する
+        from hashlib import sha1
+        self.slug = sha1(self.content_file.name.encode('utf-8')).hexdigest()
+        # ref: https://docs.djangoproject.com/en/dev/ref/models/instances/#specifying-which-fields-to-save
+        super().save(update_fields=['slug'])
+        return self
 
     @models.permalink
     def get_absolute_url(self):

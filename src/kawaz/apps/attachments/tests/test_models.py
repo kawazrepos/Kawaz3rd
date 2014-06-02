@@ -1,14 +1,8 @@
 import datetime
 from django.test import TestCase
 from .factories import MaterialFactory
+from kawaz.core.tests.datetime import static_now
 from kawaz.core.tests.datetime import patch_datetime_now
-
-def static_now():
-    """
-    Return fixed datetime instance for testing.
-    It is mainly for skip Event validation
-    """
-    return datetime.datetime(2000, 9, 4)
 
 @patch_datetime_now(static_now)
 class MaterialModelTestCase(TestCase):
@@ -16,10 +10,11 @@ class MaterialModelTestCase(TestCase):
     def test_set_slug_automatically(self):
         """
         slugの値が自動的にcontent_file.nameから決まる
-        attachments/<username>/<filename> + str(datetime.datetime.now())をutf-8でエンコードし、sha1を取った値と等しい
+        attachments/<username>/<filename> でエンコードし、sha1を取った値と等しい
+        ただし、filenameはアップロード時の物ではなく、同名ファイルを回避するようにリネームされた値が利用される
         """
         material = MaterialFactory(author__username='material_kawaztan')
-        expected = "f512aea21d19a4996b351a7df6f0a772eeda4387"
+        expected = "2acf1e273e96b94ba26f76faf7a9b2b46199c0b1"
         self.assertEqual(material.slug, expected)
 
     def test_str_returns_correctly(self):
@@ -34,7 +29,8 @@ class MaterialModelTestCase(TestCase):
         material.get_absolute_url()が`attachments/<slug>/`を返します
         """
         material = MaterialFactory(author__username='material_kawaztan')
-        self.assertEqual(material.get_absolute_url(), "/attachments/f512aea21d19a4996b351a7df6f0a772eeda4387/")
+        expected = "2acf1e273e96b94ba26f76faf7a9b2b46199c0b1"
+        self.assertEqual(material.get_absolute_url(), "/attachments/{}/".format(expected))
 
     def test_filename(self):
         """

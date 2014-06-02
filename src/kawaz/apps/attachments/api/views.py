@@ -16,7 +16,4 @@ class MaterialViewSet(KawazModelViewSet,
 
     def pre_save(self, obj):
         super().pre_save(obj)
-        try:
-            obj.ip_address = self.request.META['REMOTE_ADDR']
-        except:
-            obj.ip_address = '0.0.0.0'
+        obj.ip_address = self.request.META.get('REMOTE_ADDR', '0.0.0.0')

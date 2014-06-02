@@ -4,32 +4,38 @@ import tempfile
 from django.conf import settings
 from django.test import TestCase
 from .factories import MaterialFactory
+from ..models import Material
 
 class MaterialDetailViewTestCase(TestCase):
+    media_root = ''
 
     def setUp(self):
         # ユーザーとユーザー用のディレクトリを作成
-        base_dir = os.path.join(settings.MEDIA_ROOT, 'attachments')
-        if not os.path.exists(base_dir):
-            os.mkdir(base_dir)
-        tmp_dir = tempfile.mkdtemp(dir=base_dir)
-        self.author_name = os.path.split(tmp_dir)[-1]
-        self.author_dir = tmp_dir
+        self.media_root = tempfile.mkdtemp()
+        self.original_setting = settings.MEDIA_ROOT
+        # override_settingsは、遅延して設定できないようなので
+        # 普通にsettingsを変更している
+        settings.MEDIA_ROOT = self.media_root
 
     def _generate_material(self, ext=None):
         """
         拡張子がextの一時ファイルを生成します
         @return Material
         """
-        tmp_file = tempfile.mkstemp(dir=self.author_dir, suffix=ext)[1]
-        file_name = os.path.split(tmp_file)[-1]
-        material = MaterialFactory(author__username=self.author_name, content_file=file_name)
+        path = os.path.join(self.media_root, 'attachments', 'username')
+        if not os.path.exists(path): os.makedirs(path)
+        tmp_file = tempfile.mkstemp(dir=path, suffix=ext)[1]
+        print(tmp_file)
+        name = os.path.split(tmp_file)[-1]
+        settings.MEDIA_ROOT = self.media_root
+        material = MaterialFactory(content_file=name, author__username='username')
         self.assertTrue(os.path.exists(material.content_file.path))
         return material
 
     def tearDown(self):
         # tmpfileを削除
-        shutil.rmtree(self.author_dir)
+        shutil.rmtree(self.media_root)
+        settings.MEDIA_ROOT = self.original_setting
 
     def _download_file(self, ext):
         """
@@ -52,10 +58,14 @@ class MaterialDetailViewTestCase(TestCase):
     def test_not_found(self):
         """
         ファイルが存在しないMaterialを読もうとしたとき、404を送出するか
+        また、このときレコードは削除される
         """
         material = MaterialFactory()
+
+        self.assertEqual(Material.objects.count(), 1)
         r = self.client.get(material.get_absolute_url())
         self.assertEqual(r.status_code, 404)
+        self.assertEqual(Material.objects.count(), 0)
 
     def test_check_mimetype(self):
         """
