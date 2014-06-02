@@ -20,8 +20,7 @@ class MaterialAPITestCase(APITestCase):
 class MaterialCreateAPITestCase(MaterialAPITestCase):
 
     def _test_create_material_with_user(self, role, success):
-        self._login_with_role(role)
-        path = os.path.join(settings.MEDIA_ROOT, 'fixtures', 'attachments', 'system', 'kawaztan.png')
+        path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
         self.assertTrue(os.path.exists(path))
         with open(path, 'rb') as file:
             data = {
@@ -58,7 +57,7 @@ class MaterialUpdateAPITestCase(MaterialAPITestCase):
 
     def _update_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.MEDIA_ROOT, 'fixtures', 'attachments', 'system', 'kawaztan.png')
+        path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
         self.assertTrue(os.path.exists(path))
 
         with open(path, 'rb') as file:
@@ -86,13 +85,10 @@ class MaterialDeleteAPITestCase(MaterialAPITestCase):
 
     def _delete_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.MEDIA_ROOT, 'fixtures', 'attachments', 'system', 'kawaztan.png')
-        self.assertTrue(os.path.exists(path))
 
-        with open(path, 'rb') as file:
-            r = self.client.delete('/attachments/materials/{}.json'.format(self.material.slug))
-            self.assertEqual(r.status_code, 404,
-                             '{} should not delete materials via API'.format(role))
+        r = self.client.delete('/attachments/materials/{}.json'.format(self.material.slug))
+        self.assertEqual(r.status_code, 404,
+                         '{} should not delete materials via API'.format(role))
 
     def test_delete_material_via_api(self):
         """
@@ -111,7 +107,7 @@ class MaterialRetrieveAPITestCase(MaterialAPITestCase):
 
     def _retrieve_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.MEDIA_ROOT, 'fixtures', 'attachments', 'system', 'kawaztan.png')
+        path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
         self.assertTrue(os.path.exists(path))
 
         with open(path, 'rb') as file:
@@ -137,7 +133,7 @@ class MaterialListAPITestCase(MaterialAPITestCase):
 
     def _list_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.MEDIA_ROOT, 'fixtures', 'attachments', 'system', 'kawaztan.png')
+        path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
         self.assertTrue(os.path.exists(path))
 
         with open(path, 'rb') as file:

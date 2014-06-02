@@ -33,10 +33,10 @@ class KawazGenericViewSetMixin(object):
         return manager.all()
 
 
-class KawazReadOnlyViewSetViewSet(KawazGenericViewSetMixin,
-                           GenericViewSet,
-                           mixins.RetrieveModelMixin,
-                           mixins.ListModelMixin):
+class KawazReadOnlyViewSetViewSet(mixins.RetrieveModelMixin,
+                                  mixins.ListModelMixin,
+                                  KawazGenericViewSetMixin,
+                                  GenericViewSet):
     """
     パーミッションを考慮した読み込み専用のViewSetです
     retrieve, listAPIのみを提供します
