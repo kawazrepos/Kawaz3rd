@@ -1,13 +1,15 @@
-from kawaz.api.views import KawazModelViewSet
+from kawaz.api.views import KawazGenericViewSetMixin
 from .serializers import StarSerializer
 from ..models import Star
 from rest_framework import mixins
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
 
-class StarViewSet(mixins.CreateModelMixin,
-                  mixins.DestroyModelMixin,
-                  mixins.ListModelMixin,
-                  KawazModelViewSet):
+class StarViewSetMixin(KawazGenericViewSetMixin,
+                GenericViewSet,
+                mixins.CreateModelMixin,
+                mixins.DestroyModelMixin,
+                mixins.ListModelMixin):
     model = Star
     queryset = Star.objects.all()
     serializer_class = StarSerializer

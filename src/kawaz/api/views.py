@@ -1,10 +1,12 @@
-from rest_framework import viewsets
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import GenericViewSet
+from rest_framework import mixins
 from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import DjangoObjectPermissions, DjangoModelPermissions
 from rest_framework import filters
 from .filters import KawazObjectPermissionFilterBackend
 
-class KawazModelViewSet(viewsets.GenericViewSet):
+class KawazGenericViewSetMixin(object):
     renderer_classes = (JSONRenderer,)
     author_field_name = None
     permission_classes = (DjangoObjectPermissions, DjangoModelPermissions)
@@ -29,3 +31,21 @@ class KawazModelViewSet(viewsets.GenericViewSet):
         if hasattr(manager, 'related'):
             return manager.related(self.request.user)
         return manager.all()
+
+
+class KawazReadOnlyViewSetViewSet(KawazGenericViewSetMixin,
+                           GenericViewSet,
+                           mixins.RetrieveModelMixin,
+                           mixins.ListModelMixin):
+    """
+    パーミッションを考慮した読み込み専用のViewSetです
+    retrieve, listAPIのみを提供します
+    """
+
+
+class KawazModelViewSetViewSet(KawazGenericViewSetMixin,
+                        ModelViewSet):
+    """
+    パーミッションを考慮した汎用的なViewSetです
+    retrieve, listに加え、create, destroy, update, partial_updateを提供します
+    """

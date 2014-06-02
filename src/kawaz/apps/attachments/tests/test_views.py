@@ -25,7 +25,6 @@ class MaterialDetailViewTestCase(TestCase):
         path = os.path.join(self.media_root, 'attachments', 'username')
         if not os.path.exists(path): os.makedirs(path)
         tmp_file = tempfile.mkstemp(dir=path, suffix=ext)[1]
-        print(tmp_file)
         name = os.path.split(tmp_file)[-1]
         settings.MEDIA_ROOT = self.media_root
         material = MaterialFactory(content_file=name, author__username='username')
