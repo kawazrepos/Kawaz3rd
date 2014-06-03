@@ -20,6 +20,7 @@ class MaterialAPITestCase(APITestCase):
 class MaterialCreateAPITestCase(MaterialAPITestCase):
 
     def _test_create_material_with_user(self, role, success):
+        self._login_with_role(role)
         path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
         self.assertTrue(os.path.exists(path))
         with open(path, 'rb') as file:

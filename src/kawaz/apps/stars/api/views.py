@@ -5,11 +5,11 @@ from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-class StarViewSetMixin(KawazGenericViewSetMixin,
-                GenericViewSet,
-                mixins.CreateModelMixin,
-                mixins.DestroyModelMixin,
-                mixins.ListModelMixin):
+class StarViewSetMixin(mixins.CreateModelMixin,
+                       mixins.DestroyModelMixin,
+                       mixins.ListModelMixin,
+                       KawazGenericViewSetMixin,
+                       GenericViewSet):
     model = Star
     queryset = Star.objects.all()
     serializer_class = StarSerializer

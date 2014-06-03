@@ -6,7 +6,8 @@ from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from ..models import Material
 
-class MaterialViewSetMixin(KawazGenericViewSetMixin, mixins.CreateModelMixin,
+class MaterialViewSetMixin(mixins.CreateModelMixin,
+                           KawazGenericViewSetMixin,
                            GenericViewSet):
     lookup_field = 'slug'
     model = Material
