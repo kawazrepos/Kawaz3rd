@@ -1,14 +1,12 @@
-from kawaz.api.views import KawazGenericViewSetMixin
-from django.shortcuts import get_object_or_404
 from .serializers import MaterialSerializer
 from rest_framework.parsers import FileUploadParser
-from rest_framework import mixins
-from rest_framework.viewsets import GenericViewSet
+from kawaz.api import mixins
+from kawaz.api.views import KawazGenericViewSet
 from ..models import Material
 
+
 class MaterialViewSetMixin(mixins.CreateModelMixin,
-                           KawazGenericViewSetMixin,
-                           GenericViewSet):
+                           KawazGenericViewSet):
     lookup_field = 'slug'
     model = Material
     queryset = Material.objects.all()
