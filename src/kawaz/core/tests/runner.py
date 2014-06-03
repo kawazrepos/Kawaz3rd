@@ -3,6 +3,7 @@ import tempfile
 
 from django.conf import settings
 
+
 class TempMediaMixin(object):
     """
     Mixin to create MEDIA_ROOT in temp and tear down when complete.
@@ -16,7 +17,8 @@ class TempMediaMixin(object):
         settings._original_file_storage = settings.DEFAULT_FILE_STORAGE
         self._temp_media = tempfile.mkdtemp()
         settings.MEDIA_ROOT = self._temp_media
-        settings.DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+        settings.DEFAULT_FILE_STORAGE = (
+            'django.core.files.storage.FileSystemStorage')
 
     def teardown_test_environment(self):
         "Delete temp storage."
@@ -29,6 +31,7 @@ class TempMediaMixin(object):
 
 # Requires Django 1.6+
 from django.test.runner import DiscoverRunner
+
 
 class MediaRootTestSuiteRunner(TempMediaMixin, DiscoverRunner):
     "Local test suite runner."
