@@ -5,9 +5,10 @@ from kawaz.api.views import KawazGenericViewSet
 from ..models import Material
 
 
-class MaterialViewSetMixin(mixins.CreateModelMixin,
-                           KawazGenericViewSet):
+class MaterialViewSet(mixins.CreateModelMixin,
+                      KawazGenericViewSet):
     lookup_field = 'slug'
+    lookup_url_kwarg = 'slug'
     model = Material
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer

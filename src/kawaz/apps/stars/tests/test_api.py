@@ -1,13 +1,15 @@
 import json
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.contenttypes.models import ContentType
-from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Star
 from .factories import ArticleFactory, StarFactory
 
-API_URL = "/stars/stars"
+LIST_URL_NAME = 'star-list'
+DETAIL_URL_NAME = 'star-detail'
+
 
 def response_to_dict(response):
     json_string = response.content.decode(encoding='UTF-8')
@@ -18,21 +20,21 @@ class BaseTestCase(TestCase):
     def setUp(self):
         persona_factory = lambda x: PersonaFactory(username=x, role=x)
         article_factory = lambda **kwargs: ArticleFactory(
-                author=self.users['article_author'], **kwargs)
+            author=self.users['article_author'], **kwargs)
         star_factory = lambda **kwargs: StarFactory(
-                author=self.users['star_author'], **kwargs)
+            author=self.users['star_author'], **kwargs)
 
         self.users = dict(
-            adam = persona_factory('adam'),
-            seele = persona_factory('seele'),
-            nerv = persona_factory('nerv'),
-            children = persona_factory('children'),
-            wille = persona_factory('wille'),
-            anonymous = AnonymousUser(),
-            article_author = PersonaFactory(username='article_author',
-                                            role='children'),
-            star_author = PersonaFactory(username='star_author',
-                                         role='children'),
+            adam=persona_factory('adam'),
+            seele=persona_factory('seele'),
+            nerv=persona_factory('nerv'),
+            children=persona_factory('children'),
+            wille=persona_factory('wille'),
+            anonymous=AnonymousUser(),
+            article_author=PersonaFactory(username='article_author',
+                                          role='children'),
+            star_author=PersonaFactory(username='star_author',
+                                       role='children'),
         )
         self.article = article_factory()
         self.protected_article = article_factory(pub_state='protected')
@@ -51,12 +53,11 @@ class StarListAPITestCase(BaseTestCase):
             self.assertTrue(self.client.login(
                 username=user,
                 password='password'))
+        url = reverse(LIST_URL_NAME)
         if obj:
             ct = ContentType.objects.get_for_model(obj)
-            url = API_URL + "?content_type={}&object_id={:d}"
+            url = url + "?content_type={}&object_id={:d}"
             url = url.format(ct.pk, obj.pk)
-        else:
-            url = API_URL
         response = self.client.get(url)
         response_obj = response_to_dict(response)
         self.assertEqual(response.status_code, 200)
@@ -103,7 +104,8 @@ class StarCreateAPITestCase(BaseTestCase):
                 password='password'))
         ct = ContentType.objects.get_for_model(obj)
         data = json.dumps({'content_type': ct.pk, 'object_id': obj.pk})
-        response = self.client.post(API_URL, data=data,
+        url = reverse(LIST_URL_NAME)
+        response = self.client.post(url, data=data,
                                     content_type='application/json')
         if neg:
             self.assertEqual(response.status_code, 403)
@@ -152,7 +154,7 @@ class StarDeleteAPITestCase(BaseTestCase):
             self.assertTrue(self.client.login(
                 username=user,
                 password='password'))
-        url = API_URL + "/" + str(obj.pk)
+        url = reverse(DETAIL_URL_NAME, kwargs=dict(pk=obj.pk))
         response = self.client.delete(url, content_type='application/json')
         if neg:
             self.assertEqual(response.status_code, 403)
@@ -192,4 +194,3 @@ class StarDeleteAPITestCase(BaseTestCase):
     def test_api_delete_star_author(self):
         """スター削除テスト（star_author）"""
         self._test_delete('star_author', obj=self.star0)
-

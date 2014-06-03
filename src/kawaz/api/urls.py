@@ -1,5 +1,18 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+from django.conf.urls import url, patterns, include
+from rest_framework import routers
+from kawaz.apps.stars.api.views import StarViewSet
+from kawaz.apps.attachments.api.views import MaterialViewSet
 
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'stars', StarViewSet)
+router.register(r'materials', MaterialViewSet)
+
+
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browseable API.
+urlpatterns = patterns('',
+    url(r'', include(router.urls)),
+    url(r'^api-auth/',
+        include('rest_framework.urls', namespace='rest_framework'))
+)

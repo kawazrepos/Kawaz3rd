@@ -1,40 +1,43 @@
 import os
-import json
-import tempfile
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from rest_framework.test import APITestCase
-
+from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import MaterialFactory
 
-from kawaz.core.personas.tests.factories import PersonaFactory
+
+LIST_URL_NAME = 'material-list'
+#DETAIL_URL_NAME = 'material-detail'
 
 
-class MaterialAPITestCase(APITestCase):
-
+class MaterialAPITestCaseBase(APITestCase):
     def _login_with_role(self, role):
         if not role == 'anonymous':
             user = PersonaFactory(role=role)
             self.client.force_authenticate(user=user)
 
 
-class MaterialCreateAPITestCase(MaterialAPITestCase):
-
+class MaterialCreateAPITestCase(MaterialAPITestCaseBase):
     def _test_create_material_with_user(self, role, success):
         self._login_with_role(role)
-        path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
+        path = os.path.join(settings.STATICFILES_DIRS[-1],
+                            'fixtures', 'attachments', 'system',
+                            'kawaztan.png')
         self.assertTrue(os.path.exists(path))
-        with open(path, 'rb') as file:
+        with open(path, 'rb') as fi:
             data = {
-                'content_file' : file
+                'content_file': fi
             }
-            r = self.client.post('/attachments/materials.json', data)
+            url = reverse(LIST_URL_NAME)
+            r = self.client.post(url, data)
             if success:
                 self.assertEqual(r.status_code, 201,
-                                 '{} should upload materials via API'.format(role))
+                                 '{} should upload materials '
+                                 'via API'.format(role))
             else:
                 self.assertEqual(r.status_code, 403,
-                                 '{} should not be enable to upload material via API'.format(role))
-
+                                 '{} should not be enable to '
+                                 'upload material via API'.format(role))
 
     def test_create_material_via_api(self):
         """
@@ -51,23 +54,30 @@ class MaterialCreateAPITestCase(MaterialAPITestCase):
         self._test_create_material_with_user('wille', False)
         self._test_create_material_with_user('anonymous', False)
 
-class MaterialUpdateAPITestCase(MaterialAPITestCase):
 
+class MaterialUpdateAPITestCase(MaterialAPITestCaseBase):
     def setUp(self):
         self.material = MaterialFactory()
 
     def _update_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
+        path = os.path.join(settings.STATICFILES_DIRS[-1],
+                            'fixtures', 'attachments', 'system',
+                            'kawaztan.png')
         self.assertTrue(os.path.exists(path))
 
-        with open(path, 'rb') as file:
+        with open(path, 'rb') as fi:
             data = {
-                'content_file' : file
+                'content_file': fi
             }
-            r = self.client.put('/attachments/materials/{}.json'.format(self.material.slug), data)
+            # detail URL は存在してないので detail URL っぽい URL
+            # を指定してみる
+            url = reverse(LIST_URL_NAME)
+            url = url + "/{}".format(self.material.slug)
+            r = self.client.put(url, data)
             self.assertEqual(r.status_code, 404,
-                             '{} should not update materials via API'.format(role))
+                             '{} should not update materials '
+                             'via API'.format(role))
 
     def test_update_material_via_api(self):
         """
@@ -79,15 +89,18 @@ class MaterialUpdateAPITestCase(MaterialAPITestCase):
         self._update_with_role('wille')
         self._update_with_role('anonymous')
 
-class MaterialDeleteAPITestCase(MaterialAPITestCase):
 
+class MaterialDeleteAPITestCase(MaterialAPITestCaseBase):
     def setUp(self):
         self.material = MaterialFactory()
 
     def _delete_with_role(self, role):
         self._login_with_role(role)
-
-        r = self.client.delete('/attachments/materials/{}.json'.format(self.material.slug))
+        # detail URL は存在してないので detail URL っぽい URL
+        # を指定してみる
+        url = reverse(LIST_URL_NAME)
+        url = url + "/{}".format(self.material.slug)
+        r = self.client.delete(url)
         self.assertEqual(r.status_code, 404,
                          '{} should not delete materials via API'.format(role))
 
@@ -101,20 +114,26 @@ class MaterialDeleteAPITestCase(MaterialAPITestCase):
         self._delete_with_role('wille')
         self._delete_with_role('anonymous')
 
-class MaterialRetrieveAPITestCase(MaterialAPITestCase):
 
+class MaterialRetrieveAPITestCase(MaterialAPITestCaseBase):
     def setUp(self):
         self.material = MaterialFactory()
 
     def _retrieve_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
+        path = os.path.join(settings.STATICFILES_DIRS[-1],
+                            'fixtures', 'attachments', 'system',
+                            'kawaztan.png')
         self.assertTrue(os.path.exists(path))
 
-        with open(path, 'rb') as file:
-            r = self.client.get('/attachments/materials/{}.json'.format(self.material.slug))
-            self.assertEqual(r.status_code, 404,
-                             '{} should not retrieve materials via API'.format(role))
+        # detail URL は存在してないので detail URL っぽい URL
+        # を指定してみる
+        url = reverse(LIST_URL_NAME)
+        url = url + "/{}".format(self.material.slug)
+        r = self.client.get(url)
+        self.assertEqual(r.status_code, 404,
+                         '{} should not retrieve materials '
+                         'via API'.format(role))
 
     def test_retrieve_material_via_api(self):
         """
@@ -127,20 +146,22 @@ class MaterialRetrieveAPITestCase(MaterialAPITestCase):
         self._retrieve_with_role('anonymous')
 
 
-class MaterialListAPITestCase(MaterialAPITestCase):
-
+class MaterialListAPITestCase(MaterialAPITestCaseBase):
     def setUp(self):
         self.material = MaterialFactory()
 
     def _list_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.STATICFILES_DIRS[-1], 'fixtures', 'attachments', 'system', 'kawaztan.png')
+        path = os.path.join(settings.STATICFILES_DIRS[-1],
+                            'fixtures', 'attachments', 'system',
+                            'kawaztan.png')
         self.assertTrue(os.path.exists(path))
 
-        with open(path, 'rb') as file:
-            r = self.client.get('/attachments/materials.json'.format(self.material.slug))
-            self.assertEqual(r.status_code, 405,
-                             '{} should not access to lists of materials via API'.format(role))
+        url = reverse(LIST_URL_NAME)
+        r = self.client.get(url)
+        self.assertEqual(r.status_code, 405,
+                         '{} should not access to lists of '
+                         'materials via API'.format(role))
 
     def test_list_material_via_api(self):
         """
