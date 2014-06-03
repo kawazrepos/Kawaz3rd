@@ -7,6 +7,13 @@ from unittest import mock
 
 _original_datetime_class = datetime.datetime
 
+def static_now():
+    """
+    Return fixed datetime instance for testing.
+    It is mainly for skip Event validation
+    """
+    return datetime.datetime(2000, 9, 4)
+
 def patch_datetime_now(mock_now_function):
     """
     Patch datetime.datetime object to apply mock now function.

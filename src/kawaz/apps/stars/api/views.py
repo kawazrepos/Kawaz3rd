@@ -1,10 +1,13 @@
-from kawaz.api.views import KawazModelViewSet
-from django.shortcuts import get_object_or_404
+from kawaz.api import mixins
+from kawaz.api.views import KawazGenericViewSet
 from .serializers import StarSerializer
 from ..models import Star
-from rest_framework.response import Response
 
-class StarViewSet(KawazModelViewSet):
+
+class StarViewSet(mixins.CreateModelMixin,
+                  mixins.DestroyModelMixin,
+                  mixins.ListModelMixin,
+                  KawazGenericViewSet):
     model = Star
     queryset = Star.objects.all()
     serializer_class = StarSerializer

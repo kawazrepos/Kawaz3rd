@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'kawaz.core.publishments',
     'kawaz.core.registrations',
     'kawaz.apps.announcements',
+    'kawaz.apps.attachments',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
     'kawaz.apps.events',
@@ -153,3 +154,5 @@ REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
 DEFAULT_RENDERER_CLASSES = (
     'rest_framework.renderers.JSONRenderer',
 )
+
+TEST_RUNNER = 'kawaz.core.tests.runner.MediaRootTestSuiteRunner'
