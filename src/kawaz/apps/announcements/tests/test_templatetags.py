@@ -72,3 +72,18 @@ class AnnouncementsTemplateTagTestCase(TestCase):
         for username, nannouncements in patterns:
             announcements = self._render_template(username, lookup='draft')
             self.assertEqual(announcements.count(), nannouncements)
+
+    def test_get_announcements_unknown(self):
+        """get_announcements unknown はエラーを出す"""
+        patterns = (
+            ('adam', 1),
+            ('seele', 1),
+            ('nerv', 1),
+            ('children', 0),
+            ('wille', 0),
+            ('anonymous', 0),
+        )
+        # with lookup
+        for username, nannouncements in patterns:
+            self.assertRaises(TemplateSyntaxError, self._render_template,
+                              username, lookup='unknown')
