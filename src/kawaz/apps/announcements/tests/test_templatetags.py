@@ -3,7 +3,6 @@ from django.template import Template, Context, TemplateSyntaxError
 from django.contrib.auth.models import AnonymousUser
 from unittest.mock import MagicMock
 from kawaz.core.personas.tests.factories import PersonaFactory
-from ..models import Announcement
 from .factories import AnnouncementFactory
 
 

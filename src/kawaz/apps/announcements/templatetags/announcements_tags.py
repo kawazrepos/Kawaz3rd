@@ -1,7 +1,5 @@
 from django import template
-from django.db.models import Q
 from django.template import TemplateSyntaxError
-from django.core.exceptions import ImproperlyConfigured
 from ..models import Announcement
 
 register = template.Library()
