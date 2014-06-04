@@ -24,6 +24,12 @@ class PublishmentLookupsTestCase(TestCase):
         )
 
     def test_published_lookup(self):
+        """
+        ユーザーに対して公開されているオブジェクトを正しく返すかテスト
+
+        メンバーである adam, seele, nerv, children, author は public/protected
+        の二種類を取得し、それ以外は public のみを取得可能
+        """
         patterns = (
             ('adam', 2),
             ('seele', 2),
@@ -42,6 +48,12 @@ class PublishmentLookupsTestCase(TestCase):
                                  role, narticles))
 
     def test_draft_lookup(self):
+        """
+        ユーザーが編集可能な下書きオブジェクトを正しく返すかテスト
+
+        下書きオブジェクトの所有者である author とあらゆる権限を持つ adam のみ
+        下書きオブジェクトを取得でき、それ以外は取得できない
+        """
         patterns = (
             ('adam', 1),
             ('seele', 0),
