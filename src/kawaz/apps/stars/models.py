@@ -5,6 +5,7 @@ from django.contrib.contenttypes.generic import GenericForeignKey
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
 from kawaz.core.db.decorators import validate_on_save
+from kawaz.core.utils.permission import filter_with_perm
 
 
 class StarManager(models.Manager):
@@ -70,6 +71,23 @@ class StarManager(models.Manager):
         stars = self.get_for_object(obj)
         for star in stars:
             star.delete()
+
+    def published(self, user_obj):
+        """
+        指定されたユーザーが閲覧可能なスターを含むクエリを返す
+
+        Args:
+            user_obj (user instance): 対象ユーザーインスタンス
+
+        Returns:
+            queryset
+        """
+        # TODO: 可能な限りデータベース上でフィルタリング処理を行う
+        # Note: 下記は全てイテレータで処理を行なっているので一応遅延処理される
+        iterator = filter_with_perm(user_obj, self.all(), 'view')
+        iterator = (x.pk for x in iterator
+                    if getattr(x.content_object, 'pub_state', None) != 'draft')
+        return self.filter(pk__in=iterator)
 
 
 @validate_on_save

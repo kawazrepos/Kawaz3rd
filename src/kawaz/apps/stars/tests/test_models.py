@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.exceptions import ObjectDoesNotExist
 from kawaz.core.personas.tests.factories import PersonaFactory
+from kawaz.core.personas.tests.utils import create_role_users
 from ..models import Star
 from .factories import StarFactory, ArticleFactory
 
@@ -107,3 +108,30 @@ class StarManagerTestCase(TestCase):
         self.assertEqual(Star.objects.get_for_object(article2).count(), 0)
         self.assertEqual(Star.objects.get_for_object(article3).count(), 0)
         self.assertEqual(Star.objects.count(), 0)
+
+    def test_published(self):
+        """ユーザーが閲覧可能なスターの一覧を返す"""
+        article1 = self.articles['public']
+        article2 = self.articles['protected']
+        article3 = self.articles['draft']
+        users = create_role_users()
+
+        for i in range(1):
+            StarFactory(content_object=article1)
+        for i in range(2):
+            StarFactory(content_object=article2)
+        for i in range(3):
+            StarFactory(content_object=article3)
+
+        patterns = (
+            ('adam', 3),
+            ('seele', 3),
+            ('nerv', 3),
+            ('children', 3),
+            ('wille', 1),
+            ('anonymous', 1),
+        )
+        for role, nstars in patterns:
+            qs = Star.objects.published(users[role])
+            self.assertEqual(qs.count(), nstars,
+                             "{} should see {} stars".format(role, nstars))
