@@ -18,4 +18,3 @@ class StarFactory(factory.DjangoModelFactory):
     author = factory.SubFactory(PersonaFactory)
     content_object = factory.SubFactory(ArticleFactory)
     quote = "引用"
-
