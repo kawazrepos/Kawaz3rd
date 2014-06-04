@@ -27,10 +27,10 @@ class CategoryFactory(factory.DjangoModelFactory):
 
 class ProductFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Product
-    FACTORY_DJANGO_GET_OR_CREATE = ('slug',)
+    FACTORY_DJANGO_GET_OR_CREATE = ('title', 'slug',)
 
-    title = 'かわずたんアドベンチャー'
-    slug = 'kawaz-tan-adventure'
+    title = factory.sequence(lambda n: 'かわずたんアドベンチャー{}'.format(n))
+    slug = factory.sequence(lambda n: 'kawaz-tan-adventure-{}'.format(n))
     advertisement_image = ('products/kawaz-tan-adventure/'
                            'advertisement_images/kawaztan.png')
     thumbnail = 'products/kawaz-tan-adventure/thumbnails/kawaztan.png'
@@ -87,4 +87,3 @@ class ScreenshotFactory(factory.DjangoModelFactory):
 
     image = 'products/kawaz-tan-adventure/screenshots/cute_kawaz_tan.png'
     product = factory.SubFactory(ProductFactory)
-
