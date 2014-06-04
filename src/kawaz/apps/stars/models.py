@@ -11,6 +11,9 @@ class StarManager(models.Manager):
     def get_for_object(self, obj):
         """
         指定されたオブジェクトに関係するスターを含むクエリを返す
+
+        Args:
+            obj (model instance): 検索対象のモデルインスタンス
         """
         ct = ContentType.objects.get_for_model(obj)
         return self.filter(content_type=ct, object_id=obj.pk)
@@ -18,6 +21,19 @@ class StarManager(models.Manager):
     def add_to_object(self, obj, author, quote=''):
         """
         指定されたオブジェクトに新たにスターを作成
+
+        Args:
+            obj (model instance): 付加対象のモデルインスタンス
+            author (user instance): スター付加を行うユーザー
+            quote (str): 引用文字列（デフォルト: `''`）
+
+        Notice:
+            `author`を指定するが、実際に`author`がstarを対象オブジェクトに
+            付加可能かどうかのテストは行わない。
+            このテストを行う場合は下記のように権限テストを行う必要がある
+
+            >>> author.has_perm('stars.add_star', obj=obj)
+
         """
         ct = ContentType.objects.get_for_model(obj)
         star = self.create(content_type=ct,
@@ -29,6 +45,10 @@ class StarManager(models.Manager):
     def remove_from_object(self, obj, star):
         """
         指定されたオブジェクトから指定されたスターを削除
+
+        Args:
+            obj (model instance): 削除対象のモデルインスタンス
+            star (star instance): 削除対象のスターインスタンス
 
         Raises:
             ObjectDoesNotExist: 指定されたスターがオブジェクトに関連付けられて
@@ -43,6 +63,9 @@ class StarManager(models.Manager):
     def cleanup_object(self, obj):
         """
         指定されたオブジェクトに付加されている全てのスターを削除
+
+        Args:
+            obj (model instance): 削除対象のモデルインスタンス
         """
         stars = self.get_for_object(obj)
         for star in stars:
