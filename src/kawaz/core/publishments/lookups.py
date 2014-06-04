@@ -45,10 +45,11 @@ def draft_lookup(user_obj, author_field_name='author', field_name='pub_state'):
     Returns:
         An instance of Q object
     """
-    if user_obj and user_obj.is_authenticated() and user_obj.is_member:
-        q = Q(**{author_field_name: user_obj, field_name: 'draft'})
-    else:
-        # pk = -1 never exists
-        q = Q(pk=-1)
+    # pk = -1 never exists
+    q = Q(pk=-1)
+    if user_obj and user_obj.is_authenticated():
+        if user_obj.is_superuser:
+            q = Q(**{field_name: 'draft'})
+        elif user_obj.is_member:
+            q = Q(**{author_field_name: user_obj, field_name: 'draft'})
     return q
-
