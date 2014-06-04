@@ -1,39 +1,57 @@
-from django.core.exceptions import ObjectDoesNotExist
 from permission.logics import PermissionLogic
-from permission.utils.permissions import perm_to_permission
-from kawaz.core.utils.permission import get_full_permission_name
+from kawaz.core.utils.permission import check_object_permission
 
 
 class StarPermissionLogic(PermissionLogic):
-    def _has_perm_of_content_object(self, user_obj, perm, obj,
-                                    content_object=True):
+    def _check_object_permissions(self, user_obj, codenames, obj):
         """
-        スター付加先のオブジェクトの公開状態をチェックし、内部公開であれば
-        ユーザーにその記事の閲覧権限があるかどうかによりスターの閲覧権限を
-        規定する
+        指定されたユーザーが指定された省略形パーミッションのどれか一つでも
+        対象オブジェクトに対して持つか調べる
+
+        Args:
+            user_obj (user instance): 対象ユーザー
+            codenames (list or tuple): 省略形パーミッションリスト
+            obj (model instance): 対象オブジェクト
+
+        Returns:
+            bool
         """
-        try:
-            if content_object:
-                obj = obj.content_object
-            # 対象オブジェクトのパーミッションを取得
-            perm = get_full_permission_name(perm, obj)
-            # 文字列 permission を実体に変換
-            perm_to_permission(perm)
-            # 指定されたパーミッションが存在するためチェックを行う
-            return user_obj.has_perm(perm, obj=obj)
-        except ObjectDoesNotExist:
-            # 指定されたパーミッションが存在しない。
-            # Star自体に閲覧権限があるわけではないので、今場合は常にTrue
-            return True
+        def check(codename):
+            r = check_object_permission(user_obj, codename, obj)
+            if r is None:
+                # パーミッションが存在しない場合はパーミッションを持つものと
+                # して処理を行う
+                return True
+            return r
+        if not isinstance(codenames, (list, tuple)):
+            codenames = (codenames,)
+        return any(check(codename) for codename in codenames)
 
     def has_perm(self, user_obj, perm, obj=None):
         """
         Starのパーミッションを処理する
 
-        add - 全てのメンバーが持つ
-        change - 誰も持たない
-        delete - 所有者のみ持つ
-        view - 付加対象の公開状態依存
+        Model permission:
+            add: メンバーであれば True
+            change: 誰も持たない
+            delete: メンバーであれば True
+            view: 全員 True
+
+        Object permission:
+            add: メンバーかつ指定されたオブジェクトの閲覧権限があれば True
+                詳細は後記
+            change: 誰も持たない
+            delete: メンバーかつ指定されたスターがリンクしている
+                オブジェクトの閲覧権限があれば True
+                もしくは指定されたスターがリンクしているオブジェクトの
+                編集権限があれば True
+            view: 指定されたスターがリンクしているオブジェクトの閲覧権限
+                があれば True
+
+        Notice:
+            通常 add 権限は Model permission のみが存在するが、Star の場合は
+            `has_perm`に付加対象オブジェクトを渡すことで付加対象オブジェクト
+            に対する付加権限を調べることが可能
         """
 
         # filter interest permissions
@@ -61,24 +79,23 @@ class StarPermissionLogic(PermissionLogic):
             # 公開状態がないが、このチェックをしないと非公開オブジェクトの
             # StarがpublicなAPIで取れてしまって引用などが見られてしまう
             # 可能性があるので、content_objectが見れる場合のみ閲覧権限がある
-            return self._has_perm_of_content_object(user_obj, 'view', obj)
+            return self._check_object_permissions(user_obj, 'view',
+                                                  obj.content_object)
         elif perm == 'stars.add_star':
             # 渡されたオブジェクトにスターを付加する権限があるかを返す
             # 渡されたオブジェクトの閲覧権限を持っていればスターを付加する
             # 権限があるとする
             if user_obj.has_perm('stars.add_star'):
-                return self._has_perm_of_content_object(user_obj, 'view', obj,
-                                                        content_object=False)
+                return self._check_object_permissions(user_obj, 'view', obj)
             return False
         elif perm == 'stars.delete_star':
-            if self._has_perm_of_content_object(user_obj, 'change', obj):
-                # 付加先のコンテンツを編集可能な権限を持っている場合も削除可能
-                return True
-            elif self._has_perm_of_content_object(user_obj, 'delete', obj):
-                # 付加先のコンテンツを削除可能な権限を持っている場合も削除可能
+            if self._check_object_permissions(user_obj, ('change', 'delete'),
+                                              obj.content_object):
+                # 付加先のコンテンツを編集可能な権限を持っている場合は削除可能
                 return True
             if user_obj == obj.author:
                 # 自分が付加したスターは付加先のコンテンツの閲覧権限を持つ場合
-                # は可能
-                return self._has_perm_of_content_object(user_obj, 'view', obj)
+                # は削除可能
+                return self._check_object_permissions(user_obj, 'view',
+                                                      obj.content_object)
         return False

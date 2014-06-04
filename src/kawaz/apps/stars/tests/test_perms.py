@@ -54,12 +54,11 @@ class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
         持たない
         """
         # オブジェクト所有者のみ True を返す Mock
-        def _has_perm_of_content_object(user_obj, perm, obj,
-                                        content_object=True):
+        def _check_object_permissions(user_obj, perm, obj):
             return user_obj == self.article_author
         # 強制的に対象オブジェクトのあらゆる権限を持たないように変更する
-        with patch.object(StarPermissionLogic, '_has_perm_of_content_object',
-                          side_effect=_has_perm_of_content_object):
+        with patch.object(StarPermissionLogic, '_check_object_permissions',
+                          side_effect=_check_object_permissions):
             self._test('adam', 'add', obj=self.article)
             self._test('seele', 'add', obj=self.article, neg=True)
             self._test('nerv', 'add', obj=self.article, neg=True)
@@ -124,12 +123,11 @@ class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
         持たない（たとえ自身の所有するスターであっても）
         """
         # オブジェクト所有者のみ True を返す Mock
-        def _has_perm_of_content_object(user_obj, perm, obj,
-                                        content_object=True):
+        def _check_object_permissions(user_obj, perm, obj):
             return user_obj == self.article_author
         # 強制的に対象オブジェクトのあらゆる権限を持たないように変更する
-        with patch.object(StarPermissionLogic, '_has_perm_of_content_object',
-                          side_effect=_has_perm_of_content_object):
+        with patch.object(StarPermissionLogic, '_check_object_permissions',
+                          side_effect=_check_object_permissions):
             self._test('adam', 'delete', obj=self.star)
             self._test('seele', 'delete', obj=self.star, neg=True)
             self._test('nerv', 'delete', obj=self.star, neg=True)
