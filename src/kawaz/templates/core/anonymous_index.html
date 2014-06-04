@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% load products_tags %}
 {% block content %}
 <div id="featured_products" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
+    {% get_products 'featured' as featured_products %}
     {% for product in featured_products %}
         {% if forloop.first %}
         <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
@@ -37,12 +39,14 @@
 <div class="container">
     <h2>最新のゲーム</h2>
     <div id="recent_products" class="row list-group">
-    {% for product in recent_products %}
+    {% get_products 'normal' as recent_products %}
+    {% for product in recent_products|slice:":5" %}
     {% include "products/components/thumbnail-item.html" %}
     {% endfor %}
     </div>
     <h2>注目のゲーム</h2>
     <div id="products" class="row list-group">
+    {% get_products as products %}
     {% for product in products %}
     {% include "products/components/thumbnail-item.html" %}
     {% endfor %}
