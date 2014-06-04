@@ -1,56 +1,49 @@
-# coding=utf-8
-"""
-django templatetags for announcements app
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django import template
 from django.db.models import Q
 from django.template import TemplateSyntaxError
+from django.core.exceptions import ImproperlyConfigured
 from ..models import Announcement
 
 register = template.Library()
 
 
-@register.assignment_tag
-def get_announcements(lookup=None):
+@register.assignment_tag(takes_context=True)
+def get_announcements(context, lookup='published'):
     """
-    Put ordered queryset of announcements model into variable
+    任意の<lookup>によりフィルタされた Announcement のクエリを取得し指定された
+    <variable>に格納するテンプレートタグ
     
     Syntax:
         {% get_announcements as <variable> %}
         {% get_announcements <lookup> as <variable> %}
 
-    Lookup:
-        None: Include public and protected announcements
-        public: Include public announcements
-        protected: Include protected announcements
-        draft: Include draft announcements
+    Lookup: (Default: published)
+        published: ユーザーに対して公開された Announcement を返す
+        draft: ユーザーが編集可能な下書き Announcement を返す
 
     Examples:
-        Put announcements queryset into 'announcements' variable and iter the
-        most recent 5 instances.
+        公開された Announcement のクエリを取得し、最新5件のみを描画
 
         {% get_announcements as announcements %}
         {% for in announcements|slice:":5" %}
             {{ announcements }}
         {% endfor %}
 
-        Put protected announcements queryset into 'protected_announcements'
-        variable.
+        下書き記事を取得
 
-        {% get_announcements 'protected' as protected_announcements %}
+        {% get_announcements 'draft' as draft_announcements %}
     """
-    ALLOWED_LOOKUPS = (None, 'public', 'protected', 'draft')
+    ALLOWED_LOOKUPS = ('published', 'draft')
     if lookup not in ALLOWED_LOOKUPS:
         raise TemplateSyntaxError(
             "Unknown 'lookup' is specified to 'get_announcements'. "
             "It need to be one of {}.".format(ALLOWED_LOOKUPS))
-    if lookup is None:
-        qs = Announcement.objects.filter(pub_state__in=('public', 'protected'))
-    elif lookup == 'public':
-        qs = Announcement.objects.filter(pub_state='public')
-    elif lookup == 'protected':
-        qs = Announcement.objects.filter(pub_state='protected')
+    # 'request' は settings.TEMPLATE_CONTEXT_PROCESSOR に
+    # 'django.core.context_processors.request' が指定されていないと存在しない
+    # ここでは敢えて存在しない場合にエラーを出すため直接参照している
+    request = context['request']
+    if lookup == 'published':
+        qs = Announcement.objects.published(request.user)
     elif lookup == 'draft':
-        qs = Announcement.objects.filter(pub_state='draft')
-    return qs.order_by('-created_at')
+        qs = Announcement.objects.draft(request.user)
+    return qs

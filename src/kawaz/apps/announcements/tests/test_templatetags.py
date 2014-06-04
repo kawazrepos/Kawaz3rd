@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
 from django.contrib.auth.models import AnonymousUser
+from unittest.mock import MagicMock
 from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Announcement
 from .factories import AnnouncementFactory
@@ -13,65 +14,61 @@ class AnnouncementsTemplateTagTestCase(TestCase):
             protected=AnnouncementFactory(pub_state='protected'),
             draft=AnnouncementFactory(pub_state='draft'),
         )
-
-    def test_get_announcements(self):
-        """get_announcements should put public and protected announcements"""
-        t = Template(
-            "{% load announcements_tags %}"
-            "{% get_announcements as announcements %}"
+        self.users = dict(
+            adam=PersonaFactory(username='adam', role='adam'),
+            seele=PersonaFactory(username='seele', role='seele'),
+            nerv=PersonaFactory(username='nerv', role='nerv'),
+            children=PersonaFactory(username='children', role='children'),
+            wille=PersonaFactory(username='wille', role='wille'),
+            anonymous=AnonymousUser(),
         )
-        c = Context({})
-        t.render(c)
-        self.assertEqual(c['announcements'].count(), 2)
-        self.assertEqual(
-            c['announcements'].filter(pub_state='draft').count(), 0)
 
-    def test_get_announcements_with_public(self):
-        """get_announcements should put public announcements"""
+    def _render_template(self, username, lookup=''):
         t = Template(
-            "{% load announcements_tags %}"
-            "{% get_announcements 'public' as announcements %}"
+            "{{% load announcements_tags %}}"
+            "{{% get_announcements {} as announcements %}}".format(
+                "'{}'".format(lookup) if lookup else ''
+            )
         )
-        c = Context({})
-        t.render(c)
-        self.assertEqual(c['announcements'].count(), 1)
-        self.assertEqual(c['announcements'].first(),
-                         self.announcements['public'])
+        r = MagicMock()
+        r.user = self.users[username]
+        c = Context(dict(request=r))
+        r = t.render(c)
+        # get_announcements は何も描画しない
+        self.assertEqual(r.strip(), "")
+        return c['announcements']
 
-    def test_get_announcements_with_protected(self):
-        """get_announcements should put protected announcements"""
-        t = Template(
-            "{% load announcements_tags %}"
-            "{% get_announcements 'protected' as announcements %}"
+
+    def test_get_announcements_published(self):
+        """get_announcements published はユーザーに対して公開された記事を返す"""
+        patterns = (
+            ('adam', 2),
+            ('seele', 2),
+            ('nerv', 2),
+            ('children', 2),
+            ('wille', 1),
+            ('anonymous', 1),
         )
-        c = Context({})
-        t.render(c)
-        self.assertEqual(c['announcements'].count(), 1)
-        self.assertEqual(c['announcements'].first(),
-                         self.announcements['protected'])
+        # with lookup
+        for username, nannouncements in patterns:
+            announcements = self._render_template(username, lookup='published')
+            self.assertEqual(announcements.count(), nannouncements)
+        # without lookup
+        for username, nannouncements in patterns:
+            announcements = self._render_template(username)
+            self.assertEqual(announcements.count(), nannouncements)
 
-    def test_get_announcements_with_draft(self):
-        """get_announcements should put draft announcements"""
-        t = Template(
-            "{% load announcements_tags %}"
-            "{% get_announcements 'draft' as announcements %}"
+    def test_get_announcements_draft(self):
+        """get_announcements draft はユーザーが編集可能な下書きを返す"""
+        patterns = (
+            ('adam', 1),
+            ('seele', 1),
+            ('nerv', 1),
+            ('children', 0),
+            ('wille', 0),
+            ('anonymous', 0),
         )
-        c = Context({})
-        t.render(c)
-        self.assertEqual(c['announcements'].count(), 1)
-        self.assertEqual(c['announcements'].first(),
-                         self.announcements['draft'])
-
-    def test_get_announcements_with_unknown(self):
-        """get_announcements should raise TemplateSyntaxError"""
-        t = Template(
-            "{% load announcements_tags %}"
-            "{% get_announcements 'unknown' as announcements %}"
-        )
-        c = Context({})
-        self.assertRaises(TemplateSyntaxError,
-                          t.render, c)
-
-
-
-
+        # with lookup
+        for username, nannouncements in patterns:
+            announcements = self._render_template(username, lookup='draft')
+            self.assertEqual(announcements.count(), nannouncements)
