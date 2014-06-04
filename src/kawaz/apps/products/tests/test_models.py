@@ -8,7 +8,6 @@ from .factories import CategoryFactory
 from .factories import ProductFactory
 from .factories import URLReleaseFactory
 from .factories import PackageReleaseFactory
-from .factories import Screenshot
 
 
 class PlatformModelTestCase(TestCase):
@@ -30,6 +29,15 @@ class CategoryModelTestCase(TestCase):
 
 
 class ProductModelTestCase(TestCase):
+    def test_product_factory_create_unique_product(self):
+        """
+        ProductFactory が一意なプロダクトを返すか否か（Ref: issue#68）
+        """
+        from ..models import Product
+        for i in range(5):
+            ProductFactory()
+        self.assertEqual(Product.objects.count(), 5)
+
     def test_str_returns_product_title(self):
         """
         str()関数はプロダクトのタイトルを返す
