@@ -22,3 +22,27 @@
     pub_state: public
     created_at: 2010-11-01
     updated_at: 2010-11-01
+- model: personas.persona
+  pk: 2
+  fields:
+    username: giginet
+    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    email: giginet@kawaz.org
+    is_active: true
+    nickname: ぎぎにゃん
+    quotes: 老害
+    gender: man
+    role: seele
+    avatar: fixtures/profiles/giginyan.png
+- model: profiles.profile
+  pk: 2
+  fields:
+    user: 2
+    remarks: |
+      プログラマー
+    url: http://www.kawaz.org/
+    birthday: 2010-11-01
+    place: 札幌
+    pub_state: public
+    created_at: 2010-11-01
+    updated_at: 2010-11-01
