@@ -143,14 +143,16 @@
 
       以下はコードです：
 
-      	function echo(){
-      		var v = "This is Outer";
-      		return function (){
-      			alert(v);
-      		};
-      	}
-      	var s =  echo();
-      	s();
+      ```
+        function echo(){
+          var v = "This is Outer";
+          return function (){
+            alert(v);
+          };
+        }
+        var s =  echo();
+        s();
+      ```
 
       リスト
       ------
