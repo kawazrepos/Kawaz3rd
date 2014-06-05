@@ -11,15 +11,10 @@ class ProfilesTemplateTagTestCase(TestCase):
         self.profiles = (
             ProfileFactory(pub_state='public'),
             ProfileFactory(pub_state='public'),
-            ProfileFactory(pub_state='public'),
+            ProfileFactory(pub_state='public', user__is_active=False),
             ProfileFactory(pub_state='protected'),
-            ProfileFactory(pub_state='protected'),
+            ProfileFactory(pub_state='protected', user__is_active=False),
         )
-        # public/protected 共に最後のProfileのユーザーの is_active を False
-        self.profiles[2].user.is_active = False
-        self.profiles[2].user.save()
-        self.profiles[4].user.is_active = False
-        self.profiles[4].user.save()
 
     def _render_template(self, username, lookup=''):
         t = Template(
