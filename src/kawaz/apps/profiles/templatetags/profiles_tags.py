@@ -22,8 +22,8 @@ def get_profiles(context, lookup='published'):
         閲覧可能な Profile を取得し5件のみを描画
 
         {% get_profiles as profiles %}
-        {% for in profiles|slice:":5" %}
-            {{ profiles }}
+        {% for profile in profiles|slice:":5" %}
+            {{ profile }}
         {% endfor %}
     """
     ALLOWED_LOOKUPS = ('published',)

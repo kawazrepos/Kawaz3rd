@@ -1,8 +1,7 @@
 from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
-from django.contrib.auth.models import AnonymousUser
 from unittest.mock import MagicMock
-from kawaz.core.personas.tests.factories import PersonaFactory
+from kawaz.core.personas.tests.utils import create_role_users
 from .factories import AnnouncementFactory
 
 
@@ -13,14 +12,7 @@ class AnnouncementsTemplateTagTestCase(TestCase):
             protected=AnnouncementFactory(pub_state='protected'),
             draft=AnnouncementFactory(pub_state='draft'),
         )
-        self.users = dict(
-            adam=PersonaFactory(username='adam', role='adam'),
-            seele=PersonaFactory(username='seele', role='seele'),
-            nerv=PersonaFactory(username='nerv', role='nerv'),
-            children=PersonaFactory(username='children', role='children'),
-            wille=PersonaFactory(username='wille', role='wille'),
-            anonymous=AnonymousUser(),
-        )
+        self.users = create_role_users()
 
     def _render_template(self, username, lookup=''):
         t = Template(
@@ -36,7 +28,6 @@ class AnnouncementsTemplateTagTestCase(TestCase):
         # get_announcements は何も描画しない
         self.assertEqual(r.strip(), "")
         return c['announcements']
-
 
     def test_get_announcements_published(self):
         """get_announcements published はユーザーに対して公開された記事を返す"""

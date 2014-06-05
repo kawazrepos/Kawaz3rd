@@ -26,8 +26,8 @@ def get_products(lookup='mixed'):
         5件のみを描画
 
         {% get_products as products %}
-        {% for in products|slice:":5" %}
-            {{ products }}
+        {% for product in products|slice:":5" %}
+            {{ product }}
         {% endfor %}
 
         display_mode が normal な Product を取得

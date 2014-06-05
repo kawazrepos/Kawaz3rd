@@ -23,8 +23,8 @@ def get_announcements(context, lookup='published'):
         公開された Announcement のクエリを取得し、最新5件のみを描画
 
         {% get_announcements as announcements %}
-        {% for in announcements|slice:":5" %}
-            {{ announcements }}
+        {% for announcement in announcements|slice:":5" %}
+            {{ announcement }}
         {% endfor %}
 
         下書き記事を取得

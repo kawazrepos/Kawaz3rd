@@ -1,3 +1,6 @@
+# TODO: StarはAPIで提供する予定なので恐らくこのテンプレートタグは不要
+#       完成時に本当に不要だった場合はメンテナンスのコスト削減のため
+#       コード自体を削除する
 from django import template
 from django.template import TemplateSyntaxError
 from ..models import Star
@@ -22,8 +25,8 @@ def get_stars(context, lookup='published'):
         公開された Star のクエリを取得し、最新5件のみを描画
 
         {% get_stars as stars %}
-        {% for in stars|slice:":5" %}
-            {{ stars }}
+        {% for star in stars|slice:":5" %}
+            {{ star }}
         {% endfor %}
 
     """

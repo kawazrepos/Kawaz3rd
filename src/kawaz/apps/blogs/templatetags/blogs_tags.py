@@ -23,8 +23,8 @@ def get_entries(context, lookup='published'):
         公開された Entry のクエリを取得し、最新5件のみを描画
 
         {% get_entries as entries %}
-        {% for in entries|slice:":5" %}
-            {{ entries }}
+        {% for entry in entries|slice:":5" %}
+            {{ entry }}
         {% endfor %}
 
         下書き記事を取得

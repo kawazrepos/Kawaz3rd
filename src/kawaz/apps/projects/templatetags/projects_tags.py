@@ -24,8 +24,8 @@ def get_projects(context, lookup='published'):
         公開された Project のクエリを取得し、最新5件のみを描画
 
         {% get_projects as projects %}
-        {% for in projects|slice:":5" %}
-            {{ projects }}
+        {% for project in projects|slice:":5" %}
+            {{ project }}
         {% endfor %}
 
         下書き記事を取得

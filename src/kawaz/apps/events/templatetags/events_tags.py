@@ -25,8 +25,8 @@ def get_events(context, lookup='published'):
         公開された Event のクエリを取得し、最新5件のみを描画
 
         {% get_events as events %}
-        {% for in events|slice:":5" %}
-            {{ events }}
+        {% for event in events|slice:":5" %}
+            {{ event }}
         {% endfor %}
 
         下書き記事を取得
