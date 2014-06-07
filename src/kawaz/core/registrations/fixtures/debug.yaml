@@ -1,0 +1,20 @@
+- model: auth.group
+  pk: 1
+  fields:
+    name: seele
+    permissions: []
+- model: auth.group
+  pk: 2
+  fields:
+    name: nerv
+    permissions: []
+- model: auth.group
+  pk: 3
+  fields:
+    name: children
+    permissions: []
+- model: auth.group
+  pk: 4
+  fields:
+    name: wille
+    permissions: []
