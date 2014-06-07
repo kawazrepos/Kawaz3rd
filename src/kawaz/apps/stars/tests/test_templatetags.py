@@ -91,7 +91,7 @@ class StarsTemplateTagTestCase(TestCase):
 
     def test_get_star_endpoint(self):
         """
-
+        get_star_endpointはあるオブジェクトへのAPIエンドポイントを返す
         """
         from django.contrib.contenttypes.models import ContentType
         obj0 = ArticleFactory()
