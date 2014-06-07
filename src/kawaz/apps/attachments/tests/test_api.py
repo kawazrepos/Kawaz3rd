@@ -73,7 +73,7 @@ class MaterialUpdateAPITestCase(MaterialAPITestCaseBase):
             # detail URL は存在してないので detail URL っぽい URL
             # を指定してみる
             url = reverse(LIST_URL_NAME)
-            url = url + "/{}".format(self.material.slug)
+            url = url + "/{}/".format(self.material.slug)
             r = self.client.put(url, data)
             self.assertEqual(r.status_code, 404,
                              '{} should not update materials '
@@ -99,7 +99,7 @@ class MaterialDeleteAPITestCase(MaterialAPITestCaseBase):
         # detail URL は存在してないので detail URL っぽい URL
         # を指定してみる
         url = reverse(LIST_URL_NAME)
-        url = url + "/{}".format(self.material.slug)
+        url = url + "/{}/".format(self.material.slug)
         r = self.client.delete(url)
         self.assertEqual(r.status_code, 404,
                          '{} should not delete materials via API'.format(role))
@@ -129,7 +129,7 @@ class MaterialRetrieveAPITestCase(MaterialAPITestCaseBase):
         # detail URL は存在してないので detail URL っぽい URL
         # を指定してみる
         url = reverse(LIST_URL_NAME)
-        url = url + "/{}".format(self.material.slug)
+        url = url + "/{}/".format(self.material.slug)
         r = self.client.get(url)
         self.assertEqual(r.status_code, 404,
                          '{} should not retrieve materials '
