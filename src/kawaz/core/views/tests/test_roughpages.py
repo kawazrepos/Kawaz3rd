@@ -25,7 +25,7 @@ class KawazRoughPageTestCase(TestCase):
 
     def test_access_to_rules(self):
         """
-        /rule/にアクセスして、roughpages/rules.htmlが表示できるかどうか
+        /rules/にアクセスして、roughpages/rules.htmlが表示できるかどうか
         """
         self._test_template("rules")
 
