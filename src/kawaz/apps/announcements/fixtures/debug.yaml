@@ -1,0 +1,174 @@
+- model: announcements.announcement
+  pk: 1
+  fields:
+    pub_state: public
+    title: おしらせ
+    body: |-
+      おしらせです。
+    silently: False
+    author: 1
+    created_at: 2014-01-01 00:00:00
+    updated_at: 2014-01-01 00:00:00
+- model: announcements.announcement
+  pk: 2
+  fields:
+    pub_state: public
+    title: 警報
+    body: |-
+      本日、１２時３０分、東海地方を中心とした関東、中部全域に特別非常事態宣言が発令されました。  
+      住民の皆様は速やかに指定のシェルターに避難してください。  
+      繰り返しお伝えいたします・・・
+    silently: False
+    author: 1
+    created_at: 2015-08-06 12:30:00
+    updated_at: 2015-08-06 12:30:00
+- model: announcements.announcement
+  pk: 3
+  fields:
+    pub_state: public
+    title: Markdown
+    body: |-
+      見出し
+      ------
+
+      # 見出し-h1
+      ## 見出し-h2
+      ### 見出し-h3
+      #### 見出し-h4
+      ##### 見出し-h5
+      ###### 見出し-h6
+      見出しh1違うパターン
+      ===============
+      見出しh2違うパターン
+      ---------------
+
+      改行
+      ------
+
+      私は神なんだって！
+
+      管理者が強制的におこなった作業とかは  
+      実は私がやってるんだよ！
+
+      水平線
+      ------
+
+      _ _ _ _ _ _ _
+      ---
+      * * * * *
+      - - -
+      _ _ _
+
+      強調
+      ------
+
+      私は神なんだって！ *管理者が強制的におこなった作業* とかは実は私がやってるんだよ！
+
+      私は神なんだって！ __管理者が強制的におこなった作業__ とかは実は私がやってるんだよ！
+
+      私は神なんだって！ ***管理者が強制的におこなった作業*** とかは実は私がやってるんだよ！
+
+      引用
+      ------
+
+      > 私は神なんだって！
+      >> 管理者が強制的におこなった作業とかは  
+      >> 実は私がやってるんだよ！
+
+      コードブロック
+      ------
+
+      `var x = "This is text";`
+
+      以下はコードです：
+
+      ```
+        function echo(){
+          var v = "This is Outer";
+          return function (){
+            alert(v);
+          };
+        }
+        var s =  echo();
+        s();
+      ```
+
+      リスト
+      ------
+
+      ### リスト
+
+      + 名前　井ノ中かわず
+      + 性別　女性
+          - 誕生日　11月01日
+          - スキル　特に無し
+              * twitter　@Kawaz_tan
+      + 住所　北海道　札幌市
+
+      ### 番号リスト
+
+      1. 名前　井ノ中かわず
+      2. 性別　女性
+      7. 誕生日　11月01日
+      6. スキル　特に無し
+      1. twitter　@Kawaz_tan
+      1. 住所　北海道　札幌市
+
+      ### 定義リスト
+
+      名前
+      : 井ノ中かわず
+
+      性別
+      : 女性
+
+      誕生日
+      : 11月01日
+
+      リンク
+      ------
+
+      ### リンク
+
+      <http://www.kawaz.org/>
+
+      <kawaz@kawaz.org>
+
+      ### インラインリンク
+
+      [Kawaz](http://www.kawaz.org/ "Kawaz ポータル")
+
+      ### 外部参照リンク
+
+      井ノ中かわずさんは[Twitter][1]を[利用][2]しています。
+
+        [1]: https://twitter.com/ "Twitter"
+        [2]: https://twitter.com/Kawaz_tan/ "Kawaz_tan"
+
+      ### 画像
+
+      ![イメージテキスト](http://www.kawaz.org/storage/profiles/system/icon_1.huge.png)
+
+      ![かわずたん][1]
+      [1]:http://www.kawaz.org/storage/profiles/system/icon_1.huge.png
+
+      [![test](http://www.kawaz.org/storage/profiles/system/icon_1.huge.png)](http://www.kawaz.org/)
+
+      テーブル
+      ------
+
+      項目 | 回答 | 備考
+      :-----|:----------:|-----:
+      性別 | 女性 | じょせい
+      誕生日 | 11月01日 | じゅういちがつ
+      スキル | 特に無し | とくになし
+      住所 | 北海道　札幌市 | さっぽろし
+
+      エスケープ
+      ------
+
+      ¥#
+    silently: False
+    author: 2
+    created_at: 2014-01-01 00:00:00
+    updated_at: 2014-01-01 00:00:00
