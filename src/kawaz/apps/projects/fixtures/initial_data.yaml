@@ -1,3 +1,13 @@
+# 通常はご法度だが、必須フィールドのため一時的に追加
+# ご法度なのは、通常他のアプリでもグループを使う場合pkの上書きに注意する必要があるため
+- model: auth.group
+  pk: 1
+  fields:
+    name: test
+- model: auth.group
+  pk: 2
+  fields:
+    name: 人類補完委員会
 - model: projects.category
   pk: 1
   fields:
