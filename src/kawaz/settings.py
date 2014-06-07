@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'permission',
     'thumbnailfield',
+    'roughpages',
     'registration',
     'kawaz.core.db',
     'kawaz.core.utils',
@@ -61,6 +62,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'roughpages.middleware.RoughpageFallbackMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
