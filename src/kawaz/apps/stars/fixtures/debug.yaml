@@ -1,0 +1,29 @@
+- model: stars.star
+  pk: 1
+  fields:
+    content_type: 19
+    object_id: 1
+    author: 1
+    quote: Hello
+    created_at: 2112-9-21 0:0:0
+- model: stars.star
+  pk: 2
+  fields:
+    content_type: 19
+    object_id: 1
+    author: 1
+    created_at: 2112-9-21 0:0:0
+- model: stars.star
+  pk: 3
+  fields:
+    content_type: 19
+    object_id: 2
+    author: 1
+    created_at: 2112-9-21 0:0:0
+- model: stars.star
+  pk: 4
+  fields:
+    content_type: 19
+    object_id: 1
+    author: 2
+    created_at: 2112-9-21 0:0:0
