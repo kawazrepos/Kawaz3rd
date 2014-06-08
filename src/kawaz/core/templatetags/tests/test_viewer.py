@@ -8,31 +8,36 @@ from unittest.mock import MagicMock
 from django.test import TestCase
 from django.template import Template, Context
 
-class ViewerTemplateTagTestCase(TestCase):
+class BaseViewerTemplateTagTestCase(TestCase):
 
     def _test_template(self, before, after):
         c = Context({
             'body' : before
         })
         t = Template(
-            """{% load viewer %}"""
-            """{{ body | youtube }}"""
+            """{%% load viewer %%}"""
+            """{{ body | %(filter_name)s }}""" % {
+                'filter_name': self.filter_name
+            }
         )
         r = t.render(c)
-        #self.assertEqual(r.strip(), after.strip())
+        self.assertEqual(r.strip(), after.strip())
+
+class YouTubeTemplateTagTestCase(BaseViewerTemplateTagTestCase):
+    filter_name = 'youtube'
 
     def test_youtube(self):
         """
         YoutubeのURLからプレイヤーをembedします
         """
         body = r"""
-        オススメの動画です
-        https://www.youtube.com/watch?v=r-j9FZ2TQd0
-        """.strip()
+オススメの動画です
+https://www.youtube.com/watch?v=r-j9FZ2TQd0
+        """
         expected = r"""
-        オススメの動画です
-        <iframe width="640" height="480" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>
-        """.strip()
+オススメの動画です
+<iframe width="640" height="480" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>
+        """
         self._test_template(body, expected)
 
     def test_youtube_multitimes(self):
@@ -40,18 +45,18 @@ class ViewerTemplateTagTestCase(TestCase):
         YouTubeのURLが複数含まれたテキストを正しく展開します
         """
         body = r"""
-        オススメの動画です
-        https://www.youtube.com/watch?v=r-j9FZ2TQd0
+オススメの動画です
+https://www.youtube.com/watch?v=r-j9FZ2TQd0
 
-        ついでにこっちもおもしろいです
-        https://www.youtube.com/watch?v=LoH0dOyyGx8
+ついでにこっちもおもしろいです
+https://www.youtube.com/watch?v=LoH0dOyyGx8
         """.strip()
         expected = r"""
-        オススメの動画です
-        <iframe width="640" height="480" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>
+オススメの動画です
+<iframe width="640" height="480" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>
 
-        ついでにこっちもおもしろいです
-        <iframe width="640" height="480" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>
+ついでにこっちもおもしろいです
+<iframe width="640" height="480" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>
         """.strip()
         self._test_template(body, expected)
 
