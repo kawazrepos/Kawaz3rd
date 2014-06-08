@@ -1,7 +1,15 @@
 {% extends "base.html" %}
+{% load bootstrap %}
 {% block content %}
-    <form method="POST" action=".">{% csrf_token %}
-        {{ form }}
-        <input type="submit" value="保存">
+    {% if object %}
+        <h1>{{ object.title }}を編集する</h1>
+    {% else %}
+    <h1>新しいブログエントリーを作成</h1>
+    {% endif %}
+    <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
+        {{ form | bootstrap_horizontal }}
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" value="公開する" />
+        </div>
     </form>
 {% endblock %}

@@ -1,8 +1,13 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap %}
 {% block content %}
-<form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    {{ supplement_form.as_p }}
-    <p><input type="submit" value="Register"></p>
-</form>
+    <h1>{% trans "Application for join us" %}</h1>
+    <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
+        {{ form | bootstrap_horizontal }}
+        {{ supplement_form | bootstrap_horizontal }}
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" value={% trans "Register" %} />
+        </div>
+    </form>
 {% endblock %}
