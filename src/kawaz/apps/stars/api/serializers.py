@@ -4,7 +4,7 @@ from ..models import Star
 
 
 class StarSerializer(serializers.ModelSerializer):
-    author = PersonaSerializer()
+    author = PersonaSerializer(required=False)
     content_type = serializers.PrimaryKeyRelatedField()
 
     class Meta:

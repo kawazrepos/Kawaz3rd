@@ -64,6 +64,14 @@ class StarListAPITestCase(BaseTestCase):
         self.assertIsNotNone(response_obj)
         self.assertEqual(len(response_obj), object_count)
 
+        if object_count > 0:
+            star0 = response_obj[0]
+            self.assertIsNotNone(star0['author']['nickname'])
+            self.assertIsNotNone(star0['author']['gender'])
+            self.assertIsNotNone(star0['author']['avatar'])
+            self.assertIsNotNone(star0['author']['role'])
+            self.assertIsNotNone(star0['author']['nickname'])
+
     def test_api_list(self):
         """スターリスト取得テスト"""
         self._test_list('adam', 4)
