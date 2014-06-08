@@ -1,9 +1,10 @@
 from rest_framework import serializers
+from kawaz.core.personas.api.serializers import PersonaSerializer
 from ..models import Star
 
 
 class StarSerializer(serializers.ModelSerializer):
-    author = serializers.PrimaryKeyRelatedField(read_only=True)
+    author = PersonaSerializer()
     content_type = serializers.PrimaryKeyRelatedField()
 
     class Meta:
