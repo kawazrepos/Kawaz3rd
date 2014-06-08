@@ -73,3 +73,49 @@ https://www.youtube.com/watch?v=LoH0dOyyGx8
         expected = body
         self._test_template(body, expected)
 
+
+class NicoVideoTemplateTagTestCase(BaseViewerTemplateTagTestCase):
+    filter_name = 'nicovideo'
+
+    def test_nicoviceo(self):
+        body = """
+全てはここから始まった
+http://www.nicovideo.jp/watch/sm10805698
+        """
+        expect = """
+全てはここから始まった
+<script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/sm10805698"></script>
+        """
+        self._test_template(body, expect)
+
+    def test_nicoviceo_multiple(self):
+        body = """
+全てはここから始まった
+http://www.nicovideo.jp/watch/sm10805698
+
+レッツゴー
+http://www.nicovideo.jp/watch/sm9
+        """
+        expect = """
+全てはここから始まった
+<script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/sm10805698"></script>
+
+レッツゴー
+<script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/sm9"></script>
+        """
+        self._test_template(body, expect)
+
+    def test_nicoviceo_with_link(self):
+        body = """
+全てはここから始まった
+<a href="http://www.nicovideo.jp/watch/sm10805698">音楽マインスイーパー</a>
+
+http://www.nicovideo.jp/watch/sm9 レッツゴー
+        """
+        expect = """
+全てはここから始まった
+<a href="http://www.nicovideo.jp/watch/sm10805698">音楽マインスイーパー</a>
+
+http://www.nicovideo.jp/watch/sm9 レッツゴー
+        """
+        self._test_template(body, expect)
