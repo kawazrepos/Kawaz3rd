@@ -20,23 +20,28 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="#"><img src="{% static "img/kawaz-logo-header.png" %}" alt="Kawaz" title="Kawaz Logo" class="logo-header"></a>
+    <a class="navbar-brand" href="{% url "kawaz_index" %}"><img src="{% static "img/kawaz-logo-header.png" %}" alt="Kawaz" title="Kawaz Logo" class="logo-header"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Events</a></li>
+            <li class="active"><a href="{% url "kawaz_index" %}">Home</a></li>
+            <li><a href="{% url "products_product_list" %}">Products</a></li>
+            <li><a href="{% url "events_event_list" %}">Events</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, Guest! <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="#">Login</a></li>
+                {% if user.is_authenticated %}
+                    {# ログインユーザー向け #}
+                    <li><a href="{% url "logout" %}">{% trans "Logout" %}</a></li>
+                {% else %}
+                <li><a href="{% url "login" %}">{% trans "Login" %}</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Forget password?</a></li>
+                <li><a href="{% url "password_reset" %}">{% trans "Forget password?" %}</a></li>
+                {% endif %}
             </ul>
             </li>
         </ul>
@@ -79,7 +84,7 @@
                                 <label for="exampleInputEntry1" class="sr-only">志望動機</label>
                                 <textarea type="text" rows="6" class="form-control" id="exampleInputEntry1" placeholder="志望動機を記入してください"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary pull-right">参加登録はこちら</button>
+                            <a href="{% url "registration_register" %}" class="btn btn-primary pull-right">参加登録はこちら</a>
                         </div>
                     </div>
                 </form>
