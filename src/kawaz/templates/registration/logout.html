@@ -2,12 +2,10 @@
 {% load bootstrap %}
 {% load i18n %}
 {% block content %}
-<div class="container">
     <h1>{% trans "Logout" %}</h1>
     <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
         <div class="form-group">
             <input type="button" class="btn btn-primary" value="{% trans 'Logout' %}" />
         </div>
     </form>
-</div>
 {% endblock %}

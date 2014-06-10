@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load bootstrap %}
 {% block content %}
-<div class="container">
     <h1>{% trans "Application for join us" %}</h1>
     <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
         {{ form | bootstrap_horizontal }}
@@ -11,5 +10,4 @@
             <input type="button" class="btn btn-primary" value={% trans "Register" %} />
         </div>
     </form>
-</div>
 {% endblock %}
