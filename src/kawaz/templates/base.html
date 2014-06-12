@@ -4,12 +4,22 @@
 <html>
 <head>
     <link rel="stylesheet" href="{% static "css/main.css" %}" media="screen">
+    <link rel="stylesheet" href="{% static "css/social.css" %}" media="screen">
     <!--
     <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
     -->
     <title>Kawaz - {% block title %}札幌ゲーム製作者コミュニティ{% endblock %}</title>
 </head>
 <body>
+<!-- Facebookのshareボタン -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -103,6 +113,7 @@
 {% block post_javascript %}
 <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
 <script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "js/social.js" %}"></script>
 {% endblock %}
 </body>
 </html>
