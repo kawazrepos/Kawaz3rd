@@ -32,10 +32,10 @@ class MentionTemplateTagTestCase(TestCase):
         """
         存在するユーザーに対して言及したとき、展開される
         """
-        kawaztan = PersonaFactory(username='kawaztan')
+        kawaztan = PersonaFactory(username='kawaztan_mention0')
         tag = self._expand_mention_tag(kawaztan)
         before = """
-        みんなのアイドルです @kawaztan
+        みんなのアイドルです @kawaztan_mention0
         """
         after = """
         みんなのアイドルです {}
@@ -58,12 +58,12 @@ class MentionTemplateTagTestCase(TestCase):
         """
         複数の存在するユーザーに対して言及したとき、展開される
         """
-        kawaztan = PersonaFactory(username='kawaztan')
+        kawaztan = PersonaFactory(username='kawaztan_mention1')
         geekdrums = PersonaFactory(username='geekdrums')
         tag = self._expand_mention_tag(kawaztan)
         tag2 = self._expand_mention_tag(geekdrums)
         before = """
-        みんなのアイドルです @kawaztan
+        みんなのアイドルです @kawaztan_mention1
         神、いわゆるゴッドです @geekdrums
         """
         after = """
