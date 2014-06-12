@@ -15,7 +15,7 @@ class BaseViewerTemplateTagTestCase(TestCase):
             'body' : before
         })
         t = Template(
-            """{%% load viewer %%}"""
+            """{%% load embed %%}"""
             """{{ body | %(filter_name)s }}""" % {
                 'filter_name': self.filter_name
             }

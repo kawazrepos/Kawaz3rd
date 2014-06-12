@@ -1,7 +1,8 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from .viewer import youtube, nicovideo
+from .embed import youtube, nicovideo
+from .mention import mention
 
 register = template.Library()
 
@@ -10,13 +11,12 @@ register = template.Library()
 def parse(value, full=True):
     """
     Kawazで使用するtemplate tagsをまとめて使用するtemplate filter
-    :param value:
-    :param full:
-    :return:
     """
     # URL
     if full:
         # Youtube, NicoNico
         value = youtube(value)
         value = nicovideo(value)
+        # @言及
+        value = mention(value)
     return mark_safe(value)
