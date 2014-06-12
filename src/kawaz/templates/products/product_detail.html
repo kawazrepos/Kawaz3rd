@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    {{ object }}
+    <article class="product">
+        <h1>{{ object.title }}</h1>
+        <section class="product-description">
+            {{ object.description }}
+        </section>
+    </article>
     {% include "components/social.html" %}
 {% endblock %}
