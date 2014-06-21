@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from ..models import Material
+from kawaz.core.personas.api.serializers import PersonaSerializer
 
 
 class MaterialSerializer(serializers.ModelSerializer):
-    author = serializers.PrimaryKeyRelatedField(read_only=True)
+    author = PersonaSerializer(required=False, read_only=True)
 
     class Meta:
         model = Material
