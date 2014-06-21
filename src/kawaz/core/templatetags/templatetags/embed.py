@@ -18,8 +18,8 @@ register = template.Library()
 def youtube(value):
     """
     文中に含まれているYouTubeの動画URLをプレーヤーに変換します
-    ただし、URLは行頭から始まっている必要があります
-    これは、HTMLタグ内に含まれているURLの展開を防ぐためです
+    ただし、URL以外の文字列を同じ行に含んではいけません
+    これは、プレイヤーの埋め込みという性質上の仕様です
     """
     def repl(m):
         id = m.group('id')
@@ -35,8 +35,8 @@ def youtube(value):
 def nicovideo(value):
     """
     文中に含まれているニコニコ動画のURLをプレーヤーに変換します
-    ただし、URLは行頭から始まっている必要があります
-    これは、HTMLタグ内に含まれているURLの展開を防ぐためです
+    ただし、URL以外の文字列を同じ行に含んではいけません
+    これは、プレイヤーの埋め込みという性質上の仕様です
     """
     def repl(m):
         id = m.group('id')
