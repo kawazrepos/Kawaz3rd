@@ -22,7 +22,7 @@ def mention(value):
             user = Persona.objects.get(username=username)
             html = render_to_string("templatetags/mention.html", {
                 'user' : user
-            })
+            }).replace('\n', '')
             return html
         except ObjectDoesNotExist:
             return "@{}".format(username)

@@ -25,7 +25,7 @@ def youtube(value):
         id = m.group('id')
         html = render_to_string("templatetags/youtube.html", {
             'video_id' : id
-        })
+        }).replace('\n', '')
         return html
     value = YOUTUBE_PATTERN.sub(repl, value)
     return mark_safe(value)
@@ -42,7 +42,7 @@ def nicovideo(value):
         id = m.group('id')
         html = render_to_string("templatetags/nicovideo.html", {
             'video_id' : id
-        })
+        }).replace('\n', '')
         return html
     value = NICONICO_PATTERN.sub(repl, value)
     return mark_safe(value)

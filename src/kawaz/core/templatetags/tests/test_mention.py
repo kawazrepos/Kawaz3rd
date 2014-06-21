@@ -25,7 +25,7 @@ class MentionTemplateTagTestCase(TestCase):
     def _expand_mention_tag(self, user):
         html = render_to_string("templatetags/mention.html", {
             'user' : user
-        })
+        }).replace('\n', '')
         return html
 
     def test_with_exist_user(self):
