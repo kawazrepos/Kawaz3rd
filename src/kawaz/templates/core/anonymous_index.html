@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load products_tags %}
-{% block content %}
+{% block carousel %}
 <div id="featured_products" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
     {% get_products 'featured' as featured_products %}
@@ -36,7 +36,8 @@
         <span class="glyphicon glyphicon-chevron-right"></span>
     </a>
 </div>
-<div class="container">
+{% endblock %}
+{% block content %}
     <h2>最新のゲーム</h2>
     <div id="recent_products" class="row list-group">
     {% get_products 'normal' as recent_products %}
@@ -51,5 +52,4 @@
     {% include "products/components/thumbnail-item.html" %}
     {% endfor %}
     </div>
-</div>
 {% endblock %}
