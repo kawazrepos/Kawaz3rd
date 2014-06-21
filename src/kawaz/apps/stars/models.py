@@ -102,6 +102,11 @@ class Star(models.Model):
     object_id = models.PositiveIntegerField('Object ID')
     content_object = GenericForeignKey(ct_field="content_type",
                                        fk_field="object_id")
+    # TODO Fix ME
+    # django-rest-framework 2.3.14から、editable=Falseにした場合、API経由で変更ができない
+    # 原因は調査中だが、直した方が良さそう
+    # author = models.ForeignKey(settings.AUTH_USER_MODEL,
+    #                          verbose_name=_('Author'), editable=False)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                verbose_name=_('Author'))
     # ユーザーが記事の一部分を選択した状態でスターを押した場合、その部分を

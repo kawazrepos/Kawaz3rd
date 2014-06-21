@@ -12,7 +12,11 @@ class Material(models.Model):
         return os.path.join(basedir, filename)
 
     content_file = models.FileField(_('Content file'), upload_to=_get_upload_path)
-    author = models.ForeignKey(Persona, verbose_name=_('Author'), editable=False)
+    # TODO Fix ME
+    # django-rest-framework 2.3.14から、editable=Falseにした場合、API経由で変更ができない
+    # 原因は調査中だが、直した方が良さそう
+    #author = models.ForeignKey(Persona, verbose_name=_('Author'), edifable=False)
+    author = models.ForeignKey(Persona, verbose_name=_('Author'))
     slug = models.SlugField(_('Slug'), unique=True, editable=False, blank=True)
     ip_address  = models.IPAddressField("IP Address", editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)

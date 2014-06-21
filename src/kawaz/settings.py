@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'kawaz.core.personas',
     'kawaz.core.publishments',
     'kawaz.core.registrations',
+    'kawaz.core.templatetags',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
     'kawaz.apps.profiles',
