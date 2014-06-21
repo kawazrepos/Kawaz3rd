@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 
 from kawaz.core.personas.models import Persona
 
-USERNAME_PATTERN = r'@(?P<username>[0-9a-zA-Z-_]+)'
+USERNAME_PATTERN = re.compile(r'@(?P<username>[0-9a-zA-Z-_]+)')
 
 register = template.Library()
 
@@ -16,7 +16,6 @@ def mention(value):
     """
     文中の@username にリンクを貼るテンプレートフィルタです
     """
-    regex = re.compile(USERNAME_PATTERN)
     def repl(m):
         username = m.group('username')
         try:
@@ -27,5 +26,5 @@ def mention(value):
             return html
         except ObjectDoesNotExist:
             return "@{}".format(username)
-    value = regex.sub(repl, value)
+    value = USERNAME_PATTERN.sub(repl, value)
     return mark_safe(value)
