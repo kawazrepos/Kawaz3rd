@@ -8,8 +8,8 @@ from django import template
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
-YOUTUBE_PATTERN = r"""^http[s]:\/\/www.youtube.com\/watch\?v=(?P<id>[a-zA-Z0-9_-]+)$"""
-NICONICO_PATTERN = r"""^http:/\/\www.nicovideo.jp\/watch\/(?P<id>[a-z]{2}[0-9]+)\/?$"""
+YOUTUBE_PATTERN = re.compile(r"^https?:\/\/www.youtube.com\/watch\?v=(?P<id>[a-zA-Z0-9_-]+)$", flags=re.MULTILINE)
+NICONICO_PATTERN = re.compile(r"^http:/\/\www.nicovideo.jp\/watch\/(?P<id>[a-z]{2}[0-9]+)\/?$", flags=re.MULTILINE)
 
 register = template.Library()
 
@@ -19,6 +19,7 @@ def youtube(value):
     """
     文中に含まれているYouTubeの動画URLをプレーヤーに変換します
     ただし、URLは行頭から始まっている必要があります
+    これは、HTMLタグ内に含まれているURLの展開を防ぐためです
     """
     def repl(m):
         id = m.group('id')
@@ -26,8 +27,7 @@ def youtube(value):
             'video_id' : id
         })
         return html
-    regex = re.compile(YOUTUBE_PATTERN, flags=re.MULTILINE)
-    value = regex.sub(repl, value)
+    value = YOUTUBE_PATTERN.sub(repl, value)
     return mark_safe(value)
 
 @register.filter
@@ -36,6 +36,7 @@ def nicovideo(value):
     """
     文中に含まれているニコニコ動画のURLをプレーヤーに変換します
     ただし、URLは行頭から始まっている必要があります
+    これは、HTMLタグ内に含まれているURLの展開を防ぐためです
     """
     def repl(m):
         id = m.group('id')
@@ -43,6 +44,5 @@ def nicovideo(value):
             'video_id' : id
         })
         return html
-    regex = re.compile(NICONICO_PATTERN, flags=re.MULTILINE)
-    value = regex.sub(repl, value)
+    value = NICONICO_PATTERN.sub(repl, value)
     return mark_safe(value)

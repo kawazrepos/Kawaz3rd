@@ -8,15 +8,18 @@ register = template.Library()
 
 @register.filter
 @template.defaultfilters.stringfilter
-def parse(value, full=True):
+def parse(value):
     """
-    Kawazで使用するtemplate tagsをまとめて使用するtemplate filter
+    Kawazで使用するtemplate tagsをまとめて使用するtemplate filterです
+    以下の処理を行います
+        YouTube展開
+        ニコニコ動画展開
+        @usernameを展開
     """
     # URL
-    if full:
-        # Youtube, NicoNico
-        value = youtube(value)
-        value = nicovideo(value)
-        # @言及
-        value = mention(value)
+    # Youtube, NicoNico
+    value = youtube(value)
+    value = nicovideo(value)
+    # @言及
+    value = mention(value)
     return mark_safe(value)
