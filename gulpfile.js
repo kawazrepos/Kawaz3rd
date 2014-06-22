@@ -1,6 +1,9 @@
 var gulp = require("gulp"),
     plug = require("gulp-load-plugins")();
 
+// use livereload?
+var livereload = false;
+
 var bootstrapjsprefix = "vendor/bootstrap/js/";
 
 var src = {
@@ -31,7 +34,7 @@ gulp.task("coffee", function () {
       .pipe(plug.coffee({bare: true}))
       .pipe(gulp.dest(dest.js));
 
-  if (~ this.seq.indexOf("watch"))
+  if (livereload)
     stream.pipe(plug.livereload());
 });
 
@@ -41,7 +44,7 @@ gulp.task("less", function () {
       .pipe(plug.less())
       .pipe(gulp.dest(dest.css));
 
-  if (~ this.seq.indexOf("watch"))
+  if (livereload)
     stream.pipe(plug.livereload());
 });
 
@@ -57,7 +60,7 @@ gulp.task("bootstrap-js-concat", function () {
       .pipe(plug.concat("bootstrap.js"))
       .pipe(gulp.dest(dest.js));
 
-  if (~ this.seq.indexOf("watch"))
+  if (livereload)
     stream.pipe(plug.livereload());
 });
 
@@ -70,6 +73,8 @@ gulp.task("bootstrap-copy-font", function() {
 gulp.task("default", ["coffee", "less", "bootstrap-js-concat", "bootstrap-copy-font"]);
 
 gulp.task("watch", ["default"], function () {
+  livereload = true;
+
   gulp.watch(src.coffee, ["coffee"]);
   gulp.watch(src.less, ["less"]);
   gulp.watch(src.template, ["template"]);
