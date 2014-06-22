@@ -87,7 +87,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
     field.
     """
     def _get_upload_path(self, filename):
-        root = os.path.join('thumbnails', 'profiles', self.username)
+        root = os.path.join('profiles', 'profiles', self.username)
         return os.path.join(root, filename)
 
     GENDER_TYPES = (
