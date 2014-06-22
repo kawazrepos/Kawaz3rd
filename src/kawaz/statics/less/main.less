@@ -194,6 +194,39 @@ a.product-caption {
     -webkit-animation-name: fade-in;
   }
 }
+@login-form-width: 400px;
+@login-form-height: 160px;
+// ヘッダー
+.header-button {
+  margin-top: 8px;
+  margin-left: 20px;
+  // ログインフォーム
+  .dropdown-menu.anonymous-menu {
+    background: @body-bg;
+    width: @login-form-width;
+    height: @login-form-height;
+    border: @gray-light solid 1px;
+    border-radius: 5px;
+  }
+}
+.login-form {
+  width: @login-form-width;
+  padding: 10px 20px;
+  button {
+    margin: 0 auto;
+    width: 100px;
+    margin-left: 40px;
+    margin-bottom: 10px;
+  }
+  .forgot-password {
+    margin-top: 8px;
+    text-align: right;
+    a {
+      color: @gray-light;
+    }
+
+  }
+}
 .avatar {
   border: 1px solid #333333;
   @size: @avatar-size-small;
