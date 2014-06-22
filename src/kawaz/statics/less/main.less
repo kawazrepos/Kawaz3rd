@@ -96,6 +96,7 @@ html {
   overflow-y: scroll;
 }
 #footer {
+  margin-top: 35px;
   width: 100%;
   height: @footer-height;
   background-color: @footer-color;
@@ -103,8 +104,28 @@ html {
   .container {
     padding-right: 15px;
     padding-left: 15px;
+    h2 {
+      margin-bottom: 30px;
+    }
     .text-muted {
       margin: 20px 0;
+    }
+    @image-width: 300px;
+    .footer-logo {
+      width: @image-width;
+      margin: 0 auto;
+    }
+    .register-button-wrapper {
+      height: 80px;
+      padding-top: 10px;
+      div {
+        padding-top: 10px;
+        margin: 0 auto;
+        width: @image-width;
+      }
+      a {
+        width: @image-width;
+      }
     }
   }
 }
@@ -184,4 +205,34 @@ a.product-caption {
   width: @size;
   height: @size;
   border-radius: @radius;
+}
+// Recent Activity
+#recent-activity-container {
+  background: @brand-primary;
+  width: 100%;
+  height: 280px;
+  .activity-thumbnail {
+    background: @gray-lighter;
+    background-size: cover;
+    border: @gray solid 1px;
+    height: 100px;
+  }
+  h2 {
+    color: #06357F;
+  }
+  h5 {
+    color: @body-bg;
+    font-weight: bold;
+  }
+}
+.see-more {
+  a {
+    color: @text-accent-color;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
 }
