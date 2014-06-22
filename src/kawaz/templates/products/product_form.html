@@ -6,10 +6,25 @@
     {% else %}
     <h1>新しいプロダクトを作成</h1>
     {% endif %}
-    <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-        {{ form | bootstrap_horizontal }}
-        <div class="form-group">
-            <input type="button" class="btn btn-primary" value="公開する" />
+    <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/products/">Products</a></li>
+    </ol>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#form">入力フォーム</a></li>
+        <li><a href="#preview">プレビュー</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="form">
+            <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
+                {{ form | bootstrap_horizontal }}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="公開する" />
+                </div>
+            </form>
         </div>
-    </form>
+        <div id="preview" class="tab-pane">
+            プレビュー
+        </div>
+    </div>
 {% endblock %}
