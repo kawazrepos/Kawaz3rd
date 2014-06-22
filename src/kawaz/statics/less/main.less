@@ -5,13 +5,11 @@ body {
   padding-top: 50px;
 }
 html {
-  background-color: @footer-color;
   overflow-y: scroll;
 }
 #footer {
   width: 100%;
   height: @footer-height;
-  background-color: @footer-color;
   color: white;
   .container {
     padding-right: 15px;
@@ -31,7 +29,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: bold;
 }
 #featured-products>.carousel-inner>.item {
-  width: 20px;
   img{
     min-width: 100%;
     .carousel-container {
@@ -120,13 +117,20 @@ img.logo-header {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: bold;
 }
-#featured-products>.carousel-inner>.item>img{
-  min-width: 100%;
-  .carousel-container {
+#featured-products-container {
+  background: @gray-lighter;
+  #featured-products {
+    margin: 0 auto;
+    width: 40%;
+    .carousel-inner>.item>img {
+      min-width: 100%;
+      .carousel-container {
+      }
+    }
   }
 }
 .navbar-default {
-  background-color: rgba(248,248,248,0.8);
+  background-color: fade(@brand-primary, 80%);
   border-color: rgba(231,231,231,0.8);
 }
 .thumbnail {

@@ -1,40 +1,42 @@
 {% extends "base.html" %}
 {% load products_tags %}
 {% block carousel %}
+<div id="featured-products-container">
 <div id="featured-products" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-    {% get_products 'featured' as featured_products %}
-    {% for product in featured_products %}
-        {% if forloop.first %}
-        <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
-        {% else %}
-        <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}"></li>
-        {% endif %}
-    {% endfor %}
+        {% get_products 'featured' as featured_products %}
+        {% for product in featured_products %}
+            {% if forloop.first %}
+                <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+            {% else %}
+                <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}"></li>
+            {% endif %}
+        {% endfor %}
     </ol>
     <div class="carousel-inner">
-    {% for product in featured_products %}
-        {% if forloop.first %}
-        <div class="item active">
-        {% else %}
-        <div class="item">
-        {% endif %}
-            <img src="{{ MEDIA_URL }}{{ product.advertisement_image }}" alt="{{ product.title }}">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h3>{{ product.title }}</h3>
-                    <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
-                </div>
+        {% for product in featured_products %}
+            {% if forloop.first %}
+                <div class="item active">
+            {% else %}
+                <div class="item">
+            {% endif %}
+        <img src="{{ MEDIA_URL }}{{ product.advertisement_image }}" alt="{{ product.title }}">
+        <div class="container">
+            <div class="carousel-caption">
+                <h3>{{ product.title }}</h3>
+                <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
             </div>
         </div>
-    {% endfor %}
+        </div>
+        {% endfor %}
+        </div>
+        <a class="left carousel-control" href="#featured-products" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#featured-products" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
     </div>
-    <a class="left carousel-control" href="#featured_products" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="right carousel-control" href="#featured_products" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
 </div>
 {% endblock %}
 {% block content %}
@@ -51,5 +53,45 @@
     {% for product in products %}
     {% include "products/components/thumbnail-item.html" %}
     {% endfor %}
+    </div>
+{% endblock %}
+{% block footer %}
+    <div id="footer">
+        <div class="container">
+            <h2>札幌ゲーム制作者コミュニティ“Kawaz”とは？</h2>
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <p>Kawazはゲーム制作を中心に、何か新しいものを生み出したい、能力を高めたい人たちが集まるコミュニティです。大学生、専門学校生、社会人のほか、プロのゲーム開発者も交えて交流しています。</p>
+                    <p><strong>今まで制作されたゲームは60本以上！</strong></p>
+                    <p>プログラムができる、絵が描ける、音楽が作れる、何か覚えてみたい、とにかく興味がある。 そんなあなたをお待ちしています！</p>
+                </div>
+                <div class="col-xs-6 col-md-6">
+                    <form action="#" role="form">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">お名前</label>
+                                    <input type="text" class="form-control" id="exampleInputName1" placeholder="お名前">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email アドレス</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email アドレス">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEntry1" class="sr-only">志望動機</label>
+                                    <textarea type="text" rows="6" class="form-control" id="exampleInputEntry1" placeholder="志望動機を記入してください"></textarea>
+                                </div>
+                                <a href="{% url "registration_register" %}" class="btn btn-primary pull-right">参加登録はこちら</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <p class="text-muted text-center">Thanks to <a href="http://p.yusukekamiyamane.com/" target="_blank">p.yusukekamiyamane</a> about them nice icon packs.
+                This website is powered by <a href="http://www.djangoproject.com/" target="_blank">Django</a>.<br />
+                Copyright &copy; 2009-2014 Kawaz. All rights reserved.</p>
+        </div>
     </div>
 {% endblock %}
