@@ -1,4 +1,88 @@
 @import "../../../../vendor/bootstrap/less/bootstrap.less";
+@import "define";
+
+body {
+  padding-top: 50px;
+}
+html {
+  background-color: @footer-color;
+  overflow-y: scroll;
+}
+#footer {
+  width: 100%;
+  height: @footer-height;
+  background-color: @footer-color;
+  color: white;
+  .container {
+    padding-right: 15px;
+    padding-left: 15px;
+    .text-muted {
+      margin: 20px 0;
+    }
+  }
+}
+.btn-default, .btn-primary {
+  border-bottom-width: 3px;
+}
+img.logo-header {
+  margin-top: -4px;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: bold;
+}
+#featured-products>.carousel-inner>.item {
+  width: 20px;
+  img{
+    min-width: 100%;
+    .carousel-container {
+    }
+  }
+}
+.navbar-default {
+  background-color: rgba(248,248,248,0.8);
+  border-color: rgba(231,231,231,0.8);
+}
+.thumbnail {
+  padding: 0;
+}
+.item {
+  .thumbnail {
+    position: relative;
+  }
+  .caption {
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    .caption-inner {
+      position: absolute;
+      bottom: 9px;
+    }
+  }
+}
+.fade-in() {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+@keyframes fade-in { .fade-in(); }
+@-webkit-keyframes fade-in { .fade-in(); }
+a.product-caption {
+  .caption {
+    opacity: 0;
+    h4, p{
+      color: white;
+    }
+  }
+  &:hover .caption {
+    opacity: 1;
+    animation-duration: 0.5s;
+    animation-name: fade-in;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fade-in;
+  }
+}
+@import "../../../../vendor/bootstrap/less/bootstrap.less";
 
 @brand-primary: #00c290; //Kawaz Green Color
 @footer-color: #344765;
@@ -8,78 +92,92 @@
 
 @footer-height: 60px;
 body {
-    padding-top: 50px;
+  padding-top: 50px;
 }
 html {
-    background-color: @footer-color;
-    overflow-y: scroll;
+  background-color: @footer-color;
+  overflow-y: scroll;
 }
 #footer {
-    width: 100%;
-    height: @footer-height;
-    background-color: @footer-color;
-    color: white;
-    .container {
-        padding-right: 15px;
-        padding-left: 15px;
-        .text-muted {
-            margin: 20px 0;
-        }
+  width: 100%;
+  height: @footer-height;
+  background-color: @footer-color;
+  color: white;
+  .container {
+    padding-right: 15px;
+    padding-left: 15px;
+    .text-muted {
+      margin: 20px 0;
     }
+  }
 }
 .btn-default, .btn-primary {
-    border-bottom-width: 3px;
+  border-bottom-width: 3px;
 }
 img.logo-header {
-    margin-top: -4px;
+  margin-top: -4px;
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-weight: bold;
+  font-weight: bold;
 }
-#featured_products>.carousel-inner>.item>img{
-    min-width: 100%;
+#featured-products>.carousel-inner>.item>img{
+  min-width: 100%;
+  .carousel-container {
+  }
 }
 .navbar-default {
-    background-color: rgba(248,248,248,0.8);
-    border-color: rgba(231,231,231,0.8);
+  background-color: rgba(248,248,248,0.8);
+  border-color: rgba(231,231,231,0.8);
 }
 .thumbnail {
-    padding: 0;
+  padding: 0;
 }
 .item {
-    .thumbnail {
-        position: relative;
+  .thumbnail {
+    position: relative;
+  }
+  .caption {
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    .caption-inner {
+      position: absolute;
+      bottom: 9px;
     }
-    .caption {
-        background-color: rgba(0,0,0,0.5);
-        top: 0;
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        .caption_inner {
-            position: absolute;
-            bottom: 9px;
-        }
-    }
+  }
 }
 .fade-in() {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+  0% {opacity: 0;}
+  100% {opacity: 1;}
 }
 @keyframes fade-in { .fade-in(); }
 @-webkit-keyframes fade-in { .fade-in(); }
-a.product_caption {
-    .caption {
-        opacity: 0;
-        h4, p{
-            color: white;
-        }
+a.product-caption {
+  .caption {
+    opacity: 0;
+    h4, p{
+      color: white;
     }
-    &:hover .caption {
-        opacity: 1;
-        animation-duration: 0.5s;
-        animation-name: fade-in;
-        -webkit-animation-duration: 0.5s;
-        -webkit-animation-name: fade-in;
-    }
+  }
+  &:hover .caption {
+    opacity: 1;
+    animation-duration: 0.5s;
+    animation-name: fade-in;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fade-in;
+  }
+}
+.avatar {
+  border: 1px solid #333333;
+  @size: @avatar-size-small;
+  .small { @size: @avatar-size-small; }
+  .middle { @size: @avatar-size-middle; }
+  .large { @size: @avatar-size-large; }
+  .huge { @size: @avatar-size-huge; }
+  @radius: @size / 2.0;
+  width: @size;
+  height: @size;
+  border-radius: @radius;
 }

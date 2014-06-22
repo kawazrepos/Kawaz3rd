@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load products_tags %}
 {% block carousel %}
-<div id="featured_products" class="carousel slide" data-ride="carousel">
+<div id="featured-products" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
     {% get_products 'featured' as featured_products %}
     {% for product in featured_products %}
