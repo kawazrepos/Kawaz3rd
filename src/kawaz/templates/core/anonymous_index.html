@@ -1,55 +1,125 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
 {% load products_tags %}
 {% block carousel %}
-<div id="featured_products" class="carousel slide" data-ride="carousel">
+<div id="featured-products-container">
+<div id="featured-products" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-    {% get_products 'featured' as featured_products %}
-    {% for product in featured_products %}
-        {% if forloop.first %}
-        <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
-        {% else %}
-        <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}"></li>
-        {% endif %}
-    {% endfor %}
+        {% get_products 'featured' as featured_products %}
+        {% for product in featured_products %}
+            {% if forloop.first %}
+                <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+            {% else %}
+                <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}"></li>
+            {% endif %}
+        {% endfor %}
     </ol>
     <div class="carousel-inner">
-    {% for product in featured_products %}
-        {% if forloop.first %}
-        <div class="item active">
-        {% else %}
-        <div class="item">
-        {% endif %}
-            <img src="{{ MEDIA_URL }}{{ product.advertisement_image }}" alt="{{ product.title }}">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h3>{{ product.title }}</h3>
-                    <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
-                </div>
+        {% for product in featured_products %}
+            {% if forloop.first %}
+                <div class="item active">
+            {% else %}
+                <div class="item">
+            {% endif %}
+        <img src="{{ MEDIA_URL }}{{ product.advertisement_image }}" alt="{{ product.title }}">
+        <div class="container">
+            <div class="carousel-caption">
+                <h3>{{ product.title }}</h3>
+                <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
             </div>
         </div>
-    {% endfor %}
+        </div>
+        {% endfor %}
+        </div>
+        <a class="left carousel-control" href="#featured-products" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#featured-products" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
     </div>
-    <a class="left carousel-control" href="#featured_products" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="right carousel-control" href="#featured_products" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
+</div>
+<div id="recent-activity-container">
+<div class="container">
+    <h2>{% trans "Recent Activity" %}</h2>
+    <div class="row">
+        <!--
+        とりあえず今はハードコーディングしているが、Kawaz広報ブログを取り込む方法を考える
+        -->
+        <div class="col-md-4">
+            <a href="http://kawazinfo.hateblo.jp/entry/2014/04/19/194517" target="_blank">
+                <div class="activity-thumbnail" style="background-image: url(http://cdn-ak.f.st-hatena.com/images/fotolife/k/kawazblog/20140416/20140416193644.jpg);"></div>
+            </a>
+            <h5>4/19 ゲームクリエイター水口哲也さんのワークショップに参加してきました。</h5>
+        </div>
+        <div class="col-md-4">
+            <a href="http://kawazinfo.hateblo.jp/entry/2014/04/01/224844" target="_blank">
+                <div class="activity-thumbnail" style="background-image: url(http://cdn-ak.f.st-hatena.com/images/fotolife/k/kawazblog/20140401/20140401233002.png);"></div>
+            </a>
+            <h5>4/1 全方向物量STG、multiplexをリリースしました。</h5>
+        </div>
+        <div class="col-md-4">
+            <a href="http://kawazinfo.hateblo.jp/entry/2014/03/22/105017" target="_blank">
+                <div class="activity-thumbnail" style="background-image: url(http://cdn-ak.f.st-hatena.com/images/fotolife/k/kawazblog/20140316/20140316155828.png);"></div>
+            </a>
+            <h5>3/22 波を避け続けるシンプルなアクションゲーム「Wave Weaver」をリリースしました</h5>
+        </div>
+        <div class="see-more">
+            <a href="http://kawazinfo.hateblo.jp/" target="_blank">{% trans "See More" %}
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
 </div>
 {% endblock %}
 {% block content %}
-    <h2>最新のゲーム</h2>
+    <h2>{% trans "Recent Games" %}</h2>
     <div id="recent_products" class="row list-group">
     {% get_products 'normal' as recent_products %}
     {% for product in recent_products|slice:":5" %}
     {% include "products/components/thumbnail-item.html" %}
     {% endfor %}
     </div>
-    <h2>注目のゲーム</h2>
+    <h2>{% trans "Featured Games" %}</h2>
     <div id="products" class="row list-group">
     {% get_products as products %}
     {% for product in products %}
     {% include "products/components/thumbnail-item.html" %}
     {% endfor %}
+    </div>
+    <div class="see-more">
+        <a href="{% url "products_product_list" %}" target="_blank">
+            {% trans "See More" %}<span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+{% endblock %}
+{% block footer %}
+    <div id="footer">
+        <div class="container">
+            <h2>札幌ゲーム制作者コミュニティ“Kawaz”とは？</h2>
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <div class="footer-logo">
+                        <img src="{% static "img/kawaz-logo-footer.png" %}">
+                    </div>
+                    <div class="register-button-wrapper">
+                        <div>
+                            <a href="{% url "registration_register" %}" class="btn btn-primary pull-right btn-lg">参加登録はこちら</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-6">
+                    <p>Kawazはゲーム制作を中心に、何か新しいものを生み出したい、能力を高めたい人たちが集まるコミュニティです。大学生、専門学校生、社会人のほか、プロのゲーム開発者も交えて交流しています。</p>
+                    <p><strong>今まで制作されたゲームは60本以上！</strong></p>
+                    <p>プログラムができる、絵が描ける、音楽が作れる、何か覚えてみたい、とにかく興味がある。 そんなあなたをお待ちしています！</p>
+                </div>
+            </div>
+            <address class="text-muted text-center">
+                This website is powered by <a href="http://www.djangoproject.com/" target="_blank">Django</a>.<br />
+                Copyright &copy; 2009-2014 Kawaz. All rights reserved.
+            </address>
+        </div>
     </div>
 {% endblock %}

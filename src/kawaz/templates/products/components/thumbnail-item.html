@@ -1,11 +1,11 @@
         <div class="item col-xs-4 col-lg-4">
             <div class="thumbnail">
-                <a class="product_caption" href="{{ product.get_absolute_url }}">
+                <a class="product-caption" href="{{ product.get_absolute_url }}">
                 <img class="group list-group-image" src="{{ MEDIA_URL }}{{ product.thumbnail }}" style="max-width: 100%;" />
                 <div class="caption">
                         <h4 class="group inner list-group-item-heading">{{ product.title }}</h4>
                         <p>Platform: {% for platform in product.platforms.all %}{{ platform }} {% endfor %}</p>
-                        <div class="caption_inner">
+                        <div class="caption-inner">
                             <span class="btn btn-default">詳細ページ &raquo;</span>
                         </div>
                 </div>

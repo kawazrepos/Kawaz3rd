@@ -22,29 +22,42 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="{% url "kawaz_index" %}"><img src="{% static "img/kawaz-logo-header.png" %}" alt="Kawaz" title="Kawaz Logo" class="logo-header"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="{% url "kawaz_index" %}">Home</a></li>
-            <li><a href="{% url "products_product_list" %}">Products</a></li>
-            <li><a href="{% url "events_event_list" %}">Events</a></li>
+            <a class="navbar-brand" href="{% url "kawaz_index" %}"><img src="{% static "img/kawaz-logo-header.png" %}" alt="Kawaz" title="Kawaz Logo" class="logo-header"></a>
+            <li class="active"><a href="{% url "kawaz_index" %}">{% trans "Home" %}</a></li>
+            <li><a href="{% url "products_product_list" %}">{% trans "Products" %}</a></li>
+            <li><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right header-button">
             <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, Guest! <b class="caret"></b></a>
-            <ul class="dropdown-menu">
                 {% if user.is_authenticated %}
                     {# ログインユーザー向け #}
-                    <li><a href="{% url "logout" %}">{% trans "Logout" %}</a></li>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <img class="avatar small" src="{{ user.avatar.small.url }}">
+                            {{ user.nickname }} <b class="caret"></b>
+                        </button>
+                        <ul class="dropdown-menu authenticated-menu" role="menu">
+                            <li><a href="{{ user.profile.get_absolute_url }}">{% trans "View Profile" %}</a></li>
+                            <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="{% url "logout" %}">{% trans "Logout" %}</a></li>
+                        </ul>
+                    </div>
                 {% else %}
-                <li><a href="{% url "login" %}">{% trans "Login" %}</a></li>
-                <li class="divider"></li>
-                <li><a href="{% url "password_reset" %}">{% trans "Forget password?" %}</a></li>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            {% trans "Login" %} <b class="caret"></b>
+                        </button>
+                        <ul class="dropdown-menu anonymous-menu" role="menu">
+                            {% include "components/login_form.html" %}
+                        </ul>
+                    </div>
                 {% endif %}
-            </ul>
             </li>
         </ul>
         <form class="nav navbar-form navbar-right" role="search">
@@ -63,44 +76,6 @@
 {% endblock %}
 </div>
 {% block footer %}
-<div id="footer">
-    <div class="container">
-        <h2>札幌ゲーム制作者コミュニティ“Kawaz”とは？</h2>
-        <div class="row">
-            <div class="col-xs-6 col-md-6">
-                <p>Kawazはゲーム制作を中心に、何か新しいものを生み出したい、能力を高めたい人たちが集まるコミュニティです。大学生、専門学校生、社会人のほか、プロのゲーム開発者も交えて交流しています。</p>
-                <p><strong>今まで制作されたゲームは60本以上！</strong></p>
-                <p>プログラムができる、絵が描ける、音楽が作れる、何か覚えてみたい、とにかく興味がある。 そんなあなたをお待ちしています！</p>
-            </div>
-            <div class="col-xs-6 col-md-6">
-                <form action="#" role="form">
-                    <div class="row">
-                        <div class="col-xs-6 col-md-6">
-                            <div class="form-group">
-                                <label for="exampleInputName1">お名前</label>
-                                <input type="text" class="form-control" id="exampleInputName1" placeholder="お名前">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email アドレス</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email アドレス">
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-md-6">
-                            <div class="form-group">
-                                <label for="exampleInputEntry1" class="sr-only">志望動機</label>
-                                <textarea type="text" rows="6" class="form-control" id="exampleInputEntry1" placeholder="志望動機を記入してください"></textarea>
-                            </div>
-                            <a href="{% url "registration_register" %}" class="btn btn-primary pull-right">参加登録はこちら</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <p class="text-muted text-center">Thanks to <a href="http://p.yusukekamiyamane.com/" target="_blank">p.yusukekamiyamane</a> about them nice icon packs.
-        This website is powered by <a href="http://www.djangoproject.com/" target="_blank">Django</a>.<br />
-        Copyright &copy; 2009-2014 Kawaz. All rights reserved.</p>
-    </div>
-</div>
 {% endblock %}
 {% block post_javascript %}
 <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
