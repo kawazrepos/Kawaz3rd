@@ -5,6 +5,7 @@
 <head>
     <link rel="stylesheet" href="{% static "css/main.css" %}" media="screen">
     <link rel="stylesheet" href="{% static "css/social.css" %}" media="screen">
+    <link rel="stylesheet" href="{% static "css/form.css" %}" media="screen">
     <!--
     <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
     -->
@@ -75,8 +76,16 @@
 {% block content %}
 {% endblock %}
 </div>
-{% block footer %}
-{% endblock %}
+<div id="footer">
+    <div class="container">
+        {% block footer %}
+        {% endblock %}
+    </div>
+    <address class="text-muted text-center">
+        This website is powered by <a href="http://www.djangoproject.com/" target="_blank">Django</a>.<br />
+        Copyright &copy; 2009-2014 Kawaz. All rights reserved.
+    </address>
+</div>
 {% block post_javascript %}
 <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
 <script src="{% static "js/bootstrap.js" %}"></script>
