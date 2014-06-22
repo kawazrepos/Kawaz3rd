@@ -9,7 +9,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from django.conf import settings
 urlpatterns = patterns('',
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^central-dogma/', include(admin.site.urls)),
     url(r'^api/', include('kawaz.api.urls')),
     url(r'^announcements/', include('kawaz.apps.announcements.urls')),
     url(r'^events/', include('kawaz.apps.events.urls')),
