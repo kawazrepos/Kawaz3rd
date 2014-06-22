@@ -1,21 +1,24 @@
-{% extends "base.html" %}
+{% extends "authenticated_base.html" %}
 {% load bootstrap %}
-{% block content %}
+{% block content-header %}
     {% if object %}
         <h1>{{ object.title }}を編集する</h1>
     {% else %}
     <h1>新しいプロダクトを作成</h1>
     {% endif %}
-    <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li><a href="/products/">Products</a></li>
-    </ol>
+{% endblock %}
+{% block breadcrumb %}
+{{ block.super }}
+<li><a href="/products/">Products</a></li>
+{% endblock %}
+{% block content %}
+    {{ block.super }}
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#form">入力フォーム</a></li>
-        <li><a href="#preview">プレビュー</a></li>
+        <li class="active"><a href="#editor-main">入力フォーム</a></li>
+        <li><a href="#editor-preview">プレビュー</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="form">
+        <div class="tab-pane active" id="editor-main">
             <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
                 {{ form | bootstrap_horizontal }}
                 <div class="form-group">
@@ -23,7 +26,7 @@
                 </div>
             </form>
         </div>
-        <div id="preview" class="tab-pane">
+        <div id="editor-preview" class="tab-pane">
             プレビュー
         </div>
     </div>
