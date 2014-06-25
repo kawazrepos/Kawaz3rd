@@ -13,27 +13,26 @@
             {{ form | bootstrap_horizontal }}
             <div class="form-group formset" prefix="{{ formset.prefix }}" id="formset-{{ formset.prefix }}">
                 <label class="control-label col-sm-2 col-lg-2 " for="id_skills">利用サービス</label>
-                    <div class="control-label col-sm-2 col-lg-2"></div>
-                    <div class="control-label col-sm-10 col-lg-10">
+                <div class="control-label col-sm-10 col-lg-10">
                     <table class="table">
                         {% for account_form in formset.forms %}
-                        <tr class="formset-row">
-                            <td>
-                                {% for fld in account_form.hidden_fields %}{{ fld }}{% endfor %}
-                                {% if account_form.instance.pk %}{{ account_form.DELETE }}{% endif %}
-                                {{ account_form.service.errors }}
-                                {{ account_form.service }}
-                            </td>
-                            <td>
-                                {{ account_form.username.errors }}
-                                {{ account_form.username }}
-                            </td>
-                            <td>
-                                {{ account_form.pub_state.errors }}
-                                {{ account_form.pub_state }}
-                            </td>
-                            <td><div><a href="#" class="btn btn-danger btn-xs formset-remove">削除</a></div></td>
-                        </tr>
+                            <tr class="formset-row">
+                                <td>
+                                    {% for fld in account_form.hidden_fields %}{{ fld }}{% endfor %}
+                                    {% if account_form.instance.pk %}{{ account_form.DELETE }}{% endif %}
+                                    {{ account_form.service.errors }}
+                                    {{ account_form.service }}
+                                </td>
+                                <td>
+                                    {{ account_form.username.errors }}
+                                    {{ account_form.username }}
+                                </td>
+                                <td>
+                                    {{ account_form.pub_state.errors }}
+                                    {{ account_form.pub_state }}
+                                </td>
+                                <td><div><a href="#" class="btn btn-danger btn-xs formset-remove">削除</a></div></td>
+                            </tr>
                         {% endfor %}
                     </table>
                     {{ formset.management_form }}
