@@ -9,9 +9,9 @@ $ ->
 
     # prefix attributeが設定されてるはず
     prefix = $container.attr('prefix')
-    if not prefix?
+    unless prefix?
       # rowにprefixが設定されてなかったらHTMLの構造がおかしいので警告を出す
-      alert("formsetのprefixが設定されていません。")
+      throw new Exception("formsetのprefixが設定されていません。")
 
     # 削除ボタン
     # ボタンが追加されても動くようにonでbindしている
@@ -22,8 +22,10 @@ $ ->
       isRegistered = $deleteField.size() > 0
       $row.fadeOut ->
         if isRegistered
-          $deleteField.attr('checked', true)
+          # 登録済みの場合、削除フィールドにcheckを入れて非表示にするだけ
+          $deleteField.prop('checked', true)
         else
+          # 登録していないとき、POSTする必要はないからフォームごと消してしまう
           $(@).remove()
         updateTotalForms()
       false
@@ -34,15 +36,14 @@ $ ->
     maxNumForms = parseInt($("#id_#{prefix}-MAX_NUM_FORMS").val(), 10)
 
     # deleteボタンを消しておく
-    $deleteField = $container.find("[id$='DELETE']")
-    $deleteField.hide()
+    $container.find("#id_#{prefix}-DELETE").hide()
 
     # 追加ボタン
     $addButton.click(->
       formCount = $container.find('.formset-row').size()
       # フォームの最大値以上だったらもう追加しない
       if formCount >= maxNumForms
-        false
+        return false
       $newRow = $formsetRow.clone()
       $table.append $newRow
 
@@ -62,9 +63,7 @@ $ ->
 
       ++currentUniqueID
 
-      $newRow.hide()
-      $newRow.fadeIn()
-      $newRow.find()
+      $newRow.hide().fadeIn()
 
       updateTotalForms()
 
@@ -74,5 +73,5 @@ $ ->
     updateTotalForms = ->
       $totalForms = $("#id_#{prefix}-TOTAL_FORMS")
       formCount = $container.find('.formset-row').size()
-      $totalForms.val("#{formCount}")
+      $totalForms.val(formCount)
   )

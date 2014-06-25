@@ -113,14 +113,14 @@ class ProfileUpdateViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.post('/members/update/', {
-            'pub_state' : 'public',
-            'place' : '札幌市北区',
-            'url' : 'http://www.kawaz.org/members/kawaztan/',
-            'remarks' : 'けろーん',
-            'birth_day' : datetime.datetime.today(),
-            'accounts-TOTAL_FORMS' : 0,  # アカウントは作成しない
-            'accounts-INITIAL_FORMS' : 1,
-            'accounts-MAX_NUM_FORMS' : 1000,
+            'pub_state': 'public',
+            'place': '札幌市北区',
+            'url': 'http://www.kawaz.org/members/kawaztan/',
+            'remarks': 'けろーん',
+            'birth_day': datetime.datetime.today(),
+            'accounts-TOTAL_FORMS': 0,  # アカウントは作成しない
+            'accounts-INITIAL_FORMS': 1,
+            'accounts-MAX_NUM_FORMS': 1000,
         })
         self.assertRedirects(r, '/members/{}/'.format(self.user.username))
         self.assertEqual(Profile.objects.count(), 1)
@@ -134,20 +134,20 @@ class ProfileUpdateViewTestCase(TestCase):
         self.assertTrue(self.client.login(username=self.user, password='password'))
         self.assertEqual(Account.objects.count(), 0)
         r = self.client.post('/members/update/', {
-            'pub_state' : 'public',
-            'place' : '札幌市北区',
-            'url' : 'http://www.kawaz.org/members/kawaztan/',
-            'remarks' : 'けろーん',
-            'birth_day' : datetime.datetime.today(),
-            'accounts-0-service' : 1,
-            'accounts-0-username' : '@kawaztan',
-            'accounts-0-pub_state' : 'public',
-            'accounts-1-service' : 2,
-            'accounts-1-username' : '@kawaztan2',
-            'accounts-1-pub_state' : 'public',
-            'accounts-TOTAL_FORMS' : 2,
-            'accounts-INITIAL_FORMS' : 0,
-            'accounts-MAX_NUM_FORMS' : 1000,
+            'pub_state': 'public',
+            'place': '札幌市北区',
+            'url': 'http://www.kawaz.org/members/kawaztan/',
+            'remarks': 'けろーん',
+            'birth_day': datetime.datetime.today(),
+            'accounts-0-service': 1,
+            'accounts-0-username': '@kawaztan',
+            'accounts-0-pub_state': 'public',
+            'accounts-1-service': 2,
+            'accounts-1-username': '@kawaztan2',
+            'accounts-1-pub_state': 'public',
+            'accounts-TOTAL_FORMS': 2,
+            'accounts-INITIAL_FORMS': 0,
+            'accounts-MAX_NUM_FORMS': 1000,
         })
         self.assertRedirects(r, '/members/{}/'.format(self.user.username))
         self.assertEqual(Profile.objects.count(), 1)
