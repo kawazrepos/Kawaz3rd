@@ -1,4 +1,5 @@
 {% extends "authenticated_base.html" %}
+{% load staticfiles %}
 {% block content %}
     <div class="form-wrapper">
         <div class="form-header">
@@ -13,4 +14,8 @@
             {% endblock %}
         </div>
     </div>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script src="{% static "js/formset.js" %}"></script>
 {% endblock %}
