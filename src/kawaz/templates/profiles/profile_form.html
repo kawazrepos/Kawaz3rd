@@ -11,7 +11,7 @@
     <div class="tab-pane active" id="editor-main">
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
             {{ form | bootstrap_horizontal }}
-            <div class="form-group formset" prefix="{{ formset.prefix }}">
+            <div class="form-group formset" prefix="{{ formset.prefix }}" id="formset-{{ formset.prefix }}">
                 <label class="control-label col-sm-2 col-lg-2 " for="id_skills">利用サービス</label>
                     <div class="control-label col-sm-2 col-lg-2"></div>
                     <div class="control-label col-sm-10 col-lg-10">
