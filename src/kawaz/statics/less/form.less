@@ -13,6 +13,12 @@
   .tab-content {
     padding-top: 200px;
   }
+  li.active a {
+    background-color: white;
+    &:hover {
+      background-color: white;
+    }
+  }
 }
 // フォームデザイン
 .multiple-checkbox {
@@ -24,13 +30,32 @@
 }
 // profiles
 #formset-accounts {
-  select[id$='service'] {
+  td {
+    padding: 2px;
+  }
+  input {
+    width: 100%;
+    padding: 8px;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
     background-size: 16px;
+    padding: 8px;
+  }
+  select[id$='service'] {
+    background-position: 5px 10px;
     background-image: url("https://twitter.com/favicon.ico");
     background-repeat: no-repeat;
+    padding-left: 23px;
     option {
-      padding-left: 20px;
+      border-color: @gray;
+      background-color: red;
+      -webkit-appearance: none;
     }
   }
-
+  .formset-remove {
+  }
 }
