@@ -16,7 +16,11 @@ var src = {
           //トラブルが発生したのと、本家のjs結合gruntfile
           //も、このような結合の仕方になっていたのでそれに
           //ならう実装にする
+          //tooltip.jsをpopover.jsよりも先に結合しないと
+          //正しく動作しないトラブルが発生するのでそれを
+          //防ぐために先にtooltip.jsを読み込ませる
           bootstrapjsprefix + "transition.js",
+          bootstrapjsprefix + "tooltip.js",
           bootstrapjsprefix + "*.js"
     ],
   bootstrapfont: "vendor/bootstrap/fonts/*"
