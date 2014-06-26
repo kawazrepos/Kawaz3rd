@@ -28,6 +28,7 @@ class ProfileUpdateView(UpdateView):
 
     def post(self, request, *args, **kwargs):
         # formsetの中身も保存するために複雑なことをしている
+        # ToDo 実装上の問題を抱えているから後で直す
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)

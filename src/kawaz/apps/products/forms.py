@@ -6,6 +6,8 @@ from .models import Product
 from .models import Platform
 from .models import Category
 from .models import Screenshot
+from .models import PackageRelease
+from .models import URLRelease
 
 
 class ProductBaseForm(ModelForm):
@@ -36,3 +38,14 @@ class ScreenshotForm(ModelForm):
         model = Screenshot
         fields = ('image',)
 
+
+class PackageReleaseForm(ModelForm):
+    class Meta:
+        model = PackageRelease
+        fields = ('file_content',)
+
+
+class URLReleaseForm(ModelForm):
+    class Meta:
+        model = URLRelease
+        fields = ('url'),
