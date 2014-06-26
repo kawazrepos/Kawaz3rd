@@ -42,10 +42,10 @@ class ScreenshotForm(ModelForm):
 class PackageReleaseForm(ModelForm):
     class Meta:
         model = PackageRelease
-        fields = ('file_content',)
+        fields = ('label', 'platform', 'version', 'file_content',)
 
 
 class URLReleaseForm(ModelForm):
     class Meta:
         model = URLRelease
-        fields = ('url'),
+        fields = ('label', 'platform', 'version', 'url',)

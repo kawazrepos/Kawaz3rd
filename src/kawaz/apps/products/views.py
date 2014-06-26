@@ -42,7 +42,10 @@ class ProductFormMixin(ProductFormSetMixin):
     def post(self, request, *args, **kwargs):
         # formsetの中身も保存するために複雑なことをしている
         # ToDo 実装上の問題を抱えているから後で直す
-        self.object = self.get_object()
+        try:
+            self.object = self.get_object()
+        except:
+            self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -53,7 +56,7 @@ class ProductFormMixin(ProductFormSetMixin):
 
         url_release_formset = URLReleaseFormSet(request.POST, request.FILES, prefix='url_releases')
         package_release_formset = PackageReleaseFormSet(request.POST, request.FILES, prefix='package_releases')
-        screenshot_formset = ScreenshotFormSet(request.POST, request.FILES, prefix='screenshot_releases')
+        screenshot_formset = ScreenshotFormSet(request.POST, request.FILES, prefix='screenshots')
 
         if form.is_valid() \
                 and url_release_formset.is_valid() \
@@ -85,7 +88,7 @@ class ProductFormMixin(ProductFormSetMixin):
 
 
 @permission_required('products.add_product')
-class ProductCreateView(ProductFormSetMixin, CreateView):
+class ProductCreateView(ProductFormMixin, CreateView):
     model = Product
     form_class = ProductCreateForm
 
@@ -104,7 +107,7 @@ class ProductCreateView(ProductFormSetMixin, CreateView):
 
 
 @permission_required('products.change_product')
-class ProductUpdateView(ProductFormSetMixin, UpdateView):
+class ProductUpdateView(ProductFormMixin, UpdateView):
     model = Product
     form_class = ProductUpdateForm
 

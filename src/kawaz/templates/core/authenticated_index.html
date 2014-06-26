@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron">
-  <h1>Welcome {{ user.username }}!</h1>
-  <p>...</p>
-  <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
-</div>
+    <div class="jumbotron">
+        <h1>Welcome {{ user.username }}!</h1>
+        <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url "products_product_create" %}">作品の作成</a></li>
+            <li><a href="{% url "events_event_create" %}">イベントの作成</a></li>
+            <li><a href="{% url "projects_project_create" %}">プロジェクトの作成</a></li>
+            <li><a href="{% url "blogs_entry_create" author=user.username %}">ブログの作成</a></li>
+        </ul>
+    </nav>
 {% endblock %}

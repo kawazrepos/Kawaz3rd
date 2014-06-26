@@ -1,5 +1,6 @@
 {% extends "form_base.html" %}
 {% load bootstrap %}
+{% load i18n %}
 {% block content-header %}
     {% if object %}
         <h1>{{ object.title }}を編集する</h1>
@@ -15,6 +16,94 @@
     <div class="tab-pane active" id="editor-main">
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
             {{ form | bootstrap_horizontal }}
+            <div class="form-group formset" prefix="{{ screenshot_formset.prefix }}" id="formset-{{ screenshot_formset.prefix }}">
+                <label class="control-label col-sm-2 col-lg-2 " for="id_screenshots">{% trans "Screenshots" %}</label>
+                <div class="control-label col-sm-10 col-lg-10">
+                    <table class="table">
+                        {% for screenshot_form in screenshot_formset.forms %}
+                            <tr class="formset-row">
+                                <td>
+                                    {% for fld in screenshot_form.hidden_fields %}{{ fld }}{% endfor %}
+                                    {% if screenshot_form.instance.pk %}{{ screenshot_form.DELETE }}{% endif %}
+                                    {{ screenshot_form.image.errors }}
+                                    {{ screenshot_form.image }}
+                                </td>
+                                <td><div><a href="#" class="btn btn-danger btn-xs formset-remove">削除</a></div></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    {{ screenshot_formset.management_form }}
+                    <a href="#" class="btn btn-primary btn-sm formset-add">追加</a>
+                </div>
+            </div>
+            <div class="form-group formset" prefix="{{ url_release_formset.prefix }}" id="formset-{{ url_release_formset.prefix }}">
+                <label class="control-label col-sm-2 col-lg-2 " for="id_url_releases">{% trans "Release(URL)" %}</label>
+                <div class="control-label col-sm-10 col-lg-10">
+                    <table class="table">
+                        {% for url_release_form in url_release_formset.forms %}
+                            <tr class="formset-row">
+                                <td>
+                                    {% for fld in url_release_form.hidden_fields %}{{ fld }}{% endfor %}
+                                    {% if url_release_form.instance.pk %}{{ url_release_form.DELETE }}{% endif %}
+                                </td>
+                                <td>
+                                    {{ url_release_form.label.errors }}
+                                    {{ url_release_form.label }}
+                                </td>
+                                <td>
+                                    {{ url_release_form.platform.errors }}
+                                    {{ url_release_form.platform }}
+                                </td>
+                                <td>
+                                    {{ url_release_form.version.errors }}
+                                    {{ url_release_form.version }}
+                                </td>
+                                <td>
+                                    {{ url_release_form.url.errors }}
+                                    {{ url_release_form.url }}
+                                </td>
+                                <td><div><a href="#" class="btn btn-danger btn-xs formset-remove">削除</a></div></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    {{ url_release_formset.management_form }}
+                    <a href="#" class="btn btn-primary btn-sm formset-add">追加</a>
+                </div>
+            </div>
+            <div class="form-group formset" prefix="{{ package_release_formset.prefix }}" id="formset-{{ package_release_formset.prefix }}">
+                <label class="control-label col-sm-2 col-lg-2 " for="id_package_releases">{% trans "Release(Package)" %}</label>
+                <div class="control-label col-sm-10 col-lg-10">
+                    <table class="table">
+                        {% for package_release_form in package_release_formset.forms %}
+                            <tr class="formset-row">
+                                <td>
+                                    {% for fld in package_release_form.hidden_fields %}{{ fld }}{% endfor %}
+                                    {% if package_release_form.instance.pk %}{{ package_release_form.DELETE }}{% endif %}
+                                </td>
+                                <td>
+                                    {{ package_release_form.label.errors }}
+                                    {{ package_release_form.label }}
+                                </td>
+                                <td>
+                                    {{ package_release_form.platform.errors }}
+                                    {{ package_release_form.platform }}
+                                </td>
+                                <td>
+                                    {{ package_release_form.version.errors }}
+                                    {{ package_release_form.version }}
+                                </td>
+                                <td>
+                                    {{ package_release_form.file_content.errors }}
+                                    {{ package_release_form.file_content }}
+                                </td>
+                                <td><div><a href="#" class="btn btn-danger btn-xs formset-remove">削除</a></div></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    {{ package_release_formset.management_form }}
+                    <a href="#" class="btn btn-primary btn-sm formset-add">追加</a>
+                </div>
+            </div>
             <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
         </form>
     </div>

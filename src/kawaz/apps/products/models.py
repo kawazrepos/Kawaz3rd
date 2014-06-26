@@ -190,7 +190,7 @@ class AbstractRelease(models.Model):
     """
     label = models.CharField(_('Label'), max_length=32)
     platform = models.ForeignKey(Platform, verbose_name=_('Platform'))
-    version = models.CharField(_('Version'), max_length=32)
+    version = models.CharField(_('Version'), max_length=32, default='')
     product = models.ForeignKey(Product, verbose_name=_('Product'),
                                 related_name='%(class)ss')
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
