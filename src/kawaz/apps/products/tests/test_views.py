@@ -64,15 +64,24 @@ class ProductListViewTestCase(ViewTestCaseBase):
 class ProductCreateViewTestCase(ViewTestCaseBase):
     def setUp(self):
         super().setUp()
-        self.product_kwargs = dict(
-            title = 'かわずたんファンタジー',
-            slug = 'kawaztan-fantasy',
-            thumbnail = 'thumbnail.png',
-            publish_at = datetime.date.today(),
-            platforms = [1,],
-            categories = [1,],
-            description = '剣と魔法の物語です',
-        )
+        self.product_kwargs = {
+            'title' : 'かわずたんファンタジー',
+            'slug': 'kawaztan-fantasy',
+            'thumbnail': 'thumbnail.png',
+            'publish_at': datetime.date.today(),
+            'platforms': [1,],
+            'categories': [1,],
+            'description': '剣と魔法の物語です',
+            'screenshots-TOTAL_FORMS': 0,  # スクリーンショットは作成しない
+            'screenshots-INITIAL_FORMS': 1,
+            'screenshots-MAX_NUM_FORMS': 1000,
+            'url_releases-TOTAL_FORMS': 0,  # URLリリースは作成しない
+            'url_releases-INITIAL_FORMS': 1,
+            'url_releases-MAX_NUM_FORMS': 1000,
+            'package_releases-TOTAL_FORMS': 0,  # パッケージリリースは作成しない
+            'package_releases-INITIAL_FORMS': 1,
+            'package_releases-MAX_NUM_FORMS': 1000,
+        }
         self.thumbnail_file = os.path.join(settings.REPOSITORY_ROOT,
                 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
 
@@ -131,13 +140,22 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         self.administrator = PersonaFactory(username='administrator')
         self.product = ProductFactory(title="かわずたんのゲームだよ☆",
                 administrators=(self.administrator,))
-        self.product_kwargs = dict(
-            title = 'クラッカーだよ！！！',
-            publish_at = datetime.date.today(),
-            platforms = [1,],
-            categories = [1,],
-            description = '剣と魔法の物語です',
-        )
+        self.product_kwargs = {
+            'title': 'クラッカーだよ！！！',
+            'publish_at': datetime.date.today(),
+            'platforms': [1,],
+            'categories': [1,],
+            'description': '剣と魔法の物語です',
+            'screenshots-TOTAL_FORMS': 0,  # スクリーンショットは作成しない
+            'screenshots-INITIAL_FORMS': 1,
+            'screenshots-MAX_NUM_FORMS': 1000,
+            'url_releases-TOTAL_FORMS': 0,  # URLリリースは作成しない
+            'url_releases-INITIAL_FORMS': 1,
+            'url_releases-MAX_NUM_FORMS': 1000,
+            'package_releases-TOTAL_FORMS': 0,  # パッケージリリースは作成しない
+            'package_releases-INITIAL_FORMS': 1,
+            'package_releases-MAX_NUM_FORMS': 1000,
+        }
         self.thumbnail_file = os.path.join(settings.REPOSITORY_ROOT,
                 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
 
