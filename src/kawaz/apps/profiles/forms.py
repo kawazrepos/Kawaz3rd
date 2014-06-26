@@ -1,4 +1,5 @@
 from django.forms import ModelForm
+from django.forms.models import modelformset_factory
 
 from .models import Profile
 from .models import Account
@@ -17,3 +18,7 @@ class AccountForm(ModelForm):
             'pub_state'
         )
         exclude = ('user',)
+
+def get_account_formset():
+    AccountFormSet = modelformset_factory(Account, form=AccountForm, extra=1, can_delete=True)
+    return AccountFormSet

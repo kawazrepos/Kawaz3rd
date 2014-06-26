@@ -1,0 +1,21 @@
+{% extends "authenticated_base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="form-wrapper">
+        <div class="form-header">
+            {{ block.super }}
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#editor-main">入力フォーム</a></li>
+                <li><a href="#editor-preview">プレビュー</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            {% block tab-content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script src="{% static "js/formset.js" %}"></script>
+{% endblock %}
