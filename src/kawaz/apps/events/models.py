@@ -11,6 +11,23 @@ from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
 
 
+class Category(models.Manager):
+    """
+    イベントの大カテゴリ
+    運営が設置したものをユーザーが選ぶ
+    """
+    label = models.CharField(_('Label'), max_length=16, unique=True)
+    order = models.PositiveSmallIntegerField(_('Order'))
+
+    def __str__(self):
+        return self.label
+
+    class Meta:
+        ordering = ('order'),
+        verbose_name = _('Label')
+        verbose_name_plural = _('Label')
+
+
 class EventManager(models.Manager, PublishmentManagerMixin):
     author_field_name = 'organizer'
 
@@ -72,6 +89,7 @@ class Event(models.Model):
                                        verbose_name=_("Attendees"),
                                        related_name="events_attend",
                                        editable=False)
+    category = models.ForeignKey(EventCategory, verbose_name=_('Category'), null=True, blank=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
