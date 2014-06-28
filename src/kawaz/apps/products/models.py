@@ -192,7 +192,7 @@ class AbstractRelease(models.Model):
     platform = models.ForeignKey(Platform, verbose_name=_('Platform'))
     version = models.CharField(_('Version'), max_length=32, default='')
     product = models.ForeignKey(Product, verbose_name=_('Product'),
-                                related_name='%(class)ss')
+                                related_name='%(class)ss', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
@@ -265,7 +265,7 @@ class Screenshot(models.Model):
     image = ThumbnailField(
         _('Image'), upload_to=_get_upload_path,
         patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
-    product = models.ForeignKey(Product, verbose_name=_('Product'))
+    product = models.ForeignKey(Product, verbose_name=_('Product'), editable=False)
 
     class Meta:
         ordering = ('pk',)

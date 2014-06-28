@@ -14,7 +14,7 @@
 {% endblock %}
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main">
-        <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
+        <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action=".">{% csrf_token %}
             {{ form | bootstrap_horizontal }}
             <div class="form-group formset" prefix="{{ screenshot_formset.prefix }}" id="formset-{{ screenshot_formset.prefix }}">
                 <label class="control-label col-sm-2 col-lg-2 " for="id_screenshots">{% trans "Screenshots" %}</label>

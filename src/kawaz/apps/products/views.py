@@ -62,14 +62,16 @@ class ProductFormMixin(ProductFormSetMixin):
                 and url_release_formset.is_valid() \
                 and package_release_formset.is_valid() \
                 and screenshot_formset.is_valid():
-            formsets = (url_release_formset, package_release_formset, screenshot_formset)
+            formsets = (url_release_formset,)
+            r = self.form_valid(form)
             for formset in formsets:
                 instances = formset.save(commit=False)
                 for instance in instances:
                     instance.product = self.object
                     instance.save()
-                return self.form_valid(form)
+            return r
         else:
+            print("invalid")
             return self.form_invalid(form)
 
 

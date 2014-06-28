@@ -5,6 +5,9 @@ from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory
+from ..models import Screenshot
+from ..models import URLRelease
+from ..models import PackageRelease
 
 from ..models import Product
 from .factories import ProductFactory
@@ -73,17 +76,18 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             'categories': [1,],
             'description': '剣と魔法の物語です',
             'screenshots-TOTAL_FORMS': 0,  # スクリーンショットは作成しない
-            'screenshots-INITIAL_FORMS': 1,
+            'screenshots-INITIAL_FORMS': 0,
             'screenshots-MAX_NUM_FORMS': 1000,
             'url_releases-TOTAL_FORMS': 0,  # URLリリースは作成しない
-            'url_releases-INITIAL_FORMS': 1,
+            'url_releases-INITIAL_FORMS': 0,
             'url_releases-MAX_NUM_FORMS': 1000,
             'package_releases-TOTAL_FORMS': 0,  # パッケージリリースは作成しない
-            'package_releases-INITIAL_FORMS': 1,
+            'package_releases-INITIAL_FORMS': 0,
             'package_releases-MAX_NUM_FORMS': 1000,
         }
-        self.thumbnail_file = os.path.join(settings.REPOSITORY_ROOT,
+        self.image_file_ = os.path.join(settings.REPOSITORY_ROOT,
                 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
+        self.platform = PlatformFactory()
 
     def test_non_members_cannot_see_create_view(self):
         """
@@ -121,7 +125,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
         """
         for user in self.members:
             self.prefer_login(user)
-            with open(self.thumbnail_file, 'rb') as f:
+            with open(self.image_file_, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
@@ -132,6 +136,71 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertEqual(e.administrators.count(), 1)
             # 重複を避けるため削除する
             e.delete()
+
+    def test_member_can_create_screenshot_via_product_form(self):
+        """
+        メンバーはプロダクトフォームからScreenshotモデルも作成できる
+        """
+        for user in self.members:
+            self.prefer_login(user)
+            with open(self.image_file_, 'rb') as f:
+                self.product_kwargs['thumbnail'] = f
+                self.product_kwargs['screenshots-TOTAL_FORMS'] = 1
+                self.product_kwargs['screenshots-0-image'] = f
+                r = self.client.post('/products/create/', self.product_kwargs)
+            self.assertRedirects(r, '/products/kawaztan-fantasy/')
+
+            self.assertEqual(Screenshot.objects.count(), 1)
+            obj = Screenshot.objects.get(pk=1)
+            # 重複を避けるため削除する
+            obj.delete()
+
+    def test_member_can_create_url_release_via_product_form(self):
+        """
+        メンバーはプロダクトフォームからURLReleaseモデルも作成できる
+        """
+        for user in self.members:
+            self.prefer_login(user)
+            with open(self.image_file_, 'rb') as f:
+                self.product_kwargs['thumbnail'] = f
+                self.product_kwargs['url_releases-TOTAL_FORMS'] = 1
+                self.product_kwargs['url_releases-0-label'] = 'Android版'
+                self.product_kwargs['url_releases-0-version'] = 'Version3.14'
+                self.product_kwargs['url_releases-0-platform'] = self.platform.pk
+                self.product_kwargs['url_releases-0-url'] = 'http://play.google.com'
+                r = self.client.post('/products/create/', self.product_kwargs)
+            self.assertRedirects(r, '/products/kawaztan-fantasy/')
+
+            self.assertEqual(URLRelease.objects.count(), 1)
+            obj = URLRelease.objects.get(pk=1)
+            self.assertEqual(obj.label, 'Android版')
+            self.assertEqual(obj.version, 'Version3.14')
+            self.assertEqual(obj.platform, self.platform)
+            # 重複を避けるため削除する
+            obj.delete()
+
+    def test_member_can_create_package_release_via_product_form(self):
+        """
+        メンバーはプロダクトフォームからPackageReleaseモデルも作成できる
+        """
+        for user in self.members:
+            self.prefer_login(user)
+            with open(self.image_file_, 'rb') as f:
+                self.product_kwargs['url_releases-TOTAL_FORMS'] = 1
+                self.product_kwargs['url_releases-0-label'] = 'Android版'
+                self.product_kwargs['url_releases-0-version'] = 'Version3.14'
+                self.product_kwargs['url_releases-0-platform'] = self.platform
+                self.product_kwargs['url_releases-0-file_content'] = f
+                r = self.client.post('/products/create/', self.product_kwargs)
+            self.assertRedirects(r, '/products/kawaztan-fantasy/')
+
+            self.assertEqual(PackageRelease.objects.count(), 1)
+            obj = URLRelease.objects.get(pk=1)
+            self.assertEqual(obj.label, 'Android版')
+            self.assertEqual(obj.version, 'Version3.14')
+            self.assertEqual(obj.platform, self.platform)
+            # 重複を避けるため削除する
+            obj.delete()
 
 
 class ProductUpdateViewTestCase(ViewTestCaseBase):
@@ -156,7 +225,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             'package_releases-INITIAL_FORMS': 1,
             'package_releases-MAX_NUM_FORMS': 1000,
         }
-        self.thumbnail_file = os.path.join(settings.REPOSITORY_ROOT,
+        self.image_file_ = os.path.join(settings.REPOSITORY_ROOT,
                 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
 
     def test_non_members_cannot_see_product_update_view(self):
@@ -221,7 +290,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         """
         for user in [self.members[0], self.administrator]:
             self.prefer_login(user)
-            with open(self.thumbnail_file, 'rb') as f:
+            with open(self.image_file_, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post('/products/1/update/', self.product_kwargs)
             self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
@@ -236,7 +305,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         previous_slug = self.product.slug
         for user in [self.members[0], self.administrator]:
             self.prefer_login(user)
-            with open(self.thumbnail_file, 'rb') as f:
+            with open(self.image_file_, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 self.product_kwargs['slug'] = 'new-slug'
                 r = self.client.post('/products/1/update/', self.product_kwargs)
