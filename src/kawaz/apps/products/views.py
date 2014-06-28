@@ -42,10 +42,6 @@ class ProductFormMixin(ProductFormSetMixin):
     def post(self, request, *args, **kwargs):
         # formsetの中身も保存するために複雑なことをしている
         # ToDo 実装上の問題を抱えているから後で直す
-        try:
-            self.object = self.get_object()
-        except:
-            self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -71,7 +67,6 @@ class ProductFormMixin(ProductFormSetMixin):
                     instance.save()
             return r
         else:
-            print("invalid")
             return self.form_invalid(form)
 
 
@@ -90,7 +85,7 @@ class ProductFormMixin(ProductFormSetMixin):
 
 
 @permission_required('products.add_product')
-class ProductCreateView(ProductFormMixin, CreateView):
+class ProductCreateView(CreateView, ProductFormMixin):
     model = Product
     form_class = ProductCreateForm
 
@@ -109,7 +104,7 @@ class ProductCreateView(ProductFormMixin, CreateView):
 
 
 @permission_required('products.change_product')
-class ProductUpdateView(ProductFormMixin, UpdateView):
+class ProductUpdateView(UpdateView, ProductFormMixin):
     model = Product
     form_class = ProductUpdateForm
 
