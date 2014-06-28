@@ -6,7 +6,9 @@ from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.tests.datetime import patch_datetime_now
 from ..models import Event
+from ..models import Category
 from .factories import EventFactory
+from .factories import CategoryFactory
 from .utils import static_now
 from .utils import event_factory_with_relative
 
@@ -176,6 +178,26 @@ class EventManagerAttendanceRestrictionTestCase(TestCase):
         self.assertEqual(qs[0], self.event_list[0], '2000/9/1-4')
         self.assertEqual(qs[1], self.event_list[2], '2000/9/8-9')
 
+class EventCategoryTest(TestCase):
+    def test_str(self):
+        """
+        str(Category)がラベルを返します
+        """
+        category = CategoryFactory(label='飲み会')
+        self.assertEqual(str(category), '飲み会')
+
+    def test_order(self):
+        """
+        Categoryがorderの値順に並びます
+        """
+        CategoryFactory(label='飲み会', order=1)
+        CategoryFactory(label='ゲームオフ', order=2)
+        CategoryFactory(label='GameJam', order=3)
+
+        categories = Category.objects.all()
+        self.assertEqual(categories[0].label, '飲み会')
+        self.assertEqual(categories[1].label, 'ゲームオフ')
+        self.assertEqual(categories[2].label, 'GameJam')
 
 @patch_datetime_now(static_now)
 class EventTestCase(TestCase):
