@@ -18,7 +18,7 @@ register = template.Library()
 
 @register.filter
 @template.defaultfilters.stringfilter
-def youtube(value, size):
+def youtube(value, size=None):
     """
     文中に含まれているYouTubeの動画URLをプレーヤーに変換します
     ただし、URL以外の文字列を同じ行に含んではいけません
@@ -30,12 +30,16 @@ def youtube(value, size):
         {{ url | youtube:'1600,900' }}
 
     """
-    bits = size.split(',')
-    if len(bits) == 1:
-        width = bits[0]
-        height = None
-    elif len(bits) == 2:
-        width, height = bits
+    if not size:
+        width = None
+        height =  None
+    else:
+        bits = size.split(',')
+        if len(bits) == 1:
+            width = bits[0]
+            height = None
+        elif len(bits) == 2:
+            width, height = bits
     if not width and not height:
         width = DEFAULT_WIDTH
         height = DEFAULT_HEIGHT
