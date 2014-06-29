@@ -10,21 +10,44 @@ from django.utils.safestring import mark_safe
 
 YOUTUBE_PATTERN = re.compile(r"^https?:\/\/www.youtube.com\/watch\?v=(?P<id>[a-zA-Z0-9_-]+)$", flags=re.MULTILINE)
 NICONICO_PATTERN = re.compile(r"^http:/\/\www.nicovideo.jp\/watch\/(?P<id>[a-z]{2}[0-9]+)\/?$", flags=re.MULTILINE)
+DEFAULT_WIDTH = 640
+DEFAULT_HEIGHT = 480
+ASPECT_RATIO = 9.0 / 16.0
 
 register = template.Library()
 
 @register.filter
 @template.defaultfilters.stringfilter
-def youtube(value):
+def youtube(value, size):
     """
     文中に含まれているYouTubeの動画URLをプレーヤーに変換します
     ただし、URL以外の文字列を同じ行に含んではいけません
     これは、プレイヤーの埋め込みという性質上の仕様です
+
+    Example:
+        {{ url | youtube }}
+        {{ url | youtube:'1600' }}
+        {{ url | youtube:'1600,900' }}
+
     """
+    bits = size.split(',')
+    if len(bits) == 1:
+        width = bits[0]
+        height = None
+    elif len(bits) == 2:
+        width, height = bits
+    if not width and not height:
+        width = DEFAULT_WIDTH
+        height = DEFAULT_HEIGHT
+    elif not height:
+        height = int(int(width) * ASPECT_RATIO)
+
     def repl(m):
         id = m.group('id')
         html = render_to_string("templatetags/youtube.html", {
-            'video_id' : id
+            'video_id' : id,
+            'width': width,
+            'height': height
         }).replace('\n', '')
         return html
     value = YOUTUBE_PATTERN.sub(repl, value)
