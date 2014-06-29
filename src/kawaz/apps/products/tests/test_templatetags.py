@@ -2,7 +2,10 @@ from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
 from unittest.mock import MagicMock
 from kawaz.core.personas.tests.utils import create_role_users
+from ..models import Category
+from ..models import Product
 from .factories import ProductFactory
+from .factories import CategoryFactory
 
 
 class ProductsTemplateTagTestCase(TestCase):
@@ -120,3 +123,45 @@ class ProductsTemplateTagTestCase(TestCase):
         for username, nproducts in patterns:
             self.assertRaises(TemplateSyntaxError, self._render_template,
                               username, lookup='unknown')
+
+
+class GetProductsByCategoriesTestCase(TestCase):
+    def _render_template(self, categories):
+        """
+        """
+        t = Template(
+            "{% load products_tags %}"
+            "{% get_products_by_categories categories as products %}"
+        )
+        c = Context({'categories': categories})
+        r = t.render(c)
+        # get_blog_products は何も描画しない
+        self.assertEqual(r.strip(), "")
+        return c['products']
+
+    def test_get_products_by_categories(self):
+        """
+        get_products_by_categoriesで指定したカテゴリを含むQuerySetを返せる
+        """
+        c0 = CategoryFactory(label="バカゲー")
+        c1 = CategoryFactory(label="クソゲー")
+        p0 = ProductFactory(categories=[c0,])
+        p1 = ProductFactory(categories=[c1,])
+        p2 = ProductFactory(categories=[c0, c1])
+
+        categories0 = Category.objects.filter(pk__in=[1,])
+        products0 = self._render_template(categories=categories0)
+        self.assertEqual(len(products0), 2)
+        self.assertEqual(products0[0], p0)
+        self.assertEqual(products0[1], p2)
+        categories1 = Category.objects.filter(pk__in=[2,])
+        products1 = self._render_template(categories=categories1)
+        self.assertEqual(products1[0], p1)
+        self.assertEqual(products1[1], p2)
+        self.assertEqual(len(products1), 2)
+        categories2 = Category.objects.filter(pk__in=[1, 2])
+        products2 = self._render_template(categories=categories2)
+        self.assertEqual(len(products2), 3)
+        self.assertEqual(products2[0], p0)
+        self.assertEqual(products2[1], p2)
+        self.assertEqual(products2[2], p1)
