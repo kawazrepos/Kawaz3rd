@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'kawaz.apps.projects',
     'kawaz.apps.events',
     'kawaz.apps.blogs',
+    'kawaz.apps.recent_activities',
     'kawaz.apps.products',
     'kawaz.apps.stars',
 )
@@ -126,7 +127,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 MEDIA_ROOT = os.path.abspath(os.path.join(REPOSITORY_ROOT, 'storage'))
 MEDIA_URL = '/storage/'
@@ -171,3 +172,5 @@ DEFAULT_RENDERER_CLASSES = (
 )
 
 TEST_RUNNER = 'kawaz.core.tests.runner.MediaRootTestSuiteRunner'
+
+RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'

@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import RecentActivity
 
-# Register your models here.
+class RecentActivityAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(RecentActivity, RecentActivityAdmin)
