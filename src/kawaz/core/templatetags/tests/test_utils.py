@@ -5,7 +5,7 @@
 __author__ = 'giginet'
 
 from django.test import TestCase
-from django.template import Template, Context
+from django.template import Template, Context, TemplateSyntaxError
 from unittest.mock import MagicMock
 
 
@@ -29,7 +29,7 @@ class PathMatchesTemplateTagTestCase(TestCase):
         render = t.render(c)
         self.assertEqual(render, 'active')
 
-    def test_string_by_path_with_not_matched_pattern(self):
+    def test_when_regex_then_not_matched_pattern(self):
         '''
         when =~ <pattern> then <string>タグがpatternとマッチしないとき、空白文字を返す
         '''
@@ -45,3 +45,12 @@ class PathMatchesTemplateTagTestCase(TestCase):
         })
         render = t.render(c)
         self.assertEqual(render, '')
+
+    def test_when_regex_then_invalid_argument(self):
+        '''
+        when path =~ <pattern> then <string>タグのシンタックスが間違ってたら、TemplateSyntaxErrorを返す
+        '''
+        t = ("""{% load utils %}"""
+             """{% when =~ pattern then 'active' %}""")
+        self.assertRaises(TemplateSyntaxError, Template, t)
+
