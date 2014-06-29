@@ -1,0 +1,45 @@
+- model: events.category
+  pk: 1
+  fields:
+    label: 全体ミーティング
+    order: 1
+- model: events.category
+  pk: 2
+  fields:
+    label: 交流ミーティング
+    order: 2
+- model: events.category
+  pk: 3
+  fields:
+    label: 勉強会
+    order: 3
+- model: events.category
+  pk: 4
+  fields:
+    label: 飲み会
+    order: 4
+- model: events.category
+  pk: 5
+  fields:
+    label: ゲームジャム・ハッカソン
+    order: 5
+- model: events.category
+  pk: 6
+  fields:
+    label: レクリエーション
+    order: 6
+- model: events.category
+  pk: 7
+  fields:
+    label: もくもく会
+    order: 7
+- model: events.category
+  pk: 8
+  fields:
+    label: 外部イベント
+    order: 8
+- model: events.category
+  pk: 9
+  fields:
+    label: その他
+    order: 9
