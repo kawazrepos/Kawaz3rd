@@ -6,10 +6,13 @@ Kawaz3rd
 .. image:: https://coveralls.io/repos/kawazrepos/Kawaz3rd/badge.png?branch=develop
     :target: https://coveralls.io/r/kawazrepos/Kawaz3rd
     :alt: Coverage
+-- image:: https://gemnasium.com/kawazrepos/Kawaz3rd.svg
+    :target: https://gemnasium.com/kawazrepos/Kawaz3rd
+    :alt: Dependency Status
 
 Author
     - Alisue <lambdalisue@hashnote.net>  
-    - Giginet
+    - giginet <giginet.net@gmail.com>
 Supported python versions
     Python 3.3
 Supported django versions
@@ -17,6 +20,8 @@ Supported django versions
 
 This is a new web site for game creator's community Kawaz_.
 It is developed with Python 3.3 + Django 1.6.
+
+All your game are belong to us.
 
 .. _Kawaz: http://www.kawaz.org/
 
