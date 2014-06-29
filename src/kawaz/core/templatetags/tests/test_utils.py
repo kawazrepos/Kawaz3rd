@@ -9,11 +9,11 @@ from django.template import Template, Context
 from unittest.mock import MagicMock
 
 
-class PathMatchesTemplateTagTestCase(TestCase):
+class ActiveTemplateTagTestCase(TestCase):
 
-    def test_string_by_path(self):
+    def test_active(self):
         '''
-        string_by_pathタグがregexとマッチしたとき、第3引数の文字を返す
+        activeタグのpatternが現在のURLとマッチしたとき、activeの文字を返す
         '''
         t = Template(
             """{% load utils %}"""
@@ -28,9 +28,9 @@ class PathMatchesTemplateTagTestCase(TestCase):
         render = t.render(c)
         self.assertEqual(render, 'active')
 
-    def test_string_by_path_with_not_matched_pattern(self):
+    def test_active_with_not_matched_pattern(self):
         '''
-        string_by_pathタグがregexとマッチしないとき、空白文字を返す
+        activeタグのpatternが現在のURLとマッチしないとき、空白文字を返す
         '''
         t = Template(
             """{% load utils %}"""
