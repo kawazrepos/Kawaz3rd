@@ -10,14 +10,16 @@ from django.template import Template, Context
 
 class BaseViewerTemplateTagTestCase(TestCase):
 
-    def _test_template(self, before, after):
+    def _test_template(self, before, after, filter_name=None):
+        if not filter_name:
+            filter_name = self.filter_name
         c = Context({
             'body' : before
         })
         t = Template(
             """{%% load embed %%}"""
             """{{ body | %(filter_name)s }}""" % {
-                'filter_name': self.filter_name
+                'filter_name': filter_name
             }
         )
         r = t.render(c)
@@ -51,6 +53,20 @@ class YouTubeTemplateTagTestCase(BaseViewerTemplateTagTestCase):
                     "ついでにこっちもおもしろいです\n"
                     """<iframe width="640" height="480" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>""")
         self._test_template(body, expected)
+
+    def test_youtube_with_width_and_height(self):
+        body = ("オススメの動画です\n"
+                "https://www.youtube.com/watch?v=r-j9FZ2TQd0")
+        expected = ("オススメの動画です\n"
+                    """<iframe width="1600" height="900" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
+        self._test_template(body, expected, filter_name="youtube:'1600,900'")
+
+    def test_youtube_with_width(self):
+        body = ("オススメの動画です\n"
+                "https://www.youtube.com/watch?v=r-j9FZ2TQd0")
+        expected = ("オススメの動画です\n"
+                    """<iframe width="800" height="450" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
+        self._test_template(body, expected, filter_name="youtube:'800'")
 
     def test_youtube_with_link_fail(self):
         """
