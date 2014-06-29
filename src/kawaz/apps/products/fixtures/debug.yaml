@@ -131,3 +131,33 @@
     display_mode: 'normal'
     created_at: 2014-5-20 12:00:00
     updated_at: 2014-5-20 12:00:00
+- model: products.urlrelease
+  pk: 1
+  fields:
+    label: iOS版
+    platform: 5
+    version: 1.2
+    url: https://itunes.apple.com/jp/app/wave-weaver/id841280819?mt=8
+    product: 2
+    created_at: 2014-5-20 12:00:00
+    updated_at: 2014-5-20 12:00:00
+- model: products.urlrelease
+  pk: 2
+  fields:
+    label: Android版
+    platform: 6
+    version: 1.2
+    url: https://play.google.com/store/apps/details?id=org.kawaz.Weaver
+    product: 2
+    created_at: 2014-5-20 12:00:00
+    updated_at: 2014-5-20 12:00:00
+- model: products.packagerelease
+  pk: 1
+  fields:
+    label: Mac版
+    platform: 2
+    version: 1.2
+    product: 2
+    file_content: "fixtures/products/thumbnails/normal.png"
+    created_at: 2014-5-20 12:00:00
+    updated_at: 2014-5-20 12:00:00
