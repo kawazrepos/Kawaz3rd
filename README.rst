@@ -6,7 +6,7 @@ Kawaz3rd
 .. image:: https://coveralls.io/repos/kawazrepos/Kawaz3rd/badge.png?branch=develop
     :target: https://coveralls.io/r/kawazrepos/Kawaz3rd
     :alt: Coverage
--- image:: https://gemnasium.com/kawazrepos/Kawaz3rd.svg
+.. image:: https://gemnasium.com/kawazrepos/Kawaz3rd.svg
     :target: https://gemnasium.com/kawazrepos/Kawaz3rd
     :alt: Dependency Status
 
