@@ -21,7 +21,17 @@ class RenderWhenPatternThenNode(template.Node):
 @register.tag
 def when(parser, token):
     """
+    現在のURLのregexを渡して、一致していた場合はstringを返します
+    そうでない場合は空白文字を返します
 
+    Example:
+        {% when path =~ <pattern> then <string> %}"
+
+        {% load utils %}
+        <div class="{% when path =~ '^/members/.+/$' then 'active'"></div>
+
+         例えば、このように記述しておくと、bootstrapのタブなど、「特定のページにいるときだけactiveクラスを付加したい」
+        という需要に対応できます
     """
     bits = token.split_contents()
     if not bits[1] == 'path' or \
