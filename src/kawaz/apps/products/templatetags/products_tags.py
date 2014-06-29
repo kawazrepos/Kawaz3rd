@@ -44,3 +44,20 @@ def get_products(lookup='mixed'):
     else:
         qs = Product.objects.filter(display_mode__exact=lookup)
     return qs
+
+
+@register.assignment_tag
+def get_products_by_categories(categories):
+    """
+    任意のカテゴリに所属するProductを返却します
+
+    :param categories: CategoryのQuerySet
+    :return: categoriesに含まれるCategoryを持つProduct全て
+
+    Example:
+        {% load products_tag %}
+        {% get_product_by_category <categories> as <variable> %}
+
+    """
+    qs = Product.objects.filter(categories__in=categories.all())
+    return qs.distinct()
