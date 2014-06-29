@@ -1,26 +1,32 @@
 from django import template
+from django.template import TemplateSyntaxError
 
 register = template.Library()
 
-@register.simple_tag
-def string_by_path(request, pattern, string):
+class RenderWhenPatternThenNode(template.Node):
+    def __init__(self, pattern, string):
+        self.pattern = template.Variable(pattern)
+        self.string = template.Variable(string)
+
+    def render(self, context):
+        pattern = self.pattern.resolve(context)
+        string = self.string.resolve(context)
+        import re
+        request = context['request']
+        if re.search(pattern, request.path):
+            return string
+        return ''
+
+
+@register.tag
+def when(parser, token):
     """
-    現在のURLのregexを渡して、一致していた場合はstringを返します
-    そうでない場合は空白文字を返します
-    param request Requestオブジェクト
-    param pattern 現在のURLの正規表現パターン
-    param string パターンがマッチしたときに返却する文字列
-
-    Example:
-        {% load active %}
-        <div class="{% string_by_path request '/members/.+' 'active' %}"</div>
-
-        例えば、このように記述しておくと、bootstrapのタブなど、「特定のページにいるときだけactiveクラスを不可したい」
-        という需要に対応できます
 
     """
-    from re import search
-    if search(pattern, request.path):
-        return string
-    return ''
-
+    bits = token.split_contents()
+    if not bits[1] == 'path' or \
+            not bits[2] == '=~' or \
+            not bits[4] == 'then' or \
+                    len(bits) != 6:
+        raise TemplateSyntaxError("This template tag must be 'when path =~ <pattern> then <string>'")
+    return RenderWhenPatternThenNode(bits[3], bits[5])

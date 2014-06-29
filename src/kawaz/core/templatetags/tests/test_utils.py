@@ -12,13 +12,13 @@ from unittest.mock import MagicMock
 class PathMatchesTemplateTagTestCase(TestCase):
 
 
-    def test_string_by_path(self):
+    def test_when_regex_then(self):
         '''
-        string_by_pathタグがregexとマッチしたとき、第3引数の文字を返す
+        when =~ <pattern> then <string>タグがpatternとマッチしたとき、<string>を返す
         '''
         t = Template(
             """{% load utils %}"""
-            """{% string_by_path request pattern 'active' %}"""
+            """{% when path =~ pattern then 'active' %}"""
         )
         request = MagicMock()
         request.path = '/members/giginet/'
@@ -31,11 +31,11 @@ class PathMatchesTemplateTagTestCase(TestCase):
 
     def test_string_by_path_with_not_matched_pattern(self):
         '''
-        string_by_pathタグがregexとマッチしないとき、空白文字を返す
+        when =~ <pattern> then <string>タグがpatternとマッチしないとき、空白文字を返す
         '''
         t = Template(
             """{% load utils %}"""
-            """{% string_by_path request pattern 'active' %}"""
+            """{% when path =~ pattern then 'active' %}"""
         )
         request = MagicMock()
         request.path = '/projects/giginet/'
