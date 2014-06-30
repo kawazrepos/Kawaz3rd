@@ -127,8 +127,6 @@ class ProductsTemplateTagTestCase(TestCase):
 
 class GetProductsByCategoriesTestCase(TestCase):
     def _render_template(self, categories):
-        """
-        """
         t = Template(
             "{% load products_tags %}"
             "{% get_products_by_categories categories as products %}"
@@ -165,3 +163,44 @@ class GetProductsByCategoriesTestCase(TestCase):
         self.assertEqual(products2[0], p0)
         self.assertEqual(products2[1], p2)
         self.assertEqual(products2[2], p1)
+
+
+class GetRelativeTestCase(TestCase):
+    def _render_template(self, product):
+        t = Template(
+            "{% load products_tags %}"
+            "{% get_relative product as products %}"
+        )
+        c = Context({'product': product})
+        r = t.render(c)
+        # get_relative_products は何も描画しない
+        self.assertEqual(r.strip(), "")
+        return c['products']
+
+    def test_get_relative(self):
+        """
+        get_relativeで指定したカテゴリを含むQuerySetが返る
+        """
+        c0 = CategoryFactory(label="バカゲー")
+        c1 = CategoryFactory(label="クソゲー")
+        p0 = ProductFactory(categories=[c0,])
+        p1 = ProductFactory(categories=[c0,])
+        p2 = ProductFactory(categories=[c1,])
+        p3 = ProductFactory(categories=[c0, c1])
+
+        products = self._render_template(p0)
+        self.assertEqual(len(products), 2)
+        self.assertEqual(products[0], p1)
+        self.assertEqual(products[1], p3)
+        products = self._render_template(p1)
+        self.assertEqual(len(products), 2)
+        self.assertEqual(products[0], p0)
+        self.assertEqual(products[1], p3)
+        products = self._render_template(p2)
+        self.assertEqual(len(products), 1)
+        self.assertEqual(products[0], p3)
+        products = self._render_template(p3)
+        self.assertEqual(len(products), 3)
+        self.assertEqual(products[0], p0)
+        self.assertEqual(products[1], p1)
+        self.assertEqual(products[2], p2)
