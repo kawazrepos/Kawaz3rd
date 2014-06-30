@@ -1,0 +1,53 @@
+@import "../../../../vendor/bootstrap/less/variables";
+@import "common/vendor-prefixes";
+@import "common/define";
+
+.markdown {
+  color: @text-color;
+  p {
+    margin-left: 5px;
+  }
+  h1 {
+    color: @brand-primary;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    border-bottom: dotted 3px @brand-primary;
+  }
+  h2 {
+    border-bottom: solid 1px @text-color;
+    margin-bottom: 20px;
+    padding-bottom: 3px;
+  }
+  h6 {
+    color: @gray-light;
+  }
+
+  blockquote {
+    font-size: @font-size-base;
+    color: @gray-light;
+    line-height: @line-height-base * 1.5;
+    border-left: solid 5px @brand-primary;
+    padding-top: 2px;
+    margin-left: 40px;
+    margin-bottom: 2px;
+    padding-left: 10px;
+    padding-bottom: 2px;
+    blockquote {
+      margin-left: 12px;
+    }
+  }
+
+  code {
+    color: @text-color;
+    padding: 5px 15px 5px;
+    background-color: rgb(244,244,244);
+    .border-radius(5px)
+  }
+  a {
+    color: rgb(87, 152, 225);
+    &:hover {
+      color: rgb(192,204,236);
+    }
+  }
+
+}
