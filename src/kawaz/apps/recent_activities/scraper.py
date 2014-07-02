@@ -3,9 +3,10 @@
 # created by giginet on 2014/6/29
 #
 from bs4 import BeautifulSoup
-import os
 import urllib
 import datetime
+from datetime import timezone
+from django.utils.timezone import make_naive
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 
@@ -13,24 +14,28 @@ from .models import RecentActivity
 
 __author__ = 'giginet'
 
-
 FEED_URL = settings.RECENT_ACTIVITY_FEED_URL
 # RSS2のpubDateのフォーマット
 PUBDATE_FORMAT = '%a, %d %b %Y %H:%M:%S %z'
 
+
 class RecentActivityScraper(object):
     def __init__(self, url=FEED_URL):
-        feed = urllib.request.urlopen(url).read()
-        self.soup = BeautifulSoup(feed)
+        self.url = url
 
     def fetch(self):
+        feed = urllib.request.urlopen(self.url).read()
+        self.soup = BeautifulSoup(feed)
         items = self.soup.find_all('item')
         for item in items:
             title = item.title.string
             link = item.link.string
             print('Fetching entry {}'.format(title))
             pub_date = item.pubdate.string
-            publish_at = datetime.datetime.strptime(pub_date, PUBDATE_FORMAT)
+            # TimeZone周りでハマるので、強制的にnativeに変換している
+            jst = timezone(datetime.timedelta(hours=-9))
+            publish_at = make_naive(datetime.datetime.strptime(pub_date, PUBDATE_FORMAT), timezone=jst)
+
             image_url = self._fetch_thumbnail(link)
             filename = image_url.split('/')[-1]
             image_data = urllib.request.urlopen(image_url).read()
@@ -38,6 +43,7 @@ class RecentActivityScraper(object):
             try:
                 RecentActivity.objects.get(url=link)
             except:
+                print(publish_at)
                 RecentActivity.objects.create(title=title,
                                               url=link,
                                               publish_at=publish_at,

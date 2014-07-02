@@ -22,7 +22,7 @@ class RecentActivityTemplateTagTestCase(TestCase):
         )
         c = Context()
         r = t.render(c)
-        # get_blog_products は何も描画しない
+        # get_recent_activities は何も描画しない
         self.assertEqual(r.strip(), "")
         return c['recent_activities']
 
