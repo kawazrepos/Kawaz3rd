@@ -6,6 +6,7 @@ storage/products/*
 storage/profiles/*
 storage/projects/*
 storage/attachments/*
+storage/thumbnails/recent_activities/*
 
 # for Python
 # Byte-compiled / optimized / DLL files

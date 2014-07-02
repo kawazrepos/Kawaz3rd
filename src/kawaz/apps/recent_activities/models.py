@@ -8,7 +8,7 @@ class RecentActivity(models.Model):
     主にはてなブログで運営されているKawaz広報ブログからfetchしてくる仕組みを想定しています
     """
     def _get_upload_path(self, filename):
-        basedir = os.path.join('thumbnails', 'recent_activities', self.pk)
+        basedir = os.path.join('thumbnails', 'recent_activities')
         return os.path.join(basedir, filename)
 
     title = models.CharField(_('Title'), max_length=128)

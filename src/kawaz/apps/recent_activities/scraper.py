@@ -2,10 +2,8 @@
 #
 # created by giginet on 2014/6/29
 #
-from lxml import etree
-from PIL import Image
+from bs4 import BeautifulSoup
 import os
-import io
 import urllib
 import datetime
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -21,21 +19,20 @@ FEED_URL = settings.RECENT_ACTIVITY_FEED_URL
 PUBDATE_FORMAT = '%a, %d %b %Y %H:%M:%S %z'
 
 class RecentActivityScraper(object):
-    def __init__(self):
-        pass
+    def __init__(self, url=FEED_URL):
+        feed = urllib.request.urlopen(url).read()
+        self.soup = BeautifulSoup(feed)
 
     def fetch(self):
-        feed = urllib.request.urlopen(FEED_URL).read()
-        root = etree.fromstring(feed, etree.XMLParser())
-        items = [elem for elem in root.iter('item')]
+        items = self.soup.find_all('item')
         for item in items:
-            title = item.find('title').text
-            link = item.find('link').text
+            title = item.title.string
+            link = item.link.string
             print('Fetching entry {}'.format(title))
-            pub_date = item.find('pubDate').text
+            pub_date = item.pubdate.string
             publish_at = datetime.datetime.strptime(pub_date, PUBDATE_FORMAT)
             image_url = self._fetch_thumbnail(link)
-            filename = os.path.basename(image_url)
+            filename = image_url.split('/')[-1]
             image_data = urllib.request.urlopen(image_url).read()
             image = SimpleUploadedFile(filename, image_data)
             try:
@@ -53,9 +50,8 @@ class RecentActivityScraper(object):
         ページごとにfetchします
         """
         entry = urllib.request.urlopen(link).read()
-        root = etree.fromstring(entry, etree.HTMLParser())
-        head = root.find('head')
-        for meta in head.findall('meta'):
-            property = meta.attrib.get('property', None)
+        soup = BeautifulSoup(entry)
+        for meta in soup.find_all('meta'):
+            property = meta.get('property', None)
             if property == 'og:image':
-                return meta.attrib['content']
+                return meta.get('content')
