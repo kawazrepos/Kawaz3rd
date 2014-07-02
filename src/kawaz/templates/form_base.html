@@ -5,8 +5,8 @@
         <div class="form-header">
             {{ block.super }}
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#editor-main">入力フォーム</a></li>
-                <li><a href="#editor-preview">プレビュー</a></li>
+                <li class="active" data-toggle="tab"><a href="#editor-main">入力フォーム</a></li>
+                <li><a href="#editor-preview" data-toggle="tab" class="preview-tab">プレビュー</a></li>
             </ul>
         </div>
         <div class="tab-content">
@@ -18,4 +18,5 @@
 {% block post_javascript %}
     {{ block.super }}
     <script src="{% static "js/formset.js" %}"></script>
+    <script src="{% static "js/preview.js" %}"></script>
 {% endblock %}

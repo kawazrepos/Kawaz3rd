@@ -131,3 +131,5 @@ class EventMonthListView(MonthArchiveView, EventPublishedQuerySetMixin, EventDat
 
 class EventPreview(BaseObjectPreviewMixin, DetailView):
     model = Event
+    template_name = "events/components/event_detail.html"
+    ignore_fields = ['category',]
