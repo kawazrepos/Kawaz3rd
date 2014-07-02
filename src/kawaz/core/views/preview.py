@@ -6,6 +6,8 @@ from django.core.exceptions import ImproperlyConfigured
 __author__ = 'giginet'
 
 class BaseObjectPreviewMixin(object):
+    global_ignore_fields = ['csrfmiddlewaretoken',]
+    ignore_fields = []
 
     def get_object(self, queryset=None):
         """
