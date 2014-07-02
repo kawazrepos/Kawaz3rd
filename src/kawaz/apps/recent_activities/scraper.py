@@ -48,7 +48,6 @@ class RecentActivityScraper(object):
             try:
                 RecentActivity.objects.get(url=link)
             except:
-                print(publish_at)
                 RecentActivity.objects.create(title=title,
                                               url=link,
                                               publish_at=publish_at,
