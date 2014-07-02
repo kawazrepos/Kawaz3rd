@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # syncdb.py
@@ -23,6 +24,7 @@ if __name__ == '__main__':
     print(subprocess.check_output(['python', 'manage.py', 'syncdb' ,'--noinput'], universal_newlines=True))
     print(subprocess.check_output(['python', 'manage.py', 'loaddata' ,'production'], universal_newlines=True))
     print(subprocess.check_output(['python', 'manage.py', 'loaddata' ,'debug'], universal_newlines=True))
+    print(subprocess.check_output(['python', 'manage.py', 'fetch_recent_activities'], universal_newlines=True))
     print(("Development environment is set up\n"
            "Please access to http://localhost:8000/central-dogma/ in your browse\n"
            "You can login via following user\n"
