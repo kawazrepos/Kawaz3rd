@@ -9,5 +9,5 @@ from ...scraper import RecentActivityScraper
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        scraper = RecentActivityScraper()
+        scraper = RecentActivityScraper(verbose=True)
         scraper.fetch()

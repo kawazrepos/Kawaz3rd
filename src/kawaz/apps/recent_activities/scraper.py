@@ -20,8 +20,9 @@ PUBDATE_FORMAT = '%a, %d %b %Y %H:%M:%S %z'
 
 
 class RecentActivityScraper(object):
-    def __init__(self, url=FEED_URL):
+    def __init__(self, url=FEED_URL, verbose=False):
         self.url = url
+        self.verbose = verbose
 
     def fetch(self):
         feed = urllib.request.urlopen(self.url).read()
@@ -30,7 +31,11 @@ class RecentActivityScraper(object):
         for item in items:
             title = item.title.string
             link = item.link.string
-            print('Fetching entry {}'.format(title))
+
+            if self.verbose:
+                # コマンドから実行したときのみ出す
+                print('Fetching entry {}'.format(title))
+
             pub_date = item.pubdate.string
             # TimeZone周りでハマるので、強制的にnativeに変換している
             jst = timezone(datetime.timedelta(hours=-9))
