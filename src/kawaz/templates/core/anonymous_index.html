@@ -42,22 +42,23 @@
     </div>
 </div>
 <div id="recent-activity-container">
-<div class="container">
-    <h2>{% trans "Recent Activity" %}</h2>
-    <div class="row">
-        {% get_recent_activities as activities %}
-        {% for activity in activities|slice:"3" %}
-            <div class="col-md-4">
-                <a href="{{ activity.url }}" target="_blank">
-                    <div class="activity-thumbnail" style="background-image: url({{ MEDIA_URL }}/{{ activity.thumbnail }});"></div>
+    <div class="container">
+        <h2>{% trans "Recent Activity" %}</h2>
+        <div class="row">
+            {% get_recent_activities as activities %}
+            {% for activity in activities|slice:"3" %}
+                <div class="col-md-4">
+                    <a href="{{ activity.url }}" target="_blank">
+                        <div class="activity-thumbnail" style="background-image: url({{ MEDIA_URL }}/{{ activity.thumbnail }});"></div>
+                    </a>
+                    <h5><time>{{ activity.publish_at|date:"m/d" }}</time> {{ activity.title }}</h5>
+                </div>
+            {% endfor %}
+            <div class="see-more">
+                <a href="http://kawazinfo.hateblo.jp/" target="_blank">{% trans "See More" %}
+                    <span class="glyphicon glyphicon-chevron-right"></span>
                 </a>
-                <h5><time>{{ activity.publish_at|date:"m/d" }}</time> {{ activity.title }}</h5>
             </div>
-        {% endfor %}
-        <div class="see-more">
-            <a href="http://kawazinfo.hateblo.jp/" target="_blank">{% trans "See More" %}
-                <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>
         </div>
     </div>
 </div>
