@@ -5,8 +5,8 @@ from ..models import RecentActivity
 register = template.Library()
 
 
-@register.assignment_tag(takes_context=True)
-def get_recent_activities(context):
+@register.assignment_tag()
+def get_recent_activities():
     """
     RecentActivity のクエリを取得し、指定された
     <variable>に格納するテンプレートタグ

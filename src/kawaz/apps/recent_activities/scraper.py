@@ -25,7 +25,10 @@ class RecentActivityScraper(object):
         self.verbose = verbose
 
     def fetch(self):
-        feed = urllib.request.urlopen(self.url).read()
+        try:
+            feed = urllib.request.urlopen(self.url).read()
+        except:
+            raise Exception("Feed URL {} is not found.".format(self.url))
         self.soup = BeautifulSoup(feed)
         items = self.soup.find_all('item')
         for item in items:
@@ -43,7 +46,11 @@ class RecentActivityScraper(object):
 
             image_url = self._fetch_thumbnail(link)
             filename = image_url.split('/')[-1]
-            image_data = urllib.request.urlopen(image_url).read()
+            try:
+                image_data = urllib.request.urlopen(image_url).read()
+            except:
+                raise Exception("Image URL {} is not found.".format(image_url))
+
             image = SimpleUploadedFile(filename, image_data)
             try:
                 RecentActivity.objects.get(url=link)
@@ -59,7 +66,10 @@ class RecentActivityScraper(object):
         サムネイルはFeedには埋まってなくて、各ページのOpen Graph Protocolとして埋まっているので
         ページごとにfetchします
         """
-        entry = urllib.request.urlopen(link).read()
+        try:
+            entry = urllib.request.urlopen(link).read()
+        except:
+            raise Exception("Entry URL {} is not found".format(link))
         soup = BeautifulSoup(entry)
         for meta in soup.find_all('meta'):
             property = meta.get('property', None)
