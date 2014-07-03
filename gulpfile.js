@@ -22,7 +22,7 @@ var src = {
           bootstrapjsprefix + "transition.js",
           bootstrapjsprefix + "tooltip.js",
           bootstrapjsprefix + "*.js"
-    ],
+  ],
   bootstrapfont: "vendor/bootstrap/fonts/*"
 };
 
@@ -78,6 +78,7 @@ gulp.task("default", ["coffee", "less", "bootstrap-js-concat", "bootstrap-copy-f
 
 gulp.task("watch", ["default"], function () {
   livereload = true;
+  plug.livereload();
 
   gulp.watch(src.coffee, ["coffee"]);
   gulp.watch(src.less, ["less"]);
