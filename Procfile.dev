@@ -1,2 +1,2 @@
-django: python manage.py runserver
+django: PYTHONUNBUFFERED=true python manage.py runserver
 npm: npm start
