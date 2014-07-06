@@ -1,4 +1,5 @@
 from permission.logics import PermissionLogic
+from permission.utils.field_lookup import field_lookup
 
 
 class PublishmentPermissionLogic(PermissionLogic):
@@ -59,8 +60,8 @@ class PublishmentPermissionLogic(PermissionLogic):
         if obj is None:
             return perm == permission_name
         if perm == permission_name:
-            author = getattr(obj, self.author_field_name)
-            pub_state = getattr(obj, self.pub_state_field_name)
+            author = field_lookup(obj, self.author_field_name)
+            pub_state = field_lookup(obj, self.pub_state_field_name)
             if pub_state == 'public':
                 # if pub_state is public, everyone see this object
                 return True

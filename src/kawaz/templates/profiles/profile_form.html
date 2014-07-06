@@ -12,8 +12,8 @@
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
             {{ form | bootstrap_horizontal }}
             <div class="form-group formset" prefix="{{ formset.prefix }}" id="formset-{{ formset.prefix }}">
-                <label class="control-label col-sm-2 col-lg-2 " for="id_skills">利用サービス</label>
-                <div class="control-label col-sm-10 col-lg-10">
+                <label class="control-label col-sm-2 col-lg-2 " for="id_services">利用サービス</label>
+                <div class="control-label col-sm-10 col-lg-10" id="id_services">
                     <table class="table">
                         {% for account_form in formset.forms %}
                             <tr class="formset-row">

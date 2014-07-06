@@ -11,7 +11,8 @@ class ProfileViewPermissionTestCase(TestCase):
     def test_owner_can_view_protected(self):
         '''Tests owner can view protected'''
         profile = ProfileFactory(pub_state='protected')
-        self.assertTrue(profile.user.has_perm('profiles.view_profile', profile))
+        self.assertTrue(profile.user.has_perm(
+            'profiles.view_profile', profile))
 
     def test_others_can_view_protected(self):
         '''Tests others can view protected'''
@@ -28,7 +29,8 @@ class ProfileViewPermissionTestCase(TestCase):
     def test_owner_can_view_public(self):
         '''Tests owner can view public'''
         profile = ProfileFactory(pub_state='public')
-        self.assertTrue(profile.user.has_perm('profiles.view_profile', profile))
+        self.assertTrue(profile.user.has_perm(
+            'profiles.view_profile', profile))
 
     def test_others_can_view_public(self):
         '''Tests others can view public'''
@@ -52,27 +54,33 @@ class ProfileEditPermissionTestCase(TestCase):
 
     def test_owner_can_change_profile(self):
         '''Tests owner has change permission of Profile'''
-        self.assertTrue(self.profile.user.has_perm('profiles.change_profile', obj=self.profile))
+        self.assertTrue(self.profile.user.has_perm(
+            'profiles.change_profile', obj=self.profile))
 
     def test_others_cannot_change_profile(self):
         '''Tests others don't have change permission of Profile'''
-        self.assertFalse(self.user.has_perm('profiles.change_profile', obj=self.profile))
+        self.assertFalse(self.user.has_perm(
+            'profiles.change_profile', obj=self.profile))
 
     def test_anonymous_cannot_change_profile(self):
         '''Tests anonymous don't have change permission of Profile'''
-        self.assertFalse(self.anonymous.has_perm('profiles.change_profile', obj=self.profile))
+        self.assertFalse(self.anonymous.has_perm(
+            'profiles.change_profile', obj=self.profile))
 
     def test_owner_cannot_delete_profile(self):
         '''Tests owner don't have delete permission of Profile'''
-        self.assertFalse(self.profile.user.has_perm('profiles.delete_profile', obj=self.profile))
+        self.assertFalse(self.profile.user.has_perm(
+            'profiles.delete_profile', obj=self.profile))
 
     def test_others_cannot_delete_profile(self):
         '''Tests others don't have delete permission of Profile'''
-        self.assertFalse(self.user.has_perm('profiles.delete_profile', obj=self.profile))
+        self.assertFalse(self.user.has_perm(
+            'profiles.delete_profile', obj=self.profile))
 
     def test_anonymous_cannot_delete_profile(self):
         '''Tests anonymous don't have delete permission of Profile'''
-        self.assertFalse(self.anonymous.has_perm('profiles.delete_profile', obj=self.profile))
+        self.assertFalse(self.anonymous.has_perm(
+            'profiles.delete_profile', obj=self.profile))
 
 
 class SkillPermissionTestCase(TestCase):
@@ -123,11 +131,13 @@ class SkillPermissionTestCase(TestCase):
 
     def test_children_cannot_change_skill(self):
         '''Tests seele users can change exist skills'''
-        self._test_permission('children', 'change', obj=self.skill, negative=True)
+        self._test_permission('children', 'change',
+                              obj=self.skill, negative=True)
 
     def test_wille_cannnot_change_skill(self):
         '''Tests seele users can change exist skills'''
-        self._test_permission('wille', 'change', obj=self.skill, negative=True)
+        self._test_permission('wille', 'change',
+                              obj=self.skill, negative=True)
 
     def test_seele_can_delete_skill(self):
         '''Tests seele users can delete exist skills'''
@@ -139,11 +149,13 @@ class SkillPermissionTestCase(TestCase):
 
     def test_children_cannot_delete_skill(self):
         '''Tests seele users can delete exist skills'''
-        self._test_permission('children', 'delete', obj=self.skill, negative=True)
+        self._test_permission('children', 'delete',
+                              obj=self.skill, negative=True)
 
     def test_wille_cannot_delete_skill(self):
         '''Tests seele users can delete exist skills'''
-        self._test_permission('wille', 'delete', obj=self.skill, negative=True)
+        self._test_permission('wille', 'delete',
+                              obj=self.skill, negative=True)
 
 
 class ServicePermissionTestCase(TestCase):
@@ -194,11 +206,13 @@ class ServicePermissionTestCase(TestCase):
 
     def test_children_cannot_change_service(self):
         '''Tests seele users can change exist services'''
-        self._test_permission('children', 'change', obj=self.service, negative=True)
+        self._test_permission('children', 'change',
+                              obj=self.service, negative=True)
 
     def test_wille_cannot_change_service(self):
         '''Tests seele users can change exist services'''
-        self._test_permission('wille', 'change', obj=self.service, negative=True)
+        self._test_permission('wille', 'change',
+                              obj=self.service, negative=True)
 
     def test_seele_can_delete_service(self):
         '''Tests seele users can delete exist services'''
@@ -210,11 +224,13 @@ class ServicePermissionTestCase(TestCase):
 
     def test_children_cannot_delete_service(self):
         '''Tests seele users can delete exist services'''
-        self._test_permission('children', 'delete', obj=self.service, negative=True)
+        self._test_permission('children', 'delete',
+                              obj=self.service, negative=True)
 
     def test_wille_cannnot_delete_service(self):
         '''Tests seele users can delete exist services'''
-        self._test_permission('wille', 'delete', obj=self.service, negative=True)
+        self._test_permission('wille', 'delete',
+                              obj=self.service, negative=True)
 
 
 class AccountViewPermissionTestCase(TestCase):
@@ -222,7 +238,8 @@ class AccountViewPermissionTestCase(TestCase):
     def test_owner_can_view_protected(self):
         '''Tests owner can view protected accounts'''
         account = AccountFactory(pub_state='protected')
-        self.assertTrue(account.user.has_perm('profiles.view_account', account))
+        self.assertTrue(account.profile.user.has_perm(
+            'profiles.view_account', account))
 
     def test_others_can_view_protected(self):
         '''Tests others can view protected accounts'''
@@ -239,7 +256,8 @@ class AccountViewPermissionTestCase(TestCase):
     def test_owner_can_view_public(self):
         '''Tests owner can view public accounts'''
         account = AccountFactory(pub_state='public')
-        self.assertTrue(account.user.has_perm('profiles.view_account', account))
+        self.assertTrue(account.profile.user.has_perm(
+            'profiles.view_account', account))
 
     def test_others_can_view_public(self):
         '''Tests others can view public accounts'''
@@ -263,24 +281,30 @@ class AccountEditPermissionTestCase(TestCase):
 
     def test_owner_cannot_change_account(self):
         '''Tests owners don't have change permission of Account'''
-        self.assertFalse(self.account.user.has_perm('profiles.change_account', obj=self.account))
+        self.assertFalse(self.account.profile.user.has_perm(
+            'profiles.change_account', obj=self.account))
 
     def test_others_cannot_change_account(self):
         '''Tests others don't have change permission of Account'''
-        self.assertFalse(self.user.has_perm('profiles.change_account', obj=self.account))
+        self.assertFalse(self.user.has_perm(
+            'profiles.change_account', obj=self.account))
 
     def test_anonymous_cannot_change_account(self):
         '''Tests anonymous don't have change permission of Account'''
-        self.assertFalse(self.anonymous.has_perm('profiles.change_account', obj=self.account))
+        self.assertFalse(self.anonymous.has_perm(
+            'profiles.change_account', obj=self.account))
 
     def test_owner_can_delete_account(self):
         '''Tests owners have delete permission of Account'''
-        self.assertTrue(self.account.user.has_perm('profiles.delete_account', obj=self.account))
+        self.assertTrue(self.account.profile.user.has_perm(
+            'profiles.delete_account', obj=self.account))
 
     def test_others_cannot_delete_account(self):
         '''Tests others don't have delete permission of Account'''
-        self.assertFalse(self.user.has_perm('profiles.delete_account', obj=self.account))
+        self.assertFalse(self.user.has_perm(
+            'profiles.delete_account', obj=self.account))
 
     def test_anonymous_cannot_delete_account(self):
         '''Tests anonymous don't have delete permission of Account'''
-        self.assertFalse(self.anonymous.has_perm('profiles.delete_account', obj=self.account))
+        self.assertFalse(self.anonymous.has_perm(
+            'profiles.delete_account', obj=self.account))

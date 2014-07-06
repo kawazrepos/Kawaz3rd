@@ -1,10 +1,14 @@
 import os
 import datetime
 import itertools
+from contextlib import ExitStack
 from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory
+from ..models import Screenshot
+from ..models import URLRelease
+from ..models import PackageRelease
 
 from ..models import Product
 from .factories import ProductFactory
@@ -64,17 +68,27 @@ class ProductListViewTestCase(ViewTestCaseBase):
 class ProductCreateViewTestCase(ViewTestCaseBase):
     def setUp(self):
         super().setUp()
-        self.product_kwargs = dict(
-            title = 'かわずたんファンタジー',
-            slug = 'kawaztan-fantasy',
-            thumbnail = 'thumbnail.png',
-            publish_at = datetime.date.today(),
-            platforms = [1,],
-            categories = [1,],
-            description = '剣と魔法の物語です',
-        )
-        self.thumbnail_file = os.path.join(settings.REPOSITORY_ROOT,
+        self.product_kwargs = {
+            'title' : 'かわずたんファンタジー',
+            'slug': 'kawaztan-fantasy',
+            'thumbnail': 'thumbnail.png',
+            'publish_at': datetime.date.today(),
+            'platforms': [1,],
+            'categories': [1,],
+            'description': '剣と魔法の物語です',
+            'screenshots-TOTAL_FORMS': 0,  # スクリーンショットは作成しない
+            'screenshots-INITIAL_FORMS': 0,
+            'screenshots-MAX_NUM_FORMS': 1000,
+            'url_releases-TOTAL_FORMS': 0,  # URLリリースは作成しない
+            'url_releases-INITIAL_FORMS': 0,
+            'url_releases-MAX_NUM_FORMS': 1000,
+            'package_releases-TOTAL_FORMS': 0,  # パッケージリリースは作成しない
+            'package_releases-INITIAL_FORMS': 0,
+            'package_releases-MAX_NUM_FORMS': 1000,
+        }
+        self.image_file = os.path.join(settings.REPOSITORY_ROOT,
                 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
+        self.platform = PlatformFactory()
 
     def test_non_members_cannot_see_create_view(self):
         """
@@ -112,7 +126,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
         """
         for user in self.members:
             self.prefer_login(user)
-            with open(self.thumbnail_file, 'rb') as f:
+            with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
@@ -124,6 +138,95 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             # 重複を避けるため削除する
             e.delete()
 
+    def test_member_can_create_screenshot_via_product_form(self):
+        """
+        メンバーはプロダクトフォームからScreenshotモデルも作成できる
+        """
+        for user in self.members:
+            self.prefer_login(user)
+            # Note:
+            #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
+            #   再度読みこもうとした場合に seek 位置を戻す必要があるが、
+            #   そういう処理がライブラリに無い。したがって同じファイル
+            #   オブジェクトを共有できないため、二つに分けている
+            with ExitStack() as stack:
+                f1 = stack.enter_context(open(self.image_file, 'rb'))
+                f2 = stack.enter_context(open(self.image_file, 'rb'))
+                self.product_kwargs.update({
+                    'thumbnail': f1,
+                    'screenshots-TOTAL_FORMS': 1,
+                    'screenshots-0-image': f2,
+                })
+                r = self.client.post('/products/create/', self.product_kwargs)
+            self.assertRedirects(r, '/products/kawaztan-fantasy/')
+
+            self.assertEqual(Screenshot.objects.count(), 1)
+            obj = Screenshot.objects.get(pk=1)
+            # 重複を避けるため削除する（プロダクトの削除も忘れずに）
+            obj.product.delete()
+            obj.delete()
+
+    def test_member_can_create_url_release_via_product_form(self):
+        """
+        メンバーはプロダクトフォームからURLReleaseモデルも作成できる
+        """
+        for user in self.members:
+            self.prefer_login(user)
+            with open(self.image_file, 'rb') as f:
+                self.product_kwargs.update({
+                    'thumbnail': f,
+                    'url_releases-TOTAL_FORMS': 1,
+                    'url_releases-0-label': 'Android版',
+                    'url_releases-0-version': 'Version3.14',
+                    'url_releases-0-platform': self.platform.pk,
+                    'url_releases-0-url': 'http://play.google.com',
+                })
+                r = self.client.post('/products/create/', self.product_kwargs)
+            self.assertRedirects(r, '/products/kawaztan-fantasy/')
+
+            self.assertEqual(URLRelease.objects.count(), 1)
+            obj = URLRelease.objects.get(pk=1)
+            self.assertEqual(obj.label, 'Android版')
+            self.assertEqual(obj.version, 'Version3.14')
+            self.assertEqual(obj.platform, self.platform)
+            # 重複を避けるため削除する（プロダクトの削除も忘れずに）
+            obj.product.delete()
+            obj.delete()
+
+    def test_member_can_create_package_release_via_product_form(self):
+        """
+        メンバーはプロダクトフォームからPackageReleaseモデルも作成できる
+        """
+        for user in self.members:
+            self.prefer_login(user)
+            # Note:
+            #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
+            #   再度読みこもうとした場合に seek 位置を戻す必要があるが、
+            #   そういう処理がライブラリに無い。したがって同じファイル
+            #   オブジェクトを共有できないため、二つに分けている
+            with ExitStack() as stack:
+                f1 = stack.enter_context(open(self.image_file, 'rb'))
+                f2 = stack.enter_context(open(self.image_file, 'rb'))
+                self.product_kwargs.update({
+                    'thumbnail': f1,
+                    'package_releases-TOTAL_FORMS': 1,
+                    'package_releases-0-label': 'Android版',
+                    'package_releases-0-version': 'Version3.14',
+                    'package_releases-0-platform': self.platform.pk,
+                    'package_releases-0-file_content': f2,
+                })
+                r = self.client.post('/products/create/', self.product_kwargs)
+            self.assertRedirects(r, '/products/kawaztan-fantasy/')
+
+            self.assertEqual(PackageRelease.objects.count(), 1)
+            obj = PackageRelease.objects.get(pk=1)
+            self.assertEqual(obj.label, 'Android版')
+            self.assertEqual(obj.version, 'Version3.14')
+            self.assertEqual(obj.platform, self.platform)
+            # 重複を避けるため削除する（プロダクトの削除も忘れずに）
+            obj.product.delete()
+            obj.delete()
+
 
 class ProductUpdateViewTestCase(ViewTestCaseBase):
     def setUp(self):
@@ -131,14 +234,23 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         self.administrator = PersonaFactory(username='administrator')
         self.product = ProductFactory(title="かわずたんのゲームだよ☆",
                 administrators=(self.administrator,))
-        self.product_kwargs = dict(
-            title = 'クラッカーだよ！！！',
-            publish_at = datetime.date.today(),
-            platforms = [1,],
-            categories = [1,],
-            description = '剣と魔法の物語です',
-        )
-        self.thumbnail_file = os.path.join(settings.REPOSITORY_ROOT,
+        self.product_kwargs = {
+            'title': 'クラッカーだよ！！！',
+            'publish_at': datetime.date.today(),
+            'platforms': [1,],
+            'categories': [1,],
+            'description': '剣と魔法の物語です',
+            'screenshots-TOTAL_FORMS': 0,  # スクリーンショットは作成しない
+            'screenshots-INITIAL_FORMS': 1,
+            'screenshots-MAX_NUM_FORMS': 1000,
+            'url_releases-TOTAL_FORMS': 0,  # URLリリースは作成しない
+            'url_releases-INITIAL_FORMS': 1,
+            'url_releases-MAX_NUM_FORMS': 1000,
+            'package_releases-TOTAL_FORMS': 0,  # パッケージリリースは作成しない
+            'package_releases-INITIAL_FORMS': 1,
+            'package_releases-MAX_NUM_FORMS': 1000,
+        }
+        self.image_file = os.path.join(settings.REPOSITORY_ROOT,
                 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
 
     def test_non_members_cannot_see_product_update_view(self):
@@ -203,7 +315,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         """
         for user in [self.members[0], self.administrator]:
             self.prefer_login(user)
-            with open(self.thumbnail_file, 'rb') as f:
+            with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post('/products/1/update/', self.product_kwargs)
             self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
@@ -218,7 +330,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         previous_slug = self.product.slug
         for user in [self.members[0], self.administrator]:
             self.prefer_login(user)
-            with open(self.thumbnail_file, 'rb') as f:
+            with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 self.product_kwargs['slug'] = 'new-slug'
                 r = self.client.post('/products/1/update/', self.product_kwargs)

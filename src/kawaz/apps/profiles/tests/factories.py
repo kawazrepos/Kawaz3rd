@@ -21,13 +21,6 @@ class ServiceFactory(factory.django.DjangoModelFactory):
     label = 'Twitter'
     url_pattern = 'http://twitter.com/%s/'
 
-class AccountFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = Account
-
-    service = factory.SubFactory(ServiceFactory)
-    user = factory.SubFactory(PersonaFactory)
-    username = 'kawaz_tan'
-
 class ProfileFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Profile
 
@@ -35,3 +28,12 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     place = 'グランエターナ'
     url = 'http://www.kawaz.org/'
     user = factory.SubFactory(PersonaFactory)
+
+
+class AccountFactory(factory.django.DjangoModelFactory):
+    FACTORY_FOR = Account
+
+    service = factory.SubFactory(ServiceFactory)
+    profile = factory.SubFactory(ProfileFactory)
+    username = 'kawaz_tan'
+

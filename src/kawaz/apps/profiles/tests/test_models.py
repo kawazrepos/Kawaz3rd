@@ -67,7 +67,7 @@ class ProfileTestCase(TestCase):
         '''Tests __str__ returns correct value'''
         persona = PersonaFactory(nickname='kawaz tan')
         profile = ProfileFactory(user=persona)
-        self.assertEqual(profile.__str__(), 'kawaz tan')
+        self.assertEqual(str(profile), 'kawaz tan')
 
     def test_create_user(self):
         """Tests can access profile via user.get_profile()"""
@@ -122,13 +122,13 @@ class SkillTestCase(TestCase):
     def test_str(self):
         """Tests __str__ returns correct value"""
         skill = SkillFactory()
-        self.assertEqual(skill.__str__(), skill.label)
+        self.assertEqual(str(skill), skill.label)
 
 class ServiceTestCase(TestCase):
     def test_str(self):
         """Tests __str__ returns correct value"""
         service = ServiceFactory()
-        self.assertEqual(service.__str__(), service.label)
+        self.assertEqual(str(service), service.label)
 
 class AccountTestCase(TestCase):
     def test_get_url(self):
@@ -139,4 +139,8 @@ class AccountTestCase(TestCase):
     def test_test(self):
         """Tests __str__ returns correct value"""
         account = AccountFactory(username='kawaz_tan')
-        self.assertEqual(account.__str__(), '%s (%s @ %s)' % (account.username, account.user.username, account.service.label))
+        self.assertEqual(str(account), '{} ({} @ {})'.format(
+            account.username,
+            account.profile.user.username,
+            account.service.label)
+        )
