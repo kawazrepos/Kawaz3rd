@@ -1,4 +1,5 @@
 pyyaml
+pytz
 pillow
 markdown
 djangorestframework
@@ -10,3 +11,4 @@ django-thumbnailfield>=0.2.0
 django-inspectional-registration>=0.4.1
 django-bootstrap-form
 honcho
+beautifulsoup4

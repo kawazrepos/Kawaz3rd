@@ -1,12 +1,11 @@
 import datetime
+from unittest import mock
 from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
+from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import EventFactory
 from ..models import Event
-from kawaz.core.personas.tests.factories import PersonaFactory
-from kawaz.core.tests.datetime import patch_datetime_now
-
 from .utils import static_now
 from .utils import event_factory_with_relative
 
@@ -251,7 +250,8 @@ class EventUpdateViewTestCase(TestCase):
         self.assertNotEqual(e.organizer, other)
         self.assertEqual(e.title, '変更後のイベントです')
 
-@patch_datetime_now(static_now)
+
+@mock.patch('django.utils.timezone.now', static_now)
 class EventListViewTestCase(TestCase):
     def setUp(self):
         arguments_list = (
@@ -296,7 +296,7 @@ class EventListViewTestCase(TestCase):
         self.assertEqual(list[1], self.events[1], '2000/9/5 ~ 6 public')
 
 
-@patch_datetime_now(static_now)
+@mock.patch('django.utils.timezone.now', static_now)
 class EventMonthListViewTestCase(TestCase):
     def setUp(self):
         arguments_list = (
@@ -375,7 +375,7 @@ class EventMonthListViewTestCase(TestCase):
         self.assertEqual(list[1], self.events[5], '2000/10/6 ~ 7 protected')
 
 
-@patch_datetime_now(static_now)
+@mock.patch('django.utils.timezone.now', static_now)
 class EventYearListViewTestCase(TestCase):
     def setUp(self):
         arguments_list = (

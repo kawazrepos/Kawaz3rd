@@ -1,10 +1,19 @@
 import datetime
+from unittest import mock
 from django.test import TestCase
+from django.utils import timezone
 from .factories import MaterialFactory
-from kawaz.core.tests.datetime import static_now
-from kawaz.core.tests.datetime import patch_datetime_now
 
-@patch_datetime_now(static_now)
+
+def static_now():
+    """
+    Return fixed datetime instance for testing.
+    It is mainly for skip Event validation
+    """
+    return datetime.datetime(2000, 9, 4).replace(tzinfo=timezone.utc)
+
+
+@mock.patch('django.utils.timezone.now', static_now)
 class MaterialModelTestCase(TestCase):
 
     def test_set_slug_automatically(self):

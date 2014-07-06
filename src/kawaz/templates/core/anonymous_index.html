@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load staticfiles %}
 {% load products_tags %}
+{% load recent_activities_tag %}
 {% block carousel %}
 <div id="featured-products-container">
 <div id="featured-products" class="carousel slide" data-ride="carousel">
@@ -41,37 +42,25 @@
     </div>
 </div>
 <div id="recent-activity-container">
-<div class="container">
-    <h2>{% trans "Recent Activity" %}</h2>
-    <div class="row">
-        <!--
-        とりあえず今はハードコーディングしているが、Kawaz広報ブログを取り込む方法を考える
-        -->
-        <div class="col-md-4">
-            <a href="http://kawazinfo.hateblo.jp/entry/2014/04/19/194517" target="_blank">
-                <div class="activity-thumbnail" style="background-image: url(http://cdn-ak.f.st-hatena.com/images/fotolife/k/kawazblog/20140416/20140416193644.jpg);"></div>
-            </a>
-            <h5>4/19 ゲームクリエイター水口哲也さんのワークショップに参加してきました。</h5>
+    <div class="container">
+        <h2>{% trans "Recent Activity" %}</h2>
+        <div class="row">
+            {% get_recent_activities as activities %}
+            {% for activity in activities|slice:"3" %}
+                <div class="col-md-4">
+                    <a href="{{ activity.url }}" target="_blank">
+                        <div class="activity-thumbnail" style="background-image: url({{ MEDIA_URL }}/{{ activity.thumbnail }});"></div>
+                    </a>
+                    <h5><time>{{ activity.publish_at|date:"m/d" }}</time> {{ activity.title }}</h5>
+                </div>
+            {% endfor %}
         </div>
-        <div class="col-md-4">
-            <a href="http://kawazinfo.hateblo.jp/entry/2014/04/01/224844" target="_blank">
-                <div class="activity-thumbnail" style="background-image: url(http://cdn-ak.f.st-hatena.com/images/fotolife/k/kawazblog/20140401/20140401233002.png);"></div>
+        <div class="see-more">
+            <a href="http://kawazinfo.hateblo.jp/" target="_blank">{% trans "See More" %}
+                <span class="glyphicon glyphicon-chevron-right"></span>
             </a>
-            <h5>4/1 全方向物量STG、multiplexをリリースしました。</h5>
-        </div>
-        <div class="col-md-4">
-            <a href="http://kawazinfo.hateblo.jp/entry/2014/03/22/105017" target="_blank">
-                <div class="activity-thumbnail" style="background-image: url(http://cdn-ak.f.st-hatena.com/images/fotolife/k/kawazblog/20140316/20140316155828.png);"></div>
-            </a>
-            <h5>3/22 波を避け続けるシンプルなアクションゲーム「Wave Weaver」をリリースしました</h5>
         </div>
     </div>
-    <div class="see-more">
-        <a href="http://kawazinfo.hateblo.jp/" target="_blank">{% trans "See More" %}
-            <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-    </div>
-</div>
 </div>
 {% endblock %}
 {% block content %}

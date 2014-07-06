@@ -1,4 +1,5 @@
 import datetime
+from django.utils import timezone
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
@@ -120,7 +121,7 @@ class EntryModelTestCase(TestCase):
         Tests get_absolute_url returns /<author>/<year>/<month>/<day>/<pk>/
         '''
         user = PersonaFactory(username='mecha_kawaztan')
-        publish_at = datetime.date(2112, 9, 21)
+        publish_at = datetime.datetime(2112, 9, 21, tzinfo=timezone.utc)
         entry = EntryFactory(publish_at=publish_at, author=user)
         self.assertEqual(entry.get_absolute_url(), '/blogs/mecha_kawaztan/2112/9/21/1/')
 
@@ -136,9 +137,9 @@ class EntryModelTestCase(TestCase):
         '''
         Tests publish_at_date returns datetime
         '''
-        publish_at = datetime.date(2112, 9, 21)
+        publish_at = datetime.datetime(2112, 9, 21, tzinfo=timezone.utc)
         entry = EntryFactory(publish_at=publish_at)
-        self.assertEqual(entry.publish_at_date, datetime.date(2112, 9, 21))
+        self.assertEqual(entry.publish_at_date,datetime.date(2112, 9, 21))
 
     def test_publish_at_automatically(self):
         '''
