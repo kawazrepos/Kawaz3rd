@@ -139,4 +139,7 @@ class AccountTestCase(TestCase):
     def test_test(self):
         """Tests __str__ returns correct value"""
         account = AccountFactory(username='kawaz_tan')
-        self.assertEqual(account.__str__(), '%s (%s @ %s)' % (account.username, account.user.username, account.service.label))
+        self.assertEqual(account.__str__(), '%s (%s @ %s)' % (
+            account.username,
+            account.profile.user.username,
+            account.service.label))

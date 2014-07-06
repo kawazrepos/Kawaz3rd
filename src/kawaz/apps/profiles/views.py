@@ -37,7 +37,7 @@ class ProfileUpdateView(UpdateView):
         if form.is_valid() and formset.is_valid():
             instances = formset.save(commit=False)
             for account in instances:
-                account.user = request.user
+                account.profile = request.user.profile
                 account.save()
             return self.form_valid(form)
         else:

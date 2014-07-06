@@ -111,8 +111,8 @@ class Service(models.Model):
 
 
 class Account(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name=_('Profile'), editable=False)
+    profile = models.ForeignKey(
+        Profile, verbose_name=_('Account'), editable=False)
     service = models.ForeignKey(Service, verbose_name=_('Service'))
     pub_state = models.CharField(_('Publish State'),
                                  choices=Profile.PUB_STATES,
@@ -129,7 +129,8 @@ class Account(models.Model):
 
     def __str__(self):
         return "%s (%s @ %s)" % (self.username,
-                                 self.user.username, self.service.label)
+                                 self.profile.user.username,
+                                 self.service.label)
 
     @property
     def url(self):
@@ -148,13 +149,13 @@ add_permission_logic(Service, NervPermissionLogic(
     any_permission=True
 ))
 add_permission_logic(Account, AuthorPermissionLogic(
-    field_name='user',
+    field_name='profile__user',
     any_permission=False,
     change_permission=False,
     delete_permission=True
 ))
 add_permission_logic(Account, PublishmentPermissionLogic(
-    author_field_name='user'
+    author_field_name='profile__user'
 ))
 add_permission_logic(Profile, AuthorPermissionLogic(
     field_name='user',
