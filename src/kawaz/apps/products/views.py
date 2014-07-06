@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import ListView
@@ -11,6 +12,7 @@ from permission.decorators import permission_required
 
 from .forms import ProductCreateForm, ProductUpdateForm
 from .forms import PackageReleaseForm, URLReleaseForm, ScreenshotForm
+from .forms import PackageReleaseFormSet, URLReleaseFormSet, ScreenshotFormSet
 from .models import Product
 from .models import PackageRelease, URLRelease, Screenshot
 
@@ -23,74 +25,107 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductFormSetMixin(object):
+class ProductFormMixin(object):
 
-    def _get_formset(self, model, form_class):
-        FormSet = modelformset_factory(model, form=form_class, extra=1, can_delete=True)
-        return FormSet
+    def _get_formset(self, formset_class, **kwargs):
+        if self.request.method in ('PUT', 'POST'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+            })
+        if hasattr(self, 'object'):
+            kwargs.update({
+                'instance': self.object,
+            })
+        formset = formset_class(**kwargs)
+        return formset
 
     def get_url_release_formset(self):
-        return self._get_formset(URLRelease, URLReleaseForm)
+        return self._get_formset(URLReleaseFormSet,
+                                 prefix='url_releases')
 
     def get_package_release_formset(self):
-        return self._get_formset(PackageRelease, PackageReleaseForm)
+        return self._get_formset(PackageReleaseFormSet,
+                                 prefix='package_releases')
 
     def get_screenshot_formset(self):
-        return self._get_formset(Screenshot, ScreenshotForm)
+        return self._get_formset(ScreenshotFormSet,
+                                 prefix='screenshots')
 
-class ProductFormMixin(ProductFormSetMixin):
-    def post(self, request, *args, **kwargs):
-        # formsetの中身も保存するために複雑なことをしている
-        # ToDo 実装上の問題を抱えているから後で直す
+    def get(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+        # formsets
+        url_release_formset = self.get_url_release_formset()
+        package_release_formset = self.get_package_release_formset()
+        screenshot_formset = self.get_screenshot_formset()
+        return self.render_to_response(self.get_context_data(
+            form=form,
+            url_release_formset=url_release_formset,
+            package_release_formset=package_release_formset,
+            screenshot_formset=screenshot_formset,
+        ))
 
-        # URLRelease, PackageRelease, Screenshotの3つのFormSetを処理する
-        URLReleaseFormSet = self.get_url_release_formset()
-        PackageReleaseFormSet = self.get_package_release_formset()
-        ScreenshotFormSet = self.get_screenshot_formset()
-
-        url_release_formset = URLReleaseFormSet(request.POST, request.FILES, prefix='url_releases')
-        package_release_formset = PackageReleaseFormSet(request.POST, request.FILES, prefix='package_releases')
-        screenshot_formset = ScreenshotFormSet(request.POST, request.FILES, prefix='screenshots')
-
-        if form.is_valid() \
-                and url_release_formset.is_valid() \
-                and package_release_formset.is_valid() \
-                and screenshot_formset.is_valid():
-            formsets = (url_release_formset,)
-            r = self.form_valid(form)
-            for formset in formsets:
-                instances = formset.save(commit=False)
-                for instance in instances:
-                    instance.product = self.object
-                    instance.save()
-            return r
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        # formsets
+        url_release_formset = self.get_url_release_formset()
+        package_release_formset = self.get_package_release_formset()
+        screenshot_formset = self.get_screenshot_formset()
+        if (form.is_valid() and
+                url_release_formset.is_valid() and
+                package_release_formset.is_valid() and
+                screenshot_formset.is_valid()):
+            return self.form_valid(
+                form,
+                url_release_formset,
+                package_release_formset,
+                screenshot_formset,
+            )
         else:
-            return self.form_invalid(form)
+            return self.form_invalid(
+                form,
+                url_release_formset,
+                package_release_formset,
+                screenshot_formset,
+            )
 
+    def form_valid(self, form,
+                   url_release_formset,
+                   package_release_formset,
+                   screenshot_formset):
+        self.object = form.save()
+        # assign instance to all formsets
+        formsets = (url_release_formset,
+                    package_release_formset,
+                    screenshot_formset)
+        for formset in formsets:
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.product = self.object
+                instance.save()
+        return HttpResponseRedirect(self.get_success_url())
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # formsetを作成して渡す
-        URLReleaseFormSet = self.get_url_release_formset()
-        PackageReleaseFormSet = self.get_package_release_formset()
-        ScreenshotFormSet = self.get_screenshot_formset()
-
-        context['url_release_formset'] = URLReleaseFormSet(prefix='url_releases')
-        context['package_release_formset'] = PackageReleaseFormSet(prefix='package_releases')
-        context['screenshot_formset'] = ScreenshotFormSet(prefix='screenshots')
-
-        return context
+    def form_invalid(self, form,
+                     url_release_formset,
+                     package_release_formset,
+                     screenshot_formset):
+        return self.render_to_response(self.get_context_data(
+            form=form,
+            url_release_formset=url_release_formset,
+            package_release_formset=package_release_formset,
+            screenshot_formset=screenshot_formset,
+        ))
 
 
 @permission_required('products.add_product')
-class ProductCreateView(CreateView, ProductFormMixin):
+class ProductCreateView(ProductFormMixin, CreateView):
     model = Product
     form_class = ProductCreateForm
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
+    def form_valid(self, *args, **kwargs):
+        response = super().form_valid(*args, **kwargs)
         if self.object:
             # 作成に成功した場合は作成したユーザーを自動的に管理者に加える
             #
@@ -102,6 +137,13 @@ class ProductCreateView(CreateView, ProductFormMixin):
             self.object.join(self.request.user)
         return response
 
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        return super().post(request, *args, **kwargs)
 
 @permission_required('products.change_product')
 class ProductUpdateView(UpdateView, ProductFormMixin):

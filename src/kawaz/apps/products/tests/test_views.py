@@ -1,6 +1,7 @@
 import os
 import datetime
 import itertools
+from contextlib import ExitStack
 from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
@@ -85,7 +86,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             'package_releases-INITIAL_FORMS': 0,
             'package_releases-MAX_NUM_FORMS': 1000,
         }
-        self.image_file_ = os.path.join(settings.REPOSITORY_ROOT,
+        self.image_file = os.path.join(settings.REPOSITORY_ROOT,
                 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
         self.platform = PlatformFactory()
 
@@ -125,7 +126,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
         """
         for user in self.members:
             self.prefer_login(user)
-            with open(self.image_file_, 'rb') as f:
+            with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
@@ -137,39 +138,49 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             # 重複を避けるため削除する
             e.delete()
 
-    # ToDo 実装したけど何か上手く行かないので見て欲しいです
-    def _test_member_can_create_screenshot_via_product_form(self):
+    def test_member_can_create_screenshot_via_product_form(self):
         """
         メンバーはプロダクトフォームからScreenshotモデルも作成できる
         """
         for user in self.members:
             self.prefer_login(user)
-            with open(self.image_file_, 'rb') as f:
-                self.product_kwargs['thumbnail'] = f
-                self.product_kwargs['screenshots-TOTAL_FORMS'] = 1
-                self.product_kwargs['screenshots-0-image'] = f
+            # Note:
+            #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
+            #   再度読みこもうとした場合に seek 位置を戻す必要があるが、
+            #   そういう処理がライブラリに無い。したがって同じファイル
+            #   オブジェクトを共有できないため、二つに分けている
+            with ExitStack() as stack:
+                f1 = stack.enter_context(open(self.image_file, 'rb'))
+                f2 = stack.enter_context(open(self.image_file, 'rb'))
+                self.product_kwargs.update({
+                    'thumbnail': f1,
+                    'screenshots-TOTAL_FORMS': 1,
+                    'screenshots-0-image': f2,
+                })
                 r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
             self.assertEqual(Screenshot.objects.count(), 1)
             obj = Screenshot.objects.get(pk=1)
-            # 重複を避けるため削除する
+            # 重複を避けるため削除する（プロダクトの削除も忘れずに）
+            obj.product.delete()
             obj.delete()
 
-    # ToDo 実装したけど何か上手く行かないので見て欲しいです
-    def _test_member_can_create_url_release_via_product_form(self):
+    def test_member_can_create_url_release_via_product_form(self):
         """
         メンバーはプロダクトフォームからURLReleaseモデルも作成できる
         """
         for user in self.members:
             self.prefer_login(user)
-            with open(self.image_file_, 'rb') as f:
-                self.product_kwargs['thumbnail'] = f
-                self.product_kwargs['url_releases-TOTAL_FORMS'] = 1
-                self.product_kwargs['url_releases-0-label'] = 'Android版'
-                self.product_kwargs['url_releases-0-version'] = 'Version3.14'
-                self.product_kwargs['url_releases-0-platform'] = self.platform.pk
-                self.product_kwargs['url_releases-0-url'] = 'http://play.google.com'
+            with open(self.image_file, 'rb') as f:
+                self.product_kwargs.update({
+                    'thumbnail': f,
+                    'url_releases-TOTAL_FORMS': 1,
+                    'url_releases-0-label': 'Android版',
+                    'url_releases-0-version': 'Version3.14',
+                    'url_releases-0-platform': self.platform.pk,
+                    'url_releases-0-url': 'http://play.google.com',
+                })
                 r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
@@ -178,31 +189,42 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
-            # 重複を避けるため削除する
+            # 重複を避けるため削除する（プロダクトの削除も忘れずに）
+            obj.product.delete()
             obj.delete()
 
-    # ToDo 実装したけど何か上手く行かないので見て欲しいです
-    def _test_member_can_create_package_release_via_product_form(self):
+    def test_member_can_create_package_release_via_product_form(self):
         """
         メンバーはプロダクトフォームからPackageReleaseモデルも作成できる
         """
         for user in self.members:
             self.prefer_login(user)
-            with open(self.image_file_, 'rb') as f:
-                self.product_kwargs['package_releases-TOTAL_FORMS'] = 1
-                self.product_kwargs['package_releases-0-label'] = 'Android版'
-                self.product_kwargs['package_releases-0-version'] = 'Version3.14'
-                self.product_kwargs['package_releases-0-platform'] = self.platform
-                self.product_kwargs['package_releases-0-file_content'] = f
+            # Note:
+            #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
+            #   再度読みこもうとした場合に seek 位置を戻す必要があるが、
+            #   そういう処理がライブラリに無い。したがって同じファイル
+            #   オブジェクトを共有できないため、二つに分けている
+            with ExitStack() as stack:
+                f1 = stack.enter_context(open(self.image_file, 'rb'))
+                f2 = stack.enter_context(open(self.image_file, 'rb'))
+                self.product_kwargs.update({
+                    'thumbnail': f1,
+                    'package_releases-TOTAL_FORMS': 1,
+                    'package_releases-0-label': 'Android版',
+                    'package_releases-0-version': 'Version3.14',
+                    'package_releases-0-platform': self.platform.pk,
+                    'package_releases-0-file_content': f2,
+                })
                 r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
             self.assertEqual(PackageRelease.objects.count(), 1)
-            obj = URLRelease.objects.get(pk=1)
+            obj = PackageRelease.objects.get(pk=1)
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
-            # 重複を避けるため削除する
+            # 重複を避けるため削除する（プロダクトの削除も忘れずに）
+            obj.product.delete()
             obj.delete()
 
 
@@ -228,7 +250,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             'package_releases-INITIAL_FORMS': 1,
             'package_releases-MAX_NUM_FORMS': 1000,
         }
-        self.image_file_ = os.path.join(settings.REPOSITORY_ROOT,
+        self.image_file = os.path.join(settings.REPOSITORY_ROOT,
                 'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
 
     def test_non_members_cannot_see_product_update_view(self):
@@ -293,7 +315,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         """
         for user in [self.members[0], self.administrator]:
             self.prefer_login(user)
-            with open(self.image_file_, 'rb') as f:
+            with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post('/products/1/update/', self.product_kwargs)
             self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
@@ -308,7 +330,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         previous_slug = self.product.slug
         for user in [self.members[0], self.administrator]:
             self.prefer_login(user)
-            with open(self.image_file_, 'rb') as f:
+            with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 self.product_kwargs['slug'] = 'new-slug'
                 r = self.client.post('/products/1/update/', self.product_kwargs)

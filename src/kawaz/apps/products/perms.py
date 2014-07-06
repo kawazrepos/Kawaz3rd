@@ -2,6 +2,7 @@ from permission.logics import PermissionLogic
 
 
 class ProductPermissionLogic(PermissionLogic):
+
     def _has_join_perm(self, user_obj, perm, obj=None):
         if not user_obj.is_authenticated:
             # 非ログインユーザーは参加できない

@@ -12,11 +12,13 @@ from kawaz.apps.projects.models import Project
 
 
 class Platform(models.Model):
+
     """
     プロダクトがサポートしているプラットフォームを表すモデル
 
     e.g. Windows, Mac, Browser, iOS, PS Vita など
     """
+
     def _get_upload_path(self, filename):
         basedir = os.path.join('icons', 'platforms', self.label.lower())
         return os.path.join(basedir, filename)
@@ -35,6 +37,7 @@ class Platform(models.Model):
 
 
 class Category(models.Model):
+
     """
     プロダクトが所属するカテゴリーを表すモデル
 
@@ -55,11 +58,13 @@ class Category(models.Model):
 
 @validate_on_save
 class Product(models.Model):
+
     """
     完成したプロダクトを表すモデル
 
     メンバーであれば誰でも作成・管理可能
     """
+
     def _get_advertisement_image_upload_path(self, filename):
         basedir = os.path.join('products', self.slug, 'advertisement_images')
         return os.path.join(basedir, filename)
@@ -185,6 +190,7 @@ class Product(models.Model):
 
 
 class AbstractRelease(models.Model):
+
     """
     リリース形態のアブストラクトモデル
     """
@@ -205,9 +211,11 @@ class AbstractRelease(models.Model):
 
 
 class PackageRelease(AbstractRelease):
+
     """
     ファイル添付形式でのリリースモデル
     """
+
     def _get_upload_path(self, filename):
         basedir = os.path.join('products', self.product.slug, 'releases')
         return os.path.join(basedir, filename)
@@ -224,6 +232,7 @@ class PackageRelease(AbstractRelease):
 
 
 class URLRelease(AbstractRelease):
+
     """
     URL指定形式でのリリースモデル。主に外部ホスティングでのリリース用
 
@@ -253,11 +262,13 @@ class URLRelease(AbstractRelease):
 
 
 class Screenshot(models.Model):
+
     """
     プロダクトのスクリーンショットモデル
 
     プロダクト管理者は何枚でもプロダクトに関連付けることが出来る
     """
+
     def _get_upload_path(self, filename):
         basedir = os.path.join('products', self.product.slug, 'screenshots')
         return os.path.join(basedir, filename)
@@ -265,7 +276,8 @@ class Screenshot(models.Model):
     image = ThumbnailField(
         _('Image'), upload_to=_get_upload_path,
         patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
-    product = models.ForeignKey(Product, verbose_name=_('Product'), editable=False)
+    product = models.ForeignKey(
+        Product, verbose_name=_('Product'), editable=False)
 
     class Meta:
         ordering = ('pk',)
