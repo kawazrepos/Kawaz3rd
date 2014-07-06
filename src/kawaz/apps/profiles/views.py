@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
@@ -5,8 +6,8 @@ from django.views.generic.detail import DetailView
 from permission.decorators.classbase import permission_required
 from .forms import ProfileForm
 from .forms import AccountForm
+from .forms import AccountFormSet
 from .models import Profile
-from .forms import get_account_formset
 
 class ProfileListView(ListView):
     model =  Profile
@@ -26,30 +27,55 @@ class ProfileUpdateView(UpdateView):
             return self.request.user.profile
         return None
 
-    def post(self, request, *args, **kwargs):
-        # formsetの中身も保存するために複雑なことをしている
-        # ToDo 実装上の問題を抱えているから後で直す
+    def get_formset(self):
+        kwargs = {
+            'prefix': 'accounts',
+        }
+        if self.request.method in ('PUT', 'POST'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+            })
+        if hasattr(self, 'object'):
+            kwargs.update({
+                'instance': self.object,
+            })
+        formset = AccountFormSet(**kwargs)
+        return formset
+
+    def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        AccountFormSet = get_account_formset()
-        formset = AccountFormSet(request.POST, request.FILES, prefix=self.formset_prefix)
+        formset = self.get_formset()
+        return self.render_to_response(self.get_context_data(
+            form=form, formset=formset))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset = self.get_formset()
         if form.is_valid() and formset.is_valid():
-            instances = formset.save(commit=False)
-            for account in instances:
-                account.profile = request.user.profile
-                account.save()
-            return self.form_valid(form)
+            return self.form_valid(form, formset)
         else:
-            return self.form_invalid(form)
+            return self.form_invalid(form, formset)
 
+    def form_valid(self, form, formset):
+        self.object = form.save()
+        # save formset instance. instances require 'profile' attribute thus
+        # assign that attribute automatically
+        instances = formset.save(commit=False)
+        for instance in instances:
+            instance.profile = self.request.user.profile
+            instance.save()
+        return HttpResponseRedirect(self.get_success_url())
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Account formsetを作成して渡す
-        AccountFormSet = get_account_formset()
-        context['formset'] = AccountFormSet(prefix=self.formset_prefix)
-        return context
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(
+            form=form, formset=formset))
 
 
 @permission_required('profiles.view_profile')
