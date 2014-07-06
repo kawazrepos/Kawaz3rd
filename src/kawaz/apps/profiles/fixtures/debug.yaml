@@ -20,8 +20,8 @@
     birthday: 2010-11-01
     place: 安息の地
     pub_state: public
-    created_at: 2010-11-01
-    updated_at: 2010-11-01
+    created_at: "2010-11-01 00:00:00+09:00"
+    updated_at: "2010-11-01 00:00:00+09:00"
 - model: personas.persona
   pk: 2
   fields:
@@ -183,8 +183,8 @@
     birthday: 2004-03-25
     place: Philadelphia
     pub_state: public
-    created_at: 2010-11-01
-    updated_at: 2010-11-01
+    created_at: "2010-11-01 00:00:00+09:00"
+    updated_at: "2010-11-01 00:00:00+09:00"
 - model: personas.persona
   pk: 3
   fields:
@@ -211,8 +211,8 @@
     place: 秘密結社ゼーレ
     skills: [8,9]
     pub_state: private
-    created_at: 1995-10-04
-    updated_at: 2012-11-17
+    created_at: "1995-10-04 00:00:00+09:00"
+    updated_at: "2012-11-17 00:00:00+09:00"
 - model: personas.persona
   pk: 4
   fields:
@@ -237,8 +237,8 @@
     birthday: 1986-12-08
     place: AAAヴンダー
     pub_state: public
-    created_at: 1995-10-04
-    updated_at: 2012-11-17
+    created_at: "1995-10-04 00:00:00+09:00"
+    updated_at: "2012-11-17 00:00:00+09:00"
 - model: personas.persona
   pk: 5
   fields:
@@ -263,8 +263,8 @@
     birthday: 2001-12-04
     place: エヴァ改2号機γ
     pub_state: public
-    created_at: 1995-10-04
-    updated_at: 2012-11-17
+    created_at: "1995-10-04 00:00:00+09:00"
+    updated_at: "2012-11-17 00:00:00+09:00"
 - model: personas.persona
   pk: 6
   fields:
@@ -307,5 +307,5 @@
     place: 特務機関NERV
     skills: [9,10]
     pub_state: public
-    created_at: 1995-10-04
-    updated_at: 2012-11-17
+    created_at: "1995-10-04 00:00:00+09:00"
+    updated_at: "2012-11-17 00:00:00+09:00"
