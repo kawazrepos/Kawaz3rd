@@ -1,5 +1,5 @@
 import datetime
-from kawaz.core.tests.datetime import patch_datetime_now
+from unittest import mock
 from kawaz.core.tests.testcases.permissions import BasePermissionLogicTestCase
 from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Event
@@ -9,7 +9,7 @@ from .utils import static_now
 from .utils import event_factory_with_relative
 
 
-@patch_datetime_now(static_now)
+@mock.patch('django.utils.timezone.now', static_now)
 class EventPermissionLogicTestCase(BasePermissionLogicTestCase):
     app_label = 'events'
     model_name = 'event'
@@ -27,7 +27,7 @@ class EventPermissionLogicTestCase(BasePermissionLogicTestCase):
         self.event_over_restriction = EventFactory(number_restriction=1)
         static_now_past = lambda: static_now() - datetime.timedelta(hours=48)
         attendance_deadline = static_now() - datetime.timedelta(hours=24)
-        with patch_datetime_now(static_now_past):
+        with mock.patch('django.utils.timezone.now', static_now_past):
             self.event_over_deadline = EventFactory(
                     attendance_deadline=attendance_deadline)
 

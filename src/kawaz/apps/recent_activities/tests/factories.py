@@ -1,4 +1,5 @@
 import datetime
+from django.utils import timezone
 import factory
 from ..models import RecentActivity
 
@@ -9,5 +10,5 @@ class RecentActivityFactory(factory.DjangoModelFactory):
 
     title = "VOXQUARTERがIndie Game Awardを獲得しました"
     thumbnail = "thumbnails/recent_activities/filename.png"
-    publish_at = datetime.datetime(2015, 7, 1)
+    publish_at = datetime.datetime(2015, 7, 1, tzinfo=timezone.utc)
     url = factory.Sequence(lambda n: "http://blog.kawaz.org/20150701/vox-won-iga{}".format(n))

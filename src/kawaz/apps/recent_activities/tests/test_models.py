@@ -1,8 +1,5 @@
-#! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/7/2
-#
 import datetime
+from django.utils import timezone
 from django.test import TestCase
 from .factories import RecentActivityFactory
 from ..models import RecentActivity
@@ -22,9 +19,13 @@ class RecentActivityModelTestCase(TestCase):
         """
         RecentActivityは作成日順に並ぶ
         """
-        a0 = RecentActivityFactory(publish_at=datetime.date(2014, 7, 1) - datetime.timedelta(3))
-        a1 = RecentActivityFactory(publish_at=datetime.date(2014, 7, 1) - datetime.timedelta(1))
-        a2 = RecentActivityFactory(publish_at=datetime.date(2014, 7, 1) - datetime.timedelta(2))
+        standard_time = datetime.datetime(2014, 7, 1, tzinfo=timezone.utc)
+        a0 = RecentActivityFactory(
+            publish_at=standard_time - datetime.timedelta(3))
+        a1 = RecentActivityFactory(
+            publish_at=standard_time - datetime.timedelta(1))
+        a2 = RecentActivityFactory(
+            publish_at=standard_time - datetime.timedelta(2))
         qs = RecentActivity.objects.all()
         self.assertEqual(len(qs), 3)
         self.assertEqual(qs[0], a1)

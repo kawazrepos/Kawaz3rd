@@ -1,6 +1,7 @@
 import datetime
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from markupfield.fields import MarkupField
@@ -81,7 +82,7 @@ class Entry(models.Model):
             # これは最初の公開時のみに行われるため 公開->下書き->公開 としても
             # 最初の公開日が変更されることはない
             if self.pub_state != 'draft':
-                self.publish_at = datetime.datetime.now()
+                self.publish_at = timezone.now()
         super().save(*args, **kwargs)
 
     def clean(self):

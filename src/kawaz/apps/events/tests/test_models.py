@@ -1,10 +1,10 @@
 import datetime
+from unittest import mock
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory
-from kawaz.core.tests.datetime import patch_datetime_now
 from ..models import Event
 from ..models import Category
 from .factories import EventFactory
@@ -13,7 +13,7 @@ from .utils import static_now
 from .utils import event_factory_with_relative
 
 
-@patch_datetime_now(static_now)
+@mock.patch('django.utils.timezone.now', static_now)
 class EventManagerTestCase(TestCase):
     def setUp(self):
         # specify standard time. it should be later than the time returned by
@@ -121,7 +121,7 @@ class EventManagerTestCase(TestCase):
         self.assertEqual(qs.count(), 0)
 
 
-@patch_datetime_now(static_now)
+@mock.patch('django.utils.timezone.now', static_now)
 class EventManagerAttendanceRestrictionTestCase(TestCase):
     def setUp(self):
         # specify standard time. it should be later than the time returned by
@@ -141,7 +141,7 @@ class EventManagerAttendanceRestrictionTestCase(TestCase):
         self.event_list = [event_factory_with_relative(*args)
                            for args in arguments_list]
         static_now_past = lambda: static_now() - datetime.timedelta(hours=48)
-        with patch_datetime_now(static_now_past):
+        with mock.patch('django.utils.timezone.now', static_now_past):
             self.event_list[-1].attendance_deadline = attendance_deadline
             self.event_list[-1].save()
 
@@ -199,7 +199,7 @@ class EventCategoryTest(TestCase):
         self.assertEqual(categories[1].label, 'ゲームオフ')
         self.assertEqual(categories[2].label, 'GameJam')
 
-@patch_datetime_now(static_now)
+@mock.patch('django.utils.timezone.now', static_now)
 class EventTestCase(TestCase):
     def test_str(self):
         """str(event) should return the event title"""
@@ -250,7 +250,7 @@ class EventTestCase(TestCase):
         static_now_past = lambda: static_now() - datetime.timedelta(hours=48)
         attendance_deadline = static_now() - datetime.timedelta(hours=24)
         user = PersonaFactory()
-        with patch_datetime_now(static_now_past):
+        with mock.patch('django.utils.timezone.now', static_now_past):
             event = EventFactory(attendance_deadline=attendance_deadline)
         # organizer is automatically attended to the event
         self.assertEqual(event.attendees.count(), 1)
@@ -360,7 +360,7 @@ class EventTestCase(TestCase):
                          '/events/{0}/'.format(event.pk))
 
 
-@patch_datetime_now(static_now)
+@mock.patch('django.utils.timezone.now', static_now)
 class EventValidationTestCase(TestCase):
     def test_organizer_cannot_quit(self):
         """

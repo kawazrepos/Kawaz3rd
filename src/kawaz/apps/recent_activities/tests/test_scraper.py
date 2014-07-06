@@ -3,6 +3,7 @@
 # created by giginet on 2014/7/2
 #
 import os
+import pytz
 import datetime
 from unittest import mock
 from django.test import TestCase
@@ -48,12 +49,14 @@ class RecentActivityScraperTestCase(TestCase):
         qs = RecentActivity.objects.all()
         self.assertEqual(len(qs), 0)
 
+        jst = pytz.timezone('Asia/Tokyo')
+
         self.scraper.fetch()
         qs = RecentActivity.objects.all()
         self.assertEqual(len(qs), 1)
         self.assertEqual(qs[0].title, "「ゲームコミュニティサミット2014」で「＊いどのなかにいる＊」というセッションをします")
         self.assertEqual(qs[0].url, "entry_url")
-        self.assertEqual(qs[0].publish_at, datetime.datetime(2014, 7, 1, 20, 1, 29))
+        self.assertEqual(qs[0].publish_at, datetime.datetime(2014, 7, 2, 14, 1, 29, tzinfo=jst))
         self.assertEqual(qs[0].thumbnail, "thumbnails/recent_activities/thumbnail_url")
 
     def test_scraper_cannot_fetch_duplicate(self):
