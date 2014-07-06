@@ -2,6 +2,7 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+import pytz
 import datetime
 from unittest import mock
 
@@ -12,7 +13,7 @@ def static_now():
     Return fixed datetime instance for testing.
     It is mainly for skip Event validation
     """
-    return datetime.datetime(2000, 9, 4)
+    return datetime.datetime(2000, 9, 4, tzinfo=pytz.utc)
 
 def patch_datetime_now(mock_now_function):
     """

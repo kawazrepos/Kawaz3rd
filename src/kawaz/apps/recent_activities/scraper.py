@@ -40,9 +40,7 @@ class RecentActivityScraper(object):
                 print('Fetching entry {}'.format(title))
 
             pub_date = item.pubdate.string
-            # TimeZone周りでハマるので、強制的にnativeに変換している
-            jst = timezone(datetime.timedelta(hours=-9))
-            publish_at = make_naive(datetime.datetime.strptime(pub_date, PUBDATE_FORMAT), timezone=jst)
+            publish_at = datetime.datetime.strptime(pub_date, PUBDATE_FORMAT)
 
             image_url = self._fetch_thumbnail(link)
             filename = image_url.split('/')[-1]
