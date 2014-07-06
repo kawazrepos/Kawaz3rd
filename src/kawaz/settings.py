@@ -174,3 +174,11 @@ DEFAULT_RENDERER_CLASSES = (
 TEST_RUNNER = 'kawaz.core.tests.runner.MediaRootTestSuiteRunner'
 
 RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
+
+if DEBUG:
+    # テスト時のRuntimeWarningを消している
+    # https://docs.djangoproject.com/en/dev/topics/i18n/timezones/#code
+    import warnings
+    warnings.filterwarnings(
+        'error', r"DateTimeField .* received a naive datetime",
+        RuntimeWarning, r'django\.db\.models\.fields')
