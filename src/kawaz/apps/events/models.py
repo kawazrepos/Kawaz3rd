@@ -38,7 +38,7 @@ class EventManager(models.Manager, PublishmentManagerMixin):
         or イベントの終了時期が指定されていないイベントを含むクエリを返す
         """
         qs = self.published(user)
-        qs = qs.filter(Q(period_end__gte=datetime.datetime.now()) |
+        qs = qs.filter(Q(period_end__gte=timezone.now()) |
                        Q(period_end=None))
         return qs
 
@@ -49,7 +49,7 @@ class EventManager(models.Manager, PublishmentManagerMixin):
         """
         qs = self.active(user)
         # 締め切りによるフィルタリング
-        q1 = (Q(attendance_deadline__gte=datetime.datetime.now()) |
+        q1 = (Q(attendance_deadline__gte=timezone.now()) |
               Q(attendance_deadline=None))
         # 参加人数によるフィルタリング
         q2 = (Q(number_restriction__gt=F('attendees_count')) |
@@ -127,7 +127,7 @@ class Event(models.Model):
             if self.period_start > self.period_end:
                 raise ValidationError(
                     _('End time must be later than start time.'))
-            elif (self.period_start < datetime.datetime.now() and
+            elif (self.period_start < timezone.now() and
                   (not self.pk or
                    Event.objects.filter(pk=self.pk).count() == 0)):
                 raise ValidationError(_('Start time must be future.'))
@@ -139,7 +139,7 @@ class Event(models.Model):
             raise ValidationError(
                 _("Number restriction should be grater than 0"))
         if (self.attendance_deadline and
-                self.attendance_deadline < datetime.datetime.now() and
+                self.attendance_deadline < timezone.now() and
             (not self.pk or
                 Event.objects.filter(pk=self.pk).count() == 0)):
             raise ValidationError(_('Attendance deadline must be future.'))
@@ -168,7 +168,7 @@ class Event(models.Model):
         """イベントが終了していないか否か"""
         if not self.period_start:
             return True
-        return self.period_end >= datetime.datetime.now()
+        return self.period_end >= timezone.now()
 
     def is_over_restriction(self):
         """人数制限を超えているか否か"""
@@ -180,7 +180,7 @@ class Event(models.Model):
         """参加締め切りを超えているか否か"""
         if not self.attendance_deadline:
             return False
-        return self.attendance_deadline <= datetime.datetime.now()
+        return self.attendance_deadline <= timezone.now()
 
     @models.permalink
     def get_absolute_url(self):

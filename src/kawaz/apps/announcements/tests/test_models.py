@@ -4,6 +4,7 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Announcement
 from .factories import AnnouncementFactory
 
+
 class AnnouncementManagerTestCase(TestCase):
     def test_draft_by_staff(self):
         '''Tests draft returns correct queryset with staff'''
@@ -60,11 +61,13 @@ class AnnouncementManagerTestCase(TestCase):
         self.assertEqual(qs.count(), 1)
         self.assertEqual(qs[0], a)
 
+
 class AnnouncementTestCase(TestCase):
     def test_str(self):
         '''Tests __str__ returns correct value'''
         announcement = AnnouncementFactory(title='春のゲーム祭り開催のお知らせ')
         self.assertEqual(str(announcement), '春のゲーム祭り開催のお知らせ')
+
 
 class AnnouncementEditPermissionTestCase(TestCase):
 
@@ -112,6 +115,7 @@ class AnnouncementEditPermissionTestCase(TestCase):
         '''Tests anonymous can not delete announcement'''
         user = AnonymousUser()
         self.assertFalse(user.has_perm('announcements.delete_announcement'))
+
 
 class AnnouncementViewPermissionTestCase(TestCase):
 

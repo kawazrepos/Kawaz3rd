@@ -1,14 +1,14 @@
 import datetime
+from unittest import mock
 from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
 from unittest.mock import MagicMock
-from kawaz.core.tests.datetime import patch_datetime_now
 from kawaz.core.personas.tests.utils import create_role_users
 from .utils import static_now
 from .utils import event_factory_with_relative
 
 
-@patch_datetime_now(static_now)     # 2000/09/04
+@mock.patch('django.utils.timezone.now', static_now)   # 2000/09/04 
 class EventsTemplateTagTestCase(TestCase):
     def setUp(self):
         # イベントリストの作成
@@ -27,7 +27,7 @@ class EventsTemplateTagTestCase(TestCase):
         standard_time = static_now()
         attendance_deadline = standard_time - datetime.timedelta(hours=24)
         static_now_past = lambda: static_now() - datetime.timedelta(hours=48)
-        with patch_datetime_now(static_now_past):
+        with mock.patch('django.utils.timezone.now', static_now_past):
             self.event_list[-1].attendance_deadline = attendance_deadline
             self.event_list[-1].save()
         # draft 記事の作成者を取得
@@ -120,7 +120,7 @@ class EventsTemplateTagTestCase(TestCase):
             ('anonymous', 2),
             ('organizer', 3),
         )
-        # with lookup
+        # with lookup                                              j
         for username, nevents in patterns:
             events = self._render_template(username, lookup='attendable')
             self.assertEqual(events.count(), nevents,

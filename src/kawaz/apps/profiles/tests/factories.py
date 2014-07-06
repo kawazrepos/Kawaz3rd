@@ -1,4 +1,5 @@
 import datetime
+from django.utils import timezone
 
 import factory
 from ..models import Skill, Profile, Service, Account
@@ -30,7 +31,7 @@ class AccountFactory(factory.django.DjangoModelFactory):
 class ProfileFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Profile
 
-    birthday = datetime.datetime(2009, 10, 15)
+    birthday = datetime.datetime(2009, 10, 15, tzinfo=timezone.utc)
     place = 'グランエターナ'
     url = 'http://www.kawaz.org/'
     user = factory.SubFactory(PersonaFactory)
