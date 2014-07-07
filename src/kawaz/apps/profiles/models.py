@@ -2,7 +2,6 @@ import os
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
-from markupfield.fields import MarkupField
 
 
 class Skill(models.Model):
@@ -62,7 +61,7 @@ class Profile(models.Model):
         _('Address'), max_length=255, blank=True,
         help_text=_('Your address will not be shown by anonymous user.'))
     url = models.URLField(_("URL"), max_length=255, blank=True)
-    remarks = MarkupField(_("Remarks"), default_markup_type='markdown')
+    remarks = models.TextField(_("Remarks"))
     skills = models.ManyToManyField(Skill, verbose_name=_('Skills'),
                                     related_name='users',
                                     null=True, blank=True)

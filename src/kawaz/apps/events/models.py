@@ -6,7 +6,6 @@ from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
-from markupfield.fields import MarkupField
 from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
@@ -64,7 +63,7 @@ class Event(models.Model):
                                  max_length=10, choices=PUB_STATES,
                                  default="public")
     title = models.CharField(_("Title"), max_length=255)
-    body = MarkupField(_("Body"), default_markup_type="markdown")
+    body = models.TextField(_("Body"))
 
     # 省略可能フィールド
     period_start = models.DateTimeField(_("Start time"),

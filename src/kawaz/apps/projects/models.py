@@ -5,7 +5,6 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group
 from thumbnailfield.fields import ThumbnailField
-from markupfield.fields import MarkupField
 from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
 
@@ -76,7 +75,7 @@ class Project(models.Model):
                                         "Additionally this value cannot be "
                                         "modified for preventing the URL "
                                         "changes."))
-    body = MarkupField(_('Description'), default_markup_type='markdown')
+    body = models.TextField(_('Description'))
 
     # 省略可能フィールド
     icon = ThumbnailField(_('Thumbnail'), upload_to=_get_upload_path,

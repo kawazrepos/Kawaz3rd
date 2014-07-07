@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
-from markupfield.fields import MarkupField
 from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
@@ -44,7 +43,7 @@ class Entry(models.Model):
                                  max_length=10, choices=PUB_STATES,
                                  default="public")
     title = models.CharField(_('Title'), max_length=255)
-    body = MarkupField(_('Body'), default_markup_type='markdown')
+    body = models.TextField(_('Body'))
     category = models.ForeignKey(Category, verbose_name=_('Category'),
                                  related_name="entries",
                                  blank=True, null=True)

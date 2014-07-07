@@ -25,18 +25,14 @@ class ProductBaseForm(ModelForm):
 class ProductCreateForm(ProductBaseForm):
 
     class Meta(ProductBaseForm.Meta):
-        exclude = (
-            'description_markup_type',
-            'administrators',
-            'display_mode',
-        )
+        exclude = ('administrators', 'display_mode')
 
 
 class ProductUpdateForm(ProductBaseForm):
 
     class Meta(ProductBaseForm.Meta):
         exclude = (
-            'description_markup_type', 'slug',
+            'slug',
             'administrators', 'display_mode'
         )
 
