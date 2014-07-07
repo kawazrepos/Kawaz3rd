@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load markdown %}
 {% block content %}
     <article class="markdown">
-        {{ object.body }}
+        {{ object.body | markdown }}
     </article>
 {% endblock %}
