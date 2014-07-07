@@ -4,6 +4,7 @@ from django.template.defaultfilters import urlize
 
 from .embed import youtube, nicovideo
 from .mention import mention
+from .markdown import markdown
 
 register = template.Library()
 
@@ -13,6 +14,9 @@ def parser(value):
     """
     Kawazで使用するtemplate tagsをまとめて使用するtemplate filterです
     以下の処理を行います
+        markdown展開
+            markdownをHTMLに展開します
+            ref: kawaz.core.templatetags.tempaltetags.markdown.markdown
         YouTube展開
             YouTubeの動画URLをプレーヤーとして展開します
             ref: kawaz.core.templatetags.tempaltetags.embed.youtube
@@ -26,7 +30,6 @@ def parser(value):
             @username という文字列をユーザーへのリンクタグに変換します
             ref: kawaz.core.templatetags.tempaltetags.mention.mention
     """
-    # URL
     # Youtube, NicoNico
     value = youtube(value)
     value = nicovideo(value)
@@ -34,4 +37,6 @@ def parser(value):
     value = urlize(value)
     # @言及
     value = mention(value)
+    # markdown
+    value = markdown(value)
     return mark_safe(value)

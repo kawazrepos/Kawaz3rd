@@ -13,6 +13,7 @@ register = template.Library()
 @template.defaultfilters.stringfilter
 def markdown(value):
     md = markdown2.markdown(value, extras=['footnotes',
+                                           'code-friendly',
                                            'markdown-in-html'],
     )
     return mark_safe(md)
