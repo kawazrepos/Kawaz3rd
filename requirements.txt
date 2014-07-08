@@ -1,12 +1,11 @@
 pyyaml
 pytz
 pillow
-markdown
+markdown2
 djangorestframework
 django-permission>=0.7.1
 django-filter
 django-roughpages
-django-markupfield
 django-thumbnailfield>=0.2.0
 django-inspectional-registration>=0.4.1
 django-bootstrap-form

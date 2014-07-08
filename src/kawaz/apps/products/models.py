@@ -4,7 +4,6 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
-from markupfield.fields import MarkupField
 from thumbnailfield.fields import ThumbnailField
 from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.personas.models import Persona
@@ -96,8 +95,7 @@ class Product(models.Model):
         patterns=settings.PRODUCT_THUMBNAIL_SIZE_PATTERNS,
         help_text=_("This would be used as a product thumbnail image. "
                     "The aspect ratio of the image should be 16:9."))
-    description = MarkupField(_('Description'), max_length=4096,
-                              markup_type='markdown')
+    description = models.TextField(_('Description'), max_length=4096)
 
     # 省略可能フィールド
     advertisement_image = ThumbnailField(

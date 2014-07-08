@@ -2,7 +2,6 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
-from markupfield.fields import MarkupField
 from kawaz.core.publishments.models import PublishmentManagerMixin
 from kawaz.core.publishments.models import PUB_STATES
 
@@ -61,7 +60,7 @@ class Announcement(models.Model):
                                  max_length=10, choices=PUB_STATES,
                                  default="public")
     title = models.CharField(_('Title'), max_length=128)
-    body = MarkupField(_('Body'), default_markup_type='markdown')
+    body = models.TextField(_('Body'))
     silently = models.BooleanField(_('Silently'), default=False,
                                    help_text=_("If you checked this field. "
                                                "This will not be notified "

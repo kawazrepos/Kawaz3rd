@@ -8,4 +8,3 @@ from .models import Event
 class EventForm(ModelForm):
     class Meta:
         model = Event
-        exclude = ['body_markup_type']

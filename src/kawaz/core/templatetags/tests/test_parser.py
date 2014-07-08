@@ -40,15 +40,17 @@ class ParserTemplateTagTestCase(TestCase):
         "@kawaztan_mention\n"
         "@kawaztan_unknown\n")
 
-        after = ("""<a href="http://www.kawaz.org/" rel="nofollow">http://www.kawaz.org/</a>\n"""
+        after = ("""<p><a href="http://www.kawaz.org/" rel="nofollow">http://www.kawaz.org/</a>\n"""
                  """<a href="http://nicovideo.jp/watch/sm9/" rel="nofollow">http://nicovideo.jp/watch/sm9/</a>\n"""
                  """<a href="http://www.nicovideo.jp/watch/sm9">ニコニコ動画</a>\n"""
                  """<a href="https://www.youtube.com/watch?v=LoH0dOyyGx8">YouTube</a>\n"""
                  "<b>HTMLも使えます</b>\n"
                  """<a href="http://www.google.com/" rel="nofollow">http://www.google.com/</a>\n"""
-                 """<a href="https://www.facebook.com/" rel="nofollow">https://www.facebook.com/</a>\n"""
+                 """<a href="https://www.facebook.com/" rel="nofollow">https://www.facebook.com/</a></p>\n"""
+                 """\n"""
                  """<iframe width="640" height="480" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>\n"""
-                 """<a href="mailto:hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com">hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com</a>\n"""
+                 """\n"""
+                 """<p><a href="mailto:hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com">hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com</a>\n"""
                  """<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>\n"""
-                 "@kawaztan_unknown")
+                 "@kawaztan_unknown</p>")
         self._test_href_tag(before, after)

@@ -5,4 +5,3 @@ from .models import Entry
 class EntryForm(ModelForm):
     class Meta:
         model = Entry
-        exclude = ['body_markup_type']

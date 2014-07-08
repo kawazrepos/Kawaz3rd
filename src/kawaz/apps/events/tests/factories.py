@@ -18,6 +18,7 @@ class EventFactory(factory.DjangoModelFactory):
 
     pub_state = 'public'
     title = '焼肉食べまくる会'
+    body = "カルビ食べたい"
     period_start = factory.LazyAttribute(
         lambda o: timezone.now() + datetime.timedelta(hours=1))
     period_end = factory.LazyAttribute(
