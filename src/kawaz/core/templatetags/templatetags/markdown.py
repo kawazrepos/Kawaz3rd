@@ -11,7 +11,9 @@ def markdown(value):
     """
     テキストをmarkdownに展開するtemplate filterです。
     processorとしてpython-markdown2を使っており、デフォルトの挙動の他に以下のExtrasを含めています
-    built-in template filterとして扱われているため、{% load markdown %}は不要です
+
+    kawaz.core.templatetagsでbuilt-in指定されています
+    そのため、{% load markdown %}は不要です
 
     Extras:
         footnotes

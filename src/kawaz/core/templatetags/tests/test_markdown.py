@@ -12,6 +12,7 @@ class MarkdownTemplateTagTestCase(TestCase):
 
     def _test_markdown(self, body, after):
         t = Template(
+            """{% load markdown %}"""
             """{{ body | markdown }}"""
         )
         c = Context({
