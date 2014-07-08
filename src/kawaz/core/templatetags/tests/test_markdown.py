@@ -6,7 +6,6 @@ __author__ = 'giginet'
 
 from django.test import TestCase
 from django.template import Template, Context
-from unittest.mock import MagicMock
 
 
 class MarkdownTemplateTagTestCase(TestCase):
@@ -55,7 +54,7 @@ class MarkdownTemplateTagTestCase(TestCase):
         )
         after = ("<h1>h1</h1>\n\n"
                  "<div>HTMLタグも効く</div>\n\n"
-                 """<p><a href="http://www.google.co.jp/">リンクです</a></p>"""
+                 """<p><a href="http://www.google.co.jp/">リンクです</a></p>\n"""
         )
         self._test_markdown(before, after)
 
