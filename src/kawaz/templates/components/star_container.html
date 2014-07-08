@@ -5,9 +5,9 @@
     <input type="hidden" ng-model="endpoint" ng-init="endpoint='{{ endpoint }}';fetchStars();">
     <ul ng-repeat="star in stars">
        <li class="star">
-           <img ng-src='/storage/[[ star.author.avatar]]'>
-           <span ng-bind="star.author.nickname"></span>
-           <span ng-bind="star.quote"></span>
+           <a ng-href="[[ star.author.url ]]"><img class="avatar" ng-src='/storage/[[ star.author.avatar]]'></a>
+           <span class="nickname" ng-bind="star.author.nickname"></span>
+           <span class="quote" ng-bind="star.quote"></span>
        </li>
     </ul>
 </section>
