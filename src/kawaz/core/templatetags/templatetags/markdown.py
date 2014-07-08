@@ -15,6 +15,13 @@ def markdown(value):
     kawaz.core.templatetagsでbuilt-in指定されています
     そのため、{% load markdown %}は不要です
 
+    Notice:
+        ブログパーツの使用などの利便性を持たせるために
+        全てのHTMLタグを許可しています。
+        セキュリティ上の懸念はありますが、このフィルタが適応されるのは
+        Children権限以上のユーザーが作成したコンテンツのみであり
+        本ポータルの性質から考えて悪用の可能性は少ないという判断です。
+
     Extras:
         footnotes
             https://github.com/trentm/python-markdown2/wiki/footnotes

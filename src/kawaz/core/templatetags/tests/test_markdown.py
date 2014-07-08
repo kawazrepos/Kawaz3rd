@@ -47,6 +47,10 @@ class MarkdownTemplateTagTestCase(TestCase):
     def test_markdown_with_html(self):
         '''
         markdown内にHTMLも記述できる
+
+        Notice:
+            全てのHTMLを許可している理由は
+            markdownフィルタのdocstringを参照のこと
         '''
         before = ("# h1\n"
                   "<div>HTMLタグも効く</div>\n"
