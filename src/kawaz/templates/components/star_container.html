@@ -1,5 +1,13 @@
+{% load stars_tags %}
+{% load staticfiles %}
 <section class="star-container" ng-controller="StarController">
-    {% verbatim %}
-        {{ greeting }}
-    {% endverbatim %}
+    {% get_star_endpoint object as endpoint %}
+    <input type="hidden" ng-model="endpoint" ng-init="endpoint='{{ endpoint }}';fetchStars();">
+    <ul ng-repeat="star in stars">
+       <li class="star">
+           <img ng-src='/storage/[[ star.author.avatar]]'>
+           <span ng-bind="star.author.nickname"></span>
+           <span ng-bind="star.quote"></span>
+       </li>
+    </ul>
 </section>
