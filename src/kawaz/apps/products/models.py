@@ -275,7 +275,7 @@ class Screenshot(models.Model):
         _('Image'), upload_to=_get_upload_path,
         patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
     product = models.ForeignKey(
-        Product, verbose_name=_('Product'), editable=False)
+        Product, verbose_name=_('Product'), editable=False, related_name='screenshots')
 
     class Meta:
         ordering = ('pk',)
