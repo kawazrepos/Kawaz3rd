@@ -21,8 +21,11 @@
     slug: waveweaver
     thumbnail: "fixtures/products/thumbnails/featured.png"
     advertisement_image: "fixtures/products/advertisement_images/waveweaver.jpg"
-    description: "Wave Weaverはやってくる波をひたすら避け続けるアクションゲームです。
-操作は簡単、波と同じ色を選び続けるだけ。"
+    description: |-
+      これはどんなゲーム？
+      ====================
+      Wave Weaverはやってくる波をひたすら避け続けるアクションゲームです。
+      操作は簡単、波と同じ色を選び続けるだけ。
     trailer: http://www.youtube.com/watch?v=6eqc5wqbgdU
     platforms: [2, 5, 6]
     categories: [2, 7]

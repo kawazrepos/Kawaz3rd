@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load i18n %}
+{% load utils %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="{% static "css/social.css" %}" media="screen">
     <link rel="stylesheet" href="{% static "css/form.css" %}" media="screen">
     <link rel="stylesheet" href="{% static "css/markdown.css" %}" media="screen">
+    <link rel="stylesheet" href="{% static "vendor/lightbox.css" %}" media="screen">
     <!--
     <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
     -->
@@ -30,9 +32,9 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             <a class="navbar-brand" href="{% url "kawaz_index" %}"><img src="{% static "img/kawaz-logo-header.png" %}" alt="Kawaz" title="Kawaz Logo" class="logo-header"></a>
-            <li class="active"><a href="{% url "kawaz_index" %}">{% trans "Home" %}</a></li>
-            <li><a href="{% url "products_product_list" %}">{% trans "Products" %}</a></li>
-            <li><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
+            <li class="{% active '^/?$' %}"><a href="{% url "kawaz_index" %}">{% trans "Home" %}</a></li>
+            <li class="{% active '^/products.+' %}"><a href="{% url "products_product_list" %}">{% trans "Products" %}</a></li>
+            <li class="{% active '^/events.+' %}"><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right header-button">
             <li class="dropdown">
@@ -89,6 +91,7 @@
 </div>
 {% block post_javascript %}
 <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
+<script src="{% static "vendor/lightbox.min.js" %}"></script>
 <script src="{% static "js/bootstrap.js" %}"></script>
 <script src="{% static "js/social.js" %}"></script>
 {% endblock %}

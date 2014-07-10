@@ -88,8 +88,8 @@
 - model: products.platform
   pk: 8
   fields:
-    label: PS Vita
-    icon: icons/platforms/vita.png
+    label: PlayStation Mobile
+    icon: icons/platforms/psmobile.png
 - model: products.platform
   pk: 9
   fields:
