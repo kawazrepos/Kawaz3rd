@@ -6,6 +6,7 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import PlatformFactory
 from .factories import CategoryFactory
 from .factories import ProductFactory
+from .factories import ScreenshotFactory
 from .factories import URLReleaseFactory
 from .factories import PackageReleaseFactory
 
@@ -139,7 +140,6 @@ class ProductModelTestCase(TestCase):
         self.assertRaises(PermissionDenied, product.quit, user)
         self.assertEqual(product.administrators.count(), 1)
 
-
 class AbstractReleaseBaseModelTestCase(object):
     def test_str_returns_product_title_and_platform_name(self):
         """
@@ -150,6 +150,26 @@ class AbstractReleaseBaseModelTestCase(object):
 
 class PackageReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
     pass
+
+
+class ScreenshotModelTestCase(TestCase):
+
+    def test_screenshot_str(self):
+        """
+        str(Screenshot)の値が正しい
+        """
+        product = ProductFactory(title="スーパーかわずたん")
+        ss = ScreenshotFactory(product=product)
+        self.assertEqual(str(ss), 'products/kawaz-tan-adventure/screenshots/cute_kawaz_tan.png(スーパーかわずたん)')
+
+    def test_screenshot_relative_name(self):
+        """
+        Product.screenshotsでスクリーンショットの一覧が取り出せる
+        """
+        product = ProductFactory()
+        ss = ScreenshotFactory(product=product)
+        self.assertIsNotNone(product.screenshots)
+        self.assertEqual(product.screenshots.count(), 1)
 
 
 class URLReleaseModelTestCase(TestCase):
