@@ -260,3 +260,31 @@ a.product-caption {
   text-align: center;
   margin-bottom: 20px;
 }
+// Two Pane Layout
+article.two-pane {
+  .make-row();
+  section.main {
+    .make-lg-column(9);
+    .make-xs-column(12);
+  }
+  aside {
+    .make-lg-column(3);
+    .make-xs-column(12);
+  }
+}
+// Product Detail
+.trailer {
+  max-width: 800px;
+  margin: 20px auto 20px;
+}
+.downloads {
+  text-align: center;
+  margin: 20px auto;
+}
+.screenshots {
+  overflow-y: hidden;
+  white-space: nowrap;
+  img {
+    height: 200px;
+  }
+}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    {% block content-header %}
+    {% endblock %}
+    <article class="two-pane">
+        <section class="main">
+            {% block content-main %}
+            {% endblock %}
+        </section>
+        <aside>
+            {% block content-aside %}
+            {% endblock %}
+        </aside>
+    </article>
+{% endblock %}
