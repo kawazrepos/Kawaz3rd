@@ -74,9 +74,17 @@
 {% endblock %}
 {% block content-aside %}
 <h2>{% trans "Platforms" %}</h2>
-<p>{% for platform in object.platforms.all %}<img src="{{MEDIA_URL}}{{platform.icon}}" alt="{{platform}}" /> {% endfor %}</p>
+<ul class="platform-list">
+    {% for platform in object.platforms.all %}
+    <li><img src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+    {% endfor %}
+</ul>
 <h2>{% trans "Categories" %}</h2>
-<p>{% for category in object.categories.all %}{{ category }}<br />{% endfor %}</p>
+<ul>
+    {% for category in object.categories.all %}
+    <li>{{ category.label }}</li>
+    {% endfor %}
+</ul>
 <h2>{% trans "Recommended Games" %}</h2>
 <div id="products" class="row list-group">
 {% get_relative object as products %}
