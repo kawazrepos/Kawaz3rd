@@ -75,6 +75,20 @@
     {% include "components/social.html" %}
 {% endblock %}
 {% block content-aside %}
+{% if user has 'products.add_product' or user has 'products.change_product' or user has 'products.delete_product' %}
+<h2>{% trans "Administration" %}</h2>
+<div class="btn-group-vertical">
+    {% if user has 'products.add_product' %}
+    <a href="{% url "products_product_create" %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+    {% endif %}
+    {% if user has 'products.change_product' %}
+    <a href="{% url "products_product_update" object.pk %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
+    {% endif %}
+    {% if user has 'products.delete_product' %}
+    <a href="{% url "products_product_delete" object.pk %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> {% trans "Delete Product" %}</a>
+    {% endif %}
+</div>
+{% endif %}
 <h2>{% trans "Platforms" %}</h2>
 <ul class="platform-list">
     {% for platform in object.platforms.all %}
