@@ -1,7 +1,7 @@
 {% extends "authenticated_base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div class="form-wrapper">
+    <div class="form-wrapper" ng-controller="FormController">
         <div class="form-header">
             {{ block.super }}
             <ul class="nav nav-tabs">
