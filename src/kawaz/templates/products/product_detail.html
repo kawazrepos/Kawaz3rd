@@ -16,39 +16,41 @@
 </div>
 {% endblock %}
 {% block content-main %}
-<h2>{% trans "Downloads" %}</h2>
-    {% for release in product.urlreleases.all %}
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <span class="h4">{{release.label}}</span><br />
-            バージョン: {{release.version}}
-            <span class="pull-right">
-            {% if release.is_appstore %}
-            <a href="{{release.url}}" target="_blank">
-                <img src="{% static "img/appstore.png" %}" alt="Download on the App Store" />
-            </a>
-            {% elif release.is_googleplay %}
-            <a href="{{release.url}}" target="_blank">
-                <img src="{% static "img/playstore.png" %}" alt="Get it on Google Play" />
-            </a>
-            {% else %}
-            <a href="{{release.url}}" class="btn btn-primary" target="_blank">Download ({{release.platform}})</a>
-            {% endif %}
-            </span>
-        </div>
-    </div>
-    {% endfor %}
-    {% for release in product.packagereleases.all %}
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <span class="h4">{{release.label}}</span><br />
-            バージョン: {{release.version}}
-            <span class="pull-right">
-            <a href="{{release.url}}" class="btn btn-primary" target="_blank">Download ({{release.platform}})</a>
-            </span>
-        </div>
-    </div>
-    {% endfor %}
+    {% if object.urlreleases.count > 0 or object.packagereleases.count > 0 %}
+        <h2>{% trans "Downloads" %}</h2>
+        {% for release in product.urlreleases.all %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <span class="h4">{{release.label}}</span><br />
+                    バージョン: {{release.version}}
+                    <span class="pull-right">
+                    {% if release.is_appstore %}
+                    <a href="{{release.url}}" target="_blank">
+                        <img src="{% static "img/appstore.png" %}" alt="Download on the App Store" />
+                    </a>
+                    {% elif release.is_googleplay %}
+                    <a href="{{release.url}}" target="_blank">
+                        <img src="{% static "img/playstore.png" %}" alt="Get it on Google Play" />
+                    </a>
+                    {% else %}
+                    <a href="{{release.url}}" class="btn btn-primary" target="_blank">Download ({{release.platform}})</a>
+                    {% endif %}
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+        {% for release in product.packagereleases.all %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <span class="h4">{{release.label}}</span><br />
+                    バージョン: {{release.version}}
+                    <span class="pull-right">
+                    <a href="{{release.url}}" class="btn btn-primary" target="_blank">Download ({{release.platform}})</a>
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
     {% if object.screenshots.count > 0 or object.advertisement_image %}
     <h2>{% trans "Screenshots" %}</h2>
     <div class="screenshots">
@@ -73,6 +75,20 @@
     {% include "components/social.html" %}
 {% endblock %}
 {% block content-aside %}
+{% if user has 'products.add_product' or user has 'products.change_product' of object or user has 'products.delete_product' of object %}
+<h2>{% trans "Administration" %}</h2>
+<div class="btn-group-vertical">
+    {% if user has 'products.add_product' %}
+    <a href="{% url "products_product_create" %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+    {% endif %}
+    {% if user has 'products.change_product' of object %}
+    <a href="{% url "products_product_update" object.pk %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
+    {% endif %}
+    {% if user has 'products.delete_product' of object %}
+    <a href="{% url "products_product_delete" object.pk %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> {% trans "Delete Product" %}</a>
+    {% endif %}
+</div>
+{% endif %}
 <h2>{% trans "Platforms" %}</h2>
 <ul class="platform-list">
     {% for platform in object.platforms.all %}
