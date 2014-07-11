@@ -1,6 +1,6 @@
 <div class="event-detail">
-    {{ object.title }}
+    <h1>{{ object.title }}</h1>
     <article class="markdown">
-        {{ object.body }}
+        {{ object.body | markdown }}
     </article>
 </div>

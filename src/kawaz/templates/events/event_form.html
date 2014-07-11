@@ -12,12 +12,12 @@
     <li><a href="{% url "events_event_list" %}">Events</a></li>
 {% endblock %}
 {% block tab-content %}
-    <div class="tab-pane active" id="editor-main">
+    <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'events_event_preview' %}';">
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
             {{ form | bootstrap_horizontal }}
             <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
         </form>
     </div>
-    <div id="editor-preview" class="tab-pane" preview-url="{% url "events_event_preview"  %}">
+    <div id="editor-preview" class="tab-pane" ng-bind-html="preview">
     </div>
 {% endblock %}

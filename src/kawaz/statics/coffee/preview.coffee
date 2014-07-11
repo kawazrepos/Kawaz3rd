@@ -1,25 +1,24 @@
-#$ ->
-#  $previewTab = $('.preview-tab')
-#  $tabs = $(".nav-tabs li a")
-#  url = $('#editor-preview').attr('preview-url')
-#  $previewContainer = $('#editor-preview')
-#
-#  $tabs.click( (e) ->
-#    e.preventDefault()
-#    $(@).tab('show')
-#  )
-#
-#  $previewTab.click( ->
-#    $previewContainer.empty()
-#    $form = $('#editor-main form')
-#    dump = $form.serializeArray()
-#
-#    $.get(url, dump, (data) ->
-#      $preview = $(data)
-#      $previewContainer.append($preview)
-#    )
-#  )
+angular.kawaz.controller('FormController', ($scope, $http) ->
 
-angular.kawaz.controller('FormController', ($scope) ->
-  $scope.hello = "HelloWorld"
+  $scope.preview = ""
+
+  # タブの切り替え
+  $scope.toggleEditor = ($event) ->
+    $event.preventDefault()
+    $($event.target).tab 'show'
+    false
+
+  $scope.togglePreview = ($event, previewURL) ->
+    $event.preventDefault()
+    $($event.target).tab 'show'
+
+    $form = $('#editor-main form')
+    dump = $form.serialize()
+
+    # Preview用ページを取得する:
+    $http.get("#{previewURL}?#{dump}").success( (data, status, headers, config) ->
+      $scope.preview = data
+    )
+    false
+
 )
