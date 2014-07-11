@@ -16,7 +16,8 @@
 </div>
 {% endblock %}
 {% block content-main %}
-<h2>{% trans "Downloads" %}</h2>
+    {% if object.urlreleases.count > 0 or object.packagereleases.count > 0 %}
+    <h2>{% trans "Downloads" %}</h2>
     {% for release in product.urlreleases.all %}
     <div class="panel panel-default">
         <div class="panel-body">
@@ -49,6 +50,7 @@
         </div>
     </div>
     {% endfor %}
+    {% endif %}
     {% if object.screenshots.count > 0 or object.advertisement_image %}
     <h2>{% trans "Screenshots" %}</h2>
     <div class="screenshots">
