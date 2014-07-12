@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse_lazy
 
 from django.forms.models import modelformset_factory
 
+from django_filters.views import FilterView
+
 from permission.decorators import permission_required
 
 from .forms import ProductCreateForm, ProductUpdateForm
@@ -16,9 +18,12 @@ from .forms import PackageReleaseFormSet, URLReleaseFormSet, ScreenshotFormSet
 from .models import Product
 from .models import PackageRelease, URLRelease, Screenshot
 
+from .filters import ProductFilter
 
-class ProductListView(ListView):
+
+class ProductListView(FilterView):
     model = Product
+    template_name_suffix = '_list'
 
 
 class ProductDetailView(DetailView):

@@ -5,6 +5,7 @@ from kawaz.core.personas.tests.utils import create_role_users
 from ..models import Category
 from ..models import Product
 from .factories import ProductFactory
+from .factories import PlatformFactory
 from .factories import CategoryFactory
 
 
@@ -204,3 +205,47 @@ class GetRelativeTestCase(TestCase):
         self.assertEqual(products[0], p0)
         self.assertEqual(products[1], p1)
         self.assertEqual(products[2], p2)
+
+class GetPlatformsTestCase(TestCase):
+    def _render_template(self):
+        t = Template(
+            "{% load products_tags %}"
+            "{% get_platforms as platforms %}"
+        )
+        c = Context()
+        r = t.render(c)
+        # get_platforms は何も描画しない
+        self.assertEqual(r.strip(), "")
+        return c['platforms']
+
+    def test_get_platforms(self):
+        """
+        get_platformsで全てのPlatformを含むQuerySetを返す
+        """
+        PlatformFactory(label='OUYA')
+        PlatformFactory(label='GameStick')
+        PlatformFactory(label='Fire TV')
+        platforms = self._render_template()
+        self.assertEqual(len(platforms), 3)
+
+class GetCategoriesTestCase(TestCase):
+    def _render_template(self):
+        t = Template(
+            "{% load products_tags %}"
+            "{% get_categories as categories %}"
+        )
+        c = Context()
+        r = t.render(c)
+        # get_categories は何も描画しない
+        self.assertEqual(r.strip(), "")
+        return c['categories']
+
+    def test_get_categories(self):
+        """
+        get_categoriesで全てのCategoryを含むQuerySetを返す
+        """
+        CategoryFactory(label="泣きゲー")
+        CategoryFactory(label="神ゲー")
+        CategoryFactory(label="スルメゲー")
+        categories = self._render_template()
+        self.assertEqual(len(categories), 3)

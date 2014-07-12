@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for object in object_list %}
+    {% for object in filter %}
         {{ object }}
     {% endfor %}
 {% endblock %}
