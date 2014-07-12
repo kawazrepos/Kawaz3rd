@@ -13,7 +13,7 @@
     <li><a href="/products/">Products</a></li>
 {% endblock %}
 {% block tab-content %}
-    <div class="tab-pane active" id="editor-main">
+    <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'products_product_preview' %}';">
         <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action=".">{% csrf_token %}
             {{ form | bootstrap_horizontal }}
             <div class="form-group formset" prefix="{{ screenshot_formset.prefix }}" id="formset-{{ screenshot_formset.prefix }}">
@@ -106,8 +106,5 @@
             </div>
             <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
         </form>
-    </div>
-    <div id="editor-preview" class="tab-pane">
-        プレビュー
     </div>
 {% endblock %}
