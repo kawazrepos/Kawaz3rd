@@ -1,6 +1,8 @@
 from django import template
 from django.template import TemplateSyntaxError
 from ..models import Product
+from ..models import Platform
+from ..models import Category
 
 register = template.Library()
 
@@ -74,3 +76,25 @@ def get_relative(product):
     """
     qs = Product.objects.filter(categories__in=product.categories.all())
     return qs.exclude(pk=product.pk).distinct()
+
+@register.assignment_tag
+def get_platforms():
+    """
+    全てのPlatform一覧を取り出します。
+
+    Syntax:
+        {% get_platforms as <variable> %}
+    """
+    qs = Platform.objects.all()
+    return qs
+
+@register.assignment_tag
+def get_categories():
+    """
+    全てのCategory一覧を取り出します。
+
+    Syntax:
+        {% get_categories as <variable> %}
+    """
+    qs = Category.objects.all()
+    return qs
