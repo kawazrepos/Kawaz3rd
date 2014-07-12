@@ -1,5 +1,6 @@
 {% extends "twopane.html" %}
 {% load i18n %}
+{% load products_tags %}
 {% block content-header %}
 <h1>{% trans "Product List" %}</h1>
 {% endblock %}
@@ -19,18 +20,20 @@
         <a href="{% url "products_product_create" %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
     </div>
     {% endif %}
-    <!-- TODO: Fix ME 以下ハードコーディング 許せ -->
     <h2>{% trans "Categories" %}</h2>
     <ul>
-        <li>アクションゲーム</li>
-        <li>あsdf</li>
-        <li>どすこいどすこい</li>
+        <li><a href="{% url "products_product_list" %}">{% trans "Any Category" %}</a></li>
+        {% get_categories as categories %}
+        {% for category in categories %}
+            <li><a href="{% url "products_product_list" %}?categories={{ category.pk }}">{{ category }}</a></li>
+        {% endfor %}
     </ul>
-    <h2>{% trans "Release" %}</h2>
+    <h2>{% trans "Platforms" %}</h2>
     <ul>
-        <li>2014年</li>
-        <li>2013年</li>
-        <li>2012年以前</li>
+        <li><a href="{% url "products_product_list" %}">{% trans "Any Platform" %}</a></li>
+        {% get_platforms as platforms %}
+        {% for platform in platforms %}
+            <li><a href="{% url "products_product_list" %}?platforms={{ platform.pk }}">{{ platform }}</a></li>
+        {% endfor %}
     </ul>
-    <!-- ハードコーディング ここまで -->
 {% endblock %}
