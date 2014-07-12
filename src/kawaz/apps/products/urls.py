@@ -10,7 +10,7 @@ from .views import ProductPreview
 urlpatterns = patterns('',
     url('^$',
         ProductListView.as_view(), name='products_product_list'),
-    url('^preview$',
+    url('^preview/$',
         ProductPreview.as_view(), name='products_product_preview'),
     url('^create/$',
         ProductCreateView.as_view(), name='products_product_create'),
