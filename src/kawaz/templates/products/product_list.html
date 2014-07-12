@@ -1,6 +1,36 @@
-{% extends "base.html" %}
-{% block content %}
-    {% for object in filter %}
-        {{ object }}
+{% extends "twopane.html" %}
+{% load i18n %}
+{% block content-header %}
+<h1>{% trans "Product List" %}</h1>
+{% endblock %}
+{% block content-main %}
+    <div class="row">
+    {% for product in filter %}
+        <div class="item col-xs-12 col-lg-6">
+        {% include "products/components/list-item.html" %}
+        </div>
     {% endfor %}
+    </div>
+{% endblock %}
+{% block content-aside %}
+    {% if user has 'products.add_product' %}
+    <h2>{% trans "Administration" %}</h2>
+    <div class="btn-group-vertical">
+        <a href="{% url "products_product_create" %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+    </div>
+    {% endif %}
+    <!-- TODO: Fix ME 以下ハードコーディング 許せ -->
+    <h2>{% trans "Categories" %}</h2>
+    <ul>
+        <li>アクションゲーム</li>
+        <li>あsdf</li>
+        <li>どすこいどすこい</li>
+    </ul>
+    <h2>{% trans "Release" %}</h2>
+    <ul>
+        <li>2014年</li>
+        <li>2013年</li>
+        <li>2012年以前</li>
+    </ul>
+    <!-- ハードコーディング ここまで -->
 {% endblock %}
