@@ -23,6 +23,7 @@ from .filters import ProductFilter
 
 class ProductListView(FilterView):
     model = Product
+    filterset_class = ProductFilter
     template_name_suffix = '_list'
 
 
