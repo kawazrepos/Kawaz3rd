@@ -1,21 +1,26 @@
 {% extends "authenticated_base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div class="form-wrapper">
+    <div class="form-wrapper" ng-controller="FormController" xmlns="http://www.w3.org/1999/html">
         <div class="form-header">
             {{ block.super }}
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#editor-main">入力フォーム</a></li>
-                <li><a href="#editor-preview">プレビュー</a></li>
+                <li class="active" data-toggle="tab" ng-click="toggleEditor($event)"><a href="#editor-main">入力フォーム</a></li>
+                <li><a href="#editor-preview" data-toggle="tab" class="preview-tab" ng-click="togglePreview($event, previewURL)">プレビュー</a></li>
             </ul>
         </div>
         <div class="tab-content">
             {% block tab-content %}
             {% endblock %}
+            <div id="editor-preview" class="tab-pane">
+            </div>
+        </div>
+        <div id="editor-preview" class="tab-pane" ng-bind-html="preview">
         </div>
     </div>
 {% endblock %}
 {% block post_javascript %}
     {{ block.super }}
     <script src="{% static "js/formset.js" %}"></script>
+    <script src="{% static "js/preview.js" %}"></script>
 {% endblock %}

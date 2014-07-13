@@ -1,7 +1,6 @@
-{% extends "base.html" %}
-{% block content %}
-    {{ object.title }}
+<div class="event-detail">
+    <h1>{{ object.title }}</h1>
     <article class="markdown">
         {{ object.body | markdown }}
     </article>
-{% endblock %}
+</div>

@@ -5,10 +5,13 @@ from .views import ProductUpdateView
 from .views import ProductCreateView
 from .views import ProductDeleteView
 from .views import ProductDetailView
+from .views import ProductPreview
 
 urlpatterns = patterns('',
     url('^$',
         ProductListView.as_view(), name='products_product_list'),
+    url('^preview/$',
+        ProductPreview.as_view(), name='products_product_preview'),
     url('^create/$',
         ProductCreateView.as_view(), name='products_product_create'),
     url('^(?P<pk>\d+)/update/$',

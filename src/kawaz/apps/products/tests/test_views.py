@@ -414,3 +414,11 @@ class ProductDeleteViewTestCase(ViewTestCaseBase):
             self.product = ProductFactory(title="かわずたんのゲームだよ☆",
                     administrators=(self.administrator,))
 
+class ProductPreviewTestCase(TestCase):
+    def test_product_preview(self):
+        """
+        products_product_previewが表示できる
+        """
+        r = self.client.get('/products/preview/')
+        self.assertTemplateUsed(r, 'products/components/product_detail.html')
+        self.assertEqual(r.status_code, 200)
