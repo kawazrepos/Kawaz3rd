@@ -1,6 +1,39 @@
-{% extends "base.html" %}
-{% block content %}
-    {% for object in filter %}
-        {{ object }}
+{% extends "twopane.html" %}
+{% load i18n %}
+{% load products_tags %}
+{% block content-header %}
+<h1>{% trans "Product List" %}</h1>
+{% endblock %}
+{% block content-main %}
+    <div class="row">
+    {% for product in filter %}
+        <div class="item col-xs-12 col-lg-6">
+        {% include "products/components/list-item.html" %}
+        </div>
     {% endfor %}
+    </div>
+{% endblock %}
+{% block content-aside %}
+    {% if user has 'products.add_product' %}
+    <h2>{% trans "Administration" %}</h2>
+    <div class="btn-group-vertical">
+        <a href="{% url "products_product_create" %}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+    </div>
+    {% endif %}
+    <h2>{% trans "Categories" %}</h2>
+    <ul>
+        <li><a href="{% url "products_product_list" %}">{% trans "Any Category" %}</a></li>
+        {% get_categories as categories %}
+        {% for category in categories %}
+            <li><a href="{% url "products_product_list" %}?categories={{ category.pk }}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+    <h2>{% trans "Platforms" %}</h2>
+    <ul>
+        <li><a href="{% url "products_product_list" %}">{% trans "Any Platform" %}</a></li>
+        {% get_platforms as platforms %}
+        {% for platform in platforms %}
+            <li><a href="{% url "products_product_list" %}?platforms={{ platform.pk }}">{{ platform }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -1,0 +1,19 @@
+{% if product.advertisement_image %}
+<div class="panel panel-default product-list-item product-list-item-background-image" style="background-image: linear-gradient( to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.5)), url({{ MEDIA_URL }}{{ product.advertisement_image }});">
+{% else %}
+<div class="panel panel-default product-list-item">
+{% endif %}
+    <a href="{{ product.get_absolute_url }}">
+        <div class="panel-body">
+            <div class="pull-right">
+                <img class="group list-group-image" src="{{ MEDIA_URL }}{{ product.thumbnail }}" height="90px" alt="{{product}} Thumbnail" /><br />
+            </div>
+            <h4>{{ product.title }}</h4>
+            <ul class="platform-list">
+                {% for platform in product.platforms.all %}
+                <li><img src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </a>
+</div>
