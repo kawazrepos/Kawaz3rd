@@ -24,10 +24,9 @@ class Platform(models.Model):
 
     label = models.CharField(_('Label'), max_length=32, unique=True)
     icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)
-    order = models.PositiveSmallIntegerField(_('Order'), default=0)
+    order = models.PositiveSmallIntegerField(_('Order'), help_text='この値が小さい順に並びます', default=0)
 
     class Meta:
-        # TODO: 並び替えが可能なように ordering 要素をもたせる
         ordering = ('order', 'pk',)
         verbose_name = _('Platform')
         verbose_name_plural = _('Platforms')
@@ -45,10 +44,9 @@ class Category(models.Model):
     """
     label = models.CharField(_('Label'), max_length=32, unique=True)
     description = models.CharField(_('Description'), max_length=128)
-    order = models.PositiveSmallIntegerField(_('Order'), default=0)
+    order = models.PositiveSmallIntegerField(_('Order'), help_text='この値が小さい順に並びます', default=0)
 
     class Meta:
-        # TODO: 並び替えが可能なように ordering 要素をもたせる
         ordering = ('order', 'pk',)
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
