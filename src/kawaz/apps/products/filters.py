@@ -17,7 +17,7 @@ class ProductFilter(django_filters.FilterSet):
         そのため、このようにchoicesをquerysetから生成してChoiceFilterに渡している
         """
         choices = [(query.pk, query) for query in qs]
-        return [('', _('All')),] + choices
+        return [('', _('Any')),] + choices
 
     platforms = filters.ChoiceFilter(choices=_choices_with_deselect(Platform.objects.all()), widget=widgets.LinkWidget())
     categories = filters.ChoiceFilter(choices=_choices_with_deselect(Category.objects.all()), widget=widgets.LinkWidget())
