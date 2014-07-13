@@ -2,6 +2,7 @@
 db.sqlite3
 !storage/.gitkeep
 !storage/fixtures/*
+storage/fixtures/profiles/*.*.jpg
 storage/products/*
 storage/profiles/*
 storage/projects/*
