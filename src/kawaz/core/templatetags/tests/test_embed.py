@@ -35,7 +35,9 @@ class YouTubeTemplateTagTestCase(BaseViewerTemplateTagTestCase):
         body = ("オススメの動画です\n"
                 "https://www.youtube.com/watch?v=r-j9FZ2TQd0")
         expected = ("オススメの動画です\n"
-                    """<iframe width="640" height="480" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
+                    """<div class="embed-responsive embed-responsive-16by9">"""
+                    """    <iframe class="embed-responsive-item" width="640" height="360" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>"""
+                    "</div>")
         self._test_template(body, expected)
 
     def test_youtube_multitimes(self):
@@ -48,24 +50,32 @@ class YouTubeTemplateTagTestCase(BaseViewerTemplateTagTestCase):
                 "ついでにこっちもおもしろいです\n"
                 "https://www.youtube.com/watch?v=LoH0dOyyGx8")
         expected = ("オススメの動画です\n"
-                    """<iframe width="640" height="480" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>\n"""
+                    """<div class="embed-responsive embed-responsive-16by9">"""
+                    """    <iframe class="embed-responsive-item" width="640" height="360" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>"""
+                    "</div>\n"
                     "\n"
                     "ついでにこっちもおもしろいです\n"
-                    """<iframe width="640" height="480" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>""")
+                    """<div class="embed-responsive embed-responsive-16by9">"""
+                    """    <iframe class="embed-responsive-item" width="640" height="360" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>"""
+                    "</div>")
         self._test_template(body, expected)
 
     def test_youtube_with_width_and_height(self):
         body = ("オススメの動画です\n"
                 "https://www.youtube.com/watch?v=r-j9FZ2TQd0")
         expected = ("オススメの動画です\n"
-                    """<iframe width="1600" height="900" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
+                    """<div class="embed-responsive embed-responsive-16by9">"""
+                    """    <iframe class="embed-responsive-item" width="1600" height="900" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>"""
+                    "</div>")
         self._test_template(body, expected, filter_name="youtube:'1600,900'")
 
     def test_youtube_with_width(self):
         body = ("オススメの動画です\n"
                 "https://www.youtube.com/watch?v=r-j9FZ2TQd0")
         expected = ("オススメの動画です\n"
-                    """<iframe width="800" height="450" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
+                    """<div class="embed-responsive embed-responsive-16by9">"""
+                    """    <iframe class="embed-responsive-item" width="800" height="450" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>"""
+                    "</div>")
         self._test_template(body, expected, filter_name="youtube:'800'")
 
     def test_youtube_with_link_fail(self):

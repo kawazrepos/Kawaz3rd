@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 YOUTUBE_PATTERN = re.compile(r"^https?:\/\/www.youtube.com\/watch\?v=(?P<id>[a-zA-Z0-9_-]+)$", flags=re.MULTILINE)
 NICONICO_PATTERN = re.compile(r"^http:/\/\www.nicovideo.jp\/watch\/(?P<id>[a-z]{2}[0-9]+)\/?$", flags=re.MULTILINE)
 DEFAULT_WIDTH = 640
-DEFAULT_HEIGHT = 480
+DEFAULT_HEIGHT = 360
 ASPECT_RATIO = 9.0 / 16.0
 
 register = template.Library()
