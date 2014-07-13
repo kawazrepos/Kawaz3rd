@@ -8,7 +8,7 @@ from django.http.response import HttpResponseRedirect, HttpResponseForbidden, Ht
 
 from permission.decorators import permission_required
 
-from kawaz.core.views.preview import BaseObjectPreviewMixin
+from kawaz.core.views.preview import SingleObjectPreviewMixin
 
 from .models import Event
 from .forms import EventForm
@@ -129,5 +129,6 @@ class EventMonthListView(MonthArchiveView, EventPublishedQuerySetMixin, EventDat
     month_format = '%m'
 
 
-class EventPreview(BaseObjectPreviewMixin, DetailView):
+class EventPreview(SingleObjectPreviewMixin, DetailView):
+    model = Event
     template_name = "events/components/event_detail.html"

@@ -19,7 +19,7 @@ from .models import Product
 from .models import PackageRelease, URLRelease, Screenshot
 
 from .filters import ProductFilter
-from kawaz.core.views.preview import BaseObjectPreviewMixin
+from kawaz.core.views.preview import SingleObjectPreviewMixin
 
 class ProductListView(FilterView):
     model = Product
@@ -163,5 +163,6 @@ class ProductDeleteView(DeleteView):
     success_url = reverse_lazy('products_product_list')
 
 
-class ProductPreview(BaseObjectPreviewMixin, DetailView):
+class ProductPreview(SingleObjectPreviewMixin, DetailView):
+    model = Product
     template_name = "products/components/product_detail.html"
