@@ -10,6 +10,9 @@ from .factories import ScreenshotFactory
 from .factories import URLReleaseFactory
 from .factories import PackageReleaseFactory
 
+from ..models import Category
+from ..models import Platform
+
 
 class PlatformModelTestCase(TestCase):
     def test_str_returns_platform_label(self):
@@ -19,6 +22,18 @@ class PlatformModelTestCase(TestCase):
         platform = PlatformFactory(label='iOS')
         self.assertTrue(str(platform), 'iOS')
 
+    def test_platform_order(self):
+        """
+        Platformはorderの値が小さい順に並ぶ
+        """
+        platform0 = PlatformFactory(label='Windows0', order=3)
+        platform1 = PlatformFactory(label='Windows1', order=1)
+        platform2 = PlatformFactory(label='Windows2', order=2)
+        qs = Platform.objects.all()
+        self.assertEqual(qs[0], platform1)
+        self.assertEqual(qs[1], platform2)
+        self.assertEqual(qs[2], platform0)
+
 
 class CategoryModelTestCase(TestCase):
     def test_str_returns_category_label(self):
@@ -27,6 +42,18 @@ class CategoryModelTestCase(TestCase):
         """
         category = CategoryFactory(label='シューティングゲーム')
         self.assertTrue(str(category), 'シューティングゲーム')
+
+    def test_category_order(self):
+        """
+        Categoryはorderの値が小さい順に並ぶ
+        """
+        category0 = CategoryFactory(label='シューティングゲーム0', order=3)
+        category1 = CategoryFactory(label='シューティングゲーム1', order=1)
+        category2 = CategoryFactory(label='シューティングゲーム2', order=2)
+        qs = Category.objects.all()
+        self.assertEqual(qs[0], category1)
+        self.assertEqual(qs[1], category2)
+        self.assertEqual(qs[2], category0)
 
 
 class ProductModelTestCase(TestCase):
