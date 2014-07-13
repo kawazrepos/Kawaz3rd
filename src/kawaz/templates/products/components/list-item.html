@@ -1,7 +1,7 @@
 {% if product.advertisement_image %}
-<div class="panel panel-default product-list-item product-list-item-background-image" style="background-image: linear-gradient( to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.5)), url({{ MEDIA_URL }}{{ product.advertisement_image }});">
+<div class="panel panel-default product-list-item" style="background-image: linear-gradient( to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.5)), url({{ MEDIA_URL }}{{ product.advertisement_image }});">
 {% else %}
-<div class="panel panel-default product-list-item">
+<div class="panel panel-default product-list-item" style="background-image: linear-gradient( to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.5)), url({{ MEDIA_URL }}{{ product.thumbnail }});">
 {% endif %}
     <a href="{{ product.get_absolute_url }}">
         <div class="panel-body">
