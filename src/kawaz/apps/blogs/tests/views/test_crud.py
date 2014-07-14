@@ -323,3 +323,12 @@ class EntryAuthorListViewTestCase(TestCase):
         self.assertEqual(list.count(), 2, 'object_list has two entries')
         self.assertEqual(list[0], self.entries[3], 'protected')
         self.assertEqual(list[1], self.entries[1], 'public')
+
+
+class EntryPreviewTestCase(TestCase):
+    def test_preview(self):
+        """
+        ユーザーがEntryのPreviewを見れる
+        """
+        r = self.client.get('/blogs/preview/')
+        self.assertTemplateUsed(r, 'blogs/components/entry_detail.html')
