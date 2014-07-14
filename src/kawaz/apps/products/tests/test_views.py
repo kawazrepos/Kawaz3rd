@@ -42,21 +42,28 @@ class ProductDetailViewTestCase(ViewTestCaseBase):
         """
         プロダクト詳細は誰でも閲覧可能
         """
-        product = ProductFactory(slug='kawaztan-adventure')
+        product = ProductFactory(slug='super-kawaztan-adventure')
         for user in itertools.chain(self.members, self.non_members):
             self.prefer_login(user)
-            r = self.client.get('/products/kawaztan-adventure/')
+            r = self.client.get('/products/super-kawaztan-adventure/')
             self.assertEqual(r.status_code, 200)
             self.assertTemplateUsed(r, 'products/product_detail.html')
             self.assertEqual(r.context['object'], product)
 
 
 class ProductListViewTestCase(ViewTestCaseBase):
+    def setUp(self):
+        super().setUp()
+        self.p0 = PlatformFactory()
+        self.p1 = PlatformFactory()
+        self.c0 = CategoryFactory()
+        self.c1 = CategoryFactory()
+
     def test_anyone_can_see_product_list(self):
         """
         プロダクトリストは誰でも閲覧可能
         """
-        product = ProductFactory(slug='kawaztan-adventure')
+        product = ProductFactory()
         for user in itertools.chain(self.members, self.non_members):
             self.prefer_login(user)
             r = self.client.get('/products/')
@@ -68,13 +75,11 @@ class ProductListViewTestCase(ViewTestCaseBase):
         """
         プロダクトリストでPlatformのfilterが有効になっている
         """
-        p0 = PlatformFactory(label="OUYA")
-        p1 = PlatformFactory(label="GameStick")
-        product1 = ProductFactory(platforms=[p0,])
-        product2 = ProductFactory(platforms=[p1,])
+        product1 = ProductFactory(platforms=[self.p0,])
+        product2 = ProductFactory(platforms=[self.p1,])
         for user in itertools.chain(self.members, self.non_members):
             self.prefer_login(user)
-            r = self.client.get('/products/?platforms={}'.format(p0.pk))
+            r = self.client.get('/products/?platforms={}'.format(self.p0.pk))
             self.assertTemplateUsed(r, 'products/product_list.html')
             self.assertEqual(len(r.context['filter']), 1)
             self.assertTrue(product1 in r.context['filter'])
@@ -83,16 +88,13 @@ class ProductListViewTestCase(ViewTestCaseBase):
         """
         プロダクトリストでCategoryのfilterが有効になっている
         """
-        c0 = CategoryFactory(label="クソゲー")
-        c1 = CategoryFactory(label="バカゲー")
-        product1 = ProductFactory(categories=[c0,])
-        product2 = ProductFactory(categories=[c1,])
-        for user in itertools.chain(self.members, self.non_members):
-            self.prefer_login(user)
-            r = self.client.get('/products/?categories={}'.format(c0.pk))
-            self.assertTemplateUsed(r, 'products/product_list.html')
-            self.assertEqual(len(r.context['filter']), 1)
-            self.assertTrue(product1 in r.context['filter'])
+        product1 = ProductFactory(categories=[self.c0,])
+        # product2 = ProductFactory(categories=[self.c1,])
+        self.prefer_login(self.members[0])
+        r = self.client.get('/products/?categories={}'.format(self.c0.pk))
+        self.assertTemplateUsed(r, 'products/product_list.html')
+        self.assertEqual(len(r.context['filter']), 1)
+        self.assertTrue(product1 in r.context['filter'])
 
 class ProductCreateViewTestCase(ViewTestCaseBase):
     def setUp(self):

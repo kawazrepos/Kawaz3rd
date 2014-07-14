@@ -12,23 +12,20 @@ from ..models import Screenshot
 
 class PlatformFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Platform
-    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
 
-    label = "Mac"
-    icon = "icons/platforms/mac.png"
+    label = factory.Sequence(lambda n: 'OUYA{}'.format(n))
+    icon = "icons/platforms/ouya.png"
 
 
 class CategoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Category
-    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
 
-    label = 'アクションゲーム'
-    description = 'アクションゲームです'
+    label = factory.Sequence(lambda n: 'クソゲー{}'.format(n))
+    description = 'クソゲーです'
 
 
 class ProductFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Product
-    FACTORY_DJANGO_GET_OR_CREATE = ('title', 'slug',)
 
     title = factory.sequence(lambda n: 'かわずたんアドベンチャー{}'.format(n))
     slug = factory.sequence(lambda n: 'kawaz-tan-adventure-{}'.format(n))

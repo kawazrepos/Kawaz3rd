@@ -39,17 +39,17 @@
   fields:
     label: オンラインゲーム
 - model: products.category
-  pk: 1
+  pk: 11
   fields:
-    label: その他ゲーム
+    label: 音楽ゲーム
 - model: products.category
   pk: 12
   fields:
-    label: その他企画
+    label: その他ゲーム
 - model: products.category
   pk: 13
   fields:
-    label: 音楽ゲーム
+    label: その他企画
 - model: products.platform
   pk: 1
   fields:
