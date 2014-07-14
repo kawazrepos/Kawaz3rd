@@ -15,7 +15,5 @@ class SingleObjectPreviewMixin(object):
         """
         get parameterで渡ってきた値からオブジェクトを作ります
         """
-        fields = self.model._meta.fields
         params = self.request.GET.dict()
-        obj = {k: v for k, v in params.items() if k in fields}
-        return obj
+        return params
