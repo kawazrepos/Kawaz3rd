@@ -1,3 +1,4 @@
+-e git+https://github.com/django/django.git@78bff08341cfd5b729697c13a7478e83726782d1#egg=django
 pyyaml
 pytz
 pillow
