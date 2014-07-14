@@ -23,13 +23,15 @@ var src = {
           bootstrapjsprefix + "tooltip.js",
           bootstrapjsprefix + "*.js"
   ],
-  bootstrapfont: "vendor/bootstrap/fonts/*"
+  bootstrapfont: "vendor/bootstrap/fonts/*",
+  mace: "node_modules/mace/build/mace.min.js"
 };
 
 var dest = {
   js: "src/kawaz/statics/js",
   css: "src/kawaz/statics/css",
-  font: "src/kawaz/statics/fonts"
+  font: "src/kawaz/statics/fonts",
+  vendor: "src/kawaz/statics/vendor"
 };
 
 gulp.task("coffee", function () {
@@ -74,7 +76,13 @@ gulp.task("bootstrap-copy-font", function() {
     .pipe(gulp.dest(dest.font));
 });
 
-gulp.task("default", ["coffee", "less", "bootstrap-js-concat", "bootstrap-copy-font"]);
+gulp.task("mace-copy", function () {
+  gulp.src(src.mace)
+      .pipe(plug.plumber())
+      .pipe(gulp.dest(dest.vendor));
+});
+
+gulp.task("default", ["coffee", "less", "bootstrap-js-concat", "bootstrap-copy-font", "mace-copy"]);
 
 gulp.task("watch", ["default"], function () {
   livereload = true;
