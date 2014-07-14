@@ -7,6 +7,7 @@ from permission.decorators.classbase import permission_required
 from .forms import ProfileForm
 from .forms import AccountForm
 from .forms import AccountFormSet
+from kawaz.core.views.preview import SingleObjectPreviewMixin
 from .models import Profile
 
 class ProfileListView(ListView):
@@ -82,3 +83,8 @@ class ProfileUpdateView(UpdateView):
 class ProfileDetailView(DetailView):
     model = Profile
     slug_field = 'user__username'
+
+
+class ProfilePreview(SingleObjectPreviewMixin, DetailView):
+    model = Profile
+    template_name = "profiles/components/profile_detail.html"
