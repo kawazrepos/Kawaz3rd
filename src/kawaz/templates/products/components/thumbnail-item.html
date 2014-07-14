@@ -1,12 +1,16 @@
-            <div class="thumbnail">
-                <a class="product-caption" href="{{ product.get_absolute_url }}">
-                <img class="group list-group-image" src="{{ MEDIA_URL }}{{ product.thumbnail }}" style="max-width: 100%;" />
-                <div class="caption">
-                        <h4 class="group inner list-group-item-heading">{{ product.title }}</h4>
-                        <p>Platform: {% for platform in product.platforms.all %}{{ platform }} {% endfor %}</p>
-                        <div class="caption-inner">
-                            <span class="btn btn-default">詳細ページ &raquo;</span>
-                        </div>
-                </div>
-                </a>
+<div class="thumbnail">
+    <a class="product-caption" href="{{ product.get_absolute_url }}">
+    <img class="group list-group-image" src="{{ MEDIA_URL }}{{ product.thumbnail }}" style="max-width: 100%;" />
+    <div class="caption">
+            <h4 class="group inner list-group-item-heading">{{ product.title }}</h4>
+            <ul class="platform-list">
+                {% for platform in product.platforms.all %}
+                <li><img src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+                {% endfor %}
+            </ul>
+            <div class="caption-inner">
+                <span class="btn btn-default">詳細ページ &raquo;</span>
             </div>
+    </div>
+    </a>
+</div>

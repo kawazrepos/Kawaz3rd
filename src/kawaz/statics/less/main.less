@@ -1,32 +1,6 @@
 @import "../../../../vendor/bootstrap/less/bootstrap.less";
 @import "common/define";
 
-body {
-  padding-top: 50px;
-}
-html {
-  overflow-y: scroll;
-}
-#footer {
-  width: 100%;
-  height: @footer-height;
-  color: white;
-  .container {
-    padding: 5px 15px 15px;
-    .text-muted {
-      margin: 20px 0;
-    }
-  }
-}
-.btn-default, .btn-primary {
-  border-bottom-width: 3px;
-}
-img.logo-header {
-  margin-top: -4px;
-}
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-weight: bold;
-}
 #featured-products>.carousel-inner>.item {
   img{
     min-width: 100%;
@@ -34,31 +8,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     }
   }
 }
-.navbar-default {
-  background-color: rgba(248,248,248,0.8);
-  border-color: rgba(231,231,231,0.8);
-}
-.thumbnail {
-  padding: 0;
-}
-.item {
-  .thumbnail {
-    position: relative;
-  }
-  .caption {
-    background-color: rgba(0,0,0,0.5);
-    top: 0;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    .caption-inner {
-      position: absolute;
-      bottom: 9px;
-    }
-  }
-}
 //Product List Item
 .product-list-item {
+  background-size: cover;
   a {
     color: @text-color;
     text-decoration: none;
@@ -70,32 +22,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
   }
 }
-//Product List Itemに背景画像がある場合のクラス
-.product-list-item-background-image {
-  background-size: cover;
-}
-.fade-in() {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
-}
-@keyframes fade-in { .fade-in(); }
-@-webkit-keyframes fade-in { .fade-in(); }
-a.product-caption {
-  .caption {
-    opacity: 0;
-    h4, p{
-      color: white;
-    }
-  }
-  &:hover .caption {
-    opacity: 1;
-    animation-duration: 0.5s;
-    animation-name: fade-in;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fade-in;
-  }
-}
-@import "../../../../vendor/bootstrap/less/bootstrap.less";
 
 @footer-height: 60px;
 body {
@@ -312,5 +238,33 @@ ul.platform-list {
   li {
     margin-right: 4px;
     float: left;
+  }
+}
+// django-filterによって自動生成されるFilter Form用
+.filter-form {
+  p {
+    margin: 20px 0 10px;
+  }
+  label {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  ul {
+    padding-left: 0;
+    li {
+      list-style: none outside none;
+    }
+    a {
+      padding-left: 10px;
+      &.selected {
+        color: @text-color;
+        padding-left: 0;
+        font-size: 150%;
+        font-weight: bold;
+        &:before {
+          content: "▶ ";
+        }
+      }
+    }
   }
 }

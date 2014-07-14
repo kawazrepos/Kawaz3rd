@@ -20,5 +20,8 @@
         <a href="{% url "products_product_create" %}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
     </div>
     {% endif %}
-    {{ filter.form.as_p }}
+    <h2>{% trans "Filters" %}</h2>
+    <div class="filter-form">
+        {{ filter.form.as_p }}
+    </div>
 {% endblock %}
