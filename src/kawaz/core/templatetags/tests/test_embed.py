@@ -35,7 +35,7 @@ class YouTubeTemplateTagTestCase(BaseViewerTemplateTagTestCase):
         body = ("オススメの動画です\n"
                 "https://www.youtube.com/watch?v=r-j9FZ2TQd0")
         expected = ("オススメの動画です\n"
-                    """<iframe width="640" height="480" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
+                    """<iframe width="640" height="360" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
         self._test_template(body, expected)
 
     def test_youtube_multitimes(self):
@@ -48,10 +48,10 @@ class YouTubeTemplateTagTestCase(BaseViewerTemplateTagTestCase):
                 "ついでにこっちもおもしろいです\n"
                 "https://www.youtube.com/watch?v=LoH0dOyyGx8")
         expected = ("オススメの動画です\n"
-                    """<iframe width="640" height="480" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>\n"""
+                    """<iframe width="640" height="360" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>\n"""
                     "\n"
                     "ついでにこっちもおもしろいです\n"
-                    """<iframe width="640" height="480" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>""")
+                    """<iframe width="640" height="360" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>""")
         self._test_template(body, expected)
 
     def test_youtube_with_width_and_height(self):
@@ -67,6 +67,13 @@ class YouTubeTemplateTagTestCase(BaseViewerTemplateTagTestCase):
         expected = ("オススメの動画です\n"
                     """<iframe width="800" height="450" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
         self._test_template(body, expected, filter_name="youtube:'800'")
+
+    def test_youtube_with_responsive(self):
+        body = ("オススメの動画です\n"
+                "https://www.youtube.com/watch?v=r-j9FZ2TQd0")
+        expected = ("オススメの動画です\n"
+                    """<iframe class="embed-responsive-item" src="//www.youtube.com/embed/r-j9FZ2TQd0" frameborder="0" allowfullscreen></iframe>""")
+        self._test_template(body, expected, filter_name="youtube:'responsive'")
 
     def test_youtube_with_link_fail(self):
         """

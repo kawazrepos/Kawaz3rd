@@ -48,7 +48,7 @@ class ParserTemplateTagTestCase(TestCase):
                  """<a href="http://www.google.com/" rel="nofollow">http://www.google.com/</a>\n"""
                  """<a href="https://www.facebook.com/" rel="nofollow">https://www.facebook.com/</a></p>\n"""
                  """\n"""
-                 """<iframe width="640" height="480" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>\n"""
+                 """<iframe width="640" height="360" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>\n"""
                  """\n"""
                  """<p><a href="mailto:hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com">hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com</a>\n"""
                  """<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>\n"""
