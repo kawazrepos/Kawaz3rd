@@ -52,6 +52,13 @@ class PersonaModelTestCase(TestCase):
         user = PersonaFactory(role='wille')
         self.assertFalse(user.is_superuser)
 
+    def test_get_absolute_url(self):
+        """
+        get_absolute_urlがProfileのabsolute_urlを返す
+        """
+        user = PersonaFactory()
+        self.assertEqual(user.get_absolute_url(), '/members/{}/'.format(user.username))
+
 
 class PersonaModelPermissionTestCase(TestCase):
     def setUp(self):

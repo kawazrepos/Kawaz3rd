@@ -50,7 +50,7 @@ class ParserTemplateTagTestCase(TestCase):
                  """\n"""
                  """<iframe width="640" height="360" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>\n"""
                  """\n"""
-                 """<p><a href="mailto:hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com">hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com</a>\n"""
-                 """<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>\n"""
+                 """<p><a href="mailto:hoge<a href="/members/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com">hoge<a href="/members/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com</a>\n"""
+                 """<a href="/members/kawaztan_mention/"><img src="None">@kawaztan_mention</a>\n"""
                  "@kawaztan_unknown</p>")
         self._test_href_tag(before, after)
