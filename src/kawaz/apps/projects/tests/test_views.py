@@ -1,5 +1,6 @@
 import datetime
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from .factories import ProjectFactory
@@ -516,3 +517,18 @@ class ProjectQuitViewTestCase(TestCase):
         self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
         self.assertEqual(self.project.members.count(), 1)
         self.assertFalse(self.user in self.project.members.all())
+
+
+class ProjectPreviewTestCase(TestCase):
+    def test_project_preview(self):
+        """
+        /projects/preview/にアクセスできます
+        """
+        r = self.client.get('/projects/preview/')
+        self.assertTemplateUsed(r, 'projects/components/project_detail.html')
+
+    def test_reverse_preview(self):
+        """
+        projects_project_previewが引けます
+        """
+        self.assertEqual(reverse('projects_project_preview'), '/projects/preview/')

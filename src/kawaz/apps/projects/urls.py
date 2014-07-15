@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import ProjectListView
+from .views import ProjectListView, ProjectPreview
 from .views import ProjectUpdateView
 from .views import ProjectCreateView
 from .views import ProjectDeleteView
@@ -14,6 +14,8 @@ urlpatterns = patterns('',
         ProjectListView.as_view(), name='projects_project_list'),
     url('^create/$',
         ProjectCreateView.as_view(), name='projects_project_create'),
+    url('^preview/$',
+        ProjectPreview.as_view(), name='projects_project_preview'),
     url('^(?P<pk>\d+)/update/$',
         ProjectUpdateView.as_view(), name='projects_project_update'),
     url('^(?P<pk>\d+)/join/$',
@@ -23,5 +25,5 @@ urlpatterns = patterns('',
     url('^(?P<pk>\d+)/delete/$',
         ProjectDeleteView.as_view(), name='projects_project_delete'),
     url('^(?P<slug>[\w_-]+)/$', 
-        ProjectDetailView.as_view(), name='projects_project_detail'),
+        ProjectDetailView.as_view(), name='projects_project_detail')
 )

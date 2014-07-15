@@ -1,21 +1,27 @@
-#! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/7/2
-#
-__author__ = 'giginet'
-
 class SingleObjectPreviewMixin(object):
+
     """
-    プレビュー用のビューを作るためのMixinです
-    モデルインスタンスの代わりに辞書をcontextに渡して
-    detailページをPreviewさせるために使います
+    プレビューを行うためのViewを作るMixin
+
+    SingleObjectMixin と共に使用することが前提で、SingleObjectMixin にて定義
+    される `get_object(queryset=None)` メソッドを上書きする。
+    上記上書きされたメソッドは GET にて渡されたパラメータを元に仮想モデル
+    インスタンスを生成し返すため、このMixinが適用されたビューはモデルの保存
+    などを行わずしてテンプレートにてモデルインスタンスのように扱うことが可能
+
+    Note:
+        実際に返されるオブジェクトは辞書であるためテンプレート以外では動かない
     """
 
     def get_object(self, queryset=None):
         """
-        get parameterで渡ってきた値からオブジェクトを作ります
+        GETで渡された値を元に仮想オブジェクトを構築し返す
         """
-        fields = self.model._meta.fields
+        # Use 'queryset' of specified or 'get_queryset'
+        queryset = queryset or self.get_queryset()
+        # Use 'model' of queryset or 'model' attribute
+        model = getattr(queryset, 'model', self.model)
+        fields = model._meta.get_all_field_names()
         params = self.request.GET.dict()
-        obj = {k: v for k, v in params.items() if k in fields}
-        return obj
+        # filter field values
+        return {k: v for k, v in params.items() if k in fields}

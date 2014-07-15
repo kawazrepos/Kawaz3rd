@@ -222,3 +222,12 @@ class ProfileListViewTestCase(TestCase):
         self.assertEqual(list.count(), 2, 'object_list has two profiles')
         self.assertEqual(list[0], self.profiles[0], 'public')
         self.assertEqual(list[1], self.profiles[2], 'protected')
+
+
+class ProfilePreviewTestCase(TestCase):
+    def test_profile_preview(self):
+        """
+        ユーザーが/members/preview/を閲覧できる
+        """
+        r = self.client.get("/members/preview/")
+        self.assertTemplateUsed(r, "profiles/components/profile_detail.html")

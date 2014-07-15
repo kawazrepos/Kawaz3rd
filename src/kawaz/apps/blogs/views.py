@@ -10,6 +10,7 @@ from django.views.generic import YearArchiveView
 from django.views.generic.dates import MultipleObjectMixin
 from django.shortcuts import get_object_or_404
 from permission.decorators import permission_required
+from kawaz.core.views.preview import SingleObjectPreviewMixin
 from kawaz.core.personas.models import Persona
 
 from .forms import EntryForm
@@ -108,3 +109,8 @@ class EntryAuthorMonthArchiveView(EntryMonthArchiveView, EntryAuthorMixin):
 
 class EntryAuthorYearArchiveView(EntryYearArchiveView, EntryAuthorMixin):
     pass
+
+
+class EntryPreview(SingleObjectPreviewMixin, DetailView):
+    model = Entry
+    template_name = "blogs/components/entry_detail.html"
