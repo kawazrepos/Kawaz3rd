@@ -31,8 +31,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <a class="navbar-brand" href="{% url "kawaz_index" %}"><img src="{% static "img/kawaz-logo-header.png" %}" alt="Kawaz" title="Kawaz Logo" class="logo-header"></a>
-            <li class="{% active '^/?$' %}"><a href="{% url "kawaz_index" %}">{% trans "Home" %}</a></li>
+            <a class="navbar-brand" href="/"><img src="{% static "img/kawaz-logo-header.png" %}" alt="Kawaz" title="Kawaz Logo" class="logo-header"></a>
+            <li class="{% active '^/?$' %}"><a href="/">{% trans "Home" %}</a></li>
             <li class="{% active '^/products.+' %}"><a href="{% url "products_product_list" %}">{% trans "Products" %}</a></li>
             <li class="{% active '^/events.+' %}"><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
         </ul>
