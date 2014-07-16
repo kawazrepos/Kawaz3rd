@@ -162,7 +162,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
                 r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
             self.assertEqual(Product.objects.count(), 1)
-            e = Product.objects.all()[0]
+            e = Product.objects.first()
             self.assertEqual(e.title, 'かわずたんファンタジー')
             self.assertTrue(user in e.administrators.all())
             self.assertEqual(e.administrators.count(), 1)
@@ -192,7 +192,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
             self.assertEqual(Screenshot.objects.count(), 1)
-            obj = Screenshot.objects.all()[0]
+            obj = Screenshot.objects.first()
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
             obj.product.delete()
             obj.delete()
@@ -216,7 +216,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
             self.assertEqual(URLRelease.objects.count(), 1)
-            obj = URLRelease.objects.all()[0]
+            obj = URLRelease.objects.first()
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
@@ -250,7 +250,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
             self.assertEqual(PackageRelease.objects.count(), 1)
-            obj = PackageRelease.objects.all()[0]
+            obj = PackageRelease.objects.first()
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
