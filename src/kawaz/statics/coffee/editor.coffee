@@ -1,5 +1,4 @@
 $ ->
-  # エディタを設置する textarea の id を列挙する
   $editors = $('.mace-editor')
 
   $editors = $editors.each(->
