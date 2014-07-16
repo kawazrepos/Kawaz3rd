@@ -5,7 +5,7 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django import forms
 from django.forms.widgets import RadioFieldRenderer
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 from kawaz.core.forms.widgets import RadioSelectWithHelpText
@@ -31,6 +31,7 @@ class PersonaCreationForm(UserCreationForm):
 
     class Meta:
         model = Persona
+        exclude = ()
 
 
 class PersonaChangeForm(UserChangeForm):
@@ -40,6 +41,7 @@ class PersonaChangeForm(UserChangeForm):
     """
     class Meta:
         model = Persona
+        exclude = ()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

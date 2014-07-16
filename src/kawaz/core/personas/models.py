@@ -5,7 +5,7 @@ from django.db.models.base import ModelBase
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from thumbnailfield.fields import ThumbnailField
 
@@ -148,6 +148,10 @@ class Persona(AbstractUser, metaclass=PersonaBase):
         if not self.nickname:
             self.nickname = self.username
         super().clean_fields(exclude=exclude, **kwargs)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('profiles_profile_detail', (), {'slug': self.username})
 
 from permission import add_permission_logic
 from .perms import PersonaPermissionLogic

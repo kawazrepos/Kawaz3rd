@@ -2,7 +2,7 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.publishments.models import PUB_STATES
