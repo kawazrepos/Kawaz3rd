@@ -47,6 +47,9 @@ class RadioSelectWithHelpText(RadioSelect):
 
 
 class MaceEditorWidget(widgets.Textarea):
+    """
+    Markdownエディタを組み込むためのWidgetです
+    """
 
     def __init__(self):
         super().__init__(attrs={'class': 'mace-editor'})
