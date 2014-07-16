@@ -17,9 +17,10 @@ Supported python versions
     Python 3.3
 Supported django versions
     Django 1.6
+    Django 1.7rc1
 
 This is a new web site for game creator's community Kawaz_.
-It is developed with Python 3.3 + Django 1.6.
+It is developed with Python 3.3 + Django 1.6 and Django1.7rc1.
 
 All your game are belong to us.
 
@@ -87,9 +88,20 @@ If you have not create the database yet, run the following commands to create
 the database. It is also required when new apps is added
 (You might need to use ``python3`` instead):
 
+Django1.6
+~~~~~~~~~~~~~~~~~
+
 .. code-block:: sh
 
     $ python manage.py syncdb
+
+Django1.7
+~~~~~~~~~~~~~~~~
+
+.. code-block:: sh
+
+    $ python manage.py migrate
+
 
 Then you can start the development server with:
 
@@ -99,3 +111,14 @@ Then you can start the development server with:
 
 It will start development server at localhost:8000.
 You can access it with http://localhost:8000/
+
+Load fixtures
+--------------------------
+
+You should load fixture records to develop, run the following commangs to load.
+
+.. code-block:: sh
+    
+    $ python manage.py loaddata production
+    $ python manage.py loaddata debug
+
