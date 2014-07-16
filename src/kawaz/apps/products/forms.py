@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import ModelForm
+from kawaz.core.forms.widgets import MaceEditorWidget
 from django.forms import widgets
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
@@ -17,6 +19,7 @@ class ProductBaseForm(ModelForm):
     categories = forms.ModelMultipleChoiceField(
         widget=widgets.CheckboxSelectMultiple,
         queryset=Category.objects.all().order_by('pk'))
+    description = forms.CharField(widget=MaceEditorWidget)
 
     class Meta:
         model = Product

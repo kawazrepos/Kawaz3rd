@@ -25,6 +25,7 @@
     "gulp-less": "^1.2.3",
     "gulp-livereload": "^1.5.0",
     "gulp-load-plugins": "^0.5.1",
-    "gulp-plumber": "^0.6.2"
+    "gulp-plumber": "^0.6.2",
+    "mace": "ww24/mace"
   }
 }

@@ -4,6 +4,7 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from itertools import chain
 from django import forms
+from django.forms import widgets
 from django.forms import RadioSelect
 from django.forms.widgets import RadioFieldRenderer
 from django.utils.safestring import mark_safe
@@ -43,3 +44,15 @@ class RadioSelectWithHelpText(RadioSelect):
         help_texts = self.help_texts
         return self.renderer(name, value, final_attrs,
                              choices, help_texts)
+
+
+class MaceEditorWidget(widgets.Textarea):
+    """
+    Markdownエディタを組み込むためのWidgetです
+    """
+
+    def __init__(self):
+        super().__init__(attrs={'class': 'mace-editor'})
+
+    class Media:
+        js = ('vendor/mace.min.js', 'js/editor.js',)

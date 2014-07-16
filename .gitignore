@@ -127,3 +127,6 @@ node_modules
 src/kawaz/statics/js/*
 src/kawaz/statics/css/*
 src/kawaz/statics/fonts/*
+
+# for Mace (Markdown Editor)
+src/kawaz/statics/vendor/mace.min.js
