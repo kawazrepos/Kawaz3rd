@@ -10,6 +10,7 @@ from .models import Account
 class ProfileForm(ModelForm):
 
     remarks = forms.CharField(widget=MaceEditorWidget)
+    birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Profile

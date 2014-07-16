@@ -20,6 +20,7 @@ class ProductBaseForm(ModelForm):
         widget=widgets.CheckboxSelectMultiple,
         queryset=Category.objects.all().order_by('pk'))
     description = forms.CharField(widget=MaceEditorWidget)
+    publish_at = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Product
