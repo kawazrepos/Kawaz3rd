@@ -8,6 +8,7 @@ from .models import Account
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
+        exclude = ()
 
 
 class AccountForm(ModelForm):

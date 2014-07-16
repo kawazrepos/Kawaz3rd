@@ -20,6 +20,7 @@ class ProductBaseForm(ModelForm):
 
     class Meta:
         model = Product
+        exclude = ()
 
 
 class ProductCreateForm(ProductBaseForm):

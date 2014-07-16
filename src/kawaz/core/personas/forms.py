@@ -31,6 +31,7 @@ class PersonaCreationForm(UserCreationForm):
 
     class Meta:
         model = Persona
+        exclude = ()
 
 
 class PersonaChangeForm(UserChangeForm):
@@ -40,6 +41,7 @@ class PersonaChangeForm(UserChangeForm):
     """
     class Meta:
         model = Persona
+        exclude = ()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
