@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html ng-app="kawaz">
 <head>
+{% block pre_css %}
     <link rel="stylesheet" href="{% static "css/main.css" %}" media="screen">
     <link rel="stylesheet" href="{% static "css/social.css" %}" media="screen">
     <link rel="stylesheet" href="{% static "css/form.css" %}" media="screen">
@@ -12,6 +13,7 @@
     <!--
     <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
     -->
+{% endblock %}
     <title>Kawaz - {% block title %}札幌ゲーム製作者コミュニティ{% endblock %}</title>
 </head>
 <body>

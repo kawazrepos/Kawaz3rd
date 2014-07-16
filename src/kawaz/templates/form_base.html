@@ -1,5 +1,9 @@
 {% extends "authenticated_base.html" %}
 {% load staticfiles %}
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "vendor/jquery.datetimepicker.css" %}" media="screen">
+{% endblock %}
 {% block content %}
     <div class="form-wrapper" ng-controller="FormController" xmlns="http://www.w3.org/1999/html">
         <div class="form-header">
@@ -22,7 +26,11 @@
 {% block post_javascript %}
     {{ block.super }}
     <script src="{% static "vendor/mace.min.js" %}"></script>
+    <script src="{% static "vendor/jquery.datetimepicker.js" %}"></script>
     <script src="{% static "js/editor.js" %}"></script>
     <script src="{% static "js/formset.js" %}"></script>
     <script src="{% static "js/preview.js" %}"></script>
+    <script type="application/javascript">
+        $("input[type='datetime']").datetimepicker();
+    </script>
 {% endblock %}
