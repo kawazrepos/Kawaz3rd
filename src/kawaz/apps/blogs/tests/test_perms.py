@@ -20,7 +20,7 @@ class EntryPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def test_add_permission(self):
         """
-        Children以上のユーザーがブログカテゴリーを作成できる
+        Children以上のユーザーがブログエントリーを作成できる
         """
         self._test('adam', 'add')
         self._test('seele', 'add')
@@ -31,7 +31,7 @@ class EntryPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def test_change_permission_without_obj(self):
         """
-        Children以上のユーザーはどれかのカテゴリーを変更できる
+        Children以上のユーザーはどれかのエントリーを変更できる
         """
         self._test('adam', 'change')
         self._test('seele', 'change')
@@ -42,7 +42,8 @@ class EntryPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def test_change_permission_with_obj(self):
         """
-        Children以上のユーザーは自分の書いたカテゴリーを変更できる
+        Children以上のユーザーは自分の書いたエントリーのみを変更できる
+        ただしAdamは他人のでも変更できる
         """
         self._test('adam', 'change', obj=self.entry)
         self._test('seele', 'change', obj=self.entry, neg=True)
@@ -54,7 +55,7 @@ class EntryPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def test_delete_permission_without_obj(self):
         """
-        Children以上のユーザーはどれかのカテゴリーを削除できる
+        Children以上のユーザーはどれかのエントリーを削除できる
         """
         self._test('adam', 'delete')
         self._test('seele', 'delete')
@@ -65,7 +66,8 @@ class EntryPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def test_delete_permission_with_obj(self):
         """
-        Children以上のユーザーは自分の書いたカテゴリーを削除できる
+        Children以上のユーザーは自分の書いたエントリーのみを削除できる
+        ただしAdamは他人のでも削除できる
         """
         self._test('adam', 'delete', obj=self.entry)
         self._test('seele', 'delete', obj=self.entry, neg=True)
@@ -113,7 +115,8 @@ class EntryCategoryPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def test_change_permission_with_obj(self):
         """
-        Children以上のユーザーは自分の書いたカテゴリーを変更できる
+        Children以上のユーザーは自分の作ったカテゴリーのみを変更できる
+        ただしAdamは他人のでも変更できる
         """
         self._test('adam', 'change', obj=self.entry)
         self._test('seele', 'change', obj=self.entry, neg=True)
@@ -136,7 +139,8 @@ class EntryCategoryPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def test_delete_permission_with_obj(self):
         """
-        Children以上のユーザーは自分の書いたカテゴリーを削除できる
+        Children以上のユーザーは自分の作ったカテゴリーのみを削除できる
+        ただしAdamは他人のでも削除できる
         """
         self._test('adam', 'delete', obj=self.entry)
         self._test('seele', 'delete', obj=self.entry, neg=True)
