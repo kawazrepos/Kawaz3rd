@@ -177,8 +177,7 @@ class KawazAuthorPermissionLogic(AuthorPermissionLogic):
     role_names = ['adam', 'seele', 'nerv', 'children']
 
     def has_perm(self, user_obj, perm, obj=None):
-        perm = super().has_perm(user_obj, perm, obj)
         if user_obj.is_authenticated() and \
                 not user_obj.role in self.role_names:
             return False
-        return perm
+        return super().has_perm(user_obj, perm, obj)
