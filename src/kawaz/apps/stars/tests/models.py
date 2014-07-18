@@ -22,7 +22,7 @@ class StarTestArticle(models.Model):
 
 
 from permission import add_permission_logic
-from permission.logics.author import AuthorPermissionLogic
+from kawaz.core.personas.perms import KawazAuthorPermissionLogic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic
 add_permission_logic(StarTestArticle, PublishmentPermissionLogic())
-add_permission_logic(StarTestArticle, AuthorPermissionLogic())
+add_permission_logic(StarTestArticle, KawazAuthorPermissionLogic())

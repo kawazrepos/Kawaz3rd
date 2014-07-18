@@ -183,12 +183,12 @@ def join_administrator(**kwargs):
 
 
 from permission import add_permission_logic
-from permission.logics import AuthorPermissionLogic
+from kawaz.core.personas.perms import KawazAuthorPermissionLogic
 from permission.logics import CollaboratorsPermissionLogic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic
 from .perms import ProjectPermissionLogic
 
-add_permission_logic(Project, AuthorPermissionLogic(
+add_permission_logic(Project, KawazAuthorPermissionLogic(
     field_name='administrator',
     change_permission=True,
     delete_permission=True

@@ -136,9 +136,9 @@ class Account(models.Model):
         return self.service.url_pattern % self.username
 
 
-from permission.logics import AuthorPermissionLogic
 from permission import add_permission_logic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic
+from kawaz.core.personas.perms import KawazAuthorPermissionLogic
 from kawaz.core.personas.perms import NervPermissionLogic
 
 add_permission_logic(Skill, NervPermissionLogic(
@@ -147,7 +147,7 @@ add_permission_logic(Skill, NervPermissionLogic(
 add_permission_logic(Service, NervPermissionLogic(
     any_permission=True
 ))
-add_permission_logic(Account, AuthorPermissionLogic(
+add_permission_logic(Account, KawazAuthorPermissionLogic(
     field_name='profile__user',
     any_permission=False,
     change_permission=False,
@@ -156,7 +156,7 @@ add_permission_logic(Account, AuthorPermissionLogic(
 add_permission_logic(Account, PublishmentPermissionLogic(
     author_field_name='profile__user'
 ))
-add_permission_logic(Profile, AuthorPermissionLogic(
+add_permission_logic(Profile, KawazAuthorPermissionLogic(
     field_name='user',
     change_permission=True,
     delete_permission=False
