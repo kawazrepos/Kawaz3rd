@@ -1,78 +1,148 @@
-from django.test import TestCase
-from .factories import CategoryFactory, EntryFactory
-
-from django.contrib.auth.models import AnonymousUser
-
+import datetime
+from kawaz.core.tests.testcases.permissions import BasePermissionLogicTestCase
 from kawaz.core.personas.tests.factories import PersonaFactory
+from ..models import Entry, Category
+from .factories import EntryFactory, CategoryFactory
 
-class EventPermissionTestCase(TestCase):
 
-    def test_author_has_change_perm(self):
-        '''Tests author has change permission'''
-        entry = EntryFactory()
-        self.assertTrue(entry.author.has_perm('blogs.change_entry', entry))
+class EntryPermissionLogicTestCase(BasePermissionLogicTestCase):
+    app_label = 'blogs'
+    model_name = 'entry'
 
-    def test_others_do_not_have_change_perm(self):
-        '''Tests others don't have change permission'''
-        user = PersonaFactory()
-        entry = EntryFactory()
-        self.assertFalse(user.has_perm('blogs.change_entry', entry))
+    def setUp(self):
+        super().setUp()
+        self.users['author'] = PersonaFactory(username='author',
+                                                 role='children')
+        self.users['other'] = PersonaFactory(username='other',
+                                                role='children')
+        self.entry = EntryFactory(author=self.users['author'])
+        self.entry.save()
 
-    def test_anonymous_do_not_have_change_perm(self):
-        '''Tests an anonymous user don't have change permission'''
-        user = AnonymousUser()
-        entry = EntryFactory()
-        self.assertFalse(user.has_perm('blogs.change_entry', entry))
+    def test_add_permission(self):
+        """
+        Children以上のユーザーがブログカテゴリーを作成できる
+        """
+        self._test('adam', 'add')
+        self._test('seele', 'add')
+        self._test('nerv', 'add')
+        self._test('children', 'add')
+        self._test('wille', 'add', neg=True)
+        self._test('anonymous', 'add', neg=True)
 
-    def test_author_has_delete_perm(self):
-        '''Tests author has delete permission'''
-        entry = EntryFactory()
-        self.assertTrue(entry.author.has_perm('blogs.delete_entry', entry))
+    def test_change_permission_without_obj(self):
+        """
+        Children以上のユーザーはどれかのカテゴリーを変更できる
+        """
+        self._test('adam', 'change')
+        self._test('seele', 'change')
+        self._test('nerv', 'change')
+        self._test('children', 'change')
+        self._test('wille', 'change', neg=True)
+        self._test('anonymous', 'change', neg=True)
 
-    def test_others_do_not_have_delete_perm(self):
-        '''Tests others don't have delete permission'''
-        user = PersonaFactory()
-        entry = EntryFactory()
-        self.assertFalse(user.has_perm('blogs.delete_entry', entry))
+    def test_change_permission_with_obj(self):
+        """
+        Children以上のユーザーは自分の書いたカテゴリーを変更できる
+        """
+        self._test('adam', 'change', obj=self.entry)
+        self._test('seele', 'change', obj=self.entry, neg=True)
+        self._test('nerv', 'change', obj=self.entry, neg=True)
+        self._test('children', 'change', obj=self.entry, neg=True)
+        self._test('wille', 'change', obj=self.entry, neg=True)
+        self._test('anonymous', 'change', obj=self.entry, neg=True)
+        self._test('author', 'change', obj=self.entry)
 
-    def test_anonymous_do_not_have_delete_perm(self):
-        '''Tests an anonymous user don't have delete permission'''
-        user = AnonymousUser()
-        entry = EntryFactory()
-        self.assertFalse(user.has_perm('blogs.delete_entry', entry))
+    def test_delete_permission_without_obj(self):
+        """
+        Children以上のユーザーはどれかのカテゴリーを削除できる
+        """
+        self._test('adam', 'delete')
+        self._test('seele', 'delete')
+        self._test('nerv', 'delete')
+        self._test('children', 'delete')
+        self._test('wille', 'delete', neg=True)
+        self._test('anonymous', 'delete', neg=True)
 
-    def test_author_has_view_perm_of_draft(self):
-        '''Tests author can view own draft entry'''
-        user = PersonaFactory()
-        entry = EntryFactory(pub_state='draft', author=user)
-        self.assertTrue(user.has_perm('blogs.view_entry', entry))
+    def test_delete_permission_with_obj(self):
+        """
+        Children以上のユーザーは自分の書いたカテゴリーを削除できる
+        """
+        self._test('adam', 'delete', obj=self.entry)
+        self._test('seele', 'delete', obj=self.entry, neg=True)
+        self._test('nerv', 'delete', obj=self.entry, neg=True)
+        self._test('children', 'delete', obj=self.entry, neg=True)
+        self._test('wille', 'delete', obj=self.entry, neg=True)
+        self._test('anonymous', 'delete', obj=self.entry, neg=True)
+        self._test('author', 'delete', obj=self.entry)
 
-    def test_other_do_not_have_view_perm_of_draft(self):
-        '''Tests user can not view others draft entry'''
-        user = PersonaFactory()
-        entry = EntryFactory(pub_state='draft')
-        self.assertFalse(user.has_perm('blogs.view_entry', entry))
 
-    def test_authenticated_user_has_view_perm_of_protected(self):
-        '''Tests authenticated user can view protected entry'''
-        user = PersonaFactory()
-        entry = EntryFactory(pub_state='protected')
-        self.assertTrue(user.has_perm('blogs.view_entry', entry))
+class EntryCategoryPermissionLogicTestCase(BasePermissionLogicTestCase):
+    app_label = 'blogs'
+    model_name = 'category'
 
-    def test_anonymous_user_do_not_have_view_perm_of_protected(self):
-        '''Tests anonymous user can not view protected entry'''
-        user = AnonymousUser()
-        entry = EntryFactory(pub_state='protected')
-        self.assertFalse(user.has_perm('blogs.view_entry', entry))
+    def setUp(self):
+        super().setUp()
+        self.users['author'] = PersonaFactory(username='author',
+                                                 role='children')
+        self.users['other'] = PersonaFactory(username='other',
+                                                role='children')
+        self.entry = EntryFactory(author=self.users['author'])
+        self.entry.save()
 
-    def test_anonymous_user_can_view_public_entry(self):
-        '''Tests an anonymous user can view public entry'''
-        user = AnonymousUser()
-        entry = EntryFactory(pub_state='public')
-        self.assertTrue(user.has_perm('blogs.view_entry', entry))
+    def test_add_permission(self):
+        """
+        Children以上のユーザーがブログカテゴリーを作成できる
+        """
+        self._test('adam', 'add')
+        self._test('seele', 'add')
+        self._test('nerv', 'add')
+        self._test('children', 'add')
+        self._test('wille', 'add', neg=True)
+        self._test('anonymous', 'add', neg=True)
 
-    def test_authorized_user_can_view_public_entry(self):
-        '''Tests an authorized user can view public entry'''
-        user = PersonaFactory()
-        entry = EntryFactory(pub_state='public')
-        self.assertTrue(user.has_perm('blogs.view_entry', entry))
+    def test_change_permission_without_obj(self):
+        """
+        Children以上のユーザーはどれかのカテゴリーを変更できる
+        """
+        self._test('adam', 'change')
+        self._test('seele', 'change')
+        self._test('nerv', 'change')
+        self._test('children', 'change')
+        self._test('wille', 'change', neg=True)
+        self._test('anonymous', 'change', neg=True)
+
+    def test_change_permission_with_obj(self):
+        """
+        Children以上のユーザーは自分の書いたカテゴリーを変更できる
+        """
+        self._test('adam', 'change', obj=self.entry)
+        self._test('seele', 'change', obj=self.entry, neg=True)
+        self._test('nerv', 'change', obj=self.entry, neg=True)
+        self._test('children', 'change', obj=self.entry, neg=True)
+        self._test('wille', 'change', obj=self.entry, neg=True)
+        self._test('anonymous', 'change', obj=self.entry, neg=True)
+        self._test('author', 'change', obj=self.entry)
+
+    def test_delete_permission_without_obj(self):
+        """
+        Children以上のユーザーはどれかのカテゴリーを削除できる
+        """
+        self._test('adam', 'delete')
+        self._test('seele', 'delete')
+        self._test('nerv', 'delete')
+        self._test('children', 'delete')
+        self._test('wille', 'delete', neg=True)
+        self._test('anonymous', 'delete', neg=True)
+
+    def test_delete_permission_with_obj(self):
+        """
+        Children以上のユーザーは自分の書いたカテゴリーを削除できる
+        """
+        self._test('adam', 'delete', obj=self.entry)
+        self._test('seele', 'delete', obj=self.entry, neg=True)
+        self._test('nerv', 'delete', obj=self.entry, neg=True)
+        self._test('children', 'delete', obj=self.entry, neg=True)
+        self._test('wille', 'delete', obj=self.entry, neg=True)
+        self._test('anonymous', 'delete', obj=self.entry, neg=True)
+        self._test('author', 'delete', obj=self.entry)
+
