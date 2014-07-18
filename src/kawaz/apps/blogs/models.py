@@ -17,10 +17,11 @@ class Category(models.Model):
     目的で存在する。
     """
     label = models.CharField(_('Category name'), max_length=255)
+    # TODO Fix Me
+    # editable=FalseにしてるとAPIからアクセスできない
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                verbose_name=_('Author'),
-                               related_name='blog_categories',
-                               editable=False)
+                               related_name='blog_categories')
 
     class Meta:
         # カテゴリはユーザーが所有するものなので unique together を指定
@@ -108,6 +109,15 @@ class Entry(models.Model):
 from permission import add_permission_logic
 from permission.logics.author import AuthorPermissionLogic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic
+from kawaz.core.personas.perms import ChildrenPermissionLogic
+
+add_permission_logic(Category, AuthorPermissionLogic(
+    field_name='author',
+    any_permission=True
+))
+add_permission_logic(Category, ChildrenPermissionLogic(
+    add_permission=True
+))
 
 add_permission_logic(Entry, AuthorPermissionLogic(
     field_name='author',
