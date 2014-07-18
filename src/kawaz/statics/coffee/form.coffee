@@ -75,3 +75,16 @@ $ ->
       formCount = $container.find('.formset-row').size()
       $totalForms.val(formCount)
   )
+
+$ ->
+  # datetimepickerを表示させる
+  $("[type='datetime']").datetimepicker({
+    'format' : 'Y-m-d H:i'
+  })
+  # datepickerを表示させる
+  $("[type='date']").datetimepicker({
+    'timepicker' : false,
+    'format' : 'Y-m-d'
+  }).prop('type', 'text')
+  # Google Chrome標準のdate pickerがウザいので殺している
+  # http://stackoverflow.com/questions/11270675/how-can-i-disable-the-new-chrome-html5-date-input
