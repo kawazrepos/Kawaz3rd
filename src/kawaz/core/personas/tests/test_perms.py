@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from permission import add_permission_logic
+from permission import remove_permission_logic
 from kawaz.core.personas.tests.factories import PersonaFactory
 from ..perms import AdamPermissionLogic
 from ..perms import SeelePermissionLogic
@@ -61,6 +62,7 @@ class ChildrenPermissionLogicTestCase(TestCase):
         )
         add_permission_logic(Article, permission_logic)
         self._auto_test_permission('add')
+        remove_permission_logic(Article, permission_logic)
 
     def test_change_permission_with_any(self):
         """
@@ -72,6 +74,8 @@ class ChildrenPermissionLogicTestCase(TestCase):
         add_permission_logic(Article, permission_logic)
         self._auto_test_permission('change')
         self._auto_test_permission('change', obj=True)
+        remove_permission_logic(Article, permission_logic)
+
 
 class KawazAuthorPermissionLogicTestCase(TestCase):
     roles = ('adam', 'seele', 'nerv', 'children', 'wille',)
@@ -123,6 +127,7 @@ class KawazAuthorPermissionLogicTestCase(TestCase):
         self._test_permission('nerv', 'add')
         self._test_permission('children', 'add')
         self._test_permission('wille', 'add', neg=True)
+        remove_permission_logic(Article, permission_logic)
 
 
     def test_change_permission_with_any(self):
@@ -139,6 +144,7 @@ class KawazAuthorPermissionLogicTestCase(TestCase):
         self._test_permission('nerv', 'change')
         self._test_permission('children', 'change')
         self._test_permission('wille', 'change', neg=True)
+        remove_permission_logic(Article, permission_logic)
 
     def test_change_permission_with_own(self):
         """
@@ -154,6 +160,7 @@ class KawazAuthorPermissionLogicTestCase(TestCase):
         self._test_permission('nerv', 'change', object_permission=True)
         self._test_permission('children', 'change', object_permission=True)
         self._test_permission('wille', 'change', neg=True, object_permission=True)
+        remove_permission_logic(Article, permission_logic)
 
     def test_change_permission_with_others(self):
         """
@@ -172,6 +179,7 @@ class KawazAuthorPermissionLogicTestCase(TestCase):
         self._test_permission('nerv', 'change', neg=True, **kwargs)
         self._test_permission('children', 'change', neg=True, **kwargs)
         self._test_permission('wille', 'change', neg=True, **kwargs)
+        remove_permission_logic(Article, permission_logic)
 
     def test_delete_permission_with_any(self):
         """
@@ -187,6 +195,7 @@ class KawazAuthorPermissionLogicTestCase(TestCase):
         self._test_permission('nerv', 'delete')
         self._test_permission('children', 'delete')
         self._test_permission('wille', 'delete', neg=True)
+        remove_permission_logic(Article, permission_logic)
 
     def test_delete_permission_with_own(self):
         """
@@ -202,6 +211,7 @@ class KawazAuthorPermissionLogicTestCase(TestCase):
         self._test_permission('nerv', 'delete', object_permission=True)
         self._test_permission('children', 'delete', object_permission=True)
         self._test_permission('wille', 'delete', neg=True, object_permission=True)
+        remove_permission_logic(Article, permission_logic)
 
     def test_delete_permission_with_others(self):
         """
@@ -220,5 +230,7 @@ class KawazAuthorPermissionLogicTestCase(TestCase):
         self._test_permission('nerv', 'delete', neg=True, **kwargs)
         self._test_permission('children', 'delete', neg=True, **kwargs)
         self._test_permission('wille', 'delete', neg=True, **kwargs)
+        remove_permission_logic(Article, permission_logic)
+
 
 # TODO: Write the permission test for other permission logics
