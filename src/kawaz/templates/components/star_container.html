@@ -1,13 +1,17 @@
 {% load stars_tags %}
 {% load staticfiles %}
 <section class="star-container" ng-controller="StarController">
+    <script type="text/ng-template" id="star-item.html">
+        <a ng-href="[[ star.author.url ]]"><img class="avatar" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar]]'></a>
+        <span class="nickname" ng-bind="star.author.nickname"></span>
+        <span class="quote" ng-bind="star.quote"></span>
+    </script>
     {% get_star_endpoint object as endpoint %}
     <input type="hidden" ng-model="endpoint" ng-init="endpoint='{{ endpoint }}';fetchStars();">
-    <ul ng-repeat="star in stars">
-       <li class="star">
-           <a ng-href="[[ star.author.url ]]"><img class="avatar" ng-src='/storage/[[ star.author.avatar]]'></a>
-           <span class="nickname" ng-bind="star.author.nickname"></span>
-           <span class="quote" ng-bind="star.quote"></span>
-       </li>
-    </ul>
+    <div class="star-container">
+        <button class="btn btn-primary btm-sm" ng-click="addStar($event);"><span class="glyphicon glyphicon-plus"></span></button>
+        <ul>
+            <li ng-repeat="star in stars" ng-include=" 'star-item.html' " class="star"></li>
+        </ul>
+    </div>
 </section>
