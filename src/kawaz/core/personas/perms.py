@@ -3,7 +3,7 @@
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from permission.logics import PermissionLogic
-
+from permission.logics import AuthorPermissionLogic
 
 class PersonaPermissionLogic(PermissionLogic):
     """
@@ -162,3 +162,22 @@ class AdamPermissionLogic(BaseRolePermissionLogic):
     user
     """
     role_names = ['adam']
+
+
+class KawazAuthorPermissionLogic(AuthorPermissionLogic):
+    """
+    Kawaz用AuthorPermissionLogic
+
+    Kawazの仕様では、willeがauthorになることは現段階ではない。
+    通常のAuthorPermissionLogicを利用すると、willeであっても
+    ログインユーザーであればモデルパーミッションがTrueになり
+    使い勝手が悪い
+    そのため、wille以下の場合はFalseが返るようにした
+    """
+    role_names = ['adam', 'seele', 'nerv', 'children']
+
+    def has_perm(self, user_obj, perm, obj=None):
+        if (user_obj.is_authenticated() and
+            user_obj.role not in self.role_names):
+            return False
+        return super().has_perm(user_obj, perm, obj)
