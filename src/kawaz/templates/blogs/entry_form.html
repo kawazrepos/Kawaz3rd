@@ -1,4 +1,5 @@
 {% extends "form_base.html" %}
+{% load staticfiles %}
 {% load bootstrap %}
 {% block content-header %}
     {% if object %}
@@ -12,12 +13,24 @@
     <li><a href="{% url "blogs_entry_list" %}">Blog</a></li>
 {% endblock %}
 {% block tab-content %}
-    <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'blogs_entry_preview' %}';">
+    <div class="tab-pane active" ng-controller="BlogCategoryController" id="editor-main" ng-init="previewURL = '{% url 'blogs_entry_preview' %}';endpoint = '{% url 'category-list' %}';">
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
             {{ form | bootstrap_horizontal }}
+            <p><a href="#blog-category-dialog" class="blog-category-add-button" ng-click="isShowDialog = true;"><span class="glyphicon glyphicon-plus"></span>新しいカテゴリを作る</a></p>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="公開する" />
             </div>
+
         </form>
+        <div id="blog-category-dialog" ng-show="isShowDialog">
+            <form ng-submit="createCategory()">
+                <input type="text" ng-model="categoryLabel" placeholder="例：日記">
+                <input type="submit" class="btn btn-primary btn-sm" value="カテゴリの追加">
+            </form>
+        </div>
     </div>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script src="{% static "js/category.js" %}"></script>
 {% endblock %}
