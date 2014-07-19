@@ -154,15 +154,14 @@ class EntryCreateViewTestCase(TestCase):
         """
         category = CategoryFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        self.assertRaises(ValidationError,
-                          self.client.post,
-                          '/blogs/{0}/create/'.format(self.user.username),
-                          {
+        r = self.client.post('/blogs/{0}/create/'.format(self.user.username), {
                               'pub_state': 'public',
                               'title': '日記です',
                               'body': '天気が良かったです',
                               'category': category.pk
-                          })
+        })
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(Entry.objects.count(), 0)
 
 
 class EntryUpdateViewTestCase(TestCase):
