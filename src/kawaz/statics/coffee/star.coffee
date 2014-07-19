@@ -34,4 +34,16 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
       top: e.pageY + 12
   )
 
+  $scope.deleteStar = (star) ->
+    console.log star
+    pk = star.id
+    params =
+      pk: pk
+    if confirm("スターを削除します。よろしいですか？")
+      $http.delete("/api/stars/#{pk}.json", params).success( (data) ->
+        index = $scope.stars.indexOf(star)
+        $scope.stars.splice(index, 1)
+      )
+
+
 )

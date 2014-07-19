@@ -7,6 +7,18 @@
   li {
     float: left;
     list-style-type: none;
+    .star-user {
+      position: relative;
+    }
+    .star-remove {
+      width: 3px;
+      height: 3px;
+      top: -2px;
+      left: -2px;
+      position: absolute;
+      display: inline-block;
+      z-index: 3000;
+    }
   }
   .star {
     .star-popup {
@@ -21,6 +33,7 @@
       .quote {
         margin: 2px 7px 2px;
       }
+      z-index: 9999;
       position: absolute;
       background-color: white;
       border: solid 1px @gray-darker;

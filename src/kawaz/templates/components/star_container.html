@@ -2,7 +2,14 @@
 {% load staticfiles %}
 <section class="star-container" ng-controller="StarController">
     <script type="text/ng-template" id="star-item.html">
-        <a ng-href="[[ star.author.url ]]"><img class="avatar" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar]]'></a>
+        <div class="star-user">
+            <a ng-href="[[ star.author.url ]]">
+                <img class="avatar" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar]]'>
+                {% if user has 'stars_star_add' of object %}
+                    <a href="#" ng-click="deleteStar(star);" class="star-remove" ng-show="star.visible"><span class="glyphicon glyphicon-remove"></span></a>
+                {% endif %}
+            </a>
+        </div>
         <div class="star-popup" ng-show="star.visible" ng-style="popupPosition">
             <p class="nickname" ng-bind="star.author.nickname"></p>
             <hr ng-show="star.quote">
