@@ -1,0 +1,70 @@
+@import "common/define";
+@import "../../../../vendor/bootstrap/less/mixins.less";
+
+// Platform一覧のアイコン表示
+ul.platform-list {
+  .clearfix();
+  list-style: none;
+  padding: 0;
+  li {
+    margin-right: 4px;
+    float: left;
+  }
+}
+
+// Product List Item
+.product-list-item {
+  background-size: cover;
+  a {
+    color: @text-color;
+    text-decoration: none;
+    &:hover {
+      color: @link-hover-color;
+    }
+  }
+  &:hover {
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Product Item Thumbnail
+.thumbnail {
+  padding: 0;
+}
+.item {
+  .thumbnail {
+    position: relative;
+  }
+  .caption {
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    .caption-inner {
+      position: absolute;
+      bottom: 9px;
+    }
+  }
+}
+.fade-in() {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+@keyframes fade-in { .fade-in(); }
+@-webkit-keyframes fade-in { .fade-in(); }
+a.product-caption {
+  .caption {
+    opacity: 0;
+    h4, p{
+      color: white;
+    }
+  }
+  &:hover .caption {
+    opacity: 1;
+    animation-duration: 0.5s;
+    animation-name: fade-in;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: fade-in;
+  }
+}
