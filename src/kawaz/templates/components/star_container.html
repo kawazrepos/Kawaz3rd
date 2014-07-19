@@ -19,9 +19,15 @@
     {% get_star_endpoint object as endpoint %}
     <input type="hidden" ng-model="endpoint" ng-init="endpoint='{{ endpoint }}';fetchStars();">
     <div class="star-container">
-        <button class="btn btn-primary btm-sm" ng-click="addStar($event);"><span class="glyphicon glyphicon-star"></span></button>
-        <ul>
-            <li ng-repeat="star in stars" ng-include=" 'star-item.html' " class="star" ng-mouseover="showPopup($event, star);" ng-mouseout="star.visible = false;"></li>
-        </ul>
+        <div class="row">
+            <div class="col-lg-1">
+                <button class="btn btn-primary btm-sm add-star-button" ng-click="addStar($event);"><span class="glyphicon glyphicon-star"></span>イイネ</button>
+            </div>
+            <div class="col-lg-11">
+                <ul>
+                    <li ng-repeat="star in stars" ng-include=" 'star-item.html' " class="star" ng-mouseover="showPopup($event, star);" ng-mouseout="star.visible = false;"></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </section>
