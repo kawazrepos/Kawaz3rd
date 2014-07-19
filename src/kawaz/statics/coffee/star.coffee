@@ -10,8 +10,11 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
     regex = /([a-z_]+)=(\d+)/g
     params = $scope.endpoint.match(regex)
 
+    quote = document.getSelection().toString()
+
     # URLパラメータをがんばってObjectに変換している
-    data = {}
+    data =
+      quote: quote
     $(params).each((index, param) ->
       bits = param.split('=')
       key = bits[0]
@@ -23,5 +26,12 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
       # response
       $scope.stars.push(star)
     )
+
+  $scope.showPopup = ((e, star) ->
+    star.visible = true
+    $scope.popupPosition =
+      left: e.pageX + 12
+      top: e.pageY + 12
+  )
 
 )

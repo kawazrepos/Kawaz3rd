@@ -1,3 +1,5 @@
+@import "common/define";
+
 .star-container {
   ul {
     padding-left: 3px;
@@ -7,11 +9,22 @@
     list-style-type: none;
   }
   .star {
-    .nickname {
-      display: none;
-    }
-    .quote {
-      display: none;
+    .star-popup {
+      .nickname {
+        margin-left: 3px;
+        margin-bottom: 0px;
+        font-weight: bold;
+      }
+      hr {
+        margin: 2px;
+      }
+      .quote {
+        margin: 2px 7px 2px;
+      }
+      position: absolute;
+      background-color: white;
+      border: solid 1px @gray-darker;
+      min-width: 100px;
     }
   }
 }
