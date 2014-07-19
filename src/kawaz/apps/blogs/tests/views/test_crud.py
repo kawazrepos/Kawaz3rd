@@ -1,8 +1,10 @@
 import datetime
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from ..factories import EntryFactory
+from ..factories import CategoryFactory
 from ...models import Entry
 from kawaz.core.personas.tests.factories import PersonaFactory
 
@@ -68,8 +70,6 @@ class EntryDetailViewTestCase(TestCase):
 class EntryCreateViewTestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
 
     def test_anonymous_user_can_not_create_view(self):
         '''Tests anonymous user can not view EntryCreateView'''
@@ -128,13 +128,48 @@ class EntryCreateViewTestCase(TestCase):
         self.assertEqual(e.author, self.user)
         self.assertNotEqual(e.author, other)
 
+    def test_user_can_create_entry_with_category(self):
+        """
+        カテゴリを指定してブログ記事を新しく投稿できる
+        """
+        category = CategoryFactory(author=self.user)
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.post('/blogs/{0}/create/'.format(self.user.username), {
+            'pub_state': 'public',
+            'title': '日記です',
+            'body': '天気が良かったです',
+            'category': category.pk
+        })
+        today = datetime.date.today()
+        self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
+        self.assertEqual(Entry.objects.count(), 1)
+        e = Entry.objects.get(pk=1)
+        self.assertEqual(e.author, self.user)
+        self.assertEqual(e.category, category)
+
+    def test_user_can_create_entry_with_others_category(self):
+        """
+        他人のカテゴリを指定してブログ記事を新しく投稿しようとすると
+        ValidationErrorを送出する
+        """
+        category = CategoryFactory()
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        self.assertRaises(ValidationError,
+                          self.client.post,
+                          '/blogs/{0}/create/'.format(self.user.username),
+                          {
+                              'pub_state': 'public',
+                              'title': '日記です',
+                              'body': '天気が良かったです',
+                              'category': category.pk
+                          })
+
 
 class EntryUpdateViewTestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory(username='author_kawaztan')
         self.user.set_password('password')
         self.other = PersonaFactory(username='black_kawaztan')
-        self.other.set_password('password')
         self.user.save()
         self.other.save()
         self.entry = EntryFactory(title='かわずたんだよ☆', author=self.user)
@@ -215,6 +250,7 @@ class EntryUpdateViewTestCase(TestCase):
         self.assertEqual(e.author, self.user)
         self.assertNotEqual(e.author, other)
         self.assertEqual(e.title, 'ID書き換えます！')
+
 
 class EntryListViewTestCase(TestCase):
     def setUp(self):

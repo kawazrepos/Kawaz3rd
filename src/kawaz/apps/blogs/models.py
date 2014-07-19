@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
-from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
 
@@ -35,7 +34,6 @@ class EntryManager(models.Manager, PublishmentManagerMixin):
     pass
 
 
-@validate_on_save
 class Entry(models.Model):
     """
     ブログ記事モデル
@@ -83,12 +81,9 @@ class Entry(models.Model):
             # 最初の公開日が変更されることはない
             if self.pub_state != 'draft':
                 self.publish_at = timezone.now()
-        super().save(*args, **kwargs)
-
-    def clean(self):
         if self.category and self.author != self.category.author:
             raise ValidationError('Category must be owned by author.')
-        super().clean()
+        super().save(*args, **kwargs)
 
     @models.permalink
     def get_absolute_url(self):
