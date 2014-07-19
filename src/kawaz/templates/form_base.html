@@ -5,22 +5,28 @@
     <link rel="stylesheet" href="{% static "vendor/jquery.datetimepicker.css" %}" media="screen">
 {% endblock %}
 {% block content %}
-    <div class="form-wrapper" ng-controller="FormController" xmlns="http://www.w3.org/1999/html">
-        <div class="form-header">
-            {{ block.super }}
-            <ul class="nav nav-tabs">
-                <li class="active" data-toggle="tab" ng-click="toggleEditor($event)"><a href="#editor-main">入力フォーム</a></li>
-                <li><a href="#editor-preview" data-toggle="tab" class="preview-tab" ng-click="togglePreview($event, previewURL)">プレビュー</a></li>
-            </ul>
-        </div>
-        <div class="tab-content">
-            {% block tab-content %}
-            {% endblock %}
-            <div id="editor-preview" class="tab-pane">
+    <div class="form-wrapper" xmlns="http://www.w3.org/1999/html">
+        {% block form_header %}
+        {% endblock %}
+        <div ng-controller="FormController">
+            <div class="form-header">
+                {{ block.super }}
+                <ul class="nav nav-tabs">
+                    <li class="active" data-toggle="tab" ng-click="toggleEditor($event)"><a href="#editor-main">入力フォーム</a></li>
+                    <li><a href="#editor-preview" data-toggle="tab" class="preview-tab" ng-click="togglePreview($event, previewURL)">プレビュー</a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                {% block tab-content %}
+                {% endblock %}
+                <div id="editor-preview" class="tab-pane">
+                </div>
+            </div>
+            <div id="editor-preview" class="tab-pane" ng-bind-html="preview" ng-show="showPreview">
             </div>
         </div>
-        <div id="editor-preview" class="tab-pane" ng-bind-html="preview" ng-show="showPreview">
-        </div>
+        {% block form_footer %}
+        {% endblock %}
     </div>
 {% endblock %}
 {% block post_javascript %}

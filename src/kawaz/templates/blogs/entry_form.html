@@ -1,4 +1,5 @@
 {% extends "form_base.html" %}
+{% load staticfiles %}
 {% load bootstrap %}
 {% block content-header %}
     {% if object %}
@@ -11,13 +12,35 @@
     {{ block.super }}
     <li><a href="{% url "blogs_entry_list" %}">Blog</a></li>
 {% endblock %}
+{% block form_header %}
+    <div ng-controller="BlogCategoryController" ng-init="endpoint='{% url 'category-list' %}';">
+        <div id="blog-category-dialog" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <form ng-submit="createCategory()" name="categoryForm">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <input type="text" ng-model="categoryLabel" placeholder="例：日記" required>
+                            <input type="submit" ng-disabled="!categoryForm.$valid" class="btn btn-primary btn-sm" value="カテゴリの追加">
+                            <p>編集に戻るにはフォーム以外の部分をクリックしてください</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'blogs_entry_preview' %}';">
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
             {{ form | bootstrap_horizontal }}
+            <p><a href="#" class="blog-category-add-button" data-toggle="modal" data-target="#blog-category-dialog"><span class="glyphicon glyphicon-plus"></span>新しいカテゴリを作る</a></p>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="公開する" />
             </div>
         </form>
     </div>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script src="{% static "js/category.js" %}"></script>
 {% endblock %}
