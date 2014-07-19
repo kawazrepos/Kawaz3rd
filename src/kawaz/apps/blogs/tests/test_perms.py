@@ -16,7 +16,6 @@ class EntryPermissionLogicTestCase(BasePermissionLogicTestCase):
         self.users['other'] = PersonaFactory(username='other',
                                                 role='children')
         self.entry = EntryFactory(author=self.users['author'])
-        self.entry.save()
 
     def test_add_permission(self):
         """
@@ -89,7 +88,6 @@ class EntryCategoryPermissionLogicTestCase(BasePermissionLogicTestCase):
         self.users['other'] = PersonaFactory(username='other',
                                                 role='children')
         self.entry = EntryFactory(author=self.users['author'])
-        self.entry.save()
 
     def test_add_permission(self):
         """
