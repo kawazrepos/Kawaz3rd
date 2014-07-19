@@ -8,20 +8,6 @@
     }
   }
 }
-//Product List Item
-.product-list-item {
-  background-size: cover;
-  a {
-    color: @text-color;
-    text-decoration: none;
-    &:hover {
-      color: @link-hover-color;
-    }
-  }
-  &:hover {
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
-  }
-}
 
 @footer-height: 60px;
 body {
@@ -90,46 +76,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   background-color: fade(@brand-primary, 100%);
   border-color: rgba(231,231,231,1);
 }
-.thumbnail {
-  padding: 0;
-}
-.item {
-  .thumbnail {
-    position: relative;
-  }
-  .caption {
-    background-color: rgba(0,0,0,0.5);
-    top: 0;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    .caption-inner {
-      position: absolute;
-      bottom: 9px;
-    }
-  }
-}
-.fade-in() {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
-}
-@keyframes fade-in { .fade-in(); }
-@-webkit-keyframes fade-in { .fade-in(); }
-a.product-caption {
-  .caption {
-    opacity: 0;
-    h4, p{
-      color: white;
-    }
-  }
-  &:hover .caption {
-    opacity: 1;
-    animation-duration: 0.5s;
-    animation-name: fade-in;
-    -webkit-animation-duration: 0.5s;
-    -webkit-animation-name: fade-in;
-  }
-}
 @login-form-width: 400px;
 // ヘッダー
 .header-button {
@@ -160,13 +106,19 @@ a.product-caption {
 
   }
 }
+// アバター
+// 使い方：
+// imageタグにavatarとavatar-(small|middle|large|huge)のclassを並べる
+// <img class="avatar avatar-small" src="{{ user.avatar.small }}">
 .avatar {
   border: 1px solid #333333;
-  @size: @avatar-size-small;
-  .small { @size: @avatar-size-small; }
-  .middle { @size: @avatar-size-middle; }
-  .large { @size: @avatar-size-large; }
-  .huge { @size: @avatar-size-huge; }
+  .avatar(@avatar-size-small);
+  &-small { .avatar(@avatar-size-small); }
+  &-middle { .avatar(@avatar-size-middle);  }
+  &-large { .avatar(@avatar-size-large); }
+  &-huge { .avatar(@avatar-size-huge); }
+}
+.avatar(@size) {
   @radius: @size / 2.0;
   width: @size;
   height: @size;
@@ -213,31 +165,6 @@ a.product-caption {
   aside {
     .make-lg-column(3);
     .make-xs-column(12);
-  }
-}
-// Product Detail
-.trailer {
-  max-width: 800px;
-  margin: 20px auto 20px;
-}
-.downloads {
-  text-align: center;
-  margin: 20px auto;
-}
-.screenshots {
-  overflow-y: hidden;
-  white-space: nowrap;
-  img {
-    height: 200px;
-  }
-}
-ul.platform-list {
-  .clearfix();
-  list-style: none;
-  padding: 0;
-  li {
-    margin-right: 4px;
-    float: left;
   }
 }
 // django-filterによって自動生成されるFilter Form用

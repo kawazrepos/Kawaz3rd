@@ -1,6 +1,11 @@
 {% extends "twopane.html" %}
+{% load staticfiles %}
 {% load i18n %}
 {% load products_tags %}
+{% block pre_css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "css/products.css" %}" media="screen">
+{% endblock %}
 {% block content-header %}
 <h1>{% trans "Product List" %}</h1>
 {% endblock %}

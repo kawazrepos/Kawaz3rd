@@ -3,6 +3,10 @@
 {% load products_tags %}
 {% load staticfiles %}
 {% load i18n %}
+{% block pre_css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "css/products.css" %}" media="screen">
+{% endblock %}
 {% block content-header %}
 <h1>{{ object.title }}</h1>
 <div class="trailer">
