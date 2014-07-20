@@ -4,10 +4,26 @@
   ul {
     padding-left: 3px;
   }
+  li {
+    height: @avatar-size-small;
+  }
   .add-star-button {
     span {
       margin-left: 3px;
     }
+  }
+  .star-read-more {
+    span {
+      margin-top: 2px;
+      margin-right: 2px;
+    }
+    color: @brand-warning;
+    padding: 1px 3px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    min-width: 16px;
+    cursor: pointer;
   }
   .col-lg-11 {
     // ポップアップを正しい位置に出すために
@@ -15,6 +31,7 @@
     position: static;
   }
   .star {
+    width: @avatar-size-small;
     float: left;
     list-style-type: none;
     .star-user {
