@@ -9,10 +9,17 @@
       margin-left: 3px;
     }
   }
+  .col-lg-11 {
+    // ポップアップを正しい位置に出すために
+    // この要素がstaticになってないとダメ
+    position: static;
+  }
   .star {
     float: left;
     list-style-type: none;
     .star-user {
+      // この下にあるstar-removeを相対位置で指定してるので
+      // これはrelativeになってないとダメ
       position: relative;
     }
     .star-remove {
