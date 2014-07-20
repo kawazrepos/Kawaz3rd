@@ -6,7 +6,7 @@
             <a ng-href="[[ star.author.url ]]">
                 <img class="avatar" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar]]'>
                 {% if user has 'stars_star_add' of object %}
-                    <a href="#" ng-click="deleteStar(star);" class="star-remove" ng-show="star.visible"><span class="glyphicon glyphicon-remove"></span></a>
+                    <a href="#" class="star-remove" ng-click="deleteStar(star);" ng-show="star.visible"><span class="glyphicon glyphicon-remove"></span></a>
                 {% endif %}
             </a>
         </div>
@@ -25,7 +25,12 @@
             </div>
             <div class="col-lg-11">
                 <ul>
-                    <li ng-repeat="star in stars" ng-include=" 'star-item.html' " class="star" ng-mouseover="showPopup($event, star);" ng-mouseout="star.visible = false;"></li>
+                    <li class="star"
+                        ng-repeat="star in visibleStars"
+                        ng-include=" 'star-item.html' "
+                        ng-mouseover="showPopup($event, star);"
+                        ng-mouseout="star.visible = false;"></li>
+                    <li class="star-read-more" ng-bind="readMoreCount" ng-click="openReadMore();" ng-hide="isReadMoreOpened"></li>
                 </ul>
             </div>
         </div>
