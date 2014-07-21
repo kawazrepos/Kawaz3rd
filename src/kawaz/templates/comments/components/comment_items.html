@@ -1,23 +1,41 @@
 {% load comments %}
 {% get_comment_list for object as comments %}
 <div class="comment-list">
+    <h2>コメント</h2>
     {% for comment in comments %}
         <article class="comment-item">
-            <div class="row">
-                <div class="col-lg-4" class="comment-avatar">
+            <div class="row" id="comment-item-{{ comment.pk }}">
+                <div class="col col-lg-12 comment-info">
+                    <span>{{ forloop.counter }}</span>
                     {% if comment.user.is_authenticated %}
-                        {# ログインユーザーのコメント #}
-                        <img src="{{ MEDIA_URL }}{{ comment.user.avatar.middle }}" class="avatar avatar-middle">
+                        <span class="nickname">{{ comment.user.nickname }}さん</span>
+                        <span class="username">(@{{ comment.user.username }})</span>
                     {% else %}
-                        {# 非ログインユーザーのコメント #}
+                        <span>{{ comment.name }}さん</span>
                     {% endif %}
                 </div>
-                <div class="col-lg-8">
-
+                <div class="col col-lg-2" class="comment-avatar">
+                    {% if comment.user.is_authenticated %}
+                        {# ログインユーザーはuserのavatar #}
+                        <img src="{{ MEDIA_URL }}{{ comment.user.avatar.middle }}" class="avatar avatar-middle">
+                    {% else %}
+                        {# 非ログインユーザーはデフォルトのアイコン #}
+                        <img src="{{ MEDIA_URL }}" class="avatar avatar-middle">
+                    {% endif %}
+                </div>
+                <div class="col col-lg-10 comment-body">
+                    {% if comment.user.is_authenticated %}
+                        {# ログインユーザーはmarkdownを使える #}
+                        {{ comment.comment | markdown }}
+                    {% else %}
+                        {# 非ログインユーザーは改行のみ変換される #}
+                        {{ comment.comment | linebreaksbr }}
+                    {% endif %}
+                </div>
+                <div class="col col-lg-12 comment-date">
+                    <time>{{ comment.submit_date }}</time>
                 </div>
             </div>
-            {{ comment }}
-
         </article>
     {% endfor %}
 </div>
