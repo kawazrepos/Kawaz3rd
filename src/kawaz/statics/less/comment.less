@@ -5,14 +5,14 @@
   margin: 20px;
   &.authenticated-form {
     // ログインフォームではname, email, urlを隠す
-    .disable_field(name);
-    .disable_field(email);
-    .disable_field(url);
+    .disable-field(name);
+    .disable-field(email);
+    .disable-field(url);
   }
-  .disable_field(honeypot);
+  .disable-field(honeypot);
 }
 // 指定したフィールド名のフィールドを消し去るお便利mixin
-.disable_field(@field_name) {
+.disable-field(@field_name) {
   [for="id_@{field_name}"] {
     display: none;
     & ~ div {
