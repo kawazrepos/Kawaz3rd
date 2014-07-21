@@ -3,21 +3,21 @@
 <div class="comment-list">
     <h2>コメント</h2>
     {% for comment in comments %}
-        <article class="comment-item">
-            <div class="row" id="comment-item-{{ comment.pk }}">
-                <div class="col col-lg-12 comment-info">
-                    <span>{{ forloop.counter }}</span>
-                    {% if comment.user.is_authenticated %}
-                        <span class="nickname">{{ comment.user.nickname }}さん</span>
-                        <span class="username">(@{{ comment.user.username }})</span>
-                    {% else %}
-                        <span>{{ comment.name }}さん</span>
-                    {% endif %}
-                </div>
-                <div class="col col-lg-2" class="comment-avatar">
+        <article class="comment-item row" id="c{{ comment.pk }}">
+            <header class="col col-lg-12 comment-info">
+                <span class="comment-index">{{ forloop.counter }}</span>
+                {% if comment.user.is_authenticated %}
+                    <span class="nickname">{{ comment.user.nickname }}さん</span>
+                    <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
+                {% else %}
+                    <span>{{ comment.name }}さん</span>
+                {% endif %}
+            </header>
+            <div class="comment-main col col-lg-12">
+                <div class="col col-lg-2 comment-avatar">
                     {% if comment.user.is_authenticated %}
                         {# ログインユーザーはuserのavatar #}
-                        <img src="{{ MEDIA_URL }}{{ comment.user.avatar.middle }}" class="avatar avatar-middle">
+                        <img src="{{ MEDIA_URL }}{{ comment.user.avatar.middle }}" class="avatar avatar-middle" alt="@{{ comment.user.username }}">
                     {% else %}
                         {# 非ログインユーザーはデフォルトのアイコン #}
                         <img src="{{ MEDIA_URL }}" class="avatar avatar-middle">
@@ -32,10 +32,11 @@
                         {{ comment.comment | linebreaksbr }}
                     {% endif %}
                 </div>
-                <div class="col col-lg-12 comment-date">
-                    <time>{{ comment.submit_date }}</time>
-                </div>
             </div>
+
+            <footer class="col col-lg-12 comment-date">
+                <time><a href="{{ comment.get_absolute_url }}">{{ comment.submit_date }}</a></time>
+            </footer>
         </article>
     {% endfor %}
 </div>
