@@ -5,16 +5,7 @@
     {% for comment in comments %}
         <article class="comment-item row" id="c{{ comment.pk }}">
             <header class="col col-lg-12 comment-info">
-                <span class="comment-index">{{ forloop.counter }}</span>
-                {% if comment.user.is_authenticated %}
-                    <span class="nickname">{{ comment.user.nickname }}さん</span>
-                    <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
-                {% else %}
-                    <span>{{ comment.name }}さん</span>
-                {% endif %}
-            </header>
-            <div class="comment-main col col-lg-12">
-                <div class="col col-lg-2 comment-avatar">
+                <div class="comment-avatar">
                     {% if comment.user.is_authenticated %}
                         {# ログインユーザーはuserのavatar #}
                         <img src="{{ MEDIA_URL }}{{ comment.user.avatar.middle }}" class="avatar avatar-middle" alt="@{{ comment.user.username }}">
@@ -23,19 +14,26 @@
                         <img src="{{ MEDIA_URL }}" class="avatar avatar-middle">
                     {% endif %}
                 </div>
-                <div class="col col-lg-10 comment-body">
-                    {% if comment.user.is_authenticated %}
-                        {# ログインユーザーはmarkdownを使える #}
-                        {{ comment.comment | markdown }}
-                    {% else %}
-                        {# 非ログインユーザーは改行のみ変換される #}
-                        {{ comment.comment | linebreaksbr }}
-                    {% endif %}
-                </div>
+                <span class="comment-index">{{ forloop.counter }}</span>
+                {% if comment.user.is_authenticated %}
+                    <span class="nickname">{{ comment.user.nickname }}さん</span>
+                    <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
+                {% else %}
+                    <span>{{ comment.name }}さん</span>
+                {% endif %}
+            </header>
+            <div class="comment-body col col-lg-12 comment-body">
+                {% if comment.user.is_authenticated %}
+                    {# ログインユーザーはmarkdownを使える #}
+                    {{ comment.comment | markdown }}
+                {% else %}
+                    {# 非ログインユーザーは改行のみ変換される #}
+                    {{ comment.comment | linebreaksbr }}
+                {% endif %}
             </div>
 
             <footer class="col col-lg-12 comment-date">
-                <time><a href="{{ comment.get_absolute_url }}">{{ comment.submit_date }}</a></time>
+                <time><a href="{{ comment.get_absolute_url }}">{{ comment.submit_date|date:"Y/m/d H:i" }}</a></time>
             </footer>
         </article>
     {% endfor %}

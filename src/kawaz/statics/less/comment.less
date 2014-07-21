@@ -24,16 +24,30 @@
   margin: 20px 0 30px;
 }
 .comment-item {
+  @border-radius: 5px;
   background-color: white;
   border: solid 1px @gray-lighter;
-  .border-radius(5px);
-  margin: 10px;
+  .border-radius(@border-radius);
+  margin: 20px;
+  .comment-avatar {
+    height: 100%;
+    img {
+      border: solid 1px @gray-lighter;
+      background-color: @gray-lighter;
+    }
+  }
   .comment-info {
+    .comment-avatar {
+      top: -@avatar-size-small / 2;
+      left: -@avatar-size-small / 2;
+      position: absolute;
+    }
     background-color: @brand-primary;
-    .border-radius(5px);
-    margin: 5px;
+    border-radius: @border-radius @border-radius 0 0;
+    -webkit-border-radius: @border-radius @border-radius 0 0;
+    -moz-border-radius: @border-radius @border-radius 0 0;
     margin: 0;
-    padding: 5px;
+    padding: 5px @avatar-size-small + 16px;
     .comment-index {
       font-weight: bold;
     }
@@ -45,21 +59,17 @@
       }
     }
   }
-  .comment-main {
+  .comment-body {
     width: 100%;
     height: 100%;
-    padding-top: 10px;
-    min-height: 100px;
-    .comment-avatar {
-      height: 100%;
-      img {
-        display: block;
-        margin: 0 auto;
-      }
-    }
+    padding: 15px 20px;
+    min-height: 40px;
   }
-  time {
-    float: right;
+  .comment-date {
+    time {
+      float: right;
+    }
+    padding-bottom: 3px;
   }
 
 }
