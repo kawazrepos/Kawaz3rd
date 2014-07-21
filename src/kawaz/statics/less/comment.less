@@ -1,0 +1,18 @@
+.comment-form {
+  &.authenticated-form {
+    // ログインフォームではname, email, urlを隠す
+    .disable_field(name);
+    .disable_field(email);
+    .disable_field(url);
+  }
+  .disable_field(honeypot);
+}
+// 指定したフィールド名のフィールドを消し去るお便利mixin
+.disable_field(@field_name) {
+  [for="id_@{field_name}"] {
+    display: none;
+    & ~ div {
+      display: none;
+    }
+  }
+}

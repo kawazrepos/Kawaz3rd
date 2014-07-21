@@ -177,6 +177,8 @@ TEST_RUNNER = 'kawaz.core.tests.runner.MediaRootTestSuiteRunner'
 
 RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
+SITE_ID = 1
+
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている
     # https://docs.djangoproject.com/en/dev/topics/i18n/timezones/#code

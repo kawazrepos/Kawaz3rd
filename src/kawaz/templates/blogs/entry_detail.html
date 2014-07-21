@@ -1,4 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    {{ object }}
+    {% include "blogs/components/entry_detail.html" %}
+    {% include "comments/components/comment_items.html" %}
+    {% include "comments/components/comment_form.html" %}
 {% endblock %}

@@ -1,0 +1,23 @@
+{% load comments %}
+{% get_comment_list for object as comments %}
+<div class="comment-list">
+    {% for comment in comments %}
+        <article class="comment-item">
+            <div class="row">
+                <div class="col-lg-4" class="comment-avatar">
+                    {% if comment.user.is_authenticated %}
+                        {# ログインユーザーのコメント #}
+                        <img src="{{ MEDIA_URL }}{{ comment.user.avatar.middle }}" class="avatar avatar-middle">
+                    {% else %}
+                        {# 非ログインユーザーのコメント #}
+                    {% endif %}
+                </div>
+                <div class="col-lg-8">
+
+                </div>
+            </div>
+            {{ comment }}
+
+        </article>
+    {% endfor %}
+</div>
