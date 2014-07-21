@@ -1,7 +1,7 @@
 {% load stars_tags %}
 {% load staticfiles %}
 <section class="star-container" ng-controller="StarController">
-    <script type="text/ng-template" id="star-item.html">
+    <script type="text/ng-template" id="star_item.html">
         <div class="star-user">
             <a ng-href="[[ star.author.url ]]">
                 <img class="avatar" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar]]'>
@@ -27,7 +27,7 @@
                 <ul>
                     <li class="star"
                         ng-repeat="star in visibleStars"
-                        ng-include=" 'star-item.html' "
+                        ng-include=" 'star_item.html' "
                         ng-mouseover="showPopup($event, star);"
                         ng-mouseout="star.visible = false;"></li>
                     <li class="star-read-more"

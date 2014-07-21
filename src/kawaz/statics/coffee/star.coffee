@@ -1,3 +1,6 @@
+# Star表示、操作用のAngularJSコントローラー
+#
+#
 angular.kawaz.controller('StarController', ($scope, $http) ->
 
   # 取得した全てのスター
@@ -18,6 +21,9 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
     )
 
   # スターを追加ボタンが押されたとき
+  #
+  # @param [Event] e
+  #
   $scope.addStar = (e) ->
     e.preventDefault()
 
@@ -26,15 +32,13 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
 
     # URLパラメータをがんばってObjectに変換している
     # url?object_id=1&content_type=1みたいなのが$scope.endpointに入ってるはず
-    # FIX ME
-    regex = /([a-z_]+)=(\d+)/g
-    params = $scope.endpoint.match(regex)
+    querystring = $scope.endpoint.split('?')[1] or ''
     data =
       quote: quote
-    $(params).each((index, param) ->
+    querystring.split('&').forEach((param) ->
       bits = param.split('=')
-      key = bits[0]
-      value = bits[1]
+      key = decodeURIComponent(bits[0])
+      value = decodeURIComponent(bits[1])
       data[key] = value
     )
 
@@ -43,6 +47,10 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
     )
 
   # starがマウスオーバーされたとき
+  #
+  # @param [Event] e
+  # @param [Object] star StarのObject
+  #
   $scope.showPopup = ((e, star) ->
     star.visible = true
     $scope.popupPosition =
@@ -51,6 +59,9 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
   )
 
   # 削除ボタンが押されたとき
+  #
+  # @param [Object] star StarのObject
+  #
   $scope.deleteStar = (star) ->
     pk = star.id
     params =

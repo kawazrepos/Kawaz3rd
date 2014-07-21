@@ -1,6 +1,6 @@
 # Angular Applicationをグローバルに取得できるようにします
 angular.kawaz = angular.module('kawaz', ['ngSanitize'])
-.config(($interpolateProvider, $httpProvider) ->
+       .config(($interpolateProvider, $httpProvider) ->
   # デフォルトのSymbol {{ }}はDjangoのテンプレートエンジンと衝突するため
   # [[ angularVariable ]]で展開できるようにしている
   $interpolateProvider.startSymbol('[[')
