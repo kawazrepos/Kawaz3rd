@@ -25,7 +25,9 @@
             <div class="comment-body col col-lg-12 comment-body">
                 {% if comment.user.is_authenticated %}
                     {# ログインユーザーはmarkdownを使える #}
-                    {{ comment.comment | markdown }}
+                    <div class="markdown">
+                        {{ comment.comment | markdown }}
+                    </div>
                 {% else %}
                     {# 非ログインユーザーは改行のみ変換される #}
                     {{ comment.comment | linebreaksbr }}
