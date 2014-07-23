@@ -31,8 +31,9 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
     quote = document.getSelection().toString()
 
     # URLパラメータをがんばってObjectに変換している
-    # url?object_id=1&content_type=1みたいなのが$scope.endpointに入ってるはず
+    # url?object_id=1&content_type=1という形式の文字列が$scope.endpointに入っていて
     # URLエンコードなどはされていない状態で渡される
+    # パラメーター部分は必ずPKである整数値が入っているためデコードを考慮していない
     querystring = $scope.endpoint.split('?')[1] or ''
     data =
       quote: quote
