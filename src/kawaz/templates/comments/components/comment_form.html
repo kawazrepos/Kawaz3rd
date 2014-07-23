@@ -1,0 +1,14 @@
+{% load comments %}
+{% load bootstrap %}
+{% get_comment_form for object as comment_form %}
+<h2>コメントの投稿</h2>
+<div class="comment-form{% if request.user.is_authenticated %} authenticated-form{% endif %}">
+    <form class="form-horizontal" method="POST" action="{% comment_form_target %}">{% csrf_token %}
+        <div class="row">
+            {{ comment_form | bootstrap_horizontal }}
+            <div class="form-group col col-lg-12">
+                <input type="submit" class="btn btn-primary" value="投稿">
+            </div>
+        </div>
+    </form>
+</div>
