@@ -40,10 +40,15 @@ class EntryCreateView(CreateView):
     model = Entry
     form_class = EntryForm
 
-    def form_valid(self, form):
+    def get_form(self, form_class):
+        # Model.cleanでValidationを行うために
+        # ここで作者を設定している
+        # 議論参照
+        # https://github.com/kawazrepos/Kawaz3rd/pull/134
+        form = super().get_form(form_class)
         # 記事の作成者を自動的に指定
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        return form
 
 
 @permission_required('blogs.change_entry')

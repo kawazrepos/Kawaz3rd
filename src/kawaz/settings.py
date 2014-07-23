@@ -35,6 +35,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.comments',
     'rest_framework',
     'permission',
     'thumbnailfield',
@@ -174,6 +176,8 @@ DEFAULT_RENDERER_CLASSES = (
 TEST_RUNNER = 'kawaz.core.tests.runner.MediaRootTestSuiteRunner'
 
 RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
+
+SITE_ID = 1
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている
