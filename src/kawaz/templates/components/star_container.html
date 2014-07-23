@@ -34,7 +34,7 @@
                         ng-mouseout="star.visible = false;"></li>
                     <li class="star-read-more"
                         ng-click="openReadMore();"
-                        ng-hide="isReadMoreOpened"><span class="glyphicon glyphicon-chevron-down"></span>[[ readMoreCount ]]</li>
+                        ng-hide="stars.length <= starVisibleThreshold || isReadMoreOpened"><span class="glyphicon glyphicon-chevron-down"></span>[[ readMoreCount ]]</li>
                 </ul>
             </div>
         </div>
