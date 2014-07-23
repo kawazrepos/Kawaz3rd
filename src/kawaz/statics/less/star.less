@@ -27,7 +27,9 @@
   }
   .star-body-col {
     // ポップアップを正しい位置に出すために
-    // この要素がstaticになってないとダメ
+    // absolute指定されている子要素の.star-popupの
+    // 基準位置が絶対座標になるようにここはbootstrap側で
+    // col-xg-nに指定されているrelative宣言を上書きしている
     position: static;
   }
   .star {
@@ -35,8 +37,8 @@
     float: left;
     list-style-type: none;
     .star-user {
-      // この下にあるstar-removeを相対位置で指定してるので
-      // これはrelativeになってないとダメ
+      // absolute指定されている 子要素の.star-removeの
+      //基準位置となるように、ここは relative を指定している
       position: relative;
     }
     .star-remove {

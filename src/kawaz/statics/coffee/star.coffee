@@ -32,6 +32,7 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
 
     # URLパラメータをがんばってObjectに変換している
     # url?object_id=1&content_type=1みたいなのが$scope.endpointに入ってるはず
+    # URLエンコードなどはされていない状態で渡される
     querystring = $scope.endpoint.split('?')[1] or ''
     data =
       quote: quote
@@ -53,9 +54,12 @@ angular.kawaz.controller('StarController', ($scope, $http) ->
   #
   $scope.showPopup = ((e, star) ->
     star.visible = true
+    offset =
+      x : 12
+      y : 12
     $scope.popupPosition =
-      left: e.pageX + 12
-      top: e.pageY + 12
+      left: e.pageX + offset.x
+      top: e.pageY + offset.y
   )
 
   # 削除ボタンが押されたとき

@@ -4,7 +4,7 @@
     <script type="text/ng-template" id="star_item.html">
         <div class="star-user">
             <a ng-href="[[ star.author.url ]]">
-                <img class="avatar" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar]]'>
+                <img class="avatar" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar ]]'>
                 {% if user has 'stars_star_add' of object %}
                     <a href="#" class="star-remove" ng-click="deleteStar(star);" ng-show="star.visible"><span class="glyphicon glyphicon-remove"></span></a>
                 {% endif %}
@@ -13,7 +13,7 @@
         <div class="star-popup" ng-show="star.visible" ng-style="popupPosition">
             <p class="nickname" ng-bind="star.author.nickname"></p>
             <hr ng-show="star.quote">
-            <p class="quote" ng-bind="'「[[star.quote]]」'" ng-show="star.quote"></p>
+            <p class="quote" ng-bind="'「[[ star.quote ]]」'" ng-show="star.quote"></p>
         </div>
     </script>
     {% get_star_endpoint object as endpoint %}
