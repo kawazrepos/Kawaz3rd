@@ -1,0 +1,72 @@
+@import "common/define";
+
+.star-container {
+  ul {
+    padding-left: 3px;
+  }
+  li {
+    height: @avatar-size-small;
+  }
+  .add-star-button {
+    span {
+      margin-left: 3px;
+    }
+  }
+  .star-read-more {
+    span {
+      margin-top: 2px;
+      margin-right: 2px;
+    }
+    color: @brand-warning;
+    padding: 1px 3px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    min-width: 16px;
+    cursor: pointer;
+  }
+  .star-body-col {
+    // ポップアップを正しい位置に出すために
+    // absolute指定されている子要素の.star-popupの
+    // 基準位置が絶対座標になるようにここはbootstrap側で
+    // col-xg-nに指定されているrelative宣言を上書きしている
+    position: static;
+  }
+  .star {
+    width: @avatar-size-small;
+    float: left;
+    list-style-type: none;
+    .star-user {
+      // absolute指定されている 子要素の.star-removeの
+      //基準位置となるように、ここは relative を指定している
+      position: relative;
+    }
+    .star-remove {
+      width: 3px;
+      height: 3px;
+      top: -2px;
+      left: -2px;
+      position: absolute;
+      display: inline-block;
+      z-index: 3000;
+    }
+    .star-popup {
+      .nickname {
+        margin-left: 3px;
+        margin-bottom: 0px;
+        font-weight: bold;
+      }
+      hr {
+        margin: 2px;
+      }
+      .quote {
+        margin: 2px 7px 2px;
+      }
+      z-index: 9999;
+      position: absolute;
+      background-color: white;
+      border: solid 1px @gray-darker;
+      min-width: 100px;
+    }
+  }
+}
