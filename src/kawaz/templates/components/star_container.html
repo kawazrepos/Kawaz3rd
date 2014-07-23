@@ -20,9 +20,11 @@
     <input type="hidden" ng-model="endpoint" ng-init="endpoint='{{ endpoint }}';fetchStars();">
     <div class="star-container">
         <div class="row">
-            <div class="star-add-button-col col-lg-1">
-                <button class="btn btn-primary btm-sm add-star-button" ng-click="addStar($event);"><span class="glyphicon glyphicon-star"></span>イイネ</button>
-            </div>
+            {% if user has 'stars.star_add' of object %}
+                <div class="star-add-button-col col-lg-1">
+                    <button class="btn btn-primary btm-sm add-star-button" ng-click="addStar($event);"><span class="glyphicon glyphicon-star"></span>イイネ</button>
+                </div>
+            {% endif %}
             <div class="star-body-col col-lg-11">
                 <ul>
                     <li class="star"
