@@ -16,83 +16,83 @@ class CategoryTestCase(TestCase):
         self.assertEqual(str(category), category.label)
 
 class ProjectManagerTestCase(TestCase):
+    not_active_statuses = ['eternal', 'paused', 'done', 'planning']
 
     def setUp(self):
-        self.public_project = ProjectFactory()
-        self.draft_project = ProjectFactory(pub_state='draft')
-        self.protected_project = ProjectFactory(pub_state='protected')
-        self.user = PersonaFactory()
-        self.wille = PersonaFactory(role='wille')
-        self.anonymous = AnonymousUser()
+        def create_user(role):
+            if role == 'anonymous':
+                return AnonymousUser()
+            return PersonaFactory(role=role)
+
+        self.users = {role: create_user(role) for role in ['adam', 'seele', 'nerv', 'children', 'wille', 'anonymous']}
+        self.projects = {}
+        from kawaz.core.publishments.models import PUB_STATES
+        for status in Project.STATUS:
+            for pub_state in PUB_STATES:
+                key = '{}__{}'.format(status[0], pub_state[0])
+                self.projects.update({key: ProjectFactory(status=status[0], pub_state=pub_state[0], administrator__role='seele')})
+
+    def _test_project(self, role, status='active', pub_state='public', neg=False):
+        user = self.users[role]
+        qs = Project.objects.active(user)
+        key = "{}__{}".format(status, pub_state)
+        project = self.projects[key]
+        if neg:
+            self.assertFalse(project in qs,
+                             '{} should not show {} {} projects'.format(role, pub_state, status))
+        else:
+            self.assertTrue(project in qs,
+                            '{} should show {} {} projects'.format(role, pub_state, status))
 
     def test_project_manager(self):
         '''Tests Project.objects returns ProjectManager instance'''
         self.assertEqual(type(Project.objects), ProjectManager)
 
-    def test_published_with_authorized(self):
-        '''
-        Tests Project.objects.published() returns QuerySet which contains all active users
-        when passed authorized user as its argument.
-        '''
-        qs = Project.objects.published(self.user)
-        self.assertEqual(Project.objects.count(), 3)
-        self.assertEqual(qs.count(), 2, 'Queryset have two projects')
-        self.assertEqual(qs[0], self.protected_project, 'Queryset have internal project')
-        self.assertEqual(qs[1], self.public_project, 'Queryset have public project')
+    def test_active_public(self):
+        """
+         全てのユーザーでactiveでpublicなプロジェクトを含む
+         """
+        self._test_project('adam', 'active', 'public')
+        self._test_project('seele', 'active', 'public')
+        self._test_project('nerv', 'active', 'public')
+        self._test_project('children', 'active', 'public')
+        self._test_project('wille', 'active', 'public')
+        self._test_project('anonymous', 'active', 'public')
 
-    def test_published_with_wille(self):
-        '''
-        Tests Project.objects.published() returns QuerySet which contains public users
-        when passed users whose role is `wille` as its argument.
-        '''
-        qs = Project.objects.published(self.wille)
-        self.assertEqual(qs.count(), 1, 'Queryset have one project')
-        self.assertEqual(qs[0], self.public_project, 'Queryset have public project')
+    def test_active_protected(self):
+        """
+         Children以上のユーザーでactiveでprotectedなプロジェクトを含む
+         """
+        self._test_project('adam', 'active', 'protected')
+        self._test_project('seele', 'active', 'protected')
+        self._test_project('nerv', 'active', 'protected')
+        self._test_project('children', 'active', 'protected')
+        self._test_project('wille', 'active', 'protected', neg=True)
+        self._test_project('anonymous', 'active', 'protected', neg=True)
 
-    def test_published_with_anonymous(self):
-        '''
-        Tests Project.objects.published() returns QuerySet which contains public users
-        when passed anonymous user as its argument.
-        '''
-        qs = Project.objects.published(self.anonymous)
-        self.assertEqual(qs.count(), 1, 'Queryset have one project')
-        self.assertEqual(qs[0], self.public_project, 'Queryset have public project')
+    def test_active_draft(self):
+        """
+         全てのユーザーでactiveでdraftなプロジェクトを含まない
+         """
+        self._test_project('adam', 'active', 'draft', neg=True)
+        self._test_project('seele', 'active', 'draft', neg=True)
+        self._test_project('nerv', 'active', 'draft', neg=True)
+        self._test_project('children', 'active', 'draft', neg=True)
+        self._test_project('wille', 'active', 'draft', neg=True)
+        self._test_project('anonymous', 'active', 'draft', neg=True)
 
-    def test_draft_with_owner(self):
-        '''Tests Project.objects.published() with authenticated user returns all publish projects '''
-        qs = Project.objects.draft(self.draft_project.administrator)
-        self.assertEqual(qs.count(), 1)
-        self.assertEqual(qs[0], self.draft_project)
-
-    def test_draft_with_other(self):
-        '''Tests Project.objects.draft() with owner user returns all own draft projects'''
-        user = PersonaFactory()
-        qs = Project.objects.draft(user)
-        self.assertEqual(qs.count(), 0)
-
-    def _create_projects_with_status(self, pub_state='public'):
-        d = {}
-        for status_tuple in Project.STATUS:
-            status = status_tuple[0]
-            d.update({status :ProjectFactory(status=status, pub_state=pub_state)})
-        return d
-
-    def test_active_with_authenticated(self):
-        '''Tests Project.objects.active() with authenticated user returns done, planning or released projects'''
-        # Project.objects.public may return 2 projects
-        d0 = self._create_projects_with_status(pub_state='public') # +3
-        d1 = self._create_projects_with_status(pub_state='protected') # +3
-        qs = Project.objects.active(self.user)
-        self.assertEqual(qs.count(), 8)
-
-    def test_active_with_anonymous(self):
-        '''Tests Project.objects.active() with anonymous user returns done, planning or released projects'''
-        # Project.objects.public may return 1 project
-        d0 = self._create_projects_with_status(pub_state='public') # +3
-        d1 = self._create_projects_with_status(pub_state='protected') # +0
-        qs = Project.objects.active(self.anonymous)
-        self.assertEqual(qs.count(), 4)
-
+    def test_active_with_non_active_status(self):
+        """
+        pub_stateやuserに関わらず、active以外のプロジェクトは含まれない
+        """
+        for status in self.not_active_statuses:
+            for pub_status in ['public', 'protected', 'draft']:
+                self._test_project('adam', status, pub_status, neg=True)
+                self._test_project('seele', status, pub_status, neg=True)
+                self._test_project('nerv', status, pub_status, neg=True)
+                self._test_project('children', status, pub_status, neg=True)
+                self._test_project('wille', status, pub_status, neg=True)
+                self._test_project('anonymous', status, pub_status, neg=True)
 
 class ProjectModelTestCase(TestCase):
     def test_create_group(self):

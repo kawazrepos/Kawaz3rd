@@ -55,7 +55,7 @@ class ProjectManager(models.Manager, PublishmentManagerMixin):
         three_months_ago = now - datetime.timedelta(days=3 * 30)
         is_valid_status = Q(status__in=['paused', 'eternaled', 'done'])
         is_recent_planning = Q(status='planning') and Q(created_at__lte=three_months_ago)
-        return self.active(user).filter(is_valid_status or is_recent_planning)
+        return self.published(user).filter(is_valid_status or is_recent_planning)
 
     def recent_planning(self, user):
         """
@@ -67,7 +67,7 @@ class ProjectManager(models.Manager, PublishmentManagerMixin):
         now = datetime.datetime.now()
         # 厳密には90日前だが、dateutilなどを駆使してぴったり3ヶ月前を取ることに意義を感じなかった
         three_months_ago = now - datetime.timedelta(days=3 * 30)
-        return self.active(user).filter(status='planning', created_at__gt=three_months_ago)
+        return self.published(user).filter(status='planning', created_at__gt=three_months_ago)
 
 
 # TODO: 所有権限の委託を可能にする
