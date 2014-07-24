@@ -18,7 +18,11 @@ def get_projects(context, lookup='published'):
     Lookup: (Default: published)
         published: ユーザーに対して公開された Project を返す
         draft: ユーザーが編集可能な下書き Project を返す
-        active: ユーザーが閲覧可能なアクティブ Project を返す
+        active: ユーザーが閲覧可能なactiveな Project を返す
+        recently_planned: ユーザーが閲覧可能な直近90日以内に作られた企画中な Project を返す
+        archived: 以下の条件を満たすプロジェクトを返す
+            状態が一時停止中、エターナった、完成済み、もしくは
+            企画中であるが、作成から90日以上経過している
 
     Examples:
         公開された Project のクエリを取得し、最新5件のみを描画
@@ -32,7 +36,7 @@ def get_projects(context, lookup='published'):
 
         {% get_projects 'draft' as draft_projects %}
     """
-    ALLOWED_LOOKUPS = ('published', 'draft', 'active',)
+    ALLOWED_LOOKUPS = ('published', 'draft', 'active', 'recently_planned', 'archived')
     if lookup not in ALLOWED_LOOKUPS:
         raise TemplateSyntaxError(
             "Unknown 'lookup' is specified to 'get_projects'. "
@@ -47,4 +51,9 @@ def get_projects(context, lookup='published'):
         qs = Project.objects.draft(request.user)
     elif lookup == 'active':
         qs = Project.objects.active(request.user)
+    elif lookup == 'recently_planned':
+        qs = Project.objects.recently_planned(request.user)
+    elif lookup == 'archived':
+        qs = Project.objects.archived(request.user)
     return qs
+

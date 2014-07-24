@@ -33,11 +33,42 @@ class ProjectManager(models.Manager, PublishmentManagerMixin):
 
     def active(self, user):
         """
-        指定されたユーザーが閲覧可能なプロジェクトのうち、アクティブなもののみ
+        指定されたユーザーが閲覧可能なプロジェクトのうち、活動中のもののみ
         を含むクエリを返す
         """
         qs = self.published(user)
-        return qs.exclude(status='eternal')
+        return qs.filter(status='active')
+
+    def archived(self, user):
+        """
+        指定されたユーザーがー閲覧可能なプロジェクトのうち
+        アーカイブ化されたプロジェクトのクエリを返す
+        以下のようなプロジェクトがアーカイブである
+
+        状態がpaused, eternaled, doneのいずれかである
+        状態がplanningかつ、created_atから90日以上経過している
+        """
+        import datetime
+        from django.utils import timezone
+        from django.db.models import Q
+        now = timezone.now()
+        three_months_ago = now - datetime.timedelta(days=3 * 30)
+        status_q = Q(status__in=['paused', 'eternal', 'done'])
+        planning_q = Q(status='planning')
+        old_q = Q(created_at__lte=three_months_ago)
+        return self.published(user).filter(status_q | (planning_q & old_q))
+
+    def recently_planned(self, user):
+        """
+        指定されたユーザーがー閲覧可能なプロジェクトのうち
+        最近企画されたプロジェクトのクエリを返す
+        状態がplanningかつ、created_atが90日未満である
+        """
+        import datetime
+        from django.utils import timezone
+        now = timezone.now()
+        past_day = now - datetime.timedelta(days=3 * 30)
+        return self.published(user).filter(status='planning', created_at__gt=past_day)
 
 
 # TODO: 所有権限の委託を可能にする
@@ -55,6 +86,7 @@ class Project(models.Model):
     STATUS = (
         ("planning", _("Planning")),
         ("active",   _("Active")),
+        ("paused",   _("Suspended")),
         ("eternal",  _("Eternaled")),
         ("done",     _("Released")),
     )

@@ -16,82 +16,159 @@ class CategoryTestCase(TestCase):
         self.assertEqual(str(category), category.label)
 
 class ProjectManagerTestCase(TestCase):
+    statuses = ['eternal', 'paused', 'done', 'active', 'planning']
+    roles = ['adam', 'seele', 'nerv', 'children', 'wille', 'anonymous']
+    pub_status = ['public', 'protected', 'draft']
 
     def setUp(self):
-        self.public_project = ProjectFactory()
-        self.draft_project = ProjectFactory(pub_state='draft')
-        self.protected_project = ProjectFactory(pub_state='protected')
-        self.user = PersonaFactory()
-        self.wille = PersonaFactory(role='wille')
-        self.anonymous = AnonymousUser()
+        def create_user(role):
+            if role == 'anonymous':
+                return AnonymousUser()
+            return PersonaFactory(role=role)
+
+        self.users = {role: create_user(role) for role in self.roles}
+        self.projects = {}
+        from kawaz.core.publishments.models import PUB_STATES
+        for status in Project.STATUS:
+            for pub_state in PUB_STATES:
+                key = '{}__{}'.format(status[0], pub_state[0])
+                self.projects.update({key: ProjectFactory(status=status[0], pub_state=pub_state[0], administrator__role='seele')})
+
+    def _test_project(self, method_name, role, status='active', pub_state='public', neg=False, project=None):
+        user = self.users[role]
+        if not project:
+            key = "{}__{}".format(status, pub_state)
+            project = self.projects[key]
+        method = getattr(Project.objects, method_name)
+        qs = method(user)
+        if neg:
+            self.assertFalse(project in qs,
+                             '{} should not show {} {} projects'.format(role, project.pub_state, project.status))
+        else:
+            self.assertTrue(project in qs,
+                            '{} should show {} {} projects'.format(role, project.pub_state, project.status))
 
     def test_project_manager(self):
         '''Tests Project.objects returns ProjectManager instance'''
         self.assertEqual(type(Project.objects), ProjectManager)
 
-    def test_published_with_authorized(self):
-        '''
-        Tests Project.objects.published() returns QuerySet which contains all active users
-        when passed authorized user as its argument.
-        '''
-        qs = Project.objects.published(self.user)
-        self.assertEqual(Project.objects.count(), 3)
-        self.assertEqual(qs.count(), 2, 'Queryset have two projects')
-        self.assertEqual(qs[0], self.protected_project, 'Queryset have internal project')
-        self.assertEqual(qs[1], self.public_project, 'Queryset have public project')
+    def test_active_public(self):
+        """
+         全てのユーザーでactiveでpublicなプロジェクトを含む
+         """
+        self._test_project('active', 'adam', 'active', 'public')
+        self._test_project('active', 'seele', 'active', 'public')
+        self._test_project('active', 'nerv', 'active', 'public')
+        self._test_project('active', 'children', 'active', 'public')
+        self._test_project('active', 'wille', 'active', 'public')
+        self._test_project('active', 'anonymous', 'active', 'public')
 
-    def test_published_with_wille(self):
-        '''
-        Tests Project.objects.published() returns QuerySet which contains public users
-        when passed users whose role is `wille` as its argument.
-        '''
-        qs = Project.objects.published(self.wille)
-        self.assertEqual(qs.count(), 1, 'Queryset have one project')
-        self.assertEqual(qs[0], self.public_project, 'Queryset have public project')
+    def test_active_protected(self):
+        """
+         Children以上のユーザーでactiveでprotectedなプロジェクトを含む
+         """
+        self._test_project('active', 'adam', 'active', 'protected')
+        self._test_project('active', 'seele', 'active', 'protected')
+        self._test_project('active', 'nerv', 'active', 'protected')
+        self._test_project('active', 'children', 'active', 'protected')
+        self._test_project('active', 'wille', 'active', 'protected', neg=True)
+        self._test_project('active', 'anonymous', 'active', 'protected', neg=True)
 
-    def test_published_with_anonymous(self):
-        '''
-        Tests Project.objects.published() returns QuerySet which contains public users
-        when passed anonymous user as its argument.
-        '''
-        qs = Project.objects.published(self.anonymous)
-        self.assertEqual(qs.count(), 1, 'Queryset have one project')
-        self.assertEqual(qs[0], self.public_project, 'Queryset have public project')
+    def test_active_draft(self):
+        """
+         全てのユーザーでactiveでdraftなプロジェクトを含まない
+         """
+        self._test_project('active', 'adam', 'active', 'draft', neg=True)
+        self._test_project('active', 'seele', 'active', 'draft', neg=True)
+        self._test_project('active', 'nerv', 'active', 'draft', neg=True)
+        self._test_project('active', 'children', 'active', 'draft', neg=True)
+        self._test_project('active', 'wille', 'active', 'draft', neg=True)
+        self._test_project('active', 'anonymous', 'active', 'draft', neg=True)
 
-    def test_draft_with_owner(self):
-        '''Tests Project.objects.published() with authenticated user returns all publish projects '''
-        qs = Project.objects.draft(self.draft_project.administrator)
-        self.assertEqual(qs.count(), 1)
-        self.assertEqual(qs[0], self.draft_project)
+    def test_active_with_non_active_status(self):
+        """
+        pub_stateやuserに関わらず、active以外のプロジェクトは含まれない
+        """
+        not_active_statuses = list(self.statuses)
+        not_active_statuses.remove("active")
+        for status in not_active_statuses:
+            for pub_status in self.pub_status:
+                self._test_project('active', 'adam', status, pub_status, neg=True)
+                self._test_project('active', 'seele', status, pub_status, neg=True)
+                self._test_project('active', 'nerv', status, pub_status, neg=True)
+                self._test_project('active', 'children', status, pub_status, neg=True)
+                self._test_project('active', 'wille', status, pub_status, neg=True)
+                self._test_project('active', 'anonymous', status, pub_status, neg=True)
 
-    def test_draft_with_other(self):
-        '''Tests Project.objects.draft() with owner user returns all own draft projects'''
-        user = PersonaFactory()
-        qs = Project.objects.draft(user)
-        self.assertEqual(qs.count(), 0)
+    def test_recent_planning_recent(self):
+        """
+        最近作ったPlanningはどのユーザーでも含まれる
+        """
+        for role in self.roles:
+            self._test_project('recently_planned', role, 'planning', 'public')
 
-    def _create_projects_with_status(self, pub_state='public'):
-        d = {}
-        for status_tuple in Project.STATUS:
-            status = status_tuple[0]
-            d.update({status :ProjectFactory(status=status, pub_state=pub_state)})
-        return d
+    def test_recent_planning_past(self):
+        """
+        90日以上前に作られたPlanningはどのユーザーでも含まれない
+        """
+        import datetime
+        from django.utils import timezone
+        past = timezone.now() - datetime.timedelta(days=90)
+        # Factoryの引数にcreated_atを渡しても現在に上書きされてしまうので
+        # あとで変更して保存している
+        old_project = ProjectFactory(status='planning')
+        old_project.created_at = past
+        old_project.save()
+        for role in self.roles:
+            self._test_project('recently_planned', role, 'planning', 'public', neg=True, project=old_project)
 
-    def test_active_with_authenticated(self):
-        '''Tests Project.objects.active() with authenticated user returns done, planning or released projects'''
-        # Project.objects.public may return 2 projects
-        d0 = self._create_projects_with_status(pub_state='public') # +3
-        d1 = self._create_projects_with_status(pub_state='protected') # +3
-        qs = Project.objects.active(self.user)
-        self.assertEqual(qs.count(), 8)
+    def test_recent_planning_not_planning(self):
+        """
+         planning状態じゃないものはどのユーザーでも含まれない
+        """
+        not_planning_statuses = list(self.statuses)
+        not_planning_statuses.remove('planning')
+        for role in self.roles:
+            for status in not_planning_statuses:
+                self._test_project('recently_planned', role, status, 'public', neg=True)
 
-    def test_active_with_anonymous(self):
-        '''Tests Project.objects.active() with anonymous user returns done, planning or released projects'''
-        # Project.objects.public may return 1 project
-        d0 = self._create_projects_with_status(pub_state='public') # +3
-        d1 = self._create_projects_with_status(pub_state='protected') # +0
-        qs = Project.objects.active(self.anonymous)
-        self.assertEqual(qs.count(), 4)
+    def test_archived_with_active_and_planning(self):
+        """
+        active, planning状態で最近作られた物はどのユーザーでも含まれない
+        """
+        statuses = ['active', 'planning']
+        for role in self.roles:
+            for status in statuses:
+                self._test_project('archived', role, status, 'public', neg=True)
+
+
+    def test_archived_with_others(self):
+        """
+         active, planning以外の状態で最近作られた物はどのユーザーでも含まれる
+        """
+        ignore_statuses = ['active', 'planning']
+        statuses = list(self.statuses)
+        for s in ignore_statuses: statuses.remove(s)
+        for role in self.roles:
+            for status in statuses:
+                self._test_project('archived', role, status, 'public')
+
+    def test_archived_with_past_planning(self):
+        """
+        planningだが、90日以前に作られた物は含まれる
+        """
+        import datetime
+        from django.utils import timezone
+        past = timezone.now() - datetime.timedelta(days=90)
+        # Factoryの引数にcreated_atを渡しても現在に上書きされてしまうので
+        # あとで変更して保存している
+        old_project = ProjectFactory(status='planning')
+        old_project.created_at = past
+        old_project.save()
+
+        for role in self.roles:
+            self._test_project('archived', role, project=old_project)
+
 
 
 class ProjectModelTestCase(TestCase):

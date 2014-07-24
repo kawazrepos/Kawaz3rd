@@ -97,6 +97,44 @@ class ProjectsTemplateTagTestCase(TestCase):
                              "{} should see {} projects.".format(username,
                                                                  nprojects))
 
+    def test_get_projects_recent_planning(self):
+        """get_projects recently_planned はユーザーが閲覧可能な直近3ヶ月以内に作られた企画中な Project を返す
+        """
+        patterns = (
+            ('adam', 0),
+            ('seele', 0),
+            ('nerv', 0),
+            ('children', 0),
+            ('wille', 0),
+            ('anonymous', 0),
+            ('administrator', 0),
+        )
+        # with lookup
+        for username, nprojects in patterns:
+            projects = self._render_template(username, lookup='recently_planned')
+            self.assertEqual(projects.count(), nprojects,
+                             "{} should see {} projects.".format(username,
+                                                                 nprojects))
+
+    def test_get_projects_archived(self):
+        """get_projects archived はユーザーが閲覧可能なアーカイブ化された Project を返す
+        """
+        patterns = (
+            ('adam', 2),
+            ('seele', 2),
+            ('nerv', 2),
+            ('children', 2),
+            ('wille', 1),
+            ('anonymous', 1),
+            ('administrator', 2),
+        )
+        # with lookup
+        for username, nprojects in patterns:
+            projects = self._render_template(username, lookup='archived')
+            self.assertEqual(projects.count(), nprojects,
+                             "{} should see {} projects.".format(username,
+                                                                 nprojects))
+
     def test_get_projects_unknown(self):
         """get_projects unknown はエラーを出す"""
         patterns = (
