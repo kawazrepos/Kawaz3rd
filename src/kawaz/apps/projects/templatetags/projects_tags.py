@@ -48,3 +48,15 @@ def get_projects(context, lookup='published'):
     elif lookup == 'active':
         qs = Project.objects.active(request.user)
     return qs
+
+@register.assignment_tag(takes_context=True)
+def get_active_projects(context):
+    return Project.objects.active(context['user'])
+
+@register.assignment_tag(takes_context=True)
+def get_recent_planning_projects(context):
+    return Project.objects.recent_planning(context['user'])
+
+@register.assignment_tag(takes_context=True)
+def get_archived_projects(context):
+    return Project.objects.archived(context['user'])
