@@ -16,7 +16,9 @@ class CategoryTestCase(TestCase):
         self.assertEqual(str(category), category.label)
 
 class ProjectManagerTestCase(TestCase):
-    not_active_statuses = ['eternal', 'paused', 'done', 'planning']
+    statuses = ['eternal', 'paused', 'done', 'active', 'planning']
+    roles = ['adam', 'seele', 'nerv', 'children', 'wille', 'anonymous']
+    pub_status = ['public', 'protected', 'draft']
 
     def setUp(self):
         def create_user(role):
@@ -24,7 +26,7 @@ class ProjectManagerTestCase(TestCase):
                 return AnonymousUser()
             return PersonaFactory(role=role)
 
-        self.users = {role: create_user(role) for role in ['adam', 'seele', 'nerv', 'children', 'wille', 'anonymous']}
+        self.users = {role: create_user(role) for role in self.roles}
         self.projects = {}
         from kawaz.core.publishments.models import PUB_STATES
         for status in Project.STATUS:
@@ -32,17 +34,19 @@ class ProjectManagerTestCase(TestCase):
                 key = '{}__{}'.format(status[0], pub_state[0])
                 self.projects.update({key: ProjectFactory(status=status[0], pub_state=pub_state[0], administrator__role='seele')})
 
-    def _test_project(self, role, status='active', pub_state='public', neg=False):
+    def _test_project(self, method_name, role, status='active', pub_state='public', neg=False, project=None):
         user = self.users[role]
-        qs = Project.objects.active(user)
-        key = "{}__{}".format(status, pub_state)
-        project = self.projects[key]
+        if not project:
+            key = "{}__{}".format(status, pub_state)
+            project = self.projects[key]
+        method = getattr(Project.objects, method_name)
+        qs = method(user)
         if neg:
             self.assertFalse(project in qs,
-                             '{} should not show {} {} projects'.format(role, pub_state, status))
+                             '{} should not show {} {} projects'.format(role, project.pub_state, project.status))
         else:
             self.assertTrue(project in qs,
-                            '{} should show {} {} projects'.format(role, pub_state, status))
+                            '{} should show {} {} projects'.format(role, project.pub_state, project.status))
 
     def test_project_manager(self):
         '''Tests Project.objects returns ProjectManager instance'''
@@ -52,47 +56,120 @@ class ProjectManagerTestCase(TestCase):
         """
          全てのユーザーでactiveでpublicなプロジェクトを含む
          """
-        self._test_project('adam', 'active', 'public')
-        self._test_project('seele', 'active', 'public')
-        self._test_project('nerv', 'active', 'public')
-        self._test_project('children', 'active', 'public')
-        self._test_project('wille', 'active', 'public')
-        self._test_project('anonymous', 'active', 'public')
+        self._test_project('active', 'adam', 'active', 'public')
+        self._test_project('active', 'seele', 'active', 'public')
+        self._test_project('active', 'nerv', 'active', 'public')
+        self._test_project('active', 'children', 'active', 'public')
+        self._test_project('active', 'wille', 'active', 'public')
+        self._test_project('active', 'anonymous', 'active', 'public')
 
     def test_active_protected(self):
         """
          Children以上のユーザーでactiveでprotectedなプロジェクトを含む
          """
-        self._test_project('adam', 'active', 'protected')
-        self._test_project('seele', 'active', 'protected')
-        self._test_project('nerv', 'active', 'protected')
-        self._test_project('children', 'active', 'protected')
-        self._test_project('wille', 'active', 'protected', neg=True)
-        self._test_project('anonymous', 'active', 'protected', neg=True)
+        self._test_project('active', 'adam', 'active', 'protected')
+        self._test_project('active', 'seele', 'active', 'protected')
+        self._test_project('active', 'nerv', 'active', 'protected')
+        self._test_project('active', 'children', 'active', 'protected')
+        self._test_project('active', 'wille', 'active', 'protected', neg=True)
+        self._test_project('active', 'anonymous', 'active', 'protected', neg=True)
 
     def test_active_draft(self):
         """
          全てのユーザーでactiveでdraftなプロジェクトを含まない
          """
-        self._test_project('adam', 'active', 'draft', neg=True)
-        self._test_project('seele', 'active', 'draft', neg=True)
-        self._test_project('nerv', 'active', 'draft', neg=True)
-        self._test_project('children', 'active', 'draft', neg=True)
-        self._test_project('wille', 'active', 'draft', neg=True)
-        self._test_project('anonymous', 'active', 'draft', neg=True)
+        self._test_project('active', 'adam', 'active', 'draft', neg=True)
+        self._test_project('active', 'seele', 'active', 'draft', neg=True)
+        self._test_project('active', 'nerv', 'active', 'draft', neg=True)
+        self._test_project('active', 'children', 'active', 'draft', neg=True)
+        self._test_project('active', 'wille', 'active', 'draft', neg=True)
+        self._test_project('active', 'anonymous', 'active', 'draft', neg=True)
 
     def test_active_with_non_active_status(self):
         """
         pub_stateやuserに関わらず、active以外のプロジェクトは含まれない
         """
-        for status in self.not_active_statuses:
-            for pub_status in ['public', 'protected', 'draft']:
-                self._test_project('adam', status, pub_status, neg=True)
-                self._test_project('seele', status, pub_status, neg=True)
-                self._test_project('nerv', status, pub_status, neg=True)
-                self._test_project('children', status, pub_status, neg=True)
-                self._test_project('wille', status, pub_status, neg=True)
-                self._test_project('anonymous', status, pub_status, neg=True)
+        not_active_statuses = list(self.statuses)
+        not_active_statuses.remove("active")
+        for status in not_active_statuses:
+            for pub_status in self.pub_status:
+                self._test_project('active', 'adam', status, pub_status, neg=True)
+                self._test_project('active', 'seele', status, pub_status, neg=True)
+                self._test_project('active', 'nerv', status, pub_status, neg=True)
+                self._test_project('active', 'children', status, pub_status, neg=True)
+                self._test_project('active', 'wille', status, pub_status, neg=True)
+                self._test_project('active', 'anonymous', status, pub_status, neg=True)
+
+    def test_recent_planning_recent(self):
+        """
+        最近作ったPlanningはどのユーザーでも含まれる
+        """
+        for role in self.roles:
+            self._test_project('recent_planning', role, 'planning', 'public')
+
+    def test_recent_planning_past(self):
+        """
+        90日以上前に作られたPlanningはどのユーザーでも含まれない
+        """
+        import datetime
+        from django.utils import timezone
+        past = timezone.now() - datetime.timedelta(days=90)
+        # Factoryの引数にcreated_atを渡しても現在に上書きされてしまうので
+        # あとで変更して保存している
+        old_project = ProjectFactory(status='planning')
+        old_project.created_at = past
+        old_project.save()
+        for role in self.roles:
+            self._test_project('recent_planning', role, 'planning', 'public', neg=True, project=old_project)
+
+    def test_recent_planning_not_planning(self):
+        """
+         planning状態じゃないものはどのユーザーでも含まれない
+        """
+        not_planning_statuses = list(self.statuses)
+        not_planning_statuses.remove('planning')
+        for role in self.roles:
+            for status in not_planning_statuses:
+                self._test_project('recent_planning', role, status, 'public', neg=True)
+
+    def test_archived_with_active_and_planning(self):
+        """
+        active, planning状態で最近作られた物はどのユーザーでも含まれない
+        """
+        statuses = ['active', 'planning']
+        for role in self.roles:
+            for status in statuses:
+                self._test_project('archived', role, status, 'public', neg=True)
+
+
+    def test_archived_with_others(self):
+        """
+         active, planning以外の状態で最近作られた物はどのユーザーでも含まれる
+        """
+        ignore_statuses = ['active', 'planning']
+        statuses = list(self.statuses)
+        for s in ignore_statuses: statuses.remove(s)
+        for role in self.roles:
+            for status in statuses:
+                self._test_project('archived', role, status, 'public')
+
+    def test_archived_with_past_planning(self):
+        """
+        planningだが、90日以前に作られた物は含まれる
+        """
+        import datetime
+        from django.utils import timezone
+        past = timezone.now() - datetime.timedelta(days=90)
+        # Factoryの引数にcreated_atを渡しても現在に上書きされてしまうので
+        # あとで変更して保存している
+        old_project = ProjectFactory(status='planning')
+        old_project.created_at = past
+        old_project.save()
+
+        for role in self.roles:
+            self._test_project('archived', role, project=old_project)
+
+
 
 class ProjectModelTestCase(TestCase):
     def test_create_group(self):

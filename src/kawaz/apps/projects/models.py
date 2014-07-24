@@ -49,13 +49,15 @@ class ProjectManager(models.Manager, PublishmentManagerMixin):
         状態がplanningかつ、created_atから3ヶ月(90日)以上経過している
         """
         import datetime
+        from django.utils import timezone
         from django.db.models import Q
-        now = datetime.datetime.now()
+        now = timezone.now()
         # 厳密には90日前だが、dateutilなどを駆使してぴったり3ヶ月前を取ることに意義を感じなかった
         three_months_ago = now - datetime.timedelta(days=3 * 30)
-        is_valid_status = Q(status__in=['paused', 'eternaled', 'done'])
-        is_recent_planning = Q(status='planning') and Q(created_at__lte=three_months_ago)
-        return self.published(user).filter(is_valid_status or is_recent_planning)
+        is_valid_status = Q(status__in=['paused', 'eternal', 'done'])
+        is_planning = Q(status='planning')
+        is_old = Q(created_at__lte=three_months_ago)
+        return self.published(user).filter(is_valid_status | (is_planning & is_old))
 
     def recent_planning(self, user):
         """
@@ -64,7 +66,8 @@ class ProjectManager(models.Manager, PublishmentManagerMixin):
         状態がplanningかつ、created_atが3ヶ月(90日)未満である
         """
         import datetime
-        now = datetime.datetime.now()
+        from django.utils import timezone
+        now = timezone.now()
         # 厳密には90日前だが、dateutilなどを駆使してぴったり3ヶ月前を取ることに意義を感じなかった
         three_months_ago = now - datetime.timedelta(days=3 * 30)
         return self.published(user).filter(status='planning', created_at__gt=three_months_ago)
