@@ -73,8 +73,21 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   }
 }
 .navbar-default {
-  background-color: fade(@brand-primary, 100%);
+  background-color: @navbar-default-bg;
   border-color: rgba(231,231,231,1);
+  .navbar-nav > .active {
+    a {
+      color: #eee;
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+  .navbar-nav > li a {
+    &:hover {
+      color: #fff;
+    }
+  }
 }
 @login-form-width: 400px;
 // ヘッダー
