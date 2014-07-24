@@ -105,7 +105,7 @@ class ProjectManagerTestCase(TestCase):
         最近作ったPlanningはどのユーザーでも含まれる
         """
         for role in self.roles:
-            self._test_project('recent_planning', role, 'planning', 'public')
+            self._test_project('recently_planned', role, 'planning', 'public')
 
     def test_recent_planning_past(self):
         """
@@ -120,7 +120,7 @@ class ProjectManagerTestCase(TestCase):
         old_project.created_at = past
         old_project.save()
         for role in self.roles:
-            self._test_project('recent_planning', role, 'planning', 'public', neg=True, project=old_project)
+            self._test_project('recently_planned', role, 'planning', 'public', neg=True, project=old_project)
 
     def test_recent_planning_not_planning(self):
         """
@@ -130,7 +130,7 @@ class ProjectManagerTestCase(TestCase):
         not_planning_statuses.remove('planning')
         for role in self.roles:
             for status in not_planning_statuses:
-                self._test_project('recent_planning', role, status, 'public', neg=True)
+                self._test_project('recently_planned', role, status, 'public', neg=True)
 
     def test_archived_with_active_and_planning(self):
         """

@@ -98,7 +98,7 @@ class ProjectsTemplateTagTestCase(TestCase):
                                                                  nprojects))
 
     def test_get_projects_recent_planning(self):
-        """get_projects recent_planning はユーザーが閲覧可能な直近3ヶ月以内に作られた企画中な Project を返す
+        """get_projects recently_planned はユーザーが閲覧可能な直近3ヶ月以内に作られた企画中な Project を返す
         """
         patterns = (
             ('adam', 0),
@@ -111,7 +111,7 @@ class ProjectsTemplateTagTestCase(TestCase):
         )
         # with lookup
         for username, nprojects in patterns:
-            projects = self._render_template(username, lookup='recent_planning')
+            projects = self._render_template(username, lookup='recently_planned')
             self.assertEqual(projects.count(), nprojects,
                              "{} should see {} projects.".format(username,
                                                                  nprojects))

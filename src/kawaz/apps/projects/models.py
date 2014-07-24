@@ -46,31 +46,29 @@ class ProjectManager(models.Manager, PublishmentManagerMixin):
         以下のようなプロジェクトがアーカイブである
 
         状態がpaused, eternaled, doneのいずれかである
-        状態がplanningかつ、created_atから3ヶ月(90日)以上経過している
+        状態がplanningかつ、created_atから90日以上経過している
         """
         import datetime
         from django.utils import timezone
         from django.db.models import Q
         now = timezone.now()
-        # 厳密には90日前だが、dateutilなどを駆使してぴったり3ヶ月前を取ることに意義を感じなかった
         three_months_ago = now - datetime.timedelta(days=3 * 30)
-        is_valid_status = Q(status__in=['paused', 'eternal', 'done'])
-        is_planning = Q(status='planning')
-        is_old = Q(created_at__lte=three_months_ago)
-        return self.published(user).filter(is_valid_status | (is_planning & is_old))
+        status_q = Q(status__in=['paused', 'eternal', 'done'])
+        planning_q = Q(status='planning')
+        old_q = Q(created_at__lte=three_months_ago)
+        return self.published(user).filter(status_q | (planning_q & old_q))
 
-    def recent_planning(self, user):
+    def recently_planned(self, user):
         """
         指定されたユーザーがー閲覧可能なプロジェクトのうち
         最近企画されたプロジェクトのクエリを返す
-        状態がplanningかつ、created_atが3ヶ月(90日)未満である
+        状態がplanningかつ、created_atが90日未満である
         """
         import datetime
         from django.utils import timezone
         now = timezone.now()
-        # 厳密には90日前だが、dateutilなどを駆使してぴったり3ヶ月前を取ることに意義を感じなかった
-        three_months_ago = now - datetime.timedelta(days=3 * 30)
-        return self.published(user).filter(status='planning', created_at__gt=three_months_ago)
+        past_day = now - datetime.timedelta(days=3 * 30)
+        return self.published(user).filter(status='planning', created_at__gt=past_day)
 
 
 # TODO: 所有権限の委託を可能にする
