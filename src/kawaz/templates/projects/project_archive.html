@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <form action="." method="GET">
+        {{ filter.form }}
+        <input type="submit" value="検索">
+    </form>
+    {% for object in filter %}
+        {{ object }}
+    {% endfor %}
+{% endblock %}

@@ -7,6 +7,7 @@ from .views import ProjectDeleteView
 from .views import ProjectDetailView
 from .views import ProjectJoinView
 from .views import ProjectQuitView
+from .views import ProjectArchiveView
 
 
 urlpatterns = patterns('',
@@ -16,6 +17,8 @@ urlpatterns = patterns('',
         ProjectCreateView.as_view(), name='projects_project_create'),
     url('^preview/$',
         ProjectPreview.as_view(), name='projects_project_preview'),
+    url('^archives/$',
+        ProjectArchiveView.as_view(), name='projects_project_archives'),
     url('^(?P<pk>\d+)/update/$',
         ProjectUpdateView.as_view(), name='projects_project_update'),
     url('^(?P<pk>\d+)/join/$',
@@ -25,5 +28,5 @@ urlpatterns = patterns('',
     url('^(?P<pk>\d+)/delete/$',
         ProjectDeleteView.as_view(), name='projects_project_delete'),
     url('^(?P<slug>[\w_-]+)/$', 
-        ProjectDetailView.as_view(), name='projects_project_detail')
+        ProjectDetailView.as_view(), name='projects_project_detail'),
 )

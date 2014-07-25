@@ -11,12 +11,20 @@ from django.http.response import (HttpResponseRedirect,
                                   HttpResponseNotAllowed)
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.detail import SingleObjectTemplateResponseMixin, BaseDetailView
+from django_filters.views import FilterView
 from permission.decorators import permission_required
 
 from .forms import ProjectCreateForm
 from .forms import ProjectUpdateForm
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 from .models import Project
+from .filters import ProductFilter
+
+
+class ProjectArchiveView(FilterView):
+    model = Project
+    filterset_class = ProductFilter
+    template_name_suffix = '_archive'
 
 
 @permission_required('projects.add_project')
