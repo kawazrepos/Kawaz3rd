@@ -8,6 +8,26 @@ from .factories import CategoryFactory
 from ..models import Project
 from kawaz.core.personas.tests.factories import PersonaFactory
 
+class ViewTestCaseBase(TestCase):
+    def setUp(self):
+        self.members = (
+                PersonaFactory(role='adam'),
+                PersonaFactory(role='seele'),
+                PersonaFactory(role='nerv'),
+                PersonaFactory(role='children'),
+            )
+        self.non_members = (
+                PersonaFactory(role='wille'),
+                AnonymousUser(),
+            )
+        self.platform = ProjectFactory()
+        self.category = CategoryFactory()
+
+    def prefer_login(self, user):
+        if user.is_authenticated():
+            self.assertTrue(self.client.login(username=user.username,
+                                              password='password'))
+
 class ProjectDetailViewTestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory()
@@ -441,6 +461,60 @@ class ProjectListViewTestCase(TestCase):
         self.assertEqual(list.count(), 2, 'object_list has two projects')
         self.assertEqual(list[0], self.projects[1], 'protected')
         self.assertEqual(list[1], self.projects[0], 'public')
+
+
+class ProjectArchiveViewTestCase(ViewTestCaseBase):
+    def setUp(self):
+        super().setUp()
+        self.projects = {
+            ProjectFactory(status='eternal'),
+            ProjectFactory(status='active'),
+            ProjectFactory(pub_state='protected', status='planning'),
+            ProjectFactory(pub_state='protected', status='done'),
+            ProjectFactory(pub_state='draft')
+        }
+
+    def test_members_can_view_all_archive(self):
+        """
+         ProjectArchiveViewを表示したとき、Kawazメンバーはアーカイブ化されていて公開された全てのプロジェクトが見れる
+        """
+
+        for member in self.members:
+            self.prefer_login(member)
+            r = self.client.get('/projects/archives/')
+            self.assertTemplateUsed(r, 'projects/project_archive.html')
+            object_list = r.context['filter']
+            self.assertEqual(len(object_list), 2)
+
+    def test_not_members_can_view_public_archive(self):
+        """
+        ProjectArchiveViewを表示したとき、メンバー以外はアーカイブ化されていてpublicなプロジェクトのみが見れる
+        """
+        for member in self.non_members:
+            self.prefer_login(member)
+            r = self.client.get('/projects/archives/')
+            self.assertTemplateUsed(r, 'projects/project_archive.html')
+            object_list = r.context['filter']
+            self.assertEqual(len(object_list), 1)
+
+    def test_context_has_paginator(self):
+        """
+        ProjectArchiveViewのcontextにpaginatorが含まれている
+        """
+        r = self.client.get('/projects/archives/')
+        self.assertTemplateUsed(r, 'projects/project_archive.html')
+        self.assertTrue('page_obj' in r.context)
+        self.assertTrue('paginator' in r.context)
+
+    def test_paginate_by(self):
+        """
+        ProjectArchiveViewでは1ページに50個までしかProjectが含まれない
+        """
+        for i in range(70):
+            ProjectFactory(status='eternal')
+        r = self.client.get('/projects/archives/')
+        object_list = r.context['filter']
+        self.assertEqual(len(object_list), 50)
 
 
 class ProjectJoinViewTestCase(TestCase):

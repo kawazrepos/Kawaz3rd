@@ -5,6 +5,7 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 from django.core.urlresolvers import reverse_lazy
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
 from django.http.response import (HttpResponseRedirect,
                                   HttpResponseForbidden,
@@ -22,9 +23,15 @@ from .filters import ProductFilter
 
 
 class ProjectArchiveView(FilterView):
-    model = Project
+    """
+    アーカイブ化されたプロジェクト閲覧用のビューです
+    """
     filterset_class = ProductFilter
     template_name_suffix = '_archive'
+    paginate_by = 50
+
+    def get_queryset(self):
+        return Project.objects.archived(self.request.user)
 
 
 @permission_required('projects.add_project')
