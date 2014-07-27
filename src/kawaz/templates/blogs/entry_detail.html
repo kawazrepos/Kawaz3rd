@@ -8,7 +8,7 @@
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="{% url "blogs_entry_list" %}">Blogs</a></li>
-    <li><a href="{% url "blogs_entry_list" %}{{ object.author }}/">{{ object.author }}{% trans "'s Entries" %}</a></li>
+    <li><a href="{% url "blogs_author_entry_list" author=object.author %}">{{ object.author.nickname }}{% trans "'s Entries" %}</a></li>
     <li>{{ object.title }}</li>
 {% endblock %}
 {% block content %}

@@ -13,5 +13,5 @@
     <article class="markdown">
         {{ object.body | markdown }}
     </article>
-    カテゴリー: {{ object.category }}<br />
+    <p>{% trans "Category" %}: {{ object.category }}</p>
 </div>
