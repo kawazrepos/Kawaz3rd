@@ -6,29 +6,31 @@
         <form type="get" action="." role="form">
             <div class="form-group">
                 <label for="q" class="sr-only">検索ワード</label>
-                <input type="text" class="form-control" name="q">
+                <input type="text" class="form-control" name="q" value="{{ query }}" required>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-large">Search</button>
             </div>
         </form>
     </div>
-    <div class="search-results">
-        <h1>「{{ query }}」の検索結果</h1>
-        <div>
-        {% if not page.object_list|length_is:0 %}
-            <div class="alert alert-info" role="alert"><strong>{{ page.object_list|length }}</strong>件の検索結果が見つかりました</div>
-            {% for result in page.object_list %}
-                <article class="search-result">
-                    <h1><a href="{{ result.object.get_absolute_url }}">{{ result.title }}</a></h1>
-                    <p>
-                        {% highlight result.body with query html_tag "mark" %}
-                    </p>
-                </article>
-            {% endfor %}
-        {% else %}
-            <div class="alert alert-info" role="alert">検索結果は見つかりませんでした</div>
-        {% endif %}
+    {% if query %}
+        <div class="search-results">
+            <h1>「{{ query }}」の検索結果</h1>
+            <div>
+                {% if not page.object_list|length_is:0 %}
+                    <div class="alert alert-info" role="alert"><strong>{{ page.object_list|length }}</strong>件の検索結果が見つかりました</div>
+                    {% for result in page.object_list %}
+                        <article class="search-result">
+                            <h1><a href="{{ result.object.get_absolute_url }}">{{ result.title }}</a></h1>
+                            <p>
+                                {% highlight result.body with query html_tag "mark" %}
+                            </p>
+                        </article>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info" role="alert">検索結果は見つかりませんでした</div>
+                {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
