@@ -483,7 +483,7 @@ class ProjectArchiveViewTestCase(ViewTestCaseBase):
             self.prefer_login(member)
             r = self.client.get('/projects/archives/')
             self.assertTemplateUsed(r, 'projects/project_archive.html')
-            object_list = r.context['filter']
+            object_list = r.context['object_list']
             self.assertEqual(len(object_list), 2)
 
     def test_not_members_can_view_public_archive(self):
@@ -494,7 +494,7 @@ class ProjectArchiveViewTestCase(ViewTestCaseBase):
             self.prefer_login(member)
             r = self.client.get('/projects/archives/')
             self.assertTemplateUsed(r, 'projects/project_archive.html')
-            object_list = r.context['filter']
+            object_list = r.context['object_list']
             self.assertEqual(len(object_list), 1)
 
     def test_context_has_paginator(self):
@@ -513,7 +513,7 @@ class ProjectArchiveViewTestCase(ViewTestCaseBase):
         for i in range(70):
             ProjectFactory(status='eternal')
         r = self.client.get('/projects/archives/')
-        object_list = r.context['filter']
+        object_list = r.context['object_list']
         self.assertEqual(len(object_list), 50)
 
 

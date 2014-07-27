@@ -5,33 +5,34 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 from django.core.urlresolvers import reverse_lazy
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
 from django.http.response import (HttpResponseRedirect,
                                   HttpResponseForbidden,
                                   HttpResponseNotAllowed)
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.detail import SingleObjectTemplateResponseMixin, BaseDetailView
-from django_filters.views import FilterView
 from permission.decorators import permission_required
 
 from .forms import ProjectCreateForm
 from .forms import ProjectUpdateForm
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 from .models import Project
-from .filters import ProductFilter
 
 
-class ProjectArchiveView(FilterView):
+class ProjectArchiveView(ListView):
     """
     アーカイブ化されたプロジェクト閲覧用のビューです
     """
-    filterset_class = ProductFilter
     template_name_suffix = '_archive'
     paginate_by = 50
+    order_by = ('title', 'category', 'status', 'created_at',)
 
     def get_queryset(self):
-        return Project.objects.archived(self.request.user)
+        qs = Project.objects.archived(self.request.user)
+        order_by = self.request.GET.get('o', '')
+        if order_by in self.order_by:
+            qs = qs.order_by(order_by)
+        return qs
 
 
 @permission_required('projects.add_project')
