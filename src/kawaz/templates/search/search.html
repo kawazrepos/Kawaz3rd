@@ -1,15 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form type="get" action=".">
-        <input type="text" name="q">
-        <button type="submit">Search</button>
-    </form>
-
-    {% for result in results %}
-        <h1>{{ result.title }}</h1>
-        <p>
-            {{ result.body | markdown }}
-        </p>
-    {% endfor %}
+    <div class="search-form">
+        <form type="get" action="." role="form">
+            <div class="form-group">
+                <label for="q" class="sr-only">検索ワード</label>
+                <input type="text" class="form-control" name="q">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-large">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="search-result">
+        <div>
+        {% if not results|length_is:0 %}
+            <div class="alert alert-info" role="alert"><strong>{{ results|length }}</strong>件の検索結果が見つかりました</div>
+            {% for result in results %}
+                <article>
+                    {{ result.text }}
+                </article>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info" role="alert">検索結果は見つかりませんでした</div>
+        {% endif %}
+        </div>
+    </div>
 {% endblock %}
