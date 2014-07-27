@@ -204,12 +204,13 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap3', 'crispy')
 # django-haystack
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'ENGINE': 'kawaz.core.search.backends.KuromojiElasticSearchEngine',
         'URL': 'http://127.0.0.1:9200/',
         'INDEX_NAME': 'haystack',
     },
 }
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+ELASTICSEARCH_DEFAULT_ANALYZER = 'kuromoji'
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている
