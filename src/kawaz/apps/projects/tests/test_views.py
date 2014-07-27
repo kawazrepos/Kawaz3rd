@@ -466,13 +466,13 @@ class ProjectListViewTestCase(TestCase):
 class ProjectArchiveViewTestCase(ViewTestCaseBase):
     def setUp(self):
         super().setUp()
-        self.projects = {
+        self.projects = (
             ProjectFactory(status='eternal'),
             ProjectFactory(status='active'),
             ProjectFactory(pub_state='protected', status='planning'),
             ProjectFactory(pub_state='protected', status='done'),
             ProjectFactory(pub_state='draft')
-        }
+        )
 
     def test_members_can_view_all_archive(self):
         """
@@ -515,6 +515,27 @@ class ProjectArchiveViewTestCase(ViewTestCaseBase):
         r = self.client.get('/projects/archives/')
         object_list = r.context['object_list']
         self.assertEqual(len(object_list), 50)
+
+    def test_order_by(self):
+        """
+         ProjectArchiveViewにoパラメータを渡すとstatus, created_at, title, categoryについてソートできる
+        """
+        self.prefer_login(self.members[0])
+        p0 = ProjectFactory(status='paused')
+        p1 = ProjectFactory(status='done')
+
+        def _order_by(order_by):
+            r = self.client.get('/projects/archives/', {'o': order_by})
+            object_list = r.context['object_list']
+            archives = Project.objects.archived(self.members[0]).order_by(order_by)
+            for i in range(len(object_list)):
+                self.assertEqual(object_list[i], archives[i])
+
+        _order_by('status')
+        _order_by('created_at')
+        _order_by('title')
+        _order_by('category')
+
 
 
 class ProjectJoinViewTestCase(TestCase):
