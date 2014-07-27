@@ -1,4 +1,17 @@
-<h1>{{ object.title }}</h1>
-<div class="markdown">
-    {{ object.body | markdown }}
+{% load i18n %}
+<div class="blog-article">
+    <div class="blog-article-header">
+        <div class="pull-right">
+            <img src="{{ object.author.avatar.large.url }}" alt="{{ object.author.nickname }} Avater" class="avatar avatar-middle"/> {{ object.author.nickname }}
+        </div>
+        <div class="date pull-left">
+            <p>{{ object.created_at|date:"d" }}<span>{{ object.created_at|date:"M" }}</span></p>
+        </div>
+        <h1>{{ object.title }}</h1>
+        {% trans "Created at" %}: {{ object.created_at }}<br />
+    </div>
+    <article class="markdown">
+        {{ object.body | markdown }}
+    </article>
+    カテゴリー: {{ object.category }}<br />
 </div>

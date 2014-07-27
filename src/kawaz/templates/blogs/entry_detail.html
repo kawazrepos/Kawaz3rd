@@ -1,6 +1,20 @@
-{% extends "base.html" %}
+{% extends "authenticated_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block pre_css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "css/blogs.css" %}" media="screen">
+{% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url "blogs_entry_list" %}">Blogs</a></li>
+    <li><a href="{% url "blogs_entry_list" %}{{ object.author }}/">{{ object.author }}{% trans "'s Entries" %}</a></li>
+    <li>{{ object.title }}</li>
+{% endblock %}
 {% block content %}
+    {{ block.super }}
     {% include "blogs/components/entry_detail.html" %}
     {% include "comments/components/comment_items.html" %}
     {% include "comments/components/comment_form.html" %}
+    {% include "components/social.html" %}
 {% endblock %}
