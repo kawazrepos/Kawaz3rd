@@ -1,23 +1,11 @@
-# ! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/7/27
-#
-__author__ = 'giginet'
-
-# Ref https://gist.github.com/voluntas/6739918
-
 from haystack.backends.elasticsearch_backend import (
     ElasticsearchSearchBackend,
     ElasticsearchSearchEngine,
 )
 
 class KuromojiElasticBackend(ElasticsearchSearchBackend):
-    """
-    ElasticSearchの日本語トークナイザであるKuromojiを利用するためのバックエンドです
 
-    設定などは以下を参照にしました
-    https://gist.github.com/voluntas/6739918
-    """
+    DEFAULT_ANALYZER = "kuromoji_analyzer"
 
     def __init__(self, connection_alias, **connection_options):
         super(KuromojiElasticBackend, self).__init__(
@@ -26,48 +14,17 @@ class KuromojiElasticBackend(ElasticsearchSearchBackend):
             'settings': {
                 "analysis": {
                     "analyzer": {
-                        "ngram_analyzer": {
-                            "type": "custom",
-                            "tokenizer": "lowercase",
-                            "filter": ["haystack_ngram"]
-                        },
-                        "edgengram_analyzer": {
-                            "type": "custom",
-                            "tokenizer": "lowercase",
-                            "filter": ["haystack_edgengram"]
-                        },
                         "kuromoji_analyzer" : {
                             "type" : "custom",
                             "tokenizer" : "kuromoji_tokenizer"
                         },
                     },
                     "tokenizer": {
-                        "haystack_ngram_tokenizer": {
-                            "type": "nGram",
-                            "min_gram": 3,
-                            "max_gram": 15,
-                        },
-                        "haystack_edgengram_tokenizer": {
-                            "type": "edgeNGram",
-                            "min_gram": 2,
-                            "max_gram": 15,
-                            "side": "front"
-                        },
                         "kuromoji" : {
                            "type":"kuromoji_tokenizer"
                         },
                     },
                     "filter": {
-                        "haystack_ngram": {
-                            "type": "nGram",
-                            "min_gram": 3,
-                            "max_gram": 15
-                        },
-                        "haystack_edgengram": {
-                            "type": "edgeNGram",
-                            "min_gram": 5,
-                            "max_gram": 15
-                        },
                         "kuromoji_rf":{
                             "type":"kuromoji_readingform",
                             "use_romaji" : "true"
@@ -87,6 +44,22 @@ class KuromojiElasticBackend(ElasticsearchSearchBackend):
         }
         setattr(self, 'DEFAULT_SETTINGS', SETTINGS)
 
+    def build_schema(self, fields):
+        # http://www.wellfireinteractive.com/blog/custom-haystack-elasticsearch-backend/
+        # https://github.com/voluntas/downpour/blob/develop/downpour/haystack/backends/elasticsearch_backend.py
+        content_field_name, mapping = super(KuromojiElasticBackend,
+                                              self).build_schema(fields)
 
-class KuromojiElasticSearchEngine(ElasticsearchSearchEngine):
+        for field_name, field_class in fields.items():
+            field_mapping = mapping[field_class.index_fieldname]
+
+            if field_mapping['type'] == 'string' and field_class.indexed:
+                if not hasattr(field_class, 'facet_for') and not \
+                                  field_class.field_type in('ngram', 'edge_ngram'):
+                    field_mapping['analyzer'] = self.DEFAULT_ANALYZER
+            mapping.update({field_class.index_fieldname: field_mapping})
+        return (content_field_name, mapping)
+
+
+class KuromojiElasticsearchSearchEngine(ElasticsearchSearchEngine):
     backend = KuromojiElasticBackend
