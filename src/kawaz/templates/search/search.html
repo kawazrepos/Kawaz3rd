@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form type="get" action=".">
+        <input type="text" name="q">
+        <button type="submit">Search</button>
+    </form>
+
+    {% for result in results %}
+        <h1>{{ result.title }}</h1>
+        <p>
+            {{ result.body | markdown }}
+        </p>
+    {% endfor %}
+{% endblock %}
