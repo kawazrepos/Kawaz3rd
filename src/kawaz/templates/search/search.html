@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load highlight %}
 
 {% block content %}
     <div class="search-form">
@@ -12,13 +13,17 @@
             </div>
         </form>
     </div>
-    <div class="search-result">
+    <div class="search-results">
+        <h1>「{{ query }}」の検索結果</h1>
         <div>
-        {% if not results|length_is:0 %}
-            <div class="alert alert-info" role="alert"><strong>{{ results|length }}</strong>件の検索結果が見つかりました</div>
-            {% for result in results %}
-                <article>
-                    {{ result.text }}
+        {% if not page.object_list|length_is:0 %}
+            <div class="alert alert-info" role="alert"><strong>{{ page.object_list|length }}</strong>件の検索結果が見つかりました</div>
+            {% for result in page.object_list %}
+                <article class="search-result">
+                    <h1><a href="{{ result.object.get_absolute_url }}">{{ result.title }}</a></h1>
+                    <p>
+                        {% highlight result.body with query html_tag "mark" %}
+                    </p>
                 </article>
             {% endfor %}
         {% else %}
