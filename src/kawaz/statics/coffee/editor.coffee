@@ -2,25 +2,20 @@
 control = '''
 <div class="editor-control">
   <div class="btn-group btn-group-sm">
-    <div class="mace-indent btn btn-default">
-      <span class="glyphicon glyphicon-indent-left"></span>
-    </div>
     <div class="mace-outdent btn btn-default">
       <span class="glyphicon glyphicon-indent-right"></span>
     </div>
-    <div class="mace-heading btn-group btn-group-sm">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        Heading
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a href="#">h1</a></li>
-        <li><a href="#">h2</a></li>
-        <li><a href="#">h3</a></li>
-        <li><a href="#">h4</a></li>
-        <li><a href="#">h5</a></li>
-        <li><a href="#">h6</a></li>
-      </ul>
+    <div class="mace-indent btn btn-default">
+      <span class="glyphicon glyphicon-indent-left"></span>
+    </div>
+    <div class="mace-heading-1 btn btn-default">
+      <span>H1</span>
+    </div>
+    <div class="mace-heading-2 btn btn-default">
+      <span>H2</span>
+    </div>
+    <div class="mace-heading-3 btn btn-default">
+      <span>H3</span>
     </div>
   </div>
 </div>
@@ -50,12 +45,7 @@ $ ->
     # Mace buttons
     $control.find('.mace-indent').click(mace.indent.bind(mace, 1))
     $control.find('.mace-outdent').click(mace.outdent.bind(mace, 1))
-    $heading = $control.find('.mace-heading li')
-    $heading.click(() ->
-      level = $heading.index(@) + 1
-      mace.heading(level)
-      # inactivate
-      $(@).parent().click()
-      return false
-    )
+    $control.find('.mace-heading-1').click(mace.heading.bind(mace, 1))
+    $control.find('.mace-heading-2').click(mace.heading.bind(mace, 2))
+    $control.find('.mace-heading-3').click(mace.heading.bind(mace, 3))
   )
