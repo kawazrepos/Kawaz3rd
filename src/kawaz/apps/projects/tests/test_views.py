@@ -509,12 +509,17 @@ class ProjectArchiveViewTestCase(ViewTestCaseBase):
     def test_paginate_by(self):
         """
         ProjectArchiveViewでは1ページに50個までしかProjectが含まれない
+        また、ページネーションができていて、次のページには残りのオブジェクトが含まれている
         """
         for i in range(70):
             ProjectFactory(status='eternal')
         r = self.client.get('/projects/archives/')
         object_list = r.context['object_list']
         self.assertEqual(len(object_list), 50)
+
+        r = self.client.get('/projects/archives/?page=2')
+        object_list = r.context['object_list']
+        self.assertEqual(len(object_list), 21)
 
     def test_order_by(self):
         """
