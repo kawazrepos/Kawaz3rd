@@ -19,6 +19,22 @@ from kawaz.core.views.preview import SingleObjectPreviewMixin
 from .models import Project
 
 
+class ProjectArchiveView(ListView):
+    """
+    アーカイブ化されたプロジェクト閲覧用のビューです
+    """
+    template_name_suffix = '_archive'
+    paginate_by = 50
+    order_by = ('title', 'category', 'status', 'created_at',)
+
+    def get_queryset(self):
+        qs = Project.objects.archived(self.request.user)
+        order_by = self.request.GET.get('o', '')
+        if order_by in self.order_by:
+            qs = qs.order_by(order_by)
+        return qs
+
+
 @permission_required('projects.add_project')
 class ProjectCreateView(CreateView):
     model = Project
