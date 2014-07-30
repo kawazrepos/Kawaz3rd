@@ -19,12 +19,13 @@ class GoogleCalendarUpdater(object):
     """
 
     def __init__(self):
+        self.service = None
         if not settings.GOOGLE_CALENDAR_ID:
             return
         try:
             self.service = self._login()
         except:
-            self.service = None
+            pass
 
     def body_from_event(self, event):
         """
