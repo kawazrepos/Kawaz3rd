@@ -181,7 +181,7 @@ RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 SITE_ID = 1
 
 # Google API
-GOOGLE_CLIENT_SECRET_PATH = os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'client_secrets.json')
+GOOGLE_CLIENT_SECRET_PATH = os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'client_secret.json')
 GOOGLE_CREDENTIALS_PATH = os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'google_token.dat')
 GOOGLE_CLIENT_SCOPES = ['https://www.googleapis.com/auth/calendar',]
 
