@@ -184,6 +184,7 @@ SITE_ID = 1
 GOOGLE_CLIENT_SECRET_PATH = os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'client_secret.json')
 GOOGLE_CREDENTIALS_PATH = os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'google_token.dat')
 GOOGLE_CLIENT_SCOPES = ['https://www.googleapis.com/auth/calendar',]
+GOOGLE_CALENDAR_ID = ''
 
 # crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
