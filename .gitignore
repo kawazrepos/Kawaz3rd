@@ -134,3 +134,8 @@ src/kawaz/statics/fonts/*
 
 # for Mace (Markdown Editor)
 src/kawaz/statics/vendor/mace.min.js
+
+# for configs
+
+src/kawaz/config/client_secrets.json
+src/kawaz/config/google_token.dat

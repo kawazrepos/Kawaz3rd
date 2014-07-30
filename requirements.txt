@@ -11,3 +11,4 @@ django-inspectional-registration>=0.4.1
 django-crispy-forms
 honcho
 beautifulsoup4
+git+https://github.com/enorvelle/GoogleApiPython3x.git
