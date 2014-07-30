@@ -92,6 +92,7 @@ class Event(models.Model):
     category = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
+    gcal_id = models.CharField(_("Calendar ID"), default='', editable=False, max_length=128)
 
     objects = EventManager()
 
@@ -184,11 +185,12 @@ class Event(models.Model):
     @models.permalink
     def get_absolute_url(self):
         if self.pub_state == 'draft':
-            return ('events_event_update', (str(self.pk)))
-        return ('events_event_detail', (str(self.pk)))
+            return ('events_event_update', (), {'pk': self.pk})
+        return ('events_event_detail', (), {'pk': self.pk})
 
 
 from django.db.models.signals import post_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
 
@@ -209,3 +211,21 @@ from kawaz.core.publishments.perms import PublishmentPermissionLogic
 add_permission_logic(Event, EventPermissionLogic()),
 add_permission_logic(Event, PublishmentPermissionLogic(
     author_field_name='organizer')),
+
+from .utils.gcal import GoogleCalenderUpdater
+@receiver(post_save, sender=Event)
+def update_gcal(sender, instance, created, **kwargs):
+    """
+    イベント作成、更新時にGoogleカレンダーと同期するシグナルレシーバー
+    """
+    updater = GoogleCalenderUpdater()
+    updater.update_event(instance, created)
+
+
+@receiver(post_delete, sender=Event)
+def delete_gcal(sender, instance, **kwargs):
+    """
+    イベント削除時に、Googleカレンダーから削除するシグナルレシーバー
+    """
+    updater = GoogleCalenderUpdater()
+    updater.delete_event(instance)

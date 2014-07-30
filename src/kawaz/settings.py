@@ -196,3 +196,10 @@ if DEBUG:
     warnings.filterwarnings(
         'error', r"DateTimeField .* received a naive datetime",
         RuntimeWarning, r'django\.db\.models\.fields')
+
+# 環境依存の設定（デプロイサーバー固有の設定など）を読み込む
+LOCAL_SETTINGS_LOADED = False
+try:
+    from local_settings import *
+except ImportError:
+    pass
