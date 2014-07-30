@@ -212,13 +212,13 @@ add_permission_logic(Event, EventPermissionLogic()),
 add_permission_logic(Event, PublishmentPermissionLogic(
     author_field_name='organizer')),
 
-from .utils.gcal import GoogleCalenderUpdater
+from .utils.gcal import GoogleCalendarUpdater
 @receiver(post_save, sender=Event)
 def update_gcal(sender, instance, created, **kwargs):
     """
     イベント作成、更新時にGoogleカレンダーと同期するシグナルレシーバー
     """
-    updater = GoogleCalenderUpdater()
+    updater = GoogleCalendarUpdater()
     updater.update_event(instance, created)
 
 
@@ -227,5 +227,5 @@ def delete_gcal(sender, instance, **kwargs):
     """
     イベント削除時に、Googleカレンダーから削除するシグナルレシーバー
     """
-    updater = GoogleCalenderUpdater()
+    updater = GoogleCalendarUpdater()
     updater.delete_event(instance)

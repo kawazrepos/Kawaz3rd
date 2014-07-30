@@ -3,21 +3,16 @@
 # created by giginet on 2014/7/28
 #
 __author__ = 'giginet'
-import httplib2
 from django.conf import settings
 from django.contrib.sites.models import Site
-import argparse
 import httplib2
-import os
 
 from apiclient import discovery
-from oauth2client import client
 from oauth2client import file
-from oauth2client import tools
 
 STRFTIME_FORMAT = '%Y-%m-%dT%H:%M:%S.000%z'
 
-class GoogleCalenderUpdater(object):
+class GoogleCalendarUpdater(object):
     """
     EventをGoogleカレンダーと同期するための操作をまとめたクラスです
     主にEvent更新、削除時のSignalとして呼ばれることを想定しています
@@ -29,16 +24,16 @@ class GoogleCalenderUpdater(object):
         try:
             self.service = self._login()
         except:
-            return
+            self.service = None
 
-    def json_from_event(self, event):
+    def body_from_event(self, event):
         """
         Eventオブジェクトから、Google Calendar API V3に送信するためのJSONを作ります
         詳細は以下のドキュメントを参考にしてください
             Ref : https://developers.google.com/google-apps/calendar/v3/reference/events/insert
 
         param event [Event] Eventインスタンス
-        return [String] JSON文字列
+        return [Dictionary]
         """
         if not event.period_start or not event.period_end:
             raise Exception("Event instance must be have `period_start` and `period_end`.")
@@ -60,12 +55,15 @@ class GoogleCalenderUpdater(object):
             'source': {
                 'url':  base_url + event.get_absolute_url()
             },
-            'attendees':{}
+            'attendees':[]
         }
 
         for attendee in event.attendees.all():
-            body['attendees']['email'] = attendee.email
-            body['attendees']['displayName'] = attendee.nickname
+            user = {
+                'email': attendee.email,
+                'displayName': attendee.nickname
+            }
+            body['attendees'].append(user)
         return body
 
     def _login(self):
@@ -114,7 +112,7 @@ class GoogleCalenderUpdater(object):
 
         if created or not instance.gcal_id:
             # 新規作成、もしくは同期されていなかったとき
-            body = self.json_from_event(instance)
+            body = self.body_from_event(instance)
             try:
                 created_event = self.service.events().insert(calendarId=settings.GOOGLE_CALENDAR_ID, body=body, **kwargs).execute()
                 instance.gcal_id = created_event['id']
@@ -124,7 +122,7 @@ class GoogleCalenderUpdater(object):
         else:
             # 更新するとき
             gcal_id = instance.gcal_id
-            body = self.json_from_event(instance)
+            body = self.body_from_event(instance)
             try:
                 # updateじゃなくてpatchを使うべきらしい
                 # http://stackoverflow.com/questions/15926676/google-calendar-api-bad-request-400-event-over-developer-console
