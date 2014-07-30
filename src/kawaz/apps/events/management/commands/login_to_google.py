@@ -8,12 +8,9 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-import httplib2
 import argparse
-import httplib2
 import os
 
-from apiclient import discovery
 from oauth2client import client
 from oauth2client import file
 from oauth2client import tools

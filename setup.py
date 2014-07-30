@@ -15,7 +15,7 @@ def read(filename):
 
 def readlist(filename):
     rows = read(filename).split("\n")
-    rows = [x.strip() for x in rows if x.strip()]
+    rows = [x.strip() for x in rows if x.strip() if not x.startswith('-e')]
     return list(rows)
 
 
@@ -52,10 +52,12 @@ setup(
              'requirements-docs.txt'],
     },
     zip_safe=True,
-    install_requires=readlist('requirements.txt'),
+    install_requires=(
+        readlist('requirements.txt')
+    ),
     test_suite="runtests.runtests",
     tests_require=(
         readlist('requirements.txt') +
         readlist('requirements-test.txt')
-    )
+    ),
 )
