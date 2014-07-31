@@ -10,6 +10,7 @@ from django.http.response import HttpResponseRedirect, HttpResponseForbidden, Ht
 from django_filters.views import FilterView
 from .filters import EventFilter
 from django.http.response import HttpResponse
+from django.http.response import StreamingHttpResponse
 from django.core.servers.basehttp import FileWrapper
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -148,6 +149,9 @@ class EventPreview(SingleObjectPreviewMixin, DetailView):
 
 
 class EventCalendarView(DetailView):
+    """
+    EventをiCal形式でダウンロードするView
+    """
     model = Event
     MIMETYPE = 'text/calendar'
 
@@ -156,7 +160,6 @@ class EventCalendarView(DetailView):
         cal['PRODID'] = 'Kawaz'
         cal['VERSION'] = '2.0'
         site = Site.objects.get(pk=settings.SITE_ID)
-        cal['URL'] = 'http://{}{}'.format(site.domain, object.get_absolute_url())
 
         event = CalEvent()
         event['summary'] = object.title
@@ -179,6 +182,7 @@ class EventCalendarView(DetailView):
 
         organizer = create_vaddress(object.organizer)
         event['organizer'] = organizer
+        event['URL'] = 'http://{}{}'.format(site.domain, object.get_absolute_url())
 
         for attendee in object.attendees.all():
             event.add('attendee', create_vaddress(attendee), encode=0)
@@ -194,6 +198,9 @@ class EventCalendarView(DetailView):
             return HttpResponseBadRequest('Event must be public or have `period_start`.')
         cal = self.generate_ical(object)
         file = io.BytesIO(cal.to_ical())
-        response = HttpResponse(FileWrapper(file), content_type=self.MIMETYPE)
+        # テストの際に、closeされてしまうため
+        # HttpResponseの代わりにStreamingHttpResponseを使っている
+        # http://stackoverflow.com/questions/19359451/django-test-file-download-valueerror-i-o-operation-on-closed-file
+        response = StreamingHttpResponse(FileWrapper(file), content_type=self.MIMETYPE)
         response['Content-Disposition'] = 'attachment; filename={}.ics'.format(object.pk)
         return response

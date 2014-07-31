@@ -2,6 +2,7 @@ import datetime
 from unittest import mock
 from django.conf import settings
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import EventFactory, CategoryFactory
@@ -475,3 +476,69 @@ class EventPreviewTestCase(TestCase):
         r = self.client.get('/events/preview/')
         self.assertTemplateUsed(r, 'events/components/event_detail.html')
         self.assertEqual(r.status_code, 200)
+
+class EventCalendarViewTestCase(TestCase):
+    def test_can_reverse_events_event_calendar(self):
+        """
+        URL `events_event_calendar` は`/events/<pk>/calendar/`を返す
+        """
+        e = EventFactory()
+        self.assertEqual(reverse('events_event_calendar', kwargs={'pk': e.pk}), '/events/{}/calendar/'.format(e.pk))
+
+    def test_cannot_get_ical_with_draft(self):
+        """
+        pub_state = 'draft'のEventを取得しようとしたとき、400を返す
+        """
+        e = EventFactory(pub_state='draft')
+        r = self.client.get('/events/{}/calendar/'.format(e.pk))
+        self.assertEqual(r.status_code, 400)
+
+    def test_cannot_get_ical_with_not_period_start(self):
+        """
+        period_startが設定されていないEventを取得しようとしたとき、400を返す
+        """
+        e = EventFactory(period_start=None, period_end=None)
+        r = self.client.get('/events/{}/calendar/'.format(e.pk))
+        self.assertEqual(r.status_code, 400)
+
+    def test_can_download_ical(self):
+        """
+        iCal形式のファイルをダウンロードできる
+        """
+        e = EventFactory()
+        r = self.client.get('/events/{}/calendar/'.format(e.pk))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r['Content-Disposition'], 'attachment; filename={}.ics'.format(e.pk))
+        self.assertEqual(r['content-type'], 'text/calendar')
+
+    def test_can_download_valid_ical(self):
+        """
+        正しい形式のiCalファイルをダウンロードできる
+        """
+        from icalendar import Calendar
+        from icalendar import vDatetime, vText
+        e = EventFactory()
+        user = PersonaFactory()
+        e.attend(user)
+        e.save()
+
+        r = self.client.get('/events/{}/calendar/'.format(e.pk))
+        for content in r.streaming_content:
+            cal = Calendar.from_ical(content)
+            self.assertEqual(cal['version'], '2.0')
+            self.assertEqual(cal['PRODID'], 'Kawaz')
+            for component in cal.walk():
+                if component.name == 'VEVENT':
+                    self.assertEqual(component['summary'], e.title)
+                    self.assertEqual(component['description'], e.body)
+                    self.assertEqual(component['location'], e.place)
+                    self.assertEqual(component['dtstamp'].to_ical(), vDatetime(e.created_at).to_ical())
+                    self.assertEqual(component['dtstart'].to_ical(), vDatetime(e.period_start).to_ical())
+                    self.assertEqual(component['dtend'].to_ical(), vDatetime(e.period_end).to_ical())
+                    self.assertEqual(component['class'].to_ical(), vText('PUBLIC').to_ical())
+                    self.assertEqual(component['organizer'].params['cn'], e.organizer.nickname)
+                    self.assertEqual(component['organizer'].params['role'], e.organizer.role)
+                    # ATENDEEがセットされている
+                    for attendee, cal_attendee in zip(e.attendees.all(), component['attendee']):
+                        self.assertEqual(cal_attendee.params['cn'], attendee.nickname)
+                        self.assertEqual(cal_attendee.params['role'], attendee.role)
