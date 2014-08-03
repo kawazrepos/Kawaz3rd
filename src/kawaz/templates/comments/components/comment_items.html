@@ -1,7 +1,6 @@
 {% load comments %}
 {% get_comment_list for object as comments %}
 <div class="comment-list">
-    <h2>コメント</h2>
     {% for comment in comments %}
         <article class="comment-item row" id="c{{ comment.pk }}">
             <header class="col col-lg-12 comment-info">

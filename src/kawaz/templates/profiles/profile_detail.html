@@ -1,4 +1,59 @@
-{% extends "base.html" %}
-{% block content %}
-    {{ object }}
+{% extends "twopane.html" %}
+{% block content-main %}
+    <div class="row">
+        <div class="col col-lg-4">
+            <img src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}" alt="{{ object.user.username }}">
+        </div>
+        <div class="col col-lg-8">
+            <h1>{{ object.user.nickname }}</h1>
+            <span class="username">@{{ object.user.username }}</span>
+            <div class="row">
+                <div class="col col-lg-6">性別</div>
+                <div class="col col-lg-6">{{ object.user.gender }}</div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">誕生日</div>
+                <div class="col col-lg-6">{{ object.birthday }}</div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">住んでるところ</div>
+                <div class="col col-lg-6">{{ object.place }}</div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">役職</div>
+                <div class="col col-lg-6">
+                    {% for skill in object.skills.all %}
+                        {{ skill }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="markdown">
+        {{ object.remarks | markdown }}
+    </article>
+    <div>
+        <h2>最近のブログ</h2>
+        {% for entry in object.entries.all %}
+            {{ entry }}
+        {% empty %}
+            まだブログは書かれていません
+        {% endfor %}
+    </div>
+    <div class="comment">
+        {% include "comments/components/comment_items.html" %}
+        {% include "comments/components/comment_form.html" %}
+        {% include "components/social.html" %}
+    </div>
+{% endblock %}
+{% block content-aside %}
+    <h2>利用サービス</h2>
+    <h2>過去のプロジェクト</h2>
+    <ul>
+    {% for project in object.user.projects_joined.all %}
+        <li>{{ project }}</li>
+    {% empty %}
+        <li>まだプロジェクトに参加していません</li>
+    {% endfor %}
+    </ul>
 {% endblock %}
