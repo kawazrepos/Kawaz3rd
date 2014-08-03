@@ -111,7 +111,7 @@ class Service(models.Model):
 
 class Account(models.Model):
     profile = models.ForeignKey(
-        Profile, verbose_name=_('Account'), editable=False)
+        Profile, verbose_name=_('Account'), editable=False, related_name='accounts')
     service = models.ForeignKey(Service, verbose_name=_('Service'))
     pub_state = models.CharField(_('Publish State'),
                                  choices=Profile.PUB_STATES,
@@ -133,7 +133,7 @@ class Account(models.Model):
 
     @property
     def url(self):
-        return self.service.url_pattern % self.username
+        return self.service.url_pattern.format(username=self.username)
 
 
 from permission import add_permission_logic

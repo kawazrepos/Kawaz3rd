@@ -48,7 +48,12 @@
 {% endblock %}
 {% block content-aside %}
     <h2>利用サービス</h2>
-    <h2>過去のプロジェクト</h2>
+        <ul>
+            {% for account in object.accounts.all %}
+                <li>{{ account.service }}<a href="{{ account.url }}">{{ account.username }}</a></li>
+            {% endfor %}
+        </ul>
+    <h2>参加プロジェクト</h2>
     <ul>
     {% for project in object.user.projects_joined.all %}
         <li>{{ project }}</li>
