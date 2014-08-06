@@ -93,7 +93,7 @@ class Profile(models.Model):
 class Service(models.Model):
 
     def _get_upload_path(self, filename):
-        return os.path.join('services', filename)
+        return os.path.join('icons', 'services', filename)
 
     label = models.CharField(_('Label'), max_length=64, unique=True)
     icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)

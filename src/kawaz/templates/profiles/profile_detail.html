@@ -50,7 +50,10 @@
     <h2>利用サービス</h2>
         <ul>
             {% for account in object.accounts.all %}
-                <li>{{ account.service }}<a href="{{ account.url }}">{{ account.username }}</a></li>
+                <li>
+                    <label><img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">{{ account.service.label }}</label>
+                    <p><a href="{{ account.url }}">{{ account.username }}</a></p>
+                </li>
             {% endfor %}
         </ul>
     <h2>参加プロジェクト</h2>
