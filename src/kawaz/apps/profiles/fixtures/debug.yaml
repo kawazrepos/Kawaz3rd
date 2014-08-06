@@ -21,6 +21,10 @@
 
       趣味はゲームを作ること。安息の地に住んでるよ！
 
+      ## プロフィール
+
+      好きなことは完成したゲームで遊ぶこと！嫌いなことはゲームがエターなること！
+
       ## 今まで出演したゲーム
 
       かわずたんは今までいろんなゲームに出てるんだ！一例を紹介するねっ☆
@@ -326,3 +330,21 @@
     pub_state: public
     created_at: "1995-10-04 00:00:00+09:00"
     updated_at: "2012-11-17 00:00:00+09:00"
+- model: profiles.account
+  pk: 1
+  fields:
+    profile: 1
+    service: 1
+    username: "@kawaztan"
+- model: profiles.account
+  pk: 2
+  fields:
+    profile: 1
+    service: 2
+    username: kawaztan
+- model: profiles.account
+  pk: 3
+  fields:
+    profile: 1
+    service: 3
+    username: kawaztan
