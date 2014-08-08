@@ -38,6 +38,20 @@
             </div>
         </div>
     </div>
+    {% if user has 'profiles.change_profile' of object %}
+        {% if object.remarks %}
+            <div class="alert alert-warning">
+                <p><strong>ここはあなたのページです</strong></p>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <p>これはあなたのページですが、まだプロフィールが設定されていません。</p>
+                <p>他のメンバーと交流するために、必ずプロフィールを設定してください。</p>
+                <p><strong><small>長期間放置されているアカウントは削除される場合があります。</small></strong></p>
+                <p><a class="btn btn-primary btn-lg" href="{% url "profiles_profile_update" %}">今すぐ設定する</a></p>
+            </div>
+        {% endif %}
+    {% endif %}
     <article class="markdown">
         {{ object.remarks | markdown }}
     </article>
@@ -46,7 +60,9 @@
         {% for entry in object.entries.all %}
             {{ entry }}
         {% empty %}
-            {% trans "There are no entries yet" %}
+            <div class="alert alert-warning">
+                {% trans "There are no entries yet" %}
+            </div>
         {% endfor %}
     </div>
     <div class="comment">
