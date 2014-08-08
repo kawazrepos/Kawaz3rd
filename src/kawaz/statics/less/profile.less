@@ -23,19 +23,13 @@
   }
 }
 #recent-entries {
-  li {
+  .blog-entry {
     time {
       font-weight: bold;
-    }
-    &:nth-child(even) {
-      background: @gray-lighter;
     }
   }
 }
 #profile-aside {
-  h1 {
-    margin-top: 0px;
-  }
   li {
     list-style-type: none;
   }
@@ -43,8 +37,10 @@
     img {
       padding-right: 3px;
     }
-    li {
-      padding: 5px 10px;
+    a {
+      .list-group-item-text {
+        margin-left: 5px;
+      }
     }
   }
   #profile-joined-projects {

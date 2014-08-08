@@ -64,14 +64,14 @@
                 {% trans "There are no entries yet" %}
             </div>
         {% else %}
-            <ul class="list-group">
+            <div class="list-group">
                 {% for entry in object.user.blog_entries.all %}
-                    <li class="blog-entry list-group-item">
+                    <a href="{{ entry.get_absolute_url }}" class="blog-entry list-group-item">
                         <time>{{ entry.publish_at | date:"m/d" }}</time>
-                        <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
-                    </li>
+                        <span class="link">{{ entry.title }}</span>
+                    </a>
                 {% endfor %}
-            </ul>
+            </div>
         {% endif %}
     </div>
     <div class="comment">
@@ -89,7 +89,7 @@
                 </div>
                 <div class="list-group">
                     {% if user has 'profiles.change_profile' of object %}
-                        <a class="list-group-item" href="{% url "profiles_profile_update" %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
+                        <a class="list-group-item" href="{% url "profiles_profile_update" %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Profile" %}</a>
                     {% endif %}
                 </div>
             </div>
@@ -104,7 +104,7 @@
                         <h6 class="list-group-item-heading">
                             <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">{{ account.service.label }}
                         </h6>
-                        <p class="list-group-item-text">{{ account.username }}</p>
+                        <p class="list-group-item-text link">{{ account.username }}</p>
                     </a>
                 {% endfor %}
             </div>
@@ -117,7 +117,7 @@
                 {% for project in object.user.projects_joined.all %}
                     <a class="list-group-item" href="{{ project.get_absolute_url }}">
                         <img class="avatar avatar-middle" src="{{ MEDIA_URL }}{{ project.icon.middle }}">
-                        <span>{{ project.title }}</span>
+                        <span class="link">{{ project.title }}</span>
                     </a>
                 {% empty %}
                     <li>{% trans "There are no joinned projects." %}</li>
