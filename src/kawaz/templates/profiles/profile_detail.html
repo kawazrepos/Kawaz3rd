@@ -1,4 +1,9 @@
 {% extends "twopane.html" %}
+{% load i18n %}
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href=""/>
+{% endblock %}
 {% block content-main %}
     <div class="row">
         <div class="col col-lg-4">
@@ -8,19 +13,19 @@
             <h1>{{ object.user.nickname }}</h1>
             <span class="username">@{{ object.user.username }}</span>
             <div class="row">
-                <div class="col col-lg-6">性別</div>
+                <div class="col col-lg-6"><label>{% trans "Gender" %}</label></div>
                 <div class="col col-lg-6">{{ object.user.get_gender_display }}</div>
             </div>
             <div class="row">
-                <div class="col col-lg-6">誕生日</div>
-                <div class="col col-lg-6">{{ object.birthday }}</div>
+                <div class="col col-lg-6"><label>{% trans "Birthday" %}</label></div>
+                <div class="col col-lg-6">{{ object.birthday | date:"m/d" }}</div>
             </div>
             <div class="row">
-                <div class="col col-lg-6">住んでるところ</div>
+                <div class="col col-lg-6"><label>{% trans "Address" %}</label></div>
                 <div class="col col-lg-6">{{ object.place }}</div>
             </div>
             <div class="row">
-                <div class="col col-lg-6">役職</div>
+                <div class="col col-lg-6"><label>{% trans "Abilities" %}</label></div>
                 <div class="col col-lg-6">
                     {% for skill in object.skills.all %}
                         {{ skill }}
@@ -33,11 +38,11 @@
         {{ object.remarks | markdown }}
     </article>
     <div>
-        <h2>最近のブログ</h2>
+        <h2>{% trans "Recent Entries" %}</h2>
         {% for entry in object.entries.all %}
             {{ entry }}
         {% empty %}
-            まだブログは書かれていません
+            {% trans "There are no entries yet" %}
         {% endfor %}
     </div>
     <div class="comment">
@@ -47,7 +52,7 @@
     </div>
 {% endblock %}
 {% block content-aside %}
-    <h2>利用サービス</h2>
+    <h2>{% trans "Accounts" %}</h2>
         <ul>
             {% for account in object.accounts.all %}
                 <li>
@@ -56,12 +61,15 @@
                 </li>
             {% endfor %}
         </ul>
-    <h2>参加プロジェクト</h2>
+    <h2>{% trans "Joined Projects" %}</h2>
     <ul>
     {% for project in object.user.projects_joined.all %}
-        <li><img class="avatar avatar-large" src="{{ MEDIA_URL }}{{ project.icon.large }}"></li>
+        <li>
+        <a href="{{ project.get_absolute_url }}">
+            <img class="avatar avatar-large" src="{{ MEDIA_URL }}{{ project.icon.large }}"></li>
+        </a>
     {% empty %}
-        <li>まだプロジェクトに参加していません</li>
+        <li>{% trans "There are no joinned projects." %}</li>
     {% endfor %}
     </ul>
 {% endblock %}
