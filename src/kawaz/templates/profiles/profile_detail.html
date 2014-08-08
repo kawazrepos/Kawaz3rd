@@ -1,17 +1,21 @@
 {% extends "twopane.html" %}
+{% load staticfiles %}
 {% load i18n %}
 {% block pre_css %}
     {{ block.super }}
-    <link rel="stylesheet" href=""/>
+    <link rel="stylesheet" href="{% static "css/profile.css" %}" media="screen">
 {% endblock %}
 {% block content-main %}
-    <div class="row">
-        <div class="col col-lg-4">
+    <div class="row" id="profile-header">
+        <div class="col col-lg-5" id="profile-avatar">
             <img class="avatar avatar-huge" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}" alt="{{ object.user.username }}">
         </div>
-        <div class="col col-lg-8">
-            <h1>{{ object.user.nickname }}</h1>
+        <div class="col col-lg-5">
             <span class="username">@{{ object.user.username }}</span>
+            <h1>{{ object.user.nickname }}</h1>
+            <div class="quotes">
+                {{ object.user.quotes }}
+            </div>
             <div class="row">
                 <div class="col col-lg-6"><label>{% trans "Gender" %}</label></div>
                 <div class="col col-lg-6">{{ object.user.get_gender_display }}</div>
@@ -52,24 +56,42 @@
     </div>
 {% endblock %}
 {% block content-aside %}
-    <h2>{% trans "Accounts" %}</h2>
-        <ul>
-            {% for account in object.accounts.all %}
-                <li>
-                    <label><img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">{{ account.service.label }}</label>
-                    <p><a href="{{ account.url }}">{{ account.username }}</a></p>
-                </li>
-            {% endfor %}
-        </ul>
-    <h2>{% trans "Joined Projects" %}</h2>
-    <ul>
-    {% for project in object.user.projects_joined.all %}
-        <li>
-        <a href="{{ project.get_absolute_url }}">
-            <img class="avatar avatar-large" src="{{ MEDIA_URL }}{{ project.icon.large }}"></li>
-        </a>
-    {% empty %}
-        <li>{% trans "There are no joinned projects." %}</li>
-    {% endfor %}
-    </ul>
+    <div id="profile-aside">
+        <div id="profile-administration">
+            {% if user has 'profiles.change_profile' of object %}
+                <h2>{% trans "Administration" %}</h2>
+                <ul class="btn-group-vertical">
+                    {% if user has 'profiles.change_profile' of object %}
+                        <li><a href="{% url "profiles_profile_update" %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>
+        <div id="profile-accounts">
+            <h2>{% trans "Accounts" %}</h2>
+            <ul>
+                {% for account in object.accounts.all %}
+                    <li>
+                        <label><img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">{{ account.service.label }}</label>
+                        <p><a href="{{ account.url }}">{{ account.username }}</a></p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="profile-joined-projects">
+            <h2>{% trans "Joined Projects" %}</h2>
+            <ul>
+                {% for project in object.user.projects_joined.all %}
+                    <li>
+                        <img class="avatar avatar-middle" src="{{ MEDIA_URL }}{{ project.icon.middle }}">
+                        <a href="{{ project.get_absolute_url }}">
+                            <span>{{ project.title }}</span>
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>{% trans "There are no joinned projects." %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
