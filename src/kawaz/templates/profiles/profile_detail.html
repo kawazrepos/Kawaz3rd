@@ -82,41 +82,47 @@
 {% endblock %}
 {% block content-aside %}
     <div id="profile-aside">
-        <div id="profile-administration">
-            {% if user has 'profiles.change_profile' of object %}
-                <h2>{% trans "Administration" %}</h2>
-                <ul class="btn-group-vertical">
+        {% if user has 'profiles.change_profile' of object %}
+            <div id="profile-administration" class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">{% trans "Administration" %}</h2>
+                </div>
+                <div class="list-group">
                     {% if user has 'profiles.change_profile' of object %}
-                        <li><a href="{% url "profiles_profile_update" %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a></li>
+                        <a class="list-group-item" href="{% url "profiles_profile_update" %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
                     {% endif %}
-                </ul>
-            {% endif %}
-        </div>
-        <div id="profile-accounts">
-            <h2>{% trans "Accounts" %}</h2>
-            <ul class="list-group">
+                </div>
+            </div>
+        {% endif %}
+        <div id="profile-accounts" class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Accounts" %}</h2>
+            </div>
+            <div class="list-group">
                 {% for account in object.accounts.all %}
-                    <li class="list-group-item">
-                        <label><img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">{{ account.service.label }}</label>
-                        <p><a href="{{ account.url }}">{{ account.username }}</a></p>
-                    </li>
+                    <a class="list-group-item" href="{{ account.url }}">
+                        <h6 class="list-group-item-heading">
+                            <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">{{ account.service.label }}
+                        </h6>
+                        <p class="list-group-item-text">{{ account.username }}</p>
+                    </a>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
-        <div id="profile-joined-projects">
-            <h2>{% trans "Joined Projects" %}</h2>
-            <ul class="list-group">
+        <div id="profile-joined-projects" class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Joined Projects" %}</h2>
+            </div>
+            <div class="list-group">
                 {% for project in object.user.projects_joined.all %}
-                    <li class="list-group-item">
+                    <a class="list-group-item" href="{{ project.get_absolute_url }}">
                         <img class="avatar avatar-middle" src="{{ MEDIA_URL }}{{ project.icon.middle }}">
-                        <a href="{{ project.get_absolute_url }}">
-                            <span>{{ project.title }}</span>
-                        </a>
-                    </li>
+                        <span>{{ project.title }}</span>
+                    </a>
                 {% empty %}
                     <li>{% trans "There are no joinned projects." %}</li>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
     </div>
 {% endblock %}
