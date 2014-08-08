@@ -11,8 +11,10 @@
             <img class="avatar avatar-huge" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}" alt="{{ object.user.username }}">
         </div>
         <div class="col col-lg-7">
-            <span class="username">@{{ object.user.username }}</span>
-            <h1>{{ object.user.nickname }}</h1>
+            <div class="page-header">
+                <span class="username">@{{ object.user.username }}</span>
+                <h1>{{ object.user.nickname }}</h1>
+            </div>
             <div class="quotes">
                 {{ object.user.quotes }}
             </div>
@@ -55,15 +57,22 @@
     <article class="markdown">
         {{ object.remarks | markdown }}
     </article>
-    <div>
+    <div id="recent-entries">
         <h2>{% trans "Recent Entries" %}</h2>
-        {% for entry in object.entries.all %}
-            {{ entry }}
-        {% empty %}
+        {% if object.user.blog_entries.all|length_is:0 %}
             <div class="alert alert-warning">
                 {% trans "There are no entries yet" %}
             </div>
-        {% endfor %}
+        {% else %}
+            <ul class="list-group">
+                {% for entry in object.user.blog_entries.all %}
+                    <li class="blog-entry list-group-item">
+                        <time>{{ entry.publish_at | date:"m/d" }}</time>
+                        <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
     <div class="comment">
         {% include "comments/components/comment_items.html" %}
@@ -85,9 +94,9 @@
         </div>
         <div id="profile-accounts">
             <h2>{% trans "Accounts" %}</h2>
-            <ul>
+            <ul class="list-group">
                 {% for account in object.accounts.all %}
-                    <li>
+                    <li class="list-group-item">
                         <label><img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">{{ account.service.label }}</label>
                         <p><a href="{{ account.url }}">{{ account.username }}</a></p>
                     </li>
@@ -96,9 +105,9 @@
         </div>
         <div id="profile-joined-projects">
             <h2>{% trans "Joined Projects" %}</h2>
-            <ul>
+            <ul class="list-group">
                 {% for project in object.user.projects_joined.all %}
-                    <li>
+                    <li class="list-group-item">
                         <img class="avatar avatar-middle" src="{{ MEDIA_URL }}{{ project.icon.middle }}">
                         <a href="{{ project.get_absolute_url }}">
                             <span>{{ project.title }}</span>
