@@ -10,7 +10,7 @@
         <div class="col col-lg-5" id="profile-avatar">
             <img class="avatar avatar-huge" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}" alt="{{ object.user.username }}">
         </div>
-        <div class="col col-lg-5">
+        <div class="col col-lg-7">
             <span class="username">@{{ object.user.username }}</span>
             <h1>{{ object.user.nickname }}</h1>
             <div class="quotes">
@@ -32,7 +32,7 @@
                 <div class="col col-lg-6"><label>{% trans "Abilities" %}</label></div>
                 <div class="col col-lg-6">
                     {% for skill in object.skills.all %}
-                        {{ skill }}
+                        <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
                     {% endfor %}
                 </div>
             </div>
@@ -94,4 +94,12 @@
             </ul>
         </div>
     </div>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script type="application/javascript">
+        $(function() {
+            $("[data-toggle='tooltip']").tooltip();
+        });
+    </script>
 {% endblock %}
