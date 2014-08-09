@@ -19,7 +19,7 @@ class ServiceFactory(factory.django.DjangoModelFactory):
     FACTORY_DJANGO_GET_OR_CREATE = ('label',)
 
     label = 'Twitter'
-    url_pattern = 'http://twitter.com/%s/'
+    url_pattern = 'http://twitter.com/{username}/'
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Profile

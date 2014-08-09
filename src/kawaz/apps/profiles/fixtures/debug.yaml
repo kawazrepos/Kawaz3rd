@@ -15,13 +15,35 @@
   fields:
     user: 1
     remarks: |
-      あは♡
+      # かわずたん！
+
+      Kawazのマスコット、井の中かわずです☆
+
+      趣味はゲームを作ること。安息の地に住んでるよ！
+
+      ## プロフィール
+
+      好きなことは完成したゲームで遊ぶこと！嫌いなことはゲームがエターなること！
+
+      ## 今まで出演したゲーム
+
+      かわずたんは今までいろんなゲームに出てるんだ！一例を紹介するねっ☆
+
+      - かわずたん大決闘
+      - かわずたんと黒の迷宮
+      - かわずたんと大と小の惑星
+      - かわずたんは呪われてしまった！
+
+
+      他にもいろんな作品にゲスト出演してるよ！探してみてね！
+
     url: http://www.kawaz.org/
     birthday: 2010-11-01
     place: 安息の地
     pub_state: public
     created_at: "2010-11-01 00:00:00+09:00"
     updated_at: "2010-11-01 00:00:00+09:00"
+    skills: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 - model: personas.persona
   pk: 2
   fields:
@@ -309,3 +331,21 @@
     pub_state: public
     created_at: "1995-10-04 00:00:00+09:00"
     updated_at: "2012-11-17 00:00:00+09:00"
+- model: profiles.account
+  pk: 1
+  fields:
+    profile: 1
+    service: 1
+    username: "@kawaztan"
+- model: profiles.account
+  pk: 2
+  fields:
+    profile: 1
+    service: 2
+    username: kawaztan
+- model: profiles.account
+  pk: 3
+  fields:
+    profile: 1
+    service: 3
+    username: kawaztan

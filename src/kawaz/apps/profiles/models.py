@@ -93,7 +93,7 @@ class Profile(models.Model):
 class Service(models.Model):
 
     def _get_upload_path(self, filename):
-        return os.path.join('services', filename)
+        return os.path.join('icons', 'services', filename)
 
     label = models.CharField(_('Label'), max_length=64, unique=True)
     icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)
@@ -111,7 +111,7 @@ class Service(models.Model):
 
 class Account(models.Model):
     profile = models.ForeignKey(
-        Profile, verbose_name=_('Account'), editable=False)
+        Profile, verbose_name=_('Account'), editable=False, related_name='accounts')
     service = models.ForeignKey(Service, verbose_name=_('Service'))
     pub_state = models.CharField(_('Publish State'),
                                  choices=Profile.PUB_STATES,
@@ -133,7 +133,7 @@ class Account(models.Model):
 
     @property
     def url(self):
-        return self.service.url_pattern % self.username
+        return self.service.url_pattern.format(username=self.username)
 
 
 from permission import add_permission_logic

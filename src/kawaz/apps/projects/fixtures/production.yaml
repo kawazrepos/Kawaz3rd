@@ -7,7 +7,11 @@
 - model: auth.group
   pk: 2
   fields:
-    name: 人類補完委員会
+    name: human-beings-complement-plan
+- model: auth.group
+  pk: 3
+  fields:
+    name: kawaztan-kart
 - model: projects.category
   pk: 1
   fields:

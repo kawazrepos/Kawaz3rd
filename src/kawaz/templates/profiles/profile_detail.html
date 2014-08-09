@@ -1,4 +1,134 @@
-{% extends "base.html" %}
-{% block content %}
-    {{ object }}
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/profile.css" %}" media="screen">
+{% endblock %}
+{% block content-main %}
+    <div class="row" id="profile-header">
+        <div class="col col-lg-5 col-xs-5" id="profile-avatar">
+            <img class="avatar avatar-huge" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}" alt="{{ object.user.username }}">
+        </div>
+        <div class="col col-lg-7 col-xs-7">
+            <div class="page-header">
+                <span class="username">@{{ object.user.username }}</span>
+                <h1>{{ object.user.nickname }}</h1>
+            </div>
+            <div class="quotes">
+                {{ object.user.quotes }}
+            </div>
+            <div class="row">
+                <div class="col col-lg-6 col-xs-6"><label>{% trans "Gender" %}</label></div>
+                <div class="col col-lg-6 col-xs-6">{{ object.user.get_gender_display }}</div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6 col-xs-6"><label>{% trans "Birthday" %}</label></div>
+                <div class="col col-lg-6 col-xs-6">{{ object.birthday | date:"m/d" }}</div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6 col-xs-6"><label>{% trans "Address" %}</label></div>
+                <div class="col col-lg-6 col-xs-6">{{ object.place }}</div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6 col-xs-6"><label>{% trans "Abilities" %}</label></div>
+                <div class="col col-lg-6 col-xs-6">
+                    {% for skill in object.skills.all %}
+                        <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if user has 'profiles.change_profile' of object %}
+        {% if object.remarks %}
+            <div class="alert alert-warning">
+                <p><strong>ここはあなたのページです</strong></p>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <p>これはあなたのページですが、まだプロフィールが設定されていません。</p>
+                <p>他のメンバーと交流するために、必ずプロフィールを設定してください。</p>
+                <p><strong><small>長期間放置されているアカウントは削除される場合があります。</small></strong></p>
+                <p><a class="btn btn-primary btn-lg" href="{% url "profiles_profile_update" %}">今すぐ設定する</a></p>
+            </div>
+        {% endif %}
+    {% endif %}
+    <article id="profile-main" class="markdown">
+        {{ object.remarks | markdown }}
+    </article>
+    <div id="recent-entries">
+        <h2>{% trans "Recent Entries" %}</h2>
+        {% if object.user.blog_entries.all|length_is:0 %}
+            <div class="alert alert-warning">
+                {% trans "There are no entries yet" %}
+            </div>
+        {% else %}
+            <div class="list-group">
+                {% for entry in object.user.blog_entries.all %}
+                    <a href="{{ entry.get_absolute_url }}" class="blog-entry list-group-item">
+                        <time>{{ entry.publish_at | date:"m/d" }}</time>
+                        <span class="link">{{ entry.title }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="comment">
+        {% include "comments/components/comment_items.html" %}
+        {% include "comments/components/comment_form.html" %}
+        {% include "components/social.html" %}
+    </div>
+{% endblock %}
+{% block content-aside %}
+    <div id="profile-aside">
+        {% if user has 'profiles.change_profile' of object %}
+            <div id="profile-administration" class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">{% trans "Administration" %}</h2>
+                </div>
+                <div class="list-group">
+                    {% if user has 'profiles.change_profile' of object %}
+                        <a class="list-group-item" href="{% url "profiles_profile_update" %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Profile" %}</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <div id="profile-accounts" class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Accounts" %}</h2>
+            </div>
+            <div class="list-group">
+                {% for account in object.accounts.all %}
+                    <a class="list-group-item" href="{{ account.url }}">
+                        <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">
+                        <span class="list-group-item-text link">{{ account.username }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="profile-joined-projects" class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Joined Projects" %}</h2>
+            </div>
+            <div class="list-group">
+                {% for project in object.user.projects_joined.all %}
+                    <a class="list-group-item" href="{{ project.get_absolute_url }}">
+                        <img class="avatar avatar-middle" src="{{ MEDIA_URL }}{{ project.icon.middle }}">
+                        <span class="link">{{ project.title }}</span>
+                    </a>
+                {% empty %}
+                    <li>{% trans "There are no joinned projects." %}</li>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script type="application/javascript">
+        $(function() {
+            $("[data-toggle='tooltip']").tooltip();
+        });
+    </script>
 {% endblock %}

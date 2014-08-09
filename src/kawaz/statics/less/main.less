@@ -136,6 +136,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   width: @size;
   height: @size;
   border-radius: @radius;
+  border: 2px solid @gray-lighter;
 }
 // Recent Activity
 #recent-activity-container {
@@ -176,6 +177,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     .make-xs-column(12);
   }
   aside {
+    margin-top: 30px;
     .make-lg-column(3);
     .make-xs-column(12);
   }
@@ -206,5 +208,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         }
       }
     }
+  }
+}
+.list-group {
+  .link {
+    color: @link-color;
   }
 }

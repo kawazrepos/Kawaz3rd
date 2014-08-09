@@ -8,6 +8,10 @@ storage/profiles/*
 storage/projects/*
 storage/attachments/*
 storage/thumbnails/recent_activities/*
+*.small*
+*.middle*
+*.huge*
+*.large*
 
 # for Python
 # Byte-compiled / optimized / DLL files

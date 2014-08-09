@@ -1,0 +1,51 @@
+@import (reference) "../../../../vendor/bootstrap/less/bootstrap.less";
+@import (reference) "common/define";
+@import (reference) "common/vendor-prefixes";
+
+#profile-header {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  #profile-avatar {
+    text-align: center;
+  }
+  .username {
+    color: @gray-light;
+  }
+  h1 {
+    margin-top: 4px;
+  }
+  .quotes {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    padding: 10px;
+    border: solid 2px @gray-lighter;
+    border-radius: 8px;
+  }
+}
+#recent-entries {
+  .blog-entry {
+    time {
+      font-weight: bold;
+    }
+  }
+}
+#profile-aside {
+  li {
+    list-style-type: none;
+  }
+  #profile-accounts {
+    a {
+      .list-group-item-text {
+        margin-left: 3px;
+      }
+    }
+  }
+  #profile-joined-projects {
+  }
+  ul {
+    padding-left: 5px;
+    p {
+      padding-left: 10px;
+    }
+  }
+}
