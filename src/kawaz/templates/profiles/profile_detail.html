@@ -7,10 +7,10 @@
 {% endblock %}
 {% block content-main %}
     <div class="row" id="profile-header">
-        <div class="col col-lg-5" id="profile-avatar">
+        <div class="col col-lg-5 col-xs-5" id="profile-avatar">
             <img class="avatar avatar-huge" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}" alt="{{ object.user.username }}">
         </div>
-        <div class="col col-lg-7">
+        <div class="col col-lg-7 col-xs-7">
             <div class="page-header">
                 <span class="username">@{{ object.user.username }}</span>
                 <h1>{{ object.user.nickname }}</h1>
@@ -19,20 +19,20 @@
                 {{ object.user.quotes }}
             </div>
             <div class="row">
-                <div class="col col-lg-6"><label>{% trans "Gender" %}</label></div>
-                <div class="col col-lg-6">{{ object.user.get_gender_display }}</div>
+                <div class="col col-lg-6 col-xs-6"><label>{% trans "Gender" %}</label></div>
+                <div class="col col-lg-6 col-xs-6">{{ object.user.get_gender_display }}</div>
             </div>
             <div class="row">
-                <div class="col col-lg-6"><label>{% trans "Birthday" %}</label></div>
-                <div class="col col-lg-6">{{ object.birthday | date:"m/d" }}</div>
+                <div class="col col-lg-6 col-xs-6"><label>{% trans "Birthday" %}</label></div>
+                <div class="col col-lg-6 col-xs-6">{{ object.birthday | date:"m/d" }}</div>
             </div>
             <div class="row">
-                <div class="col col-lg-6"><label>{% trans "Address" %}</label></div>
-                <div class="col col-lg-6">{{ object.place }}</div>
+                <div class="col col-lg-6 col-xs-6"><label>{% trans "Address" %}</label></div>
+                <div class="col col-lg-6 col-xs-6">{{ object.place }}</div>
             </div>
             <div class="row">
-                <div class="col col-lg-6"><label>{% trans "Abilities" %}</label></div>
-                <div class="col col-lg-6">
+                <div class="col col-lg-6 col-xs-6"><label>{% trans "Abilities" %}</label></div>
+                <div class="col col-lg-6 col-xs-6">
                     {% for skill in object.skills.all %}
                         <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
                     {% endfor %}
@@ -54,7 +54,7 @@
             </div>
         {% endif %}
     {% endif %}
-    <article class="markdown">
+    <article id="profile-main" class="markdown">
         {{ object.remarks | markdown }}
     </article>
     <div id="recent-entries">
