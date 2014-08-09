@@ -46,9 +46,6 @@
   }
   select[id$='service'] {
     background-position: 5px 10px;
-    /* TODO 将来的にはDjangoのService.iconの値を用いるが
-      対応が面倒なのでデザインの仮組のために仮画像を入れている */
-    background-image: url("https://twitter.com/favicon.ico");
     background-repeat: no-repeat;
     padding-left: 23px;
     option {
@@ -58,7 +55,15 @@
       -webkit-appearance: none;
     }
   }
+  .formset-remove-col {
+    vertical-align: middle;
+    padding: 0 !important;
+  }
   .formset-remove {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 2px solid @gray-lighter;
   }
 }
 // ブログカテゴリの追加ボタン
@@ -71,4 +76,7 @@
     color: @gray-light;
     margin: 5px;
   }
+}
+[name$="DELETE"] {
+  display: none;
 }

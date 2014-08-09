@@ -31,12 +31,12 @@
                                     {{ account_form.pub_state.errors }}
                                     {{ account_form.pub_state }}
                                 </td>
-                                <td><div><a href="#" class="btn btn-danger btn-xs formset-remove">削除</a></div></td>
+                                <td class="formset-remove-col"><button href="#" class="btn btn-danger btn-xs formset-remove"><span class="glyphicon glyphicon-minus"></span> </button></td>
                             </tr>
                         {% endfor %}
                     </table>
                     {{ formset.management_form }}
-                    <a href="#" class="btn btn-primary btn-sm formset-add">追加</a>
+                    <button href="#" class="btn btn-primary formset-add"><span class="glyphicon glyphicon-plus"></span>追加</button>
                 </div>
             </div>
             <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
