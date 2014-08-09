@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="{% static "css/products.css" %}" media="screen">
 {% endblock %}
 {% block content-header %}
-<h1>{% trans "Product List" %}</h1>
+    <div class="page-header">
+        <h1>{% trans "Product List" %}</h1>
+    </div>
 {% endblock %}
 {% block content-main %}
     <div class="row">
@@ -29,7 +31,6 @@
         </div>
     </div>
     {% endif %}
-    <h2>{% trans "Filters" %}</h2>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">{% trans "Categories" %}</h2>
