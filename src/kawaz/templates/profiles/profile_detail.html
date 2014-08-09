@@ -101,10 +101,8 @@
             <div class="list-group">
                 {% for account in object.accounts.all %}
                     <a class="list-group-item" href="{{ account.url }}">
-                        <h6 class="list-group-item-heading">
-                            <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">{{ account.service.label }}
-                        </h6>
-                        <p class="list-group-item-text link">{{ account.username }}</p>
+                        <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">
+                        <span class="list-group-item-text link">{{ account.username }}</span>
                     </a>
                 {% endfor %}
             </div>
