@@ -182,34 +182,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     .make-xs-column(12);
   }
 }
-// django-filterによって自動生成されるFilter Form用
-.filter-form {
-  p {
-    margin: 20px 0 10px;
-  }
-  label {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  ul {
-    padding-left: 0;
-    li {
-      list-style: none outside none;
-    }
-    a {
-      padding-left: 10px;
-      &.selected {
-        color: @text-color;
-        padding-left: 0;
-        font-size: 150%;
-        font-weight: bold;
-        &:before {
-          content: "▶ ";
-        }
-      }
-    }
-  }
-}
 .list-group {
   .link {
     color: @link-color;
