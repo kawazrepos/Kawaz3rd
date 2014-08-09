@@ -11,7 +11,7 @@
         {% for object in filter %}
             <div class="thumbnail profile-list-item">
                 <a href="{{ object.get_absolute_url }}">
-                    <img alt="{{ object.user.nickname }}" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}">
+                    <img class="profile-avatar" alt="{{ object.user.nickname }}" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}">
                 </a>
                 <div class="well">
                     <div class="caption">
@@ -21,6 +21,11 @@
                         <div class="profile-skills">
                             {% for skill in object.skills.all %}
                                 <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="profile-accounts">
+                            {% for account in object.accounts.all %}
+                                <span><a href="{{ account.url }}"><img data-toggle="tooltip" data-placement="top" data-title="{{ account.username }}" src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}"></a></span>
                             {% endfor %}
                         </div>
                     </div>
@@ -36,4 +41,12 @@
         </div>
         {{ filter.form.skills }}
     </div>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script type="application/javascript">
+        $(function() {
+            $("[data-toggle='tooltip']").tooltip();
+        });
+    </script>
 {% endblock %}
