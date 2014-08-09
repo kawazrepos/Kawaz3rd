@@ -106,7 +106,11 @@
         <div class="panel-body">
             <ul class="platform-list">
                 {% for platform in object.platforms.all %}
-                    <li><img src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+                    <li>
+                        <a href="{% url "products_product_list" %}?platforms={{ platform.pk }}">
+                            <img data-toggle="tooltip" data-placement="top" data-title="{{ platform.label }}" src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" />
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -116,11 +120,11 @@
         <div class="panel-heading">
             <h2 class="panel-title">{% trans "Categories" %}</h2>
         </div>
-        <ul class="list-group">
+        <div class="list-group">
             {% for category in object.categories.all %}
-                <li class="list-group-item">{{ category.label }}</li>
+                <a class="list-group-item" href="{% url "products_product_list" %}?categories={{ category.pk }}">{{ category.label }}</a>
             {% endfor %}
-        </ul>
+        </div>
     </div>
 
     <div class="panel panel-default">
