@@ -17,6 +17,13 @@
         <div class="item col-xs-12 col-lg-6">
         {% include "products/components/list-item.html" %}
         </div>
+    {% empty %}
+        <div class="alert alert-info">
+            <p> 該当するプロダクトは見つかりませんでした。 </p>
+            {% if user has 'products.add_product' %}
+                <a href="{% url "products_product_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+            {% endif %}
+        </div>
     {% endfor %}
     </div>
 {% endblock %}
@@ -27,7 +34,7 @@
             <h2 class="panel-title">{% trans "Administration" %}</h2>
         </div>
         <div class="list-group">
-            <a href="{% url "products_product_create" %}" class="list-group-item"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+            <a href="{% url "products_product_create" %}" class="list-group-item list-group-item-success"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
         </div>
     </div>
     {% endif %}
