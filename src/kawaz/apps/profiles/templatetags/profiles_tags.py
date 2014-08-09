@@ -1,6 +1,7 @@
 from django import template
 from django.template import TemplateSyntaxError
 from ..models import Profile
+from ..models import Service
 
 register = template.Library()
 
@@ -37,4 +38,13 @@ def get_profiles(context, lookup='published'):
     request = context['request']
     if lookup == 'published':
         qs = Profile.objects.published(request.user)
+    return qs
+
+
+@register.assignment_tag
+def get_services():
+    """
+    全てのサービスのQuerySetを取得するテンプレートタグ
+    """
+    qs = Service.objects.all()
     return qs

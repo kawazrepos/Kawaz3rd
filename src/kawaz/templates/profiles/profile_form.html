@@ -1,4 +1,5 @@
 {% extends "form_base.html" %}
+{% load profiles_tags %}
 {% load bootstrap %}
 {% block content-header %}
     <h1>プロフィールを編集する</h1>
@@ -21,7 +22,12 @@
                                     {% for fld in account_form.hidden_fields %}{{ fld }}{% endfor %}
                                     {% if account_form.instance.pk %}{{ account_form.DELETE }}{% endif %}
                                     {{ account_form.service.errors }}
-                                    {{ account_form.service }}
+                                    {% get_services as services %}
+                                    <select id="id_accounts-{{ forloop.counter0 }}-service" name="accounts-{{ forloop.counter0 }}-service">
+                                        {% for service in services %}
+                                            <option value="{{ service.pk }}" style="background-image: url({{ MEDIA_URL }}{{ service.icon }});"{% if account_form.instance.pk == service.pk %} selected{% endif %}>{{ service.label }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </td>
                                 <td>
                                     {{ account_form.username.errors }}
@@ -39,7 +45,11 @@
                     <button href="#" class="btn btn-primary formset-add"><span class="glyphicon glyphicon-plus"></span>追加</button>
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
+            <div class="form-group">
+                <div class="col-lg-offset-2">
+                    <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
+                </div>
+            </div>
         </form>
     </div>
 {% endblock %}

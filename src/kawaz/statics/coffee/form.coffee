@@ -1,4 +1,18 @@
 $ ->
+  updateServiceIcon = ($selects) ->
+    $selects.each( () ->
+      $option = $(@).find(':selected')
+      bg = $option.css('background-image')
+      $(@).css('background-image', bg)
+    )
+
+  $serviceSelect = $("select[name$='service']")
+  $('body').on('change', "select[name$='service']", ->
+    updateServiceIcon($(@))
+  )
+  updateServiceIcon($serviceSelect)
+
+$ ->
   $containers = $('.formset')
   # 1ページ内に複数のformsetがある可能性があるのでformsetごとに処理をする
   $containers.each(->
