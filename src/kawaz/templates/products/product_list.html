@@ -20,13 +20,26 @@
 {% endblock %}
 {% block content-aside %}
     {% if user has 'products.add_product' %}
-    <h2>{% trans "Administration" %}</h2>
-    <div class="btn-group-vertical">
-        <a href="{% url "products_product_create" %}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Administration" %}</h2>
+            </div>
+        <div class="list-group">
+            <a href="{% url "products_product_create" %}" class="list-group-item"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+        </div>
     </div>
     {% endif %}
     <h2>{% trans "Filters" %}</h2>
-    <div class="filter-form">
-        {{ filter.form.as_p }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Categories" %}</h2>
+        </div>
+        {{ filter.form.categories }}
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Platforms" %}</h2>
+        </div>
+        {{ filter.form.platforms }}
     </div>
 {% endblock %}
