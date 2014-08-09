@@ -2,24 +2,27 @@
 @import (reference) "common/define";
 @import (reference) "common/vendor-prefixes";
 
+.username {
+  color: @gray-light;
+}
+.quotes {
+  margin-top: 10px;
+  padding: 10px;
+  border: solid 2px @gray-lighter;
+  border-radius: 8px;
+}
+// Profile Detail
 #profile-header {
   margin-top: 30px;
   margin-bottom: 20px;
   #profile-avatar {
     text-align: center;
   }
-  .username {
-    color: @gray-light;
-  }
   h1 {
     margin-top: 4px;
   }
   .quotes {
-    margin-top: 10px;
     margin-bottom: 30px;
-    padding: 10px;
-    border: solid 2px @gray-lighter;
-    border-radius: 8px;
   }
 }
 #recent-entries {
@@ -49,3 +52,39 @@
     }
   }
 }
+// Profile List
+#profile-list {
+  // がんばってPinterestっぽいの作った
+  // http://stackoverflow.com/questions/22148063/making-a-pinterest-like-grid-with-bootstrap-the-boxes-are-not-displayed-right-b
+  @item-width: 200px;
+  @column-gap: 10px;
+  min-width: @item-width;
+  -moz-column-width: @item-width;
+  -webkit-column-width: @item-width;
+  -moz-column-gap: @column-gap;
+  -webkit-column-gap: @column-gap;
+  margin-top: 30px;
+  h2 {
+    margin-top: 3px;
+    margin-bottom: 0;
+  }
+  img {
+    width: 100%;
+  }
+  .profile-list-item {
+    display: inline-block;
+    width:  100%;
+  }
+  .profile-skills {
+    margin-top: 10px;
+  }
+  .well {
+    padding-top: 0;
+    background-color: lighten(@gray-lighter, 5%);
+    margin-bottom: 0;
+    border: none;
+    position:relative;
+    display: block;
+  }
+}
+
