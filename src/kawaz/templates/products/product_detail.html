@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="{% static "css/products.css" %}" media="screen">
 {% endblock %}
 {% block content-header %}
-<h1>{{ object.title }}</h1>
+    <div class="page-header">
+        <h1>{{ object.title }}</h1>
+    </div>
 <div class="trailer">
     {% if object.trailer %}
         <div class="embed-responsive embed-responsive-16by9">
@@ -79,41 +81,62 @@
     {% include "components/social.html" %}
 {% endblock %}
 {% block content-aside %}
-{% if user has 'products.add_product' or user has 'products.change_product' of object or user has 'products.delete_product' of object %}
-<h2>{% trans "Administration" %}</h2>
-<div class="btn-group-vertical">
-    {% if user has 'products.add_product' %}
-    <a href="{% url "products_product_create" %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+    {% if user has 'products.add_product' or user has 'products.change_product' of object or user has 'products.delete_product' of object %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Administration" %}</h2>
+            </div>
+            <div class="list-group">
+                {% if user has 'products.add_product' %}
+                    <a class="list-group-item list-group-item-success" href="{% url "products_product_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+                {% endif %}
+                {% if user has 'products.change_product' of object %}
+                    <a class="list-group-item" href="{% url "products_product_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
+                {% endif %}
+                {% if user has 'products.delete_product' of object %}
+                    <a class="list-group-item list-group-item-danger" href="{% url "products_product_delete" object.pk %}"><span class="glyphicon glyphicon-remove"></span> {% trans "Delete Product" %}</a>
+                {% endif %}
+            </div>
+        </div>
     {% endif %}
-    {% if user has 'products.change_product' of object %}
-    <a href="{% url "products_product_update" object.pk %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
-    {% endif %}
-    {% if user has 'products.delete_product' of object %}
-    <a href="{% url "products_product_delete" object.pk %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> {% trans "Delete Product" %}</a>
-    {% endif %}
-</div>
-{% endif %}
-<h2>{% trans "Platforms" %}</h2>
-<ul class="platform-list">
-    {% for platform in object.platforms.all %}
-    <li><img src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
-    {% endfor %}
-</ul>
-<h2>{% trans "Categories" %}</h2>
-<ul>
-    {% for category in object.categories.all %}
-    <li>{{ category.label }}</li>
-    {% endfor %}
-</ul>
-<h2>{% trans "Recommended Games" %}</h2>
-<div id="products" class="row list-group">
-{% get_relative object as products %}
-{% for product in products|slice:":3" %}
-<div class="item col-xs-12 col-lg-12">
-    {% include "products/components/thumbnail-item.html" %}
-</div>
-{% endfor %}
-</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Platforms" %}</h2>
+        </div>
+        <div class="panel-body">
+            <ul class="platform-list">
+                {% for platform in object.platforms.all %}
+                    <li><img src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Categories" %}</h2>
+        </div>
+        <ul class="list-group">
+            {% for category in object.categories.all %}
+                <li class="list-group-item">{{ category.label }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Recommended Games" %}</h2>
+        </div>
+        <div id="products" class="list-group">
+            {% get_relative object as products %}
+            {% for product in products|slice:":3" %}
+                <div class="item list-group-item">
+                    {% include "products/components/thumbnail-item.html" %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
 {% block content %}
 {{ block.super }}
