@@ -2,16 +2,20 @@
 <div class="blog-article">
     <div class="blog-article-header">
         <div class="pull-right">
-            <img src="{{ object.author.avatar.large.url }}" alt="{{ object.author.nickname }} Avater" class="avatar avatar-middle"/> {{ object.author.nickname }}
+            <a href="{{ object.author.profile.get_absolute_url }}">
+                <img src="{{ object.author.avatar.large.url }}" alt="{{ object.author.nickname }} Avater" class="avatar avatar-middle"/> {{ object.author.nickname }}
+            </a>
         </div>
         <div class="date pull-left">
             <p>{{ object.created_at|date:"d" }}<span>{{ object.created_at|date:"M" }}</span></p>
         </div>
-        <h1>{{ object.title }}</h1>
-        {% trans "Created at" %}: {{ object.created_at }}<br />
+        <div class="page-header">
+            <h1>{{ object.title }}</h1>
+        </div>
+        <p class="badge">{{ object.category.label }}</p>
     </div>
     <article class="markdown">
         {{ object.body | markdown }}
+        <time><label>{% trans "Published at" %}</label>: {{ object.publish_at|date:"Y/m/d H:i" }}</time>
     </article>
-    <p>{% trans "Category" %}: {{ object.category }}</p>
 </div>
