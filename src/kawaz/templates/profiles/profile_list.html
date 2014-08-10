@@ -1,6 +1,51 @@
-{% extends "base.html" %}
-{% block content %}
-    {% for object in object_list %}
-        {{ object }}
-    {% endfor %}
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/profile.css" %}" media="screen">
+{% endblock %}
+{% block content-main %}
+    <div class="page-header">
+        <h1>{% trans "Members" %}({{ filter | length }})</h1>
+    </div>
+    {% if filter|length_is:"0" %}
+        <div class="alert alert-info">
+            <p>該当するメンバーは存在しません</p>
+        </div>
+    {% endif %}
+    <div class="row" id="profile-list">
+        {% for object in filter %}
+            <div class="thumbnail profile-list-item">
+                <a href="{{ object.get_absolute_url }}">
+                    <img class="profile-avatar" alt="{{ object.user.nickname }}" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}">
+                </a>
+                <div class="well">
+                    <div class="caption">
+                        <h3>{{ object.user.nickname }}</h3>
+                        <p class="username">@{{ object.user.username }}</p>
+                        <div class="quotes">{{ object.user.quotes }}</div>
+                        <div class="profile-skills">
+                            {% for skill in object.skills.all %}
+                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="profile-accounts">
+                            {% for account in object.accounts.all %}
+                                <span><a href="{{ account.url }}"><img data-toggle="tooltip" data-placement="top" data-title="{{ account.username }}" src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}"></a></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block content-aside %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">Abilities</h4>
+        </div>
+        {{ filter.form.skills }}
+    </div>
 {% endblock %}
