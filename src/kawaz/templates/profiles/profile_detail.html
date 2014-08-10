@@ -35,6 +35,12 @@
                 <div class="col col-lg-6 col-xs-6">
                     {% for skill in object.skills.all %}
                         <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                    {% empty %}
+                        {% if user has 'profiles.change_profile' of object %}
+                            <span class="badge" data-toggle="tooltip" data-placement="top" data-title="「できること」が未設定です">ニート</span>
+                        {% else %}
+                            <span class="badge" data-toggle="tooltip" data-placement="top" data-title="何の能力も持たない無能力者です">ニート</span>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -42,15 +48,25 @@
     </div>
     {% if user has 'profiles.change_profile' of object %}
         {% if object.remarks %}
-            <div class="alert alert-warning">
+            {# 自分のページの時 #}
+            <div class="alert alert-info">
                 <p><strong>ここはあなたのページです</strong></p>
             </div>
         {% else %}
+            {# 自分のページかつ、プロフィール未設定の時 #}
             <div class="alert alert-warning">
                 <p>これはあなたのページですが、まだプロフィールが設定されていません。</p>
                 <p>他のメンバーと交流するために、必ずプロフィールを設定してください。</p>
                 <p><strong><small>長期間放置されているアカウントは削除される場合があります。</small></strong></p>
-                <p><a class="btn btn-primary btn-lg" href="{% url "profiles_profile_update" %}">今すぐ設定する</a></p>
+                <p><a class="btn btn-success btn-lg" href="{% url "profiles_profile_update" %}">今すぐ設定する</a></p>
+            </div>
+        {% endif %}
+        {% if object.skills.all|length_is:"0" %}
+            {# 自分のページかつ、スキル未設定の時 #}
+            <div class="alert alert-warning">
+                <p>まだ「<strong>できること</strong>」が設定されていません。</p>
+                <p>「<strong>できること</strong>」は他のメンバーと繋がるために必要な情報です。必ず設定してください。</p>
+                <p><a class="btn btn-success btn-lg" href="{% url "profiles_profile_update" %}">今すぐ設定する</a></p>
             </div>
         {% endif %}
     {% endif %}
@@ -60,7 +76,7 @@
     <div id="recent-entries">
         <h2>{% trans "Recent Entries" %}</h2>
         {% if object.user.blog_entries.all|length_is:0 %}
-            <div class="alert alert-warning">
+            <div class="alert alert-info">
                 {% trans "There are no entries yet" %}
             </div>
         {% else %}
@@ -104,9 +120,12 @@
                         <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">
                         <span class="list-group-item-text link">{{ account.username }}</span>
                     </a>
+                {% empty %}
+                    <li class="list-group-item list-group-item-warning">{% trans "There are no accounts." %}</li>
                 {% endfor %}
             </div>
         </div>
+        {# 参加中のプロジェクト  #}
         <div id="profile-joined-projects" class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title">{% trans "Joined Projects" %}</h2>
@@ -118,17 +137,9 @@
                         <span class="link">{{ project.title }}</span>
                     </a>
                 {% empty %}
-                    <li>{% trans "There are no joinned projects." %}</li>
+                    <li class="list-group-item list-group-item-warning">{% trans "There are no joinned projects." %}</li>
                 {% endfor %}
             </div>
         </div>
     </div>
-{% endblock %}
-{% block post_javascript %}
-    {{ block.super }}
-    <script type="application/javascript">
-        $(function() {
-            $("[data-toggle='tooltip']").tooltip();
-        });
-    </script>
 {% endblock %}
