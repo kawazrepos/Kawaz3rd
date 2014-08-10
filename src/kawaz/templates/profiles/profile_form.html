@@ -1,4 +1,5 @@
 {% extends "form_base.html" %}
+{% load profiles_tags %}
 {% load bootstrap %}
 {% block content-header %}
     <h1>プロフィールを編集する</h1>
@@ -21,7 +22,12 @@
                                     {% for fld in account_form.hidden_fields %}{{ fld }}{% endfor %}
                                     {% if account_form.instance.pk %}{{ account_form.DELETE }}{% endif %}
                                     {{ account_form.service.errors }}
-                                    {{ account_form.service }}
+                                    {% get_services as services %}
+                                    <select id="id_accounts-{{ forloop.counter0 }}-service" name="accounts-{{ forloop.counter0 }}-service">
+                                        {% for service in services %}
+                                            <option value="{{ service.pk }}" style="background-image: url({{ MEDIA_URL }}{{ service.icon }});"{% if account_form.instance.pk == service.pk %} selected{% endif %}>{{ service.label }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </td>
                                 <td>
                                     {{ account_form.username.errors }}
@@ -31,15 +37,19 @@
                                     {{ account_form.pub_state.errors }}
                                     {{ account_form.pub_state }}
                                 </td>
-                                <td><div><a href="#" class="btn btn-danger btn-xs formset-remove">削除</a></div></td>
+                                <td class="formset-remove-col"><button href="#" class="btn btn-danger btn-xs formset-remove"><span class="glyphicon glyphicon-minus"></span> </button></td>
                             </tr>
                         {% endfor %}
                     </table>
                     {{ formset.management_form }}
-                    <a href="#" class="btn btn-primary btn-sm formset-add">追加</a>
+                    <button href="#" class="btn btn-primary formset-add"><span class="glyphicon glyphicon-plus"></span>追加</button>
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
+            <div class="form-group">
+                <div class="col-lg-offset-2">
+                    <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
+                </div>
+            </div>
         </form>
     </div>
 {% endblock %}
