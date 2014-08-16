@@ -15,7 +15,7 @@ def read(filename):
 
 def readlist(filename):
     rows = read(filename).split("\n")
-    rows = [x.strip() for x in rows if x.strip() if not x.startswith('-e')]
+    rows = [x.strip() for x in rows if x.strip()]
     return list(rows)
 
 
