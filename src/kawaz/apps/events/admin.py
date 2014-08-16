@@ -2,5 +2,5 @@ from django.contrib import admin
 from .models import Event
 
 class EventAdmin(admin.ModelAdmin):
-    readonly_fields = ('gcal_id',)
+    pass
 admin.site.register(Event, EventAdmin)

@@ -89,10 +89,10 @@ class Event(models.Model):
                                        verbose_name=_("Attendees"),
                                        related_name="events_attend",
                                        editable=False)
-    category = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True)
+    category = models.ForeignKey(Category, verbose_name=_('Category'),
+                                 null=True, blank=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
-    gcal_id = models.CharField(_("Calendar ID"), default='', editable=False, max_length=128)
 
     objects = EventManager()
 
@@ -211,21 +211,3 @@ from kawaz.core.publishments.perms import PublishmentPermissionLogic
 add_permission_logic(Event, EventPermissionLogic()),
 add_permission_logic(Event, PublishmentPermissionLogic(
     author_field_name='organizer')),
-
-from .utils.gcal import GoogleCalendarUpdater
-@receiver(post_save, sender=Event)
-def update_gcal(sender, instance, created, **kwargs):
-    """
-    イベント作成、更新時にGoogleカレンダーと同期するシグナルレシーバー
-    """
-    updater = GoogleCalendarUpdater()
-    updater.update_event(instance, created)
-
-
-@receiver(post_delete, sender=Event)
-def delete_gcal(sender, instance, **kwargs):
-    """
-    イベント削除時に、Googleカレンダーから削除するシグナルレシーバー
-    """
-    updater = GoogleCalendarUpdater()
-    updater.delete_event(instance)

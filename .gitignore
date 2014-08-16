@@ -137,6 +137,6 @@ src/kawaz/statics/vendor/mace.min.js
 
 # for configs
 
-src/kawaz/config/client_secret.json
-src/kawaz/config/google_token.dat
+src/kawaz/config/event/client_secrets.json
+src/kawaz/config/event/credentials.dat
 src/kawaz/local_settings.py

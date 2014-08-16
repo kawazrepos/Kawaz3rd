@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'kawaz.core.registrations',
     'kawaz.core.forms',
     'kawaz.core.templatetags',
+    'kawaz.core.google.calendar',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
     'kawaz.apps.profiles',
@@ -180,11 +181,20 @@ RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
 SITE_ID = 1
 
-# Google API
-GOOGLE_CLIENT_SECRET_PATH = os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'client_secret.json')
-GOOGLE_CREDENTIALS_PATH = os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'google_token.dat')
-GOOGLE_CLIENT_SCOPES = ['https://www.googleapis.com/auth/calendar',]
+# Google Calendar Synchronize
 GOOGLE_CALENDAR_ID = ''
+GOOGLE_CALENDAR_EVENT_MODEL = 'events.Event'
+GOOGLE_CALENDAR_BACKEND_CLASS = (
+    'kawaz.apps.events.google_calendar.GoogleCalendarBackend')
+GOOGLE_CALENDAR_CLIENT_SECRETS = os.path.join(REPOSITORY_ROOT,
+                                              'src', 'kawaz', 'config',
+                                              'events',
+                                              'client_secrets.json')
+GOOGLE_CALENDAR_CREDENTIALS = os.path.join(REPOSITORY_ROOT,
+                                           'src',
+                                           'kawaz', 'config',
+                                           'events', 'credentials.dat')
+
 
 # crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

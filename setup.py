@@ -16,6 +16,8 @@ def read(filename):
 def readlist(filename):
     rows = read(filename).split("\n")
     rows = [x.strip() for x in rows if x.strip()]
+    rows = [x.split("#egg=")[1] if "#egg=" in x else x
+            for x in rows]
     return list(rows)
 
 

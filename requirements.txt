@@ -12,4 +12,4 @@ django-crispy-forms
 honcho
 beautifulsoup4
 httplib2
-git+https://github.com/enorvelle/GoogleApiPython3x.git@dd92ed3d676581f486521d66c6de88351a0e67fe#egg=google_api_python_client
+git+https://github.com/enorvelle/GoogleApiPython3x.git#egg=google_api_python_client
