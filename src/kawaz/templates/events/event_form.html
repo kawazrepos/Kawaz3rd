@@ -13,9 +13,6 @@
 {% endblock %}
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'events_event_preview' %}';">
-        <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-            {{ form | crispy }}
-            <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
-        </form>
+        {% crispy form %}
     </div>
 {% endblock %}

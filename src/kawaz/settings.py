@@ -179,6 +179,9 @@ RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
 SITE_ID = 1
 
+# crispy-forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている
     # https://docs.djangoproject.com/en/dev/topics/i18n/timezones/#code
