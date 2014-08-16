@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'thumbnailfield',
     'roughpages',
     'registration',
-    'bootstrapform',
+    'crispy_forms',
     'kawaz.core.db',
     'kawaz.core.utils',
     'kawaz.core.personas',

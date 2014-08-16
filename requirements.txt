@@ -8,6 +8,6 @@ django-filter
 django-roughpages>=0.1.2
 django-thumbnailfield>=0.2.0
 django-inspectional-registration>=0.4.1
-django-bootstrap-form
+django-crispy-forms
 honcho
 beautifulsoup4

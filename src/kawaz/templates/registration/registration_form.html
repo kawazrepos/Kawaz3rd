@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load bootstrap %}
+{% load crispy_forms_tags %}
 {% block content %}
     <h1>{% trans "Application for join us" %}</h1>
     <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-        {{ form | bootstrap_horizontal }}
-        {{ supplement_form | bootstrap_horizontal }}
+        {{ form | crispy }}
+        {{ supplement_form | crispy }}
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value={% trans "Register" %} />
         </div>

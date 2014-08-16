@@ -1,5 +1,5 @@
 {% extends "form_base.html" %}
-{% load bootstrap %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 {% block content-header %}
     {% if object %}
@@ -15,7 +15,7 @@
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'products_product_preview' %}';">
         <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action=".">{% csrf_token %}
-            {{ form | bootstrap_horizontal }}
+            {{ form | crispy }}
             <div class="form-group formset" prefix="{{ screenshot_formset.prefix }}" id="formset-{{ screenshot_formset.prefix }}">
                 <label class="control-label col-sm-2 col-lg-2 " for="id_screenshots">{% trans "Screenshots" %}</label>
                 <div class="control-label col-sm-10 col-lg-10">

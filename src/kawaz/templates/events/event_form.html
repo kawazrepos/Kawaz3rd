@@ -1,5 +1,5 @@
 {% extends "form_base.html" %}
-{% load bootstrap %}
+{% load crispy_forms_tags %}
 {% block content-header %}
     {% if object %}
         <h1>{{ object.title }}を編集する</h1>
@@ -14,7 +14,7 @@
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'events_event_preview' %}';">
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-            {{ form | bootstrap_horizontal }}
+            {{ form | crispy }}
             <input type="submit" class="btn btn-primary btn-lg" value="公開する" />
         </form>
     </div>

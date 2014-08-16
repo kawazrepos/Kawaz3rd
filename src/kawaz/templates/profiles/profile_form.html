@@ -1,5 +1,5 @@
 {% extends "form_base.html" %}
-{% load bootstrap %}
+{% load crispy_forms_tags %}
 {% block content-header %}
     <h1>プロフィールを編集する</h1>
 {% endblock %}
@@ -10,7 +10,7 @@
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'profiles_profile_preview' %}';">
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-            {{ form | bootstrap_horizontal }}
+            {{ form | crispy }}
             <div class="form-group formset" prefix="{{ formset.prefix }}" id="formset-{{ formset.prefix }}">
                 <label class="control-label col-sm-2 col-lg-2 " for="id_services">利用サービス</label>
                 <div class="control-label col-sm-10 col-lg-10" id="id_services">
