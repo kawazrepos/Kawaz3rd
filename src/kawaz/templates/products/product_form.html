@@ -19,18 +19,30 @@
             <div class="form-group formset row" prefix="{{ screenshot_formset.prefix }}" id="formset-{{ screenshot_formset.prefix }}">
                 <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "Screenshots" %}</label>
                 <div class="col-sm-8 col-lg-8">
+                    <div class="alert alert-info">
+                        <p>完成作品のスクリーンショットを添付してください</p>
+                        <p>スクリーンショットは何枚でも添付できます</p>
+                    </div>
                     {% crispy screenshot_formset "crispy" %}
                 </div>
             </div>
             <div class="form-group formset row" prefix="{{ url_release_formset.prefix }}" id="formset-{{ url_release_formset.prefix }}">
                 <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "URL Releases" %}</label>
                 <div class="col-sm-8 col-lg-8">
+                    <div class="alert alert-info">
+                        <p>外部サイトで配布している場合、ダウンロード先のURLを追加できます</p>
+                        <p>例えば、ブラウザで動くものや、Google Play, App Storeで配付しているもののURLを入力してください</p>
+                    </div>
                     {% crispy url_release_formset "crispy" %}
                 </div>
             </div>
             <div class="form-group formset row" prefix="{{ package_release_formset.prefix }}" id="formset-{{ package_release_formset.prefix }}">
                 <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "Package Releases" %}</label>
                 <div class="col-sm-8 col-lg-8">
+                    <div class="alert alert-info">
+                        <p>配付する作品のパッケージを追加できます</p>
+                        <p>ダウンロードして動かすものの、実行ファイルなどをアップロードしてください</p>
+                    </div>
                     {% crispy package_release_formset "crispy" %}
                 </div>
             </div>
