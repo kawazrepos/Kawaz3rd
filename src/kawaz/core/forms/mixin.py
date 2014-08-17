@@ -4,6 +4,8 @@
 #
 __author__ = 'giginet'
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.translation import ugettext as _
+from crispy_forms.layout import Submit
 from .helpers import Bootstrap3HorizontalFormHelper, Bootstrap3InlineFormHelper
 
 
@@ -18,8 +20,16 @@ class BaseFormHelperMixin(object):
         self.helper = self.get_helper()
         self.helper.form_tag = self.form_tag
 
+        for object in self.get_additional_objects():
+            self.helper.add_input(object)
+
     def get_helper(self):
         return self.helper_class()
+
+    def get_additional_objects(self):
+        return (Submit('save', _("Save"),
+                      css_class='btn btn-success btn-lg col-lg-offset-2 '
+                                'col-xs-offset-2'),)
 
 
 class Bootstrap3HorizontalFormHelperMixin(BaseFormHelperMixin):
