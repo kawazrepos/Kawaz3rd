@@ -15,6 +15,7 @@ class Bootstrap3HorizontalFormHelper(FormHelper):
     Ref:
         http://django-crispy-forms.readthedocs.org/en/latest/crispy_tag_forms.html#bootstrap3-horizontal-forms
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -27,3 +28,18 @@ class Bootstrap3HorizontalFormHelper(FormHelper):
     def get_submit(self):
         return Submit('save', _("Save"),
                       css_class='btn btn-success btn-lg col-lg-offset-2')
+
+
+class Bootstrap3InlineFormHelper(FormHelper):
+    """
+     Bootstrap3のInlineFormを利用するためのHelperです
+
+     Ref:
+        http://django-crispy-forms.readthedocs.org/en/latest/crispy_tag_forms.html#bootstrap3-inline-forms
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form_class = 'form-inline'
+        self.field_template = 'bootstrap3/layout/inline_field.html'
+

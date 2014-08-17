@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from kawaz.core.forms.widgets import MaceEditorWidget
-from kawaz.core.forms.mixin import Bootstrap3HorizontalFormMixin
+from kawaz.core.forms.mixin import Bootstrap3HorizontalFormHelperMixin
 from django.forms import widgets
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
@@ -13,7 +13,7 @@ from .models import PackageRelease
 from .models import URLRelease
 
 
-class ProductBaseForm(Bootstrap3HorizontalFormMixin, ModelForm):
+class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     platforms = forms.ModelMultipleChoiceField(
         widget=widgets.CheckboxSelectMultiple,
         queryset=Platform.objects.all().order_by('pk'))

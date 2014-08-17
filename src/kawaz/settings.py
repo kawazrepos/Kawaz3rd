@@ -182,6 +182,7 @@ SITE_ID = 1
 
 # crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap3', 'crispy')
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている
