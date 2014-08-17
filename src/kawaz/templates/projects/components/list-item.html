@@ -1,7 +1,7 @@
 <a href="{{ project.get_absolute_url }}">
     <div class="panel-body">
         <div class="project-thumbnail">
-            <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.large }}" height="90px" alt="{{project}} Thumbnail" />
+            <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.large }}" height="90px" alt="{{ project.title }} Thumbnail" />
         </div>
         <div class="project-wall">
             <dl>
@@ -9,7 +9,7 @@
                 <dd>{{ project.created_at | date:"Y/m/d" }}〜</dd>
             </dl>
 
-            <span href="#" class="" data-toggle="popover" data-placement="top" data-html="true" data-trigger="hover">{{ project.members.all|length }}名が参加中</span>
+            <span href="#" data-toggle="popover" data-placement="top" data-html="true" data-trigger="hover">{{ project.members.all|length }}名が参加中</span>
             <div class="member-list">
                 <ul>
                     {% for member in project.members.all %}

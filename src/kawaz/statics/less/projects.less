@@ -8,7 +8,7 @@
 }
 
 .page-header {
-  #header_active {
+  #header-active {
     float: left;
     text-align: left;
     margin: 0;
@@ -36,11 +36,10 @@
       list-style-type: none;
       color: #fff;
 
-        img {
-          margin-right: 5px;
-        }
+      img {
+        margin-right: 5px;
       }
-
+    }
     li:not(:last-child) {
       margin-bottom: 5px;
     }
@@ -52,11 +51,11 @@
   margin-left: 0;
 }
 
-a#project-list-more {
+#project-list-more {
   text-align: center;
   color: @link-color;
 }
-a#project-list-more:hover {
+#project-list-more:hover {
   color: @link-hover-color;
 }
 .project-list {
@@ -69,13 +68,13 @@ a#project-list-more:hover {
 
     a {
       border: 1px solid #ccc;
-      border-radius: 4px;
+      .border-radius(5px);
       display: block;
     }
     a:hover {
       text-decoration: none;
-       background: @gray-lighter;
-      border-color: #999;
+      background: @gray-lighter;
+      border-color: @gray-lighter;
     }
     .project-thumbnail {
       text-align: center;
@@ -94,14 +93,10 @@ a#project-list-more:hover {
       dl {
         dt {
           color: @text-color;
-
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          -o-text-overflow: ellipsis; /* Opera9,10対応 */
+          .text-overflow(ellipsis);
         }
         dd {
-          color:#999;
+          color: #999;
           font-weight: normal;
         }
       }
@@ -115,21 +110,18 @@ a#project-list-more:hover {
 .project-list-archived {
 
   .col {
-    display:inline-block;
-    vertical-align:middle;
+    display: inline-block;
+    vertical-align: middle;
     height: 100%;
     float: none;
   }
-  .col_tilte {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis; /* Opera9,10対応 */
+  .col-title {
+    .text-overflow(ellipsis);
   }
-  a.eternal .archive-info{
-    opacity:0.5;
-    display:inline-block;
-    vertical-align:middle;
+  a.eternal .archive-info {
+    opacity: 0.5;
+    display: inline-block;
+    vertical-align: middle;
     float: none;
   }
   .project-list-item {
@@ -141,7 +133,5 @@ a#project-list-more:hover {
       text-decoration: none;
       background: @gray-lighter;
     }
-
-
   }
 }
