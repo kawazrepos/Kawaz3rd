@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'kawaz.core.personas',
     'kawaz.core.publishments',
     'kawaz.core.registrations',
+    'kawaz.core.forms',
     'kawaz.core.templatetags',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
