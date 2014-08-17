@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from kawaz.core.forms.widgets import MaceEditorWidget
 from kawaz.core.forms.mixin import Bootstrap3HorizontalFormHelperMixin
+from kawaz.core.forms.mixin import Bootstrap3InlineFormHelperMixin
 from django.forms import widgets
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
@@ -14,6 +15,8 @@ from .models import URLRelease
 
 
 class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
+    form_tag = False
+
     platforms = forms.ModelMultipleChoiceField(
         widget=widgets.CheckboxSelectMultiple,
         queryset=Platform.objects.all().order_by('pk'))
@@ -26,6 +29,9 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     class Meta:
         model = Product
 
+    def get_additional_objects(self):
+        # Saveボタンを描画しない
+        return []
 
 class ProductCreateForm(ProductBaseForm):
 
@@ -42,14 +48,16 @@ class ProductUpdateForm(ProductBaseForm):
         )
 
 
-class ScreenshotForm(ModelForm):
+class ScreenshotForm(Bootstrap3InlineFormHelperMixin, ModelForm):
+    form_tag = False
 
     class Meta:
         model = Screenshot
         fields = ('image',)
 
 
-class PackageReleaseForm(ModelForm):
+class PackageReleaseForm(Bootstrap3InlineFormHelperMixin, ModelForm):
+    form_tag = False
 
     class Meta:
         model = PackageRelease
@@ -59,7 +67,8 @@ class PackageReleaseForm(ModelForm):
         )
 
 
-class URLReleaseForm(ModelForm):
+class URLReleaseForm(Bootstrap3InlineFormHelperMixin, ModelForm):
+    form_tag = False
 
     class Meta:
         model = URLRelease
