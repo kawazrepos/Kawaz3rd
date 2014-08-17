@@ -18,3 +18,11 @@
 	-webkit-background-clip: padding-box;
 	background-clip:         padding-box;
 }
+
+// text overflow
+.text-overflow(@ellipsis) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: @ellipsis;
+  -o-text-overflow: @ellipsis; /* Opera9,10対応 */
+}
