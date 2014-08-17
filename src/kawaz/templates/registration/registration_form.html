@@ -4,7 +4,7 @@
 {% block content %}
     <h1>{% trans "Application for join us" %}</h1>
     <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-        {{ form | crispy }}
+        {% crispy form %}
         {{ supplement_form | crispy }}
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value={% trans "Register" %} />

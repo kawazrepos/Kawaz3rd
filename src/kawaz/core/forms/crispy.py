@@ -12,8 +12,13 @@ class Bootstrap3HorizontalFormMixin(object):
     """
     django-crispy-formsを使って、bootstrap3対応のform layoutを作成するMixinです。
 
-    class ArticleForm(BootstrapHorizontalFormMixin, ModelForm):
-        model = Article
+    Ref:
+        http://django-crispy-forms.readthedocs.org/en/latest/crispy_tag_forms.html#bootstrap3-horizontal-forms
+
+    Usage:
+
+        class ArticleForm(BootstrapHorizontalFormMixin, ModelForm):
+            model = Article
 
     """
 
@@ -23,7 +28,9 @@ class Bootstrap3HorizontalFormMixin(object):
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
+        self.helper.form_action = '.'
         self.helper.add_input(self.get_submit())
 
     def get_submit(self):
-        return Submit('save', _("Save"), css_class='btn btn-success btn-lg col-lg-offset-2')
+        return Submit('save', _("Save"),
+                      css_class='btn btn-success btn-lg col-lg-offset-2')

@@ -6,10 +6,5 @@
     {% else %}
     <h1>新しいお知らせを作成</h1>
     {% endif %}
-    <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-        {{ form | crispy }}
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="公開する" />
-        </div>
-    </form>
+    {% crispy form %}
 {% endblock %}
