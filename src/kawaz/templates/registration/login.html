@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load form_helper %}
 {% block content %}
     <h1>{% trans "Login" %}</h1>
     <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-        {% crispy form %}
+        {% get_form_helper "horizontal" as horizontal_helper %}
+        {% crispy form horizontal_helper %}
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="{% trans 'Login' %}" />
+            <input type="submit" class="btn btn-success btn-lg" value="{% trans "Sign In" %}" />
         </div>
     </form>
 {% endblock %}
