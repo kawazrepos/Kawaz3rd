@@ -1,0 +1,137 @@
+@import (reference) "../../../../vendor/bootstrap/less/bootstrap.less";
+@import (reference) "common/define";
+@import (reference) "common/vendor-prefixes";
+
+.member-list {
+  display:none;
+  margin: 0;
+}
+
+.page-header {
+  #header-active {
+    float: left;
+    text-align: left;
+    margin: 0;
+  }
+  .header-right {
+    text-align: right;
+    padding-top: 15px;
+    a {
+      margin-right: auto;
+      display: inline-block;
+    }
+  }
+}
+.page-header:first-child {
+  height: 80px;
+}
+
+.popover-content {
+  padding-bottom: 0;
+
+  ul {
+    padding: 0;
+
+    li {
+      list-style-type: none;
+      color: #fff;
+
+      img {
+        margin-right: 5px;
+      }
+    }
+    li:not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+#project-list-more {
+  text-align: center;
+  color: @link-color;
+}
+#project-list-more:hover {
+  color: @link-hover-color;
+}
+.project-list {
+  min-width: 200px;
+
+  .project-list-item {
+    margin: 0 0 20px;
+    border: none;
+    display: inline-block;
+
+    a {
+      border: 1px solid #ccc;
+      .border-radius(5px);
+      display: block;
+    }
+    a:hover {
+      text-decoration: none;
+      background: @gray-lighter;
+      border-color: @gray-lighter;
+    }
+    .project-thumbnail {
+      text-align: center;
+    }
+    span {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .project-wall {
+      margin-top: 10px;
+
+      dl {
+        margin: 0 0 10px;
+      }
+
+      dl {
+        dt {
+          color: @text-color;
+          .text-overflow(ellipsis);
+        }
+        dd {
+          color: #999;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+  .project-list-item:nth-child(4n) {
+    margin: 0 0 20px;
+  }
+}
+
+.project-list-archived {
+
+  .col {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    float: none;
+  }
+  .col-title {
+    .text-overflow(ellipsis);
+  }
+  a.eternal .archive-info {
+    opacity: 0.5;
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+  }
+  .project-list-item {
+    a {
+      display: block;
+      padding: 5px;
+    }
+    a:hover {
+      text-decoration: none;
+      background: @gray-lighter;
+    }
+  }
+}
