@@ -1,11 +1,13 @@
 {% extends "form_base.html" %}
 {% load crispy_forms_tags %}
 {% block content-header %}
-    {% if object %}
-        <h1>{{ object.title }}を編集する</h1>
-    {% else %}
-        <h1>新しいプロジェクトを作成</h1>
-    {% endif %}
+    <div class="page-header">
+        {% if object %}
+            <h1>{{ object.title }}を編集する</h1>
+        {% else %}
+            <h1>新しいプロジェクトを作成</h1>
+        {% endif %}
+    </div>
 {% endblock %}
 {% block breadcrumb %}
     {{ block.super }}
