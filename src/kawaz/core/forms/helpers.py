@@ -35,3 +35,12 @@ class Bootstrap3InlineFormHelper(FormHelper):
         super().__init__(*args, **kwargs)
         self.form_class = 'form-inline'
         self.field_template = 'bootstrap3/layout/inline_field.html'
+
+
+class HorizontalBareFormHelper(Bootstrap3HorizontalFormHelper):
+    """
+    HorizontalFormHelperの<form>タグでwrapされていない版です
+    主にget_form_helperテンプレートタグからの利用を想定しています
+    form_tag = False
+    """
+    form_tag = False

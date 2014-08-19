@@ -7,6 +7,8 @@ __author__ = 'giginet'
 from django import template
 from django.template import TemplateSyntaxError
 from ..helpers import Bootstrap3HorizontalFormHelper
+from ..helpers import Bootstrap3InlineFormHelper
+from ..helpers import HorizontalBareFormHelper
 
 register = template.Library()
 
@@ -23,6 +25,8 @@ def get_form_helper(type='horizontal'):
 
     Type: (Default: horizontal)
         horizontal: Bootstrap3のHorizontal Formを描画するHelper
+        inline: Bootstrap3Inline Formを描画するHelper
+        bare: horizontalを描画し、formタグに囲まれていないHelper
 
     Examples:
         任意のFormに対してHorizontalFormHelperを適応する
@@ -34,4 +38,8 @@ def get_form_helper(type='horizontal'):
     """
     if type == 'horizontal':
         return Bootstrap3HorizontalFormHelper()
+    elif type == 'inline':
+        return Bootstrap3InlineFormHelper()
+    elif type == 'bare':
+        return HorizontalBareFormHelper()
     raise TemplateSyntaxError('{} is invalid form helper type.'.format(type))
