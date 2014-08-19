@@ -133,7 +133,7 @@ class Project(models.Model):
     tracker = models.URLField(_('Tracker URL'), blank=True, default='',
                               help_text='Kawaz RedmineのプロジェクトURLを入力してください')
     repository = models.URLField(_('Repository URL'), blank=True, default='',
-                                 help_text='Kawaz GitLab, GitHubなどのリポジトリURLを入力してください')
+                                 help_text='Kawaz GitLab, GitHubなどのプロジェクトURLを入力してください')
 
     # TODO: group 要素は 2nd では必要だった（databased object permission）が
     #       3rd では不要なため（logic based object permission）削る
