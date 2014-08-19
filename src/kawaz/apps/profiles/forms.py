@@ -18,7 +18,7 @@ class ProfileForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     skills = forms.ModelMultipleChoiceField(
         widget=widgets.CheckboxSelectMultiple,
-        queryset=Skill.objects.all().order_by('pk'))
+        queryset=Skill.objects.all().order_by('pk'), required=False)
     remarks = forms.CharField(widget=MaceEditorWidget)
     birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
 
