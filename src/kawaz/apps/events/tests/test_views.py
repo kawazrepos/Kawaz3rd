@@ -4,6 +4,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
+from kawaz.core.tests.testcases.views import BaseViewPermissionTestCase
 from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import EventFactory, CategoryFactory
 from ..models import Event
@@ -477,7 +478,33 @@ class EventPreviewTestCase(TestCase):
         self.assertTemplateUsed(r, 'events/components/event_detail.html')
         self.assertEqual(r.status_code, 200)
 
-class EventCalendarViewTestCase(TestCase):
+class EventCalendarViewTestCase(BaseViewPermissionTestCase):
+    def test_everyone_can_download_public_ical(self):
+        """
+         全てのユーザーはpublicなiCalをダウンロードできる
+        """
+        e = EventFactory(pub_state='public')
+        for user in self.members + self.non_members:
+            self.prefer_login(user)
+            r = self.client.get('/events/{}/calendar/'.format(e.pk))
+            self.assertEqual(r.status_code, 200)
+
+    def test_member_can_download_private_ical(self):
+        """
+        メンバーはprotectedなiCalをダウンロードできる
+        非メンバーの場合はログインページにリダイレクトされる
+        """
+        e = EventFactory(pub_state='protected')
+        url = '/events/{}/calendar/'.format(e.pk)
+        for user in self.members:
+            self.prefer_login(user)
+            r = self.client.get(url)
+            self.assertEqual(r.status_code, 200)
+        for user in self.non_members:
+            self.prefer_login(user)
+            r = self.client.get(url)
+            self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, url))
+
     def test_can_reverse_events_event_calendar(self):
         """
         URL `events_event_calendar` は`/events/<pk>/calendar/`を返す
@@ -490,6 +517,7 @@ class EventCalendarViewTestCase(TestCase):
         pub_state = 'draft'のEventを取得しようとしたとき、400を返す
         """
         e = EventFactory(pub_state='draft')
+        self.prefer_login(e.organizer)
         r = self.client.get('/events/{}/calendar/'.format(e.pk))
         self.assertEqual(r.status_code, 400)
 

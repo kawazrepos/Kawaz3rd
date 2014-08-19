@@ -148,6 +148,7 @@ class EventPreview(SingleObjectPreviewMixin, DetailView):
     template_name = "events/components/event_detail.html"
 
 
+@permission_required('events.view_event')
 class EventCalendarView(DetailView):
     """
     EventをiCal形式でダウンロードするView
