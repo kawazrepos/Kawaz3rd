@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load bootstrap %}
+{% load crispy_forms_tags %}
+{% load form_helper %}
 {% block content %}
-    <h1>{% trans "Application for join us" %}</h1>
-    <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-        {{ form | bootstrap_horizontal }}
-        {{ supplement_form | bootstrap_horizontal }}
+    <div class="page-header">
+        <h1>{% trans "Application for join us" %}</h1>
+    </div>
+    {% get_form_helper "bare" as helper %}
+    <form class="form-horizontal row" role="form" method="POST" action=".">{% csrf_token %}
+        {% crispy form helper %}
+        {% crispy supplement_form helper %}
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value={% trans "Register" %} />
+            <input type="submit" class="btn btn-success btn-lg col-lg-offset-2 col-xs-offset-2" value={% trans "Register" %} />
         </div>
     </form>
 {% endblock %}

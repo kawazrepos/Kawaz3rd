@@ -42,12 +42,13 @@ INSTALLED_APPS = (
     'thumbnailfield',
     'roughpages',
     'registration',
-    'bootstrapform',
+    'crispy_forms',
     'kawaz.core.db',
     'kawaz.core.utils',
     'kawaz.core.personas',
     'kawaz.core.publishments',
     'kawaz.core.registrations',
+    'kawaz.core.forms',
     'kawaz.core.templatetags',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
@@ -178,6 +179,10 @@ TEST_RUNNER = 'kawaz.core.tests.runner.MediaRootTestSuiteRunner'
 RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
 SITE_ID = 1
+
+# crispy-forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap3', 'crispy')
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている

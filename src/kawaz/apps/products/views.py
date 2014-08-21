@@ -152,9 +152,17 @@ class ProductCreateView(ProductFormMixin, CreateView):
         return super().post(request, *args, **kwargs)
 
 @permission_required('products.change_product')
-class ProductUpdateView(UpdateView, ProductFormMixin):
+class ProductUpdateView(ProductFormMixin, UpdateView):
     model = Product
     form_class = ProductUpdateForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
 
 
 @permission_required('products.delete_product')

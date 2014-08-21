@@ -1,5 +1,5 @@
 {% load i18n %}
-{% load bootstrap %}
+{% load crispy_forms_tags %}
 <div class="login-form">
     <form class="form-horizontal" role="form" method="POST" action="{% url "login" %}">{% csrf_token %}
         <div class="form-group">
