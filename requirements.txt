@@ -1,7 +1,7 @@
 pyyaml
 pytz
 pillow
-markdown2
+markdown2==2.2.2
 djangorestframework
 django-permission>=0.7.1
 django-filter
