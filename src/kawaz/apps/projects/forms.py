@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from kawaz.core.forms.widgets import MaceEditorWidget
-from kawaz.core.forms.mixin import Bootstrap3HorizontalFormHelperMixin
+from kawaz.core.forms.mixins import Bootstrap3HorizontalFormHelperMixin
 
 from .models import Project
 

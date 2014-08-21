@@ -9,14 +9,14 @@ from crispy_forms.layout import Submit
 from .helpers import Bootstrap3HorizontalFormHelper, Bootstrap3InlineFormHelper
 
 
-class BaseFormHelperMixin(object):
+class FormHelperMixinBase(object):
     helper_class = None
     form_tag = True
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not self.helper_class:
-            raise ImproperlyConfigured("FormHelperMixin must be set `helper_class`.")
+            raise ImproperlyConfigured("helper_class attribute is required to be specified.")
         self.helper = self.get_helper()
         self.helper.form_tag = self.form_tag
 
@@ -32,7 +32,7 @@ class BaseFormHelperMixin(object):
                                 'col-xs-offset-2'),)
 
 
-class Bootstrap3HorizontalFormHelperMixin(BaseFormHelperMixin):
+class Bootstrap3HorizontalFormHelperMixin(FormHelperMixinBase):
     """
     django-crispy-formsを使って、bootstrap3対応のHorizontalFormを作成するMixinです。
 
@@ -45,7 +45,7 @@ class Bootstrap3HorizontalFormHelperMixin(BaseFormHelperMixin):
     helper_class = Bootstrap3HorizontalFormHelper
 
 
-class Bootstrap3InlineFormHelperMixin(BaseFormHelperMixin):
+class Bootstrap3InlineFormHelperMixin(FormHelperMixinBase):
     """
     django-crispy-formsを使って、bootstrap3対応のInlineFormを作成するMixinです。
     """

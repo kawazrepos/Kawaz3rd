@@ -4,7 +4,7 @@ from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext as _
 from django.forms import widgets
 from kawaz.core.forms.widgets import MaceEditorWidget
-from kawaz.core.forms.mixin import Bootstrap3HorizontalFormHelperMixin, Bootstrap3InlineFormHelperMixin
+from kawaz.core.forms.mixins import Bootstrap3HorizontalFormHelperMixin, Bootstrap3InlineFormHelperMixin
 from crispy_forms.layout import Layout
 from crispy_forms.bootstrap import StrictButton
 
