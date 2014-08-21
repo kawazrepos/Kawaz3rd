@@ -75,7 +75,7 @@ class MarkdownTemplateTagTestCase(TestCase):
                  "<hr />\n"
                  "<ol>\n"
                  """<li id="fn-note-id">\n"""
-                 "<p>This is the text of the note.&nbsp;"
+                 "<p>This is the text of the note.&#160;"
                  """<a href="#fnref-note-id" class="footnoteBackLink" title="Jump back to footnote 1 in the text.">&#8617;</a></p>\n"""
                  "</li>\n"
                  "</ol>\n"
