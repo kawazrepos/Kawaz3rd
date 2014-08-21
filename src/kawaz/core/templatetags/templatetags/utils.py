@@ -19,7 +19,11 @@ def active(context, pattern):
     """
     from re import search
     request = context['request']
-    if search(pattern, request.path):
+    if list(request.GET):
+        url = '{}?{}'.format(request.path, request.GET.urlencode())
+    else:
+        url = request.path
+    if search(pattern, url):
         return 'active'
     return ''
 

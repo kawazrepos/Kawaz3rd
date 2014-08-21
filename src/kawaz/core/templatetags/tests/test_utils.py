@@ -28,6 +28,23 @@ class ActiveTemplateTagTestCase(TestCase):
         render = t.render(c)
         self.assertEqual(render, 'active')
 
+    def test_active_contains_get_parametter(self):
+        """
+        activeタグはGETパラメータの値も含む
+        """
+        t = Template(
+            """{% load utils %}"""
+            """{% active pattern %}"""
+        )
+        request = MagicMock()
+        request.path = '/members/?o=username$'
+        c = Context({
+            'request':  request,
+            'pattern': '.+?o=username'
+        })
+        render = t.render(c)
+        self.assertEqual(render, 'active')
+
     def test_active_with_not_matched_pattern(self):
         '''
         activeタグのpatternが現在のURLとマッチしないとき、空白文字を返す

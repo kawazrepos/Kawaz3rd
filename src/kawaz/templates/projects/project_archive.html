@@ -32,10 +32,10 @@
             <h3 class="panel-title">Order</h3>
         </div>
         <div class="list-group">
-            <a href="{{ request.url }}?o=title" class="list-group-item">{% trans "Title" %}</a>
-            <a href="{{ request.url }}?o=created_at" class="list-group-item">{% trans "Created At" %}</a>
-            <a href="{{ request.url }}?o=category" class="list-group-item">{% trans "Category" %}</a>
-            <a href="{{ request.url }}?o=status" class="list-group-item">{% trans "Status" %}</a>
+            <a href="{{ request.url }}?o=title" class="list-group-item {% active ".+\?o=title" %}">{% trans "Title" %}</a>
+            <a href="{{ request.url }}?o=created_at" class="list-group-item {% active ".+\?o=created_at" %}">{% trans "Created At" %}</a>
+            <a href="{{ request.url }}?o=category" class="list-group-item {% active ".+\?o=category" %}">{% trans "Category" %}</a>
+            <a href="{{ request.url }}?o=status" class="list-group-item {% active ".+?o=status" %}">{% trans "Status" %}</a>
         </div>
     </div>
 {% endblock %}
