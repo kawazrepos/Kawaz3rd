@@ -9,6 +9,9 @@ def active(context, pattern):
     そうでない場合は空白文字を返します
     param pattern 現在のURLの正規表現パターン
 
+    また、GETパラメーターが与えられている場合、keyの昇順に連結されたURLで判定します
+    /members/kawaz_tan/?a=1&b=2&c=3
+
     Example:
         {% load utils %}
         <div class="{% active '/members/.+' %}"</div>
