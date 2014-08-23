@@ -110,7 +110,11 @@
     $(function() {
         $("[data-toggle='tooltip']").tooltip();
     });
-</script>
+
+    var $loginForm = $('.login-form form');
+    var action = $loginForm.attr('action');
+    $loginForm.attr('action', action + '?next=' + location.pathname);
+    </script>
 {% endblock %}
 </body>
 </html>
