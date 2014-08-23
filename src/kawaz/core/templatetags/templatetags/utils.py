@@ -9,6 +9,9 @@ def active(context, pattern):
     そうでない場合は空白文字を返します
     param pattern 現在のURLの正規表現パターン
 
+    また、GETパラメーターが与えられている場合、keyの昇順に連結されたURLで判定します
+    /members/kawaz_tan/?a=1&b=2&c=3
+
     Example:
         {% load utils %}
         <div class="{% active '/members/.+' %}"</div>
@@ -19,7 +22,11 @@ def active(context, pattern):
     """
     from re import search
     request = context['request']
-    if search(pattern, request.path):
+    if list(request.GET):
+        url = '{}?{}'.format(request.path, request.GET.urlencode())
+    else:
+        url = request.path
+    if search(pattern, url):
         return 'active'
     return ''
 
