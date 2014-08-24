@@ -5,9 +5,5 @@
     <div class="page-header">
         <h1>{% trans "Logout" %}</h1>
     </div>
-    <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-        <div class="form-group">
-            <input type="submit" class="btn btn-success" value="{% trans 'Logout' %}" />
-        </div>
-    </form>
+    <div class="alert alert-info">ログアウトしました</div>
 {% endblock %}

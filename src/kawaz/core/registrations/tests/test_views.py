@@ -96,28 +96,21 @@ class LogoutViewTestCase(TestCase):
 
     def test_can_logout_via_post(self):
         """
-        LogoutページにPOSTしたとき、ログアウトできる
+        LogoutページにPOSTしたとき、ログアウトして、トップページに行く
         """
         self.assertTrue(self.client.login(username=self.user.username, password='password'))
         self._assert_authenticated()
         r = self.client.post('/registration/logout/')
         self._assert_authenticated(neg=True)
+        self.assertRedirects(r, '/')
 
     def test_can_not_logout_via_get(self):
         """
-        LogoutページにGETしたとき、ログアウトできない
+        LogoutページにGETしたとき、ログアウトして、トップページに行く
         """
         self.assertTrue(self.client.login(username=self.user.username, password='password'))
         self._assert_authenticated()
         r = self.client.get('/registration/logout/')
-        self._assert_authenticated()
-
-    def test_can_view_logout_page(self):
-        """
-        LogoutページにGETしたとき、ログアウトページが見れる
-        """
-        self.assertTrue(self.client.login(username=self.user.username, password='password'))
-        r = self.client.get('/registration/logout/')
-        self.assertEqual(r.status_code, 200)
-        self.assertTemplateUsed(r, 'registration/logout.html')
+        self._assert_authenticated(neg=True)
+        self.assertRedirects(r, '/')
 

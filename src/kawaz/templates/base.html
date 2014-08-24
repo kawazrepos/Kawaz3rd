@@ -54,7 +54,7 @@
                             <li><a href="{{ user.profile.get_absolute_url }}">{% trans "View Profile" %}</a></li>
                             <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
                             <li role="presentation" class="divider"></li>
-                            <li><a href="{% url "logout" %}">{% trans "Logout" %}</a></li>
+                            <li><a class="logout-link" href="{% url "logout" %}">{% trans "Logout" %}</a></li>
                         </ul>
                     </div>
                 {% else %}
@@ -112,9 +112,16 @@
     });
 
     var $loginForm = $('.login-form form');
-    var action = $loginForm.attr('action');
-    $loginForm.attr('action', action + '?next=' + location.pathname);
-    </script>
+    if ($loginForm.length > 0) {
+        var action = $loginForm.attr('action');
+        $loginForm.attr('action', action + '?next=' + location.pathname);
+    }
+    var $logoutLink = $('.logout-link');
+    if ($logoutLink.length > 0) {
+        var logoutURL = $logoutLink.attr('href');
+        $logoutLink.attr('href', logoutURL + '?next=' + location.pathname);
+    }
+</script>
 {% endblock %}
 </body>
 </html>
