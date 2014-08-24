@@ -21,6 +21,8 @@ class EntryMultipleObjectMixin(MultipleObjectMixin):
     """
     アクセスしたユーザーにより閲覧可能な記事を指定するためのMixin
     """
+    paginate_by = 5
+
     def get_queryset(self):
         return Entry.objects.published(self.request.user)
 
@@ -88,6 +90,7 @@ class EntryAuthorMixin(EntryMultipleObjectMixin):
     """
     特定ユーザーが執筆した記事に限定して閲覧するためのMixin
     """
+
     def get_queryset(self):
         # urlにて渡されたユーザーの名前を取得
         # | get('author')だとバグにより urlpattern に author が指定されていない
