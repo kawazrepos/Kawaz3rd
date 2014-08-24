@@ -9,7 +9,6 @@ import httplib2
 
 # require: google_api_python_client
 from apiclient import discovery
-from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client import tools
 
@@ -39,55 +38,37 @@ class GoogleCalendarClient(object):
     """
     A raw level google calendar API client class
     """
-    @staticmethod
-    def console_login(flags=None):
-        """
-        Logged into Google Calendar API with a console and store the obtained
-        credentials object in a file storage.
-        """
-        SCOPE = 'https://www.googleapis.com/auth/calendar'
-        CLIENT_SECRETS = settings.GOOGLE_CALENDAR_CLIENT_SECRETS
-        FILENAME = settings.GOOGLE_CALENDAR_CREDENTIALS
-        flow = flow_from_clientsecrets(CLIENT_SECRETS, scope=SCOPE)
-        storage = Storage(FILENAME)
-        credentials = storage.get()
-        if credentials is None or credentials.invalid:
-            flags = {} if flags is None else flags
-            try:
-                tools.run_flow(flow, storage, flags)
-                return True
-            except Exception:
-                raise
-        else:
-            print(("An access token is already exists in {}. "
-                   "Remove the file if you need to logout manually."
-                  ).format(FILENAME))
-            return False
-
     def __init__(self, calendar_id):
         self.calendar_id = calendar_id
-        # Get credentials
-        storage = Storage(settings.GOOGLE_CALENDAR_CREDENTIALS)
+        storage = Storage(settings.GCAL_CREDENTIALS)
         credentials = storage.get()
         # Login Google API with a credentials
         if credentials is None or credentials.invalid:
             COMMAND_NAME = 'login_to_google_calendar_api'
             warnings.warn(('No valid Google API credentials are available. '
-                           'python manage.py {} is '
-                           'required to be called before enabling Google '
-                           'Calendar Sync. '
-                           'The Google Calendar Sync feature is disabled now.'
+                           'Execute python manage.py {} and '
+                           'follow the instructions.'
                           ).format(COMMAND_NAME),
                           category=ImproperlyConfiguredWarning)
             self.enabled = False
         else:
-            http = credentials.authorize(htpp=httplib2.Http())
+            http = credentials.authorize(http=httplib2.Http())
             self.service = discovery.build('calendar', 'v3', http=http)
             self.enabled = True
 
     @property
     def _client(self):
         return self.service.events()
+
+    @require_enabled
+    def get(self, event_id, **kwargs):
+        """
+        Insert a google calendar event
+        """
+        event = self._client.get(calendarId=self.calendar_id,
+                                 eventId=event_id,
+                                 **kwargs).execute()
+        return event
 
     @require_enabled
     def insert(self, event, **kwargs):
@@ -111,7 +92,7 @@ class GoogleCalendarClient(object):
         return patched
 
     @require_enabled
-    def delete(self, event_id, event, **kwargs):
+    def delete(self, event_id, **kwargs):
         """
         Delete the google calendar event specified by event_id
         """

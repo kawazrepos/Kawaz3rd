@@ -84,6 +84,7 @@ class Event(models.Model):
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   verbose_name=_("Organizer"),
                                   related_name="events_owned",
+                                  null=True,
                                   editable=False)
     attendees = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                        verbose_name=_("Attendees"),

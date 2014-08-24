@@ -1,10 +1,10 @@
 language: python
 python:
-  - "3.3"
-
+- '3.3'
 before_install:
-  - git submodule update --init --recursive
-
+- openssl aes-256-cbc -K $encrypted_f141a85a02d3_key -iv $encrypted_f141a85a02d3_iv
+  -in credentials.json.enc -out src/kawaz/config/gcal/credentials.json -d
+- git submodule update --init --recursive
 install:
   - pip install tox
   - pip install coverage coveralls
@@ -16,7 +16,6 @@ script:
 
 notifications:
   slack: kawaz:Dh59b2T0KqhQnBR6qHYUDdpn
-
 after_success:
-  - coverage report
-  - coveralls
+- coverage report
+- coveralls

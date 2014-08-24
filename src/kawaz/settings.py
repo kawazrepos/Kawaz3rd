@@ -50,7 +50,7 @@ INSTALLED_APPS = (
     'kawaz.core.registrations',
     'kawaz.core.forms',
     'kawaz.core.templatetags',
-    'kawaz.core.google.calendar',
+    'kawaz.core.gcal',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
     'kawaz.apps.profiles',
@@ -125,7 +125,7 @@ PERMISSION_CHECK_PERMISSION_PRESENCE = DEBUG
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -182,18 +182,16 @@ RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 SITE_ID = 1
 
 # Google Calendar Synchronize
-GOOGLE_CALENDAR_ID = ''
-GOOGLE_CALENDAR_EVENT_MODEL = 'events.Event'
-GOOGLE_CALENDAR_BACKEND_CLASS = (
-    'kawaz.apps.events.google_calendar.GoogleCalendarBackend')
-GOOGLE_CALENDAR_CLIENT_SECRETS = os.path.join(REPOSITORY_ROOT,
-                                              'src', 'kawaz', 'config',
-                                              'events',
-                                              'client_secrets.json')
-GOOGLE_CALENDAR_CREDENTIALS = os.path.join(REPOSITORY_ROOT,
-                                           'src',
-                                           'kawaz', 'config',
-                                           'events', 'credentials.dat')
+GCAL_CALENDAR_ID = (
+    # DEBUG用カレンダー
+    'kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.com'
+)
+GCAL_EVENT_MODEL = 'events.Event'
+GCAL_BACKEND_CLASS = 'kawaz.apps.events.gcal.KawazGoogleCalendarBackend'
+GCAL_CLIENT_SECRETS = os.path.join(
+    REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'gcal', 'client_secrets.json')
+GCAL_CREDENTIALS = os.path.join(
+    REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'gcal', 'credentials.json')
 
 
 # crispy-forms
@@ -211,6 +209,6 @@ if DEBUG:
 # 環境依存の設定（デプロイサーバー固有の設定など）を読み込む
 LOCAL_SETTINGS_LOADED = False
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass

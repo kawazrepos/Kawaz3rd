@@ -2,12 +2,13 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+import os
 from django.conf import settings
 from appconf import AppConf
 
 
-class GoogleCalendarAppConf(AppConf):
-    """Google Calendar configures"""
+class GCalAppConf(AppConf):
+    """GCal configures"""
 
     # A target event model
     EVENT_MODEL = None
@@ -15,11 +16,11 @@ class GoogleCalendarAppConf(AppConf):
     # A backend class
     BACKEND_CLASS = None
 
-    # Credentials (file)
-    CREDENTIALS = None
+    # Google Calendar ID
+    CALENDAR_ID = None
 
-    # CLIENT_SECRETS (file)
+    # Google OAuth2 client secrets file (json)
     CLIENT_SECRETS = None
 
-    class Meta:
-        prefix = 'google_calendar'
+    # Google OAuth2 credentials file (json)
+    CREDENTIALS = None

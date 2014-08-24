@@ -2,6 +2,7 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+from django.utils import timezone
 import tolerance
 from .conf import settings
 from .utils import get_class
@@ -44,7 +45,7 @@ class Backend(object):
         return GoogleCalendarBridge.objects.get_or_create(event=event)[0]
 
     def __init__(self):
-        self.calendar_id = settings.GOOGLE_CALENDAR_ID
+        self.calendar_id = settings.GCAL_CALENDAR_ID
         self.client = GoogleCalendarClient(self.calendar_id)
 
     def translate(self, event):
@@ -80,10 +81,10 @@ class Backend(object):
                 self.client.delete(bridge.gcal_event_id)
                 bridge.delete()
         elif self.is_valid(event):
-            gcal_event_id = self.client.insert(self.translate(event),
+            gcal_event = self.client.insert(self.translate(event),
                                                **kwargs)
-            if gcal_event_id is not None:
-                bridge.gcal_event_id = gcal_event_id
+            if gcal_event is not None:
+                bridge.gcal_event_id = gcal_event['id']
                 bridge.save()
 
     @tolerate
@@ -92,8 +93,8 @@ class Backend(object):
         Delete an event on Google Calendar of the specified event instance
         """
         bridge = self.__class__.get_bridge(event)
-        if bridge.event_id:
-            self.client.delete(bridge.event_id)
+        if bridge.gcal_event_id:
+            self.client.delete(bridge.gcal_event_id)
             bridge.delete()
 
 
@@ -101,7 +102,7 @@ def get_backend_class():
     """
     Get a backend class
     """
-    return get_class(settings.GOOGLE_CALENDAR_BACKEND_CLASS)
+    return get_class(settings.GCAL_BACKEND_CLASS)
 
 
 def get_backend():

@@ -7,7 +7,7 @@ Google Calendar 連携用 Backend
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.conf import settings
 from django.contrib.sites.models import Site
-from kawaz.core.google.calendar.backend import Backend
+from kawaz.core.gcal.backend import Backend
 
 
 def get_base_url():
@@ -25,7 +25,7 @@ class KawazGoogleCalendarBackend(Backend):
         API.
         """
         # translation lambda functions
-        to_datetime = lambda x: {'datetime': self.__class__.strftime(x)}
+        to_datetime = lambda x: {'dateTime': self.__class__.strftime(x)}
         to_visibility = lambda x: 'public' if x == 'public' else 'private'
         to_source = lambda x: {'url': get_base_url() + x()}
         to_attendees = lambda x: [dict(email=a.email, displayName=a.nickname)

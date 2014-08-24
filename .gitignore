@@ -137,6 +137,6 @@ src/kawaz/statics/vendor/mace.min.js
 
 # for configs
 
-src/kawaz/config/event/client_secrets.json
-src/kawaz/config/event/credentials.dat
+src/kawaz/config/gcal/client_secrets.json
+src/kawaz/config/gcal/credentials.json
 src/kawaz/local_settings.py
