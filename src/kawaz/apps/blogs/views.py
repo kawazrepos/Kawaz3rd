@@ -21,6 +21,8 @@ class EntryMultipleObjectMixin(MultipleObjectMixin):
     """
     アクセスしたユーザーにより閲覧可能な記事を指定するためのMixin
     """
+    paginate_by = 5
+
     def get_queryset(self):
         return Entry.objects.published(self.request.user)
 
@@ -82,12 +84,16 @@ class EntryMonthArchiveView(MonthArchiveView, EntryMultipleObjectMixin):
 class EntryYearArchiveView(YearArchiveView, EntryMultipleObjectMixin):
     model = Entry
     date_field = 'publish_at'
+    # paginatorを有効にするとき、allow_empty=Trueが必要
+    # http://stackoverflow.com/questions/8624507/django-paginate-by-year
+    allow_empty = True
 
 
 class EntryAuthorMixin(EntryMultipleObjectMixin):
     """
     特定ユーザーが執筆した記事に限定して閲覧するためのMixin
     """
+
     def get_queryset(self):
         # urlにて渡されたユーザーの名前を取得
         # | get('author')だとバグにより urlpattern に author が指定されていない

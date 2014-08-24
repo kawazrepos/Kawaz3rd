@@ -265,6 +265,30 @@ class EntryListViewTestCase(TestCase):
         self.wille.set_password('password')
         self.wille.save()
 
+    def test_context_has_paginator(self):
+        """
+        EntryListViewのcontextにpaginatorが含まれている
+        """
+        r = self.client.get('/blogs/')
+        self.assertTrue('page_obj' in r.context)
+        self.assertTrue('paginator' in r.context)
+
+    def test_paginate_by(self):
+        """
+        ProjectListViewでは1ページに5個までしかブログが含まれない
+        また、ページネーションができていて、次のページには残りのオブジェクトが含まれている
+        """
+        for i in range(7):
+            EntryFactory()
+        # setUpで作ったpublic1個と、今作った7個で8こあるはず
+        r = self.client.get('/blogs/')
+        object_list = r.context['object_list']
+        self.assertEqual(len(object_list), 5)
+
+        r = self.client.get('/blogs/?page=2')
+        object_list = r.context['object_list']
+        self.assertEqual(len(object_list), 3)
+
     def test_anonymous_can_view_only_public_entries(self):
         '''
         Tests anonymous user can view public Entry only.
@@ -307,11 +331,7 @@ class EntryListViewTestCase(TestCase):
 class EntryAuthorListViewTestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
         self.wille = PersonaFactory(role='wille')
-        self.wille.set_password('password')
-        self.wille.save()
         self.entries = (
             EntryFactory(),
             EntryFactory(author=self.user),
@@ -319,6 +339,31 @@ class EntryAuthorListViewTestCase(TestCase):
             EntryFactory(pub_state='protected', author=self.user),
             EntryFactory(pub_state='draft'),
         )
+
+    def test_context_has_paginator(self):
+        """
+        EntryAuthorListViewのcontextにpaginatorが含まれている
+        """
+        r = self.client.get('/blogs/{}/'.format(self.user.username))
+        self.assertTrue('page_obj' in r.context)
+        self.assertTrue('paginator' in r.context)
+
+    def test_paginate_by(self):
+        """
+        ProjectListViewでは1ページに5個までしかブログが含まれない
+        また、ページネーションができていて、次のページには残りのオブジェクトが含まれている
+        """
+        for i in range(7):
+            EntryFactory(author=self.user)
+        # setUpで作ったpublic1個と、今作った7個で8こあるはず
+        r = self.client.get('/blogs/{}/'.format(self.user.username))
+        self.assertTrue('page_obj' in r.context)
+        object_list = r.context['object_list']
+        self.assertEqual(len(object_list), 5)
+
+        r = self.client.get('/blogs/{}/?page=2'.format(self.user.username))
+        object_list = r.context['object_list']
+        self.assertEqual(len(object_list), 3)
 
     def test_anonymous_can_view_only_public_entries_of_the_author(self):
         '''
