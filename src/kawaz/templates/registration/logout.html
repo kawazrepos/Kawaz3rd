@@ -2,10 +2,12 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% block content %}
-    <h1>{% trans "Logout" %}</h1>
+    <div class="page-header">
+        <h1>{% trans "Logout" %}</h1>
+    </div>
     <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="{% trans 'Logout' %}" />
+            <input type="submit" class="btn btn-success" value="{% trans 'Logout' %}" />
         </div>
     </form>
 {% endblock %}
