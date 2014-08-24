@@ -54,7 +54,7 @@
                             <li><a href="{{ user.profile.get_absolute_url }}">{% trans "View Profile" %}</a></li>
                             <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
                             <li role="presentation" class="divider"></li>
-                            <li><a class="logout-link" href="{% url "logout" %}">{% trans "Logout" %}</a></li>
+                            <li><a class="logout-link" href="{% url "logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
                         </ul>
                     </div>
                 {% else %}
@@ -95,33 +95,17 @@
     </address>
 </div>
 {% block post_javascript %}
-<script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
-<script src="{% static "vendor/angular-sanitize.min.js" %}"></script>
-<script src="{% static "vendor/lightbox.min.js" %}"></script>
-<script src="{% static "vendor/mace.min.js" %}"></script>
-<script src="{% static "js/angular.js" %}"></script>
-<script src="{% static "js/bootstrap.js" %}"></script>
-<script src="{% static "js/social.js" %}"></script>
-<script src="{% static "js/star.js" %}"></script>
-<script src="{% static "js/comment.js" %}"></script>
-<script src="{% static "js/editor.js" %}"></script>
-<script type="application/javascript">
-    $(function() {
-        $("[data-toggle='tooltip']").tooltip();
-    });
-
-    var $loginForm = $('.login-form form');
-    if ($loginForm.length > 0) {
-        var action = $loginForm.attr('action');
-        $loginForm.attr('action', action + '?next=' + location.pathname);
-    }
-    var $logoutLink = $('.logout-link');
-    if ($logoutLink.length > 0) {
-        var logoutURL = $logoutLink.attr('href');
-        $logoutLink.attr('href', logoutURL + '?next=' + location.pathname);
-    }
-</script>
+    <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+    <script src="{% static "vendor/angular-sanitize.min.js" %}"></script>
+    <script src="{% static "vendor/lightbox.min.js" %}"></script>
+    <script src="{% static "vendor/mace.min.js" %}"></script>
+    <script src="{% static "js/angular.js" %}"></script>
+    <script src="{% static "js/bootstrap.js" %}"></script>
+    <script src="{% static "js/social.js" %}"></script>
+    <script src="{% static "js/star.js" %}"></script>
+    <script src="{% static "js/comment.js" %}"></script>
+    <script src="{% static "js/editor.js" %}"></script>
 {% endblock %}
 </body>
 </html>
