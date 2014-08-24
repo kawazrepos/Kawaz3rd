@@ -84,6 +84,9 @@ class EntryMonthArchiveView(MonthArchiveView, EntryMultipleObjectMixin):
 class EntryYearArchiveView(YearArchiveView, EntryMultipleObjectMixin):
     model = Entry
     date_field = 'publish_at'
+    # paginatorを有効にするとき、allow_empty=Trueが必要
+    # http://stackoverflow.com/questions/8624507/django-paginate-by-year
+    allow_empty = True
 
 
 class EntryAuthorMixin(EntryMultipleObjectMixin):
