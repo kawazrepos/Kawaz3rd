@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.test.utils import override_settings
+from django.core.urlresolvers import reverse
+from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import RegistrationProfileFactory
 
 class RegistrationViewTestCase(TestCase):
@@ -73,3 +75,42 @@ class ActivationViewTestCase(TestCase):
         RegistrationProfileFactory(activation_key="hello", _status='accepted')
         r = self.client.get("/registration/activate/hello/")
         self.assertTemplateUsed(r, "registration/activation_form.html")
+
+
+class LogoutViewTestCase(TestCase):
+    def setUp(self):
+        self.user = PersonaFactory()
+
+    def _assert_authenticated(self, neg=False):
+        if neg:
+            self.assertNotIn('_auth_user_id', self.client.session)
+        else:
+            self.assertIn('_auth_user_id', self.client.session)
+
+    def test_can_reverse_logout(self):
+        """
+        name=loginからURLを引ける
+        """
+        url = reverse('logout')
+        self.assertEqual(url, '/registration/logout/')
+
+    def test_can_logout_via_post(self):
+        """
+        LogoutページにPOSTしたとき、ログアウトして、トップページに行く
+        """
+        self.assertTrue(self.client.login(username=self.user.username, password='password'))
+        self._assert_authenticated()
+        r = self.client.post('/registration/logout/')
+        self._assert_authenticated(neg=True)
+        self.assertRedirects(r, '/')
+
+    def test_can_not_logout_via_get(self):
+        """
+        LogoutページにGETしたとき、ログアウトして、トップページに行く
+        """
+        self.assertTrue(self.client.login(username=self.user.username, password='password'))
+        self._assert_authenticated()
+        r = self.client.get('/registration/logout/')
+        self._assert_authenticated(neg=True)
+        self.assertRedirects(r, '/')
+

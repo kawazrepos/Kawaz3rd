@@ -24,10 +24,12 @@ class PersonaViewTestCase(TestCase):
 
     def test_can_display_logout_view(self):
         """
-        /registration/logout/が表示できるか
+        /registration/logout/を表示すると、トップページにリダイレクトするか
         """
         self._test_url_name('logout', '/registration/logout/')
-        self._test_can_display('logout', 'logout')
+        url = "/registration/logout/"
+        r = self.client.get(url)
+        self.assertRedirects(r, '/')
 
     def test_can_display_password_change_view(self):
         """

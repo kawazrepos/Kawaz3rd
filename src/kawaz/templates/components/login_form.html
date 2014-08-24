@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 <div class="login-form">
-    <form class="form-horizontal" role="form" method="POST" action="{% url "login" %}">{% csrf_token %}
+    <form class="form-horizontal" role="form" method="POST" action="{% url "login" %}?next={{ request.path }}">{% csrf_token %}
         <div class="form-group">
             <label class="control-label col-sm-4 col-lg-4 " for="id_username">Username</label>
             <div class=" col-sm-8 col-lg-8 ">
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <button type="submit" class="btn btn-primary">{% trans "Login" %}</button>
+            <button type="submit" class="btn btn-success">{% trans "Sign In" %}</button>
         </div>
         <div class="col-lg-6 forgot-password">
             <a href="{% url "password_reset" %}">{% trans "Forgot Password?" %}</a>
