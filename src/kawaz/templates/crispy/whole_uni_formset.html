@@ -3,51 +3,55 @@
 {% load crispy_forms_field %}
 
 {% specialspaceless %}
-    {% if formset_method|lower == 'post' and not disable_csrf %}
-        {% csrf_token %}
-    {% endif %}
-
     <div>
-        {{ formset.management_form|crispy }}
-    </div>
-    {% for form in formset %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <a href="#" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span></a>
-            </div>
-            {% if form_show_errors and not form.is_extra and form_error_title %}
-                <div class="panel-body">
-                    {% include "bootstrap3/errors.html" %}
-                </div>
-            {% endif %}
-            <table class="table">
-                <tbody>
-                {% for field in form %}
-                    {% if field.is_hidden %}
-                        {{ field }}
-                    {% elif field|is_checkbox %}
-                        {# DELETEチェックボックスの時、隠して描画する #}
-                        <div style="display: none;">{{ field }}</div>
-                    {% else %}
-                    <tr class="form-actions">
-                        <th>
-                            {% if field.label and not field|is_checkbox and form_show_labels %}
-                                <label for="{{ field.id_for_label }}" class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
-                                    {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
-                                </label>
-                            {% endif %}
-                        </th>
-                        {% include 'bootstrap3/field.html' with tag="td" form_show_labels=False %}
-                    </tr>
-                    {% endif %}
-                {% endfor %}
-                </tbody>
-            </table>
+        {% if formset_method|lower == 'post' and not disable_csrf %}
+            {% csrf_token %}
+        {% endif %}
+
+        <div>
+            {{ formset.management_form|crispy }}
         </div>
-    {% endfor %}
-    <div class="row">
-        <div class="col col-xg-1 col-sm-1">
-            <a href="#" class="btn btn-success btn-sm formset-add"><span class="glyphicon glyphicon-plus"></span></a>
+        <div class="panel-container">
+           {% for form in formset %}
+                <div class="panel panel-default panel-formset">
+                    <div class="panel-heading">
+                        <a href="#" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span></a>
+                    </div>
+                    {% if form_show_errors and not form.is_extra and form_error_title %}
+                        <div class="panel-body">
+                            {% include "bootstrap3/errors.html" %}
+                        </div>
+                    {% endif %}
+                    <table class="table">
+                        <tbody>
+                        {% for field in form %}
+                            {% if field.is_hidden %}
+                                {{ field }}
+                            {% elif field|is_checkbox %}
+                                {# DELETEチェックボックスの時、隠して描画する #}
+                                <div style="display: none;">{{ field }}</div>
+                            {% else %}
+                                <tr class="form-actions">
+                                    <th>
+                                        {% if field.label and not field|is_checkbox and form_show_labels %}
+                                            <label for="{{ field.id_for_label }}" class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
+                                                {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+                                            </label>
+                                        {% endif %}
+                                    </th>
+                                    {% include 'bootstrap3/field.html' with tag="td" form_show_labels=False %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col col-xg-1 col-sm-1">
+                <a href="#" class="btn btn-success btn-sm formset-add"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
         </div>
     </div>
 {% endspecialspaceless %}

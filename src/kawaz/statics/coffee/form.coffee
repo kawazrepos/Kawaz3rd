@@ -3,9 +3,9 @@ $ ->
   # 1ページ内に複数のformsetがある可能性があるのでformsetごとに処理をする
   $containers.each(->
     $container = $(@)
-    $table = $container.find('table')
+    $panelContainer = $container.find('.panel-container')
     $addButton = $container.find('.formset-add')
-    $formsetRow = $container.find('.formset-row:last-child').clone()
+    $template = $container.find('.panel-formset:last-child').clone()
 
     # prefix attributeが設定されてるはず
     prefix = $container.attr('prefix')
@@ -15,7 +15,7 @@ $ ->
 
     # 削除ボタン
     # ボタンが追加されても動くようにonでbindしている
-    $table.on('click', '.formset-remove', ->
+    $container.on('click', '.formset-remove', ->
       $row = $(@).closest('.formset-row')
       $deleteField = $row.find("[id$='DELETE']")
       # 削除フィールドが存在しているrowはすでに登録済みの奴
@@ -40,12 +40,12 @@ $ ->
 
     # 追加ボタン
     $addButton.click(->
-      formCount = $container.find('.formset-row').size()
+      formCount = $container.find('.panel-formset').size()
       # フォームの最大値以上だったらもう追加しない
       if formCount >= maxNumForms
         return false
-      $newRow = $formsetRow.clone()
-      $table.append $newRow
+      $newRow = $template.clone()
+      $panelContainer.append $newRow
 
       # 特定のattributeをユニークな物に変更するメソッド
       setNewAttr = (attrName) ->
@@ -72,7 +72,7 @@ $ ->
 
     updateTotalForms = ->
       $totalForms = $("#id_#{prefix}-TOTAL_FORMS")
-      formCount = $container.find('.formset-row').size()
+      formCount = $container.find('.panel-formset').size()
       $totalForms.val(formCount)
   )
 
