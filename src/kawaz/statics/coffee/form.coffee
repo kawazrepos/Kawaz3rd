@@ -3,9 +3,10 @@ $ ->
   # 1ページ内に複数のformsetがある可能性があるのでformsetごとに処理をする
   $containers.each(->
     $container = $(@)
-    $table = $container.find('table')
+    $panelContainer = $container.find('.panel-container')
     $addButton = $container.find('.formset-add')
-    $formsetRow = $container.find('.formset-row:last-child').clone()
+    $template = $container.find('.panel-formset:last-child').clone()
+    $template.find("input[type='checkbox']").remove()
 
     # prefix attributeが設定されてるはず
     prefix = $container.attr('prefix')
@@ -15,11 +16,12 @@ $ ->
 
     # 削除ボタン
     # ボタンが追加されても動くようにonでbindしている
-    $table.on('click', '.formset-remove', ->
-      $row = $(@).closest('.formset-row')
+    $container.on('click', '.formset-remove', ->
+      $row = $(@).closest('.panel-formset')
       $deleteField = $row.find("[id$='DELETE']")
       # 削除フィールドが存在しているrowはすでに登録済みの奴
       isRegistered = $deleteField.size() > 0
+      console.log isRegistered
       $row.fadeOut ->
         if isRegistered
           # 登録済みの場合、削除フィールドにcheckを入れて非表示にするだけ
@@ -31,7 +33,7 @@ $ ->
       false
     )
     # すでにあるフォームの数をcurrentUniqueIDにして、フォームを追加するごとにincrement
-    currentUniqueID = $container.find('.formset-row').size()
+    currentUniqueID = $container.find('.panel-formset').size()
 
     maxNumForms = parseInt($("#id_#{prefix}-MAX_NUM_FORMS").val(), 10)
 
@@ -40,12 +42,12 @@ $ ->
 
     # 追加ボタン
     $addButton.click(->
-      formCount = $container.find('.formset-row').size()
+      formCount = $container.find('.panel-formset').size()
       # フォームの最大値以上だったらもう追加しない
       if formCount >= maxNumForms
         return false
-      $newRow = $formsetRow.clone()
-      $table.append $newRow
+      $newRow = $template.clone()
+      $panelContainer.append $newRow
 
       # 特定のattributeをユニークな物に変更するメソッド
       setNewAttr = (attrName) ->
@@ -72,7 +74,7 @@ $ ->
 
     updateTotalForms = ->
       $totalForms = $("#id_#{prefix}-TOTAL_FORMS")
-      formCount = $container.find('.formset-row').size()
+      formCount = $container.find('.panel-formset').size()
       $totalForms.val(formCount)
   )
 
