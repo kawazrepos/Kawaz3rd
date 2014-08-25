@@ -8,8 +8,10 @@ before_install:
 install:
   - pip install tox
   - pip install coverage coveralls
+  - npm install
 
 script:
+  - npm run build
   - tox -r
 
 notifications:
