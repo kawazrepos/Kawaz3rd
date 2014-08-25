@@ -6,6 +6,7 @@ $ ->
     $panelContainer = $container.find('.panel-container')
     $addButton = $container.find('.formset-add')
     $template = $container.find('.panel-formset:last-child').clone()
+    $template.find("input[type='checkbox']").remove()
 
     # prefix attributeが設定されてるはず
     prefix = $container.attr('prefix')
@@ -16,10 +17,11 @@ $ ->
     # 削除ボタン
     # ボタンが追加されても動くようにonでbindしている
     $container.on('click', '.formset-remove', ->
-      $row = $(@).closest('.formset-row')
+      $row = $(@).closest('.panel-formset')
       $deleteField = $row.find("[id$='DELETE']")
       # 削除フィールドが存在しているrowはすでに登録済みの奴
       isRegistered = $deleteField.size() > 0
+      console.log isRegistered
       $row.fadeOut ->
         if isRegistered
           # 登録済みの場合、削除フィールドにcheckを入れて非表示にするだけ
@@ -31,7 +33,7 @@ $ ->
       false
     )
     # すでにあるフォームの数をcurrentUniqueIDにして、フォームを追加するごとにincrement
-    currentUniqueID = $container.find('.formset-row').size()
+    currentUniqueID = $container.find('.panel-formset').size()
 
     maxNumForms = parseInt($("#id_#{prefix}-MAX_NUM_FORMS").val(), 10)
 

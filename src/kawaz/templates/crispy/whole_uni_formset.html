@@ -15,7 +15,7 @@
            {% for form in formset %}
                 <div class="panel panel-default panel-formset">
                     <div class="panel-heading">
-                        <a href="#" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span></a>
+                        <a href="#" class="btn btn-danger btn-sm formset-remove"><span class="glyphicon glyphicon-minus"></span></a>
                     </div>
                     {% if form_show_errors and not form.is_extra and form_error_title %}
                         <div class="panel-body">
