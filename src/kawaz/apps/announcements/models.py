@@ -61,10 +61,6 @@ class Announcement(models.Model):
                                  default="public")
     title = models.CharField(_('Title'), max_length=128)
     body = models.TextField(_('Body'))
-    silently = models.BooleanField(_('Silently'), default=False,
-                                   help_text=_("If you checked this field. "
-                                               "This will not be notified "
-                                               "anybody."))
     # 自動記載フィールド
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                related_name='created_announcements',
