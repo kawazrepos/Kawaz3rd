@@ -15,8 +15,6 @@ class Category(models.Model):
     スタッフが作成し、メンバーがプロジェクト作成・編集時に利用する
     """
     label = models.CharField(_('Name'), max_length=32, unique=True)
-    parent = models.ForeignKey('self', verbose_name=_('Parent category'),
-                               null=True, blank=True, related_name='children')
 
     class Meta:
         ordering = ('label',)

@@ -8,7 +8,6 @@ class CategoryFactory(factory.DjangoModelFactory):
     FACTORY_DJANGO_GET_OR_CREATE = ('label',)
 
     label = 'RPG'
-    parent = None
 
 class ProjectFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Project
