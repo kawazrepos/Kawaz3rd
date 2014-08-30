@@ -152,7 +152,6 @@
     members: [2,]
     created_at: "2010-01-01 00:00:00+09:00"
     updated_at: "2010-01-01 00:00:00+09:00"
-    group: 1
 - model: projects.project
   pk: 2
   fields:
@@ -188,7 +187,6 @@
     members: [4,5,6,]
     created_at: "1947-01-01 00:00:00+09:00"
     updated_at: "1947-06-07 00:00:00+09:00"
-    group: 2
 - model: projects.project
   pk: 3
   fields:
@@ -237,4 +235,3 @@
     members: [1, 2, 3]
     created_at: "1947-01-01 00:00:00+09:00"
     updated_at: "1947-06-07 00:00:00+09:00"
-    group: 3

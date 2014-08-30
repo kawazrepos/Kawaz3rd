@@ -3,7 +3,6 @@ from django.conf import settings
 from django.db import models
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import Group
 from thumbnailfield.fields import ThumbnailField
 from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
@@ -16,8 +15,6 @@ class Category(models.Model):
     スタッフが作成し、メンバーがプロジェクト作成・編集時に利用する
     """
     label = models.CharField(_('Name'), max_length=32, unique=True)
-    parent = models.ForeignKey('self', verbose_name=_('Parent category'),
-                               null=True, blank=True, related_name='children')
 
     class Meta:
         ordering = ('label',)
@@ -135,11 +132,6 @@ class Project(models.Model):
     repository = models.URLField(_('Repository URL'), blank=True, default='',
                                  help_text='Kawaz GitLab, GitHubなどのプロジェクトURLを入力してください')
 
-    # TODO: group 要素は 2nd では必要だった（databased object permission）が
-    #       3rd では不要なため（logic based object permission）削る
-    group = models.ForeignKey(Group, verbose_name=_('Group'),
-                              unique=True, editable=False)
-
     objects = ProjectManager()
 
     class Meta:
@@ -155,12 +147,6 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        if self.pk is None:
-            group_name = "project_" + self.slug
-            self.group = Group.objects.get_or_create(name=group_name)[0]
-        return super().save(*args, **kwargs)
-
     def join(self, user, save=True):
         """
         指定されたユーザーを参加させる
@@ -170,7 +156,6 @@ class Project(models.Model):
         if not user.has_perm('projects.join_project', self):
             raise PermissionDenied
         self.members.add(user)
-        user.groups.add(self.group)
         if save:
             self.save()
 
@@ -183,7 +168,6 @@ class Project(models.Model):
         if not user.has_perm('projects.quit_project', self):
             raise PermissionDenied
         self.members.remove(user)
-        user.groups.remove(self.group)
         if save:
             self.save()
 
