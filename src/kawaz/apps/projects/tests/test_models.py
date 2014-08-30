@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.contrib.auth.models import Group
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 
@@ -172,35 +171,20 @@ class ProjectManagerTestCase(TestCase):
 
 
 class ProjectModelTestCase(TestCase):
-    def test_create_group(self):
-        '''Tests to create a group when project was created'''
-        project = ProjectFactory()
-        group_name = 'project_%s' % project.slug
-        group = Group.objects.get(name=group_name)
-        self.assertIsNotNone(group)
-
     def test_str(self):
         '''Tests __str__ returns correct value'''
         project = ProjectFactory()
         self.assertEqual(str(project), project.title)
-
-    def test_creation_group(self):
-        '''Tests to create group when project was created'''
-        project = ProjectFactory(slug='my-awesome-shooting-game')
-        self.assertIsNotNone(project.group)
-        self.assertEqual(project.group.name, 'project_my-awesome-shooting-game')
 
     def test_join_user(self):
         '''Tests can join user correctly'''
         user2 = PersonaFactory()
         project = ProjectFactory()
         self.assertEqual(project.members.count(), 1)
-        self.assertEqual(user2.groups.count(), 0)
 
         project.join(user2)
 
         self.assertEqual(project.members.count(), 2)
-        self.assertEqual(user2.groups.count(), 1)
 
     def test_join_user_twice(self):
         '''Tests user who already have been joined can't join'''
@@ -257,7 +241,6 @@ class ProjectModelTestCase(TestCase):
 
         project.quit(user)
         self.assertEqual(project.members.count(), 1)
-        self.assertFalse(user in user.groups.all())
 
     def test_administrator_cant_quit(self):
         '''Tests administrator can't quit from projects'''
