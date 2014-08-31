@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="row project-list list-group">
+    <div class="row list-group" id="project-list">
         {% get_projects 'active' as active_projects %}
         {% for project in active_projects %}
         <div class="project-list-item col-xs-12 col-md-3">

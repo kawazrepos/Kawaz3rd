@@ -2,12 +2,18 @@
 @import (reference) "common/define";
 @import (reference) "common/vendor-prefixes";
 
-.member-list {
-  display:none;
-  margin: 0;
+// common
+.row {
+  margin-right: 0;
+  margin-left: 0;
 }
 
+
+// project-list
 .page-header {
+  h1 {
+    display: inline-block;
+  }
   #header-active {
     float: left;
     text-align: left;
@@ -22,9 +28,7 @@
     }
   }
 }
-.page-header:first-child {
-  height: 80px;
-}
+
 
 .popover-content {
   padding-bottom: 0;
@@ -46,10 +50,6 @@
   }
 }
 
-.row {
-  margin-right: 0;
-  margin-left: 0;
-}
 
 #project-list-more {
   text-align: center;
@@ -58,14 +58,17 @@
 #project-list-more:hover {
   color: @link-hover-color;
 }
-.project-list {
+#project-list {
   min-width: 200px;
 
   .project-list-item {
     margin: 0 0 20px;
     border: none;
     display: inline-block;
-
+    .member-list {
+      display:none;
+      margin: 0;
+    }
     a {
       border: 1px solid #ccc;
       .border-radius(5px);
@@ -108,7 +111,6 @@
 }
 
 .project-list-archived {
-
   .col {
     display: inline-block;
     vertical-align: middle;
@@ -135,3 +137,67 @@
     }
   }
 }
+
+
+// project-detail
+#project-detail-wrap {
+  .page-header {
+      h1 {
+        margin-left: 10px;
+        display: inline;
+      }
+  }
+
+  dl {
+      width: 100%;
+
+     dt,dd {
+      display: inline-block;
+      vertical-align: middle;
+      border-bottom: 1px dotted @gray-lighter;
+     }
+     dt {
+      text-align: right;
+     }
+     dd {
+      text-align: left;
+     }
+  }
+  article {
+    margin-bottom: 15px;
+    &.two-pane {
+      section {
+      &.main {
+      }
+    }
+    aside {
+      margin-top: 10px;
+      .btn {
+        width: 100%;
+        height: 70px;
+        margin-bottom: 20px;
+        background: @button-bg-color-old; /* Old browsers */
+        background: @button-bg-color;
+        color: @button-text-color;
+        span {
+          margin-right: 10px;
+        }
+      }
+      .member-list {
+        margin: 10px 0 0;
+      }
+    }
+    .panel {
+      margin-top: 20px;
+    }
+
+  }
+ 
+
+}
+
+#project-detail {
+
+  }
+}
+
