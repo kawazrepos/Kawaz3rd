@@ -35,22 +35,20 @@
       </dl>
       <dl class="row">
         <dt class="col col-lg-2 col-xs-4">{% trans "Redmine" %}</dt>
-        <dd class="col col-lg-10 col-xs-8">{{ project.tracker }}</dd>
+        <dd class="col col-lg-10 col-xs-8"><a href="">{{ project.tracker }}</a></dd>
       </dl>
       <dl class="row">
         <dt class="col col-lg-2 col-xs-4">{% trans "Repository" %}</dt>
-        <dd class="col col-lg-10 col-xs-8">{{ project.repository }}</dd>
+        <dd class="col col-lg-10 col-xs-8"><a href="">{{ project.repository }}</a></dd>
       </dl>
     </div>
   </div>
   {% endblock %}
 
   {% block content-main %}
-  <div id="project-detail">
-      <article class="markdown">
+    <article class="markdown">
           {{ project.body | markdown }}
-      </article>
-  </div>
+    </article>
   {% endblock %}
   {% block content-aside %}
     {% if user has 'projects.join_project' of project %}
