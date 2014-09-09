@@ -2,13 +2,6 @@
 @import (reference) "common/define";
 @import (reference) "common/vendor-prefixes";
 
-// common
-.row {
-  margin-right: 0;
-  margin-left: 0;
-}
-
-
 // project-list
 .page-header {
   h1 {
@@ -28,14 +21,6 @@
     }
   }
 }
-.page-header:not(#page-header-active) {
-  padding: 0;
-}
-#page-header-active {
-  padding-bottom: 20px;
-}
-
-
 .popover-content {
   padding-bottom: 0;
 
@@ -117,7 +102,7 @@
 }
 
 .project-list-archived {
-  .col {
+  div {
     display: inline-block;
     vertical-align: middle;
     height: 100%;
@@ -149,8 +134,10 @@
 #project-detail-wrap {
   .page-header {
     h1 {
-      margin-left: 10px;
       display: inline;
+    }
+    span {
+      margin-right: 10px;
     }
   }
 
@@ -167,37 +154,32 @@
       text-align: left;
      }
   }
-  article {
-    margin-bottom: 15px;
-    &.two-pane {
-      section {
-
-      }
-      aside {
-        margin-top: 10px;
-        .btn {
-          width: 100%;
-          height: 70px;
-          margin-bottom: 20px;
-          background: @button-bg-color;
-          border: 1px solid @button-border-color;
-          color: @button-text-color;
-          span {
-            margin-right: 10px;
-          }
-        }
-        .btn:hover {
-          background: @button-bg-color-hover;
-          border: 1px solid @button-border-color-hover;
-        }
-        .member-list {
-          margin: 10px 0 0;
-        }
-      }
-      .panel {
-        margin-top: 20px;
-      }
-    }
-  }
 }
 
+.two-pane {
+  margin-bottom: 15px;
+  aside {
+    margin-top: 10px;
+    .join-btn {
+      width: 100%;
+      height: 70px;
+      margin-bottom: 20px;
+      background: @button-bg-color;
+      border: 1px solid @button-border-color;
+      color: @button-text-color;
+      span {
+        margin-right: 10px;
+      }
+    }
+    .join-btn:hover {
+      background: @button-bg-color-hover;
+      border: 1px solid @button-border-color-hover;
+    }
+    .member-list {
+      margin: 10px 0 0;
+    }
+  }
+  .panel {
+    margin-top: 20px;
+  }
+}
