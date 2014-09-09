@@ -21,8 +21,12 @@ def get_base_url():
 class KawazGoogleCalendarBackend(Backend):
     def translate(self, event):
         """
-        Translate kawaz.apps.events.Event to body parameter of Google Calendar
-        API.
+        Kawaz3のEventモデルをGoogle Calendar API Version3のBodyパラメーターに変換します
+
+        Params:
+            event [Event] Eventモデルインスタンス
+        Return:
+            [dict] パラメーター
         """
         # translation lambda functions
         to_datetime = lambda x: {'dateTime': self.__class__.strftime(x)}
@@ -45,8 +49,8 @@ class KawazGoogleCalendarBackend(Backend):
 
     def is_valid(self, event, raise_exception=False):
         """
-        Check if the specified event is valid for translating to body parameter
-        of Google Calender API
+        Kawaz3のEventモデルインスタンスが、Google Calendar API Version3の
+        Bodyパラメーターと適合しているかをチェックします
         """
         if not event.period_start or not event.period_end:
             if raise_exception:

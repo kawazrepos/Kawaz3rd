@@ -63,7 +63,7 @@ class GoogleCalendarClient(object):
     @require_enabled
     def get(self, event_id, **kwargs):
         """
-        Insert a google calendar event
+        get a google calendar event
         """
         event = self._client.get(calendarId=self.calendar_id,
                                  eventId=event_id,
