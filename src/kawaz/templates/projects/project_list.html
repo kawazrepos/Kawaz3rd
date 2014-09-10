@@ -9,8 +9,8 @@
 
 {% block content %}
 
-    <div class="page-header">
-        <h2 id="header-active">
+    <div class="page-header project-list-header">
+        <h2 class="header-left">
             {% trans "Active Projects" %}
             <p><small>現在活動中のプロジェクトです</small></p>
         </h2>
@@ -27,14 +27,14 @@
         </div>
         {% endfor %}
     </div>
-    <div class="page-header">
+    <div class="page-header project-list-header">
         <h2>
             {% trans "Planning Projects" %}
             <p><small>現在企画中のプロジェクトです</small></p>
         </h2>
     </div>
 
-    <div class="row project-list list-group tiled-project-list">
+    <div class="row project-list project-list-header list-group tiled-project-list">
         {% get_projects 'recently_planned' as planning %}
         {% for project in planning %}
         <div class="project-list-item col-xs-12 col-md-3">
@@ -47,7 +47,7 @@
         {% endfor %}
     </div>
 
-    <div class="page-header">
+    <div class="page-header project-list-header">
         <h2>
             {% trans "Archived Projects" %}
             <p><small>アーカイブされたプロジェクトです</small></p>
