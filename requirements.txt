@@ -9,5 +9,9 @@ django-roughpages>=0.1.2
 django-thumbnailfield>=0.2.0
 django-inspectional-registration>=0.4.1
 django-crispy-forms
+requests
+django-appconf
 honcho
 beautifulsoup4
+httplib2
+git+https://github.com/enorvelle/GoogleApiPython3x.git#egg=google_api_python_client

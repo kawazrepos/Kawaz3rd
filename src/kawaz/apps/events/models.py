@@ -84,12 +84,14 @@ class Event(models.Model):
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   verbose_name=_("Organizer"),
                                   related_name="events_owned",
+                                  null=True,
                                   editable=False)
     attendees = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                        verbose_name=_("Attendees"),
                                        related_name="events_attend",
                                        editable=False)
-    category = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True)
+    category = models.ForeignKey(Category, verbose_name=_('Category'),
+                                 null=True, blank=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
 
@@ -184,11 +186,12 @@ class Event(models.Model):
     @models.permalink
     def get_absolute_url(self):
         if self.pub_state == 'draft':
-            return ('events_event_update', (str(self.pk)))
-        return ('events_event_detail', (str(self.pk)))
+            return ('events_event_update', (), {'pk': self.pk})
+        return ('events_event_detail', (), {'pk': self.pk})
 
 
 from django.db.models.signals import post_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
 
