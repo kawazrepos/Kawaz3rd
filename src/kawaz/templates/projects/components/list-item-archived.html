@@ -1,5 +1,5 @@
 <a href="{{ project.get_absolute_url }}" class="list-group-item row {{ project.status }}">
-  <div class="col col-done col-xs-1 col-lg-1">
+  <div class="archive-item col col-done col-xs-1 col-lg-1">
 
   {# ここのアイコンはmeycoさん待ち #}
   {% if project.status == 'done' %}
@@ -10,13 +10,13 @@
   </div>
 
   <div class="col col col-xs-10 col-lg-10  archive-info">
-    <div class="col col_thumbnail col-xs-1 col-lg-1">
+    <div class="archive-item col col_thumbnail col-xs-1 col-lg-1">
       <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.middle }}" alt="{{ project.title }}">
     </div>
-    <div class="col col-title col-xs-7 col-lg-7">
+    <div class="archive-item col col-title col-xs-7 col-lg-7">
        {{ project.title }}
     </div>
-    <div class="col col-status col-xs-2 col-lg-2">
+    <div class="archive-item col col-status col-xs-2 col-lg-2">
        {{ project.get_status_display }}
     </div>
   </div>

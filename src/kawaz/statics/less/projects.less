@@ -2,13 +2,9 @@
 @import (reference) "common/define";
 @import (reference) "common/vendor-prefixes";
 
-.member-list {
-  display:none;
-  margin: 0;
-}
-
-.page-header {
-  #header-active {
+// project-list
+.project-list-header {
+  .header-left {
     float: left;
     text-align: left;
     margin: 0;
@@ -21,9 +17,6 @@
       display: inline-block;
     }
   }
-}
-.page-header:first-child {
-  height: 80px;
 }
 
 .popover-content {
@@ -46,10 +39,6 @@
   }
 }
 
-.row {
-  margin-right: 0;
-  margin-left: 0;
-}
 
 #project-list-more {
   text-align: center;
@@ -58,14 +47,17 @@
 #project-list-more:hover {
   color: @link-hover-color;
 }
-.project-list {
+.tiled-project-list {
   min-width: 200px;
 
   .project-list-item {
     margin: 0 0 20px;
     border: none;
     display: inline-block;
-
+    .member-list {
+      display:none;
+      margin: 0;
+    }
     a {
       border: 1px solid #ccc;
       .border-radius(5px);
@@ -108,8 +100,7 @@
 }
 
 .project-list-archived {
-
-  .col {
+  .archive-item {
     display: inline-block;
     vertical-align: middle;
     height: 100%;
@@ -133,5 +124,60 @@
       text-decoration: none;
       background: @gray-lighter;
     }
+  }
+}
+
+
+// project-detail
+#project-detail-wrap {
+  .page-header {
+    h1 {
+      display: inline;
+    }
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  dl {
+     dt,dd {
+      display: inline-block;
+      vertical-align: middle;
+      border-bottom: 1px dotted @gray-lighter;
+     }
+     dt {
+      text-align: right;
+     }
+     dd {
+      text-align: left;
+     }
+  }
+}
+
+.two-pane {
+  margin-bottom: 15px;
+  aside {
+    margin-top: 10px;
+    .join-btn {
+      width: 100%;
+      height: 70px;
+      margin-bottom: 20px;
+      background: @button-bg-color;
+      border: 1px solid @button-border-color;
+      color: @button-text-color;
+      span {
+        margin-right: 10px;
+      }
+    }
+    .join-btn:hover {
+      background: @button-bg-color-hover;
+      border: 1px solid @button-border-color-hover;
+    }
+    .member-list {
+      margin: 10px 0 0;
+    }
+  }
+  .panel {
+    margin-top: 20px;
   }
 }

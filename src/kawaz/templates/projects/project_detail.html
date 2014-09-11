@@ -1,5 +1,100 @@
-{% extends "base.html" %}
-{% block content %}
-    {{ object }}
-    {{ object.created_at }}
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load projects_tags %}
+
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/projects.css" %}" media="screen">
 {% endblock %}
+
+{% block content-header %}
+  <div id="project-detail-wrap">
+    <div class="page-header">
+      {% if project.pub_state == 'public' %}
+      <h1>{{ project.title }}</h1>
+      {% elif project.pub_state == 'protected' %}
+      <span class="mega-octicon octicon-lock"></span>
+      <h1>{{ project.title }}</h1>
+      {% endif %}
+    </div>
+
+    <div class="row">
+      <div class="col col-lg-5 col-xs-12" id="project-thumbnail">
+        <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.huge }}" alt="{{ project.title }} Thumbnail" />
+      </div>
+      <div class="col col-lg-7 col-xs-12">
+        <dl class="row">
+          <dt class="col col-lg-2 col-xs-4">{% trans "Status" %}</dt>
+          <dd class="col col-lg-10 col-xs-8">{{ project.get_status_display }}</dd>
+        </dl>
+        <dl class="row">
+          <dt class="col col-lg-2 col-xs-4">{% trans "Category" %}</dt>
+          <dd class="col col-lg-10 col-xs-8">{{ project.category }}</dd>
+        </dl>
+        <dl class="row">
+          <dt class="col col-lg-2 col-xs-4">{% trans "Redmine" %}</dt>
+          <dd class="col col-lg-10 col-xs-8"><a href="">http://redmine.kawaz.org/projects/third-impact{{ project.tracker }}</a></dd>
+        </dl>
+        <dl class="row">
+          <dt class="col col-lg-2 col-xs-4">{% trans "Repository" %}</dt>
+          <dd class="col col-lg-10 col-xs-8"><a href="">https://github.com/kawazrepos/Kawaz3rd{{ project.repository }}</a></dd>
+        </dl>
+      </div>
+    </div>
+  {% endblock %}
+
+  {% block content-main %}
+    <article class="markdown">
+          {{ project.body | markdown }}
+    </article>
+  {% endblock %}
+  {% block content-aside %}
+    {% if user has 'projects.join_project' of project %}
+    <button type="button" class="join-btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-plus"></span><span>{% trans "Join This Project" %}</span>
+    </button>
+    {% endif %}
+
+    <div class="member-list panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">{% trans "Members" %}</h2>
+      </div>
+      <div class="list-group">
+      {% for member in object.members.all %}
+        <a href="{{ object.get_absolute_url }}" class="list-group-item">
+          <img class="avatar avatar-middle" src="{{ MEDIA_URL }}{{ member.avatar.middle }}" alt="{{ member.nickname }}">
+            {{ member.nickname }}さん</a>
+      {% endfor %}
+      </div>
+    </div>
+
+    {% if user has 'projects.quit_project' of project %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">{% trans "operation" %}</h2>
+        </div>
+        <a class="list-group-item list-group-item-danger" href="{% url "projects_project_quit" pk=project.pk %}"><span class="glyphicon glyphicon-log-out"></span> {% trans "Leave this project" %}</a>
+      </div>
+    {% endif %}
+
+    {% if user has 'projects.add_project' or user has 'projects.change_project' of object or user has 'projects.delete_project' of object %}
+      <div class="panel panel-default">
+          <div class="panel-heading">
+              <h2 class="panel-title">{% trans "Administration" %}</h2>
+          </div>
+          <div class="list-group">
+              {% if user has 'projects.add_project' %}
+                  <a class="list-group-item list-group-item-success" href="{% url "projects_project_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Project" %}</a>
+              {% endif %}
+              {% if user has 'projects.change_project' of object %}
+                  <a class="list-group-item" href="{% url "projects_project_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Project" %}</a>
+              {% endif %}
+              {% if user has 'projects.delete_project' of object %}
+                  <a class="list-group-item list-group-item-danger" href="{% url "projects_project_delete" object.pk %}"><span class="glyphicon glyphicon-remove"></span> {% trans "Delete Project" %}</a>
+              {% endif %}
+          </div>
+      </div>
+    {% endif %}
+  {% endblock %}
+</div>
