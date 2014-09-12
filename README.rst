@@ -35,6 +35,7 @@ Thus you can checkout the repository and install required package with
 .. code-block:: sh
     
     $ git clone https://github.com/kawazrepos/Kawaz3rd
+    $ git submodule update --init
     $ pip install -r requirements.txt
     $ pip install -r requirements-test.txt
 
