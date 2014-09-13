@@ -1,0 +1,68 @@
+@import (reference) "../../../../vendor/bootstrap/less/bootstrap.less";
+@import (reference) "common/define";
+@import (reference) "common/vendor-prefixes";
+
+
+
+// event-detail
+.event-detail-wrap {
+	.event-category {
+		span:first-child {
+			margin-right: 5px;
+		}
+	}
+
+	.event-title {
+		h2 {
+			margin-top: 5px;
+		}
+	}
+
+	.page-header-right {
+		margin-top: 5px;
+		.event-info {
+			height: 230px;
+			display: table;
+			div {
+				margin-bottom: 15px;
+				font-size: 18px;
+				span {
+					display: inline;
+					vertical-align: middle;
+				}
+			}
+			.hoge {
+				display:table-cell;
+				vertical-align:middle;
+				line-height:1.5em;
+			}
+			.event-datetime-wrap {
+
+			}
+			.event-place-wrap {
+
+			}
+		}
+		.event-join-utility {
+			text-align: center;
+			.event-join-btn {
+				padding: 20px 30px;
+				background: @button-bg-color;
+				color: @button-text-color;
+				border: 1px solid @button-bg-color;
+				span {
+					font-size: 21px;
+				}
+				span:first-child {
+					margin-right: 10px;
+				}
+			}
+			.event-join-btn:hover {
+				background: @button-bg-color-hover;
+				color: @button-border-color-hover;
+			}
+		}
+	}
+}
+
+

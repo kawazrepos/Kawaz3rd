@@ -1,8 +1,92 @@
-{% extends "base.html" %}
-{% block content %}
-    {{ object.title }}
-    <article class="markdown">
-        {{ object.body | markdown }}
-    </article>
-    {% include "components/star_container.html" %}
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load events_tags %}
+
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/events.css" %}" media="screen">
 {% endblock %}
+
+{% block content-header %}
+
+	<div class="page-header event-detail-wrap">
+		<div class="event-category">
+		    <span class="glyphicon glyphicon-folder-open"></span>
+	    	<span>{{ event.category }}</span>
+		</div>
+		<div class="event-title">
+			{% if event.pub_state == 'protected' %}
+			{% endif %}
+			<h2>{{ event.title }}</h2>
+		</div>
+		<div class="row">
+			<div class="col col-lg-7 col-xs-12">
+<iframe src="https://www.google.com/maps/embed?pb={{ event.place }}" width="650" height="450" frameborder="0" style="border:0"></iframe>
+
+		    </div>
+		    <div class="col col-lg-5 col-xs-12 page-header-right">
+		    	<div class="event-info">
+		    	<div class="hoge">
+		    		<div class="event-datetime-wrap">
+						<span class="mega-octicon octicon-clock"></span>
+						<span class="event-date">{{ event.date }}</span>
+						<span class="event-time">{{ event.time }}</span>
+					</div>
+					<div class="event-place-wrap">
+						<span class="mega-octicon octicon-location"></span>
+						<span class="event-place">{{ event.place }}</span>
+					</div>
+
+		    	</div>
+
+		    	</div>
+				<div class="event-join-utility">
+	{#				{% if user has 'events.join_event' of event %}#}
+					<button type="button" class="event-join-btn btn-default btn-lg">
+						<span class="glyphicon glyphicon-plus"></span><span>{% trans "Join This Event" %}</span>
+					</button>
+	{#				{% elif %}#}
+	<!--イベントから離脱-->
+	{#				{% endif %}#}
+					<p>あと{#{{% event.hogehoge %}}#}n人参加できます</p>
+					<dl>
+						<dt>参加締め切り</dt>
+						<dd>まで</dd>
+					</dl>
+				</div>
+		    </div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block content-main %}
+<div class="row">
+	<div class="col col-lg-7 col-xs-12">
+	    <article class="markdown">
+	        {{ object.body | markdown }}
+	    </article>
+	    {% include "components/star_container.html" %}
+	</div>
+	<div class="col col-lg-5 col-xs-12">
+		<div class="member-list">
+		    <ul>
+{{ object.title }}
+{{ object.attendees.nickname }}
+{{ object.get_absolute_url }}
+{{ object.attendees }}
+
+
+		        {% for member in event.members.all %}
+		            <li>
+		                <img class="avatar avatar-small" src="{{ MEDIA_URL }}{{ member.avatar.small }}" alt="{{ member.nickname }}">
+		                {{ member.nickname }}さん
+		            </li>
+		        {% endfor %}
+		    </ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
