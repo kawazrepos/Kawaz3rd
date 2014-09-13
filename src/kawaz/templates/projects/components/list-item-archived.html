@@ -1,15 +1,14 @@
-<a href="{{ project.get_absolute_url }}" class="list-group-item row {{ project.status }}">
-  <div class="archive-item col col-done col-xs-1 col-lg-1">
+{% load staticfiles %}
 
-  {# ここのアイコンはmeycoさん待ち #}
+<a href="{{ project.get_absolute_url }}" class="list-group-item row {{ project.status }}">
+  <div class="archive-item col col-done-icon col-xs-1 col-lg-1">
   {% if project.status == 'done' %}
-      <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.small }}" alt="{{ project.title }}">
+    <img src="{% static "img/projects/omedeta.png" %}" alt="project-congratulation" />
   {% elif project.status == 'eternal' %}
-      <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.small }}" alt="{{ project.title }}">
+    <img src="{% static "img/projects/rip.png" %}" alt="project-R.I.P" />
   {% endif %}
   </div>
-
-  <div class="col col col-xs-10 col-lg-10  archive-info">
+  <div class="col col-xs-10 col-lg-10  archive-info">
     <div class="archive-item col col_thumbnail col-xs-1 col-lg-1">
       <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.middle }}" alt="{{ project.title }}">
     </div>
