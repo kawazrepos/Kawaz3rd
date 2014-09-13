@@ -34,8 +34,7 @@ Thus you can checkout the repository and install required package with
 
 .. code-block:: sh
     
-    $ git clone https://github.com/kawazrepos/Kawaz3rd
-    $ git submodule update --init
+    $ git clone --recursive https://github.com/kawazrepos/Kawaz3rd
     $ pip install -r requirements.txt
     $ pip install -r requirements-test.txt
 
@@ -44,7 +43,7 @@ You need to use git@github.com:kawazrepos/third-impact instead.
 
 .. code-block:: sh
     
-    $ git clone git@github.com:kawazrepos/Kawaz3rd
+    $ git clone --recursive git@github.com:kawazrepos/Kawaz3rd
     $ pip install -r requirements.txt
 
 .. _repository: https://github.com/kawazrepos/Kawaz3rd 
