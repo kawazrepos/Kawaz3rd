@@ -1,6 +1,39 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "twopane.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block pre_css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "css/blogs.css" %}" media="screen">
+    <link rel="stylesheet" href="{% static "css/markdown_nostyle.css" %}" media="screen">
+{% endblock %}
+{% block content-header %}
+    <div class="page-header">
+        <h1>{% trans "Blog Articles" %}</h1>
+    </div>
+{% endblock %}
+{% block content-main %}
+    {{ block.super }}
     {% for object in object_list %}
-        <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+        {% include "blogs/components/entry_truncated.html" %}
     {% endfor %}
+{% endblock %}
+{% block content-aside %}
+    {% if user has 'blogs.add_entry' %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Administration" %}</h2>
+            </div>
+            <div class="list-group">
+                {# TODO: Fix Me #}
+                {# {% url "blogs_entry_create" %}がNoReverseMatchエラーになるのでハードコーディング #}
+                <a href="/blogs/{{ user.username }}/create/" class="list-group-item list-group-item-success"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Blog Article" %}</a>
+            </div>
+        </div>
+    {% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Categories" %}</h2>
+        </div>
+        {{ filter.form.categories }}
+    </div>
 {% endblock %}

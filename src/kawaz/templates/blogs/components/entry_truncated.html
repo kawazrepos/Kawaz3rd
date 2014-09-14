@@ -1,0 +1,20 @@
+{% load i18n %}
+<div class="blog-article">
+    <div class="blog-article-header">
+            <h2>
+                <p>
+                    <small>
+                        <time>{{ object.publish_at|date:"Y/m/d" }}</time>
+                        <a href="{{ object.author.profile.get_absolute_url }}">
+                            <img src="{{ object.author.avatar.small.url }}" alt="{{ object.author.nickname }} Avater" title="{{ object.author.nickname }}" class="avatar avatar-small" />
+                        </a>
+                    </small>
+                </p>
+                <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+            </h2>
+        <p class="badge">{{ object.category.label }}</p>
+    </div>
+    <article class="markdown-nostyle">
+        {{ object.body | markdown | truncatechars:500}}
+    </article>
+</div>
