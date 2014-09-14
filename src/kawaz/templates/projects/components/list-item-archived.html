@@ -1,11 +1,11 @@
 {% load staticfiles %}
 
 <a href="{{ project.get_absolute_url }}" class="list-group-item row {{ project.status }}">
-  <div class="archive-item col col-done-icon col-xs-1 col-lg-1">
+  <div class="archive-item col col-xs-1 col-lg-1">
   {% if project.status == 'done' %}
-    <img src="{% static "img/projects/omedeta.png" %}" alt="project-congratulation" />
+    <img src="{% static "img/projects/congratulations.png" %}" alt="Completed Project" />
   {% elif project.status == 'eternal' %}
-    <img src="{% static "img/projects/rip.png" %}" alt="project-R.I.P" />
+    <img src="{% static "img/projects/rip.png" %}" alt="Eternaled Project" />
   {% endif %}
   </div>
   <div class="col col-xs-10 col-lg-10  archive-info">
