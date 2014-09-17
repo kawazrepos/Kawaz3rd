@@ -9,6 +9,7 @@
 {% block content-header %}
     <div class="page-header">
         <h1>{% trans "Blog Articles" %}</h1>
+        <small>{% blocktrans with count=paginator.count %}There are {{ count }} blog entries.{% endblocktrans %}</small>
     </div>
 {% endblock %}
 {% block content-main %}
@@ -16,6 +17,7 @@
     {% for object in object_list %}
         {% include "blogs/components/entry_truncated.html" %}
     {% endfor %}
+    {% include "components/paginator.html" %}
 {% endblock %}
 {% block content-aside %}
     {% if user has 'blogs.add_entry' %}
