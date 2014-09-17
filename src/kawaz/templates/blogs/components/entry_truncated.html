@@ -6,8 +6,11 @@
                     <small>
                         <time>{{ object.publish_at|date:"Y/m/d" }}</time>
                         <a href="{{ object.author.profile.get_absolute_url }}">
-                            <img src="{{ object.author.avatar.small.url }}" alt="{{ object.author.nickname }} Avatar" title="{{ object.author.nickname }}" class="avatar avatar-small" />
+                            <img src="{{ object.author.avatar.small.url }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-small" />
                         </a>
+                        {% if object.pub_state == "protected" %}
+                            <span class="glyphicon glyphicon-lock" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
+                        {% endif %}
                     </small>
                 </p>
                 <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
