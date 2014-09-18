@@ -34,14 +34,13 @@
     {% endif %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2 class="panel-title">{% trans "Authors" %}</h2>
+            <h2 class="panel-title">{% trans "Hot Entries" %}</h2>
         </div>
-        {# TODO: ここにAuthorによるフィルターを設置したいが、そのためにはProducts Listの時と #}
-        {#       同様にfilters.pyによるフィルターの実装が必要 #}
-        {# Fix Me: なのでとりあえずハードコーディング #}
+        {# TODO: ここにスターの数等によるホットエントリーの設置 #}
+        {# Fix Me: ハードコーディング #}
         <div class="list-group">
-            <a class="list-group-item active" href="?authors=">All</a>
-            <a class="list-group-item" href="?authors=1">井の中かわず</a>
+            <a class="list-group-item" href="/blogs/system/2014/5/20/3/">VOXCHRONICLEに出演しました☆ <small class="text-muted">10 stars</small></a>
+            <a class="list-group-item" href="/blogs/system/2014/5/20/1/">日記 <small class="text-muted">5 stars</small></a>
         </div>
     </div>
 {% endblock %}
