@@ -1,6 +1,24 @@
 @import "../../../../vendor/bootstrap/less/mixins.less";
 @import "common/define";
 
+// Blog List Header
+.blog-list-header {
+  .header-left {
+    float: left;
+    text-align: left;
+    margin: 0;
+  }
+  .header-right {
+    text-align: right;
+    padding-top: 15px;
+    a {
+      margin-right: auto;
+      display: inline-block;
+    }
+  }
+  .clearfix();
+}
+
 // Blog Article
 @protected-color: #FCF8E3;
 .blog-article {
