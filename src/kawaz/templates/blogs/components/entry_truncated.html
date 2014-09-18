@@ -6,7 +6,7 @@
                     <small>
                         <time>{{ object.publish_at|date:"Y/m/d" }}</time>
                         <a href="{{ object.author.profile.get_absolute_url }}">
-                            <img src="{{ object.author.avatar.small.url }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-small" />
+                            <img src="{{ MEDIA_URL }}{{ object.author.avatar.small }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-small" />
                         </a>
                         {% if object.pub_state == "protected" %}
                             <span class="glyphicon glyphicon-lock" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
@@ -18,6 +18,7 @@
         <p class="badge">{{ object.category.label }}</p>
     </div>
     <article class="markdown-nostyle">
+        {# TODO: Fix Me: Django1.7に移行ができ次第、truncatechars から truncatechars_html へ移行すべき #}
         {{ object.body | markdown | truncatechars:500}}
     </article>
 </div>
