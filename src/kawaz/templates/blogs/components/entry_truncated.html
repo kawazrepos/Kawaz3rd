@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="blog-article">
+<div class="blog-article{% if object.pub_state == "protected" %} bg-protected{% endif %}">
     <div class="blog-article-header">
             <h2>
                 <p>
@@ -9,7 +9,7 @@
                             <img src="{{ MEDIA_URL }}{{ object.author.avatar.small }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-small" />
                         </a>
                         {% if object.pub_state == "protected" %}
-                            <span class="glyphicon glyphicon-lock" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
+                            <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
                         {% endif %}
                     </small>
                 </p>

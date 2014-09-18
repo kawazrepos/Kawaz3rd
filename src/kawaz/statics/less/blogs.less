@@ -2,12 +2,22 @@
 @import "common/define";
 
 // Blog Article
+@protected-color: #FCF8E3;
 .blog-article {
   max-width: 800px;
   margin: 10px auto 20px;
+  padding: 10px 30px 30px;
 }
 .blog-article-header {
   .clearfix();
+}
+// 内部公開記事用のスタイル
+.bg-protected {
+  background-color: @protected-color;
+  border-radius: 10px;
+}
+.text-protected {
+  color: darken(@protected-color, 50%);
 }
 // Blog Entry Date
 // Ref: http://line25.com/tutorials/how-to-create-a-cool-blog-post-date-icon-with-css
