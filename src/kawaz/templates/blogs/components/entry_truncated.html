@@ -4,7 +4,7 @@
             <h2>
                 <p>
                     <small>
-                        <time>{{ object.publish_at|date:"Y/m/d" }}</time>
+                        <time datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time>
                         <a href="{{ object.author.profile.get_absolute_url }}">
                             <img src="{{ MEDIA_URL }}{{ object.author.avatar.small }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-small" />
                         </a>
