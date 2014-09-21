@@ -8,5 +8,4 @@ class AnnouncementFactory(factory.DjangoModelFactory):
     pub_state = 'public'
     title = '【悲報】データ消失のお知らせ'
     body = 'ごめんなさい'
-    silently = False
     author = factory.SubFactory(PersonaFactory, role='nerv') # announcements author must be staff
