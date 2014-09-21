@@ -12,20 +12,24 @@
 {% endblock %}
 
 {% block content-header %}
-
-	<div class="page-header event-detail-wrap">
+	<div class="page-header event-detail-header-wrap">
 		<div class="event-category">
 		    <span class="glyphicon glyphicon-folder-open"></span>
-	    	<span>{{ event.category }}</span>
+	    	<span>{{ event.category | default_if_none:"未設定" }}</span>
 		</div>
 		<div class="event-title">
 			{% if event.pub_state == 'protected' %}
+			<img src="{% static "img/event/lock-icon1.png" %}" alt="" />
 			{% endif %}
 			<h2>{{ event.title }}</h2>
 		</div>
 		<div class="row">
 			<div class="col col-lg-7 col-xs-12 page-header-left">
-				<div class="event-info-wrap">
+				{% if event.attendance_deadline %}
+				<div class="event-info-wrap event-info-wrap-high">
+				{% else %}
+				<div class="event-info-wrap event-info-wrap-low">
+				{% endif %}
 		    	<div class="event-info">
 							<div class="event-datetime-wrap event-info-detail">
 								<span class="glyphicon glyph-large-icon glyphicon-time"></span>
@@ -48,22 +52,35 @@
 	    <div class="col col-lg-5 col-xs-12 page-header-right">
 
 				<div class="event-join-utility">
-	{#				{% if user has 'events.join_event' of event %}#}
+				{% if user has 'events.join_event' of event %}
 					<button type="button" class="event-join-btn btn-default btn-lg">
 						<span class="glyphicon glyphicon-plus"></span><span>{% trans "Join This Event" %}</span>
 					</button>
-	{#				{% elif %}#}
-	<!--イベントから離脱-->
-	{#				{% endif %}#}
+				{% elif user has 'events.quit_event' of event %}
+					<button type="button" class="event-leave-btn btn-default btn-lg">
+						<span class="glyphicon glyphicon-log-out"></span><span>{% trans "Leave This Event" %}</span>
+					</button>
+				{% else %}
+
+
+
+
+
+				{% endif %}
+
+				{% if event.number_restriction %}
 					<p>あと{{ event.number_restriction }}人参加できます</p>
+				{% endif %}
+				{% if event.attendance_deadline %}
 					<dl>
 						<dt>{% trans "attendance_deadline" %}</dt>
 						<dd>
 							<span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
-							<span class="{% get_week_day event.attendance_deadline %}">{{ event.attendance_deadline | date:"（l）" }}</span>
+
 							{% trans "まで" %}
 						</dd>
 					</dl>
+				{% endif %}
 				</div>
 	    </div>
 		</div>
@@ -72,31 +89,57 @@
 
 
 {% block content-main %}
-
-	    <article class="markdown">
-	        {{ object.body | markdown }}
-	    </article>
-	    {% include "components/star_container.html" %}
-
+	  <article class="markdown">
+        {{ object.body | markdown }}
+    </article>
+    {% include "components/star_container.html" %}
 {% endblock %}
 {% block content-aside %}
-		<div class="member-list">
-		<h3>{{ event.attendees.count }}</h3>
+		<div class="event-member-list">
 
-				<a href="{{ object.organizer.profile.get_absolute_url }}">
-           <img src="{{ object.organizer.avatar.large.url }}" alt="{{ object.organizer.nickname }} Avater" class="avatar avatar-middle"/> {{ object.organizer.nickname }}
-        </a>
-		    <ul>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2 class="panel-title">{% trans "主催者" %}</h2>
+				</div>
+				<a href="{{ object.organizer.profile.get_absolute_url }}" class="list-group-item member-list-organizer">
+				  <img src="{{ object.organizer.avatar.middle.url }}" alt="{{ object.organizer.nickname }} Avater" class="avatar avatar-middle"/> {{ object.organizer.nickname }}
+				</a>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading event-member-head">
+					<h2 class="panel-title">{% trans "参加者" %}</h2>
+					<p>{{ event.attendees.count|add:"-1" }}{% trans "人参加中" %}</p>
+				</div>
+		    <ul class="list-group">
 		    {% for attendee in event.attendees.all %}
 						{% if attendee != object.organizer %}
-		    	<li>
-						<a href="{{ attendees.profile.get_absolute_url }}">
+						<a href="{{ attendees.profile.get_absolute_url }}" class="list-group-item ">
 						  <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}" alt="{{ attendee.nickname }} Avater" class="avatar avatar-middle"/> {{ attendee.nickname }}
 						</a>
-					</li>
 						{% endif %}
 				{% endfor %}
 		    </ul>
+			</div>
 		</div>
-{% endblock %}
 
+	{% if user has 'events.change_profile' of event %}
+    <div id="event-administration" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Administration" %}</h2>
+        </div>
+        <div class="list-group">
+			    {% if user has 'events.add_event' of event %}
+			        <a class="list-group-item list-group-item-success" href="{% url "events_event_create" event.pk %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create event" %}</a>
+			    {% endif %}
+			    {% if user has 'events.change_event' of event %}
+			        <a class="list-group-item" href="{% url "events_event_update" event.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update event" %}</a>
+			    {% endif %}
+			    {% if user has 'events.delete_event' of event %}
+			        <a class="list-group-item list-group-item-danger" href="{% url "events_event_delete" event.pk %}"><span class="glyphicon glyphicon-remove"></span> {% trans "Delete event" %}</a>
+			    {% endif %}
+			</div>
+    </div>
+	{% endif %}
+
+{% endblock %}
