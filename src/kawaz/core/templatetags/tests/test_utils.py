@@ -103,7 +103,7 @@ class GetWeekDayTemplateTagTestCase(TestCase):
 
     def test_sunday(self):
         '''
-        get_week_dayで平日だったときにweekdayを返す
+        get_week_dayで日曜だったときにsundayを返す
         '''
         import datetime
         t = Template(
