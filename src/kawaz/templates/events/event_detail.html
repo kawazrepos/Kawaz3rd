@@ -1,4 +1,7 @@
+
 {% extends "twopane.html" %}
+{% load utils %}
+
 {% load staticfiles %}
 {% load i18n %}
 {% load events_tags %}
@@ -21,26 +24,29 @@
 			<h2>{{ event.title }}</h2>
 		</div>
 		<div class="row">
-			<div class="col col-lg-7 col-xs-12">
-<iframe src="https://www.google.com/maps/embed?pb={{ event.place }}" width="650" height="450" frameborder="0" style="border:0"></iframe>
-
-		    </div>
-		    <div class="col col-lg-5 col-xs-12 page-header-right">
+			<div class="col col-lg-7 col-xs-12 page-header-left">
+				<div class="event-info-wrap">
 		    	<div class="event-info">
-		    	<div class="hoge">
-		    		<div class="event-datetime-wrap">
-						<span class="mega-octicon octicon-clock"></span>
-						<span class="event-date">{{ event.date }}</span>
-						<span class="event-time">{{ event.time }}</span>
-					</div>
-					<div class="event-place-wrap">
-						<span class="mega-octicon octicon-location"></span>
-						<span class="event-place">{{ event.place }}</span>
-					</div>
-
+							<div class="event-datetime-wrap event-info-detail">
+								<span class="glyphicon glyph-large-icon glyphicon-time"></span>
+								<span class="event-date">{{ event.period_start | date:"Y年m月d日" }}</span>
+								<span class="{% get_week_day event.period_start %}">{{ event.period_start | date:"（l）" }}</span>
+								{% if event.period_end %}
+									<span>{% trans "〜" %}</span>
+									<span class="event-time">{{ event.period_end | date:"Y年m月d日" }}</span>
+									<span class="{% get_week_day event.period_end %}">{{ event.period_end | date:"（l）" }}</span>
+								{% endif %}
+							</div>
+			    		<div class="event-place-wrap event-info-detail">
+								<span class="glyphicon glyph-large-icon glyphicon-flag"></span>
+								<span class="event-place">{{ event.place }}</span>
+								<a class="event-place-map" title="{% trans "See this place in Googlemap" %}" href="http://maps.google.com/?q={{ event.place }}" target="_blank" rel="tooltip" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-map-marker"></span></a>
+							</div>
 		    	</div>
+				</div>
+		  </div>
+	    <div class="col col-lg-5 col-xs-12 page-header-right">
 
-		    	</div>
 				<div class="event-join-utility">
 	{#				{% if user has 'events.join_event' of event %}#}
 					<button type="button" class="event-join-btn btn-default btn-lg">
@@ -49,44 +55,48 @@
 	{#				{% elif %}#}
 	<!--イベントから離脱-->
 	{#				{% endif %}#}
-					<p>あと{#{{% event.hogehoge %}}#}n人参加できます</p>
+					<p>あと{{ event.number_restriction }}人参加できます</p>
 					<dl>
-						<dt>参加締め切り</dt>
-						<dd>まで</dd>
+						<dt>{% trans "attendance_deadline" %}</dt>
+						<dd>
+							<span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
+							<span class="{% get_week_day event.attendance_deadline %}">{{ event.attendance_deadline | date:"（l）" }}</span>
+							{% trans "まで" %}
+						</dd>
 					</dl>
 				</div>
-		    </div>
+	    </div>
 		</div>
 	</div>
 {% endblock %}
 
 
 {% block content-main %}
-<div class="row">
-	<div class="col col-lg-7 col-xs-12">
+
 	    <article class="markdown">
 	        {{ object.body | markdown }}
 	    </article>
 	    {% include "components/star_container.html" %}
-	</div>
-	<div class="col col-lg-5 col-xs-12">
+
+{% endblock %}
+{% block content-aside %}
 		<div class="member-list">
+		<h3>{{ event.attendees.count }}</h3>
+
+				<a href="{{ object.organizer.profile.get_absolute_url }}">
+           <img src="{{ object.organizer.avatar.large.url }}" alt="{{ object.organizer.nickname }} Avater" class="avatar avatar-middle"/> {{ object.organizer.nickname }}
+        </a>
 		    <ul>
-{{ object.title }}
-{{ object.attendees.nickname }}
-{{ object.get_absolute_url }}
-{{ object.attendees }}
-
-
-		        {% for member in event.members.all %}
-		            <li>
-		                <img class="avatar avatar-small" src="{{ MEDIA_URL }}{{ member.avatar.small }}" alt="{{ member.nickname }}">
-		                {{ member.nickname }}さん
-		            </li>
-		        {% endfor %}
+		    {% for attendee in event.attendees.all %}
+						{% if attendee != object.organizer %}
+		    	<li>
+						<a href="{{ attendees.profile.get_absolute_url }}">
+						  <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}" alt="{{ attendee.nickname }} Avater" class="avatar avatar-middle"/> {{ attendee.nickname }}
+						</a>
+					</li>
+						{% endif %}
+				{% endfor %}
 		    </ul>
 		</div>
-	</div>
-</div>
 {% endblock %}
 

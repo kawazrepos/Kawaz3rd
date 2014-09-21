@@ -3,6 +3,12 @@
 @import (reference) "common/vendor-prefixes";
 
 
+// common
+.glyph-large-icon {
+	font-size: 1.5em;
+	color: @footer-color;
+}
+
 
 // event-detail
 .event-detail-wrap {
@@ -18,31 +24,31 @@
 		}
 	}
 
-	.page-header-right {
-		margin-top: 5px;
-		.event-info {
-			height: 230px;
+
+	.page-header-left {
+		.event-info-wrap {
 			display: table;
-			div {
-				margin-bottom: 15px;
-				font-size: 18px;
-				span {
-					display: inline;
-					vertical-align: middle;
+			height: 150px;
+			.event-info {
+				display:table-cell;
+					vertical-align:middle;
+					line-height:1.5em;
+				.event-info-detail {
+					margin-bottom: 20px;
+					font-size: 18px;
+					span {
+						display: inline;
+						vertical-align: middle;
+					}
+					.event-place-map:hover {
+						text-decoration: none;
+					}
 				}
 			}
-			.hoge {
-				display:table-cell;
-				vertical-align:middle;
-				line-height:1.5em;
-			}
-			.event-datetime-wrap {
-
-			}
-			.event-place-wrap {
-
-			}
 		}
+
+	}
+	.page-header-right {
 		.event-join-utility {
 			text-align: center;
 			.event-join-btn {
@@ -57,6 +63,9 @@
 					margin-right: 10px;
 				}
 			}
+			p {
+					color: #666;
+				}
 			.event-join-btn:hover {
 				background: @button-bg-color-hover;
 				color: @button-border-color-hover;
