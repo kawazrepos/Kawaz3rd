@@ -30,3 +30,29 @@ def active(context, pattern):
         return 'active'
     return ''
 
+
+
+@register.simple_tag()
+def get_week_day(date):
+    """
+    datetimeオブジェクトを受け取り、曜日に応じてCSSクラス名を返します
+
+    Param
+        date [datetime]
+
+    Return [string]
+        土曜日 saturday
+        日曜日 sunday
+        その他 weekday
+
+    Example
+        {% load utils %}
+        <div class="{% get_week_day date">{{ date }}</div>
+
+    """
+    wd = date.weekday()
+    if wd == 5:
+        return "saturday"
+    elif wd == 6:
+        return "sunday"
+    return "weekday"
