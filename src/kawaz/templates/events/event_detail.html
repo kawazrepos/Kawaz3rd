@@ -61,19 +61,19 @@
 						<span class="glyphicon glyphicon-log-out"></span><span>{% trans "Leave This Event" %}</span>
 					</button>
 				{% else %}
-
-
-
-
-
+					{% if events.join_event %}
+					<p class="event-recruit event-status">{% trans "参加者募集中" %}</p>
+					{% elif not events.join_event %}
+					<p class="event-closed event-status">{% trans "参加者締め切りました" %}</p>
+					{% endif %}
 				{% endif %}
 
 				{% if event.number_restriction %}
-					<p>あと{{ event.number_restriction }}人参加できます</p>
+					<p class="event-join-count">あと{{ event.number_restriction }}人参加できます</p>
 				{% endif %}
 				{% if event.attendance_deadline %}
 					<dl>
-						<dt>{% trans "attendance_deadline" %}</dt>
+						<dt>{% trans "参加締切日" %}</dt>
 						<dd>
 							<span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
 
@@ -114,7 +114,7 @@
 		    <ul class="list-group">
 		    {% for attendee in event.attendees.all %}
 						{% if attendee != object.organizer %}
-						<a href="{{ attendees.profile.get_absolute_url }}" class="list-group-item ">
+						<a href="{{ attendee.profile.get_absolute_url }}" class="list-group-item ">
 						  <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}" alt="{{ attendee.nickname }} Avater" class="avatar avatar-middle"/> {{ attendee.nickname }}
 						</a>
 						{% endif %}
