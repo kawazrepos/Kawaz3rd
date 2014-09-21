@@ -1,6 +1,3 @@
 [submodule "vendor/bootstrap"]
 	path = vendor/bootstrap
 	url = git://github.com/kawazrepos/bootstrap.git
-[submodule "vendor/octicons"]
-	path = vendor/octicons
-	url = git://github.com/github/octicons.git
