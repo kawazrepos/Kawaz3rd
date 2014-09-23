@@ -3,9 +3,9 @@
 <a href="{{ project.get_absolute_url }}" class="list-group-item row {{ project.status }}">
   <div class="archive-item col col-xs-2 col-lg-2">
   {% if project.status == 'done' %}
-    <img class="completed_badge archive-item-badge" src="{% static "img/projects/congratulations.png" %}" alt="Completed Project" />
+    <img class="completed-badge archive-item-badge" src="{% static "img/projects/congratulations.png" %}" alt="Completed Project" />
   {% elif project.status == 'eternal' %}
-    <img class="eternaled_badge archive-item-badge" src="{% static "img/projects/rip.png" %}" alt="Eternaled Project" />
+    <img class="eternaled-badge archive-item-badge" src="{% static "img/projects/rip.png" %}" alt="Eternaled Project" />
   {% endif %}
   </div>
   <div class="col col-xs-10 col-lg-10  archive-info">
@@ -13,10 +13,10 @@
       <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.middle }}" alt="{{ project.title }}">
     </div>
     <div class="archive-item col col-title col-xs-7 col-lg-7">
-       {{ project.title }}
+      {{ project.title }}
     </div>
     <div class="archive-item col col-status col-xs-2 col-lg-2">
-       {{ project.get_status_display }}
+      {{ project.get_status_display }}
     </div>
   </div>
 </a>
