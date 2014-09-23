@@ -1,17 +1,15 @@
-# 後で widget 化
-
 $ ->
   # 添付素材用のポップアップを表示する
   showAttachmentPopup = ->
-    console.log($('#attachment-dialog'))
+    $targetEditor = $(@).closest('.editor-control').prev('textarea')
     $dialog = $('#attachment-dialog').on('show.bs.modal', ->
-      console.log("huga")
       $input = $(@).find("input[type='text']")
       .hide()
       .fadeIn('fast', () ->
         $(@).focus()
       )
     )
+    $dialog.data("$targetEditor", $targetEditor)
 
   $editors = $('.mace-editor')
 
@@ -32,6 +30,7 @@ $ ->
     mace.ace.on('change', ->
       $editor.val(mace.value)
     )
+    $editor.data('mace', mace)
 
     # Mace buttons
     $control.find('.mace-indent').click(mace.indent.bind(mace, 1))
@@ -41,3 +40,21 @@ $ ->
     $control.find('.mace-heading-3').click(mace.heading.bind(mace, 3))
     $control.find('.mace-attachment').click(showAttachmentPopup)
   )
+
+angular.kawaz.controller('AttachmentController', ($scope, $http, $upload) ->
+  $scope.onFileSelect = ($files, $event) ->
+    $dialog = $($event.target).closest('#attachment-dialog')
+    $editor = $dialog.data("$targetEditor")
+    mace = $editor.data("mace")
+    for file in $files
+      $scope.upload = $upload.upload(
+        url: '/api/materials'
+        data :
+          "content_file": file
+      ).progress((evt) ->
+        @
+      ).success((data, status, headers, config) ->
+        slug = data["slug"]
+        mace.ace.insert(slug)
+      )
+)

@@ -1,5 +1,5 @@
 # Angular Applicationをグローバルに取得できるようにします
-angular.kawaz = angular.module('kawaz', ['ngSanitize'])
+angular.kawaz = angular.module('kawaz', ['ngSanitize', 'angularFileUpload'])
        .config(($interpolateProvider, $httpProvider) ->
   # デフォルトのSymbol {{ }}はDjangoのテンプレートエンジンと衝突するため
   # [[ angularVariable ]]で展開できるようにしている
