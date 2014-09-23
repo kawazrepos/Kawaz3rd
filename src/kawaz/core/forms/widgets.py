@@ -60,7 +60,7 @@ class MaceEditorWidget(widgets.Textarea):
 
     def render(self, name, value, attrs=None):
         area = super().render(name, value, attrs)
-        template = render_to_string(os.path.join("components", "mace-header.html"))
+        template = render_to_string(os.path.join("components", "mace_header.html"))
         return area + mark_safe(template)
 
     class Media:

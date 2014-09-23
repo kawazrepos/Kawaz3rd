@@ -88,7 +88,7 @@ class MaterialModelTestCase(TestCase):
         添付用のタグが正しく取り出せる
         """
         material = MaterialFactory(content_file='README')
-        self.assertEqual(material.get_attachment_tag(), "{attachment:%s}" % material.slug)
+        self.assertEqual(material.get_attachment_tag(), "{attachments:%s}" % material.slug)
 
 class MaterialModelFileTypeTestCase(TestCase):
 

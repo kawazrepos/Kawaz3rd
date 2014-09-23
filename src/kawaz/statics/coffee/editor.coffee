@@ -54,7 +54,7 @@ angular.kawaz.controller('AttachmentController', ($scope, $http, $upload) ->
       ).progress((evt) ->
         @
       ).success((data, status, headers, config) ->
-        slug = data["slug"]
-        mace.ace.insert(slug)
+        tag = data["tag"]
+        mace.ace.insert(tag)
       )
 )
