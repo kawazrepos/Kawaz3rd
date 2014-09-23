@@ -10,7 +10,7 @@ $ ->
     # 親要素に div 要素追加
     $parent = $editor.parent()
     $wrapper = $('<div class="edit-area">').text($editor.val())
-           .css('min-height', '100px')
+           .css('min-height', '400px')
     $control = $parent.find('.editor-control')
     $parent.append($control, $wrapper)
 
