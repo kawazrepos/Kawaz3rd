@@ -77,7 +77,7 @@ class Project(models.Model):
     また削除権限は所有者のみが持ち、所有権限の委託は未だ作成されていない。
     """
     def _get_upload_path(self, filename):
-        basedir = os.path.join('thumbnails', 'projects', self.slug)
+        basedir = os.path.join('projects', self.slug)
         return os.path.join(basedir, filename)
 
     STATUS = (
