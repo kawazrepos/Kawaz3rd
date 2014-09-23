@@ -172,3 +172,9 @@
     label: SoundCloud
     url_pattern: http://soundcloud.com/{username}/
     icon: icons/services/soundcloud.png
+- model: profiles.service
+  pk: 17
+  fields:
+    label: mixi
+    url_pattern: http://mixi.jp/show_profile.pl?id={username}
+    icon: icons/services/mixi.png
