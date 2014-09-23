@@ -2,8 +2,12 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+
+import os
 from itertools import chain
 from django import forms
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from django.forms import widgets
 from django.forms import RadioSelect
 from django.forms.widgets import RadioFieldRenderer
@@ -53,6 +57,11 @@ class MaceEditorWidget(widgets.Textarea):
 
     def __init__(self):
         super().__init__(attrs={'class': 'mace-editor'})
+
+    def render(self, name, value, attrs=None):
+        area = super().render(name, value, attrs)
+        template = render_to_string(os.path.join("components", "mace-header.html"))
+        return area + mark_safe(template)
 
     class Media:
         js = ('vendor/mace.min.js', 'js/editor.js',)

@@ -1,25 +1,4 @@
 # 後で widget 化
-control = '''
-<div class="editor-control">
-  <div class="btn-group btn-group-sm">
-    <div class="mace-outdent btn btn-default">
-      <span class="glyphicon glyphicon-indent-right"></span>
-    </div>
-    <div class="mace-indent btn btn-default">
-      <span class="glyphicon glyphicon-indent-left"></span>
-    </div>
-    <div class="mace-heading-1 btn btn-default">
-      <span>H1</span>
-    </div>
-    <div class="mace-heading-2 btn btn-default">
-      <span>H2</span>
-    </div>
-    <div class="mace-heading-3 btn btn-default">
-      <span>H3</span>
-    </div>
-  </div>
-</div>
-'''
 
 $ ->
   $editors = $('.mace-editor')
@@ -32,7 +11,7 @@ $ ->
     $parent = $editor.parent()
     $wrapper = $('<div class="edit-area">').text($editor.val())
            .css('min-height', '100px')
-    $control = $(control)
+    $control = $parent.find('.editor-control')
     $parent.append($control, $wrapper)
 
     # Mace を組み込む
