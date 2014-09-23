@@ -9,10 +9,14 @@ $ ->
         $(@).focus()
       )
     )
+    # ダイアログはページ中に1つだが、フォームは複数個ある可能性があるので
+    # 現在、どのMace Editorを編集しているかを保存している
     $dialog.data("$targetEditor", $targetEditor)
+
+    # プログレスバーを0%にリセットしている
     $progress = $dialog.find(".progress-bar")
     $progress.text("")
-    $progress("aria-valuenow", 0)
+    $progress.attr("aria-valuenow", 0)
     $progress.css("width", "0%")
 
   $editors = $('.mace-editor')
@@ -34,6 +38,7 @@ $ ->
     mace.ace.on('change', ->
       $editor.val(mace.value)
     )
+    # Maceを.mace-editorに紐付けておく
     $editor.data('mace', mace)
 
     # Mace buttons
@@ -47,11 +52,14 @@ $ ->
 
 angular.kawaz.controller('AttachmentController', ($scope, $http, $upload) ->
   $scope.onFileSelect = ($files, $event) ->
+    # ダイアログを取り出す
     $dialog = $($event.target).closest('#attachment-dialog')
+    # 編集中のエディタを取り出す
     $editor = $dialog.data("$targetEditor")
     mace = $editor.data("mace")
     $progress = $dialog.find(".progress-bar")
 
+    # プログレスバーを変更する便利関数
     setPercentage = (percent, label) ->
       label = label or "#{percent}%"
       $progress.attr("aria-valuenow", percent)
@@ -68,8 +76,12 @@ angular.kawaz.controller('AttachmentController', ($scope, $http, $upload) ->
         setPercentage(percent)
 
       ).success((data, status, headers, config) ->
+        # レスポンスから "{attachments:<slug>}"みたいな文字列を取り出して、エディタ中に挿入する
         tag = data["tag"]
         mace.ace.insert(tag)
         setPercentage(100, "Completed")
+      ).error(() ->
+        alert("アップロードエラーが発生しました。管理者に問い合わせてください")
+        setPercentage(0, "Error")
       )
 )
