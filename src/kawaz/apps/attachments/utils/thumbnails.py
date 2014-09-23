@@ -21,12 +21,12 @@ def get_thumbnail_html(material):
         return mark_safe(template)
 
     if material.is_image:
-        return render_to_string("image")
+        return render_template("image")
     elif material.is_audio:
-        return render_to_string("audio")
+        return render_template("audio")
     elif material.is_movie:
-        return render_to_string("movie")
+        return render_template("movie")
     elif material.is_pdf:
-        return render_to_string("pdf")
+        return render_template("pdf")
     else:
-        return render_to_string("etc")
+        return render_template("etc")

@@ -48,6 +48,13 @@ class MaterialModelTestCase(TestCase):
         material = MaterialFactory(content_file='fantastic_music.mp3')
         self.assertEqual(material.filename, 'fantastic_music.mp3')
 
+    def test_mimetype(self):
+        """
+        material.mimetypeがMimetypeを返す
+        """
+        material = MaterialFactory(content_file='fantastic_music.mp3')
+        self.assertEqual(material.mimetype, 'audio/mpeg')
+
     def test_ext(self):
         """
         material.extが拡張子を返す
