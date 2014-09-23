@@ -28,7 +28,8 @@ class ParserTemplateTagTestCase(TestCase):
         Youtube、ニコニコ動画、URL、mention、添付素材など
         いろいろ混ざった物を正しく展開します
         """
-        material = MaterialFactory(content_file="kawaztan.png")
+        material = MaterialFactory(content_file="kawaztan.png", author__username="kawaztan-material")
+        slug = material.slug
         PersonaFactory(username='kawaztan_mention')
         before = ("http://www.kawaz.org/\n"
         "http://nicovideo.jp/watch/sm9/\n"
@@ -41,7 +42,7 @@ class ParserTemplateTagTestCase(TestCase):
         "hoge@kawaztan_mention.com\n"
         "@kawaztan_mention\n"
         "@kawaztan_unknown\n"
-        "{attachments:5b03e446478d6d7ae7211e1657e7b6a6a68f7777}\n")
+        "{attachments:" + slug + "}\n")
         after = ("""<p><a href="http://www.kawaz.org/" rel="nofollow">http://www.kawaz.org/</a>\n"""
                  """<a href="http://nicovideo.jp/watch/sm9/" rel="nofollow">http://nicovideo.jp/watch/sm9/</a>\n"""
                  """<a href="http://www.nicovideo.jp/watch/sm9">ニコニコ動画</a>\n"""
@@ -55,8 +56,8 @@ class ParserTemplateTagTestCase(TestCase):
                  """<p><a href="mailto:hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com">hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com</a>\n"""
                  """<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>\n"""
                  "@kawaztan_unknown\n"
-                 """<a href="attachments/kawaztan1/kawaztan.png" rel="lightbox" data-lightbox="thumbnail">\n"""
-                 """    <img src="attachments/kawaztan1/kawaztan.png" alt="kawaztan.png" style="max-width: 600px;" />\n"""
+                 """<a href="attachments/kawaztan-material/kawaztan.png" rel="lightbox" data-lightbox="thumbnail">\n"""
+                 """    <img src="attachments/kawaztan-material/kawaztan.png" alt="kawaztan.png" style="max-width: 600px;" />\n"""
                  "</a>\n"
                  "</p>")
         self._test_href_tag(before, after)
