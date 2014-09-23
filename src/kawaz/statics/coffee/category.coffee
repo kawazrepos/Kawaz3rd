@@ -2,6 +2,10 @@
 angular.kawaz.controller('BlogCategoryController', ($scope, $http) ->
   # カテゴリ選択用のフィールド
   $categorySelect = $('#id_category')
+  $addButton = $(".blog-category-add-button").parent()
+  $addButton.remove()
+  $categorySelect.after($addButton)
+
   $dialog = $('#blog-category-dialog').on('show.bs.modal', ->
     $input = $(@).find("input[type='text']")
     .hide()
