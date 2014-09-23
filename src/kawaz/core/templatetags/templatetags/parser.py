@@ -5,6 +5,7 @@ from django.template.defaultfilters import urlize
 from .embed import youtube, nicovideo
 from .mention import mention
 from .markdown import markdown
+from kawaz.apps.attachments.templatetags.attachments import parse_attachments
 
 register = template.Library()
 
@@ -29,6 +30,9 @@ def parser(value):
         markdown展開
             markdownをHTMLに展開します
             ref: kawaz.core.templatetags.tempaltetags.markdown.markdown
+        添付ファイル展開
+            {attachments:<slug>}をファイル埋め込みに展開します
+            ref: kawaz.apps.attachments.templatetags.attachments.parse_attachments
     """
     # Youtube, NicoNico
     value = youtube(value)
@@ -39,4 +43,6 @@ def parser(value):
     value = mention(value)
     # markdown
     value = markdown(value)
+    # 添付ファイル展開
+    value = parse_attachments(value)
     return mark_safe(value)

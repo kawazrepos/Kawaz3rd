@@ -8,6 +8,7 @@ from django.test import TestCase
 from django.template import Template, Context
 from django.template.loader import render_to_string
 from kawaz.core.personas.tests.factories import PersonaFactory
+from kawaz.apps.attachments.tests.factories import MaterialFactory
 
 class ParserTemplateTagTestCase(TestCase):
 
@@ -24,9 +25,11 @@ class ParserTemplateTagTestCase(TestCase):
 
     def test_url_expand_tag_in_quote(self):
         """
-        Youtube、ニコニコ動画、URL、mentionなど
+        Youtube、ニコニコ動画、URL、mention、添付素材など
         いろいろ混ざった物を正しく展開します
         """
+        material = MaterialFactory(content_file="kawaztan.png")
+        print(material.slug)
         PersonaFactory(username='kawaztan_mention')
         before = ("http://www.kawaz.org/\n"
         "http://nicovideo.jp/watch/sm9/\n"
@@ -38,8 +41,8 @@ class ParserTemplateTagTestCase(TestCase):
         "https://www.youtube.com/watch?v=LoH0dOyyGx8\n"
         "hoge@kawaztan_mention.com\n"
         "@kawaztan_mention\n"
-        "@kawaztan_unknown\n")
-
+        "@kawaztan_unknown\n"
+        "{attachments:5b03e446478d6d7ae7211e1657e7b6a6a68f7777}\n")
         after = ("""<p><a href="http://www.kawaz.org/" rel="nofollow">http://www.kawaz.org/</a>\n"""
                  """<a href="http://nicovideo.jp/watch/sm9/" rel="nofollow">http://nicovideo.jp/watch/sm9/</a>\n"""
                  """<a href="http://www.nicovideo.jp/watch/sm9">ニコニコ動画</a>\n"""
@@ -52,5 +55,9 @@ class ParserTemplateTagTestCase(TestCase):
                  """\n"""
                  """<p><a href="mailto:hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com">hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com</a>\n"""
                  """<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>\n"""
-                 "@kawaztan_unknown</p>")
+                 "@kawaztan_unknown\n"
+                 """<a href="attachments/kawaztan1/kawaztan.png" rel="lightbox" data-lightbox="thumbnail">\n"""
+                 """    <img src="attachments/kawaztan1/kawaztan.png" alt="kawaztan.png" style="max-width: 600px;" />\n"""
+                 "</a>"
+                 "</p>")
         self._test_href_tag(before, after)
