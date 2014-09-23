@@ -109,6 +109,9 @@ class Material(models.Model):
         mime_type_guess = mimetypes.guess_type(self.filename)
         return mime_type_guess[0]
 
+    def get_attachment_tag(self):
+        return "{attachment:%s}" % (self.slug,)
+
 from permission import add_permission_logic
 from kawaz.core.personas.perms import ChildrenPermissionLogic
 add_permission_logic(Material, ChildrenPermissionLogic(

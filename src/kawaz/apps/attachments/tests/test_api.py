@@ -1,4 +1,5 @@
 import os
+import json
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from rest_framework.test import APITestCase
@@ -34,6 +35,12 @@ class MaterialCreateAPITestCase(MaterialAPITestCaseBase):
                 self.assertEqual(r.status_code, 201,
                                  '{} should upload materials '
                                  'via API'.format(role))
+                dict = json.loads(r.content.decode())
+                self.assertTrue('tag' in dict)
+                self.assertTrue('slug' in dict)
+                self.assertTrue('author' in dict)
+                self.assertTrue('ip_address' in dict)
+                self.assertTrue('content_file' in dict)
             else:
                 self.assertEqual(r.status_code, 403,
                                  '{} should not be enable to '
