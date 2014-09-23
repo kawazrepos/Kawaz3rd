@@ -7,6 +7,7 @@ __author__ = 'giginet'
 import os
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from django.conf import settings
 
 def get_thumbnail_html(material):
     """
@@ -17,7 +18,7 @@ def get_thumbnail_html(material):
     """
     def render_template(filename):
         path = os.path.join("attachments", "embed", "{}.html".format(filename))
-        template = render_to_string(path, {'material': material})
+        template = render_to_string(path, {'material': material, "MEDIA_URL": settings.MEDIA_URL})
         return mark_safe(template)
 
     if material.is_image:
