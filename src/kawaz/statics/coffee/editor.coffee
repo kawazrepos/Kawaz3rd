@@ -10,6 +10,10 @@ $ ->
       )
     )
     $dialog.data("$targetEditor", $targetEditor)
+    $progress = $dialog.find(".progress-bar")
+    $progress.text("")
+    $progress("aria-valuenow", 0)
+    $progress.css("width", "0%")
 
   $editors = $('.mace-editor')
 
@@ -46,15 +50,26 @@ angular.kawaz.controller('AttachmentController', ($scope, $http, $upload) ->
     $dialog = $($event.target).closest('#attachment-dialog')
     $editor = $dialog.data("$targetEditor")
     mace = $editor.data("mace")
+    $progress = $dialog.find(".progress-bar")
+
+    setPercentage = (percent, label) ->
+      label = label or "#{percent}%"
+      $progress.attr("aria-valuenow", percent)
+      $progress.css("width", "#{percent}%")
+      $progress.text(label)
+
     for file in $files
       $scope.upload = $upload.upload(
         url: '/api/materials'
         data :
           "content_file": file
       ).progress((evt) ->
-        @
+        percent = parseInt(100.0 * evt.loaded / evt.total)
+        setPercentage(percent)
+
       ).success((data, status, headers, config) ->
         tag = data["tag"]
         mace.ace.insert(tag)
+        setPercentage(100, "Completed")
       )
 )
