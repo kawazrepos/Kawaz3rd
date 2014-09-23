@@ -1,0 +1,15 @@
+<div>
+    <div id="attachment-dialog" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <form name="attachmentForm">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <input type="file" ng-model="fileField" placeholder="例：日記" required>
+                        <input type="submit" ng-disabled="!attachmentForm.$valid" class="btn btn-primary btn-sm" value="素材の追加">
+                        <p>編集に戻るにはフォーム以外の部分をクリックしてください</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

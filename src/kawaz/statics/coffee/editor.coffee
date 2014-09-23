@@ -1,6 +1,18 @@
 # 後で widget 化
 
 $ ->
+  # 添付素材用のポップアップを表示する
+  showAttachmentPopup = ->
+    console.log($('#attachment-dialog'))
+    $dialog = $('#attachment-dialog').on('show.bs.modal', ->
+      console.log("huga")
+      $input = $(@).find("input[type='text']")
+      .hide()
+      .fadeIn('fast', () ->
+        $(@).focus()
+      )
+    )
+
   $editors = $('.mace-editor')
 
   $editors = $editors.each(->
@@ -27,4 +39,5 @@ $ ->
     $control.find('.mace-heading-1').click(mace.heading.bind(mace, 1))
     $control.find('.mace-heading-2').click(mace.heading.bind(mace, 2))
     $control.find('.mace-heading-3').click(mace.heading.bind(mace, 3))
+    $control.find('.mace-attachment').click(showAttachmentPopup)
   )
