@@ -29,7 +29,6 @@ class ParserTemplateTagTestCase(TestCase):
         いろいろ混ざった物を正しく展開します
         """
         material = MaterialFactory(content_file="kawaztan.png")
-        print(material.slug)
         PersonaFactory(username='kawaztan_mention')
         before = ("http://www.kawaz.org/\n"
         "http://nicovideo.jp/watch/sm9/\n"
@@ -58,6 +57,6 @@ class ParserTemplateTagTestCase(TestCase):
                  "@kawaztan_unknown\n"
                  """<a href="attachments/kawaztan1/kawaztan.png" rel="lightbox" data-lightbox="thumbnail">\n"""
                  """    <img src="attachments/kawaztan1/kawaztan.png" alt="kawaztan.png" style="max-width: 600px;" />\n"""
-                 "</a>"
+                 "</a>\n"
                  "</p>")
         self._test_href_tag(before, after)
