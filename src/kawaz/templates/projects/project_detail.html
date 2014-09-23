@@ -10,11 +10,11 @@
 
 {% block content-header %}
   <div id="project-detail-wrap">
-    <div class="page-header">
+    <div class="page-header project-detail-title{% if project.pub_state == "protected" %} bg-protected{% endif %}">
       {% if project.pub_state == 'public' %}
       <h1>{{ project.title }}</h1>
       {% elif project.pub_state == 'protected' %}
-      <span class="mega-octicon octicon-lock"></span>
+      <img src="{% static "img/lock-icon1.png" %}" class="project-lock-icon" alt="protected project"/>
       <h1>{{ project.title }}</h1>
       {% endif %}
     </div>

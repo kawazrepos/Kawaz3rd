@@ -132,12 +132,26 @@
 // project-detail
 #project-detail-wrap {
   .page-header {
+    &.project-detail-title {
+      padding: 10px 5px;
+    }
     h1 {
-      display: inline;
+      display: inline-block;
+      margin: 0;
+      vertical-align: middle;
     }
     span {
       margin-right: 10px;
     }
+    .project-lock-icon {
+      width: 20px;
+      margin-right: 5px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  .bg-protected {
+    background: #FCF8E3;
   }
 
   dl {
