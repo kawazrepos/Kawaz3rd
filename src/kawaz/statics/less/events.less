@@ -20,8 +20,10 @@
 	.event-title {
 		border-bottom: 1px solid #eee;
 		margin: 5px 0 10px;
-		padding-bottom: 10px;
-
+		padding: 10px 5px;
+		&.bg-protected {
+			background: #FCF8E3;
+		}
 		img {
 			width: 20px;
 			margin-right: 5px;
@@ -32,18 +34,20 @@
 			margin: 0;
 			display: inline-block;
 			vertical-align: middle;
-
 		}
 	}
 
 	.page-header-left {
 		.event-info-wrap {
 			display: table;
-			&.event-info-wrap-high {
-				min-height: 140px;
+			&.event-info-wrap-middle {
+				min-height: 175px;
 			}
 			&.event-info-wrap-low {
-				min-height: 90px;
+				min-height: 155px;
+			}
+			&.event-info-wrap-high {
+				min-height: 180px;
 			}
 			.event-info {
 				display:table-cell;
@@ -66,8 +70,9 @@
 		}
 	}
 	.page-header-right {
+		text-align: center;
 		.event-join-utility {
-			text-align: center;
+			margin-top: 20px;
 			.event-join-btn {
 				padding: 20px 30px;
 				background: @button-bg-color;
@@ -80,34 +85,62 @@
 					margin-right: 10px;
 				}
 			}
-			p {
-				&.event-join-count {
-					color: #666;
-					margin: 5px;
+			.event-leave-btn {
+				padding: 20px 30px;
+				background: @leave-button-bg-color;
+				color: @leave-text-color;
+				border: 1px solid @leave-button-border-color;
+				span {
+					font-size: 21px;
 				}
-				&.event-status {
-					font-size: 28px;
-					font-weight: bold;
-					border-radius: 10px;
-					color: #fff;
-					padding: 20px 0px;
-				}
-				&.event-recruit {
-					background: @brand-primary;
-				}
-				&.event-closed {
-					background: @brand-danger;
+				span:first-child {
+					margin-right: 10px;
 				}
 			}
 			dl {
 				margin: 0;
 			}
-
 			.event-join-btn:hover {
 				background: @button-bg-color-hover;
 				color: @button-border-color-hover;
 			}
+			.event-leave-btn:hover {
+				background: @leave-button-bg-color-hover;
+			}
 		}
+		dl {
+			dt {
+				&.attendance-deadline-dt {
+					margin-top: 5px;
+				}
+			}
+		}
+
+		p {
+				&.event-join-count {
+					color: #666;
+					margin-bottom: 5px;
+				}
+				&.event-status {
+					font-size: 18px;
+					font-weight: bold;
+					border-radius: 10px;
+					color: #fff;
+					padding: 20px 0px;
+					margin-top: 20px;
+				}
+				&.event-closed {
+					background: @brand-danger;
+				}
+				&.event-recruit {
+					background: @brand-primary;
+				}
+				&.event-outside {
+					background: @brand-info;
+					font-size: 14px;
+					padding: 12px;
+				}
+			}
 	}
 }
 .event-member-list {
