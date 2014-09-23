@@ -137,6 +137,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   &-huge { .avatar(@avatar-size-huge); }
 }
 .avatar(@size) {
+  width: @size;
+  height: @size;
   @radius: @size / 2.0;
   border-radius: @radius;
   border: 2px solid @gray-lighter;

@@ -4,8 +4,9 @@
     <script type="text/ng-template" id="star_item.html">
         <div class="star-user">
             <a ng-href="[[ star.author.url ]]">
-                <img class="avatar" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar ]]'>
-                {% if user has 'stars_star_add' of object %}
+                <img class="avatar avatar-small" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar ]]'>
+            {# TODO starをcontextで引っ張ってこないといけない #}
+                {% if user has 'stars.delete_star' of object %}
                     <a href="#" class="star-remove" ng-click="deleteStar(star);" ng-show="star.visible"><span class="glyphicon glyphicon-remove"></span></a>
                 {% endif %}
             </a>
@@ -20,7 +21,7 @@
     <input type="hidden" ng-model="endpoint" ng-init="endpoint='{{ endpoint }}';fetchStars();">
     <div class="star-container">
         <div class="row">
-            {% if user has 'stars.star_add' of object %}
+            {% if user has 'stars.add_star' of object %}
                 <div class="star-add-button-col col-lg-1">
                     <button class="btn btn-primary btm-sm add-star-button" ng-click="addStar($event);"><span class="glyphicon glyphicon-star"></span>イイネ</button>
                 </div>
