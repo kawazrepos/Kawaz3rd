@@ -5,161 +5,161 @@
 
 // common
 .glyph-large-icon {
-	font-size: 1.5em;
-	color: @footer-color;
+  font-size: 1.5em;
+  color: @footer-color;
 }
 
 
 // event-detail
 .event-detail-header-wrap {
-	.event-category {
-		span:first-child {
-			margin-right: 5px;
-		}
-	}
-	.event-title {
-		border-bottom: 1px solid #eee;
-		margin: 5px 0 10px;
-		padding: 10px 5px;
-		&.bg-protected {
-			background: #FCF8E3;
-		}
-		img {
-			width: 20px;
-			margin-right: 5px;
-			display: inline-block;
-			vertical-align: middle;
-		}
-		h2 {
-			margin: 0;
-			display: inline-block;
-			vertical-align: middle;
-		}
-	}
+  .event-category {
+    span:first-child {
+      margin-right: 5px;
+    }
+  }
+  .event-title {
+    border-bottom: 1px solid #eee;
+    margin: 5px 0 10px;
+    padding: 10px 5px;
+    &.bg-protected {
+      background: #FCF8E3;
+    }
+    img {
+      width: 20px;
+      margin-right: 5px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    h2 {
+      margin: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
 
-	.page-header-left {
-		.event-info-wrap {
-			display: table;
-			&.event-info-wrap-middle {
-				min-height: 175px;
-			}
-			&.event-info-wrap-low {
-				min-height: 155px;
-			}
-			&.event-info-wrap-high {
-				min-height: 180px;
-			}
-			.event-info {
-				display:table-cell;
-					vertical-align:middle;
-					line-height:1.5em;
-				.event-info-detail {
-					font-size: 18px;
-					span {
-						display: inline;
-						vertical-align: middle;
-					}
-					.event-place-map:hover {
-						text-decoration: none;
-					}
-				}
-				.event-datetime-wrap {
-					margin-bottom: 20px;
-				}
-			}
-		}
-	}
-	.page-header-right {
-		text-align: center;
-		.event-join-utility {
-			margin-top: 20px;
-			.event-join-btn {
-				padding: 20px 30px;
-				background: @button-bg-color;
-				color: @button-text-color;
-				border: 1px solid @button-bg-color;
-				span {
-					font-size: 21px;
-				}
-				span:first-child {
-					margin-right: 10px;
-				}
-			}
-			.event-leave-btn {
-				padding: 20px 30px;
-				background: @leave-button-bg-color;
-				color: @leave-text-color;
-				border: 1px solid @leave-button-border-color;
-				span {
-					font-size: 21px;
-				}
-				span:first-child {
-					margin-right: 10px;
-				}
-			}
-			dl {
-				margin: 0;
-			}
-			.event-join-btn:hover {
-				background: @button-bg-color-hover;
-				color: @button-border-color-hover;
-			}
-			.event-leave-btn:hover {
-				background: @leave-button-bg-color-hover;
-			}
-		}
-		dl {
-			dt {
-				&.attendance-deadline-dt {
-					margin-top: 5px;
-				}
-			}
-		}
+  .page-header-left {
+    .event-info-wrap {
+      display: table;
+      &.event-info-wrap-middle {
+        min-height: 175px;
+      }
+      &.event-info-wrap-low {
+        min-height: 155px;
+      }
+      &.event-info-wrap-high {
+        min-height: 180px;
+      }
+      .event-info {
+        display:table-cell;
+        vertical-align:middle;
+        line-height:1.5em;
+        .event-info-detail {
+          font-size: 18px;
+          span {
+            display: inline;
+            vertical-align: middle;
+          }
+          .event-place-map:hover {
+            text-decoration: none;
+          }
+        }
+        .event-datetime-wrap {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+  .page-header-right {
+    text-align: center;
+    .event-join-utility {
+      margin-top: 20px;
+      .event-join-btn {
+        padding: 20px 30px;
+        background: @button-bg-color;
+        color: @button-text-color;
+        border: 1px solid @button-bg-color;
+        span {
+          font-size: 21px;
+        }
+        span:first-child {
+          margin-right: 10px;
+        }
+      }
+      .event-leave-btn {
+        padding: 20px 30px;
+        background: @leave-button-bg-color;
+        color: @leave-text-color;
+        border: 1px solid @leave-button-border-color;
+        span {
+          font-size: 21px;
+        }
+        span:first-child {
+          margin-right: 10px;
+        }
+      }
+      dl {
+        margin: 0;
+      }
+      .event-join-btn:hover {
+        background: @button-bg-color-hover;
+        color: @button-border-color-hover;
+      }
+      .event-leave-btn:hover {
+        background: @leave-button-bg-color-hover;
+      }
+    }
+    dl {
+      dt {
+        &.attendance-deadline-dt {
+          margin-top: 5px;
+        }
+      }
+    }
 
-		p {
-				&.event-join-count {
-					color: #666;
-					margin-bottom: 5px;
-				}
-				&.event-status {
-					font-size: 18px;
-					font-weight: bold;
-					border-radius: 10px;
-					color: #fff;
-					padding: 20px 0px;
-					margin-top: 20px;
-				}
-				&.event-closed {
-					background: @brand-danger;
-				}
-				&.event-recruit {
-					background: @brand-primary;
-				}
-				&.event-outside {
-					background: @brand-info;
-					font-size: 14px;
-					padding: 12px;
-				}
-			}
-	}
+    p {
+      &.event-join-count {
+        color: #666;
+        margin-bottom: 5px;
+      }
+      &.event-status {
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 10px;
+        color: #fff;
+        padding: 20px 0px;
+        margin-top: 20px;
+      }
+      &.event-closed {
+        background: @brand-danger;
+      }
+      &.event-recruit {
+        background: @brand-primary;
+      }
+      &.event-outside {
+        background: @brand-info;
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
+  }
 }
 .event-member-list {
-	ul {
-		list-style-type: none;
-		padding: 0;
-	}
-	.event-member-head {
-		h2 {
-			float: left;
-			text-align: left;
-		}
-		p {
-			text-align: right;
-			margin: 0;
-		}
-	}
-	.member-list-organizer {
-		border: none;
-	}
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .event-member-head {
+    h2 {
+      float: left;
+      text-align: left;
+    }
+    p {
+      text-align: right;
+      margin: 0;
+    }
+  }
+  .member-list-organizer {
+    border: none;
+  }
 }
 
