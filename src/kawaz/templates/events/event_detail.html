@@ -74,7 +74,7 @@
                     </a>
                     {% if event.number_restriction %}
                         <p class="event-join-count">
-                            あと{{ event.number_restriction }}人参加できます</p>
+                            {% trans "あと" %}{{ event.number_restriction }}{% trans "人参加できます" %}</p>
                     {% endif %}
 
                 {% elif user has 'events.delete_event' of event %}
@@ -85,7 +85,7 @@
                         <p class="event-recruit event-status">{% trans "参加者募集中" %}</p>
                         {% if event.number_restriction %}
                             <p class="event-join-count">
-                                あと{{ event.number_restriction }}人参加できます</p>
+                                {% trans "あと" %}{{ event.number_restriction }}{% trans "人参加できます" %}</p>
                         {% endif %}
                     {% endif %}
                 {% elif user has 'events.quit_event' of event %}
