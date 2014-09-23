@@ -54,7 +54,7 @@
                         <span class="glyphicon glyph-large-icon glyphicon-flag"></span>
                         <span class="event-place">{{ event.place }}</span>
                         <a class="event-place-map"
-                           title="{% trans "See this place in Googlemap" %}"
+                           title="{% trans "See this place in Google Map" %}"
                            href="http://maps.google.com/?q={{ event.place }}"
                            target="_blank" rel="tooltip" data-toggle="tooltip"
                            data-placement="top"><span
@@ -110,7 +110,6 @@
                     <dt class="attendance-deadline-dt">{% trans "参加締切日" %}</dt>
                     <dd>
                         <span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
-
                         {% trans "まで" %}
                     </dd>
                 </dl>
@@ -139,7 +138,7 @@
             <a href="{{ object.organizer.profile.get_absolute_url }}"
                class="list-group-item member-list-organizer">
                 <img src="{{ object.organizer.avatar.middle.url }}"
-                     alt="{{ object.organizer.nickname }} Avater"
+                     alt="{{ object.organizer.nickname }} Avatar"
                      class="avatar avatar-middle"/> {{ object.organizer.nickname }}
             </a>
         </div>
@@ -157,7 +156,7 @@
                            class="list-group-item ">
                             <img src="
                                     {{ MEDIA_URL }}{{ attendee.avatar.middle }}"
-                                 alt="{{ attendee.nickname }} Avater"
+                                 alt="{{ attendee.nickname }} Avatar"
                                  class="avatar avatar-middle"/> {{ attendee.nickname }}
                         </a>
                     {% endif %}
