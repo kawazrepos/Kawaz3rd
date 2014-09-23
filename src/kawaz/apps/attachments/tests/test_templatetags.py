@@ -44,6 +44,13 @@ class AttachmentTemplateTagTestCase(TestCase):
 
         self._test_attachments_tag(before, after)
 
+    def test_with_invalid_slug(self):
+        before = """
+        みんなのアイドルです {attachments:aaaaaaaaaaaaaaaaaa}
+        """
+        after = before
+        self._test_attachments_tag(before, after)
+
     def test_with_image(self):
         """
         画像ファイルのサムネイルが展開される
