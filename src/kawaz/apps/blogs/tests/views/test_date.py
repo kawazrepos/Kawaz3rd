@@ -1,11 +1,11 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
-from django.utils.timezone import get_current_timezone
+from django.utils.timezone import get_default_timezone
 from ..factories import EntryFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
 
 def get_local_time(dt):
-    tz = get_current_timezone()
+    tz = get_default_timezone()
     return dt.astimezone(tz)
 
 class EntryYearArchiveViewTestCase(TestCase):

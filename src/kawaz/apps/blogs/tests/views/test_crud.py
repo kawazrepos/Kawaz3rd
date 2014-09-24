@@ -1,4 +1,4 @@
-from django.utils.timezone import datetime, get_current_timezone
+from django.utils.timezone import datetime, get_default_timezone
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test import TestCase
@@ -223,7 +223,7 @@ class EntryUpdateViewTestCase(TestCase):
             'title' : 'やっぱり書き換えます！',
             'body' : 'うえーい',
         })
-        tz = get_current_timezone()
+        tz = get_default_timezone()
         publish_at = self.entry.publish_at.astimezone(tz)
         self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(publish_at.year, publish_at.month, publish_at.day))
         self.assertEqual(Entry.objects.count(), 1)
@@ -245,7 +245,7 @@ class EntryUpdateViewTestCase(TestCase):
             'body' : 'うえーい',
             'author' : other.pk # crackers attempt to masquerade
         })
-        tz = get_current_timezone()
+        tz = get_default_timezone()
         publish_at = self.entry.publish_at.astimezone(tz)
         self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(publish_at.year, publish_at.month, publish_at.day))
         self.assertEqual(Entry.objects.count(), 1)
