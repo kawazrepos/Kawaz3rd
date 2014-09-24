@@ -3,4 +3,4 @@
 	url = git://github.com/kawazrepos/bootstrap.git
 [submodule "src/kawaz/statics/vendor/angular-file-upload"]
 	path = src/kawaz/statics/vendor/angular-file-upload
-	url = git@github.com:danialfarid/angular-file-upload.git
+	url = git://github.com/danialfarid/angular-file-upload.git
