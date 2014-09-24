@@ -13,7 +13,7 @@
 {% block content-header %}
 <div class="page-header event-detail-header-wrap">
     <div class="event-category">
-        <span class="glyphicon glyphicon-folder-open"></span>
+        <span class="glyphicon glyphicon-folder-open event-category-icon"></span>
         <span>{{ event.category | default_if_none:"未設定" }}</span>
     </div>
     <div class="event-title{% if object.pub_state == "protected" %} bg-protected{% endif %}">
@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col col-lg-9 col-xs-12 page-header-left">
 
-            <div class="event-info-wrap event-info-wrap-{% if event.is_over_restriction or event.is_over_deadline %}low{% elif event.organizer == user %}high{% else %}middle{% endif %}">
+            <div class="event-info-wrap event-info-wrap-{% if event.is_over_restriction or event.is_over_deadline or user has 'events.quit_event' of event %}low{% elif event.organizer == user %}high{% else %}middle{% endif %}">
                 <div class="event-info">
                     <div class="event-datetime-wrap event-info-detail">
                         <span class="glyphicon glyph-large-icon glyphicon-time"></span>
@@ -52,19 +52,24 @@
                     </div>
                     <div class="event-place-wrap event-info-detail">
                         <span class="glyphicon glyph-large-icon glyphicon-flag"></span>
+                        {% if event.place %}
                         <span class="event-place">{{ event.place }}</span>
                         <a class="event-place-map"
-                           title="{% trans "See this place in Google Map" %}"
+                           title="{% trans "See this place in Google Maps" %}"
                            href="http://maps.google.com/?q={{ event.place }}"
                            target="_blank" rel="tooltip" data-toggle="tooltip"
                            data-placement="top"><span
-                                class="glyphicon glyphicon-map-marker"></span></a>
+                                class="glyphicon glyphicon-map-marker"></span>
+                        </a>
+                        {% else %}
+                        <span class="event-place">{% trans "開催場所未定" %}</span>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
         <div class="col col-lg-3 col-xs-12 page-header-right">
-            <div class="event-join-utility event-open">
+            <div class="event-join-utility">
 
                 {% if user has 'events.attend_event' of event %}
                     {# 参加できる状態 #}
@@ -103,20 +108,19 @@
                         <p class="event-outside event-status">{% trans "イベントに参加するには<br>ログインする必要があります" %}</p>
                     {% endif %}
                 {% endif %}
-
+                {% if event.attendance_deadline %}
+                    <dl>
+                        <dt class="attendance-deadline">{% trans "参加締切日" %}</dt>
+                        <dd>
+                            <span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
+                            {% trans "まで" %}
+                        </dd>
+                    </dl>
+                {% else %}
+                <p class="attendance-deadline">参加締切はありません</p>
+                {% endif %}
             </div>
-            {% if event.attendance_deadline %}
-                <dl>
-                    <dt class="attendance-deadline-dt">{% trans "参加締切日" %}</dt>
-                    <dd>
-                        <span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
-                        {% trans "まで" %}
-                    </dd>
-                </dl>
-            {% endif %}
-
         </div>
-
     </div>
 </div>
 {% endblock %}
@@ -137,7 +141,7 @@
             </div>
             <a href="{{ object.organizer.profile.get_absolute_url }}"
                class="list-group-item member-list-organizer">
-                <img src="{{ object.organizer.avatar.middle.url }}"
+                <img src="{{ MEDIA_URL }}{{ object.organizer.avatar.middle }}"
                      alt="{{ object.organizer.nickname }} Avatar"
                      class="avatar avatar-middle"/> {{ object.organizer.nickname }}
             </a>
@@ -154,10 +158,10 @@
                     {% if attendee != object.organizer %}
                         <a href="{{ attendee.profile.get_absolute_url }}"
                            class="list-group-item ">
-                            <img src="
-                                    {{ MEDIA_URL }}{{ attendee.avatar.middle }}"
+                            <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}"
                                  alt="{{ attendee.nickname }} Avatar"
                                  class="avatar avatar-middle"/> {{ attendee.nickname }}
+
                         </a>
                     {% endif %}
                 {% endfor %}
@@ -171,12 +175,6 @@
                 <h2 class="panel-title">{% trans "Administration" %}</h2>
             </div>
             <div class="list-group">
-                {% if user has 'events.add_event' of object %}
-                    <a class="list-group-item list-group-item-success"
-                       href="{% url "events_event_create" object.pk %}"><span
-                            class="glyphicon glyphicon-plus"></span> {% trans "Create event" %}
-                    </a>
-                {% endif %}
                 {% if user has 'events.change_event' of object %}
                     <a class="list-group-item"
                        href="{% url "events_event_update" object.pk %}"><span

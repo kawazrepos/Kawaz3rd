@@ -13,17 +13,14 @@
 // event-detail
 .event-detail-header-wrap {
   .event-category {
-    span:first-child {
+    .event-category-icon {
       margin-right: 5px;
     }
   }
   .event-title {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid @gray-lighter;
     margin: 5px 0 10px;
     padding: 10px 5px;
-    &.bg-protected {
-      background: #FCF8E3;
-    }
     img {
       width: 20px;
       margin-right: 5px;
@@ -108,12 +105,8 @@
         background: @leave-button-bg-color-hover;
       }
     }
-    dl {
-      dt {
-        &.attendance-deadline-dt {
-          margin-top: 5px;
-        }
-      }
+    .attendance-deadline {
+      margin-top: 5px;
     }
 
     p {
@@ -124,7 +117,7 @@
       &.event-status {
         font-size: 18px;
         font-weight: bold;
-        border-radius: 10px;
+        .border-radius (5px);
         color: #fff;
         padding: 20px 0px;
         margin-top: 20px;
