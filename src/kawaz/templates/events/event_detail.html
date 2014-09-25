@@ -14,11 +14,11 @@
 <div class="page-header event-detail-header-wrap">
     <div class="event-category">
         <span class="glyphicon glyphicon-folder-open event-category-icon"></span>
-        <span>{{ event.category | default_if_none:"未設定" }}</span>
+        <span>{{ event.category.label | default_if_none:"未設定" }}</span>
     </div>
     <div class="event-title{% if object.pub_state == "protected" %} bg-protected{% endif %}">
         {% if event.pub_state == 'protected' %}
-            <img src="{% static "img/lock-icon1.png" %}" alt="locked event"/>
+            <img src="{% static "img/lock-icon1.png" %}" alt="Internal Event"/>
         {% endif %}
         <h2>{{ event.title }}</h2>
     </div>
@@ -79,9 +79,11 @@
                     </a>
                     {% if event.number_restriction %}
                         <p class="event-join-count">
-                            {% trans "あと" %}{{ event.number_restriction }}{% trans "人参加できます" %}</p>
+                            {% blocktrans %}
+                            あと{{event.number_restriction }}人参加できます
+                            {% endblocktrans %}
+                        </p>
                     {% endif %}
-
                 {% elif user has 'events.delete_event' of event %}
                     {# イベント管理者向け #}
                     {% if event.is_over_restriction or event.is_over_deadline %}
@@ -90,7 +92,10 @@
                         <p class="event-recruit event-status">{% trans "参加者募集中" %}</p>
                         {% if event.number_restriction %}
                             <p class="event-join-count">
-                                {% trans "あと" %}{{ event.number_restriction }}{% trans "人参加できます" %}</p>
+                                {% blocktrans %}
+                                あと{{event.number_restriction }}人参加できます
+                                {% endblocktrans %}
+                            </p>
                         {% endif %}
                     {% endif %}
                 {% elif user has 'events.quit_event' of event %}
@@ -112,12 +117,14 @@
                     <dl>
                         <dt class="attendance-deadline">{% trans "参加締切日" %}</dt>
                         <dd>
-                            <span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
-                            {% trans "まで" %}
+                            {% blocktrans %}
+                                <span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
+                                まで
+                            {% endblocktrans %}
                         </dd>
                     </dl>
                 {% else %}
-                <p class="attendance-deadline">参加締切はありません</p>
+                <p class="attendance-deadline">{% trans "参加締切はありません" %}</p>
                 {% endif %}
             </div>
         </div>
@@ -150,8 +157,11 @@
         <div class="panel panel-default">
             <div class="panel-heading event-member-head">
                 <h2 class="panel-title">{% trans "参加者" %}</h2>
-
-                <p>{{ event.attendees.count|add:"-1" }}{% trans "人参加中" %}</p>
+                <p>
+                    {% blocktrans %}
+                    {{ event.attendees.count|add:"-1" }}{% trans "人参加中" %}
+                    {% endblocktrans %}
+                </p>
             </div>
             <ul class="list-group">
                 {% for attendee in event.attendees.all %}
@@ -161,7 +171,6 @@
                             <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}"
                                  alt="{{ attendee.nickname }} Avatar"
                                  class="avatar avatar-middle"/> {{ attendee.nickname }}
-
                         </a>
                     {% endif %}
                 {% endfor %}
