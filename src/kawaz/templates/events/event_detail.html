@@ -80,7 +80,7 @@
                     {% if event.number_restriction %}
                         <p class="event-join-count">
                             {% blocktrans %}
-                            あと{{event.number_restriction }}人参加できます
+                            あと{{ event.number_restriction }}人参加できます
                             {% endblocktrans %}
                         </p>
                     {% endif %}
@@ -117,14 +117,11 @@
                     <dl>
                         <dt class="attendance-deadline">{% trans "参加締切日" %}</dt>
                         <dd>
-                            {% blocktrans %}
-                                <span>{{ event.attendance_deadline | date:"Y年m月d日" }}</span>
-                                まで
-                            {% endblocktrans %}
+                            <span>{{ event.attendance_deadline | date:"Y年m月d日" }}{% trans "まで" %}</span>
                         </dd>
                     </dl>
                 {% else %}
-                <p class="attendance-deadline">{% trans "参加締切はありません" %}</p>
+                    <p class="attendance-deadline">{% trans "参加締切はありません" %}</p>
                 {% endif %}
             </div>
         </div>
@@ -159,7 +156,7 @@
                 <h2 class="panel-title">{% trans "参加者" %}</h2>
                 <p>
                     {% blocktrans %}
-                    {{ event.attendees.count|add:"-1" }}{% trans "人参加中" %}
+                    {{ event.attendees.count|add:"-1" }}人参加中
                     {% endblocktrans %}
                 </p>
             </div>
