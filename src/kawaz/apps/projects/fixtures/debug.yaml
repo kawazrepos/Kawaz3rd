@@ -156,7 +156,7 @@
   pk: 2
   fields:
     pub_state: public
-    status: active
+    status: done
     title: 人類補完計画
     slug: human-race-supplementation-plan
     body: |-

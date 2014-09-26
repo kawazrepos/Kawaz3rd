@@ -1,8 +1,200 @@
-{% extends "base.html" %}
-{% block content %}
-    {{ object.title }}
+{% extends "twopane.html" %}
+{% load utils %}
+
+{% load staticfiles %}
+{% load i18n %}
+{% load events_tags %}
+
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/events.css" %}" media="screen">
+{% endblock %}
+
+{% block content-header %}
+<div class="page-header event-detail-header-wrap">
+    <div class="event-category">
+        <span class="glyphicon glyphicon-folder-open event-category-icon"></span>
+        <span>{{ event.category.label | default_if_none:"未設定" }}</span>
+    </div>
+    <div class="event-title{% if object.pub_state == "protected" %} bg-protected{% endif %}">
+        {% if event.pub_state == 'protected' %}
+            <img src="{% static "img/lock-icon1.png" %}" alt="Internal Event"/>
+        {% endif %}
+        <h2>{{ event.title }}</h2>
+    </div>
+    <div class="row">
+        <div class="col col-lg-9 col-xs-12 page-header-left">
+
+            <div class="event-info-wrap event-info-wrap-{% if event.is_over_restriction or event.is_over_deadline or user has 'events.quit_event' of event %}low{% elif event.organizer == user %}high{% else %}middle{% endif %}">
+                <div class="event-info">
+                    <div class="event-datetime-wrap event-info-detail">
+                        <span class="glyphicon glyph-large-icon glyphicon-time"></span>
+                        {% if not event.period_start and not event.period_end %}
+                            {# 開始日時未定and終了日時未定 #}
+                            {% trans "未定" %}
+                        {% elif not event.period_end %}
+                            <span class="event-date">{{ event.period_start | date:"Y年m月d日" }}</span>
+                            <span class="{% get_week_day event.period_start %}">{{ event.period_start | date:"（l）" }}</span>
+                            <span>{{ event.period_start | date:"G時i分" }}</span>
+                            <span>{% trans "〜" %}</span>
+                            {% trans "終了日時未定" %}
+                        {% else %}
+                            <span class="event-date">{{ event.period_start | date:"Y年m月d日" }}</span>
+                            <span class="{% get_week_day event.period_start %}">{{ event.period_start | date:"（l）" }}</span>
+                            <span>{{ event.period_start | date:"G時i分" }}</span>
+                            {% if event.period_end %}
+                                <span>{% trans "〜" %}</span>
+                                <span class="event-time">{{ event.period_end | date:"Y年m月d日" }}</span>
+                                <span class="{% get_week_day event.period_end %}">{{ event.period_end | date:"（l）" }}</span>
+                                <span>{{ event.period_start | date:"G時i分" }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="event-place-wrap event-info-detail">
+                        <span class="glyphicon glyph-large-icon glyphicon-flag"></span>
+                        {% if event.place %}
+                        <span class="event-place">{{ event.place }}</span>
+                        <a class="event-place-map"
+                           title="{% trans "See this place in Google Maps" %}"
+                           href="http://maps.google.com/?q={{ event.place }}"
+                           target="_blank" rel="tooltip" data-toggle="tooltip"
+                           data-placement="top"><span
+                                class="glyphicon glyphicon-map-marker"></span>
+                        </a>
+                        {% else %}
+                        <span class="event-place">{% trans "開催場所未定" %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-xs-12 page-header-right">
+            <div class="event-join-utility">
+
+                {% if user has 'events.attend_event' of event %}
+                    {# 参加できる状態 #}
+                    <a href="{% url "events_event_join" event.pk %}"
+                       class="btn btn-success event-join-btn btn-large">
+                        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Join This Event" %}</span>
+                    </a>
+                    {% if event.number_restriction %}
+                        <p class="event-join-count">
+                            {% blocktrans %}
+                            あと{{ event.number_restriction }}人参加できます
+                            {% endblocktrans %}
+                        </p>
+                    {% endif %}
+                {% elif user has 'events.delete_event' of event %}
+                    {# イベント管理者向け #}
+                    {% if event.is_over_restriction or event.is_over_deadline %}
+                        <p class="event-closed event-status">{% trans "参加者締め切りました" %}</p>
+                    {% else %}
+                        <p class="event-recruit event-status">{% trans "参加者募集中" %}</p>
+                        {% if event.number_restriction %}
+                            <p class="event-join-count">
+                                {% blocktrans %}
+                                あと{{event.number_restriction }}人参加できます
+                                {% endblocktrans %}
+                            </p>
+                        {% endif %}
+                    {% endif %}
+                {% elif user has 'events.quit_event' of event %}
+                    {# イベント参加者 #}
+                    <a href="{% url "events_event_quit" event.pk %}"
+                       class="btn event-leave-btn btn-large">
+                        <span class="glyphicon glyphicon-log-out"></span><span>{% trans "Leave This Event" %}</span>
+                    </a>
+                {% else %}
+                    {% if event.is_over_restriction or event.is_over_deadline %}
+                        {# closeしたイベント #}
+                        <p class="event-closed event-status">{% trans "参加者締め切りました" %}</p>
+                    {% else %}
+                        {# 外部ユーザ向け #}
+                        <p class="event-outside event-status">{% trans "イベントに参加するには<br>ログインする必要があります" %}</p>
+                    {% endif %}
+                {% endif %}
+                {% if event.attendance_deadline %}
+                    <dl>
+                        <dt class="attendance-deadline">{% trans "参加締切日" %}</dt>
+                        <dd>
+                            <span>{{ event.attendance_deadline | date:"Y年m月d日" }}{% trans "まで" %}</span>
+                        </dd>
+                    </dl>
+                {% else %}
+                    <p class="attendance-deadline">{% trans "参加締切はありません" %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block content-main %}
     <article class="markdown">
         {{ object.body | markdown }}
     </article>
     {% include "components/star_container.html" %}
+{% endblock %}
+{% block content-aside %}
+    <div class="event-member-list">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "主催者" %}</h2>
+            </div>
+            <a href="{{ object.organizer.profile.get_absolute_url }}"
+               class="list-group-item member-list-organizer">
+                <img src="{{ MEDIA_URL }}{{ object.organizer.avatar.middle }}"
+                     alt="{{ object.organizer.nickname }} Avatar"
+                     class="avatar avatar-middle"/> {{ object.organizer.nickname }}
+            </a>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading event-member-head">
+                <h2 class="panel-title">{% trans "参加者" %}</h2>
+                <p>
+                    {% blocktrans %}
+                    {{ event.attendees.count|add:"-1" }}人参加中
+                    {% endblocktrans %}
+                </p>
+            </div>
+            <ul class="list-group">
+                {% for attendee in event.attendees.all %}
+                    {% if attendee != object.organizer %}
+                        <a href="{{ attendee.profile.get_absolute_url }}"
+                           class="list-group-item ">
+                            <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}"
+                                 alt="{{ attendee.nickname }} Avatar"
+                                 class="avatar avatar-middle"/> {{ attendee.nickname }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% if user has 'events.change_event' of event %}
+        <div id="event-administration" class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Administration" %}</h2>
+            </div>
+            <div class="list-group">
+                {% if user has 'events.change_event' of object %}
+                    <a class="list-group-item"
+                       href="{% url "events_event_update" object.pk %}"><span
+                            class="glyphicon glyphicon-pencil"></span> {% trans "Update event" %}
+                    </a>
+                {% endif %}
+                {% if user has 'events.delete_event' of object %}
+                    <a class="list-group-item list-group-item-danger"
+                       href="{% url "events_event_delete" object.pk %}"><span
+                            class="glyphicon glyphicon-remove"></span> {% trans "Delete event" %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}
