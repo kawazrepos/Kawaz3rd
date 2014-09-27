@@ -1,6 +1,49 @@
-{% extends "base.html" %}
-{% block content %}
-    {% for object in object_list %}
-        {{ object }}
-    {% endfor %}
+{% extends "twopane.html" %}
+
+{% load utils %}
+{% load staticfiles %}
+{% load i18n %}
+{% load events_tags %}
+
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/events.css" %}" media="screen">
 {% endblock %}
+
+
+    {% block content-main %}
+    <div class="event-list-wrap">
+      <h2>{% trans "開催予定のイベント" %}</h2>
+      {% for event in event_list %}
+        {% include "events/components/list-item.html" %}
+      {% endfor %}
+
+      {# googleカレンダー #}
+
+    </div>
+
+    {% endblock %}
+    {% block content-aside %}
+      <div class="event-create-button event-detail-block">
+        {# 参加できる状態 #}
+        <a href="{% url "events_event_create" %}"
+           class="btn btn-success event-join-btn btn-large">
+            <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create This Event" %}</span>
+        </a>
+      </div>
+      <div class="event-type-list">
+        {# イベント種別 #}
+        イベント種別
+        <ul>
+          hoge
+        </ul>
+
+
+      </div>
+      <div class="event-archive-list">
+        {# 過去のイベントリスト #}
+        過去のイベント
+      </div>
+      {% endblock %}
+
+
