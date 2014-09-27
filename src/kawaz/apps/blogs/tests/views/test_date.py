@@ -1,7 +1,12 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
+from django.utils.timezone import get_default_timezone
 from ..factories import EntryFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
+
+def get_local_time(dt):
+    tz = get_default_timezone()
+    return dt.astimezone(tz)
 
 class EntryYearArchiveViewTestCase(TestCase):
     def setUp(self):
@@ -239,7 +244,7 @@ class EntryDayArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         user = AnonymousUser()
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(entry.publish_at.year, entry.publish_at.month, entry.publish_at.day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -253,7 +258,7 @@ class EntryDayArchiveViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
         entry = self.entries[0]
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(entry.publish_at.year, entry.publish_at.month, entry.publish_at.day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -266,7 +271,7 @@ class EntryDayArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(entry.publish_at.year, entry.publish_at.month, entry.publish_at.day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -296,7 +301,7 @@ class EntryAuthorDayArchiveViewTestCase(TestCase):
         The protected entries are not displayed.
         '''
         entry = self.entries[0]
-        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, entry.publish_at.year, entry.publish_at.month, entry.publish_at.day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -310,7 +315,7 @@ class EntryAuthorDayArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.wille, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, entry.publish_at.year, entry.publish_at.month, entry.publish_at.day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -323,7 +328,7 @@ class EntryAuthorDayArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, entry.publish_at.year, entry.publish_at.month, entry.publish_at.day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']

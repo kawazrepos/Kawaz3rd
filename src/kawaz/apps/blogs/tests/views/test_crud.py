@@ -1,4 +1,4 @@
-import datetime
+from django.utils.timezone import datetime, get_default_timezone
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test import TestCase
@@ -100,7 +100,7 @@ class EntryCreateViewTestCase(TestCase):
             'title' : '日記です',
             'body' : '天気が良かったです',
         })
-        today = datetime.date.today()
+        today = datetime.today()
         self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
@@ -121,7 +121,7 @@ class EntryCreateViewTestCase(TestCase):
             'body' : '天気が良かったです',
             'author' : other.pk # crackers attempt to masquerade
         })
-        today = datetime.date.today()
+        today = datetime.today()
         self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
@@ -140,7 +140,7 @@ class EntryCreateViewTestCase(TestCase):
             'body': '天気が良かったです',
             'category': category.pk
         })
-        today = datetime.date.today()
+        today = datetime.today()
         self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
@@ -223,7 +223,9 @@ class EntryUpdateViewTestCase(TestCase):
             'title' : 'やっぱり書き換えます！',
             'body' : 'うえーい',
         })
-        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(self.entry.publish_at.year, self.entry.publish_at.month, self.entry.publish_at.day))
+        tz = get_default_timezone()
+        publish_at = self.entry.publish_at.astimezone(tz)
+        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(publish_at.year, publish_at.month, publish_at.day))
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
         self.assertEqual(e.title, 'やっぱり書き換えます！')
@@ -243,7 +245,9 @@ class EntryUpdateViewTestCase(TestCase):
             'body' : 'うえーい',
             'author' : other.pk # crackers attempt to masquerade
         })
-        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(self.entry.publish_at.year, self.entry.publish_at.month, self.entry.publish_at.day))
+        tz = get_default_timezone()
+        publish_at = self.entry.publish_at.astimezone(tz)
+        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(publish_at.year, publish_at.month, publish_at.day))
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
         self.assertEqual(e.author, self.user)
