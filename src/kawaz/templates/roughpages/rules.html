@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% load markdown %}
 {% block content %}
-    利用規約
+    <article class="markdown">
+        {% render_markdown "markdown/rules.md" %}
+    </article>
 {% endblock %}
