@@ -6,7 +6,25 @@ __author__ = 'giginet'
 
 from django.test import TestCase
 from django.template import Template, Context
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+from ..templatetags.markdown import markdown
 
+
+class RenderMarkdownTemplateTagTestCase(TestCase):
+
+    def test_with_template(self):
+        """
+        render_markdownタグでテンプレートを展開して描画できるかを確かめます
+        """
+        t = Template(
+            """{% load markdown %}"""
+            """{% render_markdown 'testcases/markdown.md' %}"""
+        )
+        c = Context()
+        render = t.render(c)
+        after = mark_safe(markdown(render_to_string('testcases/markdown.md')))
+        self.assertEqual(render, after)
 
 class MarkdownTemplateTagTestCase(TestCase):
 
