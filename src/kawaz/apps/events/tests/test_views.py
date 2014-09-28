@@ -4,7 +4,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory
-from .factories import EventFactory
+from .factories import EventFactory, CategoryFactory
 from ..models import Event
 from .utils import static_now
 from .utils import event_factory_with_relative
@@ -294,6 +294,20 @@ class EventListViewTestCase(TestCase):
         self.assertEqual(list.count(), 2, 'object_list has two events')
         self.assertEqual(list[0], self.events[3], '2000/9/5 ~ 6 protected')
         self.assertEqual(list[1], self.events[1], '2000/9/5 ~ 6 public')
+
+    def test_list_with_categories(self):
+        """
+        イベントリストでCategoryのfilterが有効になっている
+        """
+        category = CategoryFactory()
+        event1 = EventFactory(category=category)
+        event2 = EventFactory()
+        self.assertTrue(self.client.login(username=self.user,
+                                          password='password'))
+        r = self.client.get('/events/?category={}'.format(category.pk))
+        self.assertTemplateUsed(r, 'events/event_list.html')
+        self.assertEqual(len(r.context['filter']), 1)
+        self.assertTrue(event1 in r.context['filter'])
 
 
 @mock.patch('django.utils.timezone.now', static_now)
