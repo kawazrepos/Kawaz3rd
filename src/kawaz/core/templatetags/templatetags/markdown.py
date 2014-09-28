@@ -1,9 +1,34 @@
 __author__ = 'giginet'
 import markdown2
 from django import template
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 register = template.Library()
+
+class RenderMarkdown(template.Node):
+    def __init__(self, template_path):
+        self.template_path = template_path
+
+    def render(self, context):
+        template_path = template.resolve_variable(self.template_path, context)
+        md = render_to_string(template_path)
+        return mark_safe(markdown(md))
+
+
+@register.tag
+def render_markdown(parser, token):
+    """
+    テンプレートフォルダ以下にあるmarkdownを読み込んでレンダリングするテンプレートタグです
+    主にroughpageでの使用を想定しています。
+    Syntax:
+        {% render_markdown "markdown/about.md" %}
+    """
+    bits = token.split_contents()
+    if len(bits) != 2:
+        raise template.TemplateSyntaxError("Syntax error. a correct syntax is '%s <template_path>'" % bits[0])
+    return RenderMarkdown(bits[1])
+
 
 @register.filter
 @template.defaultfilters.stringfilter

@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% load markdown %}
 {% block content %}
-    掲載情報
+    <article class="markdown">
+        {% render_markdown "markdown/published.md" %}
+    </article>
 {% endblock %}
