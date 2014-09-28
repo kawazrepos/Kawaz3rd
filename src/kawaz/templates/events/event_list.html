@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="{% static "css/events.css" %}" media="screen">
 {% endblock %}
 
-
     {% block content-main %}
     <div class="event-list-wrap">
-      <h2>{% trans "開催予定のイベント" %}</h2>
-
+      <div class="page-header">
+        <h2>{% trans "開催予定のイベント" %}</h2>
+      </div>
       {% for event in filter %}
         {% include "events/components/list-item.html" %}
       {% empty %}
@@ -33,6 +33,13 @@
     {% endblock %}
 
     {% block content-aside %}
+      <div class="event-create-button event-detail-aside-item">
+        {# 参加できる状態 #}
+        <a href="{% url "events_event_create" %}"
+           class="btn btn-success event-join-btn btn-large">
+            <span class="glyphicon glyphicon-plus"></span><span>{% trans "イベントを作成する" %}</span>
+        </a>
+      </div>
       <div class="event-type-list event-detail-aside-item">
         {# イベント種別 #}
         <div class="panel panel-default">
@@ -41,14 +48,6 @@
           </div>
           {{ filter.form.category }}
         </div>
-      </div>
-
-      <div class="event-create-button event-detail-aside-item">
-        {# 参加できる状態 #}
-        <a href="{% url "events_event_create" %}"
-           class="btn btn-success event-join-btn btn-large">
-            <span class="glyphicon glyphicon-plus"></span><span>{% trans "イベントを作成する" %}</span>
-        </a>
       </div>
 
       <div class="event-archive-list event-detail-aside-item">
