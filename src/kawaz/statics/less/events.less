@@ -12,7 +12,8 @@
 
 // event-list
 .event-list-wrap {
-  padding-right: 20px;
+//  padding-right: 20px;
+//background: @gray-light;
   h2 {
     margin-bottom: 20px;
     margin-top: 30px;
@@ -20,30 +21,76 @@
 }
 
 .event-list-item {
-//  background: #000;
   margin-top: 10px;
-  padding: 10px;
-  height: 200px;
-  h3 {
-    font-size: 21px;
-    margin: 0;
-  }
-  ul {
-    &.event-attendees-list {
-      padding: 0;
-      li {
-        display: inline-block;
+  .event-list-panel {
+    display: block;
+    color: @text-color;
+    text-decoration: none;
+    .text-overflow(ellipsis);
+    &:hover {
+      text-decoration: none;
+      background: @gray-lighter;
+      border-color: @gray-lighter;
+    }
+    .event-panel-body {
+      padding: 20px;
+      .event-panel-header {
+        margin-bottom: 10px;
+        border-bottom: 1px dotted #ccc;
+        padding-bottom: 5px;
+        h3 {
+          font-size: 21px;
+          margin: 0;
+          text-align: left;
+          float: left;
+          .text-overflow(ellipsis);
+          width: 76%;
+        }
+        .event-category {
+          text-align: right;
+          .event-category-icon {
+            margin-right: 5px;
+          }
+        }
+      }
+      .event-panel-info {
+        clear: both;
+        color: #666;
+        .event-panel-time {
+          margin-bottom: 5px;
+        }
+        span {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .glyph-large-icon {
+          font-size: 1.25em;
+        }
+      }
+
+
+      ul {
+      &.event-attendees-list {
+        padding: 0;
+        margin: 10px 0 0;
+        a {
+          display: block;
+        }
+        li {
+          display: inline-block;
+          a {
+            display: block;
+          }
+        }
+      }
       }
     }
   }
-  a {
-    display: block;
+
+  &.list-item-internal {
+    background: #fff url("../img/lock-icon3.png") no-repeat 101% 113%;
   }
 }
-
-
-
-
 
 
 // event-detail

@@ -1,33 +1,66 @@
+
+{% load utils %}
+
+{% load staticfiles %}
 {% load i18n %}
+{% load events_tags %}
 
-<div class="panel panel-default event-list-item">
 
-  <a href="{{ event.get_absolute_url }}">
-    <div class="panel-body">
-      <h3>{{ event.title }}</h3>
-            {#{{ object.body | markdown }}#}
-            {# ここの本文出力はべつにいらなそう #}
-      <div class="event-category">{{ event.category | default_if_none:"未設定" }}</div>
-      <div class="event-time">{{ event.period_start | date:"Y年m月d日" }}</div>
-      {% if event.place %}
-        <div class="event-place">{{ event.place }}</div>
-      {% else %}
-        <div class="event-place">{% trans "開催場所未定" %}</div>
-      {% endif %}
+<div class="panel panel-default event-list-item{% if event.pub_state == "protected" %} list-item-internal{% endif %}">
+
+  <a href="{{ event.get_absolute_url }}" class="event-list-panel">
+    <div class="panel-body event-panel-body">
+      <div class="event-panel-header">
+        <h3>{{ event.title }}</h3>
+        <div class="event-category">
+          <span class="glyphicon glyphicon-folder-open event-category-icon"></span>
+          <span>{{ event.category | default_if_none:"未設定" }}</span>
+        </div>
+      </div>
+
+      <div class="event-panel-info">
+        <div class="event-panel-time">
+          <span class="glyphicon glyph-large-icon glyphicon-time"></span>
+          {% if event.period_start %}
+            <span class="event-start-date">{{ event.period_start | date:"Y年m月d日" }}</span>
+            <span class="{% get_week_day event.period_start %}">{{ event.period_start | date:"（l）" }}
+            <span>{{ event.period_start | date:"G時i分" }}</span>
+          {% else %}
+          <span class="event-time">{% trans "開催時期未定" %}</span>
+          {% endif %}
+
+          {% if event.period_end %}
+              <span>{% trans "〜" %}</span>
+              <span class="event-end-time">{{ event.period_end | date:"Y年m月d日" }}</span>
+              <span class="{% get_week_day event.period_end %}">{{ event.period_end | date:"（l）" }}</span>
+              <span>{{ event.period_end | date:"G時i分" }}</span>
+          {% endif %}
+        </div>
+        <div class="event-panel-place">
+          <span class="glyphicon glyph-large-icon glyphicon-flag"></span>
+        {% if event.place %}
+          <span class="event-place">{{ event.place }}</span>
+        {% else %}
+          <span class="event-place">{% trans "開催場所未定" %}</span>
+        {% endif %}
+        </div>
+      </div>
 
       <ul class="event-attendees-list">
-        {% for attendee in event.attendees.all %}
-        <li>
-          <a href="{{ attendee.profile.get_absolute_url }}"
-             class="">
-              <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}"
-                   alt="{{ attendee.nickname }} Avatar"
-                   class="avatar avatar-middle"/>
-          </a>
-          {#  {{ attendee.nickname }}をpopoverで #}
-        </li>
-        {% endfor %}
+      {% for attendee in event.attendees.all %}
+
+
+        <img src="{{ MEDIA_URL }}{{ attendee.avatar.small }}" alt="{{ event.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ event.author.nickname }}" class="avatar avatar-small" />
+
+
+
+
+
+
+
+      {% endfor %}
       </ul>
     </div>
   </a>
 </div>
+{{ block.super }}
