@@ -5,6 +5,8 @@ from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseAr
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
+from django_filters.views import FilterView
+from .filters import EventFilter
 
 from permission.decorators import permission_required
 
@@ -33,8 +35,10 @@ class EventDateArchiveMixin(BaseArchiveIndexView):
         return self.render_to_response(context)
 
 
-class EventListView(ListView, EventActiveQuerySetMixin):
+class EventListView(FilterView, EventActiveQuerySetMixin):
     model = Event
+    filterset_class = EventFilter
+    template_name_suffix = '_list'
 
 
 @permission_required('events.view_event')
