@@ -34,6 +34,7 @@
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'blogs_entry_preview' %}';">
         {% crispy form %}
+        <p><a href="#" class="blog-category-add-button" data-toggle="modal" data-target="#blog-category-dialog"><span class="glyphicon glyphicon-plus"></span>新しいカテゴリを作る</a></p>
     </div>
 {% endblock %}
 {% block post_javascript %}
