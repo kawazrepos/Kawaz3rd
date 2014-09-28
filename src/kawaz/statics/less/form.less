@@ -65,7 +65,7 @@
 .blog-category-add-button {
   float: right;
 }
-#blog-category-dialog {
+#blog-category-dialog, #attachment-dialog {
   p {
     font-size: small;
     color: @gray-light;
@@ -77,6 +77,15 @@ label.checkbox {
   display: inline-block;
   input {
     margin-left: -15px !important;
+  }
+}
+// 添付ファイル用のダイアログ
+#attachment-dialog {
+  input {
+    display: inline;
+  }
+  input[type='file'] {
+    margin-bottom: 10px;
   }
 }
 

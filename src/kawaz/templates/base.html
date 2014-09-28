@@ -96,8 +96,10 @@
 </div>
 {% block post_javascript %}
     <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+{#    <script src="{% static "vendor/angular-file-upload/dist/angular-file-upload-html5-shim.js" %}"#}
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.min.js"></script>
     <script src="{% static "vendor/angular-sanitize.min.js" %}"></script>
+    <script src="{% static "vendor/angular-file-upload/dist/angular-file-upload.js" %}"
     <script src="{% static "vendor/lightbox.min.js" %}"></script>
     <script src="{% static "vendor/mace.min.js" %}"></script>
     <script src="{% static "js/angular.js" %}"></script>

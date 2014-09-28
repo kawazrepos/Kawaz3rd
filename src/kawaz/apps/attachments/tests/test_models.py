@@ -83,6 +83,13 @@ class MaterialModelTestCase(TestCase):
         material = MaterialFactory(content_file='README')
         self.assertEqual(material.ext, '')
 
+    def test_get_attachment_tag(self):
+        """
+        添付用のタグが正しく取り出せる
+        """
+        material = MaterialFactory(content_file='README')
+        self.assertEqual(material.get_attachment_tag(), "{attachments:%s}" % material.slug)
+
 class MaterialModelFileTypeTestCase(TestCase):
 
     def _test_with_table(self, table, property_name):
