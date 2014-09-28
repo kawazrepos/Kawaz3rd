@@ -1,5 +1,5 @@
 <div class="audio-player">
     <audio controls>
-        <source src="{{ MEDIA_URL }}{{ material.content_file }}" type="{{ material.mimetype }}">
+        <source src="{{ material.content_file.url }}" type="{{ material.mimetype }}">
     </audio>
 </div>

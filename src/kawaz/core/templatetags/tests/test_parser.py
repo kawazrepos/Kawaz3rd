@@ -56,8 +56,8 @@ class ParserTemplateTagTestCase(TestCase):
                  """<p><a href="mailto:hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com">hoge<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>.com</a>\n"""
                  """<a href="/users/kawaztan_mention/"><img src="None">@kawaztan_mention</a>\n"""
                  "@kawaztan_unknown\n"
-                 """<a href="attachments/kawaztan-material/kawaztan.png" rel="lightbox" data-lightbox="thumbnail">\n"""
-                 """    <img src="attachments/kawaztan-material/kawaztan.png" alt="kawaztan.png" style="max-width: 600px;" />\n"""
+                 """<a href="/storage/attachments/kawaztan-material/kawaztan.png" rel="lightbox" data-lightbox="thumbnail">\n"""
+                 """    <img src="/storage/attachments/kawaztan-material/kawaztan.png" alt="kawaztan.png" style="max-width: 600px;" />\n"""
                  "</a>\n"
                  "</p>")
         self._test_href_tag(before, after)

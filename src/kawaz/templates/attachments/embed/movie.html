@@ -1,10 +1,10 @@
 <video>
-    <source src="{{ MEDIA_URL }}{{ material.content_file }}" width="640" height="360">
+    <source src="{{ material.content_file.url }}" width="640" height="360">
     <!-- Flash fallback for non-HTML5 browsers without JavaScript -->
     <object width="640" height="360"
             type="application/x-shockwave-flash" data="/javascript/mediaelement/flashmediaelement.swf">
         <param name="movie" value="/javascript/mediaelement/flashmediaelement.swf" />
-        <param name="flashvars" value="controls=true&file={{ MEDIA_URL }}{{ material.content_file }}" />
+        <param name="flashvars" value="controls=true&file={{ material.content_file.url }}" />
         <!-- Image as a last resort -->
         <p>No video playback capabilities</p>
     </object>

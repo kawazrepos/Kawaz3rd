@@ -18,7 +18,7 @@ def get_thumbnail_html(material):
     """
     def render_template(filename):
         path = os.path.join("attachments", "embed", "{}.html".format(filename))
-        template = render_to_string(path, {'material': material, "MEDIA_URL": settings.MEDIA_URL})
+        template = render_to_string(path, {'material': material})
         return mark_safe(template)
 
     if material.is_image:

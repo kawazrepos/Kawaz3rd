@@ -26,7 +26,7 @@ class AttachmentTemplateTagTestCase(TestCase):
 
     def _expand_attachments_tag(self, material, kind):
         html = render_to_string(os.path.join("attachments", 'embed', '{}.html'.format(kind)), {
-            'material' : material
+            'material' : material,
         })
         return mark_safe(html)
 
