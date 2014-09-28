@@ -1,4 +1,5 @@
 import os
+import mimetypes
 from django.db import models
 from django.utils.translation import ugettext as _
 from kawaz.core.personas.models import Persona
@@ -95,6 +96,18 @@ class Material(models.Model):
         ファイル名を返します
         """
         return os.path.split(self.content_file.name)[1]
+
+    def get_thumbnail_display(self):
+        from .utils.thumbnails import get_thumbnail_html
+        return get_thumbnail_html(self)
+
+    @property
+    def mimetype(self):
+        """
+        Mimetypeを返します
+        """
+        mime_type_guess = mimetypes.guess_type(self.filename)
+        return mime_type_guess[0]
 
 from permission import add_permission_logic
 from kawaz.core.personas.perms import ChildrenPermissionLogic
