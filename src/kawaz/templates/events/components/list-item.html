@@ -49,13 +49,8 @@
       <ul class="event-attendees-list">
       {% for attendee in event.attendees.all %}
 
-
-        <img src="{{ MEDIA_URL }}{{ attendee.avatar.small }}" alt="{{ event.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ event.author.nickname }}" class="avatar avatar-small" />
-
-
-
-
-
+{# TODO tunacook : tooltipでユーザのニックネームを表示 #}
+        <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}" alt="{{ event.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ event.author.nickname }}" class="avatar avatar-small" />
 
 
       {% endfor %}

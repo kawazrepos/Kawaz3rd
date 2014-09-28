@@ -14,36 +14,47 @@
     {% block content-main %}
     <div class="event-list-wrap">
       <h2>{% trans "開催予定のイベント" %}</h2>
-      {% for event in event_list %}
-        {% include "events/components/list-item.html" %}
-      {% endfor %}
 
-      {# googleカレンダー #}
+      {% for event in filter %}
+        {% include "events/components/list-item.html" %}
+      {% empty %}
+      <div class="alert alert-info">
+        <p>{% trans "該当するイベントは見つかりませんでした" %}</p>
+        {% if user has 'events.add_event' %}
+            <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "イベントを作成する" %}</a>
+        {% endif %}
+      </div>
+      {% endfor %}
 
     </div>
 
+    <iframe src="https://www.google.com/calendar/embed?src=kawaz.org_knp8k16jovqbodorkrkt45un0o%40group.calendar.google.com&ctz=Asia/Tokyo" style="border: 0" width="845" height="730" frameborder="0" scrolling="no"></iframe>
+
     {% endblock %}
+
     {% block content-aside %}
-      <div class="event-create-button event-detail-block">
+      <div class="event-type-list event-detail-aside-item">
+        {# イベント種別 #}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <h2 class="panel-title">{% trans "Categories" %}</h2>
+          </div>
+          {{ filter.form.category }}
+        </div>
+      </div>
+
+      <div class="event-create-button event-detail-aside-item">
         {# 参加できる状態 #}
         <a href="{% url "events_event_create" %}"
            class="btn btn-success event-join-btn btn-large">
-            <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create This Event" %}</span>
+            <span class="glyphicon glyphicon-plus"></span><span>{% trans "イベントを作成する" %}</span>
         </a>
       </div>
-      <div class="event-type-list">
-        {# イベント種別 #}
-        <ul>
-          <li><a href="">参加予定のイベント</a></li>
-          <li><a href="">全体ミーティング</a></li>
-          <li><a href="">交流ミーティング</a></li>
-          <li><a href="">レクリエーション</a></li>
-          <li><a href="">ゲームジャム・ハッカソン</a></li>
-          <li><a href="">もくもく会</a></li>
-        </ul>
-      </div>
-      <div class="event-archive-list">
+
+      <div class="event-archive-list event-detail-aside-item">
         {# 過去のイベントリスト #}
+
+        {# 仮仮仮仮仮仮仮仮仮仮 #}
         <h3>{% trans "過去のイベント" %}</h3>
         <ul>
           <li><a href="">2013年10月</a></li>
