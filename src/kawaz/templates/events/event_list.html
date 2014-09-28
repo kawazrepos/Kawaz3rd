@@ -35,10 +35,12 @@
     {% block content-aside %}
       <div class="event-create-button event-detail-aside-item">
         {# 参加できる状態 #}
+        {% if user has 'events.add_event' %}
         <a href="{% url "events_event_create" %}"
            class="btn btn-success event-join-btn btn-large">
             <span class="glyphicon glyphicon-plus"></span><span>{% trans "イベントを作成する" %}</span>
         </a>
+        {% endif %}
       </div>
       <div class="event-type-list event-detail-aside-item">
         {# イベント種別 #}
