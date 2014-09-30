@@ -1,12 +1,17 @@
+import io
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseArchiveIndexView
+from django.http.response import HttpResponseNotFound
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
 from django_filters.views import FilterView
 from .filters import EventFilter
+from django.http.response import HttpResponse
+from django.http.response import StreamingHttpResponse
+from django.core.servers.basehttp import FileWrapper
 
 from permission.decorators import permission_required
 
@@ -14,6 +19,7 @@ from kawaz.core.views.preview import SingleObjectPreviewMixin
 
 from .models import Event
 from .forms import EventForm
+from .utils.ical import generate_ical
 
 class EventPublishedQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
@@ -136,3 +142,26 @@ class EventMonthListView(MonthArchiveView, EventPublishedQuerySetMixin, EventDat
 class EventPreview(SingleObjectPreviewMixin, DetailView):
     model = Event
     template_name = "events/components/event_detail.html"
+
+
+@permission_required('events.view_event')
+class EventCalendarView(DetailView):
+    """
+    EventをiCal形式でダウンロードするView
+    """
+    model = Event
+    MIMETYPE = 'text/calendar'
+
+    def render_to_response(self, context, **response_kwargs):
+        object = context['object']
+
+        if not object.period_start or object.pub_state == 'draft':
+            return HttpResponseNotFound('Event must be public or have `period_start`.')
+        cal = generate_ical(object)
+        file = io.BytesIO(cal.to_ical())
+        # テストの際に、closeされてしまうため
+        # HttpResponseの代わりにStreamingHttpResponseを使っている
+        # http://stackoverflow.com/questions/19359451/django-test-file-download-valueerror-i-o-operation-on-closed-file
+        response = StreamingHttpResponse(FileWrapper(file), content_type=self.MIMETYPE)
+        response['Content-Disposition'] = 'attachment; filename={}.ics'.format(object.pk)
+        return response
