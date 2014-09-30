@@ -145,7 +145,7 @@ class EntryModelTestCase(TestCase):
         '''
         Tests publish_at is set for current time automatically
         '''
-        today = timezone.datetime.today()
+        today = timezone.now()
         entry = EntryFactory()
         self.assertEqual(entry.publish_at_date, datetime.date(today.year, today.month, today.day))
 
