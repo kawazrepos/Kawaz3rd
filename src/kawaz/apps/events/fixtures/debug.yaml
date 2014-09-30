@@ -47,7 +47,6 @@
     period_start: "2014-10-09 00:00:00+09:00"
     period_end: "2014-10-09 01:00:00+09:00"
     category: 1
-    attendance_deadline: "2014-10-01 00:00:00+09:00"
     number_restriction: 9
     place: ぎぎねっとてい
     pub_state: public
