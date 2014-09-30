@@ -3,7 +3,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseArchiveIndexView
-from django.http.response import HttpResponseBadRequest
+from django.http.response import HttpResponseNotFound
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
@@ -12,18 +12,14 @@ from .filters import EventFilter
 from django.http.response import HttpResponse
 from django.http.response import StreamingHttpResponse
 from django.core.servers.basehttp import FileWrapper
-from django.conf import settings
-from django.contrib.sites.models import Site
 
 from permission.decorators import permission_required
-from icalendar import Calendar
-from icalendar import Event as CalEvent
-from icalendar import vCalAddress, vText, vDatetime
 
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 
 from .models import Event
 from .forms import EventForm
+from .utils.ical import generate_ical
 
 class EventPublishedQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
@@ -156,48 +152,12 @@ class EventCalendarView(DetailView):
     model = Event
     MIMETYPE = 'text/calendar'
 
-    def generate_ical(self, object):
-        cal = Calendar()
-        cal['PRODID'] = 'Kawaz'
-        cal['VERSION'] = '2.0'
-        site = Site.objects.get(pk=settings.SITE_ID)
-
-        event = CalEvent()
-        event['summary'] = object.title
-        event['description'] = object.body
-        event['class'] = 'PUBLIC' if object.pub_state == 'public' else 'PRIVATE'
-        if object.category:
-            event['categories'] = object.category.label
-        event['dtstamp'] = vDatetime(object.created_at)
-        if object.place:
-            event['location'] = object.place
-        event['dtstart'] = vDatetime(object.period_start).to_ical()
-        if object.period_end:
-            event['dtend'] = vDatetime(object.period_end).to_ical()
-
-        def create_vaddress(user):
-            va = vCalAddress('MAILTO:{}'.format(user.email))
-            va.params['cn'] = vText(user.nickname)
-            va.params['ROLE'] = vText(user.role)
-            return va
-
-        organizer = create_vaddress(object.organizer)
-        event['organizer'] = organizer
-        event['URL'] = 'http://{}{}'.format(site.domain, object.get_absolute_url())
-
-        for attendee in object.attendees.all():
-            event.add('attendee', create_vaddress(attendee), encode=0)
-
-        cal.add_component(event)
-
-        return cal
-
     def render_to_response(self, context, **response_kwargs):
         object = context['object']
 
         if not object.period_start or object.pub_state == 'draft':
-            return HttpResponseBadRequest('Event must be public or have `period_start`.')
-        cal = self.generate_ical(object)
+            return HttpResponseNotFound('Event must be public or have `period_start`.')
+        cal = generate_ical(object)
         file = io.BytesIO(cal.to_ical())
         # テストの際に、closeされてしまうため
         # HttpResponseの代わりにStreamingHttpResponseを使っている

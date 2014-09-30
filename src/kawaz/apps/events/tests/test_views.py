@@ -514,20 +514,20 @@ class EventCalendarViewTestCase(BaseViewPermissionTestCase):
 
     def test_cannot_get_ical_with_draft(self):
         """
-        pub_state = 'draft'のEventを取得しようとしたとき、400を返す
+        pub_state = 'draft'のEventを取得しようとしたとき、404を返す
         """
         e = EventFactory(pub_state='draft')
         self.prefer_login(e.organizer)
         r = self.client.get('/events/{}/calendar/'.format(e.pk))
-        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.status_code, 404)
 
     def test_cannot_get_ical_with_not_period_start(self):
         """
-        period_startが設定されていないEventを取得しようとしたとき、400を返す
+        period_startが設定されていないEventを取得しようとしたとき、404を返す
         """
         e = EventFactory(period_start=None, period_end=None)
         r = self.client.get('/events/{}/calendar/'.format(e.pk))
-        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.status_code, 404)
 
     def test_can_download_ical(self):
         """
