@@ -51,3 +51,28 @@ def get_events(context, lookup='published'):
     elif lookup == 'attendable':
         qs = Event.objects.attendable(request.user)
     return qs
+
+
+class Archive:
+    def __init__(self, date, object_list, count):
+        self.date = date
+        self.object_list = object_list
+        self.count = count
+
+
+@register.assignment_tag(takes_context=True)
+def get_monthly_archives(context):
+    """
+    Eventの月間アーカイブを取得する
+
+    Usage:
+        get_monthly_archive as <variable>
+    """
+    qs = Event.objects.all()
+    date_list = qs.datetimes('period_start', 'month', order='DESC')
+
+    archives = []
+    for date in date_list:
+        object_list = qs.filter(**{'period_start__year': date.year}).filter(**{'period_start__month': date.month})
+        archives.append(Archive(date, object_list, object_list.count()))
+    return archives
