@@ -151,13 +151,12 @@
             </a>
         </div>
 
+        {% if event.attendees.count > 0 %}
         <div class="panel panel-default">
             <div class="panel-heading event-member-head">
                 <h2 class="panel-title">{% trans "参加者" %}</h2>
                 <p>
-                    {% blocktrans %}
-                    {{ event.attendees.count|add:"-1" }}人参加中
-                    {% endblocktrans %}
+                    {{ event.attendees.count|add:"-1" }}{% trans "人参加中" %}
                 </p>
             </div>
             <ul class="list-group">
@@ -173,6 +172,8 @@
                 {% endfor %}
             </ul>
         </div>
+        {% endif %}
+
     </div>
 
     {% if user has 'events.change_event' of event %}
