@@ -50,7 +50,7 @@
       {% for attendee in event.attendees.all %}
 
 {# TODO tunacook : tooltipでユーザのニックネームを表示 #}
-        <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}" alt="{{ event.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ event.author.nickname }}" class="avatar avatar-small" />
+        <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}" alt="{{ attendee.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ attendee.nickname }}" class="avatar avatar-small" />
 
 
       {% endfor %}
