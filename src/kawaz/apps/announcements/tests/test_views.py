@@ -3,6 +3,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from .factories import AnnouncementFactory
+from kawaz.apps.announcements.views import AnnouncementListView
 from ..models import Announcement
 from kawaz.core.personas.tests.factories import PersonaFactory
 
@@ -428,3 +429,8 @@ class AnnouncementListViewTestCase(TestCase):
         self.assertEqual(list[0], self.announcements[1], 'protected')
         self.assertEqual(list[1], self.announcements[0], 'public')
 
+    def test_paginate_by(self):
+        """
+        paginator_byが5件にセットされている
+        """
+        self.assertEqual(AnnouncementListView.paginate_by, 5)
