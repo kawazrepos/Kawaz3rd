@@ -1,4 +1,5 @@
 import datetime
+from django.utils.timezone import get_default_timezone
 from unittest import mock
 from django.test import TestCase
 from django.core.exceptions import ValidationError
@@ -359,6 +360,51 @@ class EventTestCase(TestCase):
         self.assertEqual(event.get_absolute_url(),
                          '/events/{0}/'.format(event.pk))
 
+    def test_humanize_period(self):
+        """
+        event.humanize_periodで開始時間、終了時間が取れる
+        """
+        event = EventFactory()
+        self.assertEqual(event.humanized_period, '09/04(Mon) 01:00 ~ 04:00')
+
+
+    def test_humanize_period_other_year(self):
+        """
+        event.humanize_periodで開始時間、終了時間が取れる
+        別の年のとき、年が表示される
+        """
+        now = static_now()
+        event = EventFactory(period_start=now + datetime.timedelta(days=365, hours=1),
+                             period_end=now + datetime.timedelta(days=365, hours=4)
+        )
+        self.assertEqual(event.humanized_period, '2001/09/04(Tue) 01:00 ~ 04:00')
+
+    def test_humanize_period_unfixed(self):
+        """
+        event.humanize_periodで開始時間、終了時間が取れる
+        開催日未定のとき、unfixedになる
+        """
+        event = EventFactory(period_start=None, period_end=None)
+        self.assertEqual(event.humanized_period, 'Unfixed')
+
+    def test_humanize_period_end_time_unfixed(self):
+        """
+        event.humanize_periodで開始時間、終了時間が取れる
+        終了時間が未定のとき、終了時間未定になる
+        """
+        event = EventFactory(period_end=None)
+        self.assertEqual(event.humanized_period, '09/04(Mon) 01:00 ~ End time is unfixed')
+
+    def test_humanize_period_otherday(self):
+        """
+        event.humanize_periodで開始時間、終了時間が取れる
+        イベントが数日にまたがるとき、日付が表示される
+        """
+        now = static_now()
+        event = EventFactory(period_start=now + datetime.timedelta(hours=1),
+                             period_end=now + datetime.timedelta(days=2, hours=4)
+        )
+        self.assertEqual(event.humanized_period, '09/04(Mon) 01:00 ~ 09/06(Wed) 04:00')
 
 @mock.patch('django.utils.timezone.now', static_now)
 class EventValidationTestCase(TestCase):

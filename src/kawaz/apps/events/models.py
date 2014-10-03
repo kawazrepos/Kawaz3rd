@@ -189,6 +189,45 @@ class Event(models.Model):
             return ('events_event_update', (), {'pk': self.pk})
         return ('events_event_detail', (), {'pk': self.pk})
 
+    @property
+    def humanized_period(self):
+        """
+        開催日時をいい感じで描画します
+
+        Output:
+            5月10日(月) 13:00 ~ 19:00
+            2013年9月21(土) 13:00 ~ 19:00
+            6月11日(月) 13:00 ~ 6月12日(火) 10:00
+            未定
+            6月11日(月) 13:00 ~ 終了日時未定
+        """
+        weekdays = [_('Mon'), _('Tue'), _('Wed'), _('Thu'), _('Fri'), _('Sat'), _('Sun')]
+        now = timezone.now()
+
+        def humanize(dt, only_time=False):
+            times = []
+            weekday = weekdays[dt.weekday()]
+            if dt.year == now.year:
+                # 今年のとき、年度を省略
+                day = dt.strftime(_('%m/%d({weekday})'.format(weekday=weekday)))
+                times.append(day)
+            else:
+                day = dt.strftime(_('%Y/%m/%d({weekday})'.format(weekday=weekday)))
+                times.append(day)
+            time = dt.strftime(_('%H:%M'))
+            times.append(time)
+            if only_time:
+                return times[-1]
+            return ' '.join(times)
+
+        if not self.period_start and not self.period_end:
+            return _('Unfixed')
+        elif not self.period_end:
+            return _('{} ~ End time is unfixed').format(humanize(self.period_start))
+        else:
+            sameday = self.period_end - self.period_start < datetime.timedelta(days=1)
+            return _('{} ~ {}').format(humanize(self.period_start), humanize(self.period_end, sameday))
+
 
 from django.db.models.signals import post_save
 from django.db.models.signals import post_delete
