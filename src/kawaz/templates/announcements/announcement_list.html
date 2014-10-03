@@ -1,6 +1,41 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "twopane.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block pre_css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "css/blogs.css" %}" media="screen">
+    <link rel="stylesheet" href="{% static "css/markdown_nostyle.css" %}" media="screen">
+{% endblock %}
+{% block content-header %}
+    <div class="page-header blog-list-header">
+        <div class="header-left">
+            <h1>{% trans "Announcements" %}</h1>
+            <small>{% blocktrans with count=object_list.count %}There are {{ count }} announcement entries.{% endblocktrans %}</small>
+        </div>
+        {% if user has 'announcements.add_entry' %}
+            <div class="header-right">
+                <a href="{% url "announcements_announcement_create" %}" %}" class="btn btn-primary btn-lg" role="button">お知らせを書く</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block content-main %}
+    {{ block.super }}
     {% for object in object_list %}
-        {{ object }}
+        {% include "announcements/components/announcement_truncated.html" %}
     {% endfor %}
+{% endblock %}
+{% block content-aside %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Announcements" %}</h2>
+        </div>
+        {# TODO: ここにスターの数等によるホットエントリーの設置 #}
+        {# Fix Me: ハードコーディング #}
+        <div class="list-group">
+            {% for object in object_list %}
+                <a class="list-group-item" href="{{ object.get_absolute_url }}">{{ object.title }} <small class="text-muted">{{ object.created_at|date:"Y/m/d" }}</small></a>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
