@@ -1,3 +1,8 @@
+- model: sites.site
+  pk: 1
+  fields:
+    name: テスト用
+    domain: example.com
 - model: events.event
   pk: 1
   fields:
