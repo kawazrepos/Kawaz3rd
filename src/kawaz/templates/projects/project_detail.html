@@ -21,7 +21,7 @@
 
     <div class="row">
       <div class="col col-lg-5 col-xs-12" id="project-thumbnail">
-        <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.huge }}" alt="{{ project.title }} Thumbnail" />
+        <img class="group list-group-image" src="{{ project.icon.get_huge_icon }}" alt="{{ project.title }} Thumbnail" />
       </div>
       <div class="col col-lg-7 col-xs-12">
         <dl class="row">

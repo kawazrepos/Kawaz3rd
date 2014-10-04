@@ -10,7 +10,7 @@
   </div>
   <div class="col col-xs-10 col-lg-10  archive-info">
     <div class="archive-item col col_thumbnail col-xs-1 col-lg-1">
-      <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.middle }}" alt="{{ project.title }}">
+      <img class="group list-group-image" src="{{ project.icon.get_middle_icon }}" alt="{{ project.title }}">
     </div>
     <div class="archive-item col col-title col-xs-7 col-lg-7">
       {{ project.title }}

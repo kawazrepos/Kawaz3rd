@@ -1,7 +1,7 @@
 <a href="{{ project.get_absolute_url }}">
     <div class="panel-body">
         <div class="project-thumbnail">
-            <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.large }}" height="90px" alt="{{ project.title }} Thumbnail" />
+            <img class="group list-group-image" src="{{ project.icon.get_large_icon }}" height="90px" alt="{{ project.title }} Thumbnail" />
         </div>
         <div class="project-wall">
             <dl>

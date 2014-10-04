@@ -117,7 +117,7 @@
             <div class="list-group">
                 {% for account in object.accounts.all %}
                     <a class="list-group-item" href="{{ account.url }}">
-                        <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">
+                        <img src="{{ account.service.icon.url }}" alt="{{ account.service.label }}">
                         <span class="list-group-item-text link">{{ account.username }}</span>
                     </a>
                 {% empty %}
@@ -133,7 +133,7 @@
             <div class="list-group">
                 {% for project in object.user.projects_joined.all %}
                     <a class="list-group-item" href="{{ project.get_absolute_url }}">
-                        <img class="avatar avatar-middle" src="{{ MEDIA_URL }}{{ project.icon.middle }}">
+                        <img class="avatar avatar-middle" src="{{ project.get_middle_icon }}">
                         <span class="link">{{ project.title }}</span>
                     </a>
                 {% empty %}
