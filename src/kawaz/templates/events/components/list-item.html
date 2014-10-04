@@ -1,10 +1,7 @@
-
 {% load utils %}
-
 {% load staticfiles %}
 {% load i18n %}
 {% load events_tags %}
-
 
 <div class="panel panel-default event-list-item{% if event.pub_state == "protected" %} list-item-internal{% endif %}">
 
@@ -48,11 +45,7 @@
 
       <ul class="event-attendees-list">
       {% for attendee in event.attendees.all %}
-
-{# TODO tunacook : tooltipでユーザのニックネームを表示 #}
         <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}" alt="{{ attendee.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ attendee.nickname }}" class="avatar avatar-small" />
-
-
       {% endfor %}
       </ul>
     </div>

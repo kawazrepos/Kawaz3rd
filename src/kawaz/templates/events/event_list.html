@@ -50,28 +50,23 @@
           </div>
           {{ filter.form.category }}
         </div>
+        {{ filter.form.category }}
       </div>
+    </div>
 
-      <div class="event-archive-list event-detail-aside-item">
-        {# 過去のイベントリスト #}
+    <div class="event-archive-list event-detail-aside-item">
+      {# 過去のイベントリスト #}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans "過去のイベント" %}</h3>
+        </div>
 
-        {# 仮仮仮仮仮仮仮仮仮仮 #}
-        <h3>{% trans "過去のイベント" %}</h3>
-        <ul>
-          <li><a href="">2013年10月</a></li>
-          <li><a href="">2013年11月</a></li>
-          <li><a href="">2013年12月</a></li>
-          <li><a href="">2014年1月</a></li>
-          <li><a href="">2014年2月</a></li>
-          <li><a href="">2014年3月</a></li>
-          <li><a href="">2014年4月</a></li>
-          <li><a href="">2014年5月</a></li>
-          <li><a href="">2014年6月</a></li>
-          <li><a href="">2014年7月</a></li>
-          <li><a href="">2014年8月</a></li>
-          <li><a href="">2014年9月</a></li>
-        </ul>
+        <div class="list-group">
+          {% get_monthly_archives as archives %}
+        {% for archive in archives %}
+          <a class="list-group-item" href="{% url "events_event_archive_month" year=archive.date.year month=archive.date.month %}">{{ archive.date | date:"Y年m月" }}({{ archive.count }})</a>
+        {% endfor %}
+        </div>
       </div>
       {% endblock %}
-
 
