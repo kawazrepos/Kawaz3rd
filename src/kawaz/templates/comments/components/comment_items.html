@@ -7,10 +7,10 @@
                 <div class="comment-avatar">
                     {% if comment.user.is_authenticated %}
                         {# ログインユーザーはuserのavatar #}
-                        <img src="{{ MEDIA_URL }}{{ comment.user.avatar.middle }}" class="avatar avatar-middle" alt="@{{ comment.user.username }}">
+                        <img src="{{ comment.user.get_middle_avatar }}" class="avatar avatar-middle" alt="@{{ comment.user.username }}">
                     {% else %}
                         {# 非ログインユーザーはデフォルトのアイコン #}
-                        <img src="{{ MEDIA_URL }}" class="avatar avatar-middle">
+                        <img src="/statics/img/defaults/profile_middle.png" class="avatar avatar-middle">
                     {% endif %}
                 </div>
                 <span class="comment-index">{{ forloop.counter }}</span>

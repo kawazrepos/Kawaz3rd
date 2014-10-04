@@ -8,7 +8,7 @@
 {% block content-main %}
     <div class="row" id="profile-header">
         <div class="col col-lg-5 col-xs-5" id="profile-avatar">
-            <img class="avatar avatar-huge" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}" alt="{{ object.user.username }}">
+            <img class="avatar avatar-huge" src="{{ object.user.get_huge_avatar }}" alt="{{ object.user.username }}">
         </div>
         <div class="col col-lg-7 col-xs-7">
             <div class="page-header">

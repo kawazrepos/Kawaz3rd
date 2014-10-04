@@ -14,7 +14,7 @@
                 <ul>
                     {% for member in project.members.all %}
                         <li>
-                            <img class="avatar avatar-small" src="{{ MEDIA_URL }}{{ member.avatar.small }}" alt="{{ member.nickname }}">
+                            <img class="avatar avatar-small" src="{{ member.get_small_avatar }}" alt="{{ member.nickname }}">
                             {{ member.nickname }}さん
                         </li>
                     {% endfor %}
