@@ -1,4 +1,5 @@
 {% extends "twopane.html" %}
+{% load parser %}
 {% load staticfiles %}
 {% load i18n %}
 {% load projects_tags %}
@@ -21,7 +22,7 @@
 
     <div class="row">
       <div class="col col-lg-5 col-xs-12" id="project-thumbnail">
-        <img class="group list-group-image" src="{{ project.icon.get_huge_icon }}" alt="{{ project.title }} Thumbnail" />
+        <img class="group list-group-image" src="{{ project.get_huge_icon }}" alt="{{ project.title }} Thumbnail" />
       </div>
       <div class="col col-lg-7 col-xs-12">
         <dl class="row">
@@ -46,7 +47,7 @@
 
   {% block content-main %}
     <article class="markdown">
-          {{ project.body | markdown }}
+          {{ project.body | parser }}
     </article>
   {% endblock %}
   {% block content-aside %}
