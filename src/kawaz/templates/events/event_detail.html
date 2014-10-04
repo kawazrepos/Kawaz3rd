@@ -153,13 +153,15 @@
             </a>
         </div>
 
+        {% if event.attendees.count > 1 %}
         <div class="panel panel-default">
             <div class="panel-heading event-member-head">
                 <h2 class="panel-title">{% trans "参加者" %}</h2>
                 <p>
-                    {% blocktrans %}
-                    {{ event.attendees.count|add:"-1" }}人参加中
-                    {% endblocktrans %}
+                    {# 参加者全員の人数から主催者を引いている #}
+                    {% with attendees_count=event.attendees.count|add:"-1" %}
+                        {% blocktrans %}{{ attendees_count }}人参加中{% endblocktrans %}
+                    {% endwith %}
                 </p>
             </div>
             <ul class="list-group">
@@ -175,6 +177,8 @@
                 {% endfor %}
             </ul>
         </div>
+        {% endif %}
+
     </div>
 
     {% if user has 'events.change_event' of event %}
