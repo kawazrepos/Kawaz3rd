@@ -130,7 +130,8 @@ class EntryMonthArchiveViewTestCase(TestCase):
         '''
         user = AnonymousUser()
         entry = self.entries[0]
-        r = self.client.get('/blogs/{0}/{1}/'.format(entry.publish_at.year, entry.publish_at.month))
+        lt = get_local_time(entry.publish_at)
+        r = self.client.get('/blogs/{0}/{1}/'.format(lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -144,7 +145,8 @@ class EntryMonthArchiveViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
         entry = self.entries[0]
-        r = self.client.get('/blogs/{0}/{1}/'.format(entry.publish_at.year, entry.publish_at.month))
+        lt = get_local_time(entry.publish_at)
+        r = self.client.get('/blogs/{0}/{1}/'.format(lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -157,7 +159,8 @@ class EntryMonthArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/'.format(entry.publish_at.year, entry.publish_at.month))
+        lt = get_local_time(entry.publish_at)
+        r = self.client.get('/blogs/{0}/{1}/'.format(lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -188,7 +191,8 @@ class EntryAuthorMonthArchiveViewTestCase(TestCase):
         '''
         user = AnonymousUser()
         entry = self.entries[0]
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, entry.publish_at.year, entry.publish_at.month))
+        lt = get_local_time(entry.publish_at)
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -202,7 +206,8 @@ class EntryAuthorMonthArchiveViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
         entry = self.entries[0]
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, entry.publish_at.year, entry.publish_at.month))
+        lt = get_local_time(entry.publish_at)
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -215,7 +220,8 @@ class EntryAuthorMonthArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, entry.publish_at.year, entry.publish_at.month))
+        lt = get_local_time(entry.publish_at)
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']

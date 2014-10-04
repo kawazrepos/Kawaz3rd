@@ -2,8 +2,10 @@ import datetime
 from unittest import mock
 from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
+from django.utils import timezone
 from unittest.mock import MagicMock
 from kawaz.core.personas.tests.utils import create_role_users
+from .factories import EventFactory
 from .utils import static_now
 from .utils import event_factory_with_relative
 
@@ -142,3 +144,30 @@ class EventsTemplateTagTestCase(TestCase):
         for username, nevents in patterns:
             self.assertRaises(TemplateSyntaxError, self._render_template,
                               username, lookup='unknown')
+
+
+@mock.patch('django.utils.timezone.now', static_now)   # 2000/09/04
+class EventGetMonthlyArchiveTemplateTagTestCase(TestCase):
+    def test_get_monthly_archive(self):
+        tz = timezone.get_default_timezone()
+        e0 = EventFactory(period_start=datetime.datetime(2014, 6, 1, tzinfo=tz), period_end=None)
+        e1 = EventFactory(period_start=datetime.datetime(2014, 4, 1, tzinfo=tz), period_end=None)
+        e2 = EventFactory(period_start=datetime.datetime(2014, 4, 25, tzinfo=tz), period_end=None)
+        t = Template(
+            "{% load events_tags %}"
+            "{% get_monthly_archives as archives %}"
+        )
+        c = Context()
+        r = t.render(c)
+        self.assertTrue('archives' in c)
+        archives = c['archives']
+        self.assertEqual(len(archives), 2)
+        self.assertEqual(archives[0].count, 1)
+        self.assertEqual(archives[0].date.month, 6)
+        self.assertEqual(len(archives[0].object_list), 1)
+        self.assertEqual(archives[1].count, 2)
+        self.assertEqual(archives[1].date.month, 4)
+        self.assertEqual(len(archives[1].object_list), 2)
+
+
+
