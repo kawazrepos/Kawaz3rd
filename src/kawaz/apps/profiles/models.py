@@ -25,12 +25,7 @@ class ProfileManager(models.Manager):
         '''
         Returns the QuerySet which contains all active profiles
         '''
-        return self.prefetched().filter(user__is_active=True)
-
-    def prefetched(self):
-        qs = self.prefetch_related('accounts')
-        qs = qs.prefetch_related('skills')
-        return qs
+        return self.filter(user__is_active=True)
 
     def published(self, user):
         '''
