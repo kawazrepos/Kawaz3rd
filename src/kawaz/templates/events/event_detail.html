@@ -32,24 +32,13 @@
                         {% if not event.period_start and not event.period_end %}
                             {# 開始日時未定and終了日時未定 #}
                             {% trans "未定" %}
-                        {% elif not event.period_end %}
-                            <span class="event-date">{{ event.period_start | date:"Y年m月d日" }}</span>
-                            <span class="{% get_week_day event.period_start %}">{{ event.period_start | date:"（l）" }}</span>
-                            <span>{{ event.period_start | date:"G時i分" }}</span>
-                            <span>{% trans "〜" %}</span>
-                            {% trans "終了日時未定" %}
-                            <a href="{% url 'events_event_calendar' pk=event.pk %}" title="{% trans "iCal形式でダウンロード" %}" rel="tooltip" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-calendar"></span></a>
                         {% else %}
-                            <span class="event-date">{{ event.period_start | date:"Y年m月d日" }}</span>
-                            <span class="{% get_week_day event.period_start %}">{{ event.period_start | date:"（l）" }}</span>
-                            <span>{{ event.period_start | date:"G時i分" }}</span>
-                            {% if event.period_end %}
-                                <span>{% trans "〜" %}</span>
-                                <span class="event-time">{{ event.period_end | date:"Y年m月d日" }}</span>
-                                <span class="{% get_week_day event.period_end %}">{{ event.period_end | date:"（l）" }}</span>
-                                <span>{{ event.period_start | date:"G時i分" }}</span>
-                                <a href="{% url 'events_event_calendar' pk=event.pk %}" title="{% trans "iCal形式でダウンロード" %}" rel="tooltip" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-calendar"></span></a>
-                            {% endif %}
+{# TODO 年月日だけ出力（今はなにもなし） #}
+                          <span class="event-start-date">{{ event.humanized_period }}</span>
+{# TODO 曜日だけ出力 #}
+{# TODO 曜日用のクラス名 #}
+                          <span class="">{{ event.humanized_period | date:"（l）" }}</span>
+                            <a href="{% url 'events_event_calendar' pk=event.pk %}" title="{% trans "iCal形式でダウンロード" %}" rel="tooltip" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-calendar"></span></a>
                         {% endif %}
                     </div>
                     <div class="event-place-wrap event-info-detail">

@@ -1,0 +1,47 @@
+{% load utils %}
+{% load staticfiles %}
+{% load i18n %}
+{% load events_tags %}
+
+<div class="panel panel-default event-list-item{% if event.pub_state == "protected" %} list-item-internal{% endif %}">
+
+  <a href="{{ event.get_absolute_url }}" class="event-list-panel">
+    <div class="panel-body event-panel-body">
+      <div class="event-panel-header">
+        <h3>{{ event.title }}</h3>
+        <div class="event-category">
+          <span class="glyphicon glyphicon-folder-open event-category-icon"></span>
+          <span>{{ event.category | default_if_none:"未設定" }}</span>
+        </div>
+      </div>
+
+      <div class="event-panel-info">
+        <div class="event-panel-time">
+          <span class="glyphicon glyph-large-icon glyphicon-time"></span>
+
+{# TODO 年月日だけ出力（今はなにもなし） #}
+          <span class="event-start-date">{{ event.humanized_period }}</span>
+
+{# TODO 曜日だけ出力 #}
+{# TODO 曜日用のクラス名 #}
+          <span class="">{{ event.humanized_period | date:"（l）" }}</span>
+        </div>
+        <div class="event-panel-place">
+          <span class="glyphicon glyph-large-icon glyphicon-flag"></span>
+        {% if event.place %}
+          <span class="event-place">{{ event.place }}</span>
+        {% else %}
+          <span class="event-place">{% trans "開催場所未定" %}</span>
+        {% endif %}
+        </div>
+      </div>
+
+      <ul class="event-attendees-list">
+      {% for attendee in event.attendees.all %}
+        <img src="{{ MEDIA_URL }}{{ attendee.get_middle_avatar }}" alt="{{ attendee.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ attendee.nickname }}" class="avatar avatar-small" />
+      {% endfor %}
+      </ul>
+    </div>
+  </a>
+</div>
+{{ block.super }}

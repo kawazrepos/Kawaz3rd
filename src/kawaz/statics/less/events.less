@@ -2,12 +2,130 @@
 @import (reference) "common/define";
 @import (reference) "common/vendor-prefixes";
 
-
 // common
 .glyph-large-icon {
   font-size: 1.5em;
   color: @footer-color;
 }
+
+.event-join-btn {
+  padding: 20px 30px;
+  background: @button-bg-color;
+  color: @button-text-color;
+  border: 1px solid @button-bg-color;
+  span {
+    font-size: 21px;
+  }
+  span:first-child {
+    margin-right: 10px;
+  }
+}
+.event-join-btn:hover {
+  background: @button-bg-color-hover;
+  color: @button-border-color-hover;
+}
+.event-leave-btn:hover {
+  background: @leave-button-bg-color-hover;
+}
+
+
+// event-list
+.event-list-wrap {
+  .event-list-header {
+    margin-bottom: 20px;
+    h2 {
+      margin-top: 30px;
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+}
+
+.event-list-item {
+  margin-top: 10px;
+  .event-list-panel {
+    display: block;
+    color: @text-color;
+    text-decoration: none;
+    .text-overflow(ellipsis);
+    &:hover {
+      text-decoration: none;
+      background: @gray-lighter;
+      border-color: @gray-lighter;
+    }
+    .event-panel-body {
+      padding: 20px;
+      .event-panel-header {
+        margin-bottom: 10px;
+        border-bottom: 1px dotted #ccc;
+        padding-bottom: 5px;
+        h3 {
+          font-size: 21px;
+          margin: 0;
+          text-align: left;
+          float: left;
+          .text-overflow(ellipsis);
+          width: 76%;
+        }
+        .event-category {
+          text-align: right;
+          .event-category-icon {
+            margin-right: 5px;
+          }
+        }
+      }
+      .event-panel-info {
+        clear: both;
+        color: #666;
+        .event-panel-time {
+          margin-bottom: 5px;
+        }
+        span {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .glyph-large-icon {
+          font-size: 1.25em;
+        }
+      }
+
+      ul {
+      &.event-attendees-list {
+        padding: 0;
+        margin: 10px 0 0;
+        a {
+          display: block;
+        }
+        li {
+          display: inline-block;
+          a {
+            display: block;
+          }
+        }
+      }
+      }
+    }
+  }
+  &.list-item-internal {
+    background: #fff url("../img/lock-icon3.png") no-repeat 101% 113%;
+  }
+}
+.event-create-button {
+  margin-top: 50px;
+}
+.event-detail-aside-item {
+  margin-bottom: 25px;
+  .event-join-btn {
+    padding: 20px 33px;
+    span {
+      font-size: 18px;
+    }
+  }
+  .back-event-list {
+    text-align: center;
+  }
+}
+
 
 
 // event-detail
@@ -70,18 +188,6 @@
     text-align: center;
     .event-join-utility {
       margin-top: 20px;
-      .event-join-btn {
-        padding: 20px 30px;
-        background: @button-bg-color;
-        color: @button-text-color;
-        border: 1px solid @button-bg-color;
-        span {
-          font-size: 21px;
-        }
-        span:first-child {
-          margin-right: 10px;
-        }
-      }
       .event-leave-btn {
         padding: 20px 30px;
         background: @leave-button-bg-color;
@@ -96,13 +202,6 @@
       }
       dl {
         margin: 0;
-      }
-      .event-join-btn:hover {
-        background: @button-bg-color-hover;
-        color: @button-border-color-hover;
-      }
-      .event-leave-btn:hover {
-        background: @leave-button-bg-color-hover;
       }
     }
     .attendance-deadline {
@@ -155,4 +254,3 @@
     border: none;
   }
 }
-
