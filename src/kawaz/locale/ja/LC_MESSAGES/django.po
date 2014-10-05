@@ -1,0 +1,1055 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-05 21:18+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: apps/announcements/models.py:59 apps/blogs/models.py:44
+#: apps/events/models.py:62 apps/profiles/models.py:56
+#: apps/projects/models.py:92
+msgid "Publish status"
+msgstr "公開設定"
+
+#: apps/announcements/models.py:62 apps/blogs/models.py:47
+#: apps/events/models.py:65 apps/products/models.py:82
+#: apps/projects/models.py:97 apps/recent_activities/models.py:14
+#: templates/projects/project_archive.html:27
+msgid "Title"
+msgstr "タイトル"
+
+#: apps/announcements/models.py:63 apps/blogs/models.py:48
+#: apps/events/models.py:66
+msgid "Body"
+msgstr "本文"
+
+#: apps/announcements/models.py:68 apps/attachments/models.py:23
+#: apps/blogs/models.py:55 apps/events/models.py:95
+#: apps/products/models.py:121 apps/products/models.py:200
+#: apps/profiles/models.py:72 apps/projects/models.py:127
+#: apps/recent_activities/models.py:17 apps/stars/models.py:120
+#: templates/announcements/components/announcement_detail.html:19
+msgid "Created at"
+msgstr "作成日時"
+
+#: apps/announcements/models.py:69 apps/blogs/models.py:56
+#: apps/events/models.py:96
+msgid "Modified at"
+msgstr "更新日時"
+
+#: apps/announcements/models.py:75
+msgid "Announcement"
+msgstr "お知らせ"
+
+#: apps/announcements/models.py:76
+#: templates/announcements/announcement_detail.html:10
+#: templates/announcements/announcement_list.html:14
+msgid "Announcements"
+msgstr "お知らせ"
+
+#: apps/attachments/models.py:15
+msgid "Content file"
+msgstr "ファイル"
+
+#: apps/attachments/models.py:20 apps/blogs/models.py:24
+#: apps/blogs/models.py:53 apps/stars/models.py:111
+msgid "Author"
+msgstr "作者"
+
+#: apps/attachments/models.py:21
+msgid "Slug"
+msgstr "スラグ"
+
+#: apps/attachments/models.py:27
+msgid "Material"
+msgstr "素材"
+
+#: apps/attachments/models.py:28
+msgid "Materials"
+msgstr ""
+
+#: apps/blogs/models.py:20
+msgid "Category name"
+msgstr ""
+
+#: apps/blogs/models.py:49 apps/events/models.py:93 apps/products/models.py:51
+#: apps/projects/models.py:21 apps/projects/models.py:113
+#: templates/projects/project_archive.html:29
+#: templates/projects/project_detail.html:33
+msgid "Category"
+msgstr ""
+
+#: apps/blogs/models.py:57 templates/blogs/components/entry_detail.html:20
+msgid "Published at"
+msgstr ""
+
+#: apps/blogs/models.py:64
+msgid "Entry"
+msgstr "ブログ記事"
+
+#: apps/blogs/models.py:65
+msgid "Entries"
+msgstr "ブログ記事"
+
+#: apps/events/filters.py:16 apps/products/filters.py:16
+#: apps/products/models.py:52 apps/products/models.py:115
+#: apps/projects/models.py:22 templates/events/event_list.html:49
+#: templates/products/product_detail.html:121
+#: templates/products/product_list.html:49
+msgid "Categories"
+msgstr ""
+
+#: apps/events/filters.py:18 apps/products/filters.py:13
+#: apps/products/filters.py:18 apps/profiles/filters.py:13
+#: core/filters/widgets.py:40
+msgid "All"
+msgstr ""
+
+#: apps/events/models.py:19 apps/events/models.py:27 apps/events/models.py:28
+#: apps/products/models.py:25 apps/products/models.py:45
+#: apps/products/models.py:195 apps/profiles/models.py:9
+#: apps/profiles/models.py:98
+msgid "Label"
+msgstr ""
+
+#: apps/events/models.py:20 apps/products/models.py:27
+#: apps/products/models.py:47 apps/profiles/models.py:11
+msgid "Order"
+msgstr ""
+
+#: apps/events/models.py:69
+msgid "Start time"
+msgstr ""
+
+#: apps/events/models.py:71
+msgid "End time"
+msgstr ""
+
+#: apps/events/models.py:73 core/registrations/models.py:10
+msgid "Place"
+msgstr ""
+
+#: apps/events/models.py:75
+msgid "Number restriction"
+msgstr ""
+
+#: apps/events/models.py:77
+msgid "Use this to limit the number of attendees."
+msgstr ""
+
+#: apps/events/models.py:79
+msgid "Attendance deadline"
+msgstr ""
+
+#: apps/events/models.py:81
+msgid ""
+"A deadline of the attendance. No member can attend the event after this "
+"deadline."
+msgstr ""
+
+#: apps/events/models.py:85
+msgid "Organizer"
+msgstr ""
+
+#: apps/events/models.py:90
+msgid "Attendees"
+msgstr ""
+
+#: apps/events/models.py:105
+msgid "Event"
+msgstr ""
+
+#: apps/events/models.py:106 templates/base.html:42
+#: templates/events/event_form.html:15
+msgid "Events"
+msgstr ""
+
+#: apps/events/models.py:130
+msgid "End time must be later than start time."
+msgstr ""
+
+#: apps/events/models.py:134
+msgid "Start time must be future."
+msgstr ""
+
+#: apps/events/models.py:136
+msgid "The period of event is too long."
+msgstr ""
+
+#: apps/events/models.py:138
+msgid "You must set end time too"
+msgstr ""
+
+#: apps/events/models.py:141
+msgid "Number restriction should be grater than 0"
+msgstr ""
+
+#: apps/events/models.py:146
+msgid "Attendance deadline must be future."
+msgstr ""
+
+#: apps/events/models.py:204
+msgid "Mon"
+msgstr ""
+
+#: apps/events/models.py:204
+msgid "Tue"
+msgstr ""
+
+#: apps/events/models.py:204
+msgid "Wed"
+msgstr ""
+
+#: apps/events/models.py:204
+msgid "Thu"
+msgstr ""
+
+#: apps/events/models.py:204
+msgid "Fri"
+msgstr ""
+
+#: apps/events/models.py:204
+msgid "Sat"
+msgstr ""
+
+#: apps/events/models.py:204
+msgid "Sun"
+msgstr ""
+
+#: apps/events/models.py:212
+#, python-brace-format
+msgid "%m/%d({weekday})"
+msgstr ""
+
+#: apps/events/models.py:215
+#, python-brace-format
+msgid "%Y/%m/%d({weekday})"
+msgstr ""
+
+#: apps/events/models.py:217
+msgid "%H:%M"
+msgstr ""
+
+#: apps/events/models.py:224
+msgid "Unfixed"
+msgstr ""
+
+#: apps/events/models.py:226
+msgid "{} ~ End time is unfixed"
+msgstr ""
+
+#: apps/events/models.py:229
+msgid "{} ~ {}"
+msgstr ""
+
+#: apps/products/filters.py:11 apps/products/models.py:32
+#: apps/products/models.py:114 templates/products/product_detail.html:104
+#: templates/products/product_list.html:43
+msgid "Platforms"
+msgstr ""
+
+#: apps/products/models.py:26 apps/profiles/models.py:99
+msgid "Icon"
+msgstr ""
+
+#: apps/products/models.py:31 apps/products/models.py:196
+msgid "Platform"
+msgstr ""
+
+#: apps/products/models.py:46 apps/products/models.py:98
+#: apps/profiles/models.py:10 apps/projects/models.py:107
+msgid "Description"
+msgstr ""
+
+#: apps/products/models.py:76
+msgid "Featured"
+msgstr ""
+
+#: apps/products/models.py:77
+msgid "Tiled"
+msgstr ""
+
+#: apps/products/models.py:78
+msgid "Normal"
+msgstr ""
+
+#: apps/products/models.py:83
+msgid "Product slug"
+msgstr ""
+
+#: apps/products/models.py:84
+msgid ""
+"It will be used on the url of the product thus it only allow alphabetical or "
+"numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
+"value cannot be modified for preventing the URL changes."
+msgstr ""
+
+#: apps/products/models.py:93 apps/projects/models.py:110
+msgid "Thumbnail"
+msgstr ""
+
+#: apps/products/models.py:96
+msgid ""
+"This would be used as a product thumbnail image. The aspect ratio of the "
+"image should be 16:9."
+msgstr ""
+
+#: apps/products/models.py:102
+msgid "Advertisement Image"
+msgstr ""
+
+#: apps/products/models.py:106
+msgid ""
+"This would be used in the top page. The aspect ratio of the image should be "
+"16:9"
+msgstr ""
+
+#: apps/products/models.py:109
+msgid "Trailer"
+msgstr ""
+
+#: apps/products/models.py:110
+msgid ""
+"Enter URL of your trailer movie on the YouTube. The movie would be embeded "
+"to the product page."
+msgstr ""
+
+#: apps/products/models.py:112 apps/projects/models.py:139
+msgid "Project"
+msgstr ""
+
+#: apps/products/models.py:116
+msgid "Publish at"
+msgstr ""
+
+#: apps/products/models.py:120
+msgid "Administrators"
+msgstr ""
+
+#: apps/products/models.py:122 apps/products/models.py:201
+#: apps/profiles/models.py:73 apps/projects/models.py:128
+msgid "Updated at"
+msgstr ""
+
+#: apps/products/models.py:135
+msgid "Display mode"
+msgstr ""
+
+#: apps/products/models.py:137
+msgid ""
+"How the product displayed on the site top. To use `featured`, it require "
+"`advertisement_image`."
+msgstr ""
+
+#: apps/products/models.py:142 apps/products/models.py:198
+#: apps/products/models.py:278
+msgid "Product"
+msgstr ""
+
+#: apps/products/models.py:143 templates/base.html:41
+msgid "Products"
+msgstr ""
+
+#: apps/products/models.py:156
+msgid "`feature` display mode require `advertisement_image`."
+msgstr ""
+
+#: apps/products/models.py:197
+msgid "Version"
+msgstr ""
+
+#: apps/products/models.py:221
+msgid "File"
+msgstr ""
+
+#: apps/products/models.py:223 templates/products/product_detail.html:28
+msgid "Downloads"
+msgstr ""
+
+#: apps/products/models.py:225
+msgid "The number of downloads"
+msgstr ""
+
+#: apps/products/models.py:228
+msgid "Package release"
+msgstr ""
+
+#: apps/products/models.py:229
+msgid "Package releases"
+msgstr ""
+
+#: apps/products/models.py:239 apps/profiles/models.py:63
+#: apps/recent_activities/models.py:15
+msgid "URL"
+msgstr ""
+
+#: apps/products/models.py:241
+msgid "Page view"
+msgstr ""
+
+#: apps/products/models.py:243
+msgid "The number of page views"
+msgstr ""
+
+#: apps/products/models.py:246
+msgid "URL release"
+msgstr ""
+
+#: apps/products/models.py:247
+msgid "URL releases"
+msgstr ""
+
+#: apps/products/models.py:275 apps/recent_activities/models.py:16
+msgid "Image"
+msgstr ""
+
+#: apps/products/models.py:282
+msgid "Screen shot"
+msgstr ""
+
+#: apps/products/models.py:283
+msgid "Screen shots"
+msgstr ""
+
+#: apps/profiles/filters.py:11 apps/profiles/models.py:19
+#: apps/profiles/models.py:65
+msgid "Skills"
+msgstr ""
+
+#: apps/profiles/models.py:18 core/registrations/models.py:14
+msgid "Skill"
+msgstr ""
+
+#: apps/profiles/models.py:51 core/publishments/models.py:6
+msgid "Public"
+msgstr ""
+
+#: apps/profiles/models.py:52 core/publishments/models.py:7
+msgid "Internal"
+msgstr ""
+
+#: apps/profiles/models.py:59
+msgid "Birth day"
+msgstr ""
+
+#: apps/profiles/models.py:61 templates/profiles/profile_detail.html:30
+msgid "Address"
+msgstr ""
+
+#: apps/profiles/models.py:62
+msgid "Your address will not be shown by anonymous user."
+msgstr ""
+
+#: apps/profiles/models.py:64 core/registrations/models.py:17
+msgid "Remarks"
+msgstr ""
+
+#: apps/profiles/models.py:70
+msgid "User"
+msgstr ""
+
+#: apps/profiles/models.py:79 templates/profiles/profile_form.html:11
+msgid "Profile"
+msgstr ""
+
+#: apps/profiles/models.py:80
+msgid "Profiles"
+msgstr ""
+
+#: apps/profiles/models.py:100
+msgid "URL pattern"
+msgstr ""
+
+#: apps/profiles/models.py:108 apps/profiles/models.py:115
+msgid "Service"
+msgstr ""
+
+#: apps/profiles/models.py:109
+msgid "Services"
+msgstr ""
+
+#: apps/profiles/models.py:114 apps/profiles/models.py:122
+msgid "Account"
+msgstr ""
+
+#: apps/profiles/models.py:116
+msgid "Publish State"
+msgstr ""
+
+#: apps/profiles/models.py:119
+msgid "Username"
+msgstr ""
+
+#: apps/profiles/models.py:123 templates/profiles/profile_detail.html:115
+msgid "Accounts"
+msgstr ""
+
+#: apps/projects/models.py:17
+msgid "Name"
+msgstr ""
+
+#: apps/projects/models.py:84
+msgid "Planning"
+msgstr ""
+
+#: apps/projects/models.py:85
+msgid "Active"
+msgstr ""
+
+#: apps/projects/models.py:86
+msgid "Suspended"
+msgstr ""
+
+#: apps/projects/models.py:87
+msgid "Eternaled"
+msgstr ""
+
+#: apps/projects/models.py:88
+msgid "Released"
+msgstr ""
+
+#: apps/projects/models.py:95 templates/projects/project_archive.html:30
+#: templates/projects/project_detail.html:29
+msgid "Status"
+msgstr ""
+
+#: apps/projects/models.py:98
+msgid "Project slug"
+msgstr ""
+
+#: apps/projects/models.py:99
+msgid ""
+"It will be used on the url of the project thus it only allow alphabetical or "
+"numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
+"value cannot be modified for preventing the URL changes."
+msgstr ""
+
+#: apps/projects/models.py:116
+msgid "Contact us if you cannot find a category you need."
+msgstr ""
+
+#: apps/projects/models.py:120
+msgid "Administrator"
+msgstr ""
+
+#: apps/projects/models.py:124 templates/profiles/profile_list.html:10
+#: templates/projects/project_detail.html:62
+msgid "Members"
+msgstr ""
+
+#: apps/projects/models.py:130
+msgid "Tracker URL"
+msgstr ""
+
+#: apps/projects/models.py:132
+msgid "Repository URL"
+msgstr ""
+
+#: apps/projects/models.py:140
+msgid "Projects"
+msgstr ""
+
+#: apps/recent_activities/models.py:24
+#: templates/roughpages/index.anonymous.html:46
+msgid "Recent Activity"
+msgstr ""
+
+#: apps/recent_activities/models.py:25
+msgid "Recent Activities"
+msgstr ""
+
+#: apps/stars/models.py:61
+msgid "The star have not been added to this object."
+msgstr ""
+
+#: apps/stars/models.py:114
+msgid "Quote"
+msgstr ""
+
+#: apps/stars/models.py:116
+msgid ""
+"This is used for quotation. When the user add a star with text selection, "
+"the selected text is passed to this."
+msgstr ""
+
+#: apps/stars/models.py:126
+msgid "Star"
+msgstr ""
+
+#: apps/stars/models.py:127
+msgid "Stars"
+msgstr ""
+
+#: core/forms/mixins.py:30 templates/products/product_form.html:51
+#: templates/profiles/profile_form.html:23
+msgid "Save"
+msgstr ""
+
+#: core/gcal/models.py:30
+msgid "Google Calendar Event ID"
+msgstr ""
+
+#: core/personas/admin.py:22
+msgid "Personal info"
+msgstr ""
+
+#: core/personas/admin.py:23
+msgid "Extra info"
+msgstr ""
+
+#: core/personas/admin.py:24
+msgid "Permissions"
+msgstr ""
+
+#: core/personas/admin.py:26
+msgid "Important dates"
+msgstr ""
+
+#: core/personas/forms.py:50
+msgid "Users in this role have all permissions"
+msgstr ""
+
+#: core/personas/forms.py:51
+msgid "Users in this role can promote to the adam"
+msgstr ""
+
+#: core/personas/forms.py:52
+msgid "Users in this role have staff permission"
+msgstr ""
+
+#: core/personas/forms.py:53
+msgid "Users in this role are assumed to be a member of the site"
+msgstr ""
+
+#: core/personas/forms.py:54
+msgid "Users in this role are assumed to be a signed in visitor"
+msgstr ""
+
+#: core/personas/models.py:94
+msgid "Man"
+msgstr ""
+
+#: core/personas/models.py:95
+msgid "Woman"
+msgstr ""
+
+#: core/personas/models.py:96
+msgid "Unknown"
+msgstr ""
+
+#: core/personas/models.py:100
+msgid "Adam"
+msgstr ""
+
+#: core/personas/models.py:101
+msgid "Seele"
+msgstr ""
+
+#: core/personas/models.py:102
+msgid "Nerv"
+msgstr ""
+
+#: core/personas/models.py:103
+msgid "Children"
+msgstr ""
+
+#: core/personas/models.py:104
+msgid "Wille"
+msgstr ""
+
+#: core/personas/models.py:107
+msgid "Nickname"
+msgstr ""
+
+#: core/personas/models.py:108
+msgid "Mood message"
+msgstr ""
+
+#: core/personas/models.py:109
+msgid "Avatar"
+msgstr ""
+
+#: core/personas/models.py:111 templates/profiles/profile_detail.html:22
+msgid "Gender"
+msgstr ""
+
+#: core/personas/models.py:113
+msgid "Role"
+msgstr ""
+
+#: core/personas/models.py:116
+msgid ""
+"The role this user belongs to. A user will get permissions of the role thus "
+"the user cannot change ones role for security reason."
+msgstr ""
+
+#: core/personas/models.py:162
+msgid "Persona"
+msgstr ""
+
+#: core/personas/models.py:163
+msgid "Personas"
+msgstr ""
+
+#: core/publishments/models.py:8
+msgid "Draft"
+msgstr ""
+
+#: core/registrations/models.py:11
+msgid "Fill your address. You must be related with Sapporo or neighbor cities."
+msgstr ""
+
+#: core/registrations/models.py:15
+msgid ""
+"Fill your skills or what you want to do which related to game development."
+msgstr ""
+
+#: templates/base.html:40
+msgid "Home"
+msgstr ""
+
+#: templates/base.html:54
+msgid "View Profile"
+msgstr ""
+
+#: templates/base.html:55
+msgid "Change Profile"
+msgstr ""
+
+#: templates/base.html:57 templates/registration/logout.html:6
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:63 templates/registration/login.html:7
+msgid "Login"
+msgstr ""
+
+#: templates/announcements/announcement_list.html:15
+#, python-format
+msgid "There are %(count)s announcement entries."
+msgstr ""
+
+#: templates/announcements/announcement_list.html:34
+msgid "Recent Announcements"
+msgstr ""
+
+#: templates/blogs/entry_detail.html:11
+msgid "'s Entries"
+msgstr ""
+
+#: templates/blogs/entry_list.html:12
+msgid "Blog Articles"
+msgstr ""
+
+#: templates/blogs/entry_list.html:13
+#, python-format
+msgid "There are %(count)s blog entries."
+msgstr ""
+
+#: templates/blogs/entry_list.html:17
+msgid "ブログ記事を書く"
+msgstr ""
+
+#: templates/blogs/entry_list.html:32
+msgid "Hot Entries"
+msgstr ""
+
+#: templates/components/login_form.html:18
+#: templates/registration/login.html:13
+msgid "Sign In"
+msgstr ""
+
+#: templates/components/login_form.html:21
+msgid "Forgot Password?"
+msgstr ""
+
+#: templates/events/event_archive_month.html:17
+#: templates/events/event_archive_month.html:40
+#: templates/events/event_archive_year.html:17
+#: templates/events/event_archive_year.html:40
+#: templates/events/event_list.html:59
+msgid "過去のイベント"
+msgstr ""
+
+#: templates/events/event_archive_month.html:31
+#: templates/events/event_archive_year.html:31
+#: templates/events/event_list.html:24 templates/events/event_list.html:41
+msgid "イベントを作成する"
+msgstr ""
+
+#: templates/events/event_archive_month.html:51
+#: templates/events/event_archive_year.html:51
+msgid "開催予定イベント一覧に戻る"
+msgstr ""
+
+#: templates/events/event_detail.html:34
+msgid "未定"
+msgstr ""
+
+#: templates/events/event_detail.html:41
+msgid "iCal形式でダウンロード"
+msgstr ""
+
+#: templates/events/event_detail.html:49
+msgid "See this place in Google Maps"
+msgstr ""
+
+#: templates/events/event_detail.html:56
+#: templates/events/components/list-item.html:34
+msgid "開催場所未定"
+msgstr ""
+
+#: templates/events/event_detail.html:69
+msgid "Join This Event"
+msgstr "このイベントに参加"
+
+#: templates/events/event_detail.html:73
+#, python-format
+msgid ""
+"\n"
+"                            あと%(event.number_restriction)s人参加できます\n"
+"                            "
+msgstr ""
+
+#: templates/events/event_detail.html:81
+#: templates/events/event_detail.html:101
+msgid "参加者締め切りました"
+msgstr ""
+
+#: templates/events/event_detail.html:83
+msgid "参加者募集中"
+msgstr ""
+
+#: templates/events/event_detail.html:86
+#, python-format
+msgid ""
+"\n"
+"                                あと%(event.number_restriction)s人参加できま"
+"す\n"
+"                                "
+msgstr ""
+
+#: templates/events/event_detail.html:96
+msgid "Leave This Event"
+msgstr ""
+
+#: templates/events/event_detail.html:104
+msgid "イベントに参加するには<br>ログインする必要があります"
+msgstr ""
+
+#: templates/events/event_detail.html:109
+msgid "参加締切日"
+msgstr ""
+
+#: templates/events/event_detail.html:111
+msgid "まで"
+msgstr ""
+
+#: templates/events/event_detail.html:115
+msgid "参加締切はありません"
+msgstr ""
+
+#: templates/events/event_detail.html:135
+msgid "主催者"
+msgstr ""
+
+#: templates/events/event_detail.html:148
+msgid "参加者"
+msgstr ""
+
+#: templates/events/event_detail.html:152
+#, python-format
+msgid "%(attendees_count)s人参加中"
+msgstr ""
+
+#: templates/events/event_detail.html:176
+#: templates/products/product_detail.html:87
+#: templates/products/product_list.html:34
+#: templates/profiles/profile_detail.html:104
+#: templates/projects/project_detail.html:85
+msgid "Administration"
+msgstr ""
+
+#: templates/events/event_detail.html:182
+msgid "Update event"
+msgstr ""
+
+#: templates/events/event_detail.html:188
+msgid "Delete event"
+msgstr ""
+
+#: templates/events/event_form.html:7
+msgid "を編集する"
+msgstr ""
+
+#: templates/events/event_form.html:9
+msgid "新しくイベントを作成する"
+msgstr ""
+
+#: templates/events/event_list.html:16
+msgid "開催予定のイベント"
+msgstr ""
+
+#: templates/events/event_list.html:22
+msgid "該当するイベントは見つかりませんでした"
+msgstr ""
+
+#: templates/products/product_detail.html:63
+#: templates/products/product_form.html:22
+msgid "Screenshots"
+msgstr ""
+
+#: templates/products/product_detail.html:91
+#: templates/products/product_list.html:24
+#: templates/products/product_list.html:37
+msgid "Create Product"
+msgstr ""
+
+#: templates/products/product_detail.html:94
+msgid "Update Product"
+msgstr ""
+
+#: templates/products/product_detail.html:97
+msgid "Delete Product"
+msgstr ""
+
+#: templates/products/product_detail.html:132
+msgid "Recommended Games"
+msgstr ""
+
+#: templates/products/product_form.html:32
+msgid "URL Releases"
+msgstr ""
+
+#: templates/products/product_form.html:42
+msgid "Package Releases"
+msgstr ""
+
+#: templates/products/product_list.html:11
+msgid "Product List"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:26
+msgid "Birthday"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:34
+msgid "Abilities"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:77
+msgid "Recent Entries"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:80
+msgid "There are no entries yet"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:108
+msgid "Update Profile"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:124
+msgid "There are no accounts."
+msgstr ""
+
+#: templates/profiles/profile_detail.html:131
+msgid "Joined Projects"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:140
+msgid "There are no joinned projects."
+msgstr ""
+
+#: templates/profiles/profile_form.html:18
+msgid "Available Services"
+msgstr ""
+
+#: templates/projects/project_archive.html:11
+#: templates/projects/project_list.html:52
+msgid "Archived Projects"
+msgstr ""
+
+#: templates/projects/project_archive.html:12
+#, python-format
+msgid "There are %(count)s archived projects."
+msgstr ""
+
+#: templates/projects/project_archive.html:28
+msgid "Created At"
+msgstr ""
+
+#: templates/projects/project_detail.html:37
+msgid "Redmine"
+msgstr ""
+
+#: templates/projects/project_detail.html:41
+msgid "Repository"
+msgstr ""
+
+#: templates/projects/project_detail.html:56
+msgid "Join This Project"
+msgstr ""
+
+#: templates/projects/project_detail.html:76
+msgid "operation"
+msgstr ""
+
+#: templates/projects/project_detail.html:78
+msgid "Leave this project"
+msgstr ""
+
+#: templates/projects/project_detail.html:89
+msgid "Create Project"
+msgstr ""
+
+#: templates/projects/project_detail.html:92
+msgid "Update Project"
+msgstr ""
+
+#: templates/projects/project_detail.html:95
+msgid "Delete Project"
+msgstr ""
+
+#: templates/projects/project_list.html:14
+msgid "Active Projects"
+msgstr ""
+
+#: templates/projects/project_list.html:32
+msgid "Planning Projects"
+msgstr ""
+
+#: templates/projects/project_list.html:62
+#: templates/roughpages/index.anonymous.html:59
+#: templates/roughpages/index.anonymous.html:87
+msgid "See More"
+msgstr ""
+
+#: templates/registration/registration_form.html:7
+msgid "Application for join us"
+msgstr ""
+
+#: templates/registration/registration_form.html:14
+msgid "Register"
+msgstr ""
+
+#: templates/roughpages/index.anonymous.html:67
+msgid "Recent Games"
+msgstr ""
+
+#: templates/roughpages/index.anonymous.html:76
+msgid "Featured Games"
+msgstr ""

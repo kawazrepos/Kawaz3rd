@@ -65,6 +65,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -124,7 +125,17 @@ PERMISSION_CHECK_PERMISSION_PRESENCE = DEBUG
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
+
+gettext = lambda s: s
+LANGUAGES = (
+    ('en-us', gettext('English')),
+    ('ja', gettext('Japanese')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'locale'),
+)
 
 TIME_ZONE = 'Asia/Tokyo'
 
@@ -207,6 +218,7 @@ if DEBUG:
     warnings.filterwarnings(
         'error', r"DateTimeField .* received a naive datetime",
         RuntimeWarning, r'django\.db\.models\.fields')
+
 
 # 環境依存の設定（デプロイサーバー固有の設定など）を読み込む
 LOCAL_SETTINGS_LOADED = False
