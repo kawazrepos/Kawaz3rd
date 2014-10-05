@@ -147,7 +147,7 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-    def join(self, user, save=True):
+    def join(self, user):
         """
         指定されたユーザーを参加させる
 
@@ -156,10 +156,8 @@ class Project(models.Model):
         if not user.has_perm('projects.join_project', self):
             raise PermissionDenied
         self.members.add(user)
-        if save:
-            self.save()
 
-    def quit(self, user, save=True):
+    def quit(self, user):
         """
         指定されたユーザーを退会させる
 
@@ -168,8 +166,6 @@ class Project(models.Model):
         if not user.has_perm('projects.quit_project', self):
             raise PermissionDenied
         self.members.remove(user)
-        if save:
-            self.save()
 
     # TODO: Persona.is_member と若干かぶるため名前を変えたほうが良い
     def is_member(self, user):

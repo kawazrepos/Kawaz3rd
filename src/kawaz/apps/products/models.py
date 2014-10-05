@@ -156,7 +156,7 @@ class Product(models.Model):
             raise ValidationError(_("`feature` display mode require "
                                     "`advertisement_image`."))
 
-    def join(self, user, save=True):
+    def join(self, user):
         """
         指定されたユーザーを管理者にする
 
@@ -165,10 +165,8 @@ class Product(models.Model):
         if not user.has_perm('products.join_product', self):
             raise PermissionDenied
         self.administrators.add(user)
-        if save:
-            self.save()
 
-    def quit(self, user, save=True):
+    def quit(self, user):
         """
         指定されたユーザーを管理者から外す
 
@@ -177,8 +175,6 @@ class Product(models.Model):
         if not user.has_perm('products.quit_product', self):
             raise PermissionDenied
         self.administrators.remove(user)
-        if save:
-            self.save()
 
     @models.permalink
     def get_absolute_url(self):
