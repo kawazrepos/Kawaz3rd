@@ -1,4 +1,16 @@
-{% extends "base.html" %}
+{% extends "authenticated_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block pre_css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "css/blogs.css" %}" media="screen">
+{% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url "announcements_announcement_list" %}">{% trans "Announcements" %}</a></li>
+    <li>{{ object.title }}</li>
+{% endblock %}
 {% block content %}
-    {{ object }}
+    {{ block.super }}
+    {% include "announcements/components/announcement_detail.html" %}
 {% endblock %}
