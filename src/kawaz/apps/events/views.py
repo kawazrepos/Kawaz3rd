@@ -72,10 +72,12 @@ class EventDeleteView(DeleteView):
     model = Event
     success_url = reverse_lazy('events_event_list')
 
-@permission_required('event.attend_event')
+@permission_required('events.attend_event')
 class EventAttendView(UpdateView):
     model = Event
-    success_url = reverse_lazy('events_event_list')
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
     def attend(self, request, *args, **kwargs):
         """
@@ -100,7 +102,9 @@ class EventAttendView(UpdateView):
 @permission_required('events.quit_event')
 class EventQuitView(UpdateView):
     model = Event
-    success_url = reverse_lazy('events_event_list')
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
     def quit(self, request, *args, **kwargs):
         """

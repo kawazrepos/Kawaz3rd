@@ -64,9 +64,9 @@
 
                 {% if user has 'events.attend_event' of event %}
                     {# 参加できる状態 #}
-                    <a href="{% url "events_event_join" event.pk %}"
+                    <a href="{% url "events_event_attend" event.pk %}"
                        class="btn btn-success event-join-btn btn-large post-link">
-                        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Join This Event" %}</span>
+                        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Attend This Event" %}</span>
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                     {% if event.number_restriction %}
