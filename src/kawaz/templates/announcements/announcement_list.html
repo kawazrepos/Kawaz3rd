@@ -3,6 +3,7 @@
 {% load staticfiles %}
 {% block pre_css %}
 {{ block.super }}
+    {# BlogのCSSデザインを踏襲 #}
     <link rel="stylesheet" href="{% static "css/blogs.css" %}" media="screen">
     <link rel="stylesheet" href="{% static "css/markdown_nostyle.css" %}" media="screen">
 {% endblock %}
@@ -10,7 +11,7 @@
     <div class="page-header blog-list-header">
         <div class="header-left">
             <h1>{% trans "Announcements" %}</h1>
-            <small>{% blocktrans with count=object_list.count %}There are {{ count }} announcement entries.{% endblocktrans %}</small>
+            <small>{% blocktrans with count=paginator.count %}There are {{ count }} announcement entries.{% endblocktrans %}</small>
         </div>
         {% if user has 'announcements.add_entry' %}
             <div class="header-right">
@@ -24,14 +25,13 @@
     {% for object in object_list %}
         {% include "announcements/components/announcement_truncated.html" %}
     {% endfor %}
+    {% include "components/paginator.html" %}
 {% endblock %}
 {% block content-aside %}
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">{% trans "Announcements" %}</h2>
         </div>
-        {# TODO: ここにスターの数等によるホットエントリーの設置 #}
-        {# Fix Me: ハードコーディング #}
         <div class="list-group">
             {% for object in object_list %}
                 <a class="list-group-item" href="{{ object.get_absolute_url }}">{{ object.title }} <small class="text-muted">{{ object.created_at|date:"Y/m/d" }}</small></a>
