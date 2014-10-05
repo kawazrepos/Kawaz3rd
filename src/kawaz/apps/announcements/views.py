@@ -40,6 +40,7 @@ class AnnouncementDetailView(DetailView):
 @permission_required('announcements.view_announcement')
 class AnnouncementListView(ListView):
     model = Announcement
+    paginate_by = 5
 
     def get_queryset(self):
         return Announcement.objects.published(self.request.user)
