@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 import os
+import sys
 REPOSITORY_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 
@@ -208,7 +209,9 @@ if DEBUG:
 
 # 環境依存の設定（デプロイサーバー固有の設定など）を読み込む
 LOCAL_SETTINGS_LOADED = False
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+
+if not 'test' in sys.argv:
+    try:
+        from .local_settings import *
+    except ImportError:
+        pass
