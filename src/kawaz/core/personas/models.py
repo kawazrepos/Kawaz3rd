@@ -173,6 +173,10 @@ class Persona(AbstractUser, metaclass=PersonaBase):
             self.nickname = self.username
         super().clean_fields(exclude=exclude, **kwargs)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('profiles_profile_detail', (), {'slug': self.username})
+
 from permission import add_permission_logic
 from .perms import PersonaPermissionLogic
 add_permission_logic(Persona, PersonaPermissionLogic())
