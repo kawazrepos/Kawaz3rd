@@ -65,8 +65,9 @@
                 {% if user has 'events.attend_event' of event %}
                     {# 参加できる状態 #}
                     <a href="{% url "events_event_join" event.pk %}"
-                       class="btn btn-success event-join-btn btn-large">
+                       class="btn btn-success event-join-btn btn-large post-link">
                         <span class="glyphicon glyphicon-plus"></span><span>{% trans "Join This Event" %}</span>
+                        <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                     {% if event.number_restriction %}
                         <p class="event-join-count">
@@ -92,8 +93,9 @@
                 {% elif user has 'events.quit_event' of event %}
                     {# イベント参加者 #}
                     <a href="{% url "events_event_quit" event.pk %}"
-                       class="btn event-leave-btn btn-large">
+                       class="btn event-leave-btn btn-large post-link">
                         <span class="glyphicon glyphicon-log-out"></span><span>{% trans "Leave This Event" %}</span>
+                        <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% else %}
                     {% if event.is_over_restriction or event.is_over_deadline %}
