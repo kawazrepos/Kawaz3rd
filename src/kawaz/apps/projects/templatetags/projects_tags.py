@@ -1,6 +1,7 @@
 from django import template
 from django.template import TemplateSyntaxError
 from ..models import Project
+from django.db.models import Count
 
 register = template.Library()
 
@@ -55,5 +56,6 @@ def get_projects(context, lookup='published'):
         qs = Project.objects.recently_planned(request.user)
     elif lookup == 'archived':
         qs = Project.objects.archived(request.user)
-    return qs
+
+    return qs.prefetch_related('members').annotate(members_count=Count('members'))
 
