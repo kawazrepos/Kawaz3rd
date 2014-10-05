@@ -18,7 +18,7 @@ class ProfileListView(FilterView):
 
     def get_queryset(self):
         qs = Profile.objects.published(self.request.user)
-        qs.prefetch_related('accounts__service').prefetch_related('skills')
+        qs.prefetch_related('accounts__service').prefetch_related('skills').select_related('user')
         return qs
 
 
@@ -91,7 +91,7 @@ class ProfileDetailView(DetailView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.prefetch_related('skills').prefetch_related('accounts__service')
+        return qs.prefetch_related('skills').prefetch_related('accounts__service').select_related('user')
 
 
 class ProfilePreview(SingleObjectPreviewMixin, DetailView):

@@ -62,13 +62,20 @@ class ProjectDeleteView(DeleteView):
 class ProjectDetailView(DetailView):
     model = Project
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs.prefetch_related('members')
+        return qs
+
 
 @permission_required('projects.view_project')
 class ProjectListView(ListView):
     model = Project
 
     def get_queryset(self):
-        return Project.objects.published(self.request.user)
+        qs = Project.objects.published(self.request.user)
+        qs.prefetch_related('members')
+        return qs
 
 
 @permission_required('projects.join_project')
