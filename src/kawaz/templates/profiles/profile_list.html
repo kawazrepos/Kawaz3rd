@@ -32,7 +32,7 @@
                         </div>
                         <div class="profile-accounts">
                             {% for account in object.accounts.all %}
-                                <span><a href="{{ account.url }}"><img data-toggle="tooltip" data-placement="top" data-title="{{ account.username }}" src="{{ account.service.icon.url }}" alt="{{ account.service.label }}"></a></span>
+                                <span><a href="{{ account.url }}"><img data-toggle="tooltip" data-placement="top" data-title="{{ account.username }}" src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}"></a></span>
                             {% endfor %}
                         </div>
                     </div>
