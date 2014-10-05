@@ -47,6 +47,7 @@ $ ->
     $control.find('.mace-heading-1').click(mace.heading.bind(mace, 1))
     $control.find('.mace-heading-2').click(mace.heading.bind(mace, 2))
     $control.find('.mace-heading-3').click(mace.heading.bind(mace, 3))
+    # ["item 1"] リスト初期化用の配列なので、無くても良いです
     $control.find('.mace-list').click(mace.list.bind(mace, '-', ["item 1"]))
     $control.find('.mace-link').click(->
       url = prompt('URL を入力')
