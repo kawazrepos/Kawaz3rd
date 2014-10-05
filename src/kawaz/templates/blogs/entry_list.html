@@ -14,7 +14,7 @@
         </div>
         {% if user has 'blogs.add_entry' %}
             <div class="header-right">
-                <a href="{% events_event_create author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "ブログ記事を書く" %}</a>
+                <a href="{% url blogs_entry_create author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "ブログ記事を書く" %}</a>
             </div>
         {% endif %}
     </div>
