@@ -38,7 +38,7 @@
 
       <ul class="event-attendees-list">
       {% for attendee in event.attendees.all %}
-        <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}" alt="{{ attendee.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ attendee.nickname }}" class="avatar avatar-small" />
+        <img src="{{ MEDIA_URL }}{{ attendee.get_middle_avatar }}" alt="{{ attendee.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ attendee.nickname }}" class="avatar avatar-small" />
       {% endfor %}
       </ul>
     </div>
