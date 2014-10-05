@@ -1,0 +1,7 @@
+<a href="{{ object.get_absolute_url }}">{{ object }}</a>に参加していた
+<ul>
+{% for user in users %}
+  <li><a href="{{ user.get_absolute_url }}">{{ user }}</a>
+{% endfor %}
+</ul>
+が参加を取り消しました

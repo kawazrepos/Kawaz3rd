@@ -254,3 +254,7 @@ from kawaz.core.publishments.perms import PublishmentPermissionLogic
 add_permission_logic(Event, EventPermissionLogic()),
 add_permission_logic(Event, PublishmentPermissionLogic(
     author_field_name='organizer')),
+
+from .activity import EventActivityMediator
+from kawaz.apps.activities.registry import registry
+registry.register(Event, EventActivityMediator())
