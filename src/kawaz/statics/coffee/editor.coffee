@@ -47,6 +47,10 @@ $ ->
     $control.find('.mace-heading-1').click(mace.heading.bind(mace, 1))
     $control.find('.mace-heading-2').click(mace.heading.bind(mace, 2))
     $control.find('.mace-heading-3').click(mace.heading.bind(mace, 3))
+    $control.find('.mace-link').click(->
+      url = prompt('URL を入力')
+      mace.link(url, 'リンク')
+    )
     $control.find('.mace-attachment').click(showAttachmentPopup)
   )
 
