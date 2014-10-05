@@ -8,7 +8,7 @@ from kawaz.apps.attachments.tests.factories import MaterialFactory
 
 class ParserTemplateTagTestCase(TestCase):
 
-    def _test_praser_filter(self, content, expected, neg=False):
+    def _test_parser_filter(self, content, expected, neg=False):
         c = Context({'content': content})
         t = Template(
             "{% load parser %}"
@@ -34,10 +34,10 @@ class ParserTemplateTagTestCase(TestCase):
             """src="//www.youtube.com/embed/LoH0dOyyGx8" """
             """frameborder="0" allowfullscreen></iframe>"""
         )
-        self._test_praser_filter(content, expected)
+        self._test_parser_filter(content, expected)
         # URLのみの行が無い場合は展開しない
         content = "foo {} bar".format(url)
-        self._test_praser_filter(content, expected, neg=True)
+        self._test_parser_filter(content, expected, neg=True)
 
     def test_parser_filter_expand_nicovideo_url(self):
         """
@@ -51,10 +51,10 @@ class ParserTemplateTagTestCase(TestCase):
             """src="http://ext.nicovideo.jp/thumb_watch/sm9">"""
             """</script>"""
         )
-        self._test_praser_filter(content, expected)
+        self._test_parser_filter(content, expected)
         # URLのみの行が無い場合は展開しない
         content = "foo {} bar".format(url)
-        self._test_praser_filter(content, expected, neg=True)
+        self._test_parser_filter(content, expected, neg=True)
 
     def test_parser_filter_expand_url_and_mail_address(self):
         """
@@ -69,7 +69,7 @@ class ParserTemplateTagTestCase(TestCase):
             """http://www.kawaz.org/</a>\n"""
             """<a href="mailto:foobar@kawaz.org">foobar@kawaz.org</a>"""
         )
-        self._test_praser_filter(content, expected)
+        self._test_parser_filter(content, expected)
 
     def test_parser_filter_expand_mention(self):
         """
@@ -83,7 +83,7 @@ class ParserTemplateTagTestCase(TestCase):
             """<img src="/statics/img/defaults/profile_small.png">@kawaztan_mention</a>\n"""
             """@kawaztan_unknown"""
         )
-        self._test_praser_filter(content, expected)
+        self._test_parser_filter(content, expected)
 
     def test_parser_filter_expand_markdown(self):
         """
@@ -94,7 +94,7 @@ class ParserTemplateTagTestCase(TestCase):
             """<strong>Markdown</strong>\n"""
             """<b>HTML</b>"""
         )
-        self._test_praser_filter(content, expected)
+        self._test_parser_filter(content, expected)
 
     def test_parser_filter_expand_attachments(self):
         """
@@ -111,4 +111,4 @@ class ParserTemplateTagTestCase(TestCase):
             'alt="kawaztan.png" style="max-width: 600px;" />\n'
             '</a>\n</p>'
         )
-        self._test_praser_filter(content, expected)
+        self._test_parser_filter(content, expected)
