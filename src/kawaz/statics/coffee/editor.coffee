@@ -54,7 +54,7 @@ $ ->
       mace.link(url, 'リンク')
     )
     $control.find('.mace-code').click(->
-      mace.code("write code here")
+      mace.code('write code here')
     )
     $control.find('.mace-attachment').click(showAttachmentPopup)
   )
