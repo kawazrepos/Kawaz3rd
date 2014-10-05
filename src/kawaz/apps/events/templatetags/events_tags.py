@@ -1,5 +1,6 @@
 from django import template
 from django.template import TemplateSyntaxError
+from django.core.urlresolvers import reverse
 from ..models import Event
 
 register = template.Library()
@@ -54,10 +55,11 @@ def get_events(context, lookup='published'):
 
 
 class Archive:
-    def __init__(self, date, object_list, count):
+    def __init__(self, date, object_list, count, url):
         self.date = date
         self.object_list = object_list
         self.count = count
+        self.url = url
 
 
 @register.assignment_tag(takes_context=True)
@@ -67,12 +69,42 @@ def get_monthly_archives(context):
 
     Usage:
         get_monthly_archive as <variable>
+
+    <variable> には `Archive` の各インスタンスがリストとして保存される。
+    また `Archive` は下記に上げるアトリビュートを持っている
+
+        - date (Date): アーカイブ対象のDateオブジェクト
+        - object_list (QuerySet): アーカイブ対象のEventsを格納したQuerySet
+        - count (int): アーカイブ対象のイベント数
+        - url (str): アーカイブのURL
+
+    したがって下記のようにアーカイブリストを描画できる
+
+        {% get_monthly_archives as archives %}
+        {% for archive in archives %}
+            <p><a href="{{ archive.url }}">
+                {{ archive.date }}({{ archive.count }})
+            </a></p>
+        {% endfor %}
+
     """
     qs = Event.objects.all()
     date_list = qs.datetimes('period_start', 'month', order='DESC')
 
     archives = []
     for date in date_list:
-        object_list = qs.filter(**{'period_start__year': date.year}).filter(**{'period_start__month': date.month})
-        archives.append(Archive(date, object_list, object_list.count()))
+        object_list = qs.filter(**{
+            'period_start__year': date.year
+        }).filter(**{
+            'period_start__month': date.month
+        })
+        url = reverse('events_event_archive_month', kwargs={
+            'year': date.year,
+            'month': date.month,
+        })
+        archives.append(Archive(date=date,
+                                object_list=object_list,
+                                count=object_list.count(),
+                                url=url,
+                               ))
     return archives
