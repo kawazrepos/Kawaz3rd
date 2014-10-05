@@ -1,9 +1,10 @@
 {% load i18n %}
+{% load parser %}
 <div class="blog-article">
     <div class="blog-article-header">
         <div class="pull-right">
             <a href="{{ object.author.profile.get_absolute_url }}">
-                <img src="{{ object.author.avatar.large.url }}" alt="{{ object.author.nickname }} Avater" class="avatar avatar-middle"/> {{ object.author.nickname }}
+                <img src="{{ object.author.get_large_avatar }}" alt="{{ object.author.nickname }} Avatar" class="avatar avatar-middle"/> {{ object.author.nickname }}
             </a>
         </div>
         <div class="date pull-left">
@@ -15,7 +16,7 @@
         <p class="badge">{{ object.category.label }}</p>
     </div>
     <article class="markdown">
-        {{ object.body | markdown }}
+        {{ object.body | parser }}
         <time><label>{% trans "Published at" %}</label>: {{ object.publish_at|date:"Y/m/d H:i" }}</time>
     </article>
 </div>

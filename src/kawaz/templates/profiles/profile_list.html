@@ -18,7 +18,7 @@
         {% for object in filter %}
             <div class="thumbnail profile-list-item">
                 <a href="{{ object.get_absolute_url }}">
-                    <img class="profile-avatar" alt="{{ object.user.nickname }}" src="{{ MEDIA_URL }}{{ object.user.avatar.huge }}">
+                    <img class="profile-avatar" alt="{{ object.user.nickname }}" src="{{ object.user.get_huge_avatar }}">
                 </a>
                 <div class="well">
                     <div class="caption">

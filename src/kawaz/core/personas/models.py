@@ -133,6 +133,30 @@ class Persona(AbstractUser, metaclass=PersonaBase):
     def is_member(self):
         return self.role in ('adam', 'seele', 'nerv', 'children')
 
+    def get_default_avatar(self, size):
+        """
+        デフォルトアバターを返します
+        """
+        filename = 'profile_{}.png'.format(size)
+        return os.path.join('/statics', 'img', 'defaults', filename)
+
+    def get_avatar(self, size):
+        """
+        渡したサイズのアバターURLを返します
+        未設定の場合や、見つからない場合はデフォルトアバターを返します
+        """
+        if self.avatar:
+            try:
+                return getattr(self.avatar, size).url
+            except:
+                return self.get_default_avatar(size)
+        return self.get_default_avatar(size)
+
+    get_small_avatar = lambda self: self.get_avatar('small')
+    get_middle_avatar = lambda self: self.get_avatar('middle')
+    get_large_avatar = lambda self: self.get_avatar('large')
+    get_huge_avatar = lambda self: self.get_avatar('huge')
+
     class Meta:
         ordering = ('username',)
         verbose_name = _('Persona')

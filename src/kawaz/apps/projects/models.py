@@ -188,6 +188,30 @@ class Project(models.Model):
             'slug': self.slug
         })
 
+    def get_default_icon(self, size):
+        """
+        デフォルトアイコンを返します
+        """
+        filename = 'project_{}.png'.format(size)
+        return os.path.join('/statics', 'img', 'defaults', filename)
+
+    def get_icon(self, size):
+        """
+        渡したサイズのアイコンURLを返します
+        未設定の場合や、見つからない場合はデフォルトアイコンを返します
+        """
+        if self.icon:
+            try:
+                return getattr(self.icon, size).url
+            except:
+                return self.get_default_icon(size)
+        return self.get_default_icon(size)
+
+    get_small_icon = lambda self: self.get_icon('small')
+    get_middle_icon = lambda self: self.get_icon('middle')
+    get_large_icon = lambda self: self.get_icon('large')
+    get_huge_icon = lambda self: self.get_icon('huge')
+
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver

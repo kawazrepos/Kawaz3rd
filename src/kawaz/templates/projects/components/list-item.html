@@ -1,7 +1,7 @@
 <a href="{{ project.get_absolute_url }}">
     <div class="panel-body">
         <div class="project-thumbnail">
-            <img class="group list-group-image" src="{{ MEDIA_URL }}{{ project.icon.large }}" height="90px" alt="{{ project.title }} Thumbnail" />
+            <img class="group list-group-image" src="{{ project.get_large_icon }}" height="90px" alt="{{ project.title }} Thumbnail" />
         </div>
         <div class="project-wall">
             <dl>
@@ -14,7 +14,7 @@
                 <ul>
                     {% for member in project.members.all %}
                         <li>
-                            <img class="avatar avatar-small" src="{{ MEDIA_URL }}{{ member.avatar.small }}" alt="{{ member.nickname }}">
+                            <img class="avatar avatar-small" src="{{ member.get_small_avatar }}" alt="{{ member.nickname }}">
                             {{ member.nickname }}さん
                         </li>
                     {% endfor %}

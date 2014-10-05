@@ -147,7 +147,7 @@
             </div>
             <a href="{{ object.organizer.profile.get_absolute_url }}"
                class="list-group-item member-list-organizer">
-                <img src="{{ MEDIA_URL }}{{ object.organizer.avatar.middle }}"
+                <img src="{{ object.organizer.get_middle_avatar }}"
                      alt="{{ object.organizer.nickname }} Avatar"
                      class="avatar avatar-middle"/> {{ object.organizer.nickname }}
             </a>
@@ -169,7 +169,7 @@
                     {% if attendee != object.organizer %}
                         <a href="{{ attendee.profile.get_absolute_url }}"
                            class="list-group-item ">
-                            <img src="{{ MEDIA_URL }}{{ attendee.avatar.middle }}"
+                            <img src="{{ attendee.get_middle_avatar }}"
                                  alt="{{ attendee.nickname }} Avatar"
                                  class="avatar avatar-middle"/> {{ attendee.nickname }}
                         </a>

@@ -23,7 +23,7 @@
             {% else %}
                 <div class="item">
             {% endif %}
-        <img src="{{ MEDIA_URL }}{{ product.advertisement_image }}" alt="{{ product.title }}">
+        <img src="{{ product.advertisement_image.url }}" alt="{{ product.title }}">
         <div class="container">
             <div class="carousel-caption">
                 <h3>{{ product.title }}</h3>
@@ -49,7 +49,7 @@
             {% for activity in activities|slice:"3" %}
                 <div class="col-md-4">
                     <a href="{{ activity.url }}" target="_blank">
-                        <div class="activity-thumbnail" style="background-image: url({{ MEDIA_URL }}/{{ activity.thumbnail }});"></div>
+                        <div class="activity-thumbnail" style="background-image: url({{ activity.thumbnail.url }});"></div>
                     </a>
                     <h5><time>{{ activity.publish_at|date:"m/d" }}</time> {{ activity.title }}</h5>
                 </div>
