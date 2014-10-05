@@ -165,9 +165,11 @@ class EventGetMonthlyArchiveTemplateTagTestCase(TestCase):
         self.assertEqual(archives[0].count, 1)
         self.assertEqual(archives[0].date.month, 6)
         self.assertEqual(len(archives[0].object_list), 1)
+        self.assertEqual(archives[0].url, '/events/archive/2014/6/')
         self.assertEqual(archives[1].count, 2)
         self.assertEqual(archives[1].date.month, 4)
         self.assertEqual(len(archives[1].object_list), 2)
+        self.assertEqual(archives[1].url, '/events/archive/2014/4/')
 
 
 
