@@ -117,7 +117,7 @@
             <div class="list-group">
                 {% for account in object.accounts.all %}
                     <a class="list-group-item" href="{{ account.url }}">
-                        <img src="{{ account.service.icon.url }}" alt="{{ account.service.label }}">
+                        <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">
                         <span class="list-group-item-text link">{{ account.username }}</span>
                     </a>
                 {% empty %}
