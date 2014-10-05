@@ -1,6 +1,7 @@
 {% extends "twopane.html" %}
 {% load i18n %}
 {% load staticfiles %}
+{% load announcements_tags %}
 {% block pre_css %}
 {{ block.super }}
     {# BlogのCSSデザインを踏襲 #}
@@ -30,11 +31,12 @@
 {% block content-aside %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2 class="panel-title">{% trans "Announcements" %}</h2>
+            <h2 class="panel-title">{% trans "Recent Announcements" %}</h2>
         </div>
         <div class="list-group">
-            {% for object in object_list %}
-                <a class="list-group-item" href="{{ object.get_absolute_url }}">{{ object.title }} <small class="text-muted">{{ object.created_at|date:"Y/m/d" }}</small></a>
+            {% get_announcements as announcements %}
+            {% for announcement in announcements|slice:":5" %}
+                <a class="list-group-item" href="{{ announcement.get_absolute_url }}">{{ announcement.title }} <small class="text-muted">{{ announcement.created_at|date:"Y/m/d" }}</small></a>
             {% endfor %}
         </div>
     </div>
