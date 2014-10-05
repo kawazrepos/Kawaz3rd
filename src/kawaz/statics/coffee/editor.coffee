@@ -52,6 +52,9 @@ $ ->
       url = prompt('URL を入力')
       mace.link(url, 'リンク')
     )
+    $control.find('.mace-code').click(->
+      mace.code("write code here")
+    )
     $control.find('.mace-attachment').click(showAttachmentPopup)
   )
 
