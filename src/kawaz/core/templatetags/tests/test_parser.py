@@ -1,63 +1,114 @@
-#! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/6/21
-#
-__author__ = 'giginet'
-
 from django.test import TestCase
 from django.template import Template, Context
 from django.template.loader import render_to_string
 from kawaz.core.personas.tests.factories import PersonaFactory
+from kawaz.apps.profiles.tests.factories import ProfileFactory
 from kawaz.apps.attachments.tests.factories import MaterialFactory
+
 
 class ParserTemplateTagTestCase(TestCase):
 
-    def _test_href_tag(self, before, after):
-        c = Context({
-            'body' : before
-        })
+    def _test_praser_filter(self, content, expected, neg=False):
+        c = Context({'content': content})
         t = Template(
-            """{% load parser %}"""
-            """{{ body | parser }}"""
+            "{% load parser %}"
+            "{{ content|parser }}"
         )
         r = t.render(c)
-        self.assertEqual(r.strip(), after.strip())
+        if neg:
+            self.assertFalse(expected in r,
+                             "\n{} does contain \n{}".format(r, expected))
+        else:
+            self.assertTrue(expected in r,
+                            "\n{} does not contain \n{}".format(r, expected))
 
-    def test_url_expand_tag_in_quote(self):
+    def test_parser_filter_expand_youtube_url(self):
         """
-        Youtube、ニコニコ動画、URL、mention、添付素材など
-        いろいろ混ざった物を正しく展開します
+        parserフィルタはYouTubeのURLを展開
         """
-        material = MaterialFactory(content_file="kawaztan.png", author__username="kawaztan-material")
+        # URLのみの行がある場合は展開
+        url = "https://www.youtube.com/watch?v=LoH0dOyyGx8"
+        content = "foo\n{}\nbar".format(url)
+        expected = (
+            """<iframe width="640" height="360" """
+            """src="//www.youtube.com/embed/LoH0dOyyGx8" """
+            """frameborder="0" allowfullscreen></iframe>"""
+        )
+        self._test_praser_filter(content, expected)
+        # URLのみの行が無い場合は展開しない
+        content = "foo {} bar".format(url)
+        self._test_praser_filter(content, expected, neg=True)
+
+    def test_parser_filter_expand_nicovideo_url(self):
+        """
+        parserフィルタはニコニコ動画のURLを展開
+        """
+        # URLのみの行がある場合は展開
+        url = "http://www.nicovideo.jp/watch/sm9"
+        content = "foo\n{}\nbar".format(url)
+        expected = (
+            """<script type="text/javascript" """
+            """src="http://ext.nicovideo.jp/thumb_watch/sm9">"""
+            """</script>"""
+        )
+        self._test_praser_filter(content, expected)
+        # URLのみの行が無い場合は展開しない
+        content = "foo {} bar".format(url)
+        self._test_praser_filter(content, expected, neg=True)
+
+    def test_parser_filter_expand_url_and_mail_address(self):
+        """
+        parserフィルタはURLやメールアドレスをリンクとして展開
+        """
+        # URLのみの行がある場合は展開
+        url = "http://www.kawaz.org/"
+        mail = "foobar@kawaz.org"
+        content = "foo\n{}\n{}\nbar".format(url, mail)
+        expected = (
+            """<a href="http://www.kawaz.org/" rel="nofollow">"""
+            """http://www.kawaz.org/</a>\n"""
+            """<a href="mailto:foobar@kawaz.org">foobar@kawaz.org</a>"""
+        )
+        self._test_praser_filter(content, expected)
+
+    def test_parser_filter_expand_mention(self):
+        """
+        parserフィルタは@<username>を展開
+        """
+        user = PersonaFactory(username='kawaztan_mention')
+        ProfileFactory(user=user)
+        content = "@kawaztan_mention\n@kawaztan_unknown"
+        expected = (
+            """<a href="/members/kawaztan_mention/">"""
+            """<img src="/statics/img/defaults/profile_small.png">@kawaztan_mention</a>\n"""
+            """@kawaztan_unknown"""
+        )
+        self._test_praser_filter(content, expected)
+
+    def test_parser_filter_expand_markdown(self):
+        """
+        parserフィルタはMarkdownをHTMlに展開
+        """
+        content = "**Markdown**\n<b>HTML</b>"
+        expected = (
+            """<strong>Markdown</strong>\n"""
+            """<b>HTML</b>"""
+        )
+        self._test_praser_filter(content, expected)
+
+    def test_parser_filter_expand_attachments(self):
+        """
+        parserフィルタは添付ファイルを展開
+        """
+        material = MaterialFactory(content_file='kawaztan.png',
+                                   author__username='kawaztan-material')
         slug = material.slug
-        PersonaFactory(username='kawaztan_mention')
-        before = ("http://www.kawaz.org/\n"
-        "http://nicovideo.jp/watch/sm9/\n"
-        """<a href="http://www.nicovideo.jp/watch/sm9">ニコニコ動画</a>\n"""
-        """<a href="https://www.youtube.com/watch?v=LoH0dOyyGx8">YouTube</a>\n"""
-        "<b>HTMLも使えます</b>\n"
-        "http://www.google.com/\n"
-        "https://www.facebook.com/\n"
-        "https://www.youtube.com/watch?v=LoH0dOyyGx8\n"
-        "hoge@kawaztan_mention.com\n"
-        "@kawaztan_mention\n"
-        "@kawaztan_unknown\n"
-        "{attachments:" + slug + "}\n")
-        after = ("""<p><a href="http://www.kawaz.org/" rel="nofollow">http://www.kawaz.org/</a>\n"""
-                 """<a href="http://nicovideo.jp/watch/sm9/" rel="nofollow">http://nicovideo.jp/watch/sm9/</a>\n"""
-                 """<a href="http://www.nicovideo.jp/watch/sm9">ニコニコ動画</a>\n"""
-                 """<a href="https://www.youtube.com/watch?v=LoH0dOyyGx8">YouTube</a>\n"""
-                 "<b>HTMLも使えます</b>\n"
-                 """<a href="http://www.google.com/" rel="nofollow">http://www.google.com/</a>\n"""
-                 """<a href="https://www.facebook.com/" rel="nofollow">https://www.facebook.com/</a></p>\n"""
-                 """\n"""
-                 """<iframe width="640" height="360" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>\n"""
-                 """\n"""
-                 """<p><a href="mailto:hoge<a href="/users/kawaztan_mention/"><img src="/statics/img/defaults/profile_small.png">@kawaztan_mention</a>.com">hoge<a href="/users/kawaztan_mention/"><img src="/statics/img/defaults/profile_small.png">@kawaztan_mention</a>.com</a>\n"""
-                 """<a href="/users/kawaztan_mention/"><img src="/statics/img/defaults/profile_small.png">@kawaztan_mention</a>\n"""
-                 "@kawaztan_unknown\n"
-                 """<a href="/storage/attachments/kawaztan-material/kawaztan.png" rel="lightbox" data-lightbox="thumbnail">\n"""
-                 """    <img src="/storage/attachments/kawaztan-material/kawaztan.png" alt="kawaztan.png" style="max-width: 600px;" />\n"""
-                 "</a>\n"
-                 "</p>")
-        self._test_href_tag(before, after)
+        content = "{{attachments:{}}}\n".format(slug)
+        expected = (
+            '<p><a href="/storage/attachments/kawaztan-material/kawaztan.png" '
+            'rel="lightbox" data-lightbox="thumbnail">\n    '
+            '<img src="/storage/attachments/kawaztan-material/kawaztan.png" '
+            'alt="kawaztan.png" style="max-width: 600px;" />\n'
+            '</a>\n</p>'
+        )
+        self._test_praser_filter(content, expected)
