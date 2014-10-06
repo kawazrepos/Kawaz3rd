@@ -18,7 +18,6 @@ urlpatterns = patterns('',
     url(r'^attachments/', include('kawaz.apps.attachments.urls')),
     url(r'^registration/', include('kawaz.core.personas.urls')),
     url(r'^registration/', include('registration.urls')),
-    url(r'^comments/', include('django.contrib.comments.urls')),
 )
 
 from django.conf.urls.static import static
