@@ -74,7 +74,7 @@ def get_relation(relation):
         app_label, model_name = relation.split('.', 1)
     except AttributeError:
         app_label = relation._meta.app_label
-        model_name = relation._meta.model_nam
+        model_name = relation._meta.model_name
     model = _get_model(app_label, model_name)
     return model, app_label, model_name
 
