@@ -155,14 +155,15 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
         """
         メンバーはプロダクトを作成することが出来る
         """
-        for user in self.members:
+        for i, user in enumerate(self.members):
             self.prefer_login(user)
             with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
             self.assertEqual(Product.objects.count(), 1)
-            e = Product.objects.get(pk=1)
+            e = Product.objects.get(pk=i+1)
+            self.assertEqual(e.pk, i+1)
             self.assertEqual(e.title, 'かわずたんファンタジー')
             self.assertTrue(user in e.administrators.all())
             self.assertEqual(e.administrators.count(), 1)
@@ -173,7 +174,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
         """
         メンバーはプロダクトフォームからScreenshotモデルも作成できる
         """
-        for user in self.members:
+        for i, user in enumerate(self.members):
             self.prefer_login(user)
             # Note:
             #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
@@ -192,7 +193,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
             self.assertEqual(Screenshot.objects.count(), 1)
-            obj = Screenshot.objects.get(pk=1)
+            obj = Screenshot.objects.get(pk=i+1)
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
             obj.product.delete()
             obj.delete()
@@ -201,7 +202,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
         """
         メンバーはプロダクトフォームからURLReleaseモデルも作成できる
         """
-        for user in self.members:
+        for i, user in enumerate(self.members):
             self.prefer_login(user)
             with open(self.image_file, 'rb') as f:
                 self.product_kwargs.update({
@@ -216,7 +217,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
             self.assertEqual(URLRelease.objects.count(), 1)
-            obj = URLRelease.objects.get(pk=1)
+            obj = URLRelease.objects.get(pk=i+1)
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
@@ -228,7 +229,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
         """
         メンバーはプロダクトフォームからPackageReleaseモデルも作成できる
         """
-        for user in self.members:
+        for i, user in enumerate(self.members):
             self.prefer_login(user)
             # Note:
             #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
@@ -250,7 +251,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertRedirects(r, '/products/kawaztan-fantasy/')
 
             self.assertEqual(PackageRelease.objects.count(), 1)
-            obj = PackageRelease.objects.get(pk=1)
+            obj = PackageRelease.objects.get(pk=i+1)
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
@@ -407,9 +408,9 @@ class ProductDeleteViewTestCase(ViewTestCaseBase):
         """
         管理メンバーはプロダクトを削除可能
         """
-        for user in [self.members[0], self.administrator]:
+        for i, user in enumerate([self.members[0], self.administrator]):
             self.prefer_login(user)
-            r = self.client.post('/products/1/delete/')
+            r = self.client.post('/products/{}/delete/'.format(i+1))
             self.assertRedirects(r, '/products/')
             self.assertEqual(Product.objects.count(), 0)
             # 再作成
