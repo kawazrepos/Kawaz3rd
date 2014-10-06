@@ -5,7 +5,8 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from functools import lru_cache
 from importlib import import_module
 from django.db.models import get_model as _get_model
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import (ImproperlyConfigured,
+                                    AppRegistryNotReady)
 
 
 @lru_cache()
@@ -15,7 +16,10 @@ def get_model(model):
     """
     if isinstance(model, str):
         app_label, model_name = model.rsplit('.', 1)
-        model = _get_model(app_label, model_name)
+        try:
+            model = _get_model(app_label, model_name)
+        except (LookupError, AppRegistryNotReady):
+            return None
     return model
 
 
@@ -71,7 +75,7 @@ def get_relation(relation):
     except AttributeError:
         app_label = relation._meta.app_label
         model_name = relation._meta.model_name
-    model = _get_model(app_label, model_name, False)
+    model = _get_model(app_label, model_name)
     return model, app_label, model_name
 
 
@@ -91,10 +95,11 @@ def resolve_relation_lazy(relation, operation, **kwargs):
         operation (fn): A callback function which will called with resolved
             relation (class) and the specified kwargs.
     """
-    model, app_label, model_name = get_relation(relation)
-    if model:
+    model, app_label, model_name = (None, None, None)
+    try:
+        model, app_label, model_name = get_relation(relation)
         operation(model, **kwargs)
-    else:
+    except AppRegistryNotReady:
         key = (app_label, model_name)
         value = (operation, kwargs)
         _pending_lookups.setdefault(key, []).append(value)

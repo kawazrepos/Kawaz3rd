@@ -11,3 +11,9 @@ class EntryForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     class Meta:
         model = Entry
+        exclude = (
+            'author',
+            'created_at',
+            'updated_at',
+            'publish_at',
+        )

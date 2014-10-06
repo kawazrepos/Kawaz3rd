@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.comments',
+    'django_comments',
     'rest_framework',
     'permission',
     'thumbnailfield',
@@ -176,7 +176,8 @@ DEFAULT_RENDERER_CLASSES = (
     'rest_framework.renderers.JSONRenderer',
 )
 
-TEST_RUNNER = 'kawaz.core.tests.runner.MediaRootTestSuiteRunner'
+TEST_RUNNER = 'kawaz.core.tests.runner.KawazDiscoverRunner'
+TESTING = False
 
 RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 

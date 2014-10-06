@@ -11,6 +11,12 @@ class ProjectCreateForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     class Meta:
         model = Project
+        exclude = (
+            'administrator',
+            'members',
+            'created_at',
+            'updated_at',
+        )
 
 
 class ProjectUpdateForm(ProjectCreateForm):

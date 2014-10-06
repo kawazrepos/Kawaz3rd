@@ -14,12 +14,12 @@ Author
     - Alisue <lambdalisue@hashnote.net>  
     - giginet <giginet.net@gmail.com>
 Supported python versions
-    Python 3.3
+    Python 3.3+
 Supported django versions
-    Django 1.6
+    Django 1.7
 
 This is a new web site for game creator's community Kawaz_.
-It is developed with Python 3.3 + Django 1.6.
+It is developed with Python 3.3 + Django 1.7.
 
 All your game are belong to us.
 
@@ -89,7 +89,7 @@ the database. It is also required when new apps is added
 
 .. code-block:: sh
 
-    $ python manage.py syncdb
+    $ python manage.py migrate
 
 Then you can start the development server with:
 

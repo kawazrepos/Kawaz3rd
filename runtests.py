@@ -12,8 +12,12 @@ def runtests(verbosity=1, interactive=False):
     # django require DJANGO_SETTINGS_MODULE
     os.environ['DJANGO_SETTINGS_MODULE'] = 'kawaz.settings'
 
+    import django
     from django.conf import settings
     from django.test.utils import get_runner
+
+    django.setup()
+
     TestRunner = get_runner(settings)
     test_runner = TestRunner(verbosity=verbosity,
                              interactive=interactive,
