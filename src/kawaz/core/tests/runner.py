@@ -35,3 +35,9 @@ from django.test.runner import DiscoverRunner
 
 class MediaRootTestSuiteRunner(TempMediaMixin, DiscoverRunner):
     "Local test suite runner."
+
+
+class KawazDiscoverRunner(MediaRootTestSuiteRunner):
+    def setup_test_environment(self):
+        super().setup_test_environment()
+        settings.TESTING = True

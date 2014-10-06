@@ -21,7 +21,7 @@ if __name__ == '__main__':
         if not answer or not answer.lower() in ('y', 'yes'):
             sys.exit()
         os.remove(db)
-    print(subprocess.check_output(['python', 'manage.py', 'syncdb' ,'--noinput'], universal_newlines=True))
+    print(subprocess.check_output(['python', 'manage.py', 'migrate'], universal_newlines=True))
     print(subprocess.check_output(['python', 'manage.py', 'loaddata' ,'production'], universal_newlines=True))
     print(subprocess.check_output(['python', 'manage.py', 'loaddata' ,'debug'], universal_newlines=True))
     print(subprocess.check_output(['python', 'manage.py', 'fetch_recent_activities'], universal_newlines=True))
