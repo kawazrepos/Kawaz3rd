@@ -28,6 +28,7 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     class Meta:
         model = Product
+        exclude = ()
 
     def get_additional_objects(self):
         # Saveボタンを描画しない

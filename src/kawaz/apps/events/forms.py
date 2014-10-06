@@ -14,3 +14,9 @@ class EventForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     class Meta:
         model = Event
+        exclude = (
+            'organizer',
+            'created_at',
+            'updated_at',
+            'attendees',
+        )

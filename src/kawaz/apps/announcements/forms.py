@@ -11,3 +11,8 @@ class AnnouncementForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     class Meta:
         model = Announcement
+        exclude = (
+            'author',
+            'created_at',
+            'updated_at',
+        )

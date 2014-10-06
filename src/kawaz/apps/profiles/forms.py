@@ -26,6 +26,11 @@ class ProfileForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     class Meta:
         model = Profile
+        exclude = (
+            'user',
+            'created_at',
+            'updated_at',
+        )
 
     def get_additional_objects(self):
         # Saveボタンを描画しない
