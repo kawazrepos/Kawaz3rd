@@ -17,7 +17,9 @@ class ProfileListView(FilterView):
     template_name_suffix = '_list'
 
     def get_queryset(self):
-        return Profile.objects.published(self.request.user)
+        qs = Profile.objects.published(self.request.user)
+        qs = qs.prefetch_related('accounts__service').prefetch_related('skills').select_related('user')
+        return qs
 
 
 @permission_required('profiles.change_profile')
@@ -86,6 +88,10 @@ class ProfileUpdateView(UpdateView):
 class ProfileDetailView(DetailView):
     model = Profile
     slug_field = 'user__username'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.prefetch_related('skills').prefetch_related('accounts__service').select_related('user')
 
 
 class ProfilePreview(SingleObjectPreviewMixin, DetailView):
