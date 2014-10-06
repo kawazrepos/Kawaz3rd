@@ -19,7 +19,7 @@ Supported django versions
     Django 1.7
 
 This is a new web site for game creator's community Kawaz_.
-It is developed with Python 3.3 + Django 1.6.
+It is developed with Python 3.3 + Django 1.7.
 
 All your game are belong to us.
 
