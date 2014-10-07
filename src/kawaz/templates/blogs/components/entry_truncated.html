@@ -18,7 +18,6 @@
         <p class="badge">{{ object.category.label }}</p>
     </div>
     <article class="markdown-nostyle">
-        {# TODO: Fix Me: Django1.7に移行ができ次第、truncatechars から truncatechars_html へ移行すべき #}
-        {{ object.body | markdown | truncatechars:500}}
+        {{ object.body | markdown | truncatechars_html:500}}
     </article>
 </div>
