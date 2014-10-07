@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
+from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import (HttpResponseRedirect,
@@ -90,6 +91,7 @@ class ProjectJoinView(SingleObjectMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.join(request.user)
+        messages.add_message(request, messages.SUCCESS, 'You have been joined to this project.')
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, **kwargs):
@@ -108,6 +110,7 @@ class ProjectQuitView(SingleObjectMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.quit(request.user)
+        messages.add_message(request, messages.SUCCESS, 'You have been quited from this project.')
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, **kwargs):
