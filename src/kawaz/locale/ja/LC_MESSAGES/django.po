@@ -79,22 +79,22 @@ msgstr "素材"
 
 #: apps/attachments/models.py:28
 msgid "Materials"
-msgstr ""
+msgstr "素材"
 
 #: apps/blogs/models.py:20
 msgid "Category name"
-msgstr ""
+msgstr "カテゴリ名"
 
 #: apps/blogs/models.py:49 apps/events/models.py:93 apps/products/models.py:51
 #: apps/projects/models.py:21 apps/projects/models.py:113
 #: templates/projects/project_archive.html:29
 #: templates/projects/project_detail.html:33
 msgid "Category"
-msgstr ""
+msgstr "カテゴリ"
 
 #: apps/blogs/models.py:57 templates/blogs/components/entry_detail.html:20
 msgid "Published at"
-msgstr ""
+msgstr "公開日"
 
 #: apps/blogs/models.py:64
 msgid "Entry"
@@ -110,20 +110,20 @@ msgstr "ブログ記事"
 #: templates/products/product_detail.html:121
 #: templates/products/product_list.html:49
 msgid "Categories"
-msgstr ""
+msgstr "カテゴリ名"
 
 #: apps/events/filters.py:18 apps/products/filters.py:13
 #: apps/products/filters.py:18 apps/profiles/filters.py:13
 #: core/filters/widgets.py:40
 msgid "All"
-msgstr ""
+msgstr "すべて"
 
 #: apps/events/models.py:19 apps/events/models.py:27 apps/events/models.py:28
 #: apps/products/models.py:25 apps/products/models.py:45
 #: apps/products/models.py:195 apps/profiles/models.py:9
 #: apps/profiles/models.py:98
 msgid "Label"
-msgstr ""
+msgstr "ラベル"
 
 #: apps/events/models.py:20 apps/products/models.py:27
 #: apps/products/models.py:47 apps/profiles/models.py:11
@@ -132,15 +132,15 @@ msgstr ""
 
 #: apps/events/models.py:69
 msgid "Start time"
-msgstr ""
+msgstr "開始日時"
 
 #: apps/events/models.py:71
 msgid "End time"
-msgstr ""
+msgstr "終了日時"
 
 #: apps/events/models.py:73 core/registrations/models.py:10
 msgid "Place"
-msgstr ""
+msgstr "場所"
 
 #: apps/events/models.py:75
 msgid "Number restriction"
@@ -148,11 +148,11 @@ msgstr ""
 
 #: apps/events/models.py:77
 msgid "Use this to limit the number of attendees."
-msgstr ""
+msgstr "参加者数に上限があります"
 
 #: apps/events/models.py:79
 msgid "Attendance deadline"
-msgstr ""
+msgstr "参加締切日"
 
 #: apps/events/models.py:81
 msgid ""
@@ -162,77 +162,77 @@ msgstr ""
 
 #: apps/events/models.py:85
 msgid "Organizer"
-msgstr ""
+msgstr "主催者"
 
 #: apps/events/models.py:90
 msgid "Attendees"
-msgstr ""
+msgstr "参加者"
 
 #: apps/events/models.py:105
 msgid "Event"
-msgstr ""
+msgstr "イベント"
 
 #: apps/events/models.py:106 templates/base.html:42
 #: templates/events/event_form.html:15
 msgid "Events"
-msgstr ""
+msgstr "イベント"
 
 #: apps/events/models.py:130
 msgid "End time must be later than start time."
-msgstr ""
+msgstr "イベント終了日時は必ず開始日時よりも後である必要があります"
 
 #: apps/events/models.py:134
 msgid "Start time must be future."
-msgstr ""
+msgstr "イベント開始日は未来の日付である必要があります"
 
 #: apps/events/models.py:136
 msgid "The period of event is too long."
-msgstr ""
+msgstr "イベント終了までが長すぎます。6日以内で設定してください"
 
 #: apps/events/models.py:138
 msgid "You must set end time too"
-msgstr ""
+msgstr "終了時間を設定する必要があります"
 
 #: apps/events/models.py:141
 msgid "Number restriction should be grater than 0"
-msgstr ""
+msgstr "制限数が0に設定されています"
 
 #: apps/events/models.py:146
 msgid "Attendance deadline must be future."
-msgstr ""
+msgstr "参加締切日は必ず未来の日付である必要があります"
 
 #: apps/events/models.py:204
 msgid "Mon"
-msgstr ""
+msgstr "月"
 
 #: apps/events/models.py:204
 msgid "Tue"
-msgstr ""
+msgstr "火"
 
 #: apps/events/models.py:204
 msgid "Wed"
-msgstr ""
+msgstr "水"
 
 #: apps/events/models.py:204
 msgid "Thu"
-msgstr ""
+msgstr "木"
 
 #: apps/events/models.py:204
 msgid "Fri"
-msgstr ""
+msgstr "金"
 
 #: apps/events/models.py:204
 msgid "Sat"
-msgstr ""
+msgstr "土"
 
 #: apps/events/models.py:204
 msgid "Sun"
-msgstr ""
+msgstr "日"
 
 #: apps/events/models.py:212
 #, python-brace-format
 msgid "%m/%d({weekday})"
-msgstr ""
+msgstr "%m月%d日({weekday})"
 
 #: apps/events/models.py:215
 #, python-brace-format
