@@ -3,6 +3,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseArchiveIndexView
+from django.contrib import messages
 from django.http.response import HttpResponseNotFound
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
@@ -86,6 +87,7 @@ class EventAttendView(UpdateView):
         """
         self.object = self.get_object()
         success_url = self.get_success_url()
+        messages.add_message(request, messages.SUCCESS, 'You have been attended this event.')
         try:
             self.object.attend(request.user)
             return HttpResponseRedirect(success_url)
@@ -113,6 +115,7 @@ class EventQuitView(UpdateView):
         """
         self.object = self.get_object()
         success_url = self.get_success_url()
+        messages.add_message(request, messages.SUCCESS, 'You have been quited from this event.')
         try:
             self.object.quit(request.user)
             return HttpResponseRedirect(success_url)
