@@ -454,7 +454,7 @@ msgstr "誕生日"
 
 #: apps/profiles/models.py:61 templates/profiles/profile_detail.html:30
 msgid "Address"
-msgstr "大まかな住所"
+msgstr "住んでるところ"
 
 #: apps/profiles/models.py:62
 msgid "Your address will not be shown by anonymous user."
@@ -583,46 +583,46 @@ msgstr "最近の活動"
 
 #: apps/stars/models.py:61
 msgid "The star have not been added to this object."
-msgstr ""
+msgstr "このコンテンツにはまだスターが付けられていません"
 
 #: apps/stars/models.py:114
 msgid "Quote"
-msgstr ""
+msgstr "記事の一部分を引用"
 
 #: apps/stars/models.py:116
 msgid ""
 "This is used for quotation. When the user add a star with text selection, "
 "the selected text is passed to this."
-msgstr ""
+msgstr "テキストを選択した状態でスターを付けると、選択部分のテキストを引用した形でスターが付きます"
 
 #: apps/stars/models.py:126
 msgid "Star"
-msgstr ""
+msgstr "スター"
 
 #: apps/stars/models.py:127
 msgid "Stars"
-msgstr ""
+msgstr "スター"
 
 #: core/forms/mixins.py:30 templates/products/product_form.html:51
 #: templates/profiles/profile_form.html:23
 msgid "Save"
-msgstr ""
+msgstr "保存して更新する"
 
 #: core/gcal/models.py:30
 msgid "Google Calendar Event ID"
-msgstr ""
+msgstr "GoogleカレンダーのイベントID"
 
 #: core/personas/admin.py:22
 msgid "Personal info"
-msgstr ""
+msgstr "個人情報"
 
 #: core/personas/admin.py:23
 msgid "Extra info"
-msgstr ""
+msgstr "備考"
 
 #: core/personas/admin.py:24
 msgid "Permissions"
-msgstr ""
+msgstr "権限"
 
 #: core/personas/admin.py:26
 msgid "Important dates"
@@ -630,15 +630,15 @@ msgstr ""
 
 #: core/personas/forms.py:50
 msgid "Users in this role have all permissions"
-msgstr ""
+msgstr "神権限"
 
 #: core/personas/forms.py:51
 msgid "Users in this role can promote to the adam"
-msgstr ""
+msgstr "アダム権限"
 
 #: core/personas/forms.py:52
 msgid "Users in this role have staff permission"
-msgstr ""
+msgstr "ネルフ権限"
 
 #: core/personas/forms.py:53
 msgid "Users in this role are assumed to be a member of the site"
@@ -650,55 +650,55 @@ msgstr ""
 
 #: core/personas/models.py:94
 msgid "Man"
-msgstr ""
+msgstr "男性"
 
 #: core/personas/models.py:95
 msgid "Woman"
-msgstr ""
+msgstr "女性"
 
 #: core/personas/models.py:96
 msgid "Unknown"
-msgstr ""
+msgstr "ひみつ"
 
 #: core/personas/models.py:100
 msgid "Adam"
-msgstr ""
+msgstr "アダム"
 
 #: core/personas/models.py:101
 msgid "Seele"
-msgstr ""
+msgstr "ぜーレ"
 
 #: core/personas/models.py:102
 msgid "Nerv"
-msgstr ""
+msgstr "ネルフ"
 
 #: core/personas/models.py:103
 msgid "Children"
-msgstr ""
+msgstr "チルドレン"
 
 #: core/personas/models.py:104
 msgid "Wille"
-msgstr ""
+msgstr "ヴィレ"
 
 #: core/personas/models.py:107
 msgid "Nickname"
-msgstr ""
+msgstr "ニックネーム"
 
 #: core/personas/models.py:108
 msgid "Mood message"
-msgstr ""
+msgstr "一言メッセージ"
 
 #: core/personas/models.py:109
 msgid "Avatar"
-msgstr ""
+msgstr "ユーザアイコン"
 
 #: core/personas/models.py:111 templates/profiles/profile_detail.html:22
 msgid "Gender"
-msgstr ""
+msgstr "性別"
 
 #: core/personas/models.py:113
 msgid "Role"
-msgstr ""
+msgstr "役職"
 
 #: core/personas/models.py:116
 msgid ""
@@ -708,44 +708,45 @@ msgstr ""
 
 #: core/personas/models.py:162
 msgid "Persona"
-msgstr ""
+msgstr "ユーザアイコン"
 
 #: core/personas/models.py:163
 msgid "Personas"
-msgstr ""
+msgstr "ユーザアイコン"
 
 #: core/publishments/models.py:8
 msgid "Draft"
-msgstr ""
+msgstr "下書き"
 
 #: core/registrations/models.py:11
 msgid "Fill your address. You must be related with Sapporo or neighbor cities."
-msgstr ""
+msgstr "札幌市または近郊都市の在住、もしくは出身などで札幌に縁のある必要があります。"
 
 #: core/registrations/models.py:15
 msgid ""
 "Fill your skills or what you want to do which related to game development."
 msgstr ""
+"どのようなことができるか、またはどのようなゲームが作りたいか書いてください。"
 
 #: templates/base.html:40
 msgid "Home"
-msgstr ""
+msgstr "ホーム"
 
 #: templates/base.html:54
 msgid "View Profile"
-msgstr ""
+msgstr "プロフィールを見る"
 
 #: templates/base.html:55
 msgid "Change Profile"
-msgstr ""
+msgstr "プロフィールを編集"
 
 #: templates/base.html:57 templates/registration/logout.html:6
 msgid "Logout"
-msgstr ""
+msgstr "ログアウト"
 
 #: templates/base.html:63 templates/registration/login.html:7
 msgid "Login"
-msgstr ""
+msgstr "ログイン"
 
 #: templates/announcements/announcement_list.html:15
 #, python-format
@@ -754,15 +755,15 @@ msgstr ""
 
 #: templates/announcements/announcement_list.html:34
 msgid "Recent Announcements"
-msgstr ""
+msgstr "最近のお知らせ"
 
 #: templates/blogs/entry_detail.html:11
 msgid "'s Entries"
-msgstr ""
+msgstr "件のお知らせ"
 
 #: templates/blogs/entry_list.html:12
 msgid "Blog Articles"
-msgstr ""
+msgstr "ブログ記事"
 
 #: templates/blogs/entry_list.html:13
 #, python-format
