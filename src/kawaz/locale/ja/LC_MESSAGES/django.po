@@ -158,7 +158,7 @@ msgstr "参加締切日"
 msgid ""
 "A deadline of the attendance. No member can attend the event after this "
 "deadline."
-msgstr ""
+msgstr "参加締切日を設定できます。参加者がいなかった場合でも延期させることができます。"
 
 #: apps/events/models.py:85
 msgid "Organizer"
@@ -288,7 +288,7 @@ msgstr "トップページには表示されず、詳細ページでのみタイ
 
 #: apps/products/models.py:83
 msgid "Product slug"
-msgstr "プロダクトのスラグ"
+msgstr "プロダクトID"
 
 #: apps/products/models.py:84
 msgid ""
@@ -364,178 +364,178 @@ msgstr ""
 #: apps/products/models.py:142 apps/products/models.py:198
 #: apps/products/models.py:278
 msgid "Product"
-msgstr ""
+msgstr "プロダクト"
 
 #: apps/products/models.py:143 templates/base.html:41
 msgid "Products"
-msgstr ""
+msgstr "プロダクト"
 
 #: apps/products/models.py:156
 msgid "`feature` display mode require `advertisement_image`."
-msgstr ""
+msgstr "トップページのカルーセル + タイル表示させるのに必要な告知用画像"
 
 #: apps/products/models.py:197
 msgid "Version"
-msgstr ""
+msgstr "バージョン"
 
 #: apps/products/models.py:221
 msgid "File"
-msgstr ""
+msgstr "ファイル"
 
 #: apps/products/models.py:223 templates/products/product_detail.html:28
 msgid "Downloads"
-msgstr ""
+msgstr "ダウンロード"
 
 #: apps/products/models.py:225
 msgid "The number of downloads"
-msgstr ""
+msgstr "ダウンロード数"
 
 #: apps/products/models.py:228
 msgid "Package release"
-msgstr ""
+msgstr "リリース日"
 
 #: apps/products/models.py:229
 msgid "Package releases"
-msgstr ""
+msgstr "リリース日"
 
 #: apps/products/models.py:239 apps/profiles/models.py:63
 #: apps/recent_activities/models.py:15
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: apps/products/models.py:241
 msgid "Page view"
-msgstr ""
+msgstr "閲覧数"
 
 #: apps/products/models.py:243
 msgid "The number of page views"
-msgstr ""
+msgstr "閲覧数"
 
 #: apps/products/models.py:246
 msgid "URL release"
-msgstr ""
+msgstr "リリースURL"
 
 #: apps/products/models.py:247
 msgid "URL releases"
-msgstr ""
+msgstr "リリースURL"
 
 #: apps/products/models.py:275 apps/recent_activities/models.py:16
 msgid "Image"
-msgstr ""
+msgstr "画像"
 
 #: apps/products/models.py:282
 msgid "Screen shot"
-msgstr ""
+msgstr "スクリーンショット"
 
 #: apps/products/models.py:283
 msgid "Screen shots"
-msgstr ""
+msgstr "スクリーンショット"
 
 #: apps/profiles/filters.py:11 apps/profiles/models.py:19
 #: apps/profiles/models.py:65
 msgid "Skills"
-msgstr ""
+msgstr "できること"
 
 #: apps/profiles/models.py:18 core/registrations/models.py:14
 msgid "Skill"
-msgstr ""
+msgstr "できること"
 
 #: apps/profiles/models.py:51 core/publishments/models.py:6
 msgid "Public"
-msgstr ""
+msgstr "外部公開"
 
 #: apps/profiles/models.py:52 core/publishments/models.py:7
 msgid "Internal"
-msgstr ""
+msgstr "内部公開"
 
 #: apps/profiles/models.py:59
 msgid "Birth day"
-msgstr ""
+msgstr "誕生日"
 
 #: apps/profiles/models.py:61 templates/profiles/profile_detail.html:30
 msgid "Address"
-msgstr ""
+msgstr "大まかな住所"
 
 #: apps/profiles/models.py:62
 msgid "Your address will not be shown by anonymous user."
-msgstr ""
+msgstr "住所はKawazメンバーのみ見ることができ、外部ユーザには見えません。"
 
 #: apps/profiles/models.py:64 core/registrations/models.py:17
 msgid "Remarks"
-msgstr ""
+msgstr "一言メッセージ"
 
 #: apps/profiles/models.py:70
 msgid "User"
-msgstr ""
+msgstr "ユーザ"
 
 #: apps/profiles/models.py:79 templates/profiles/profile_form.html:11
 msgid "Profile"
-msgstr ""
+msgstr "プロフィール"
 
 #: apps/profiles/models.py:80
 msgid "Profiles"
-msgstr ""
+msgstr "プロフィール"
 
 #: apps/profiles/models.py:100
 msgid "URL pattern"
-msgstr ""
+msgstr "ユーザID"
 
 #: apps/profiles/models.py:108 apps/profiles/models.py:115
 msgid "Service"
-msgstr ""
+msgstr "使用サービス"
 
 #: apps/profiles/models.py:109
 msgid "Services"
-msgstr ""
+msgstr "使用サービス"
 
 #: apps/profiles/models.py:114 apps/profiles/models.py:122
 msgid "Account"
-msgstr ""
+msgstr "アカウント"
 
 #: apps/profiles/models.py:116
 msgid "Publish State"
-msgstr ""
+msgstr "プロフィールの公開状態"
 
 #: apps/profiles/models.py:119
 msgid "Username"
-msgstr ""
+msgstr "ユーザ名"
 
 #: apps/profiles/models.py:123 templates/profiles/profile_detail.html:115
 msgid "Accounts"
-msgstr ""
+msgstr "アカウント"
 
 #: apps/projects/models.py:17
 msgid "Name"
-msgstr ""
+msgstr "プロジェクト名"
 
 #: apps/projects/models.py:84
 msgid "Planning"
-msgstr ""
+msgstr "企画中"
 
 #: apps/projects/models.py:85
 msgid "Active"
-msgstr ""
+msgstr "活動中"
 
 #: apps/projects/models.py:86
 msgid "Suspended"
-msgstr ""
+msgstr "一時停止中"
 
 #: apps/projects/models.py:87
 msgid "Eternaled"
-msgstr ""
+msgstr "エターナった"
 
 #: apps/projects/models.py:88
 msgid "Released"
-msgstr ""
+msgstr "完成"
 
 #: apps/projects/models.py:95 templates/projects/project_archive.html:30
 #: templates/projects/project_detail.html:29
 msgid "Status"
-msgstr ""
+msgstr "プロジェクトの状態"
 
 #: apps/projects/models.py:98
 msgid "Project slug"
-msgstr ""
+msgstr "プロジェクトID"
 
 #: apps/projects/models.py:99
 msgid ""
@@ -543,40 +543,43 @@ msgid ""
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
 "value cannot be modified for preventing the URL changes."
 msgstr ""
+"プロジェクトのURLとなる文字列を設定してください。半角英数字、半角アンダーバー、半角ハイフンのみ使用できます。一度設定すると変更することはできません。"
+"このように設定されます。"
+"http://kawaz.org/products/xxxxxxxxxxxx"
 
 #: apps/projects/models.py:116
 msgid "Contact us if you cannot find a category you need."
-msgstr ""
+msgstr "どのカテゴリにも当てはまらない場合はお問い合わせください"
 
 #: apps/projects/models.py:120
 msgid "Administrator"
-msgstr ""
+msgstr "管理者"
 
 #: apps/projects/models.py:124 templates/profiles/profile_list.html:10
 #: templates/projects/project_detail.html:62
 msgid "Members"
-msgstr ""
+msgstr "プロジェクトメンバー"
 
 #: apps/projects/models.py:130
 msgid "Tracker URL"
-msgstr ""
+msgstr "トラッカーのURL"
 
 #: apps/projects/models.py:132
 msgid "Repository URL"
-msgstr ""
+msgstr "リポジトリURL"
 
 #: apps/projects/models.py:140
 msgid "Projects"
-msgstr ""
+msgstr "プロジェクト"
 
 #: apps/recent_activities/models.py:24
 #: templates/roughpages/index.anonymous.html:46
 msgid "Recent Activity"
-msgstr ""
+msgstr "最近の活動"
 
 #: apps/recent_activities/models.py:25
 msgid "Recent Activities"
-msgstr ""
+msgstr "最近の活動"
 
 #: apps/stars/models.py:61
 msgid "The star have not been added to this object."
