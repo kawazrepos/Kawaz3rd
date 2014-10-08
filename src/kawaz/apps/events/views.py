@@ -4,11 +4,13 @@ from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseArchiveIndexView
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http.response import HttpResponseNotFound
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
 from django_filters.views import FilterView
+from django.utils.translation import ugettext as _
 from .filters import EventFilter
 from django.http.response import HttpResponse
 from django.http.response import StreamingHttpResponse
@@ -54,24 +56,40 @@ class EventDetailView(DetailView):
 
 
 @permission_required('events.add_event')
-class EventCreateView(CreateView):
+class EventCreateView(SuccessMessageMixin, CreateView):
     model = Event
     form_class = EventForm
+
+    def get_success_message(self, cleaned_data):
+        return _("""Event '{title}' successfully created.""".format(**{
+            'title': cleaned_data['title']
+        }))
+
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
         return super().form_valid(form)
 
 @permission_required('events.change_event')
-class EventUpdateView(UpdateView):
+class EventUpdateView(SuccessMessageMixin, UpdateView):
     model = Event
     form_class = EventForm
 
+    def get_success_message(self, cleaned_data):
+        return _("""Event '{title}' successfully updated.""".format(**{
+            'title': cleaned_data['title']
+        }))
+
 
 @permission_required('events.delete_event')
-class EventDeleteView(DeleteView):
+class EventDeleteView(SuccessMessageMixin, DeleteView):
     model = Event
     success_url = reverse_lazy('events_event_list')
+
+    def get_success_message(self, cleaned_data):
+        return _("""Event '{title}' successfully deleted.""".format(**{
+            'title': cleaned_data['title']
+        }))
 
 @permission_required('events.attend_event')
 class EventAttendView(UpdateView):
@@ -87,7 +105,7 @@ class EventAttendView(UpdateView):
         """
         self.object = self.get_object()
         success_url = self.get_success_url()
-        messages.add_message(request, messages.SUCCESS, 'You have been attended this event.')
+        messages.add_message(request, messages.SUCCESS, _('You have been attended this event.'))
         try:
             self.object.attend(request.user)
             return HttpResponseRedirect(success_url)
@@ -115,7 +133,7 @@ class EventQuitView(UpdateView):
         """
         self.object = self.get_object()
         success_url = self.get_success_url()
-        messages.add_message(request, messages.SUCCESS, 'You have been quited from this event.')
+        messages.add_message(request, messages.SUCCESS, _('You have been quited from this event.'))
         try:
             self.object.quit(request.user)
             return HttpResponseRedirect(success_url)
@@ -163,7 +181,7 @@ class EventCalendarView(DetailView):
         object = context['object']
 
         if not object.period_start or object.pub_state == 'draft':
-            return HttpResponseNotFound('Event must be public or have `period_start`.')
+            return HttpResponseNotFound(_('Event must be public or have `period_start`.'))
         cal = generate_ical(object)
         file = io.BytesIO(cal.to_ical())
         # テストの際に、closeされてしまうため
