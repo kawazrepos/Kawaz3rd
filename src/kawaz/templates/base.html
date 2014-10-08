@@ -40,6 +40,7 @@
             <li class="{% active '^/?$' %}"><a href="/">{% trans "Home" %}</a></li>
             <li class="{% active '^/products.+' %}"><a href="{% url "products_product_list" %}">{% trans "Products" %}</a></li>
             <li class="{% active '^/events.+' %}"><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
+            <li class="{% active '^/blogs.+' %}"><a href="{% url "blogs_entry_list" %}">{% trans "Blogs" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right header-button">
             <li class="dropdown">
