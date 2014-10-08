@@ -353,13 +353,14 @@ msgstr "最終更新日"
 
 #: apps/products/models.py:135
 msgid "Display mode"
-msgstr "公開状態"
+msgstr "表示モード"
 
 #: apps/products/models.py:137
 msgid ""
 "How the product displayed on the site top. To use `featured`, it require "
 "`advertisement_image`."
 msgstr ""
+"このプロダクトをトップページへカルーセル + タイル表示する場合、告知用画像を設定する必要があります。"
 
 #: apps/products/models.py:142 apps/products/models.py:198
 #: apps/products/models.py:278
@@ -776,24 +777,24 @@ msgstr ""
 
 #: templates/blogs/entry_list.html:32
 msgid "Hot Entries"
-msgstr ""
+msgstr "ホットエントリー"
 
 #: templates/components/login_form.html:18
 #: templates/registration/login.html:13
 msgid "Sign In"
-msgstr ""
+msgstr "ログイン"
 
 #: templates/components/login_form.html:21
 msgid "Forgot Password?"
-msgstr ""
+msgstr "パスワードを忘れた場合"
 
 #: templates/events/event_archive_month.html:17
 #: templates/events/event_archive_month.html:40
 #: templates/events/event_archive_year.html:17
 #: templates/events/event_archive_year.html:40
 #: templates/events/event_list.html:59
-msgid "過去のイベント"
-msgstr ""
+msgid "Event Archives"
+msgstr "過去のイベント"
 
 #: templates/events/event_archive_month.html:31
 #: templates/events/event_archive_year.html:31
