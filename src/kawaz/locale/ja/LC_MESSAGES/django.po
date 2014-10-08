@@ -110,7 +110,7 @@ msgstr "ブログ記事"
 #: templates/products/product_detail.html:121
 #: templates/products/product_list.html:49
 msgid "Categories"
-msgstr "カテゴリ名"
+msgstr "カテゴリ"
 
 #: apps/events/filters.py:18 apps/products/filters.py:13
 #: apps/products/filters.py:18 apps/profiles/filters.py:13
@@ -144,7 +144,7 @@ msgstr "場所"
 
 #: apps/events/models.py:75
 msgid "Number restriction"
-msgstr ""
+msgstr "参加可能人数"
 
 #: apps/events/models.py:77
 msgid "Use this to limit the number of attendees."
@@ -195,7 +195,7 @@ msgstr "終了時間を設定する必要があります"
 
 #: apps/events/models.py:141
 msgid "Number restriction should be grater than 0"
-msgstr "制限数が0に設定されています"
+msgstr "参加可能人数が0に設定されています"
 
 #: apps/events/models.py:146
 msgid "Attendance deadline must be future."
@@ -237,58 +237,58 @@ msgstr "%m月%d日({weekday})"
 #: apps/events/models.py:215
 #, python-brace-format
 msgid "%Y/%m/%d({weekday})"
-msgstr ""
+msgstr "%Y年%m月%d日({weekday})"
 
 #: apps/events/models.py:217
 msgid "%H:%M"
-msgstr ""
+msgstr "%H時%M分"
 
 #: apps/events/models.py:224
 msgid "Unfixed"
-msgstr ""
+msgstr "開催日時未定"
 
 #: apps/events/models.py:226
 msgid "{} ~ End time is unfixed"
-msgstr ""
+msgstr "{} 〜 終了日時未定"
 
 #: apps/events/models.py:229
 msgid "{} ~ {}"
-msgstr ""
+msgstr "{} 〜 {}"
 
 #: apps/products/filters.py:11 apps/products/models.py:32
 #: apps/products/models.py:114 templates/products/product_detail.html:104
 #: templates/products/product_list.html:43
 msgid "Platforms"
-msgstr ""
+msgstr "プラットフォーム"
 
 #: apps/products/models.py:26 apps/profiles/models.py:99
 msgid "Icon"
-msgstr ""
+msgstr "アイコン"
 
 #: apps/products/models.py:31 apps/products/models.py:196
 msgid "Platform"
-msgstr ""
+msgstr "プラットフォーム"
 
 #: apps/products/models.py:46 apps/products/models.py:98
 #: apps/profiles/models.py:10 apps/projects/models.py:107
 msgid "Description"
-msgstr ""
+msgstr "概要"
 
 #: apps/products/models.py:76
 msgid "Featured"
-msgstr ""
+msgstr "トップページのカルーセル + トップページにタイル表示"
 
 #: apps/products/models.py:77
 msgid "Tiled"
-msgstr ""
+msgstr "トップページにタイル表示"
 
 #: apps/products/models.py:78
 msgid "Normal"
-msgstr ""
+msgstr "トップページには表示されず、詳細ページでのみタイル表示"
 
 #: apps/products/models.py:83
 msgid "Product slug"
-msgstr ""
+msgstr "プロダクトのスラグ"
 
 #: apps/products/models.py:84
 msgid ""
@@ -296,57 +296,64 @@ msgid ""
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
 "value cannot be modified for preventing the URL changes."
 msgstr ""
+"プロダクトのURLとなる文字列を設定してください。半角英数字、半角アンダーバー、半角ハイフンのみ使用できます。一度設定すると変更することはできません。"
+"このように設定されます。"
+"http://kawaz.org/products/xxxxxxxxxxxx"
+
 
 #: apps/products/models.py:93 apps/projects/models.py:110
 msgid "Thumbnail"
-msgstr ""
+msgstr "サムネイル"
 
 #: apps/products/models.py:96
 msgid ""
 "This would be used as a product thumbnail image. The aspect ratio of the "
 "image should be 16:9."
-msgstr ""
+msgstr "プロダクトのサムネイルとなる画像を設定できます。アスペクト比16:9で設定すると綺麗に表示されます。"
 
 #: apps/products/models.py:102
 msgid "Advertisement Image"
-msgstr ""
+msgstr "告知用画像"
 
 #: apps/products/models.py:106
 msgid ""
 "This would be used in the top page. The aspect ratio of the image should be "
 "16:9"
 msgstr ""
+"このプロダクトをKawazのトップページに表示したい場合、そのための画像を設定できます。"
+"アスペクト比16:9で設定すると綺麗に表示されます。"
 
 #: apps/products/models.py:109
 msgid "Trailer"
-msgstr ""
+msgstr "トレイラー"
 
 #: apps/products/models.py:110
 msgid ""
 "Enter URL of your trailer movie on the YouTube. The movie would be embeded "
 "to the product page."
 msgstr ""
+"Youtubeの動画URLを入力すると、プロダクトページに埋め込むことができます。"
 
 #: apps/products/models.py:112 apps/projects/models.py:139
 msgid "Project"
-msgstr ""
+msgstr "プロジェクト"
 
 #: apps/products/models.py:116
 msgid "Publish at"
-msgstr ""
+msgstr "公開日"
 
 #: apps/products/models.py:120
 msgid "Administrators"
-msgstr ""
+msgstr "プロジェクトの管理者"
 
 #: apps/products/models.py:122 apps/products/models.py:201
 #: apps/profiles/models.py:73 apps/projects/models.py:128
 msgid "Updated at"
-msgstr ""
+msgstr "最終更新日"
 
 #: apps/products/models.py:135
 msgid "Display mode"
-msgstr ""
+msgstr "公開状態"
 
 #: apps/products/models.py:137
 msgid ""
