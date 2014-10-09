@@ -5,9 +5,7 @@
     <div class="page-header">
         {% if object %}
             <h1>
-                {% blocktrans %}
-                イベント「{{ object.title }}」を編集
-                {% endblocktrans %}
+                {% blocktrans with title=object.title %}Edit event "{{ title }}"{% endblocktrans %}
             </h1>
         {% else %}
             <h1>{% trans "Create Event" %}</h1>

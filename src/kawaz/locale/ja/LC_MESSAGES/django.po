@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-09 23:55+0900\n"
+"POT-Creation-Date: 2014-10-10 00:32+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,6 +60,20 @@ msgstr "お知らせ"
 msgid "Announcements"
 msgstr "お知らせ"
 
+#: apps/announcements/views.py:26
+#, python-format
+msgid "Announcement '%(title)s' successfully created."
+msgstr "お知らせ「%(title)s」を作成しました"
+
+#: apps/announcements/views.py:37
+#, python-format
+msgid "Announcement '%(title)s' successfully updated."
+msgstr "お知らせ「%(title)s」を更新しました"
+
+#: apps/announcements/views.py:48
+msgid "Announcement successfully deleted."
+msgstr "お知らせを削除しました"
+
 #: apps/attachments/models.py:15
 msgid "Content file"
 msgstr "ファイル"
@@ -104,10 +118,24 @@ msgstr "ブログ記事"
 msgid "Entries"
 msgstr "ブログ記事"
 
+#: apps/blogs/views.py:64
+#, python-format
+msgid "Entry '%(title)s' successfully created."
+msgstr "ブログ記事「%(title)s」を作成しました"
+
+#: apps/blogs/views.py:80
+#, python-format
+msgid "Entry '%(title)s' successfully updated."
+msgstr "ブログ記事「%(title)s」を更新しました"
+
+#: apps/blogs/views.py:90
+msgid "Entry successfully deleted."
+msgstr "ブログ記事を削除しました"
+
 #: apps/events/filters.py:16 apps/products/filters.py:16
 #: apps/products/models.py:52 apps/products/models.py:115
 #: apps/projects/models.py:22 templates/events/event_list.html:49
-#: templates/products/product_detail.html:121
+#: templates/products/product_detail.html:126
 #: templates/products/product_list.html:49
 msgid "Categories"
 msgstr "カテゴリ"
@@ -162,11 +190,11 @@ msgstr ""
 "参加締切日を設定できます。参加者がいなかった場合でも延期させることができま"
 "す。"
 
-#: apps/events/models.py:85 templates/events/event_detail.html:131
+#: apps/events/models.py:85 templates/events/event_detail.html:133
 msgid "Organizer"
 msgstr "主催者"
 
-#: apps/events/models.py:90 templates/events/event_detail.html:144
+#: apps/events/models.py:90 templates/events/event_detail.html:146
 msgid "Attendees"
 msgstr "参加者"
 
@@ -175,7 +203,7 @@ msgid "Event"
 msgstr "イベント"
 
 #: apps/events/models.py:106 templates/base.html:42
-#: templates/events/event_form.html:19
+#: templates/events/event_form.html:17
 msgid "Events"
 msgstr "イベント"
 
@@ -255,8 +283,36 @@ msgstr "{} 〜 終了日時未定"
 msgid "{} ~ {}"
 msgstr "{} 〜 {}"
 
+#: apps/events/views.py:65
+#, python-format
+msgid "Event '%(title)s' successfully created."
+msgstr "イベント「%(title)s」を作成しました"
+
+#: apps/events/views.py:80
+#, python-format
+msgid "Event '%(title)s' successfully updated."
+msgstr "イベント「%(title)s」を更新しました"
+
+#: apps/events/views.py:91
+msgid "Event successfully deleted."
+msgstr "イベントを削除しました"
+
+#: apps/events/views.py:107
+#, fuzzy
+#| msgid "The star have not been added to this object."
+msgid "You have been attended this event."
+msgstr "このコンテンツにはまだスターが付けられていません"
+
+#: apps/events/views.py:135
+msgid "You have been quited from this event."
+msgstr "イベントの参加をやめました"
+
+#: apps/events/views.py:183
+msgid "Event must be public or have `period_start`."
+msgstr "イベントは公開状態であるか、開始日時が設定されている必要があります"
+
 #: apps/products/filters.py:11 apps/products/models.py:32
-#: apps/products/models.py:114 templates/products/product_detail.html:104
+#: apps/products/models.py:114 templates/products/product_detail.html:109
 #: templates/products/product_list.html:43
 msgid "Platforms"
 msgstr "プラットフォーム"
@@ -434,6 +490,20 @@ msgstr "スクリーンショット"
 msgid "Screen shots"
 msgstr "スクリーンショット"
 
+#: apps/products/views.py:162
+#, python-format
+msgid "Product '%(title)s' successfully created."
+msgstr "作品「%(title)s」を作成しました"
+
+#: apps/products/views.py:180
+#, python-format
+msgid "Product '%(title)s' successfully updated."
+msgstr "作品「%(title)s」を更新しました"
+
+#: apps/products/views.py:191
+msgid "Product successfully deleted."
+msgstr "作品を削除しました"
+
 #: apps/profiles/filters.py:11 apps/profiles/models.py:19
 #: apps/profiles/models.py:65
 msgid "Skills"
@@ -455,7 +525,7 @@ msgstr "内部公開"
 msgid "Birth day"
 msgstr "誕生日"
 
-#: apps/profiles/models.py:61 templates/profiles/profile_detail.html:31
+#: apps/profiles/models.py:61 templates/profiles/profile_detail.html:32
 msgid "Address"
 msgstr "住んでるところ"
 
@@ -503,9 +573,13 @@ msgstr "プロフィールの公開状態"
 msgid "Username"
 msgstr "ユーザ名"
 
-#: apps/profiles/models.py:123 templates/profiles/profile_detail.html:124
+#: apps/profiles/models.py:123 templates/profiles/profile_detail.html:125
 msgid "Accounts"
 msgstr "アカウント"
+
+#: apps/profiles/views.py:93
+msgid "Your profile successfully updated."
+msgstr "プロフィールを更新しました"
 
 #: apps/projects/models.py:17
 msgid "Name"
@@ -559,7 +633,7 @@ msgid "Administrator"
 msgstr "管理者"
 
 #: apps/projects/models.py:124 templates/profiles/profile_list.html:10
-#: templates/projects/project_detail.html:62
+#: templates/projects/project_detail.html:63
 msgid "Members"
 msgstr "プロジェクトメンバー"
 
@@ -574,6 +648,32 @@ msgstr "リポジトリURL"
 #: apps/projects/models.py:140
 msgid "Projects"
 msgstr "プロジェクト"
+
+#: apps/projects/views.py:53
+#, python-format
+msgid "Project '%(title)s' successfully created."
+msgstr "プロジェクト「%(title)s」を作成しました"
+
+#: apps/projects/views.py:64
+#, python-format
+msgid "Project '%(title)s' successfully updated."
+msgstr "プロジェクト「%(title)s」を更新しました"
+
+#: apps/projects/views.py:74
+msgid "Project successfully deleted."
+msgstr "プロジェクトを削除しました"
+
+#: apps/projects/views.py:108
+#, fuzzy
+#| msgid "The star have not been added to this object."
+msgid "You have been joined to this project."
+msgstr "このコンテンツにはまだスターが付けられていません"
+
+#: apps/projects/views.py:127
+#, fuzzy
+#| msgid "The star have not been added to this object."
+msgid "You have been quited from this project."
+msgstr "このコンテンツにはまだスターが付けられていません"
 
 #: apps/recent_activities/models.py:24
 #: templates/roughpages/index.anonymous.html:46
@@ -631,7 +731,7 @@ msgstr "権限"
 
 #: core/personas/admin.py:26
 msgid "Important dates"
-msgstr ""
+msgstr "重要な日付"
 
 #: core/personas/forms.py:56
 msgid "Users in this role have all permissions"
@@ -651,7 +751,7 @@ msgstr "ユーザに対してKawazでの役割を決めることができます�
 
 #: core/personas/forms.py:60
 msgid "Users in this role are assumed to be a signed in visitor"
-msgstr ""
+msgstr "この役職は外部ユーザーに付けられます"
 
 #: core/personas/models.py:94
 msgid "Man"
@@ -697,7 +797,7 @@ msgstr "一言メッセージ"
 msgid "Avatar"
 msgstr "ユーザアイコン"
 
-#: core/personas/models.py:111 templates/profiles/profile_detail.html:23
+#: core/personas/models.py:111 templates/profiles/profile_detail.html:24
 msgid "Gender"
 msgstr "性別"
 
@@ -710,6 +810,8 @@ msgid ""
 "The role this user belongs to. A user will get permissions of the role thus "
 "the user cannot change ones role for security reason."
 msgstr ""
+"ユーザーが所属している役割です。この役割に応じて、ユーザーに権限が与えられま"
+"す。セキュリティ上の理由から、ユーザーは自分の役割を変更できません。"
 
 #: core/personas/models.py:162
 msgid "Persona"
@@ -745,7 +847,7 @@ msgstr "日本語"
 #: templates/announcements/announcement_list.html:15
 #, python-format
 msgid "There are %(count)s announcement entries."
-msgstr ""
+msgstr "%(count)s件のお知らせがあります"
 
 # msgstr "%(count)件のお知らせ"
 #: templates/announcements/announcement_list.html:34
@@ -787,7 +889,7 @@ msgstr "ブログ記事"
 #: templates/blogs/entry_list.html:13
 #, python-format
 msgid "There are %(count)s blog entries."
-msgstr ""
+msgstr "%(count)s件のブログ記事があります"
 
 # msgstr "%(count)件のブログ記事"
 #: templates/blogs/entry_list.html:17
@@ -810,7 +912,7 @@ msgstr "パスワードを忘れたら"
 #: templates/components/paginator.html:3
 #, python-format
 msgid "Page %(current)s of %(max)s"
-msgstr ""
+msgstr "%(max)sページ中 %(current)sページ目"
 
 #: templates/components/paginator.html:7 templates/components/paginator.html:9
 msgid "Newer"
@@ -858,74 +960,78 @@ msgid "See this place in Google Maps"
 msgstr "Googleマップでこの場所を見る"
 
 #: templates/events/event_detail.html:69
-msgid "Join This Event"
+#, fuzzy
+#| msgid "Join This Event"
+msgid "Attend This Event"
 msgstr "このイベントに参加"
 
-#: templates/events/event_detail.html:73 templates/events/event_detail.html:84
+#: templates/events/event_detail.html:74 templates/events/event_detail.html:85
 #, python-format
 msgid "Can join %(event.number_restriction)ss after"
-msgstr ""
+msgstr "あと%(event.number_restriction)s人が参加できます"
 
 # msgstr "あと%(event.number_restriction)人参加できます"
-#: templates/events/event_detail.html:79 templates/events/event_detail.html:97
+#: templates/events/event_detail.html:80 templates/events/event_detail.html:99
 msgid "Was closed participation"
 msgstr "参加者締め切りました"
 
-#: templates/events/event_detail.html:81
+#: templates/events/event_detail.html:82
 msgid "Call for participation now"
 msgstr "参加者募集中"
 
 # msgstr "あと%(event.number_restriction)人参加できます"
-#: templates/events/event_detail.html:92
+#: templates/events/event_detail.html:93
 msgid "Leave This Event"
 msgstr "参加をやめる"
 
-#: templates/events/event_detail.html:100
+#: templates/events/event_detail.html:102
 msgid "You need to login in<br> order to participate"
 msgstr "イベントに参加するには<br>ログインする必要があります"
 
-#: templates/events/event_detail.html:105
+#: templates/events/event_detail.html:107
 msgid "Participation deadline"
 msgstr "参加締切日"
 
-#: templates/events/event_detail.html:107
+#: templates/events/event_detail.html:109
 msgid "utill"
 msgstr "まで"
 
-#: templates/events/event_detail.html:111
+#: templates/events/event_detail.html:113
 msgid "Is not have participate deadline"
 msgstr "参加締切はありません"
 
-#: templates/events/event_detail.html:148
-#, python-format
-msgid "%(attendees_count)s人参加中"
-msgstr ""
+#: templates/events/event_detail.html:150
+#, fuzzy, python-format
+#| msgid "There are %(count)s blog entries."
+msgid "There are %(attendees_count)s attendees."
+msgstr "%(count)s件のブログ記事があります"
 
-#: templates/events/event_detail.html:172
+#: templates/events/event_detail.html:174
 #: templates/products/product_detail.html:87
 #: templates/products/product_list.html:34
-#: templates/profiles/profile_detail.html:113
-#: templates/projects/project_detail.html:85
+#: templates/profiles/profile_detail.html:114
+#: templates/projects/project_detail.html:89
 msgid "Administration"
 msgstr "管理"
 
-#: templates/events/event_detail.html:178
+#: templates/events/event_detail.html:180
 msgid "Update event"
 msgstr "イベントを編集"
 
-#: templates/events/event_detail.html:184
+#: templates/events/event_detail.html:186
+msgid "Do you want to delete this event?"
+msgstr "このイベントを削除してもよろしいですか？"
+
+#: templates/events/event_detail.html:187
 msgid "Delete event"
 msgstr "イベントを削除"
 
 #: templates/events/event_form.html:8
 #, python-format
-msgid ""
-"\n"
-"                イベント「%(object.title)s」を編集\n"
-"                "
-msgstr ""
+msgid "Edit event \"%(title)s\""
+msgstr "イベント「%(title)s」の編集"
 
-#: templates/events/event_form.html:13
+#: templates/events/event_form.html:11
 msgid "Create Event"
 msgstr "新しくイベントを作成する"
 
@@ -954,11 +1060,15 @@ msgstr "新しくイベントを作成する"
 msgid "Update Product"
 msgstr "イベントを編集"
 
-#: templates/products/product_detail.html:97
+#: templates/products/product_detail.html:99
+msgid "Do you want to delete this product?"
+msgstr "この作品を削除してもよろしいですか？"
+
+#: templates/products/product_detail.html:100
 msgid "Delete Product"
 msgstr "イベントを削除"
 
-#: templates/products/product_detail.html:132
+#: templates/products/product_detail.html:137
 msgid "Recommended Games"
 msgstr "おすすめのゲーム"
 
@@ -974,45 +1084,45 @@ msgstr "リリース日"
 msgid "Product List"
 msgstr "プロダクト一覧"
 
-#: templates/profiles/profile_detail.html:27
+#: templates/profiles/profile_detail.html:28
 msgid "Birthday"
 msgstr "誕生日"
 
-#: templates/profiles/profile_detail.html:35
+#: templates/profiles/profile_detail.html:36
 msgid "Abilities"
 msgstr "できること"
 
-#: templates/profiles/profile_detail.html:78
+#: templates/profiles/profile_detail.html:79
 msgid "Recent Entries"
 msgstr "最近書いたブログ"
 
-#: templates/profiles/profile_detail.html:81
+#: templates/profiles/profile_detail.html:82
 msgid "There are no entries yet"
 msgstr "書いたブログはまだありません"
 
-#: templates/profiles/profile_detail.html:93
+#: templates/profiles/profile_detail.html:94
 #, fuzzy
 #| msgid "Recent Entries"
 msgid "Read all entries"
 msgstr "最近書いたブログ"
 
-#: templates/profiles/profile_detail.html:97
+#: templates/profiles/profile_detail.html:98
 msgid "No entries have been written yet."
 msgstr "書いたブログはまだありません"
 
-#: templates/profiles/profile_detail.html:117
+#: templates/profiles/profile_detail.html:118
 msgid "Update Profile"
 msgstr "プロフィールを編集"
 
-#: templates/profiles/profile_detail.html:133
+#: templates/profiles/profile_detail.html:134
 msgid "There are no accounts."
 msgstr "アカウントはありません"
 
-#: templates/profiles/profile_detail.html:140
+#: templates/profiles/profile_detail.html:141
 msgid "Joined Projects"
 msgstr "プロジェクトに参加"
 
-#: templates/profiles/profile_detail.html:149
+#: templates/profiles/profile_detail.html:151
 msgid "There are no joinned projects."
 msgstr "参加できるプロジェクトはありません"
 
@@ -1030,7 +1140,7 @@ msgstr "アーカイブされたプロジェクト"
 #: templates/projects/project_archive.html:12
 #, python-format
 msgid "There are %(count)s archived projects."
-msgstr ""
+msgstr "%(count)s件のアーカイブされたプロジェクトがあります"
 
 # msgstr "%(count)件のアーカイブ済みプロジェクト"
 #: templates/projects/project_archive.html:28
@@ -1049,23 +1159,27 @@ msgstr "リポジトリ"
 msgid "Join This Project"
 msgstr "このプロジェクトに参加する"
 
-#: templates/projects/project_detail.html:76
+#: templates/projects/project_detail.html:77
 msgid "operation"
 msgstr "イベント管理"
 
-#: templates/projects/project_detail.html:78
+#: templates/projects/project_detail.html:80
 msgid "Leave this project"
 msgstr "このプロジェクトから抜ける"
 
-#: templates/projects/project_detail.html:89
+#: templates/projects/project_detail.html:93
 msgid "Create Project"
 msgstr "新しいプロジェクトを作成する"
 
-#: templates/projects/project_detail.html:92
+#: templates/projects/project_detail.html:96
 msgid "Update Project"
 msgstr "プロジェクトを編集"
 
-#: templates/projects/project_detail.html:95
+#: templates/projects/project_detail.html:101
+msgid "Do you want to delete this project?"
+msgstr "このプロジェクトを削除してよろしいですか？"
+
+#: templates/projects/project_detail.html:102
 msgid "Delete Project"
 msgstr "プロジェクトを削除"
 

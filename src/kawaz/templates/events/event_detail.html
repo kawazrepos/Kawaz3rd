@@ -147,7 +147,7 @@
                 <p>
                     {# 参加者全員の人数から主催者を引いている #}
                     {% with attendees_count=event.attendees.count|add:"-1" %}
-                        {% blocktrans %}{{ attendees_count }}人参加中{% endblocktrans %}
+                        {% blocktrans %}There are {{ attendees_count }} attendees.{% endblocktrans %}
                     {% endwith %}
                 </p>
             </div>
