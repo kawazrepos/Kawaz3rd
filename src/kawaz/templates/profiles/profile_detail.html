@@ -83,11 +83,18 @@
         {% else %}
             <div class="list-group">
                 {% get_published_entries_of object.user as entries %}
-                {% for entry in entries %}
+                {% for entry in entries|slice:":5" %}
                     <a href="{{ entry.get_absolute_url }}" class="blog-entry list-group-item">
                         <time>{{ entry.publish_at | date:"m/d" }}</time>
                         <span class="link">{{ entry.title }}</span>
                     </a>
+                    {% if forloop.last %}
+                        <a href="{% url "blogs_entry_author_list" author=object.user.username %}" class="blog-entry list-group-item">
+                            <span class="link text-center">{% trans "Read all entries" %}</span>
+                        </a>
+                    {% endif %}
+                {% empty %}
+                    <div class="list-group-item">{% trans "No entries have been written yet." %}</div>
                 {% endfor %}
             </div>
         {% endif %}

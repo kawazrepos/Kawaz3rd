@@ -38,7 +38,7 @@ author_patterns = patterns('',
        EntryAuthorTodayArchiveView.as_view(),
        name='blogs_entry_author_archive_today'),
    url(r'^$',
-       EntryAuthorListView.as_view(), name='blogs_author_entry_list'),
+       EntryAuthorListView.as_view(), name='blogs_entry_author_list'),
 )
 
 
