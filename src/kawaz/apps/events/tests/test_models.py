@@ -1,7 +1,7 @@
 import datetime
 from django.utils.timezone import get_default_timezone
 from unittest import mock
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AnonymousUser
@@ -201,6 +201,7 @@ class EventCategoryTest(TestCase):
         self.assertEqual(categories[2].label, 'GameJam')
 
 @mock.patch('django.utils.timezone.now', static_now)
+@override_settings(LANGUAGE_CODE='en-us')
 class EventTestCase(TestCase):
     def test_str(self):
         """str(event) should return the event title"""

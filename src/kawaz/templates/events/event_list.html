@@ -13,15 +13,15 @@
 {% block content-main %}
     <div class="event-list-wrap">
         <div class="page-header event-list-header">
-            <h2>{% trans "開催予定のイベント" %}</h2>
+            <h2>{% trans "Upcoming events" %}</h2>
         </div>
         {% for event in filter %}
             {% include "events/components/list-item.html" %}
         {% empty %}
             <div class="alert alert-info">
-                <p>{% trans "該当するイベントは見つかりませんでした" %}</p>
+                <p>{% trans "elevant events can not be found" %}</p>
                 {% if user has 'events.add_event' %}
-                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "イベントを作成する" %}</a>
+                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create event" %}</a>
                 {% endif %}
             </div>
         {% endfor %}
@@ -37,8 +37,8 @@
         {# 参加できる状態 #}
         {% if user has 'events.add_event' %}
             <a href="{% url "events_event_create" %}"
-               class="btn btn-success event-attend-btn btn-large">
-                <span class="glyphicon glyphicon-plus"></span><span>{% trans "イベントを作成する" %}</span>
+               class="btn btn-success event-join-btn btn-large">
+                <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create event" %}</span>
             </a>
         {% endif %}
     </div>
@@ -56,7 +56,7 @@
     {# 過去のイベントリスト #}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">{% trans "過去のイベント" %}</h3>
+            <h3 class="panel-title">{% trans "Event Archives" %}</h3>
         </div>
 
         <div class="list-group">
