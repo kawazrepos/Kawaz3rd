@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-05 21:18+0900\n"
+"POT-Creation-Date: 2014-10-09 23:28+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,15 +159,14 @@ msgid ""
 "A deadline of the attendance. No member can attend the event after this "
 "deadline."
 msgstr ""
-"参加締切日を設定できます。参加者がいなかった場合でも延期させることができます。"
+"参加締切日を設定できます。参加者がいなかった場合でも延期させることができま"
+"す。"
 
-#: apps/events/models.py:85
-#: templates/events/event_detail.html:135
+#: apps/events/models.py:85 templates/events/event_detail.html:131
 msgid "Organizer"
 msgstr "主催者"
 
-#: apps/events/models.py:90
-#: templates/events/event_detail.html:148
+#: apps/events/models.py:90 templates/events/event_detail.html:144
 msgid "Attendees"
 msgstr "参加者"
 
@@ -176,7 +175,7 @@ msgid "Event"
 msgstr "イベント"
 
 #: apps/events/models.py:106 templates/base.html:42
-#: templates/events/event_form.html:15
+#: templates/events/event_form.html:19
 msgid "Events"
 msgstr "イベント"
 
@@ -233,28 +232,26 @@ msgid "Sun"
 msgstr "日"
 
 #: apps/events/models.py:212
-#, python-brace-format
-msgid "%m/%d({weekday})"
-msgstr "%m月%d日({weekday})"
+msgid "%m/%d"
+msgstr "%m月%d日"
 
-#: apps/events/models.py:215
-#, python-brace-format
-msgid "%Y/%m/%d({weekday})"
-msgstr "%Y年%m月%d日({weekday})"
+#: apps/events/models.py:216
+msgid "%Y/%m/%d"
+msgstr "%Y年%m月%d日"
 
-#: apps/events/models.py:217
+#: apps/events/models.py:219
 msgid "%H:%M"
 msgstr "%H時%M分"
 
-#: apps/events/models.py:224
+#: apps/events/models.py:226
 msgid "Unfixed"
 msgstr "開催日時未定"
 
-#: apps/events/models.py:226
+#: apps/events/models.py:228
 msgid "{} ~ End time is unfixed"
 msgstr "{} 〜 終了日時未定"
 
-#: apps/events/models.py:229
+#: apps/events/models.py:231
 msgid "{} ~ {}"
 msgstr "{} 〜 {}"
 
@@ -299,10 +296,9 @@ msgid ""
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
 "value cannot be modified for preventing the URL changes."
 msgstr ""
-"プロダクトのURLとなる文字列を設定してください。半角英数字、半角アンダーバー、半角ハイフンのみ使用できます。一度設定すると変更することはできません。"
-"このように設定されます。"
-"http://kawaz.org/products/xxxxxxxxxxxx"
-
+"プロダクトのURLとなる文字列を設定してください。半角英数字、半角アンダーバー、"
+"半角ハイフンのみ使用できます。一度設定すると変更することはできません。このよ"
+"うに設定されます。http://kawaz.org/products/xxxxxxxxxxxx"
 
 #: apps/products/models.py:93 apps/projects/models.py:110
 msgid "Thumbnail"
@@ -312,7 +308,9 @@ msgstr "サムネイル"
 msgid ""
 "This would be used as a product thumbnail image. The aspect ratio of the "
 "image should be 16:9."
-msgstr "プロダクトのサムネイルとなる画像を設定できます。アスペクト比16:9で設定すると綺麗に表示されます。"
+msgstr ""
+"プロダクトのサムネイルとなる画像を設定できます。アスペクト比16:9で設定すると"
+"綺麗に表示されます。"
 
 #: apps/products/models.py:102
 msgid "Advertisement Image"
@@ -323,8 +321,8 @@ msgid ""
 "This would be used in the top page. The aspect ratio of the image should be "
 "16:9"
 msgstr ""
-"このプロダクトをKawazのトップページに表示したい場合、そのための画像を設定できます。"
-"アスペクト比16:9で設定すると綺麗に表示されます。"
+"このプロダクトをKawazのトップページに表示したい場合、そのための画像を設定でき"
+"ます。アスペクト比16:9で設定すると綺麗に表示されます。"
 
 #: apps/products/models.py:109
 msgid "Trailer"
@@ -363,7 +361,8 @@ msgid ""
 "How the product displayed on the site top. To use `featured`, it require "
 "`advertisement_image`."
 msgstr ""
-"このプロダクトをトップページへカルーセル + タイル表示する場合、告知用画像を設定する必要があります。"
+"このプロダクトをトップページへカルーセル + タイル表示する場合、告知用画像を設"
+"定する必要があります。"
 
 #: apps/products/models.py:142 apps/products/models.py:198
 #: apps/products/models.py:278
@@ -456,7 +455,7 @@ msgstr "内部公開"
 msgid "Birth day"
 msgstr "誕生日"
 
-#: apps/profiles/models.py:61 templates/profiles/profile_detail.html:30
+#: apps/profiles/models.py:61 templates/profiles/profile_detail.html:31
 msgid "Address"
 msgstr "住んでるところ"
 
@@ -504,7 +503,7 @@ msgstr "プロフィールの公開状態"
 msgid "Username"
 msgstr "ユーザ名"
 
-#: apps/profiles/models.py:123 templates/profiles/profile_detail.html:115
+#: apps/profiles/models.py:123 templates/profiles/profile_detail.html:124
 msgid "Accounts"
 msgstr "アカウント"
 
@@ -547,9 +546,9 @@ msgid ""
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
 "value cannot be modified for preventing the URL changes."
 msgstr ""
-"プロジェクトのURLとなる文字列を設定してください。半角英数字、半角アンダーバー、半角ハイフンのみ使用できます。一度設定すると変更することはできません。"
-"このように設定されます。"
-"http://kawaz.org/products/xxxxxxxxxxxx"
+"プロジェクトのURLとなる文字列を設定してください。半角英数字、半角アンダー"
+"バー、半角ハイフンのみ使用できます。一度設定すると変更することはできません。"
+"このように設定されます。http://kawaz.org/products/xxxxxxxxxxxx"
 
 #: apps/projects/models.py:116
 msgid "Contact us if you cannot find a category you need."
@@ -597,7 +596,9 @@ msgstr "記事の一部分を引用"
 msgid ""
 "This is used for quotation. When the user add a star with text selection, "
 "the selected text is passed to this."
-msgstr "テキストを選択した状態でスターを付けると、選択部分のテキストを引用した形でスターが付きます"
+msgstr ""
+"テキストを選択した状態でスターを付けると、選択部分のテキストを引用した形でス"
+"ターが付きます"
 
 #: apps/stars/models.py:126
 msgid "Star"
@@ -632,23 +633,23 @@ msgstr "権限"
 msgid "Important dates"
 msgstr ""
 
-#: core/personas/forms.py:50
+#: core/personas/forms.py:56
 msgid "Users in this role have all permissions"
 msgstr "神権限"
 
-#: core/personas/forms.py:51
+#: core/personas/forms.py:57
 msgid "Users in this role can promote to the adam"
 msgstr "アダム権限"
 
-#: core/personas/forms.py:52
+#: core/personas/forms.py:58
 msgid "Users in this role have staff permission"
 msgstr "ネルフ権限"
 
-#: core/personas/forms.py:53
+#: core/personas/forms.py:59
 msgid "Users in this role are assumed to be a member of the site"
 msgstr ""
 
-#: core/personas/forms.py:54
+#: core/personas/forms.py:60
 msgid "Users in this role are assumed to be a signed in visitor"
 msgstr ""
 
@@ -696,7 +697,7 @@ msgstr "一言メッセージ"
 msgid "Avatar"
 msgstr "ユーザアイコン"
 
-#: core/personas/models.py:111 templates/profiles/profile_detail.html:22
+#: core/personas/models.py:111 templates/profiles/profile_detail.html:23
 msgid "Gender"
 msgstr "性別"
 
@@ -724,7 +725,8 @@ msgstr "下書き"
 
 #: core/registrations/models.py:11
 msgid "Fill your address. You must be related with Sapporo or neighbor cities."
-msgstr "札幌市または近郊都市の在住、もしくは出身などで札幌に縁のある必要があります。"
+msgstr ""
+"札幌市または近郊都市の在住、もしくは出身などで札幌に縁のある必要があります。"
 
 #: core/registrations/models.py:15
 msgid ""
@@ -732,35 +734,47 @@ msgid ""
 msgstr ""
 "どのようなことができるか、またはどのようなゲームが作りたいか書いてください。"
 
-#: templates/base.html:40
-msgid "Home"
-msgstr "ホーム"
+#: settings.py:132
+msgid "English"
+msgstr ""
 
-#: templates/base.html:54
-msgid "View Profile"
-msgstr "プロフィールを見る"
-
-#: templates/base.html:55
-msgid "Change Profile"
-msgstr "プロフィールを編集"
-
-#: templates/base.html:57 templates/registration/logout.html:6
-msgid "Logout"
-msgstr "ログアウト"
-
-#: templates/base.html:63 templates/registration/login.html:7
-msgid "Login"
-msgstr "ログイン"
+#: settings.py:133
+msgid "Japanese"
+msgstr ""
 
 #: templates/announcements/announcement_list.html:15
 #, python-format
 msgid "There are %(count)s announcement entries."
 msgstr ""
-#msgstr "%(count)件のお知らせ"
 
+# msgstr "%(count)件のお知らせ"
 #: templates/announcements/announcement_list.html:34
 msgid "Recent Announcements"
 msgstr "最近のお知らせ"
+
+#: templates/base.html:40
+msgid "Home"
+msgstr "ホーム"
+
+#: templates/base.html:43
+msgid "Blogs"
+msgstr ""
+
+#: templates/base.html:55
+msgid "View Profile"
+msgstr "プロフィールを見る"
+
+#: templates/base.html:56
+msgid "Change Profile"
+msgstr "プロフィールを編集"
+
+#: templates/base.html:58 templates/registration/logout.html:6
+msgid "Logout"
+msgstr "ログアウト"
+
+#: templates/base.html:64 templates/registration/login.html:7
+msgid "Login"
+msgstr "ログイン"
 
 #: templates/blogs/entry_detail.html:11
 msgid "'s Entries"
@@ -774,8 +788,8 @@ msgstr "ブログ記事"
 #, python-format
 msgid "There are %(count)s blog entries."
 msgstr ""
-#msgstr "%(count)件のブログ記事"
 
+# msgstr "%(count)件のブログ記事"
 #: templates/blogs/entry_list.html:17
 msgid "Create Blog"
 msgstr "ブログ記事を書く"
@@ -792,6 +806,25 @@ msgstr "ログイン"
 #: templates/components/login_form.html:21
 msgid "Forgot Password?"
 msgstr "パスワードを忘れたら"
+
+#: templates/components/paginator.html:3
+#, python-format
+msgid "Page %(current)s of %(max)s"
+msgstr ""
+
+#: templates/components/paginator.html:7 templates/components/paginator.html:9
+msgid "Newer"
+msgstr ""
+
+#: templates/components/paginator.html:14
+#: templates/components/paginator.html:16
+msgid "Older"
+msgstr ""
+
+#: templates/events/components/list-item.html:28
+#: templates/events/event_detail.html:56
+msgid "Venue unfixed"
+msgstr "開催場所未定"
 
 #: templates/events/event_archive_month.html:17
 #: templates/events/event_archive_month.html:40
@@ -824,82 +857,75 @@ msgstr "iCal形式でダウンロード"
 msgid "See this place in Google Maps"
 msgstr "Googleマップでこの場所を見る"
 
-#: templates/events/event_detail.html:56
-#: templates/events/components/list-item.html:34
-msgid "Venue unfixed"
-msgstr "開催場所未定"
-
 #: templates/events/event_detail.html:69
 msgid "Join This Event"
 msgstr "このイベントに参加"
 
-#: templates/events/event_detail.html:73
+#: templates/events/event_detail.html:73 templates/events/event_detail.html:84
 #, python-format
-msgid "Can join %(event.number_restriction)s after"
+msgid "Can join %(event.number_restriction)ss after"
 msgstr ""
-#msgstr "あと%(event.number_restriction)人参加できます"
 
-#: templates/events/event_detail.html:81
-#: templates/events/event_detail.html:101
+# msgstr "あと%(event.number_restriction)人参加できます"
+#: templates/events/event_detail.html:79 templates/events/event_detail.html:97
 msgid "Was closed participation"
 msgstr "参加者締め切りました"
 
-#: templates/events/event_detail.html:83
+#: templates/events/event_detail.html:81
 msgid "Call for participation now"
 msgstr "参加者募集中"
 
-#: templates/events/event_detail.html:86
-#, python-format
-msgid "can join %(event.number_restriction)s after"
-msgstr ""
-#msgstr "あと%(event.number_restriction)人参加できます"
-
-#: templates/events/event_detail.html:96
+# msgstr "あと%(event.number_restriction)人参加できます"
+#: templates/events/event_detail.html:92
 msgid "Leave This Event"
 msgstr "参加をやめる"
 
-#: templates/events/event_detail.html:104
+#: templates/events/event_detail.html:100
 msgid "You need to login in<br> order to participate"
 msgstr "イベントに参加するには<br>ログインする必要があります"
 
-#: templates/events/event_detail.html:109
+#: templates/events/event_detail.html:105
 msgid "Participation deadline"
 msgstr "参加締切日"
 
-#: templates/events/event_detail.html:111
+#: templates/events/event_detail.html:107
 msgid "utill"
 msgstr "まで"
 
-#: templates/events/event_detail.html:115
+#: templates/events/event_detail.html:111
 msgid "Is not have participate deadline"
 msgstr "参加締切はありません"
 
-#: templates/events/event_detail.html:152
+#: templates/events/event_detail.html:148
 #, python-format
 msgid "%(attendees_count)s人参加中"
 msgstr ""
 
-#: templates/events/event_detail.html:176
+#: templates/events/event_detail.html:172
 #: templates/products/product_detail.html:87
 #: templates/products/product_list.html:34
-#: templates/profiles/profile_detail.html:104
+#: templates/profiles/profile_detail.html:113
 #: templates/projects/project_detail.html:85
 msgid "Administration"
 msgstr "管理"
 
-#: templates/events/event_detail.html:182
+#: templates/events/event_detail.html:178
 msgid "Update event"
 msgstr "イベントを編集"
 
-#: templates/events/event_detail.html:188
+#: templates/events/event_detail.html:184
 msgid "Delete event"
 msgstr "イベントを削除"
 
-#: templates/events/event_form.html:7
-msgid "を編集する"
+#: templates/events/event_form.html:8
+#, python-format
+msgid ""
+"\n"
+"                イベント「%(object.title)s」を編集\n"
+"                "
 msgstr ""
 
-#: templates/events/event_form.html:9
+#: templates/events/event_form.html:13
 msgid "Create Event"
 msgstr "新しくイベントを作成する"
 
@@ -908,7 +934,9 @@ msgid "Upcoming events"
 msgstr "開催予定のイベント"
 
 #: templates/events/event_list.html:22
-msgid "Relevant events can not be found"
+#, fuzzy
+#| msgid "Relevant events can not be found"
+msgid "elevant events can not be found"
 msgstr "該当するイベントは見つかりませんでした"
 
 #: templates/products/product_detail.html:63
@@ -946,40 +974,52 @@ msgstr "リリース日"
 msgid "Product List"
 msgstr "プロダクト一覧"
 
-#: templates/profiles/profile_detail.html:26
+#: templates/profiles/profile_detail.html:27
 msgid "Birthday"
 msgstr "誕生日"
 
-#: templates/profiles/profile_detail.html:34
+#: templates/profiles/profile_detail.html:35
 msgid "Abilities"
 msgstr "できること"
 
-#: templates/profiles/profile_detail.html:77
+#: templates/profiles/profile_detail.html:78
 msgid "Recent Entries"
 msgstr "最近書いたブログ"
 
-#: templates/profiles/profile_detail.html:80
+#: templates/profiles/profile_detail.html:81
 msgid "There are no entries yet"
 msgstr "書いたブログはまだありません"
 
-#: templates/profiles/profile_detail.html:108
+#: templates/profiles/profile_detail.html:93
+#, fuzzy
+#| msgid "Recent Entries"
+msgid "Read all entries"
+msgstr "最近書いたブログ"
+
+#: templates/profiles/profile_detail.html:97
+msgid "No entries have been written yet."
+msgstr ""
+
+#: templates/profiles/profile_detail.html:117
 msgid "Update Profile"
 msgstr "プロフィールを編集"
 
-#: templates/profiles/profile_detail.html:124
+#: templates/profiles/profile_detail.html:133
 msgid "There are no accounts."
 msgstr "アカウントはありません"
 
-#: templates/profiles/profile_detail.html:131
+#: templates/profiles/profile_detail.html:140
 msgid "Joined Projects"
 msgstr "プロジェクトに参加"
 
-#: templates/profiles/profile_detail.html:140
+#: templates/profiles/profile_detail.html:149
 msgid "There are no joinned projects."
 msgstr "参加できるプロジェクトはありません"
 
 #: templates/profiles/profile_form.html:18
-msgid "Using Services"
+#, fuzzy
+#| msgid "Using Services"
+msgid "Available Services"
 msgstr "使用中のサービス"
 
 #: templates/projects/project_archive.html:11
@@ -1057,3 +1097,13 @@ msgstr "最近のゲーム"
 #: templates/roughpages/index.anonymous.html:76
 msgid "Featured Games"
 msgstr "Kawazの代表作"
+
+#, fuzzy
+#~| msgid "%m/%d({weekday})"
+#~ msgid "%m/%d(%(weekday)s)"
+#~ msgstr "%m月/%d日(%(weekday)s)"
+
+#, fuzzy
+#~| msgid "%Y/%m/%d({weekday})"
+#~ msgid "%Y/%m/%d(%(weekday)s)"
+#~ msgstr "%Y年%m月/%d日(%(weekday)s)"

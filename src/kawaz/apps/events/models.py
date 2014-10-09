@@ -209,10 +209,12 @@ class Event(models.Model):
             weekday = weekdays[dt.weekday()]
             if dt.year == now.year:
                 # 今年のとき、年度を省略
-                day = dt.strftime(_('%m/%d({weekday})'.format(weekday=weekday)))
+                day = dt.strftime(_('%m/%d'))
+                day += '({})'.format(weekday)
                 times.append(day)
             else:
-                day = dt.strftime(_('%Y/%m/%d({weekday})'.format(weekday=weekday)))
+                day = dt.strftime(_('%Y/%m/%d'))
+                day += '({})'.format(weekday)
                 times.append(day)
             time = dt.strftime(_('%H:%M'))
             times.append(time)
