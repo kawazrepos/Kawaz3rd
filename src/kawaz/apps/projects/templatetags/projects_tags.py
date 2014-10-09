@@ -59,3 +59,14 @@ def get_projects(context, lookup='published'):
 
     return qs.prefetch_related('members').annotate(members_count=Count('members'))
 
+@register.assignment_tag(takes_context=True)
+def get_published_joined_projects_of(context, user):
+    """
+    userがメンバーに含まれているプロジェクト一覧を返します
+
+    Syntax:
+        {% get_published_joined_projects_of user %}
+    """
+    qs = get_projects(context)
+    return qs.filter(members__in=user)
+
