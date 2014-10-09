@@ -31,14 +31,14 @@
                         <span class="glyphicon glyph-large-icon glyphicon-time"></span>
                         {% if not event.period_start and not event.period_end %}
                             {# 開始日時未定and終了日時未定 #}
-                            {% trans "未定" %}
+                            {% trans "unfixed" %}
                         {% else %}
 {# TODO 年月日だけ出力（今はなにもなし） #}
                           <span class="event-start-date">{{ event.humanized_period }}</span>
 {# TODO 曜日だけ出力 #}
 {# TODO 曜日用のクラス名 #}
                           <span class="">{{ event.humanized_period | date:"（l）" }}</span>
-                            <a href="{% url 'events_event_calendar' pk=event.pk %}" title="{% trans "iCal形式でダウンロード" %}" rel="tooltip" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-calendar"></span></a>
+                            <a href="{% url 'events_event_calendar' pk=event.pk %}" title="{% trans "Download in iCal format" %}" rel="tooltip" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-calendar"></span></a>
                         {% endif %}
                     </div>
                     <div class="event-place-wrap event-info-detail">
@@ -53,7 +53,7 @@
                                 class="glyphicon glyphicon-map-marker"></span>
                         </a>
                         {% else %}
-                        <span class="event-place">{% trans "開催場所未定" %}</span>
+                        <span class="event-place">{% trans "Venue unfixed" %}</span>
                         {% endif %}
                     </div>
                 </div>
@@ -71,22 +71,18 @@
                     </a>
                     {% if event.number_restriction %}
                         <p class="event-join-count">
-                            {% blocktrans %}
-                            あと{{ event.number_restriction }}人参加できます
-                            {% endblocktrans %}
+                            {% blocktrans %}Can join {{ event.number_restriction }}s after{% endblocktrans %}
                         </p>
                     {% endif %}
                 {% elif user has 'events.delete_event' of event %}
                     {# イベント管理者向け #}
                     {% if event.is_over_restriction or event.is_over_deadline %}
-                        <p class="event-closed event-status">{% trans "参加者締め切りました" %}</p>
+                        <p class="event-closed event-status">{% trans "Was closed participation" %}</p>
                     {% else %}
-                        <p class="event-recruit event-status">{% trans "参加者募集中" %}</p>
+                        <p class="event-recruit event-status">{% trans "Call for participation now" %}</p>
                         {% if event.number_restriction %}
                             <p class="event-join-count">
-                                {% blocktrans %}
-                                あと{{event.number_restriction }}人参加できます
-                                {% endblocktrans %}
+                                {% blocktrans %}Can join {{ event.number_restriction }}s after{% endblocktrans %}
                             </p>
                         {% endif %}
                     {% endif %}
@@ -100,21 +96,21 @@
                 {% else %}
                     {% if event.is_over_restriction or event.is_over_deadline %}
                         {# closeしたイベント #}
-                        <p class="event-closed event-status">{% trans "参加者締め切りました" %}</p>
+                        <p class="event-closed event-status">{% trans "Was closed participation" %}</p>
                     {% else %}
                         {# 外部ユーザ向け #}
-                        <p class="event-outside event-status">{% trans "イベントに参加するには<br>ログインする必要があります" %}</p>
+                        <p class="event-outside event-status">{% trans "You need to login in<br> order to participate" %}</p>
                     {% endif %}
                 {% endif %}
                 {% if event.attendance_deadline %}
                     <dl>
-                        <dt class="attendance-deadline">{% trans "参加締切日" %}</dt>
+                        <dt class="attendance-deadline">{% trans "Participation deadline" %}</dt>
                         <dd>
-                            <span>{{ event.attendance_deadline | date:"Y年m月d日" }}{% trans "まで" %}</span>
+                            <span>{{ event.attendance_deadline | date:"Y年m月d日" }}{% trans "utill" %}</span>
                         </dd>
                     </dl>
                 {% else %}
-                    <p class="attendance-deadline">{% trans "参加締切はありません" %}</p>
+                    <p class="attendance-deadline">{% trans "Is not have participate deadline" %}</p>
                 {% endif %}
             </div>
         </div>
@@ -134,7 +130,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title">{% trans "主催者" %}</h2>
+                <h2 class="panel-title">{% trans "Organizer" %}</h2>
             </div>
             <a href="{{ object.organizer.profile.get_absolute_url }}"
                class="list-group-item member-list-organizer">
@@ -147,7 +143,7 @@
         {% if event.attendees.count > 1 %}
         <div class="panel panel-default">
             <div class="panel-heading event-member-head">
-                <h2 class="panel-title">{% trans "参加者" %}</h2>
+                <h2 class="panel-title">{% trans "Attendees" %}</h2>
                 <p>
                     {# 参加者全員の人数から主催者を引いている #}
                     {% with attendees_count=event.attendees.count|add:"-1" %}

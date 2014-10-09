@@ -4,9 +4,13 @@
 {% block content-header %}
     <div class="page-header">
         {% if object %}
-            <h1>{{ object.title }}{% trans "を編集する" %}</h1>
+            <h1>
+                {% blocktrans %}
+                イベント「{{ object.title }}」を編集
+                {% endblocktrans %}
+            </h1>
         {% else %}
-            <h1>{% trans "新しくイベントを作成する" %}</h1>
+            <h1>{% trans "Create Event" %}</h1>
         {% endif %}
     </div>
 {% endblock %}

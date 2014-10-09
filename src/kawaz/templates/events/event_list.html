@@ -13,13 +13,13 @@
 {% block content-main %}
     <div class="event-list-wrap">
         <div class="page-header event-list-header">
-            <h2>{% trans "開催予定のイベント" %}</h2>
+            <h2>{% trans "Upcoming events" %}</h2>
         </div>
         {% for event in filter %}
             {% include "events/components/list-item.html" %}
         {% empty %}
             <div class="alert alert-info">
-                <p>{% trans "該当するイベントは見つかりませんでした" %}</p>
+                <p>{% trans "elevant events can not be found" %}</p>
                 {% if user has 'events.add_event' %}
                     <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "イベントを作成する" %}</a>
                 {% endif %}

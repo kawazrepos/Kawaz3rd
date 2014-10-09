@@ -128,7 +128,7 @@ msgstr "ラベル"
 #: apps/events/models.py:20 apps/products/models.py:27
 #: apps/products/models.py:47 apps/profiles/models.py:11
 msgid "Order"
-msgstr ""
+msgstr "並び順"
 
 #: apps/events/models.py:69
 msgid "Start time"
@@ -158,13 +158,16 @@ msgstr "参加締切日"
 msgid ""
 "A deadline of the attendance. No member can attend the event after this "
 "deadline."
-msgstr "参加締切日を設定できます。参加者がいなかった場合でも延期させることができます。"
+msgstr ""
+"参加締切日を設定できます。参加者がいなかった場合でも延期させることができます。"
 
 #: apps/events/models.py:85
+#: templates/events/event_detail.html:135
 msgid "Organizer"
 msgstr "主催者"
 
 #: apps/events/models.py:90
+#: templates/events/event_detail.html:148
 msgid "Attendees"
 msgstr "参加者"
 
@@ -753,6 +756,7 @@ msgstr "ログイン"
 #, python-format
 msgid "There are %(count)s announcement entries."
 msgstr ""
+#msgstr "%(count)件のお知らせ"
 
 #: templates/announcements/announcement_list.html:34
 msgid "Recent Announcements"
@@ -770,10 +774,11 @@ msgstr "ブログ記事"
 #, python-format
 msgid "There are %(count)s blog entries."
 msgstr ""
+#msgstr "%(count)件のブログ記事"
 
 #: templates/blogs/entry_list.html:17
-msgid "ブログ記事を書く"
-msgstr ""
+msgid "Create Blog"
+msgstr "ブログ記事を書く"
 
 #: templates/blogs/entry_list.html:32
 msgid "Hot Entries"
@@ -786,7 +791,7 @@ msgstr "ログイン"
 
 #: templates/components/login_form.html:21
 msgid "Forgot Password?"
-msgstr "パスワードを忘れた場合"
+msgstr "パスワードを忘れたら"
 
 #: templates/events/event_archive_month.html:17
 #: templates/events/event_archive_month.html:40
@@ -808,21 +813,21 @@ msgid "開催予定イベント一覧に戻る"
 msgstr ""
 
 #: templates/events/event_detail.html:34
-msgid "未定"
-msgstr ""
+msgid "unfixed"
+msgstr "未定"
 
 #: templates/events/event_detail.html:41
-msgid "iCal形式でダウンロード"
-msgstr ""
+msgid "Download in iCal format"
+msgstr "iCal形式でダウンロード"
 
 #: templates/events/event_detail.html:49
 msgid "See this place in Google Maps"
-msgstr ""
+msgstr "Googleマップでこの場所を見る"
 
 #: templates/events/event_detail.html:56
 #: templates/events/components/list-item.html:34
-msgid "開催場所未定"
-msgstr ""
+msgid "Venue unfixed"
+msgstr "開催場所未定"
 
 #: templates/events/event_detail.html:69
 msgid "Join This Event"
@@ -830,57 +835,44 @@ msgstr "このイベントに参加"
 
 #: templates/events/event_detail.html:73
 #, python-format
-msgid ""
-"\n"
-"                            あと%(event.number_restriction)s人参加できます\n"
-"                            "
+msgid "Can join %(event.number_restriction)s after"
 msgstr ""
+#msgstr "あと%(event.number_restriction)人参加できます"
 
 #: templates/events/event_detail.html:81
 #: templates/events/event_detail.html:101
-msgid "参加者締め切りました"
-msgstr ""
+msgid "Was closed participation"
+msgstr "参加者締め切りました"
 
 #: templates/events/event_detail.html:83
-msgid "参加者募集中"
-msgstr ""
+msgid "Call for participation now"
+msgstr "参加者募集中"
 
 #: templates/events/event_detail.html:86
 #, python-format
-msgid ""
-"\n"
-"                                あと%(event.number_restriction)s人参加できま"
-"す\n"
-"                                "
+msgid "can join %(event.number_restriction)s after"
 msgstr ""
+#msgstr "あと%(event.number_restriction)人参加できます"
 
 #: templates/events/event_detail.html:96
 msgid "Leave This Event"
-msgstr ""
+msgstr "参加をやめる"
 
 #: templates/events/event_detail.html:104
-msgid "イベントに参加するには<br>ログインする必要があります"
-msgstr ""
+msgid "You need to login in<br> order to participate"
+msgstr "イベントに参加するには<br>ログインする必要があります"
 
 #: templates/events/event_detail.html:109
-msgid "参加締切日"
-msgstr ""
+msgid "Participation deadline"
+msgstr "参加締切日"
 
 #: templates/events/event_detail.html:111
-msgid "まで"
-msgstr ""
+msgid "utill"
+msgstr "まで"
 
 #: templates/events/event_detail.html:115
-msgid "参加締切はありません"
-msgstr ""
-
-#: templates/events/event_detail.html:135
-msgid "主催者"
-msgstr ""
-
-#: templates/events/event_detail.html:148
-msgid "参加者"
-msgstr ""
+msgid "Is not have participate deadline"
+msgstr "参加締切はありません"
 
 #: templates/events/event_detail.html:152
 #, python-format
@@ -893,107 +885,107 @@ msgstr ""
 #: templates/profiles/profile_detail.html:104
 #: templates/projects/project_detail.html:85
 msgid "Administration"
-msgstr ""
+msgstr "管理"
 
 #: templates/events/event_detail.html:182
 msgid "Update event"
-msgstr ""
+msgstr "イベントを編集"
 
 #: templates/events/event_detail.html:188
 msgid "Delete event"
-msgstr ""
+msgstr "イベントを削除"
 
 #: templates/events/event_form.html:7
 msgid "を編集する"
 msgstr ""
 
 #: templates/events/event_form.html:9
-msgid "新しくイベントを作成する"
-msgstr ""
+msgid "Create Event"
+msgstr "新しくイベントを作成する"
 
 #: templates/events/event_list.html:16
-msgid "開催予定のイベント"
-msgstr ""
+msgid "Upcoming events"
+msgstr "開催予定のイベント"
 
 #: templates/events/event_list.html:22
-msgid "該当するイベントは見つかりませんでした"
-msgstr ""
+msgid "Relevant events can not be found"
+msgstr "該当するイベントは見つかりませんでした"
 
 #: templates/products/product_detail.html:63
 #: templates/products/product_form.html:22
 msgid "Screenshots"
-msgstr ""
+msgstr "スクリーンショット"
 
 #: templates/products/product_detail.html:91
 #: templates/products/product_list.html:24
 #: templates/products/product_list.html:37
 msgid "Create Product"
-msgstr ""
+msgstr "新しくイベントを作成する"
 
 #: templates/products/product_detail.html:94
 msgid "Update Product"
-msgstr ""
+msgstr "イベントを編集"
 
 #: templates/products/product_detail.html:97
 msgid "Delete Product"
-msgstr ""
+msgstr "イベントを削除"
 
 #: templates/products/product_detail.html:132
 msgid "Recommended Games"
-msgstr ""
+msgstr "おすすめのゲーム"
 
 #: templates/products/product_form.html:32
 msgid "URL Releases"
-msgstr ""
+msgstr "リリースURL"
 
 #: templates/products/product_form.html:42
 msgid "Package Releases"
-msgstr ""
+msgstr "リリース日"
 
 #: templates/products/product_list.html:11
 msgid "Product List"
-msgstr ""
+msgstr "プロダクト一覧"
 
 #: templates/profiles/profile_detail.html:26
 msgid "Birthday"
-msgstr ""
+msgstr "誕生日"
 
 #: templates/profiles/profile_detail.html:34
 msgid "Abilities"
-msgstr ""
+msgstr "できること"
 
 #: templates/profiles/profile_detail.html:77
 msgid "Recent Entries"
-msgstr ""
+msgstr "最近書いたブログ"
 
 #: templates/profiles/profile_detail.html:80
 msgid "There are no entries yet"
-msgstr ""
+msgstr "書いたブログはまだありません"
 
 #: templates/profiles/profile_detail.html:108
 msgid "Update Profile"
-msgstr ""
+msgstr "プロフィールを編集"
 
 #: templates/profiles/profile_detail.html:124
 msgid "There are no accounts."
-msgstr ""
+msgstr "アカウントはありません"
 
 #: templates/profiles/profile_detail.html:131
 msgid "Joined Projects"
-msgstr ""
+msgstr "プロジェクトに参加"
 
 #: templates/profiles/profile_detail.html:140
 msgid "There are no joinned projects."
-msgstr ""
+msgstr "参加できるプロジェクトはありません"
 
 #: templates/profiles/profile_form.html:18
-msgid "Available Services"
-msgstr ""
+msgid "Using Services"
+msgstr "使用中のサービス"
 
 #: templates/projects/project_archive.html:11
 #: templates/projects/project_list.html:52
 msgid "Archived Projects"
-msgstr ""
+msgstr "アーカイブされたプロジェクト"
 
 #: templates/projects/project_archive.html:12
 #, python-format
@@ -1002,57 +994,57 @@ msgstr ""
 
 #: templates/projects/project_archive.html:28
 msgid "Created At"
-msgstr ""
+msgstr "作成日"
 
 #: templates/projects/project_detail.html:37
-msgid "Redmine"
-msgstr ""
+msgid "Tracker"
+msgstr "トラッカー"
 
 #: templates/projects/project_detail.html:41
 msgid "Repository"
-msgstr ""
+msgstr "リポジトリ"
 
 #: templates/projects/project_detail.html:56
 msgid "Join This Project"
-msgstr ""
+msgstr "このプロジェクトに参加する"
 
 #: templates/projects/project_detail.html:76
 msgid "operation"
-msgstr ""
+msgstr "イベント管理"
 
 #: templates/projects/project_detail.html:78
 msgid "Leave this project"
-msgstr ""
+msgstr "このプロジェクトから抜ける"
 
 #: templates/projects/project_detail.html:89
 msgid "Create Project"
-msgstr ""
+msgstr "新しいプロジェクトを作成する"
 
 #: templates/projects/project_detail.html:92
 msgid "Update Project"
-msgstr ""
+msgstr "プロジェクトを編集"
 
 #: templates/projects/project_detail.html:95
 msgid "Delete Project"
-msgstr ""
+msgstr "プロジェクトを削除"
 
 #: templates/projects/project_list.html:14
 msgid "Active Projects"
-msgstr ""
+msgstr "活動中のプロジェクト"
 
 #: templates/projects/project_list.html:32
 msgid "Planning Projects"
-msgstr ""
+msgstr "企画中のプロジェクト"
 
 #: templates/projects/project_list.html:62
 #: templates/roughpages/index.anonymous.html:59
 #: templates/roughpages/index.anonymous.html:87
 msgid "See More"
-msgstr ""
+msgstr "もっと見る"
 
 #: templates/registration/registration_form.html:7
 msgid "Application for join us"
-msgstr ""
+msgstr "Kawazに参加する"
 
 #: templates/registration/registration_form.html:14
 msgid "Register"
@@ -1060,8 +1052,8 @@ msgstr ""
 
 #: templates/roughpages/index.anonymous.html:67
 msgid "Recent Games"
-msgstr ""
+msgstr "最近のゲーム"
 
 #: templates/roughpages/index.anonymous.html:76
 msgid "Featured Games"
-msgstr ""
+msgstr "Kawazの代表作"
