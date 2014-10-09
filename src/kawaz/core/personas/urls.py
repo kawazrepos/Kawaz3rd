@@ -1,6 +1,7 @@
 from registration.compat import url
 from registration.compat import patterns
 from django.contrib.auth import views as auth_views
+from kawaz.core.personas.views import PersonaUpdateView
 
 urlpatterns = patterns('',
     url(r'^login/$', auth_views.login,
@@ -24,4 +25,5 @@ urlpatterns = patterns('',
         name='password_reset_complete'),
     url(r'^password/reset/done/$', auth_views.password_reset_done,
         name='password_reset_done'),
+    url(r'^update/$', PersonaUpdateView.as_view(), name='personas_persona_update')
     )

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load form_helper %}
+{% block content %}
+    <div class="page-header">
+        <h1>{% trans "Change user information" %}</h1>
+    </div>
+    <p>プロフィールは<a href="{% url "profiles_profile_update" %}">プロフィールの変更</a>ページから変更できます</p>
+    <form class="form-horizontal row" role="form" method="POST" action="?next={{ redirect_to }}">{% csrf_token %}
+        {% get_form_helper "bare" as helper %}
+        {% crispy form helper %}
+        <div class="form-group">
+            <input type="submit" class="btn btn-success btn-lg col-lg-offset-1 col-xs-offset-1" value="{% trans "Save" %}" />
+        </div>
+    </form>
+{% endblock %}

@@ -52,6 +52,7 @@
                         <ul class="dropdown-menu authenticated-menu" role="menu">
                             <li><a href="{{ user.profile.get_absolute_url }}">{% trans "View Profile" %}</a></li>
                             <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
+                            <li><a href="{% url "personas_persona_update" %}">{% trans "Change User Information" %}</a></li>
                             <li><a href="{% url "password_change" %}">{% trans "Change Password" %}</a></li>
                             <li role="presentation" class="divider"></li>
                             <li><a class="logout-link" href="{% url "logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
