@@ -7,7 +7,7 @@ from .models import Project
 
 class ProjectCreateForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
-    body = forms.CharField(widget=MaceEditorWidget)
+    body = forms.CharField(label=Project._meta.get_field('body').verbose_name, widget=MaceEditorWidget)
 
     class Meta:
         model = Project
