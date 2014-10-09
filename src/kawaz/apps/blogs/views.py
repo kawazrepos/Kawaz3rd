@@ -87,7 +87,7 @@ class EntryDeleteView(DeleteNotificationView):
     model = Entry
 
     def get_success_message(self):
-        return _("Entry '{title}' successfully deleted.")
+        return _("Entry successfully deleted.")
 
 
 class EntryTodayArchiveView(TodayArchiveView, EntryMultipleObjectMixin):

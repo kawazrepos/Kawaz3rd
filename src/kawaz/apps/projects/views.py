@@ -71,7 +71,7 @@ class ProjectDeleteView(DeleteNotificationView):
     success_url = reverse_lazy('projects_project_list')
 
     def get_success_message(self):
-        return _("Project '{title}' successfully deleted.")
+        return _("Project successfully deleted.")
 
 @permission_required('projects.view_project')
 class ProjectDetailView(DetailView):

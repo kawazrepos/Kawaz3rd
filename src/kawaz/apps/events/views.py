@@ -88,7 +88,7 @@ class EventDeleteView(DeleteNotificationView):
     success_url = reverse_lazy('events_event_list')
 
     def get_success_message(self):
-        return _("Event '{title}' successfully deleted.")
+        return _("Event successfully deleted.")
 
 @permission_required('events.attend_event')
 class EventAttendView(UpdateView):

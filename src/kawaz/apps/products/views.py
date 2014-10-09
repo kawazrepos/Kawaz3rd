@@ -188,7 +188,7 @@ class ProductDeleteView(DeleteNotificationView):
     success_url = reverse_lazy('products_product_list')
 
     def get_success_message(self):
-        return _("Product '{title}' successfully deleted.")
+        return _("Product successfully deleted.")
 
 
 class ProductPreview(SingleObjectPreviewMixin, DetailView):
