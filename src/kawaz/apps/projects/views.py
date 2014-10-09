@@ -66,7 +66,7 @@ class ProjectUpdateView(SuccessMessageMixin, UpdateView):
         }
 
 @permission_required('projects.delete_project')
-class ProjectDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
+class ProjectDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Project
     success_url = reverse_lazy('projects_project_list')
 

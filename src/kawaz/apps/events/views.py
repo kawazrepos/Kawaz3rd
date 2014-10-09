@@ -83,7 +83,7 @@ class EventUpdateView(SuccessMessageMixin, UpdateView):
 
 
 @permission_required('events.delete_event')
-class EventDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
+class EventDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Event
     success_url = reverse_lazy('events_event_list')
 

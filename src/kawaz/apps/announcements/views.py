@@ -40,7 +40,7 @@ class AnnouncementUpdateView(SuccessMessageMixin, UpdateView):
 
 
 @permission_required('announcements.delete_announcement')
-class AnnouncementDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
+class AnnouncementDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Announcement
     success_url = reverse_lazy('announcements_announcement_list')
 

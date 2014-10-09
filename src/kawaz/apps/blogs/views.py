@@ -83,7 +83,7 @@ class EntryUpdateView(SuccessMessageMixin, UpdateView):
 
 
 @permission_required('blogs.delete_entry')
-class EntryDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
+class EntryDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Entry
 
     def get_success_message(self):

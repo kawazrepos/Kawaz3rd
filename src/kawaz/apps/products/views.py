@@ -183,7 +183,7 @@ class ProductUpdateView(ProductFormMixin, UpdateView):
 
 
 @permission_required('products.delete_product')
-class ProductDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
+class ProductDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('products_product_list')
 
