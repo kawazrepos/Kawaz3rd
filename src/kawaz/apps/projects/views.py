@@ -50,9 +50,9 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""Project '%(title)s' successfully created.""").format(**{
+        return _("""Project '%(title)s' successfully created.""") % {
             'title': cleaned_data['title']
-        })
+        }
 
 
 @permission_required('projects.change_project')
@@ -61,9 +61,9 @@ class ProjectUpdateView(SuccessMessageMixin, UpdateView):
     form_class = ProjectUpdateForm
 
     def get_success_message(self, cleaned_data):
-        return _("""Project '%(title)s' successfully updated.""").format(**{
+        return _("""Project '%(title)s' successfully updated.""") % {
             'title': cleaned_data['title']
-        })
+        }
 
 @permission_required('projects.delete_project')
 class ProjectDeleteMixin(DeleteSuccessMessageMixin, DeleteView):

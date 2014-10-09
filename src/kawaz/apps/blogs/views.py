@@ -61,9 +61,9 @@ class EntryCreateView(SuccessMessageMixin, CreateView):
         return kwargs
 
     def get_success_message(self, cleaned_data):
-        return _("""Entry '%(title)s' successfully created.""").format(**{
+        return _("""Entry '%(title)s' successfully created.""") % {
             'title': cleaned_data['title']
-        })
+        }
 
 
 @permission_required('blogs.change_entry')
@@ -77,9 +77,9 @@ class EntryUpdateView(SuccessMessageMixin, UpdateView):
         return kwargs
 
     def get_success_message(self, cleaned_data):
-        return _("""Entry '%(title)s' successfully updated.""").format(**{
+        return _("""Entry '%(title)s' successfully updated.""") % {
             'title': cleaned_data['title']
-        })
+        }
 
 
 @permission_required('blogs.delete_entry')
