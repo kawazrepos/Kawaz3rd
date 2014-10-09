@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-10 02:37+0900\n"
+"POT-Creation-Date: 2014-10-10 02:55+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -304,7 +304,7 @@ msgstr "イベントを削除しました"
 #, fuzzy
 #| msgid "The star have not been added to this object."
 msgid "You have been attended this event."
-msgstr "このコンテンツにはまだスターが付けられていません"
+msgstr "イベントに参加しました"
 
 #: apps/events/views.py:135
 msgid "You have been quited from this event."
@@ -1027,8 +1027,8 @@ msgstr "参加締切はありません"
 #: templates/events/event_detail.html:150
 #, fuzzy, python-format
 #| msgid "There are %(count)s blog entries."
-msgid "There are %(attendees_count)s attendees."
-msgstr "%(count)s件のブログ記事があります"
+msgid "There are %(count)s attendees."
+msgstr "%(count)s人の参加者がいます"
 
 #: templates/events/event_detail.html:174
 #: templates/products/product_detail.html:87
@@ -1109,6 +1109,7 @@ msgid "Product List"
 msgstr "プロダクト一覧"
 
 #: templates/profiles/profile_detail.html:36
+#: templates/profiles/profile_list.html:47
 msgid "Abilities"
 msgstr "できること"
 

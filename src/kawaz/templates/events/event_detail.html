@@ -146,8 +146,8 @@
                 <h2 class="panel-title">{% trans "Attendees" %}</h2>
                 <p>
                     {# 参加者全員の人数から主催者を引いている #}
-                    {% with attendees_count=event.attendees.count|add:"-1" %}
-                        {% blocktrans %}There are {{ attendees_count }} attendees.{% endblocktrans %}
+                    {% with count=event.attendees.count|add:"-1" %}
+                        {% blocktrans %}There are {{ count }} attendees.{% endblocktrans %}
                     {% endwith %}
                 </p>
             </div>
