@@ -27,8 +27,8 @@
     {# 参加できる状態 #}
     {% if user has 'events.add_event' %}
     <a href="{% url "events_event_create" %}"
-       class="btn btn-success event-attend-btn btn-large">
-        <span class="glyphicon glyphicon-plus"></span><span>{% trans "イベントを作成する" %}</span>
+       class="btn btn-success event-join-btn btn-large">
+        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create event" %}</span>
     </a>
     {% endif %}
   </div>
@@ -48,7 +48,7 @@
     </div>
     <div class="back-event-list">
       <span class="glyphicon glyphicon-log-out"></span>
-      <a href="/events/">{% trans "開催予定イベント一覧に戻る" %}</a>
+      <a href="/events/">{% trans "Back to upcoming events" %}</a>
     </div>
   </div>
   {% endblock %}

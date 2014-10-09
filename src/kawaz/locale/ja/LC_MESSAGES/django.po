@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-09 23:28+0900\n"
+"POT-Creation-Date: 2014-10-09 23:14+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,8 +159,8 @@ msgid ""
 "A deadline of the attendance. No member can attend the event after this "
 "deadline."
 msgstr ""
-"参加締切日を設定できます。参加者がいなかった場合でも延期させることができま"
-"す。"
+"参加締切日を設定できます。"
+"参加者がいなかった場合でも延期させることができます。"
 
 #: apps/events/models.py:85 templates/events/event_detail.html:131
 msgid "Organizer"
@@ -232,26 +232,28 @@ msgid "Sun"
 msgstr "日"
 
 #: apps/events/models.py:212
-msgid "%m/%d"
-msgstr "%m月%d日"
+#, python-brace-format
+msgid "%m/%d({weekday})"
+msgstr "%m月%d日({weekday})"
 
-#: apps/events/models.py:216
-msgid "%Y/%m/%d"
-msgstr "%Y年%m月%d日"
+#: apps/events/models.py:215
+#, python-brace-format
+msgid "%Y/%m/%d({weekday})"
+msgstr "%Y年%m月%d日({weekday})"
 
-#: apps/events/models.py:219
+#: apps/events/models.py:217
 msgid "%H:%M"
 msgstr "%H時%M分"
 
-#: apps/events/models.py:226
+#: apps/events/models.py:224
 msgid "Unfixed"
 msgstr "開催日時未定"
 
-#: apps/events/models.py:228
+#: apps/events/models.py:226
 msgid "{} ~ End time is unfixed"
 msgstr "{} 〜 終了日時未定"
 
-#: apps/events/models.py:231
+#: apps/events/models.py:229
 msgid "{} ~ {}"
 msgstr "{} 〜 {}"
 
@@ -647,7 +649,7 @@ msgstr "ネルフ権限"
 
 #: core/personas/forms.py:59
 msgid "Users in this role are assumed to be a member of the site"
-msgstr ""
+msgstr "ユーザに対してKawazでの役割を決めることができます（Adam、Seeleなど）"
 
 #: core/personas/forms.py:60
 msgid "Users in this role are assumed to be a signed in visitor"
@@ -736,11 +738,11 @@ msgstr ""
 
 #: settings.py:132
 msgid "English"
-msgstr ""
+msgstr "英語"
 
 #: settings.py:133
 msgid "Japanese"
-msgstr ""
+msgstr "日本語"
 
 #: templates/announcements/announcement_list.html:15
 #, python-format
@@ -758,7 +760,7 @@ msgstr "ホーム"
 
 #: templates/base.html:43
 msgid "Blogs"
-msgstr ""
+msgstr "ブログ"
 
 #: templates/base.html:55
 msgid "View Profile"
@@ -814,12 +816,12 @@ msgstr ""
 
 #: templates/components/paginator.html:7 templates/components/paginator.html:9
 msgid "Newer"
-msgstr ""
+msgstr "次のページへ"
 
 #: templates/components/paginator.html:14
 #: templates/components/paginator.html:16
 msgid "Older"
-msgstr ""
+msgstr "前のページへ"
 
 #: templates/events/components/list-item.html:28
 #: templates/events/event_detail.html:56
@@ -837,13 +839,13 @@ msgstr "過去のイベント"
 #: templates/events/event_archive_month.html:31
 #: templates/events/event_archive_year.html:31
 #: templates/events/event_list.html:24 templates/events/event_list.html:41
-msgid "イベントを作成する"
-msgstr ""
+msgid "Create event"
+msgstr "イベントを作成する"
 
 #: templates/events/event_archive_month.html:51
 #: templates/events/event_archive_year.html:51
-msgid "開催予定イベント一覧に戻る"
-msgstr ""
+msgid "Back to upcoming events"
+msgstr "開催予定イベント一覧に戻る"
 
 #: templates/events/event_detail.html:34
 msgid "unfixed"
@@ -998,7 +1000,7 @@ msgstr "最近書いたブログ"
 
 #: templates/profiles/profile_detail.html:97
 msgid "No entries have been written yet."
-msgstr ""
+msgstr "書いたブログはまだありません"
 
 #: templates/profiles/profile_detail.html:117
 msgid "Update Profile"
@@ -1031,6 +1033,7 @@ msgstr "アーカイブされたプロジェクト"
 #, python-format
 msgid "There are %(count)s archived projects."
 msgstr ""
+#msgstr "%(count)件のアーカイブ済みプロジェクト"
 
 #: templates/projects/project_archive.html:28
 msgid "Created At"
@@ -1088,7 +1091,7 @@ msgstr "Kawazに参加する"
 
 #: templates/registration/registration_form.html:14
 msgid "Register"
-msgstr ""
+msgstr "Kawazへ登録"
 
 #: templates/roughpages/index.anonymous.html:67
 msgid "Recent Games"
@@ -1097,13 +1100,3 @@ msgstr "最近のゲーム"
 #: templates/roughpages/index.anonymous.html:76
 msgid "Featured Games"
 msgstr "Kawazの代表作"
-
-#, fuzzy
-#~| msgid "%m/%d({weekday})"
-#~ msgid "%m/%d(%(weekday)s)"
-#~ msgstr "%m月/%d日(%(weekday)s)"
-
-#, fuzzy
-#~| msgid "%Y/%m/%d({weekday})"
-#~ msgid "%Y/%m/%d(%(weekday)s)"
-#~ msgstr "%Y年%m月/%d日(%(weekday)s)"

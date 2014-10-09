@@ -21,7 +21,7 @@
             <div class="alert alert-info">
                 <p>{% trans "elevant events can not be found" %}</p>
                 {% if user has 'events.add_event' %}
-                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "イベントを作成する" %}</a>
+                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create event" %}</a>
                 {% endif %}
             </div>
         {% endfor %}
@@ -37,8 +37,8 @@
         {# 参加できる状態 #}
         {% if user has 'events.add_event' %}
             <a href="{% url "events_event_create" %}"
-               class="btn btn-success event-attend-btn btn-large">
-                <span class="glyphicon glyphicon-plus"></span><span>{% trans "イベントを作成する" %}</span>
+               class="btn btn-success event-join-btn btn-large">
+                <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create event" %}</span>
             </a>
         {% endif %}
     </div>
