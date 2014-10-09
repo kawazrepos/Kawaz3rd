@@ -64,9 +64,10 @@
 
                 {% if user has 'events.attend_event' of event %}
                     {# 参加できる状態 #}
-                    <a href="{% url "events_event_join" event.pk %}"
-                       class="btn btn-success event-join-btn btn-large">
-                        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Join This Event" %}</span>
+                    <a href="{% url "events_event_attend" event.pk %}"
+                       class="btn btn-success event-attend-btn btn-large post-link">
+                        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Attend This Event" %}</span>
+                        <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                     {% if event.number_restriction %}
                         <p class="event-join-count">
@@ -92,8 +93,9 @@
                 {% elif user has 'events.quit_event' of event %}
                     {# イベント参加者 #}
                     <a href="{% url "events_event_quit" event.pk %}"
-                       class="btn event-leave-btn btn-large">
+                       class="btn event-leave-btn btn-large post-link">
                         <span class="glyphicon glyphicon-log-out"></span><span>{% trans "Leave This Event" %}</span>
+                        <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% else %}
                     {% if event.is_over_restriction or event.is_over_deadline %}
@@ -183,9 +185,11 @@
                     </a>
                 {% endif %}
                 {% if user has 'events.delete_event' of object %}
-                    <a class="list-group-item list-group-item-danger"
-                       href="{% url "events_event_delete" object.pk %}"><span
-                            class="glyphicon glyphicon-remove"></span> {% trans "Delete event" %}
+                    <a class="list-group-item list-group-item-danger post-link"
+                       href="{% url "events_event_delete" object.pk %}"
+                       confirm-message="{% trans "Do you want to delete this event?" %}">
+                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete event" %}
+                        <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% endif %}
             </div>

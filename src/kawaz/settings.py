@@ -211,6 +211,12 @@ if DEBUG:
 # 環境依存の設定（デプロイサーバー固有の設定など）を読み込む
 LOCAL_SETTINGS_LOADED = False
 
+# DjangoのMessageをBootstrap3に適応させている
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
+
 if not 'test' in sys.argv:
     try:
         from .local_settings import *

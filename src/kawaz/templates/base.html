@@ -82,6 +82,12 @@
 {% block carousel %}
 {% endblock %}
 <div class="container">
+{% block messages %}
+    {% for message in messages %}
+        {# message.coffeeでポップアップを生成する #}
+        <div class="message alert alert-{{ message.tags }}" message-tag="{{ message.tags }}" style="display: none;">{{ message }}</div>
+    {% endfor %}
+{% endblock %}
 {% block content %}
 {% endblock %}
 </div>
@@ -103,6 +109,7 @@
     <script src="{% static "vendor/angular-file-upload/dist/angular-file-upload.js" %}"
     <script src="{% static "vendor/lightbox.min.js" %}"></script>
     <script src="{% static "vendor/mace.min.js" %}"></script>
+    <script src="{% static "vendor/jquery.bootstrap-growl.min.js" %}"></script>
     <script src="{% static "js/angular.js" %}"></script>
     <script src="{% static "js/bootstrap.js" %}"></script>
     <script src="{% static "js/social.js" %}"></script>
@@ -110,6 +117,8 @@
     <script src="{% static "js/comment.js" %}"></script>
     <script src="{% static "js/editor.js" %}"></script>
     <script src="{% static "js/tooltip.js" %}"></script>
+    <script src="{% static "js/post.js" %}"></script>
+    <script src="{% static "js/message.js" %}"></script>
 {% endblock %}
 </body>
 </html>

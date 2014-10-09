@@ -3,17 +3,21 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.dates import YearArchiveView, MonthArchiveView, BaseArchiveIndexView
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http.response import HttpResponseNotFound
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotAllowed
 from django_filters.views import FilterView
+from django.utils.translation import ugettext as _
 from .filters import EventFilter
 from django.http.response import HttpResponse
 from django.http.response import StreamingHttpResponse
 from django.core.servers.basehttp import FileWrapper
 
 from permission.decorators import permission_required
+from kawaz.core.views.delete import DeleteSuccessMessageMixin
 
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 
@@ -53,29 +57,45 @@ class EventDetailView(DetailView):
 
 
 @permission_required('events.add_event')
-class EventCreateView(CreateView):
+class EventCreateView(SuccessMessageMixin, CreateView):
     model = Event
     form_class = EventForm
+
+    def get_success_message(self, cleaned_data):
+        return _("""Event '%(title)s' successfully created.""") % {
+            'title': cleaned_data['title']
+        }
+
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
         return super().form_valid(form)
 
 @permission_required('events.change_event')
-class EventUpdateView(UpdateView):
+class EventUpdateView(SuccessMessageMixin, UpdateView):
     model = Event
     form_class = EventForm
 
+    def get_success_message(self, cleaned_data):
+        return _("""Event '%(title)s' successfully updated.""") % {
+            'title': cleaned_data['title']
+        }
+
 
 @permission_required('events.delete_event')
-class EventDeleteView(DeleteView):
+class EventDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Event
     success_url = reverse_lazy('events_event_list')
 
-@permission_required('event.attend_event')
+    def get_success_message(self):
+        return _("Event successfully deleted.")
+
+@permission_required('events.attend_event')
 class EventAttendView(UpdateView):
     model = Event
-    success_url = reverse_lazy('events_event_list')
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
     def attend(self, request, *args, **kwargs):
         """
@@ -84,6 +104,7 @@ class EventAttendView(UpdateView):
         """
         self.object = self.get_object()
         success_url = self.get_success_url()
+        messages.add_message(request, messages.SUCCESS, _('You have been attended this event.'))
         try:
             self.object.attend(request.user)
             return HttpResponseRedirect(success_url)
@@ -100,7 +121,9 @@ class EventAttendView(UpdateView):
 @permission_required('events.quit_event')
 class EventQuitView(UpdateView):
     model = Event
-    success_url = reverse_lazy('events_event_list')
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
     def quit(self, request, *args, **kwargs):
         """
@@ -109,6 +132,7 @@ class EventQuitView(UpdateView):
         """
         self.object = self.get_object()
         success_url = self.get_success_url()
+        messages.add_message(request, messages.SUCCESS, _('You have been quited from this event.'))
         try:
             self.object.quit(request.user)
             return HttpResponseRedirect(success_url)
@@ -156,7 +180,7 @@ class EventCalendarView(DetailView):
         object = context['object']
 
         if not object.period_start or object.pub_state == 'draft':
-            return HttpResponseNotFound('Event must be public or have `period_start`.')
+            return HttpResponseNotFound(_('Event must be public or have `period_start`.'))
         cal = generate_ical(object)
         file = io.BytesIO(cal.to_ical())
         # テストの際に、closeされてしまうため

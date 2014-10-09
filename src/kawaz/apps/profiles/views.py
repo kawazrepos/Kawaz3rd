@@ -1,7 +1,10 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.translation import ugettext as _
 from django_filters.views import FilterView
 
 from permission.decorators.classbase import permission_required
@@ -23,7 +26,7 @@ class ProfileListView(FilterView):
 
 
 @permission_required('profiles.change_profile')
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
     formset_prefix = 'accounts'
@@ -74,6 +77,9 @@ class ProfileUpdateView(UpdateView):
         # save formset instance. instances require 'profile' attribute thus
         # assign that attribute automatically
         instances = formset.save(commit=False)
+        success_message = self.get_success_message(form.cleaned_data)
+        if success_message:
+            messages.success(self.request, success_message)
         for instance in instances:
             instance.profile = self.request.user.profile
             instance.save()
@@ -82,6 +88,9 @@ class ProfileUpdateView(UpdateView):
     def form_invalid(self, form, formset):
         return self.render_to_response(self.get_context_data(
             form=form, formset=formset))
+
+    def get_success_message(self, cleaned_data):
+        return _("Your profile successfully updated.")
 
 
 @permission_required('profiles.view_profile')

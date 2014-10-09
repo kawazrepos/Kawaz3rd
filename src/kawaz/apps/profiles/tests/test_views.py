@@ -126,6 +126,7 @@ class ProfileUpdateViewTestCase(TestCase):
         self.assertEqual(Profile.objects.count(), 1)
         e = Profile.objects.get(pk=1)
         self.assertEqual(e.place, '札幌市北区')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_owner_can_update_via_update_view_with_accounts(self):
         '''
@@ -153,6 +154,7 @@ class ProfileUpdateViewTestCase(TestCase):
         self.assertEqual(Profile.objects.count(), 1)
         e = Profile.objects.get(pk=1)
         self.assertEqual(e.place, '札幌市北区')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
         accounts = Account.objects.all()
         self.assertEqual(Account.objects.count(), 2)
         self.assertEqual(accounts[0].service.pk, 1)

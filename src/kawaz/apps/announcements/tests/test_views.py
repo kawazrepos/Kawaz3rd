@@ -154,6 +154,7 @@ class AnnouncementCreateViewTestCase(TestCase):
         self.assertEqual(Announcement.objects.count(), 1)
         e = Announcement.objects.get(pk=1)
         self.assertEqual(e.title, '【悲報】データ消えました')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_authorized_user_can_create_via_create_view(self):
         '''Tests authorized user can create announcement via AnnouncementCreateView'''
@@ -187,6 +188,7 @@ class AnnouncementCreateViewTestCase(TestCase):
         e = Announcement.objects.get(pk=1)
         self.assertEqual(e.author, self.nerv)
         self.assertNotEqual(e.author, other)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 
 class AnnouncementUpdateViewTestCase(TestCase):
@@ -291,6 +293,7 @@ class AnnouncementUpdateViewTestCase(TestCase):
         self.assertEqual(Announcement.objects.count(), 1)
         e = Announcement.objects.get(pk=1)
         self.assertEqual(e.title, '【悲報】データ消えました')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_author_id(self):
         '''
@@ -314,6 +317,7 @@ class AnnouncementUpdateViewTestCase(TestCase):
         self.assertEqual(e.author, self.user)
         self.assertNotEqual(e.author, other)
         self.assertEqual(e.title, 'ID書き換えます！')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 class AnnouncementDeleteViewTestCase(TestCase):
     def setUp(self):
@@ -339,6 +343,7 @@ class AnnouncementDeleteViewTestCase(TestCase):
         r = self.client.post('/announcements/1/delete/', {})
         self.assertRedirects(r, '/announcements/')
         self.assertEqual(Announcement.objects.count(), 0)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_staff_can_delete_via_announcement_delete_view(self):
         '''
@@ -348,6 +353,7 @@ class AnnouncementDeleteViewTestCase(TestCase):
         r = self.client.post('/announcements/1/delete/', {})
         self.assertRedirects(r, '/announcements/')
         self.assertEqual(Announcement.objects.count(), 0)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_other_cannot_delete_via_announcement_delete_view(self):
         '''

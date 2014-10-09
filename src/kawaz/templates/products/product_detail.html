@@ -94,7 +94,12 @@
                     <a class="list-group-item" href="{% url "products_product_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
                 {% endif %}
                 {% if user has 'products.delete_product' of object %}
-                    <a class="list-group-item list-group-item-danger" href="{% url "products_product_delete" object.pk %}"><span class="glyphicon glyphicon-remove"></span> {% trans "Delete Product" %}</a>
+                    <a class="list-group-item list-group-item-danger"
+                       href="{% url "products_product_delete" object.pk %}"
+                       confirm-message="{% trans "Do you want to delete this product?" %}">
+                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete Product" %}
+                        <form method="POST" style="display: none;">{% csrf_token %}</form>
+                    </a>
                 {% endif %}
             </div>
         </div>

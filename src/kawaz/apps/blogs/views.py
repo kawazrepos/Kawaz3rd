@@ -8,10 +8,13 @@ from django.views.generic import DayArchiveView
 from django.views.generic import MonthArchiveView
 from django.views.generic import YearArchiveView
 from django.views.generic.dates import MultipleObjectMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext as _
 from permission.decorators import permission_required
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 from kawaz.core.personas.models import Persona
+from kawaz.core.views.delete import DeleteSuccessMessageMixin
 
 from .forms import EntryForm
 from .models import Entry
@@ -38,7 +41,7 @@ class EntryDetailView(DetailView):
 
 
 @permission_required('blogs.add_entry')
-class EntryCreateView(CreateView):
+class EntryCreateView(SuccessMessageMixin, CreateView):
     model = Entry
     form_class = EntryForm
 
@@ -57,9 +60,14 @@ class EntryCreateView(CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    def get_success_message(self, cleaned_data):
+        return _("""Entry '%(title)s' successfully created.""") % {
+            'title': cleaned_data['title']
+        }
+
 
 @permission_required('blogs.change_entry')
-class EntryUpdateView(UpdateView):
+class EntryUpdateView(SuccessMessageMixin, UpdateView):
     model = Entry
     form_class = EntryForm
 
@@ -68,10 +76,18 @@ class EntryUpdateView(UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    def get_success_message(self, cleaned_data):
+        return _("""Entry '%(title)s' successfully updated.""") % {
+            'title': cleaned_data['title']
+        }
+
 
 @permission_required('blogs.delete_entry')
-class EntryDeleteView(DeleteView):
+class EntryDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Entry
+
+    def get_success_message(self):
+        return _("Entry successfully deleted.")
 
 
 class EntryTodayArchiveView(TodayArchiveView, EntryMultipleObjectMixin):

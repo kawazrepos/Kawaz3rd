@@ -167,6 +167,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertEqual(e.title, 'かわずたんファンタジー')
             self.assertTrue(user in e.administrators.all())
             self.assertEqual(e.administrators.count(), 1)
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")
             # 重複を避けるため削除する
             e.delete()
 
@@ -194,6 +195,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
 
             self.assertEqual(Screenshot.objects.count(), 1)
             obj = Screenshot.objects.get(pk=i+1)
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
             obj.product.delete()
             obj.delete()
@@ -221,6 +223,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
             obj.product.delete()
             obj.delete()
@@ -255,6 +258,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
             obj.product.delete()
             obj.delete()
@@ -354,6 +358,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             self.assertEqual(Product.objects.count(), 1)
             e = Product.objects.get(pk=1)
             self.assertEqual(e.title, 'クラッカーだよ！！！')
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_administrators_cannot_update_slug(self):
         """
@@ -372,6 +377,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             self.assertEqual(e.title, 'クラッカーだよ！！！')
             self.assertEqual(e.slug, previous_slug)
             self.assertNotEqual(e.slug, 'new-slug')
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 
 class ProductDeleteViewTestCase(ViewTestCaseBase):
@@ -413,6 +419,7 @@ class ProductDeleteViewTestCase(ViewTestCaseBase):
             r = self.client.post('/products/{}/delete/'.format(i+1))
             self.assertRedirects(r, '/products/')
             self.assertEqual(Product.objects.count(), 0)
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")
             # 再作成
             self.product = ProductFactory(title="かわずたんのゲームだよ☆",
                     administrators=(self.administrator,))
