@@ -13,69 +13,69 @@
 - model: profiles.skill
   pk: 3
   fields:
-    label: UIデザイン
-    description: ゲーム画面など、UIデザインができます
-    order: 3
-- model: profiles.skill
-  pk: 4
-  fields:
     label: 3Dモデリング
     description: 3Dモデリングができます
     order: 4
 - model: profiles.skill
-  pk: 5
-  fields:
-    label: Webデザイン
-    description: CSSなど、Webデザインができます
-    order: 5
-- model: profiles.skill
-  pk: 6
+  pk: 4
   fields:
     label: 作曲
     description: DTMなど、作曲ができます
     order: 6
 - model: profiles.skill
-  pk: 7
-  fields:
-    label: 効果音
-    description: ゲーム効果音が作成できます
-    order: 7
-- model: profiles.skill
-  pk: 8
-  fields:
-    label: ボイス
-    description: 声優ができます
-    order: 8
-- model: profiles.skill
-  pk: 9
-  fields:
-    label: シナリオライター
-    description: シナリオが書けます
-    order: 9
-- model: profiles.skill
-  pk: 10
+  pk: 5
   fields:
     label: 企画
     description: ゲーム企画ができます
     order: 10
 - model: profiles.skill
-  pk: 11
+  pk: 6
   fields:
-    label: レベルデザイン
-    description: ゲームのレベルデザインができます
-    order: 11
+    label: シナリオライター
+    description: シナリオが書けます
+    order: 9
 - model: profiles.skill
-  pk: 12
+  pk: 7
   fields:
     label: Webプログラム
     description: Web開発ができます
     order: 12
 - model: profiles.skill
-  pk: 13
+  pk: 8
+  fields:
+    label: UIデザイン
+    description: ゲーム画面など、UIデザインができます
+    order: 3
+- model: profiles.skill
+  pk: 9
+  fields:
+    label: ボイス
+    description: 声優ができます
+    order: 8
+- model: profiles.skill
+  pk: 10
+  fields:
+    label: レベルデザイン
+    description: ゲームのレベルデザインができます
+    order: 11
+- model: profiles.skill
+  pk: 11
   fields:
     label: サーバー管理
     description: インフラ周りの管理ができます
     order: 13
+- model: profiles.skill
+  pk: 12
+  fields:
+    label: 効果音
+    description: ゲーム効果音が作成できます
+    order: 7
+- model: profiles.skill
+  pk: 13
+  fields:
+    label: Webデザイン
+    description: CSSなど、Webデザインができます
+    order: 5
 - model: profiles.service
   pk: 1
   fields:
