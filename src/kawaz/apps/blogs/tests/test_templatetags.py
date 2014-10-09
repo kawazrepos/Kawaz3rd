@@ -31,6 +31,19 @@ class BlogsTemplateTagTestCase(TestCase):
         self.assertEqual(r.strip(), "")
         return c['entries']
 
+    def _render_template_with_author(self, username, author):
+        t = Template(
+            "{% load blogs_tags %}"
+            "{% get_published_entries_of user as entries %}"
+        )
+        r = MagicMock()
+        r.user = self.users[username]
+        c = Context(dict(request=r, user=author))
+        r = t.render(c)
+        # get_blog_entries は何も描画しない
+        self.assertEqual(r.strip(), "")
+        return c['entries']
+
     def test_get_entries_published(self):
         """get_entries published はユーザーに対して公開された記事を返す"""
         patterns = (
@@ -88,3 +101,23 @@ class BlogsTemplateTagTestCase(TestCase):
         for username, nentries in patterns:
             self.assertRaises(TemplateSyntaxError, self._render_template,
                               username, lookup='unknown')
+
+    def test_get_published_entries_of(self):
+        """get_published_entriesは特定のユーザーが書いた公開状態の物のみを返す"""
+        EntryFactory(pub_state='public', author=self.author)
+        EntryFactory(pub_state='protected', author=self.author)
+        patterns = (
+            ('adam', 2),
+            ('seele', 2),
+            ('nerv', 2),
+            ('children', 2),
+            ('wille', 1),
+            ('anonymous', 1),
+            ('author', 2),
+        )
+        # with lookup
+        for username, nentries in patterns:
+            entries = self._render_template_with_author(username, self.users['author'])
+            self.assertEqual(entries.count(), nentries,
+                             "{} should have {} entries.".format(username,
+                                                                 nentries))

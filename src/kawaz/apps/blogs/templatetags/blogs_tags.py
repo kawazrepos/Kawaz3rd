@@ -45,3 +45,14 @@ def get_entries(context, lookup='published'):
     elif lookup == 'draft':
         qs = Entry.objects.draft(request.user)
     return qs
+
+@register.assignment_tag(takes_context=True)
+def get_published_entries_of(context, author):
+    """
+    あるユーザーの書いたpublishedなエントリーを返します
+
+    Syntax:
+        {% get_published_entries_of <user> as <variable> %}
+    """
+    qs = get_entries(context)
+    return qs.filter(author=author)
