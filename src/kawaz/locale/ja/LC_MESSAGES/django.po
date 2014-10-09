@@ -626,7 +626,7 @@ msgstr "完成"
 #: apps/projects/models.py:95 templates/projects/project_archive.html:30
 #: templates/projects/project_detail.html:29
 msgid "Status"
-msgstr "プロジェクトの状態"
+msgstr "状態"
 
 #: apps/projects/models.py:98
 msgid "Project slug"
