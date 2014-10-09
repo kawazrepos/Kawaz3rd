@@ -4,7 +4,7 @@
     <script type="text/ng-template" id="star_item.html">
         <div class="star-user">
             <a ng-href="[[ star.author.url ]]">
-                <img class="avatar avatar-small" ng-src='{{ MEDIA_URL }}/[[ star.author.avatar ]]'>
+                <img class="avatar avatar-small" ng-src='[[ star.author.small_avatar ]]'>
             {# TODO starをcontextで引っ張ってこないといけない #}
                 {% if user has 'stars.delete_star' of object %}
                     <a href="#" class="star-remove" ng-click="deleteStar(star);" ng-show="star.visible"><span class="glyphicon glyphicon-remove"></span></a>
