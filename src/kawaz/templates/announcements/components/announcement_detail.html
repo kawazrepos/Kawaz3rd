@@ -4,7 +4,13 @@
         <div class="pull-right">
             <a href="{{ object.author.profile.get_absolute_url }}">
                 <img src="{{ object.author.avatar.large.url }}" alt="{{ object.author.nickname }} Avater" class="avatar avatar-middle"/> {{ object.author.nickname }}
-            </a>
+            </a><br />
+            {% if user has 'announcements.change_announcement' of object %}
+                <a href="{% url 'announcements_announcement_update' pk=object.pk %}" class="btn btn-default btn-sm">Edit</a>
+            {% endif %}
+            {% if user has 'announcements.delete_announcement' of object %}
+                <a href="{% url 'announcements_announcement_delete' pk=object.pk %}" class="btn btn-danger btn-sm">Delete This Entry</a>
+            {% endif %}
         </div>
         <div class="date pull-left">
             <p>{{ object.created_at|date:"d" }}<span>{{ object.created_at|date:"M" }}</span></p>
