@@ -17,12 +17,11 @@ class CategoryChoiceField(ModelChoiceField):
 class EntryForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     body = forms.CharField(widget=MaceEditorWidget)
-    category = CategoryChoiceField(queryset=Category.objects.all())
+    category = CategoryChoiceField(queryset=Category.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        print(user)
         self.fields['category'].queryset = Category.objects.filter(author=user)
 
     class Meta:
