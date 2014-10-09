@@ -159,9 +159,9 @@ class ProductCreateView(ProductFormMixin, CreateView):
         return super().post(request, *args, **kwargs)
 
     def get_success_message(self, cleaned_data):
-        return _("""Product '{title}' successfully created.""".format(**{
+        return _("""Product '%(title)s' successfully created.""").format(**{
             'title': cleaned_data['title']
-        }))
+        })
 
 @permission_required('products.change_product')
 class ProductUpdateView(ProductFormMixin, UpdateView):
@@ -177,9 +177,9 @@ class ProductUpdateView(ProductFormMixin, UpdateView):
         return super().post(request, *args, **kwargs)
 
     def get_success_message(self, cleaned_data):
-        return _("""Product '{title}' successfully updated.""".format(**{
+        return _("""Product '%(title)s' successfully updated.""").format(**{
             'title': cleaned_data['title']
-        }))
+        })
 
 
 @permission_required('products.delete_product')

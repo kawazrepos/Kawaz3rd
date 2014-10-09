@@ -50,9 +50,9 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""Project '{title}' successfully created.""".format(**{
+        return _("""Project '%(title)s' successfully created.""").format(**{
             'title': cleaned_data['title']
-        }))
+        })
 
 
 @permission_required('projects.change_project')
@@ -61,9 +61,9 @@ class ProjectUpdateView(SuccessMessageMixin, UpdateView):
     form_class = ProjectUpdateForm
 
     def get_success_message(self, cleaned_data):
-        return _("""Project '{title}' successfully updated.""".format(**{
+        return _("""Project '%(title)s' successfully updated.""").format(**{
             'title': cleaned_data['title']
-        }))
+        })
 
 @permission_required('projects.delete_project')
 class ProjectDeleteView(DeleteNotificationView):
@@ -105,7 +105,7 @@ class ProjectJoinView(SingleObjectMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.join(request.user)
-        messages.add_message(request, messages.SUCCESS, 'You have been joined to this project.')
+        messages.add_message(request, messages.SUCCESS, _('You have been joined to this project.'))
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, **kwargs):
@@ -124,7 +124,7 @@ class ProjectQuitView(SingleObjectMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.quit(request.user)
-        messages.add_message(request, messages.SUCCESS, 'You have been quited from this project.')
+        messages.add_message(request, messages.SUCCESS, _('You have been quited from this project.'))
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, **kwargs):

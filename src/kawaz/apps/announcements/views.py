@@ -23,9 +23,9 @@ class AnnouncementCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""Announcement '{title}' successfully created.""".format(**{
+        return _("""Announcement '%(title)s' successfully created.""").format(**{
             'title': cleaned_data['title']
-        }))
+        })
 
 
 @permission_required('announcements.change_announcement')
@@ -34,9 +34,9 @@ class AnnouncementUpdateView(SuccessMessageMixin, UpdateView):
     form_class = AnnouncementForm
 
     def get_success_message(self, cleaned_data):
-        return _("""Announcement '{title}' successfully updated.""".format(**{
+        return _("""Announcement '%(title)s' successfully updated.""").format(**{
             'title': cleaned_data['title']
-        }))
+        })
 
 
 @permission_required('announcements.delete_announcement')

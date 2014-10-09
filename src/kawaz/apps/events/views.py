@@ -62,9 +62,9 @@ class EventCreateView(SuccessMessageMixin, CreateView):
     form_class = EventForm
 
     def get_success_message(self, cleaned_data):
-        return _("""Event '{title}' successfully created.""".format(**{
+        return _("""Event '%(title)s' successfully created.""").format(**{
             'title': cleaned_data['title']
-        }))
+        })
 
 
     def form_valid(self, form):
@@ -77,9 +77,9 @@ class EventUpdateView(SuccessMessageMixin, UpdateView):
     form_class = EventForm
 
     def get_success_message(self, cleaned_data):
-        return _("""Event '{title}' successfully updated.""".format(**{
+        return _("""Event '%(title)s' successfully updated.""").format(**{
             'title': cleaned_data['title']
-        }))
+        })
 
 
 @permission_required('events.delete_event')
