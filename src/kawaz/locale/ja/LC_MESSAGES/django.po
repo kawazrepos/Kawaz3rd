@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-10 00:32+0900\n"
+"POT-Creation-Date: 2014-10-10 01:13+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,7 +176,7 @@ msgstr "参加可能人数"
 
 #: apps/events/models.py:77
 msgid "Use this to limit the number of attendees."
-msgstr "参加者数に上限があります"
+msgstr "参加人数に上限を設けたい場合に設定してください"
 
 #: apps/events/models.py:79
 msgid "Attendance deadline"
@@ -187,8 +187,7 @@ msgid ""
 "A deadline of the attendance. No member can attend the event after this "
 "deadline."
 msgstr ""
-"参加締切日を設定できます。参加者がいなかった場合でも延期させることができま"
-"す。"
+"参加締切日を設定できます。この日時を過ぎた場合、参加することはできません"
 
 #: apps/events/models.py:85 templates/events/event_detail.html:133
 msgid "Organizer"
@@ -276,12 +275,15 @@ msgid "Unfixed"
 msgstr "開催日時未定"
 
 #: apps/events/models.py:228
-msgid "{} ~ End time is unfixed"
-msgstr "{} 〜 終了日時未定"
+#, fuzzy, python-format
+#| msgid "{} ~ End time is unfixed"
+msgid "%(start)s ~ End time is unfixed"
+msgstr "%(start)s 〜 終了日時未定"
 
-#: apps/events/models.py:231
-msgid "{} ~ {}"
-msgstr "{} 〜 {}"
+#: apps/events/models.py:233
+#, python-format
+msgid "%(start)s ~ %(end)s"
+msgstr "%(start)s 〜 %(end)s"
 
 #: apps/events/views.py:65
 #, python-format
@@ -431,7 +433,9 @@ msgstr "プロダクト"
 
 #: apps/products/models.py:156
 msgid "`feature` display mode require `advertisement_image`."
-msgstr "トップページのカルーセル + タイル表示させるのに必要な告知用画像"
+msgstr ""
+"表示モードを「トップページのカルーセル + トップページにタイル表示」にする場"
+"合、「告知用画像」を設定する必要があります"
 
 #: apps/products/models.py:197
 msgid "Version"
@@ -451,11 +455,11 @@ msgstr "ダウンロード数"
 
 #: apps/products/models.py:228
 msgid "Package release"
-msgstr "リリース日"
+msgstr "パッケージ"
 
 #: apps/products/models.py:229
 msgid "Package releases"
-msgstr "リリース日"
+msgstr "パッケージ"
 
 #: apps/products/models.py:239 apps/profiles/models.py:63
 #: apps/recent_activities/models.py:15
@@ -472,11 +476,11 @@ msgstr "閲覧数"
 
 #: apps/products/models.py:246
 msgid "URL release"
-msgstr "リリースURL"
+msgstr "URL"
 
 #: apps/products/models.py:247
 msgid "URL releases"
-msgstr "リリースURL"
+msgstr "URL"
 
 #: apps/products/models.py:275 apps/recent_activities/models.py:16
 msgid "Image"
@@ -555,11 +559,11 @@ msgstr "ユーザID"
 
 #: apps/profiles/models.py:108 apps/profiles/models.py:115
 msgid "Service"
-msgstr "使用サービス"
+msgstr "サービス"
 
 #: apps/profiles/models.py:109
 msgid "Services"
-msgstr "使用サービス"
+msgstr "サービス"
 
 #: apps/profiles/models.py:114 apps/profiles/models.py:122
 msgid "Account"
@@ -667,13 +671,13 @@ msgstr "プロジェクトを削除しました"
 #, fuzzy
 #| msgid "The star have not been added to this object."
 msgid "You have been joined to this project."
-msgstr "このコンテンツにはまだスターが付けられていません"
+msgstr "プロジェクトに参加しました"
 
 #: apps/projects/views.py:127
 #, fuzzy
 #| msgid "The star have not been added to this object."
 msgid "You have been quited from this project."
-msgstr "このコンテンツにはまだスターが付けられていません"
+msgstr "プロジェクトの参加をやめました"
 
 #: apps/recent_activities/models.py:24
 #: templates/roughpages/index.anonymous.html:46
@@ -690,7 +694,7 @@ msgstr "このコンテンツにはまだスターが付けられていません
 
 #: apps/stars/models.py:114
 msgid "Quote"
-msgstr "記事の一部分を引用"
+msgstr "引用"
 
 #: apps/stars/models.py:116
 msgid ""
@@ -711,7 +715,7 @@ msgstr "スター"
 #: core/forms/mixins.py:30 templates/products/product_form.html:51
 #: templates/profiles/profile_form.html:23
 msgid "Save"
-msgstr "保存して更新する"
+msgstr "保存する"
 
 #: core/gcal/models.py:30
 msgid "Google Calendar Event ID"
@@ -735,23 +739,23 @@ msgstr "重要な日付"
 
 #: core/personas/forms.py:56
 msgid "Users in this role have all permissions"
-msgstr "神権限"
+msgstr "全ての権限を持ちます"
 
 #: core/personas/forms.py:57
 msgid "Users in this role can promote to the adam"
-msgstr "アダム権限"
+msgstr "他のユーザーに権限を与えたり、神権限になれる権限を持ちます"
 
 #: core/personas/forms.py:58
 msgid "Users in this role have staff permission"
-msgstr "ネルフ権限"
+msgstr "スタッフ権限を持ちます"
 
 #: core/personas/forms.py:59
 msgid "Users in this role are assumed to be a member of the site"
-msgstr "ユーザに対してKawazでの役割を決めることができます（Adam、Seeleなど）"
+msgstr "一般的なユーザー権限を持ちます"
 
 #: core/personas/forms.py:60
 msgid "Users in this role are assumed to be a signed in visitor"
-msgstr "この役職は外部ユーザーに付けられます"
+msgstr "外部ユーザー権限を持ちます。ごく一部の機能のみが利用できます"
 
 #: core/personas/models.py:94
 msgid "Man"
@@ -771,7 +775,7 @@ msgstr "アダム"
 
 #: core/personas/models.py:101
 msgid "Seele"
-msgstr "ぜーレ"
+msgstr "ゼーレ"
 
 #: core/personas/models.py:102
 msgid "Nerv"
@@ -815,11 +819,11 @@ msgstr ""
 
 #: core/personas/models.py:162
 msgid "Persona"
-msgstr "ユーザアイコン"
+msgstr "ユーザー"
 
 #: core/personas/models.py:163
 msgid "Personas"
-msgstr "ユーザアイコン"
+msgstr "ユーザー"
 
 #: core/publishments/models.py:8
 msgid "Draft"
@@ -880,7 +884,7 @@ msgstr "ログイン"
 
 #: templates/blogs/entry_detail.html:11
 msgid "'s Entries"
-msgstr "件のお知らせ"
+msgstr "のブログ記事"
 
 #: templates/blogs/entry_list.html:12
 msgid "Blog Articles"
@@ -1116,7 +1120,7 @@ msgstr "プロフィールを編集"
 
 #: templates/profiles/profile_detail.html:134
 msgid "There are no accounts."
-msgstr "アカウントはありません"
+msgstr "利用サービスが設定されていません"
 
 #: templates/profiles/profile_detail.html:141
 msgid "Joined Projects"
@@ -1212,6 +1216,9 @@ msgstr "最近のゲーム"
 #: templates/roughpages/index.anonymous.html:76
 msgid "Featured Games"
 msgstr "Kawazの代表作"
+
+#~ msgid "{} ~ {}"
+#~ msgstr "{} 〜 {}"
 
 #~ msgid "%m/%d({weekday})"
 #~ msgstr "%m月%d日({weekday})"

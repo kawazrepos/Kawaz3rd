@@ -225,10 +225,15 @@ class Event(models.Model):
         if not self.period_start and not self.period_end:
             return _('Unfixed')
         elif not self.period_end:
-            return _('{} ~ End time is unfixed').format(humanize(self.period_start))
+            return _('%(start)s ~ End time is unfixed') % {
+                'start': humanize(self.period_start)
+            }
         else:
             sameday = self.period_end - self.period_start < datetime.timedelta(days=1)
-            return _('{} ~ {}').format(humanize(self.period_start), humanize(self.period_end, sameday))
+            return _('%(start)s ~ %(end)s') % {
+                'start': humanize(self.period_start),
+                'end': humanize(self.period_end, sameday)
+            }
 
 
 from django.db.models.signals import post_save
