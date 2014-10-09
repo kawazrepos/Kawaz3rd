@@ -38,7 +38,7 @@
             <li class="{% active '^/?$' %}"><a href="/">{% trans "Home" %}</a></li>
             <li class="{% active '^/products.+' %}"><a href="{% url "products_product_list" %}">{% trans "Products" %}</a></li>
             <li class="{% active '^/events.+' %}"><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
-            <li class="{% active '^/blogs.+' %}"><a href="{% url "blogs_entry_list" %}">{% trans "Blogs" %}</a></li>
+            <li class="{% active '^/blogs.+' %}"><a href="{% url "blogs_entry_list" %}">{% trans "Blog" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right header-button">
             <li class="dropdown">
@@ -52,6 +52,7 @@
                         <ul class="dropdown-menu authenticated-menu" role="menu">
                             <li><a href="{{ user.profile.get_absolute_url }}">{% trans "View Profile" %}</a></li>
                             <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
+                            <li><a href="{% url "password_change" %}">{% trans "Change Password" %}</a></li>
                             <li role="presentation" class="divider"></li>
                             <li><a class="logout-link" href="{% url "logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
                         </ul>
