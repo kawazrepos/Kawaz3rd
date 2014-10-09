@@ -105,6 +105,7 @@ class EntryCreateViewTestCase(TestCase):
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
         self.assertEqual(e.title, '日記です')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_author_id(self):
         '''
@@ -127,6 +128,7 @@ class EntryCreateViewTestCase(TestCase):
         e = Entry.objects.get(pk=1)
         self.assertEqual(e.author, self.user)
         self.assertNotEqual(e.author, other)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_can_create_entry_with_category(self):
         """
@@ -146,6 +148,7 @@ class EntryCreateViewTestCase(TestCase):
         e = Entry.objects.get(pk=1)
         self.assertEqual(e.author, self.user)
         self.assertEqual(e.category, category)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_can_create_entry_with_others_category(self):
         """
@@ -229,6 +232,7 @@ class EntryUpdateViewTestCase(TestCase):
         self.assertEqual(Entry.objects.count(), 1)
         e = Entry.objects.get(pk=1)
         self.assertEqual(e.title, 'やっぱり書き換えます！')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_author_id(self):
         '''
@@ -253,6 +257,7 @@ class EntryUpdateViewTestCase(TestCase):
         self.assertEqual(e.author, self.user)
         self.assertNotEqual(e.author, other)
         self.assertEqual(e.title, 'ID書き換えます！')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 
 class EntryListViewTestCase(TestCase):

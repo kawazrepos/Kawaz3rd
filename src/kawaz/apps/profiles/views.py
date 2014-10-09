@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
@@ -76,6 +77,9 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
         # save formset instance. instances require 'profile' attribute thus
         # assign that attribute automatically
         instances = formset.save(commit=False)
+        success_message = self.get_success_message()
+        if success_message:
+            messages.success(self.request, success_message)
         for instance in instances:
             instance.profile = self.request.user.profile
             instance.save()

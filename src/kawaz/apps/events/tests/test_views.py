@@ -126,6 +126,7 @@ class EventCreateViewTestCase(TestCase):
         self.assertEqual(Event.objects.count(), 1)
         e = Event.objects.get(pk=1)
         self.assertEqual(e.title, 'テストイベント')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_organizer_id(self):
         '''
@@ -150,6 +151,7 @@ class EventCreateViewTestCase(TestCase):
         e = Event.objects.get(pk=1)
         self.assertEqual(e.organizer, self.user)
         self.assertNotEqual(e.organizer, other)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 
 class EventUpdateViewTestCase(TestCase):
@@ -226,6 +228,7 @@ class EventUpdateViewTestCase(TestCase):
         self.assertEqual(Event.objects.count(), 1)
         e = Event.objects.get(pk=1)
         self.assertEqual(e.title, '変更後のイベントです')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_organizer_id(self):
         '''
@@ -251,6 +254,7 @@ class EventUpdateViewTestCase(TestCase):
         self.assertEqual(e.organizer, self.user)
         self.assertNotEqual(e.organizer, other)
         self.assertEqual(e.title, '変更後のイベントです')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 
 @mock.patch('django.utils.timezone.now', static_now)

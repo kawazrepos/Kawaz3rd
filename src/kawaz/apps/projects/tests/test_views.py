@@ -169,6 +169,7 @@ class ProjectCreateViewTestCase(TestCase):
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.title, '音楽ファンタジー')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_administrator_id(self):
         '''
@@ -296,6 +297,7 @@ class ProjectUpdateViewTestCase(TestCase):
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.title, 'やっぱり書き換えます！')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_member_can_update_via_update_view(self):
         '''Tests project member can update project via ProjectUpdateView'''
@@ -312,6 +314,7 @@ class ProjectUpdateViewTestCase(TestCase):
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.title, 'やっぱり書き換えます！')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_update_slug(self):
         '''Tests anyone cannot update prject's slug'''
@@ -330,6 +333,7 @@ class ProjectUpdateViewTestCase(TestCase):
         e = Project.objects.get(pk=1)
         self.assertEqual(e.slug, old_slug)
         self.assertNotEqual(e.slug, 'new-slug')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_administrator_id(self):
         '''
@@ -354,6 +358,7 @@ class ProjectUpdateViewTestCase(TestCase):
         self.assertEqual(e.administrator, self.user)
         self.assertNotEqual(e.administrator, other)
         self.assertEqual(e.title, 'ID書き換えます！')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 class ProjectDeleteViewTestCase(TestCase):
     def setUp(self):
