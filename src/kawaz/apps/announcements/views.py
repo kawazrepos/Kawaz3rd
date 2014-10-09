@@ -23,7 +23,7 @@ class AnnouncementCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""Announcement '%(title)s' successfully created.""" % {
+        return _("""Announcement '%(title)s' successfully created.""") % {
             'title': cleaned_data['title']
         }
 

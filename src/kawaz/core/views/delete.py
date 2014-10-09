@@ -24,6 +24,8 @@ class DeleteSuccessMessageMixin(object):
 
     def delete(self, request, *args, **kwargs):
         response = super().delete(request, *args, **kwargs)
+        if not response.status_code == 302:
+            return response
         success_message = self.get_success_message()
         if success_message:
             messages.success(self.request, success_message)
