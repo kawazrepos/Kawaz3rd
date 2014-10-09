@@ -52,11 +52,21 @@ class EntryCreateView(CreateView):
         form.instance.author = self.request.user
         return form
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 
 @permission_required('blogs.change_entry')
 class EntryUpdateView(UpdateView):
     model = Entry
     form_class = EntryForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 @permission_required('blogs.delete_entry')
