@@ -36,6 +36,19 @@ class ProjectsTemplateTagTestCase(TestCase):
         self.assertEqual(r.strip(), "")
         return c['projects']
 
+    def _render_template_with_member(self, username, member):
+        t = Template(
+            "{% load projects_tags %}"
+            "{% get_published_projects_members_of member as projects %}"
+        )
+        r = MagicMock()
+        r.user = self.users[username]
+        c = Context(dict(request=r, member=member))
+        r = t.render(c)
+        # get_blog_projects は何も描画しない
+        self.assertEqual(r.strip(), "")
+        return c['projects']
+
     def test_get_projects_published(self):
         """get_projects published はユーザーが閲覧可能な Project を返す"""
         patterns = (
@@ -150,3 +163,24 @@ class ProjectsTemplateTagTestCase(TestCase):
         for username, nprojects in patterns:
             self.assertRaises(TemplateSyntaxError, self._render_template,
                               username, lookup='unknown')
+
+    def test_get_published_joined_projects_of(self):
+        """get_published_joined_projectsがユーザーの参加しているプロジェクトを返す"""
+        p0 = ProjectFactory(pub_state='public')
+        p1 = ProjectFactory(pub_state='protected')
+        member = PersonaFactory()
+        p0.join(member)
+        p1.join(member)
+        patterns = (
+            ('adam', 2),
+            ('seele', 2),
+            ('nerv', 2),
+            ('children', 2),
+            ('wille', 1),
+            ('anonymous', 1),
+            ('administrator', 2),
+        )
+        # with lookup
+        for username, nprojects in patterns:
+            self.assertRaises(TemplateSyntaxError, self._render_template,
+                              username, member)
