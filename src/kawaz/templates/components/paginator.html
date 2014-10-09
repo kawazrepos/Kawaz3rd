@@ -1,10 +1,21 @@
+{% load i18n %}
 <div class="text-center">
-    <ul class="pagination">
-        <li{% if not page_obj.has_next %} class="disabled"{% endif %}><a href="#">&laquo;</a></li>
-        {% for page_number in paginator.page_range %}
-            <li {% if page_obj.number == page_number %} class="active"{% endif %}><a href="">{{ page_number }}</a></li>
-        {% endfor %}
-        <li{% if not page_obj.has_next %} class="disabled"{% endif %}><a href="#">&raquo;</a></li>
+    <p>{% blocktrans with current=page_obj.number max=paginator.num_pages %}Page {{ current }} of {{ max }}{% endblocktrans %}</p>
+    <ul class="pager">
+        <li class="previous{% if not page_obj.has_previous %} disabled{% endif %}">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">&larr; {% trans "Newer" %}</a>
+            {% else %}
+                <a>&larr; {% trans "Newer" %}</a>
+            {% endif %}
+        </li>
+        <li class="next{% if not page_obj.has_next %} disabled{% endif %}">
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">{% trans "Older" %} &rarr;</a>
+            {% else %}
+                <a>{% trans "Older" %} &rarr;</a>
+            {% endif %}
+        </li>
     </ul>
 </div>
 
