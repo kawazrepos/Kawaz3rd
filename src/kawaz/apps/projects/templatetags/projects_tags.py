@@ -68,5 +68,5 @@ def get_published_joined_projects_of(context, user):
         {% get_published_joined_projects_of user %}
     """
     qs = get_projects(context)
-    return qs.filter(members__in=user)
+    return qs.filter(members=user)
 
