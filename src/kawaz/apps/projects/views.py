@@ -18,7 +18,7 @@ from permission.decorators import permission_required
 
 from .forms import ProjectCreateForm
 from .forms import ProjectUpdateForm
-from kawaz.core.views.delete import DeleteNotificationView
+from kawaz.core.views.delete import DeleteSuccessMessageMixin
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 from .models import Project
 
@@ -66,7 +66,7 @@ class ProjectUpdateView(SuccessMessageMixin, UpdateView):
         })
 
 @permission_required('projects.delete_project')
-class ProjectDeleteView(DeleteNotificationView):
+class ProjectDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
     model = Project
     success_url = reverse_lazy('projects_project_list')
 

@@ -17,7 +17,7 @@ from django.http.response import StreamingHttpResponse
 from django.core.servers.basehttp import FileWrapper
 
 from permission.decorators import permission_required
-from kawaz.core.views.delete import DeleteNotificationView
+from kawaz.core.views.delete import DeleteSuccessMessageMixin
 
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 
@@ -83,7 +83,7 @@ class EventUpdateView(SuccessMessageMixin, UpdateView):
 
 
 @permission_required('events.delete_event')
-class EventDeleteView(DeleteNotificationView):
+class EventDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
     model = Event
     success_url = reverse_lazy('events_event_list')
 

@@ -18,7 +18,7 @@ from permission.decorators import permission_required
 from .forms import ProductCreateForm, ProductUpdateForm
 from .forms import PackageReleaseForm, URLReleaseForm, ScreenshotForm
 from .forms import PackageReleaseFormSet, URLReleaseFormSet, ScreenshotFormSet
-from kawaz.core.views.delete import DeleteNotificationView
+from kawaz.core.views.delete import DeleteSuccessMessageMixin
 from .models import Product
 from .models import PackageRelease, URLRelease, Screenshot
 
@@ -183,7 +183,7 @@ class ProductUpdateView(ProductFormMixin, UpdateView):
 
 
 @permission_required('products.delete_product')
-class ProductDeleteView(DeleteNotificationView):
+class ProductDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('products_product_list')
 

@@ -14,7 +14,7 @@ from django.utils.translation import ugettext as _
 from permission.decorators import permission_required
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 from kawaz.core.personas.models import Persona
-from kawaz.core.views.delete import DeleteNotificationView
+from kawaz.core.views.delete import DeleteSuccessMessageMixin
 
 from .forms import EntryForm
 from .models import Entry
@@ -83,7 +83,7 @@ class EntryUpdateView(SuccessMessageMixin, UpdateView):
 
 
 @permission_required('blogs.delete_entry')
-class EntryDeleteView(DeleteNotificationView):
+class EntryDeleteMixin(DeleteSuccessMessageMixin, DeleteView):
     model = Entry
 
     def get_success_message(self):
