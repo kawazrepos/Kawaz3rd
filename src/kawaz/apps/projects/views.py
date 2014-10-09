@@ -5,6 +5,7 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http.response import (HttpResponseRedirect,
@@ -12,6 +13,7 @@ from django.http.response import (HttpResponseRedirect,
                                   HttpResponseNotAllowed)
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.detail import SingleObjectTemplateResponseMixin, BaseDetailView
+from django.utils.translation import ugettext as _
 from permission.decorators import permission_required
 
 from .forms import ProjectCreateForm
@@ -37,7 +39,7 @@ class ProjectArchiveView(ListView):
 
 
 @permission_required('projects.add_project')
-class ProjectCreateView(CreateView):
+class ProjectCreateView(SuccessMessageMixin, CreateView):
     model = Project
     form_class = ProjectCreateForm
 
@@ -46,18 +48,31 @@ class ProjectCreateView(CreateView):
         form.instance.administrator = self.request.user
         return super().form_valid(form)
 
+    def get_success_message(self, cleaned_data):
+        return _("""Project '{title}' successfully created.""".format(**{
+            'title': cleaned_data['title']
+        }))
+
 
 @permission_required('projects.change_project')
-class ProjectUpdateView(UpdateView):
+class ProjectUpdateView(SuccessMessageMixin, UpdateView):
     model = Project
     form_class = ProjectUpdateForm
 
+    def get_success_message(self, cleaned_data):
+        return _("""Project '{title}' successfully updated.""".format(**{
+            'title': cleaned_data['title']
+        }))
 
 @permission_required('projects.delete_project')
-class ProjectDeleteView(DeleteView):
+class ProjectDeleteView(SuccessMessageMixin, DeleteView):
     model = Project
     success_url = reverse_lazy('projects_project_list')
 
+    def get_success_message(self, cleaned_data):
+        return _("""Project '{title}' successfully deleted.""".format(**{
+            'title': cleaned_data['title']
+        }))
 
 @permission_required('projects.view_project')
 class ProjectDetailView(DetailView):

@@ -4,7 +4,10 @@ from django.views.generic import UpdateView
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import DeleteView
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
+from django.utils.translation import ugettext as _
 
 from django.forms.models import modelformset_factory
 
@@ -31,7 +34,7 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductFormMixin(object):
+class ProductFormMixin(SuccessMessageMixin):
 
     def _get_formset(self, formset_class, **kwargs):
         if self.request.method in ('PUT', 'POST'):
@@ -102,6 +105,9 @@ class ProductFormMixin(object):
                    package_release_formset,
                    screenshot_formset):
         self.object = form.save()
+        success_message = self.get_success_message(form.cleaned_data)
+        if success_message:
+            messages.success(self.request, success_message)
         # assign instance to all formsets
         formsets = (url_release_formset,
                     package_release_formset,
@@ -151,6 +157,11 @@ class ProductCreateView(ProductFormMixin, CreateView):
         self.object = None
         return super().post(request, *args, **kwargs)
 
+    def get_success_message(self, cleaned_data):
+        return _("""Product '{title}' successfully created.""".format(**{
+            'title': cleaned_data['title']
+        }))
+
 @permission_required('products.change_product')
 class ProductUpdateView(ProductFormMixin, UpdateView):
     model = Product
@@ -164,11 +175,21 @@ class ProductUpdateView(ProductFormMixin, UpdateView):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
 
+    def get_success_message(self, cleaned_data):
+        return _("""Product '{title}' successfully updated.""".format(**{
+            'title': cleaned_data['title']
+        }))
+
 
 @permission_required('products.delete_product')
 class ProductDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('products_product_list')
+
+    def get_success_message(self, cleaned_data):
+        return _("""Product '{title}' successfully deleted.""".format(**{
+            'title': cleaned_data['title']
+        }))
 
 
 class ProductPreview(SingleObjectPreviewMixin, DetailView):
