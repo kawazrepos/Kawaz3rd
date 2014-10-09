@@ -1,6 +1,7 @@
 {% extends "twopane.html" %}
 {% load staticfiles %}
 {% load i18n %}
+{% load blogs_tags %}
 {% block pre_css %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "css/profile.css" %}" media="screen">
@@ -81,7 +82,8 @@
             </div>
         {% else %}
             <div class="list-group">
-                {% for entry in object.user.blog_entries.all %}
+                {% get_published_entries_of object.user as entries %}
+                {% for entry in entries %}
                     <a href="{{ entry.get_absolute_url }}" class="blog-entry list-group-item">
                         <time>{{ entry.publish_at | date:"m/d" }}</time>
                         <span class="link">{{ entry.title }}</span>
