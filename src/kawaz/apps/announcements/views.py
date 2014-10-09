@@ -7,6 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
 from permission.decorators import permission_required
+from kawaz.core.views.delete import DeleteNotificationView
 
 from .models import Announcement
 from .forms import AnnouncementForm
@@ -39,14 +40,12 @@ class AnnouncementUpdateView(SuccessMessageMixin, UpdateView):
 
 
 @permission_required('announcements.delete_announcement')
-class AnnouncementDeleteView(SuccessMessageMixin, DeleteView):
+class AnnouncementDeleteView(DeleteNotificationView):
     model = Announcement
     success_url = reverse_lazy('announcements_announcement_list')
 
-    def get_success_message(self, cleaned_data):
-        return _("""Announcement '{title}' successfully deleted.""".format(**{
-            'title': cleaned_data['title']
-        }))
+    def get_success_message(self):
+        return _("Announcement successfully deleted.")
 
 
 @permission_required('announcements.view_announcement')

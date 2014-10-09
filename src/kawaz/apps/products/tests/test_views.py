@@ -419,6 +419,7 @@ class ProductDeleteViewTestCase(ViewTestCaseBase):
             r = self.client.post('/products/{}/delete/'.format(i+1))
             self.assertRedirects(r, '/products/')
             self.assertEqual(Product.objects.count(), 0)
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")
             # 再作成
             self.product = ProductFactory(title="かわずたんのゲームだよ☆",
                     administrators=(self.administrator,))

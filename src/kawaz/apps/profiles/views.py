@@ -77,7 +77,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
         # save formset instance. instances require 'profile' attribute thus
         # assign that attribute automatically
         instances = formset.save(commit=False)
-        success_message = self.get_success_message()
+        success_message = self.get_success_message(form.cleaned_data)
         if success_message:
             messages.success(self.request, success_message)
         for instance in instances:

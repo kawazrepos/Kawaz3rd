@@ -18,6 +18,7 @@ from permission.decorators import permission_required
 from .forms import ProductCreateForm, ProductUpdateForm
 from .forms import PackageReleaseForm, URLReleaseForm, ScreenshotForm
 from .forms import PackageReleaseFormSet, URLReleaseFormSet, ScreenshotFormSet
+from kawaz.core.views.delete import DeleteNotificationView
 from .models import Product
 from .models import PackageRelease, URLRelease, Screenshot
 
@@ -182,14 +183,12 @@ class ProductUpdateView(ProductFormMixin, UpdateView):
 
 
 @permission_required('products.delete_product')
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(DeleteNotificationView):
     model = Product
     success_url = reverse_lazy('products_product_list')
 
-    def get_success_message(self, cleaned_data):
-        return _("""Product '{title}' successfully deleted.""".format(**{
-            'title': cleaned_data['title']
-        }))
+    def get_success_message(self):
+        return _("Product '{title}' successfully deleted.")
 
 
 class ProductPreview(SingleObjectPreviewMixin, DetailView):

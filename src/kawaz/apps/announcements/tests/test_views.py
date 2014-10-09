@@ -343,6 +343,7 @@ class AnnouncementDeleteViewTestCase(TestCase):
         r = self.client.post('/announcements/1/delete/', {})
         self.assertRedirects(r, '/announcements/')
         self.assertEqual(Announcement.objects.count(), 0)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_staff_can_delete_via_announcement_delete_view(self):
         '''
@@ -352,6 +353,7 @@ class AnnouncementDeleteViewTestCase(TestCase):
         r = self.client.post('/announcements/1/delete/', {})
         self.assertRedirects(r, '/announcements/')
         self.assertEqual(Announcement.objects.count(), 0)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_other_cannot_delete_via_announcement_delete_view(self):
         '''

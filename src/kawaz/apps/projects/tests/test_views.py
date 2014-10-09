@@ -380,6 +380,7 @@ class ProjectDeleteViewTestCase(TestCase):
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.post('/projects/1/delete/', {})
         self.assertEqual(Project.objects.count(), 0)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_member_cannot_delete_via_project_delete_view(self):
         '''
