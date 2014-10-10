@@ -79,3 +79,8 @@ class PersonaUpdateForm(forms.ModelForm):
             'role',
             'username',
         )
+
+class PersonaRoleForm(forms.ModelForm):
+    class Meta:
+        model = Persona
+        fields = ('role',)
