@@ -181,7 +181,8 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = not DEBUG
+COMPRESS_OUTPUT_DIR = ''
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
     ('text/less', 'lessc {infile} {outfile}'),
