@@ -16,7 +16,7 @@ SNAPSHOT_CACHE_NAME = '_snapshot_cached'
 class ActivityManager(models.Manager):
     def get_queryset(self):
         # defer '_snapshot' column which only required during signal handling
-        # to accelerate database access 
+        # to accelerate database access
         return super().get_queryset().defer('_snapshot')
 
     def latests(self):
@@ -34,6 +34,9 @@ class ActivityManager(models.Manager):
 
 
 class Activity(models.Model):
+    """
+    A model wihch represent CRAD activity of specified models
+    """
     status = models.CharField(max_length=30)
     remarks = models.TextField(default='')
 
@@ -51,11 +54,11 @@ class Activity(models.Model):
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
 
-    def __repr__(self):
-        return "<Activity: {}>".format(self.pk)
-
     @property
     def snapshot(self):
+        """
+        Get a pickled object from database
+        """
         if not hasattr(self, SNAPSHOT_CACHE_NAME):
             if self._snapshot:
                 snapshot = pickle.loads(self._snapshot)
@@ -66,6 +69,9 @@ class Activity(models.Model):
 
     @snapshot.setter
     def snapshot(self, value):
+        """
+        Set object to database as pickled object
+        """
         if value:
             snapshot = pickle.dumps(value)
         else:
@@ -79,7 +85,7 @@ class Activity(models.Model):
     def previous(self):
         """
         Get previous activity model of a particular content_object which
-        this activity target to
+        this activity target to. If there is no activity, it return None.
         """
         qs = Activity.objects.all()
         if self.pk:

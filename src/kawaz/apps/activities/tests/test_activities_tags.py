@@ -50,7 +50,7 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         # get_activities should not render anything
         self.assertEqual(r.strip(), '')
         # activities should be equal to activity queryset
-        # but the queryset is difer thus cannot compare directly
+        # but the queryset is defer thus cannot compare directly
         self.assertEqual([x.pk for x in c['activities']],
                          [x.pk for x in Activity.objects.all()])
 
@@ -64,7 +64,7 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         # get_activities should not render anything
         self.assertEqual(r.strip(), '')
         # activities should be equal to activity queryset
-        # but the queryset is difer thus cannot compare directly
+        # but the queryset is defer thus cannot compare directly
         self.assertEqual([x.pk for x in c['activities']],
                          [x.pk for x in Activity.objects.latests()])
 

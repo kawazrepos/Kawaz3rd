@@ -12,6 +12,10 @@ from .models import Activity
 
 
 class ActivityMediator(object):
+    """
+    An ActivityMediator class which has responsivilities to controll automatic
+    activity creation (with signal handling) or rendering.
+    """
     use_snapshot = False
 
     def _pre_delete_receiver(self, sender, instance, **kwargs):
@@ -52,7 +56,8 @@ class ActivityMediator(object):
 
     def connect(self, model):
         """
-        Connect to the model
+        Connect to the model. It is called in `Registry.register` method thus
+        users should not call this method directly
         """
         self.model = model
         self.app_label = model._meta.app_label
@@ -79,13 +84,28 @@ class ActivityMediator(object):
 
     def alter(self, instance, activity, **kwargs):
         """
-        Alternation code
+        Alternation code. Users can override this method to alter the activity
+        creation. If None is returned, the activity creation will be canceled.
+
+        Note:
+            `activity.save()` will be called in downstream thus users should
+            not save the activity manually. Just return the instance of an
+            activity.
+
+        Args:
+            instance (instance): An instance of a target model
+            activity (instance): An instance of an Activity model
+            **kwargs (dict): keyword arguments which passed in signal handling
+
+        Returns:
+            None or activity instance. If None is returend, activity creation
+            will be canceled.
         """
         return activity
 
     def prepare_context(self, activity, context):
         """
-        Prepare context which used in 'render' method
+        Prepare context which used in 'render' method.
         """
         context.update({
             'activity': activity,

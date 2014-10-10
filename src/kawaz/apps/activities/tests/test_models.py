@@ -41,7 +41,7 @@ class ActivitiesModelsActivityManagerTestCase(TestCase):
         # '_snapshot' field should be defered
         self.assertFalse('_snapshot' in qs.query.get_loaded_field_names())
         for actual, expected in zip(qs, reversed(self.activities)):
-            # '_snapshot' field is difered thus cannot compare directly
+            # '_snapshot' field is defered thus cannot compare directly
             self.assertEqual(actual.pk, expected.pk)
 
     def test_latests(self):
@@ -103,7 +103,7 @@ class ActivitiesModelsActivityTestCase(TestCase):
         activity4 = Activity.objects.create(content_type=ct2,
                                             object_id=pk2,
                                             status='created')
-        # '_snapshot' field is difered thus cannot compare directly
+        # '_snapshot' field is defered thus cannot compare directly
         self.assertEqual(activity1.previous, None)
         self.assertEqual(activity2.previous.pk, activity1.pk)
         self.assertEqual(activity3.previous.pk, activity2.pk)
