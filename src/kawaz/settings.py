@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_comments',
+    'haystack',
     'rest_framework',
     'permission',
     'thumbnailfield',
@@ -50,6 +51,7 @@ INSTALLED_APPS = (
     'kawaz.core.publishments',
     'kawaz.core.registrations',
     'kawaz.core.forms',
+    'kawaz.core.search',
     'kawaz.core.templatetags',
     'kawaz.core.gcal',
     'kawaz.apps.announcements',
@@ -206,10 +208,19 @@ GCAL_CLIENT_SECRETS = os.path.join(
 GCAL_CREDENTIALS = os.path.join(
     REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'gcal', 'credentials.json')
 
-
 # crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap3', 'crispy')
+
+# django-haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'kawaz.core.search.backends.KuromojiElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている

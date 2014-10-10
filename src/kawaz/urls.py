@@ -1,13 +1,14 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 
-
 from django.contrib import admin
+
 admin.autodiscover()
 
 
 urlpatterns = patterns('',
     url(r'^central-dogma/', include(admin.site.urls)),
+    url(r'^search/', include('haystack.urls')),
     url(r'^api/', include('kawaz.api.urls')),
     url(r'^announcements/', include('kawaz.apps.announcements.urls')),
     url(r'^events/', include('kawaz.apps.events.urls')),

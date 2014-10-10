@@ -12,6 +12,9 @@ django-crispy-forms
 django-contrib-comments
 requests
 django-appconf
+django-haystack
+elasticsearch
+pyelasticsearch
 honcho
 beautifulsoup4
 httplib2
