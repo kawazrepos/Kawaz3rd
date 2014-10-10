@@ -5,8 +5,8 @@
 {% block pre_css %}
 {{ block.super }}
     {# BlogのCSSデザインを踏襲 #}
-    <link rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
-    <link rel="stylesheet" href="{% static "less/markdown_nostyle.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/markdown_nostyle.less" %}" media="screen">
 {% endblock %}
 {% block content-header %}
     <div class="page-header blog-list-header">

@@ -33,6 +33,6 @@
 {% block post_javascript %}
     {{ block.super }}
     <script src="{% static "vendor/datetimepicker/jquery.datetimepicker.js" %}"></script>
-    <script src="{% static "coffee/form.coffee" %}"></script>
-    <script src="{% static "coffee/preview.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/form.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/preview.coffee" %}"></script>
 {% endblock %}
