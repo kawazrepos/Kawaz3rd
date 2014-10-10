@@ -19,7 +19,7 @@
             {% include "events/components/list-item.html" %}
         {% empty %}
             <div class="alert alert-info">
-                <p>{% trans "elevant events can not be found" %}</p>
+                <p>{% trans "Matching events can not be found" %}</p>
                 {% if user has 'events.add_event' %}
                     <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create event" %}</a>
                 {% endif %}

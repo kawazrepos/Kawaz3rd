@@ -6,6 +6,7 @@ from kawaz.core.forms.mixins import Bootstrap3InlineFormHelperMixin
 from django.forms import widgets
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
+from django.utils.translation import ugettext as _
 from .models import Product
 from .models import Platform
 from .models import Category
@@ -18,13 +19,15 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False
 
     platforms = forms.ModelMultipleChoiceField(
+        label=_('Platforms'),
         widget=widgets.CheckboxSelectMultiple,
         queryset=Platform.objects.all().order_by('pk'))
     categories = forms.ModelMultipleChoiceField(
+        label=_('Categories'),
         widget=widgets.CheckboxSelectMultiple,
         queryset=Category.objects.all().order_by('pk'))
-    description = forms.CharField(widget=MaceEditorWidget)
-    publish_at = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    description = forms.CharField(label=_('Description'), widget=MaceEditorWidget)
+    publish_at = forms.DateField(label=_('Publish at'), widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Product

@@ -56,6 +56,9 @@ class EventManager(models.Manager, PublishmentManagerMixin):
         return qs.annotate(attendees_count=Count('attendees')).filter(q1 & q2)
 
 
+ATTENDANCE_DEADLINE_HELP_TEXT = _("A deadline of the attendance. "
+                    "No member can attend the event after this deadline.")
+
 @validate_on_save
 class Event(models.Model):
     # 必須フィールド
@@ -78,8 +81,7 @@ class Event(models.Model):
     attendance_deadline = models.DateTimeField(
         _('Attendance deadline'),
         default=None, blank=True, null=True,
-        help_text=_("A deadline of the attendance. "
-                    "No member can attend the event after this deadline."))
+        help_text=ATTENDANCE_DEADLINE_HELP_TEXT)
     # 編集不可フィールド
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   verbose_name=_("Organizer"),
