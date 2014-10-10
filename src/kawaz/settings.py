@@ -137,7 +137,7 @@ LANGUAGES = (
 )
 
 LOCALE_PATHS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'locale'),
+    os.path.join(REPOSITORY_ROOT, 'src', 'locale'),
 )
 
 TIME_ZONE = 'Asia/Tokyo'
