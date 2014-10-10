@@ -35,7 +35,8 @@ class ActivityManager(models.Manager):
 
 class Activity(models.Model):
     """
-    A model wihch represent CRAD activity of specified models
+    A model wihch represent create/update/delete (and user specified status
+    changes) activity of specified models
     """
     status = models.CharField(max_length=30)
     remarks = models.TextField(default='')
