@@ -17,11 +17,11 @@ install:
 
 script:
   - npm run build
-  - tox -r
+  - tox -r -c config/tox.ini
 
 after_success:
   - coverage report
-  - coveralls
+  - coveralls --rcfile=config/coveragerc
 
 notifications:
   slack: kawaz:Dh59b2T0KqhQnBR6qHYUDdpn
