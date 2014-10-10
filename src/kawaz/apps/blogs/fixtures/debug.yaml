@@ -4,7 +4,7 @@
     pub_state: public
     title: 日記
     body: |-
-      ![ｯﾀｰﾝ](fixtures//blogs-entry01.gif "ｯﾀｰﾝ")
+      ![ｯﾀｰﾝ](/storage/fixtures/blogs/entry-01.gif "ｯﾀｰﾝ")
 
       ｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬ  
       ｶﾁｬ　　　　　　　ｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬｶﾁｬ  

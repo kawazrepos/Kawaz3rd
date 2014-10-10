@@ -148,9 +148,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = os.path.abspath(os.path.join(REPOSITORY_ROOT, 'storage'))
-MEDIA_URL = '/storage/'
-
 TEMPLATE_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
 )
@@ -170,8 +167,8 @@ LOGIN_URL = '/registration/login/'
 LOGOUT_URL = '/registration/logout/'
 LOGIN_REDIRECT_URL = '/'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
+MEDIA_URL = '/storage/'
+MEDIA_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'storage')
 
 STATIC_URL = '/statics/'
 STATIC_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'statics')

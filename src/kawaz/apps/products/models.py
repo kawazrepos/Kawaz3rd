@@ -19,12 +19,13 @@ class Platform(models.Model):
     """
 
     def _get_upload_path(self, filename):
-        basedir = os.path.join('icons', 'platforms', self.label.lower())
+        basedir = os.path.join('products', 'platforms', self.label.lower())
         return os.path.join(basedir, filename)
 
     label = models.CharField(_('Label'), max_length=32, unique=True)
     icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)
-    order = models.PositiveSmallIntegerField(_('Order'), help_text='この値が小さい順に並びます', default=0)
+    order = models.PositiveSmallIntegerField(
+        _('Order'), help_text=('この値が小さい順に並びます'), default=0)
 
     class Meta:
         ordering = ('order', 'pk',)
@@ -44,7 +45,8 @@ class Category(models.Model):
     """
     label = models.CharField(_('Label'), max_length=32, unique=True)
     description = models.CharField(_('Description'), max_length=128)
-    order = models.PositiveSmallIntegerField(_('Order'), help_text='この値が小さい順に並びます', default=0)
+    order = models.PositiveSmallIntegerField(
+        _('Order'), help_text='この値が小さい順に並びます', default=0)
 
     class Meta:
         ordering = ('order', 'pk',)
@@ -155,6 +157,8 @@ class Product(models.Model):
             # display_modeをfeaturedに設定できない
             raise ValidationError(_("`feature` display mode require "
                                     "`advertisement_image`."))
+        if self.slug == 'platforms':
+            raise ValidationError(_("slug 'platforms' is reserved."))
 
     def join(self, user):
         """

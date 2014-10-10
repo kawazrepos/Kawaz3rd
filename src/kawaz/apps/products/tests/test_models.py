@@ -86,6 +86,13 @@ class ProductModelTestCase(TestCase):
         self.assertIsNotNone(ProductFactory(advertisement_image=None,
                                             display_mode='normal'))
 
+    def test_reserved_slug(self):
+        """
+        'platforms' という slug は予約されているので認められない
+        """
+        self.assertRaises(ValidationError, ProductFactory,
+                          slug='platforms')
+
     def test_get_absolute_url(self):
         """
         get_absolute_url() は '/products/<slug>/' を返す

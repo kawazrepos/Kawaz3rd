@@ -142,3 +142,6 @@ config/gcal/credentials.json
 src/kawaz/local_settings.py
 
 public
+!public/storage/fixtures/*
+!public/storage/products/platforms/*
+!public/storage/profiles/services/*
