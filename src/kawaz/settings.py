@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'roughpages',
     'registration',
     'crispy_forms',
+    'kawaz.core.management',
     'kawaz.core.db',
     'kawaz.core.utils',
     'kawaz.core.personas',
@@ -53,13 +54,13 @@ INSTALLED_APPS = (
     'kawaz.core.templatetags',
     'kawaz.core.gcal',
     'kawaz.apps.activities',
+    'kawaz.apps.activities.contrib.hatenablog',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
     'kawaz.apps.profiles',
     'kawaz.apps.projects',
     'kawaz.apps.events',
     'kawaz.apps.blogs',
-    'kawaz.apps.recent_activities',
     'kawaz.apps.products',
     'kawaz.apps.stars',
 )
@@ -192,6 +193,7 @@ TEST_RUNNER = 'kawaz.core.tests.runner.KawazDiscoverRunner'
 TESTING = False
 
 RECENT_ACTIVITY_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
+ACTIVITIES_HATENABLOG_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
 SITE_ID = 1
 
