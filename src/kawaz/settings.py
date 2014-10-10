@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'roughpages',
     'registration',
     'crispy_forms',
+    'compressor',
     'kawaz.core.management',
     'kawaz.core.db',
     'kawaz.core.utils',
@@ -173,9 +174,20 @@ LOGIN_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/statics/'
-
+STATIC_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'statics')
 STATICFILES_DIRS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'statics'),
+    os.path.join(REPOSITORY_ROOT, 'src', 'statics'),
+)
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_ENABLED = True
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/less', 'lessc {infile} {outfile}'),
 )
 
 # inspectional-registration

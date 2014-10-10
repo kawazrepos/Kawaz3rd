@@ -140,3 +140,5 @@ src/kawaz/statics/vendor/mace.min.js
 config/gcal/client_secrets.json
 config/gcal/credentials.json
 src/kawaz/local_settings.py
+
+public

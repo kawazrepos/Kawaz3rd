@@ -1,25 +1,23 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load utils %}
+{% load compress %}
 <!DOCTYPE html>
 <html ng-app="kawaz">
 <head>
+{% compress css %}
 {% block pre_css %}
-    <link rel="stylesheet" href="{% static "css/main.css" %}" media="screen">
-    <link rel="stylesheet" href="{% static "css/components.css" %}" media="screen">
-    <link rel="stylesheet" href="{% static "css/social.css" %}" media="screen">
-    <link rel="stylesheet" href="{% static "css/form.css" %}" media="screen">
-    <link rel="stylesheet" href="{% static "css/markdown.css" %}" media="screen">
-    <link rel="stylesheet" href="{% static "css/comment.css" %}" media="screen">
-    <link rel="stylesheet" href="{% static "vendor/lightbox.css" %}" media="screen">
-    <link rel="stylesheet" href="{% static "css/star.css" %}" media="screen">
-    <!--
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
-    -->
+    <link rel="stylesheet" href="{% static "vendor/lightbox/css/lightbox.css" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/main.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/components.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/social.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/form.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/markdown.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/comment.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/star.less" %}" media="screen">
 {% endblock %}
+{% endcompress %}
     <title>Kawaz - {% block title %}札幌ゲーム製作者コミュニティ{% endblock %}</title>
-</head>
-<body>
 {% include "components/fb-header.html" %}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 <div class="container">
@@ -101,24 +99,25 @@
         Copyright &copy; 2009-2014 Kawaz. All rights reserved.
     </address>
 </div>
+{% compress js %}
 {% block post_javascript %}
     <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
-{#    <script src="{% static "vendor/angular-file-upload/dist/angular-file-upload-html5-shim.js" %}"#}
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.min.js"></script>
-    <script src="{% static "vendor/angular-sanitize.min.js" %}"></script>
-    <script src="{% static "vendor/angular-file-upload/dist/angular-file-upload.js" %}"
-    <script src="{% static "vendor/lightbox.min.js" %}"></script>
-    <script src="{% static "vendor/mace.min.js" %}"></script>
-    <script src="{% static "vendor/jquery.bootstrap-growl.min.js" %}"></script>
-    <script src="{% static "js/angular.js" %}"></script>
-    <script src="{% static "js/bootstrap.js" %}"></script>
-    <script src="{% static "js/social.js" %}"></script>
-    <script src="{% static "js/star.js" %}"></script>
-    <script src="{% static "js/comment.js" %}"></script>
-    <script src="{% static "js/editor.js" %}"></script>
-    <script src="{% static "js/tooltip.js" %}"></script>
-    <script src="{% static "js/post.js" %}"></script>
-    <script src="{% static "js/message.js" %}"></script>
+    <script src="{% static "vendor/angular/angular.js" %}"></script>
+    <script src="{% static "vendor/angular/angular-sanitize.js" %}"></script>
+    <script src="{% static "vendor/angular-file-upload/dist/angular-file-upload.js" %}"></script>
+    <script src="{% static "vendor/lightbox/js/lightbox.js" %}"></script>
+    <script src="{% static "vendor/mace/build/mace.min.js" %}"></script>
+    <script src="{% static "vendor/bootstrap/dist/js/bootstrap.js" %}"></script>
+    <script src="{% static "vendor/bootstrap-growl/jquery.bootstrap-growl.js" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/angular.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/social.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/star.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/comment.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/editor.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/tooltip.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/post.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/message.coffee" %}"></script>
 {% endblock %}
+{% endcompress %}
 </body>
 </html>

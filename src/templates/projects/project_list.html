@@ -4,7 +4,7 @@
 {% load projects_tags %}
 {% block pre_css %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static "css/projects.css" %}" media="screen">
+    <link rel="stylesheet" href="{% static "less/projects.less" %}" media="screen">
 {% endblock %}
 
 {% block content %}
@@ -67,7 +67,7 @@
 
 {% block post_javascript %}
     {{ block.super }}
-    <script type="application/javascript">
+    <script type="text/javascript">
     $(function() {
         var $popover = $("[data-toggle='popover']");
         $popover.popover({
