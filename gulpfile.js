@@ -9,7 +9,7 @@ var bootstrapjsprefix = "vendor/bootstrap/js/";
 var src = {
   coffee: "src/kawaz/statics/coffee/**/**.coffee",
   less: "src/kawaz/statics/less/**/**.less",
-  template: "src/kawaz/templates/**/**.html",
+  template: "src/templates/**/**.html",
   bootstrapjs: [
           //transition.jsを先頭にしてjsの結合を行わないと
           //BootstrapベースのCSS3アニメーションが動かない

@@ -151,7 +151,7 @@ MEDIA_ROOT = os.path.abspath(os.path.join(REPOSITORY_ROOT, 'storage'))
 MEDIA_URL = '/storage/'
 
 TEMPLATE_DIRS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'kawaz', 'templates'),
+    os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
