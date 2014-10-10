@@ -147,21 +147,17 @@ class Event(models.Model):
                 Event.objects.filter(pk=self.pk).count() == 0)):
             raise ValidationError(_('Attendance deadline must be future.'))
 
-    def attend(self, user, save=True):
+    def attend(self, user):
         """指定されたユーザーをこのイベントに参加させる"""
         if not user.has_perm('events.attend_event', obj=self):
             raise PermissionDenied
         self.attendees.add(user)
-        if save:
-            self.save()
 
-    def quit(self, user, save=True):
+    def quit(self, user):
         """指定されたユーザーをこのイベントから退会させる"""
         if not user.has_perm('events.quit_event', obj=self):
             raise PermissionDenied
         self.attendees.remove(user)
-        if save:
-            self.save()
 
     def is_attendee(self, user):
         """参加者か否か"""
@@ -260,3 +256,7 @@ from kawaz.core.publishments.perms import PublishmentPermissionLogic
 add_permission_logic(Event, EventPermissionLogic()),
 add_permission_logic(Event, PublishmentPermissionLogic(
     author_field_name='organizer')),
+
+from .activity import EventActivityMediator
+from kawaz.apps.activities.registry import registry
+registry.register(Event, EventActivityMediator())

@@ -1,0 +1,58 @@
+<a href="{{ object.get_absolute_url }}">{{ object }}</a>において
+{% if period_start_updated or period_end_updated or place_updated or number_restriction_updated or attendance_deadline_updated %}
+  {% if period_start_updated %}開始日時{% endif %}
+  {% if period_end_updated %}終了日時{% endif %}
+  {% if place_updated %}開催場所{% endif %}
+  {% if number_restriction_updated %}制限人数{% endif %}
+  {% if attendance_deadline_updated %}参加締め切り{% endif %}
+が更新されました。
+{% endif %}
+
+{% if period_start_created or period_end_created %}
+{% if period_start_created and period_end_created %}
+開催・終了日時
+{% elif period_start_created %}
+開催日時
+{% elif period_end_created %}
+終了日時
+{% endif %}
+が指定されました。
+{% endif %}
+
+{% if place_created %}
+開催場所
+が指定されました。
+{% endif %}
+
+{% if number_restriction_created or attendance_deadline_created %}
+{% if number_restriction_created and attendance_deadline_created %}
+参加人数制限と参加締め切り
+{% elif number_restriction_created %}
+参加人数制限
+{% elif attendance_deadline_created %}
+参加締め切り
+{% endif %}
+が指定されました。
+{% endif %}
+
+{% if period_start_deleted or period_end_deleted %}
+{% if period_start_deleted and period_end_deleted %}
+開催・終了日時
+{% elif period_start_deleted %}
+開催日時
+{% elif period_end_deleted %}
+終了日時
+{% endif %}
+の指定が取り消されました。
+{% endif %}
+
+{% if number_restriction_deleted or attendance_deadline_deleted %}
+{% if number_restriction_deleted and attendance_deadline_deleted %}
+参加人数制限と参加締め切り
+{% elif number_restriction_deleted %}
+参加人数制限
+{% elif attendance_deadline_deleted %}
+参加締め切り
+{% endif %}
+の指定が取り消されました。
+{% endif %}

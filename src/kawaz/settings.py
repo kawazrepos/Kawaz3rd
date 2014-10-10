@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'kawaz.core.forms',
     'kawaz.core.templatetags',
     'kawaz.core.gcal',
+    'kawaz.apps.activities',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
     'kawaz.apps.profiles',
