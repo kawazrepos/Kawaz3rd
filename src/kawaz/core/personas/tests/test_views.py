@@ -170,3 +170,78 @@ class PersonaUpdateViewTestCase(TestCase):
             self.assertEqual(u.email, self.persona_kwargs['email'])
             self.assertEqual(user.role, previous_role)
             self.assertTrue('messages' in r.cookies, "No messages are appeared")
+
+
+class PersonaAssignAdamViewTestCase(TestCase):
+    def setUp(self):
+        self.gods = (
+                PersonaFactory(role='adam'),
+                PersonaFactory(role='seele'),
+            )
+        self.humans = (
+                PersonaFactory(role='nerv'),
+                PersonaFactory(role='children'),
+                PersonaFactory(role='wille'),
+                AnonymousUser(),
+            )
+
+    def prefer_login(self, user):
+        if user.is_authenticated():
+            self.assertTrue(self.client.login(username=user.username,
+                                              password='password'))
+
+    def test_can_reverse_persona_update_url(self):
+        """
+        personas_persona_assign_adamが/registration/assign/adam/に割り当てられている
+        """
+        self.assertEqual(reverse('personas_persona_assign_adam'), '/registration/assign/adam/')
+
+    def test_non_members_cannot_see_persona_assign_adam_view(self):
+        """
+        ゼーレ以外はアダム化ページを見ることが出来ない
+        """
+        login_url = settings.LOGIN_URL+'?next=/registration/assign/adam/'
+        for user in self.humans:
+            self.prefer_login(user)
+            r = self.client.get('/registration/assign/adam/')
+            self.assertRedirects(r, login_url)
+
+    def test_member_cannot_see_assign_adam(self):
+        """
+        ゼーレがアダム化ページにアクセスしたとき、NotAllowedが変える
+        """
+        for user in self.gods:
+            self.prefer_login(user)
+            r = self.client.get('/registration/assign/adam/')
+            self.assertEqual(r.status_code, 405)
+
+    def test_humans_cannot_be_adam(self):
+        """
+        ゼーレ以外のメンバーはアダム化できない
+        """
+        login_url = settings.LOGIN_URL+'?next=/registration/assign/adam/'
+        for user in self.humans:
+            previous_role = getattr(user, 'role', None)
+            self.prefer_login(user)
+            r = self.client.post('/registration/assign/adam/')
+            self.assertRedirects(r, login_url)
+            if user.is_authenticated():
+                u = Persona.objects.get(pk=user.pk)
+                self.assertEqual(u.role, previous_role)
+
+    def test_seele_can_be_adam(self):
+        """
+        ゼーレはアダム化できる
+        """
+        persona_count = Persona.objects.count()
+        for user in self.gods:
+            self.prefer_login(user)
+            profile = ProfileFactory(user=user)
+            r = self.client.post('/registration/assign/adam/')
+            self.assertRedirects(r, '/members/{}/'.format(user.username))
+            self.assertEqual(Persona.objects.count(), persona_count)
+            u = Persona.objects.get(pk=user.pk)
+            self.assertEqual(u.last_name, user.last_name)
+            self.assertEqual(u.first_name, user.first_name)
+            self.assertEqual(u.role, 'adam')
+            self.assertTrue('messages' in r.cookies, "No messages are appeared")

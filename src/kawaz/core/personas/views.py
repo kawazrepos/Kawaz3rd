@@ -2,7 +2,8 @@
 #
 # created by giginet on 2014/10/9
 #
-from django.http import HttpResponseNotAllowed
+from django.contrib import messages
+from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.utils.translation import ugettext as _
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import UpdateView
@@ -25,18 +26,25 @@ class PersonaUpdateView(SuccessMessageMixin, UpdateView):
         return self.request.user
 
 
-class AssignRoleMixin(SuccessMessageMixin):
-    form_class = PersonaRoleForm
+class AssignRoleMixin(object):
+    model = Persona
     role = None
 
     def get(self, request, *args, **kwargs):
-        return HttpResponseNotAllowed()
+        return HttpResponseNotAllowed(['POST',])
 
-    def get_form_kwargs(self):
-        return {'role': self.role}
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.role = self.role
+        self.object.save()
+        messages.success(request, self.get_success_message({}))
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_success_url(self):
+        return self.get_object().get_absolute_url()
 
 @permission_required('personas.assign_role_persona')
 class PersonaAssignAdamView(AssignRoleMixin, UpdateView):

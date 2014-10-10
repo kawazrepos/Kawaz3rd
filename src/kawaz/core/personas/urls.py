@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     url(r'^password/reset/done/$', auth_views.password_reset_done,
         name='password_reset_done'),
     url(r'^update/$', PersonaUpdateView.as_view(), name='personas_persona_update'),
-    url(r'^update/$', PersonaAssignAdamView.as_view(), name='personas_persona_assign_adam'),
-    url(r'^update/$', PersonaAssignSeeleView.as_view(), name='personas_persona_assign_seele')
+    url(r'^assign/adam/$', PersonaAssignAdamView.as_view(), name='personas_persona_assign_adam'),
+    url(r'^assign/seele/$', PersonaAssignSeeleView.as_view(), name='personas_persona_assign_seele')
 
     )
