@@ -54,6 +54,26 @@
                             <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
                             <li><a href="{% url "personas_persona_update" %}">{% trans "Change User Information" %}</a></li>
                             <li><a href="{% url "password_change" %}">{% trans "Change Password" %}</a></li>
+                            {% if user has 'personas.assign_role_persona' %}
+                                {% if user.is_superuser %}
+                                    <li>
+                                        <a class="post-link"
+                                           href="{% url "personas_persona_assign_seele" %}">
+                                            {% trans "Make me human" %}
+                                            <form method="POST" style="display: none;">{% csrf_token %}</form>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a class="post-link"
+                                           confirm-message="{% trans "!CAUTION! You will get superuser privilege. Thus you can access to all records in this system." %}"
+                                           href="{% url "personas_persona_assign_adam" %}">
+                                            {% trans "Make me God" %}
+                                            <form method="POST" style="display: none;">{% csrf_token %}</form>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
                             <li role="presentation" class="divider"></li>
                             <li><a class="logout-link" href="{% url "logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
                         </ul>
@@ -121,5 +141,9 @@
     <script type="text/coffeescript" src="{% static "coffee/message.coffee" %}"></script>
 {% endblock %}
 {% endcompress %}
+{% if user.is_authenticated and user.is_superuser %}
+    {# 神マーカー：神権限の時の誤動作を防ぐために常に表示させる #}
+    <span class="god"><img src="{% static 'img/god-stamp.png' %}" alt="{% trans 'Now adventing ' %}"></span>
+{% endif %}
 </body>
 </html>
