@@ -232,8 +232,7 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-if not 'test' in sys.argv:
-    try:
-        from .local_settings import *
-    except ImportError:
-        pass
+try:
+    from .local_settings import *
+except ImportError:
+    pass
