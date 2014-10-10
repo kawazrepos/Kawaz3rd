@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load staticfiles %}
 {% load products_tags %}
-{% load recent_activities_tag %}
+{% load activities_hatenablog_tag %}
 {% block carousel %}
 <div id="featured-products-container">
 <div id="featured-products" class="carousel slide" data-ride="carousel">
@@ -45,13 +45,13 @@
     <div class="container">
         <h2>{% trans "Recent Activity" %}</h2>
         <div class="row">
-            {% get_recent_activities as activities %}
-            {% for activity in activities|slice:"3" %}
+            {% get_hatenablog_entries as hatenablog_entries %}
+            {% for hatenablog_entry in hatenablog_entries|slice:"3" %}
                 <div class="col-md-4">
-                    <a href="{{ activity.url }}" target="_blank">
-                        <div class="activity-thumbnail" style="background-image: url({{ activity.thumbnail.url }});"></div>
+                    <a href="{{ hatenablog_entry.url }}" target="_blank">
+                        <div class="activity-thumbnail" style="background-image: url({{ hatenablog_entry.thumbnail.url }});"></div>
                     </a>
-                    <h5><time>{{ activity.publish_at|date:"m/d" }}</time> {{ activity.title }}</h5>
+                    <h5><time>{{ hatenablog_entry.created_at|date:"m/d" }}</time> {{ hatenablog_entry.title }}</h5>
                 </div>
             {% endfor %}
         </div>

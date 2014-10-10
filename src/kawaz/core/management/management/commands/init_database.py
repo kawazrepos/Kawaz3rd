@@ -114,7 +114,7 @@ class Command(NoArgsCommand):
             call_command('loaddata', 'debug', **options)
 
         # fetch Hatenablog updates
-        call_command('fetch_recent_activities', **options)
+        call_command('fetch_hatenablog_entries', **options)
 
         if verbosity > 0:
             print("*" * 80 + "\n")

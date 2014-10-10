@@ -7,7 +7,7 @@ storage/products/*
 storage/profiles/*
 storage/projects/*
 storage/attachments/*
-storage/thumbnails/recent_activities/*
+storage/thumbnails/activities/*
 *.small*
 *.middle*
 *.huge*
