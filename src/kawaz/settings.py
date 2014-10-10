@@ -205,9 +205,9 @@ GCAL_CALENDAR_ID = (
 GCAL_EVENT_MODEL = 'events.Event'
 GCAL_BACKEND_CLASS = 'kawaz.apps.events.gcal.KawazGoogleCalendarBackend'
 GCAL_CLIENT_SECRETS = os.path.join(
-    REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'gcal', 'client_secrets.json')
+    REPOSITORY_ROOT, 'config', 'gcal', 'client_secrets.json')
 GCAL_CREDENTIALS = os.path.join(
-    REPOSITORY_ROOT, 'src', 'kawaz', 'config', 'gcal', 'credentials.json')
+    REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
 
 
 # crispy-forms
