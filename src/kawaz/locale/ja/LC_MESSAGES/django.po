@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-10 02:55+0900\n"
+"POT-Creation-Date: 2014-10-10 12:56+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,26 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: apps/announcements/forms.py:11 apps/announcements/models.py:63
+#: apps/blogs/models.py:48 apps/events/forms.py:13 apps/events/models.py:69
+#: apps/projects/forms.py:11
+msgid "Body"
+msgstr "本文"
+
 #: apps/announcements/models.py:59 apps/blogs/models.py:44
-#: apps/events/models.py:62 apps/profiles/models.py:57
+#: apps/events/models.py:65 apps/profiles/models.py:57
 #: apps/projects/models.py:92
 msgid "Publish status"
 msgstr "公開設定"
 
 #: apps/announcements/models.py:62 apps/blogs/models.py:47
-#: apps/events/models.py:65 apps/products/models.py:82
+#: apps/events/models.py:68 apps/products/models.py:82
 #: apps/projects/models.py:97 apps/recent_activities/models.py:14
 #: templates/projects/project_archive.html:27
 msgid "Title"
 msgstr "タイトル"
 
-#: apps/announcements/models.py:63 apps/blogs/models.py:48
-#: apps/events/forms.py:12 apps/events/models.py:66
-msgid "Body"
-msgstr "本文"
-
 #: apps/announcements/models.py:68 apps/attachments/models.py:23
-#: apps/blogs/models.py:55 apps/events/models.py:95
+#: apps/blogs/models.py:55 apps/events/models.py:97
 #: apps/products/models.py:121 apps/products/models.py:200
 #: apps/profiles/models.py:73 apps/projects/models.py:127
 #: apps/recent_activities/models.py:17 apps/stars/models.py:120
@@ -46,7 +47,7 @@ msgid "Created at"
 msgstr "作成日時"
 
 #: apps/announcements/models.py:69 apps/blogs/models.py:56
-#: apps/events/models.py:96
+#: apps/events/models.py:98
 msgid "Modified at"
 msgstr "更新日時"
 
@@ -99,7 +100,7 @@ msgstr "素材"
 msgid "Category name"
 msgstr "カテゴリ名"
 
-#: apps/blogs/models.py:49 apps/events/models.py:93 apps/products/models.py:51
+#: apps/blogs/models.py:49 apps/events/models.py:95 apps/products/models.py:51
 #: apps/projects/models.py:21 apps/projects/models.py:113
 #: templates/projects/project_archive.html:29
 #: templates/projects/project_detail.html:33
@@ -147,15 +148,15 @@ msgstr "カテゴリ"
 msgid "All"
 msgstr "すべて"
 
-#: apps/events/forms.py:13 apps/events/models.py:69
+#: apps/events/forms.py:14 apps/events/models.py:72
 msgid "Start time"
 msgstr "開始日時"
 
-#: apps/events/forms.py:14 apps/events/models.py:71
+#: apps/events/forms.py:15 apps/events/models.py:74
 msgid "End time"
 msgstr "終了日時"
 
-#: apps/events/forms.py:15 apps/events/models.py:79
+#: apps/events/forms.py:16 apps/events/models.py:82
 msgid "Attendance deadline"
 msgstr "参加締切日"
 
@@ -171,117 +172,117 @@ msgstr "ラベル"
 msgid "Order"
 msgstr "並び順"
 
-#: apps/events/models.py:73 core/registrations/models.py:10
-msgid "Place"
-msgstr "場所"
-
-#: apps/events/models.py:75
-msgid "Number restriction"
-msgstr "参加可能人数"
-
-#: apps/events/models.py:77
-msgid "Use this to limit the number of attendees."
-msgstr "参加人数に上限を設けたい場合に設定してください"
-
-#: apps/events/models.py:81
+#: apps/events/models.py:59
 msgid ""
 "A deadline of the attendance. No member can attend the event after this "
 "deadline."
 msgstr ""
 "参加締切日を設定できます。この日時を過ぎた場合、参加することはできません"
 
-#: apps/events/models.py:85 templates/events/event_detail.html:133
+#: apps/events/models.py:76 core/registrations/models.py:10
+msgid "Place"
+msgstr "場所"
+
+#: apps/events/models.py:78
+msgid "Number restriction"
+msgstr "参加可能人数"
+
+#: apps/events/models.py:80
+msgid "Use this to limit the number of attendees."
+msgstr "参加人数に上限を設けたい場合に設定してください"
+
+#: apps/events/models.py:87 templates/events/event_detail.html:133
 msgid "Organizer"
 msgstr "主催者"
 
-#: apps/events/models.py:90 templates/events/event_detail.html:146
+#: apps/events/models.py:92 templates/events/event_detail.html:146
 msgid "Attendees"
 msgstr "参加者"
 
-#: apps/events/models.py:105
+#: apps/events/models.py:107
 msgid "Event"
 msgstr "イベント"
 
-#: apps/events/models.py:106 templates/base.html:42
+#: apps/events/models.py:108 templates/base.html:42
 #: templates/events/event_form.html:17
 msgid "Events"
 msgstr "イベント"
 
-#: apps/events/models.py:130
+#: apps/events/models.py:132
 msgid "End time must be later than start time."
 msgstr "イベント終了日時は必ず開始日時よりも後である必要があります"
 
-#: apps/events/models.py:134
+#: apps/events/models.py:136
 msgid "Start time must be future."
 msgstr "イベント開始日は未来の日付である必要があります"
 
-#: apps/events/models.py:136
+#: apps/events/models.py:138
 msgid "The period of event is too long."
 msgstr "イベント終了までが長すぎます。6日以内で設定してください"
 
-#: apps/events/models.py:138
+#: apps/events/models.py:140
 msgid "You must set end time too"
 msgstr "終了時間を設定する必要があります"
 
-#: apps/events/models.py:141
+#: apps/events/models.py:143
 msgid "Number restriction should be grater than 0"
 msgstr "参加可能人数が0に設定されています"
 
-#: apps/events/models.py:146
+#: apps/events/models.py:148
 msgid "Attendance deadline must be future."
 msgstr "参加締切日は必ず未来の日付である必要があります"
 
-#: apps/events/models.py:204
+#: apps/events/models.py:206
 msgid "Mon"
 msgstr "月"
 
-#: apps/events/models.py:204
+#: apps/events/models.py:206
 msgid "Tue"
 msgstr "火"
 
-#: apps/events/models.py:204
+#: apps/events/models.py:206
 msgid "Wed"
 msgstr "水"
 
-#: apps/events/models.py:204
+#: apps/events/models.py:206
 msgid "Thu"
 msgstr "木"
 
-#: apps/events/models.py:204
+#: apps/events/models.py:206
 msgid "Fri"
 msgstr "金"
 
-#: apps/events/models.py:204
+#: apps/events/models.py:206
 msgid "Sat"
 msgstr "土"
 
-#: apps/events/models.py:204
+#: apps/events/models.py:206
 msgid "Sun"
 msgstr "日"
 
-#: apps/events/models.py:212
+#: apps/events/models.py:214
 msgid "%m/%d"
 msgstr "%m月%d日"
 
-#: apps/events/models.py:216
+#: apps/events/models.py:218
 msgid "%Y/%m/%d"
 msgstr "%Y年%m月%d日"
 
-#: apps/events/models.py:219
+#: apps/events/models.py:221
 msgid "%H:%M"
 msgstr "%H時%M分"
 
-#: apps/events/models.py:226
+#: apps/events/models.py:228
 msgid "Unfixed"
 msgstr "開催日時未定"
 
-#: apps/events/models.py:228
+#: apps/events/models.py:230
 #, fuzzy, python-format
 #| msgid "{} ~ End time is unfixed"
 msgid "%(start)s ~ End time is unfixed"
 msgstr "%(start)s 〜 終了日時未定"
 
-#: apps/events/models.py:233
+#: apps/events/models.py:235
 #, python-format
 msgid "%(start)s ~ %(end)s"
 msgstr "%(start)s 〜 %(end)s"
@@ -553,7 +554,7 @@ msgstr "住所はKawazメンバーのみ見ることができ、外部ユーザ�
 #| msgid "Remarks"
 msgctxt "Profile"
 msgid "Remarks"
-msgstr "一言メッセージ"
+msgstr "自己紹介"
 
 #: apps/profiles/models.py:71
 msgid "User"
