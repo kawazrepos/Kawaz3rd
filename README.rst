@@ -38,8 +38,8 @@ Thus you can checkout the repository and install required package with
     
     $ git clone --recursive https://github.com/kawazrepos/Kawaz3rd
     $ pip install tox
-    $ pip install -r requirements.txt
-    $ pip install -r requirements-test.txt
+    $ pip install -r config/requirements.txt
+    $ pip install -r config/requirements-test.txt
 
 Remember that if you will need to push the changes to the repository_,
 You need to use git@github.com:kawazrepos/Kawaz3rd instead.
@@ -48,8 +48,8 @@ You need to use git@github.com:kawazrepos/Kawaz3rd instead.
     
     $ git clone --recursive git@github.com:kawazrepos/Kawaz3rd
     $ pip install tox
-    $ pip install -r requirements.txt
-    $ pip install -r requirements-test.txt
+    $ pip install -r config/requirements.txt
+    $ pip install -r config/requirements-test.txt
 
 .. _repository: https://github.com/kawazrepos/Kawaz3rd 
 
@@ -92,7 +92,7 @@ To do that, type commands below
 
     $ python manage.py init_database
     $ python manage.py compilemessages
-    $ honcho start -f Procfile.dev
+    $ honcho start -f config/Procfile.dev
 
 It will start development server at localhost:8000.
 You can access it with http://localhost:8000/
