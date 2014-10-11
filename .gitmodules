@@ -1,6 +1,15 @@
-[submodule "vendor/bootstrap"]
-	path = vendor/bootstrap
-	url = git://github.com/kawazrepos/bootstrap.git
-[submodule "src/kawaz/statics/vendor/angular-file-upload"]
-	path = src/kawaz/statics/vendor/angular-file-upload
-	url = git://github.com/danialfarid/angular-file-upload.git
+[submodule "src/statics/vendor/bootstrap"]
+	path = src/statics/vendor/bootstrap
+	url = https://github.com/kawazrepos/bootstrap.git
+[submodule "src/statics/vendor/datetimepicker"]
+	path = src/statics/vendor/datetimepicker
+	url = https://github.com/xdan/datetimepicker
+[submodule "src/statics/vendor/bootstrap-growl"]
+	path = src/statics/vendor/bootstrap-growl
+	url = https://github.com/ifightcrime/bootstrap-growl
+[submodule "src/statics/vendor/mace"]
+	path = src/statics/vendor/mace
+	url = https://github.com/ww24/mace
+[submodule "src/statics/vendor/angular-file-upload"]
+	path = src/statics/vendor/angular-file-upload
+	url = https://github.com/danialfarid/angular-file-upload

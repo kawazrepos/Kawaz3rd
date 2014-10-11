@@ -15,19 +15,22 @@ from .factories import ProductFactory
 from .factories import PlatformFactory
 from .factories import CategoryFactory
 
+TEST_FILENAME = os.path.join(os.path.dirname(__file__),
+                             'data', 'kawaztan.png')
+
 
 class ViewTestCaseBase(TestCase):
     def setUp(self):
         self.members = (
-                PersonaFactory(role='adam'),
-                PersonaFactory(role='seele'),
-                PersonaFactory(role='nerv'),
-                PersonaFactory(role='children'),
-            )
+            PersonaFactory(role='adam'),
+            PersonaFactory(role='seele'),
+            PersonaFactory(role='nerv'),
+            PersonaFactory(role='children'),
+        )
         self.non_members = (
-                PersonaFactory(role='wille'),
-                AnonymousUser(),
-            )
+            PersonaFactory(role='wille'),
+            AnonymousUser(),
+        )
         self.platform = PlatformFactory()
         self.category = CategoryFactory()
 
@@ -75,20 +78,21 @@ class ProductListViewTestCase(ViewTestCaseBase):
         """
         プロダクトリストでPlatformのfilterが有効になっている
         """
-        product1 = ProductFactory(platforms=[self.p0,])
-        product2 = ProductFactory(platforms=[self.p1,])
+        product1 = ProductFactory(platforms=(self.p0,))
+        product2 = ProductFactory(platforms=(self.p1,))
         for user in itertools.chain(self.members, self.non_members):
             self.prefer_login(user)
             r = self.client.get('/products/?platforms={}'.format(self.p0.pk))
             self.assertTemplateUsed(r, 'products/product_list.html')
             self.assertEqual(len(r.context['filter']), 1)
             self.assertTrue(product1 in r.context['filter'])
+            self.assertFalse(product2 in r.context['filter'])
 
     def test_list_with_categories(self):
         """
         プロダクトリストでCategoryのfilterが有効になっている
         """
-        product1 = ProductFactory(categories=[self.c0,])
+        product1 = ProductFactory(categories=(self.c0,))
         # product2 = ProductFactory(categories=[self.c1,])
         self.prefer_login(self.members[0])
         r = self.client.get('/products/?categories={}'.format(self.c0.pk))
@@ -96,29 +100,29 @@ class ProductListViewTestCase(ViewTestCaseBase):
         self.assertEqual(len(r.context['filter']), 1)
         self.assertTrue(product1 in r.context['filter'])
 
+
 class ProductCreateViewTestCase(ViewTestCaseBase):
     def setUp(self):
         super().setUp()
         self.product_kwargs = {
-            'title' : 'かわずたんファンタジー',
+            'title': 'かわずたんファンタジー',
             'slug': 'kawaztan-fantasy',
             'thumbnail': 'thumbnail.png',
             'publish_at': datetime.date.today(),
-            'platforms': [1,],
-            'categories': [1,],
+            'platforms': (1,),
+            'categories': (1,),
             'description': '剣と魔法の物語です',
-            'screenshots-TOTAL_FORMS': 0,  # スクリーンショットは作成しない
+            'screenshots-TOTAL_FORMS': 0,           # No screenshots
             'screenshots-INITIAL_FORMS': 0,
             'screenshots-MAX_NUM_FORMS': 1000,
-            'url_releases-TOTAL_FORMS': 0,  # URLリリースは作成しない
+            'url_releases-TOTAL_FORMS': 0,          # No URL release
             'url_releases-INITIAL_FORMS': 0,
             'url_releases-MAX_NUM_FORMS': 1000,
-            'package_releases-TOTAL_FORMS': 0,  # パッケージリリースは作成しない
+            'package_releases-TOTAL_FORMS': 0,      # No package release
             'package_releases-INITIAL_FORMS': 0,
             'package_releases-MAX_NUM_FORMS': 1000,
         }
-        self.image_file = os.path.join(settings.REPOSITORY_ROOT,
-                'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
+        self.image_file = TEST_FILENAME
         self.platform = PlatformFactory()
 
     def test_non_members_cannot_see_create_view(self):
@@ -167,7 +171,8 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertEqual(e.title, 'かわずたんファンタジー')
             self.assertTrue(user in e.administrators.all())
             self.assertEqual(e.administrators.count(), 1)
-            self.assertTrue('messages' in r.cookies, "No messages are appeared")
+            self.assertTrue('messages' in r.cookies,
+                            "No messages are appeared")
             # 重複を避けるため削除する
             e.delete()
 
@@ -195,7 +200,8 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
 
             self.assertEqual(Screenshot.objects.count(), 1)
             obj = Screenshot.objects.get(pk=i+1)
-            self.assertTrue('messages' in r.cookies, "No messages are appeared")
+            self.assertTrue('messages' in r.cookies,
+                            "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
             obj.product.delete()
             obj.delete()
@@ -223,7 +229,8 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
-            self.assertTrue('messages' in r.cookies, "No messages are appeared")
+            self.assertTrue('messages' in r.cookies,
+                            "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
             obj.product.delete()
             obj.delete()
@@ -258,7 +265,8 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.assertEqual(obj.label, 'Android版')
             self.assertEqual(obj.version, 'Version3.14')
             self.assertEqual(obj.platform, self.platform)
-            self.assertTrue('messages' in r.cookies, "No messages are appeared")
+            self.assertTrue('messages' in r.cookies,
+                            "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
             obj.product.delete()
             obj.delete()
@@ -268,26 +276,27 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
     def setUp(self):
         super().setUp()
         self.administrator = PersonaFactory(username='administrator')
-        self.product = ProductFactory(title="かわずたんのゲームだよ☆",
-                administrators=(self.administrator,))
+        self.product = ProductFactory(
+            title="かわずたんのゲームだよ☆",
+            administrators=(self.administrator,)
+        )
         self.product_kwargs = {
             'title': 'クラッカーだよ！！！',
             'publish_at': datetime.date.today(),
-            'platforms': [1,],
-            'categories': [1,],
+            'platforms': (1,),
+            'categories': (1,),
             'description': '剣と魔法の物語です',
-            'screenshots-TOTAL_FORMS': 0,  # スクリーンショットは作成しない
+            'screenshots-TOTAL_FORMS': 0,           # No screenshots
             'screenshots-INITIAL_FORMS': 1,
             'screenshots-MAX_NUM_FORMS': 1000,
-            'url_releases-TOTAL_FORMS': 0,  # URLリリースは作成しない
+            'url_releases-TOTAL_FORMS': 0,          # No URL release
             'url_releases-INITIAL_FORMS': 1,
             'url_releases-MAX_NUM_FORMS': 1000,
-            'package_releases-TOTAL_FORMS': 0,  # パッケージリリースは作成しない
+            'package_releases-TOTAL_FORMS': 0,      # No package release
             'package_releases-INITIAL_FORMS': 1,
             'package_releases-MAX_NUM_FORMS': 1000,
         }
-        self.image_file = os.path.join(settings.REPOSITORY_ROOT,
-                'src', 'kawaz', 'statics', 'fixtures', 'giginyan.png')
+        self.image_file = TEST_FILENAME
 
     def test_non_members_cannot_see_product_update_view(self):
         """
@@ -353,12 +362,14 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             self.prefer_login(user)
             with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
-                r = self.client.post('/products/1/update/', self.product_kwargs)
+                r = self.client.post('/products/1/update/',
+                                     self.product_kwargs)
             self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
             self.assertEqual(Product.objects.count(), 1)
             e = Product.objects.get(pk=1)
             self.assertEqual(e.title, 'クラッカーだよ！！！')
-            self.assertTrue('messages' in r.cookies, "No messages are appeared")
+            self.assertTrue('messages' in r.cookies,
+                            "No messages are appeared")
 
     def test_administrators_cannot_update_slug(self):
         """
@@ -370,22 +381,26 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 self.product_kwargs['slug'] = 'new-slug'
-                r = self.client.post('/products/1/update/', self.product_kwargs)
+                r = self.client.post('/products/1/update/',
+                                     self.product_kwargs)
             self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
             self.assertEqual(Product.objects.count(), 1)
             e = Product.objects.get(pk=1)
             self.assertEqual(e.title, 'クラッカーだよ！！！')
             self.assertEqual(e.slug, previous_slug)
             self.assertNotEqual(e.slug, 'new-slug')
-            self.assertTrue('messages' in r.cookies, "No messages are appeared")
+            self.assertTrue('messages' in r.cookies,
+                            "No messages are appeared")
 
 
 class ProductDeleteViewTestCase(ViewTestCaseBase):
     def setUp(self):
         super().setUp()
         self.administrator = PersonaFactory(username='administrator')
-        self.product = ProductFactory(title="かわずたんのゲームだよ☆",
-                administrators=(self.administrator,))
+        self.product = ProductFactory(
+            title="かわずたんのゲームだよ☆",
+            administrators=(self.administrator,)
+        )
 
     def test_non_members_cannot_delete_product(self):
         """
@@ -419,10 +434,14 @@ class ProductDeleteViewTestCase(ViewTestCaseBase):
             r = self.client.post('/products/{}/delete/'.format(i+1))
             self.assertRedirects(r, '/products/')
             self.assertEqual(Product.objects.count(), 0)
-            self.assertTrue('messages' in r.cookies, "No messages are appeared")
+            self.assertTrue('messages' in r.cookies,
+                            "No messages are appeared")
             # 再作成
-            self.product = ProductFactory(title="かわずたんのゲームだよ☆",
-                    administrators=(self.administrator,))
+            self.product = ProductFactory(
+                title="かわずたんのゲームだよ☆",
+                administrators=(self.administrator,)
+            )
+
 
 class ProductPreviewTestCase(TestCase):
     def test_product_preview(self):

@@ -1,0 +1,91 @@
+@import "../vendor/bootstrap/less/variables";
+@import "common/define";
+@import "common/vendor-prefixes";
+
+.form-wrapper {
+  .form-header {
+    width: @container-lg;
+    padding-top: @navbar-height;
+    background: @body-bg;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+  }
+  .tab-content {
+    padding-top: 250px;
+  }
+  li.active a {
+    background-color: white;
+    &:hover {
+      background-color: white;
+    }
+  }
+}
+// フォームデザイン
+.multiple-checkbox {
+  li {
+    float: left;
+    list-style-type: none;
+    margin-right: 10px;
+  }
+}
+// profiles
+#formset-accounts {
+  td {
+    padding: 2px;
+  }
+  input {
+    width: 100%;
+    padding: 8px;
+  }
+  select {
+    .appearance(none);
+    width: 100%;
+    background-size: 16px;
+    padding: 8px;
+  }
+  select[id$='service'] {
+    background-position: 5px 10px;
+    /* TODO 将来的にはDjangoのService.iconの値を用いるが
+      対応が面倒なのでデザインの仮組のために仮画像を入れている */
+    background-image: url("https://twitter.com/favicon.ico");
+    background-repeat: no-repeat;
+    padding-left: 23px;
+    option {
+      border-color: @gray;
+      .appearance(none);
+      -moz-appearance: none;
+      -webkit-appearance: none;
+    }
+  }
+  .formset-remove {
+  }
+}
+// ブログカテゴリの追加ボタン
+.blog-category-add-button {
+  float: right;
+}
+#blog-category-dialog, #attachment-dialog {
+  p {
+    font-size: small;
+    color: @gray-light;
+    margin: 5px;
+  }
+}
+label.checkbox {
+  padding-left: 25px;
+  display: inline-block;
+  input {
+    margin-left: -15px !important;
+  }
+}
+// 添付ファイル用のダイアログ
+#attachment-dialog {
+  input {
+    display: inline;
+  }
+  input[type='file'] {
+    margin-bottom: 10px;
+  }
+}
+

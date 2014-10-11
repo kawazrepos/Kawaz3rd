@@ -1,0 +1,111 @@
+{% extends "twopane.html" %}
+{% load parser %}
+{% load staticfiles %}
+{% load i18n %}
+{% load projects_tags %}
+
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/projects.less" %}" media="screen">
+{% endblock %}
+
+{% block content-header %}
+  <div id="project-detail-wrap">
+    <div class="page-header project-detail-title{% if project.pub_state == "protected" %} bg-protected{% endif %}">
+      {% if project.pub_state == 'public' %}
+      <h1>{{ project.title }}</h1>
+      {% elif project.pub_state == 'protected' %}
+      <img src="{% static "img/lock-icon1.png" %}" class="project-lock-icon" alt="protected project"/>
+      <h1>{{ project.title }}</h1>
+      {% endif %}
+    </div>
+
+    <div class="row">
+      <div class="col col-lg-4 col-xs-12" id="project-thumbnail">
+        <img class="group list-group-image" src="{{ project.get_huge_icon }}" alt="{{ project.title }} Thumbnail" />
+      </div>
+      <div class="col col-lg-8 col-xs-12 project-head-info">
+        <dl class="row">
+          <dt class="col col-lg-3 col-xs-4">{% trans "Status" %}</dt>
+          <dd class="col col-lg-9 col-xs-8">{{ project.get_status_display }}</dd>
+        </dl>
+        <dl class="row">
+          <dt class="col col-lg-3 col-xs-4">{% trans "Category" %}</dt>
+          <dd class="col col-lg-9 col-xs-8">{{ project.category }}</dd>
+        </dl>
+        <dl class="row">
+          <dt class="col col-lg-3 col-xs-4">{% trans "Tracker" %}</dt>
+          <dd class="col col-lg-9 col-xs-8"><a href="{{ project.tracker }}">{{ project.tracker }}</a></dd>
+        </dl>
+        <dl class="row">
+          <dt class="col col-lg-3 col-xs-4">{% trans "Repository" %}</dt>
+          <dd class="col col-lg-9 col-xs-8"><a href="{{ project.repository }}">{{ project.repository }}</a></dd>
+        </dl>
+      </div>
+    </div>
+  {% endblock %}
+
+  {% block content-main %}
+    <article class="markdown">
+          {{ project.body | parser }}
+    </article>
+  {% endblock %}
+  {% block content-aside %}
+    {% if user has 'projects.join_project' of project %}
+    <a href="{% url 'projects_project_join' pk=project.pk %}" class="join-btn btn-default btn-lg post-link">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span>{% trans "Join This Project" %}</span>
+        <form method="POST" style="display: none;">{% csrf_token %}</form>
+    </a>
+    {% endif %}
+
+    <div class="member-list panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">{% trans "Members" %}</h2>
+      </div>
+      <div class="list-group">
+      {% for member in object.members.all %}
+        <a href="{{ member.profile.get_absolute_url }}" class="list-group-item">
+          <img class="avatar avatar-middle" src="{{ member.get_middle_avatar }}" alt="{{ member.nickname }}">
+            {{ member.nickname }}さん</a>
+      {% endfor %}
+      </div>
+    </div>
+
+    {% if user has 'projects.quit_project' of project %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">{% trans "operation" %}</h2>
+        </div>
+        <a class="list-group-item list-group-item-danger post-link" href="{% url "projects_project_quit" pk=project.pk %}">
+            <span class="glyphicon glyphicon-log-out"></span> {% trans "Leave this project" %}
+            <form method="POST" style="display: none;">{% csrf_token %}</form>
+        </a>
+      </div>
+    {% endif %}
+
+    {% if user has 'projects.add_project' or user has 'projects.change_project' of object or user has 'projects.delete_project' of object %}
+      <div class="panel panel-default">
+          <div class="panel-heading">
+              <h2 class="panel-title">{% trans "Administration" %}</h2>
+          </div>
+          <div class="list-group">
+              {% if user has 'projects.add_project' %}
+                  <a class="list-group-item list-group-item-success" href="{% url "projects_project_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Project" %}</a>
+              {% endif %}
+              {% if user has 'projects.change_project' of object %}
+                  <a class="list-group-item" href="{% url "projects_project_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Project" %}</a>
+              {% endif %}
+              {% if user has 'projects.delete_project' of object %}
+                  <a class="list-group-item list-group-item-danger"
+                     href="{% url "projects_project_delete" object.pk %}"
+                     confirm-message="{% trans "Do you want to delete this project?" %}">
+                      <span class="glyphicon glyphicon-remove"></span> {% trans "Delete Project" %}
+                      <form method="POST" style="display: none;">{% csrf_token %}</form>
+                  </a>
+              {% endif %}
+          </div>
+      </div>
+    {% endif %}
+</div>
+{% endblock %}

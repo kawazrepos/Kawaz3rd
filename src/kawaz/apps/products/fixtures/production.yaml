@@ -54,49 +54,49 @@
   pk: 1
   fields:
     label: Windows
-    icon: icons/platforms/windows.png
+    icon: products/platforms/windows.png
 - model: products.platform
   pk: 2
   fields:
     label: Mac
-    icon: icons/platforms/mac.png
+    icon: products/platforms/mac.png
 - model: products.platform
   pk: 3
   fields:
     label: Linux
-    icon: icons/platforms/linux.png
+    icon: products/platforms/linux.png
 - model: products.platform
   pk: 4
   fields:
     label: ブラウザ
-    icon: icons/platforms/browser.png
+    icon: products/platforms/browser.png
 - model: products.platform
   pk: 5
   fields:
     label: iOS
-    icon: icons/platforms/ios.png
+    icon: products/platforms/ios.png
 - model: products.platform
   pk: 6
   fields:
     label: Android
-    icon: icons/platforms/android.png
+    icon: products/platforms/android.png
 - model: products.platform
   pk: 7
   fields:
     label: Windows Phone 8
-    icon: icons/platforms/wp8.png
+    icon: products/platforms/wp8.png
 - model: products.platform
   pk: 8
   fields:
     label: PlayStation Mobile
-    icon: icons/platforms/psmobile.png
+    icon: products/platforms/psmobile.png
 - model: products.platform
   pk: 9
   fields:
     label: Xbox Live Arcade
-    icon: icons/platforms/xbla.png
+    icon: products/platforms/xbla.png
 - model: products.platform
   pk: 10
   fields:
     label: その他
-    icon: icons/platforms/misc.png
+    icon: products/platforms/misc.png

@@ -81,100 +81,100 @@
   fields:
     label: Twitter
     url_pattern: http://twitter.com/{username}/
-    icon: icons/services/twitter.png
+    icon: profiles/services/twitter.png
 - model: profiles.service
   pk: 2
   fields:
     label: Skype
     url_pattern: skype:{username}?add
-    icon: icons/services/skype.png
+    icon: profiles/services/skype.png
 - model: profiles.service
   pk: 3
   fields:
     label: Facebook
     url_pattern: http://www.facebook.com/{username}/
-    icon: icons/services/facebook.png
+    icon: profiles/services/facebook.png
 - model: profiles.service
   pk: 4
   fields:
     label: Foursquare
     url_pattern: http://foursquare.com/{username}/
-    icon: icons/services/foursquare.png
+    icon: profiles/services/foursquare.png
 - model: profiles.service
   pk: 5
   fields:
     label: Google
     url_pattern: mailto:{username}@gmail.com
-    icon: icons/services/google.png
+    icon: profiles/services/google.png
 - model: profiles.service
   pk: 6
   fields:
     label: Pixiv
     url_pattern: http://www.pixiv.net/member.php?id={username}
-    icon: icons/services/pixiv.png
+    icon: profiles/services/pixiv.png
 - model: profiles.service
   pk: 7
   fields:
     label: はてな
     url_pattern: http://www.hatena.ne.jp/{username}/
-    icon: icons/services/hatena.png
+    icon: profiles/services/hatena.png
 - model: profiles.service
   pk: 8
   fields:
     label: Dropbox
     url_pattern: mailto:{username}
-    icon: icons/services/dropbox.png
+    icon: profiles/services/dropbox.png
 - model: profiles.service
   pk: 9
   fields:
     label: Xbox Live
     url_pattern: http://live.xbox.com/ja-JP/MyXbox/Profile?gamertag={username}
-    icon: icons/services/xbox.png
+    icon: profiles/services/xbox.png
 - model: profiles.service
   pk: 10
   fields:
     label: PlayStation Network
     url_pattern: http://playstationhome.jp/community/mypage.php?OnlineID={username}
-    icon: icons/services/psn.png
+    icon: profiles/services/psn.png
 - model: profiles.service
   pk: 11
   fields:
     label: Miiverse
     url_pattern: https://miiverse.nintendo.net/users/{username}
-    icon: icons/services/miiverse.png
+    icon: profiles/services/miiverse.png
 - model: profiles.service
   pk: 12
   fields:
     label: Github
     url_pattern: http://github.com/{username}/
-    icon: icons/services/github.png
+    icon: profiles/services/github.png
 - model: profiles.service
   pk: 13
   fields:
     label: Tumblr
     url_pattern: http://{username}.tumblr.com/
-    icon: icons/services/tumblr.png
+    icon: profiles/services/tumblr.png
 - model: profiles.service
   pk: 14
   fields:
     label: Raptr
     url_pattern: http://raptr.com/{username}/wall
-    icon: icons/services/raptr.png
+    icon: profiles/services/raptr.png
 - model: profiles.service
   pk: 15
   fields:
     label: Steam
     url_pattern: http://steamcommunity.com/profiles/{username}/
-    icon: icons/services/steam.png
+    icon: profiles/services/steam.png
 - model: profiles.service
   pk: 16
   fields:
     label: SoundCloud
     url_pattern: http://soundcloud.com/{username}/
-    icon: icons/services/soundcloud.png
+    icon: profiles/services/soundcloud.png
 - model: profiles.service
   pk: 17
   fields:
     label: mixi
     url_pattern: http://mixi.jp/show_profile.pl?id={username}
-    icon: icons/services/mixi.png
+    icon: profiles/services/mixi.png

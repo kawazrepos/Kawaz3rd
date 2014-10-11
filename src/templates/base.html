@@ -1,0 +1,123 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load utils %}
+{% load compress %}
+<!DOCTYPE html>
+<html ng-app="kawaz">
+<head>
+{% compress css %}
+{% block pre_css %}
+    <link rel="stylesheet" href="{% static "vendor/lightbox/css/lightbox.css" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/main.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/components.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/social.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/form.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/markdown.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/comment.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/star.less" %}" media="screen">
+{% endblock %}
+{% endcompress %}
+    <title>Kawaz - {% block title %}札幌ゲーム製作者コミュニティ{% endblock %}</title>
+{% include "components/fb-header.html" %}
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <a class="navbar-brand" href="/"><img src="{% static "img/kawaz-logo-header.png" %}" alt="Kawaz" title="Kawaz Logo" class="logo-header"></a>
+            <li class="{% active '^/?$' %}"><a href="/">{% trans "Home" %}</a></li>
+            <li class="{% active '^/products.+' %}"><a href="{% url "products_product_list" %}">{% trans "Products" %}</a></li>
+            <li class="{% active '^/events.+' %}"><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
+            <li class="{% active '^/blogs.+' %}"><a href="{% url "blogs_entry_list" %}">{% trans "Blogs" %}</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right header-button">
+            <li class="dropdown">
+                {% if user.is_authenticated %}
+                    {# ログインユーザー向け #}
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <img class="avatar small" src="{{ user.get_small_avatar }}">
+                            {{ user.nickname }} <b class="caret"></b>
+                        </button>
+                        <ul class="dropdown-menu authenticated-menu" role="menu">
+                            <li><a href="{{ user.profile.get_absolute_url }}">{% trans "View Profile" %}</a></li>
+                            <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a class="logout-link" href="{% url "logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            {% trans "Login" %} <b class="caret"></b>
+                        </button>
+                        <ul class="dropdown-menu anonymous-menu" role="menu">
+                            {% include "components/login_form.html" %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </li>
+        </ul>
+        <form class="nav navbar-form navbar-right" role="search">
+            <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+        </form>
+    </div><!-- /.navbar-collapse -->
+</div><!-- /.container-fluid -->
+</nav>
+{% block carousel %}
+{% endblock %}
+<div class="container">
+{% block messages %}
+    {% for message in messages %}
+        {# message.coffeeでポップアップを生成する #}
+        <div class="message alert alert-{{ message.tags }}" message-tag="{{ message.tags }}" style="display: none;">{{ message }}</div>
+    {% endfor %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+</div>
+<div id="footer">
+    <div class="container">
+        {% block footer %}
+        {% endblock %}
+    </div>
+    <address class="text-muted text-center">
+        This website is powered by <a href="http://www.djangoproject.com/" target="_blank">Django</a>.<br />
+        Copyright &copy; 2009-2014 Kawaz. All rights reserved.
+    </address>
+</div>
+{% compress js %}
+{% block post_javascript %}
+    <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
+    <script src="{% static "vendor/angular/angular.js" %}"></script>
+    <script src="{% static "vendor/angular/angular-sanitize.js" %}"></script>
+    <script src="{% static "vendor/angular-file-upload/dist/angular-file-upload.js" %}"></script>
+    <script src="{% static "vendor/lightbox/js/lightbox.js" %}"></script>
+    <script src="{% static "vendor/mace/build/mace.min.js" %}"></script>
+    <script src="{% static "vendor/bootstrap/dist/js/bootstrap.js" %}"></script>
+    <script src="{% static "vendor/bootstrap-growl/jquery.bootstrap-growl.js" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/angular.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/social.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/star.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/comment.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/editor.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/tooltip.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/post.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/message.coffee" %}"></script>
+{% endblock %}
+{% endcompress %}
+</body>
+</html>

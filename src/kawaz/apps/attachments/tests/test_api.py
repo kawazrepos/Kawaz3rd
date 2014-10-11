@@ -8,7 +8,8 @@ from .factories import MaterialFactory
 
 
 LIST_URL_NAME = 'material-list'
-#DETAIL_URL_NAME = 'material-detail'
+TEST_FILENAME = os.path.join(os.path.dirname(__file__),
+                             'data', 'kawaztan.png')
 
 
 class MaterialAPITestCaseBase(APITestCase):
@@ -21,9 +22,7 @@ class MaterialAPITestCaseBase(APITestCase):
 class MaterialCreateAPITestCase(MaterialAPITestCaseBase):
     def _test_create_material_with_user(self, role, success):
         self._login_with_role(role)
-        path = os.path.join(settings.STATICFILES_DIRS[-1],
-                            'fixtures', 'attachments', 'system',
-                            'kawaztan.png')
+        path = TEST_FILENAME
         self.assertTrue(os.path.exists(path))
         with open(path, 'rb') as fi:
             data = {
@@ -68,9 +67,7 @@ class MaterialUpdateAPITestCase(MaterialAPITestCaseBase):
 
     def _update_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.STATICFILES_DIRS[-1],
-                            'fixtures', 'attachments', 'system',
-                            'kawaztan.png')
+        path = TEST_FILENAME
         self.assertTrue(os.path.exists(path))
 
         with open(path, 'rb') as fi:
@@ -128,9 +125,7 @@ class MaterialRetrieveAPITestCase(MaterialAPITestCaseBase):
 
     def _retrieve_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.STATICFILES_DIRS[-1],
-                            'fixtures', 'attachments', 'system',
-                            'kawaztan.png')
+        path = TEST_FILENAME
         self.assertTrue(os.path.exists(path))
 
         # detail URL は存在してないので detail URL っぽい URL
@@ -159,9 +154,7 @@ class MaterialListAPITestCase(MaterialAPITestCaseBase):
 
     def _list_with_role(self, role):
         self._login_with_role(role)
-        path = os.path.join(settings.STATICFILES_DIRS[-1],
-                            'fixtures', 'attachments', 'system',
-                            'kawaztan.png')
+        path = TEST_FILENAME
         self.assertTrue(os.path.exists(path))
 
         url = reverse(LIST_URL_NAME)

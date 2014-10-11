@@ -1,3 +1,5 @@
+# ProfilesはPersonasに依存しているため、作成順番が重要になる。
+# そのためPersonasのデータもここで作成している
 - model: personas.persona
   pk: 1
   fields:
@@ -9,7 +11,76 @@
     quotes: あっかんべー♡
     gender: woman
     role: adam
-    avatar: fixtures/profiles/profile-admin.jpg
+    avatar: fixtures/personas/avators/profile-admin.jpg
+- model: personas.persona
+  pk: 2
+  fields:
+    username: markdown
+    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    email: markdown@kawaz.org
+    is_active: true
+    nickname: Markdown
+    quotes: Markup language
+    gender: man
+    role: children
+    avatar: fixtures/personas/avators/profile-admin.jpg
+- model: personas.persona
+  pk: 3
+  fields:
+    username: seele-01
+    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    email: seele-01@seele.int
+    is_active: true
+    nickname: 議長
+    first_name: キール
+    last_name: ローレンツ
+    quotes: 滅びの宿命は再生の喜びでもある。今度こそその時が来た。
+    gender: man
+    role: seele
+    avatar: fixtures/personas/avators/profile-01.gif
+- model: personas.persona
+  pk: 4
+  fields:
+    username: 33-10
+    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    email: 33-10@will-e.org
+    is_active: true
+    nickname: 葛城大佐
+    first_name: ミサト
+    last_name: 葛城
+    quotes: 碇シンジ君。あなたはもう・・・何もしないで。
+    gender: woman
+    role: children
+    avatar: fixtures/personas/avators/profile-02.gif
+- model: personas.persona
+  pk: 6
+  fields:
+    username: s-dat2004
+    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    email: s-dat2004@nerv.go.jp
+    is_active: true
+    nickname: 司令
+    first_name: ゲンドウ
+    last_name: 碇
+    quotes: 分かっている。人間には時間がないのだ。
+    gender: man
+    role: nerv
+    avatar: fixtures/personas/avators/profile-04.gif
+
+- model: personas.persona
+  pk: 5
+  fields:
+    username: code777
+    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    email: code777@will-e.org
+    is_active: true
+    nickname: ASUKA
+    first_name: アスカ・ラングレー
+    last_name: 式波
+    quotes: 人類を守るくらい、私一人で十分よ！
+    gender: woman
+    role: children
+    avatar: fixtures/personas/avators/profile-03.gif
 - model: profiles.profile
   pk: 1
   fields:
@@ -44,18 +115,6 @@
     created_at: "2010-11-01 00:00:00+09:00"
     updated_at: "2010-11-01 00:00:00+09:00"
     skills: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-- model: personas.persona
-  pk: 2
-  fields:
-    username: markdown
-    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
-    email: markdown@kawaz.org
-    is_active: true
-    nickname: Markdown
-    quotes: Markup language
-    gender: man
-    role: children
-    avatar: fixtures/profiles/profile-admin.jpg
 - model: profiles.profile
   pk: 2
   fields:
@@ -207,20 +266,6 @@
     pub_state: public
     created_at: "2010-11-01 00:00:00+09:00"
     updated_at: "2010-11-01 00:00:00+09:00"
-- model: personas.persona
-  pk: 3
-  fields:
-    username: seele-01
-    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
-    email: seele-01@seele.int
-    is_active: true
-    nickname: 議長
-    first_name: キール
-    last_name: ローレンツ
-    quotes: 滅びの宿命は再生の喜びでもある。今度こそその時が来た。
-    gender: man
-    role: seele
-    avatar: fixtures/profiles/profile-01.gif
 - model: profiles.profile
   pk: 3
   fields:
@@ -235,20 +280,6 @@
     pub_state: private
     created_at: "1995-10-04 00:00:00+09:00"
     updated_at: "2012-11-17 00:00:00+09:00"
-- model: personas.persona
-  pk: 4
-  fields:
-    username: 33-10
-    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
-    email: 33-10@will-e.org
-    is_active: true
-    nickname: 葛城大佐
-    first_name: ミサト
-    last_name: 葛城
-    quotes: 碇シンジ君。あなたはもう・・・何もしないで。
-    gender: woman
-    role: children
-    avatar: fixtures/profiles/profile-02.gif
 - model: profiles.profile
   pk: 4
   fields:
@@ -261,20 +292,6 @@
     pub_state: public
     created_at: "1995-10-04 00:00:00+09:00"
     updated_at: "2012-11-17 00:00:00+09:00"
-- model: personas.persona
-  pk: 5
-  fields:
-    username: code777
-    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
-    email: code777@will-e.org
-    is_active: true
-    nickname: ASUKA
-    first_name: アスカ・ラングレー
-    last_name: 式波
-    quotes: 人類を守るくらい、私一人で十分よ！
-    gender: woman
-    role: children
-    avatar: fixtures/profiles/profile-03.gif
 - model: profiles.profile
   pk: 5
   fields:
@@ -287,20 +304,6 @@
     pub_state: public
     created_at: "1995-10-04 00:00:00+09:00"
     updated_at: "2012-11-17 00:00:00+09:00"
-- model: personas.persona
-  pk: 6
-  fields:
-    username: s-dat2004
-    password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
-    email: s-dat2004@nerv.go.jp
-    is_active: true
-    nickname: 司令
-    first_name: ゲンドウ
-    last_name: 碇
-    quotes: 分かっている。人間には時間がないのだ。
-    gender: man
-    role: nerv
-    avatar: fixtures/profiles/profile-04.gif
 - model: profiles.profile
   pk: 6
   fields:
@@ -331,6 +334,7 @@
     pub_state: public
     created_at: "1995-10-04 00:00:00+09:00"
     updated_at: "2012-11-17 00:00:00+09:00"
+
 - model: profiles.account
   pk: 1
   fields:

@@ -1,0 +1,68 @@
+@import "../vendor/bootstrap/less/mixins.less";
+@import "common/define";
+
+// Blog List Header
+.blog-list-header {
+  .header-left {
+    float: left;
+    text-align: left;
+    margin: 0;
+  }
+  .header-right {
+    text-align: right;
+    padding-top: 15px;
+    a {
+      margin-right: auto;
+      display: inline-block;
+    }
+  }
+  .clearfix();
+}
+
+// Blog Article
+@protected-color: #FCF8E3;
+.blog-article {
+  max-width: 800px;
+  margin: 10px auto 20px;
+  padding: 10px 30px 30px;
+}
+.blog-article-header {
+  .clearfix();
+}
+// 内部公開記事用のスタイル
+.bg-protected {
+  background-color: @protected-color;
+  border-radius: 10px;
+}
+.text-protected {
+  color: darken(@protected-color, 50%);
+}
+// Blog Entry Date
+// Ref: http://line25.com/tutorials/how-to-create-a-cool-blog-post-date-icon-with-css
+// 使い方
+// <div class="date"><p>10<span>July</span></p></div>
+.date {
+  line-height: 1;
+  width: 65px; height: 89px; 
+  margin-right: 20px;
+  padding: 8px 0 0 0;
+  background: #fcfcfc;
+  background: linear-gradient(to bottom, #fcfcfc, #dad8d8);
+  border: 1px solid #d2d2d2;
+  border-radius: 5px;
+  p {
+    font-family: Helvetica, sans-serif;
+    font-size: 50px; text-align: center; color: #9e9e9e;
+    span {
+      background: @brand-primary;
+      font-size: 22px;
+      font-weight: bold;
+      color: #fff;
+      text-transform: uppercase;
+      display: block;
+      border-top: 2px solid darken(@brand-primary, 5%);
+      .border-bottom-radius(5px);
+      padding: 4px 0 1px 0;
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{% extends "twopane.html" %}
+
+{% load utils %}
+{% load staticfiles %}
+{% load i18n %}
+{% load events_tags %}
+
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/events.less" %}" media="screen">
+{% endblock %}
+
+{% block content-main %}
+    <div class="event-list-wrap">
+        <div class="page-header event-list-header">
+            <h2>{% trans "Upcoming events" %}</h2>
+        </div>
+        {% for event in filter %}
+            {% include "events/components/list-item.html" %}
+        {% empty %}
+            <div class="alert alert-info">
+                <p>{% trans "Matching events can not be found" %}</p>
+                {% if user has 'events.add_event' %}
+                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create event" %}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <iframe src="https://www.google.com/calendar/embed?src=kawaz.org_knp8k16jovqbodorkrkt45un0o%40group.calendar.google.com&ctz=Asia/Tokyo" style="border: 0" width="845" height="730" frameborder="0" scrolling="no"></iframe>
+
+{% endblock %}
+
+{% block content-aside %}
+    <div class="event-create-button event-detail-aside-item">
+        {# 参加できる状態 #}
+        {% if user has 'events.add_event' %}
+            <a href="{% url "events_event_create" %}"
+               class="btn btn-success event-attend-btn btn-large">
+                <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create event" %}</span>
+            </a>
+        {% endif %}
+    </div>
+    <div class="event-type-list event-detail-aside-item">
+        {# イベント種別 #}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Categories" %}</h2>
+            </div>
+            {{ filter.form.category }}
+        </div>
+    </div>
+
+    <div class="event-archive-list event-detail-aside-item">
+    {# 過去のイベントリスト #}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{% trans "Event Archives" %}</h3>
+        </div>
+
+        <div class="list-group">
+            {% get_monthly_archives as archives %}
+            {% for archive in archives %}
+                <a class="list-group-item" href="{% url "events_event_archive_month" year=archive.date.year month=archive.date.month %}">{{ archive.date | date:"Y年m月" }}({{ archive.count }})</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

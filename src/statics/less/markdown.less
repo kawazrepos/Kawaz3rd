@@ -1,0 +1,54 @@
+@import "../vendor/bootstrap/less/variables";
+@import "common/vendor-prefixes";
+@import "common/define";
+
+.markdown {
+  color: @text-color;
+  p {
+    margin-left: 5px;
+  }
+  h1 {
+    font-size: 30px;
+    color: white;
+    padding: 6px;
+    background-color: @brand-primary;
+    background-image: url("../img/markdown-h1-bg.png");
+    background-repeat: repeat;
+    margin-bottom: 20px;
+    text-shadow: 0px 1px 2px #666;
+  }
+  h2 {
+    border-bottom: solid 1px desaturate(lighten(@text-color, 60%), 40%);
+    margin-bottom: 20px;
+    padding-bottom: 3px;
+  }
+  h6 {
+    color: @gray-light;
+  }
+  blockquote {
+    font-size: @font-size-base;
+    color: @gray-light;
+    line-height: @line-height-base * 1.5;
+    border-left: solid 5px desaturate(lighten(@brand-primary, 40%), 40%);
+    margin-left: 40px;
+    margin-bottom: 2px;
+    padding-top: 2px;
+    padding-left: 10px;
+    padding-bottom: 2px;
+    blockquote {
+      margin-left: 12px;
+    }
+  }
+  code {
+    color: @text-color;
+    padding: 5px 15px 5px;
+    background-color: rgb(244, 244, 244);
+    .border-radius(5px)
+  }
+  a {
+    color: rgb(87, 152, 225);
+    &:hover {
+      color: rgb(192, 204, 236);
+    }
+  }
+}

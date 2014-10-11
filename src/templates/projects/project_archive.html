@@ -1,0 +1,33 @@
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load utils %}
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/projects.less" %}" media="screen">
+{% endblock %}
+{% block content-main %}
+    <div class="page-header">
+        <h1>{% trans "Archived Projects" %}</h1>
+        <small>{% blocktrans with count=paginator.count %}There are {{ count }} archived projects.{% endblocktrans %}</small>
+    </div>
+    <div class="row project-list-archived list-group">
+        {% for project in object_list %}
+            {% include "projects/components/list-item-archived.html" %}
+        {% endfor %}
+    </div>
+    {% include "components/paginator.html" %}
+{% endblock %}
+{% block content-aside %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Order</h3>
+        </div>
+        <div class="list-group">
+            <a href="{{ request.url }}?o=title" class="list-group-item {% active ".+\?o=title" %}">{% trans "Title" %}</a>
+            <a href="{{ request.url }}?o=created_at" class="list-group-item {% active ".+\?o=created_at" %}">{% trans "Created At" %}</a>
+            <a href="{{ request.url }}?o=category" class="list-group-item {% active ".+\?o=category" %}">{% trans "Category" %}</a>
+            <a href="{{ request.url }}?o=status" class="list-group-item {% active ".+?o=status" %}">{% trans "Status" %}</a>
+        </div>
+    </div>
+{% endblock %}

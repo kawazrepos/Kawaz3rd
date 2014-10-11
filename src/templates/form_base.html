@@ -1,0 +1,38 @@
+{% extends "authenticated_base.html" %}
+{% load staticfiles %}
+{% block pre_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "vendor/datetimepicker/jquery.datetimepicker.css" %}" media="screen">
+{% endblock %}
+{% block content %}
+    <div class="form-wrapper" xmlns="http://www.w3.org/1999/html">
+        {% block form_header %}
+        {% endblock %}
+        <div ng-controller="FormController">
+            <div class="form-header">
+                {{ block.super }}
+                <ul class="nav nav-tabs">
+                    <li class="active" data-toggle="tab" ng-click="toggleEditor($event)"><a href="#editor-main">入力フォーム</a></li>
+                    <li><a href="#editor-preview" data-toggle="tab" class="preview-tab" ng-click="togglePreview($event, previewURL)">プレビュー</a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                {% block tab-content %}
+                {% endblock %}
+                <div id="editor-preview" class="tab-pane">
+                </div>
+            </div>
+            <div id="editor-preview" class="tab-pane" ng-bind-html="preview" ng-show="showPreview">
+            </div>
+        </div>
+        {% block form_footer %}
+        {% endblock %}
+    </div>
+    {% include "components/attachment_form.html" %}
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script src="{% static "vendor/datetimepicker/jquery.datetimepicker.js" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/form.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffee/preview.coffee" %}"></script>
+{% endblock %}

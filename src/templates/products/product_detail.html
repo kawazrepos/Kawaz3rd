@@ -1,0 +1,152 @@
+{% extends "twopane.html" %}
+{% load embed %}
+{% load products_tags %}
+{% load staticfiles %}
+{% load i18n %}
+{% block pre_css %}
+{{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/products.less" %}" media="screen">
+{% endblock %}
+{% block content-header %}
+    <div class="page-header">
+        <h1>{{ object.title }}</h1>
+    </div>
+<div class="trailer">
+    {% if object.trailer %}
+        <div class="embed-responsive embed-responsive-16by9">
+            {{ object.trailer | youtube:'responsive' }}
+        </div>
+    {% elif object.advertisement_image %}
+        <img src="{{ MEDIA_URL }}{{ object.advertisement_image }}" alt="Cover Image">
+    {% else %}
+        <img src="{{ MEDIA_URL }}{{ object.thumbnail }}" alt="Cover Image">
+    {% endif %}
+</div>
+{% endblock %}
+{% block content-main %}
+    {% if object.urlreleases.count > 0 or object.packagereleases.count > 0 %}
+        <h2>{% trans "Downloads" %}</h2>
+        {% for release in product.urlreleases.all %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <span class="h4">{{release.label}}</span><br />
+                    バージョン: {{release.version}}
+                    <span class="pull-right">
+                    {% if release.is_appstore %}
+                    <a href="{{release.url}}" target="_blank">
+                        <img src="{% static "img/appstore.png" %}" alt="Download on the App Store" />
+                    </a>
+                    {% elif release.is_googleplay %}
+                    <a href="{{release.url}}" target="_blank">
+                        <img src="{% static "img/playstore.png" %}" alt="Get it on Google Play" />
+                    </a>
+                    {% else %}
+                    <a href="{{release.url}}" class="btn btn-primary" target="_blank">Download ({{release.platform}})</a>
+                    {% endif %}
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+        {% for release in product.packagereleases.all %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <span class="h4">{{release.label}}</span><br />
+                    バージョン: {{release.version}}
+                    <span class="pull-right">
+                    <a href="{{release.url}}" class="btn btn-primary" target="_blank">Download ({{release.platform}})</a>
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if object.screenshots.count > 0 or object.advertisement_image %}
+    <h2>{% trans "Screenshots" %}</h2>
+    <div class="screenshots">
+        {% if object.advertisement_image %}
+        <a href="{{ MEDIA_URL }}{{ object.advertisement_image }}" data-lightbox="screenshots">
+            <img src="{{ MEDIA_URL }}{{ object.advertisement_image }}" alt="Cover Image">
+        </a>
+        {% endif %}
+        <a href="{{ MEDIA_URL }}{{ object.thumbnail }}" data-lightbox="screenshots">
+            <img src="{{ MEDIA_URL }}{{ object.thumbnail }}" alt="Cover Image">
+        </a>
+        {% for screenshot in object.screenshots.all %}
+        <a href="{{ MEDIA_URL }}{{ screenshot.image }}" data-lightbox="screenshots">
+            <img src="{{ MEDIA_URL }}{{ screenshot.image }}" alt="Screenshot">
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% include "products/components/product_detail.html" %}
+    {% include "components/social.html" %}
+{% endblock %}
+{% block content-aside %}
+    {% if user has 'products.add_product' or user has 'products.change_product' of object or user has 'products.delete_product' of object %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Administration" %}</h2>
+            </div>
+            <div class="list-group">
+                {% if user has 'products.add_product' %}
+                    <a class="list-group-item list-group-item-success" href="{% url "products_product_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+                {% endif %}
+                {% if user has 'products.change_product' of object %}
+                    <a class="list-group-item" href="{% url "products_product_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
+                {% endif %}
+                {% if user has 'products.delete_product' of object %}
+                    <a class="list-group-item list-group-item-danger"
+                       href="{% url "products_product_delete" object.pk %}"
+                       confirm-message="{% trans "Do you want to delete this product?" %}">
+                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete Product" %}
+                        <form method="POST" style="display: none;">{% csrf_token %}</form>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Platforms" %}</h2>
+        </div>
+        <div class="panel-body">
+            <ul class="platform-list">
+                {% for platform in object.platforms.all %}
+                    <li>
+                        <a href="{% url "products_product_list" %}?platforms={{ platform.pk }}">
+                            <img data-toggle="tooltip" data-placement="top" data-title="{{ platform.label }}" src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" />
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Categories" %}</h2>
+        </div>
+        <div class="list-group">
+            {% for category in object.categories.all %}
+                <a class="list-group-item" href="{% url "products_product_list" %}?categories={{ category.pk }}">{{ category.label }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Recommended Games" %}</h2>
+        </div>
+        <div id="products" class="list-group">
+            {% get_relative object as products %}
+            {% for product in products|slice:":3" %}
+                <div class="item list-group-item">
+                    {% include "products/components/thumbnail-item.html" %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block content %}
+{{ block.super }}
+{% endblock %}

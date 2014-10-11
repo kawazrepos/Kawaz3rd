@@ -1,6 +1,6 @@
 Kawaz3rd
 ===============================================================
-.. image:: https://secure.travis-ci.org/kawazrepos/Kawaz3rd.png?branch=develop
+.. image:: https://secure.travis-ci.org/kawazrepos/Kawaz3rd.svg?branch=develop
     :target: http://travis-ci.org/kawazrepos/Kawaz3rd
     :alt: Build status
 .. image:: https://coveralls.io/repos/kawazrepos/Kawaz3rd/badge.png?branch=develop
@@ -14,88 +14,111 @@ Author
     - Alisue <lambdalisue@hashnote.net>  
     - giginet <giginet.net@gmail.com>
 Supported python versions
-    Python 3.3+
+    Python 3.4
 Supported django versions
     Django 1.7
 
 This is a new web site for game creator's community Kawaz_.
-It is developed with Python 3.3 + Django 1.7.
+It is developed with Python_ 3.4 + Django_ 1.7.
 
-All your game are belong to us.
+All your games are belong to us.
 
 .. _Kawaz: http://www.kawaz.org/
+.. _Python: https://www.python.org/
+.. _Django: https://www.djangoproject.com/
+
 
 Install Kawaz 3rd
 ---------------------------------------------------------------
 Kawaz 3rd is developed in
-`github repository <https://github.com/kawazrepos/third-impact>`_.
+`github repository <https://github.com/kawazrepos/Kawaz3rd>`_.
 Thus you can checkout the repository and install required package with
-(You might need to use ``pip3`` instead):
 
 .. code-block:: sh
     
     $ git clone --recursive https://github.com/kawazrepos/Kawaz3rd
-    $ pip install -r requirements.txt
-    $ pip install -r requirements-test.txt
+    $ pip install tox
+    $ pip install -r config/requirements.txt
+    $ pip install -r config/requirements-test.txt
 
 Remember that if you will need to push the changes to the repository_,
-You need to use git@github.com:kawazrepos/third-impact instead.
+You need to use git@github.com:kawazrepos/Kawaz3rd instead.
 
 .. code-block:: sh
     
     $ git clone --recursive git@github.com:kawazrepos/Kawaz3rd
-    $ pip install -r requirements.txt
+    $ pip install tox
+    $ pip install -r config/requirements.txt
+    $ pip install -r config/requirements-test.txt
 
 .. _repository: https://github.com/kawazrepos/Kawaz3rd 
-
-.. note::
-    Kawaz 3rd does not require to install it on the system.
-    So you don't need to run ``python setup.py install`` command like
-    previous Kawaz version
 
 
 Run tests
 ---------------------------------------------------------------
-If you have not install testing package yet, run the following commands to
-install required testing packages
-(You might need to use ``pip3`` instead):
 
-
-.. code-block:: sh
-
-    $ pip install tox
-    $ pip install -r requirements-test.txt
-
-You can quickly test Kawaz 3rd in current environment with the following
-commands
-(You might need to use ``python3`` instead):
+With clean environment
+~~~~~~~~~~~~~~~~~~~~~~
+Use tox_ to test Kawaz in clean environment.
+You need to run the test in this before pushing the changes to repository.
 
 .. code-block:: sh
 
-    $ python runtests.py
+    $ tox -c config/tox.ini
 
-Or you can test Kawaz 3rd in clean environment with the following commands.
+It will create newly flesh environment and run the test.
+
+.. _tox: https://tox.readthedocs.org/en/latest/
+
+While development
+~~~~~~~~~~~~~~~~~~
+You might need to be patient with using tox_ while it will rebuild the environment just before running the test.
+To accelerate your development, the following command can be used to run all/specified tests quickly
 
 .. code-block:: sh
 
-    $ tox
+    $ python manage.py test kawaz                   # it will test all tests
+    $ python manage.py test kawaz.core.personas     # it will test only Personas app
+
+But **please run `tox` at least once before pushing the changes** to prevent local exceptions.
 
 
 Run development server 
 ---------------------------------------------------------------
-If you have not create the database yet, run the following commands to create
-the database. It is also required when new apps is added
-(You might need to use ``python3`` instead):
+To check the design or client-side codds, you need to run Kawaz in development server.
+To do that, type commands below
 
 .. code-block:: sh
 
-    $ python manage.py migrate
-
-Then you can start the development server with:
-
-.. code-block:: sh
-
-    $ honcho start -f Procfile.dev
+    $ python manage.py init_database
+    $ python manage.py compilemessages
+    $ honcho start -f config/Procfile.dev
 
 It will start development server at localhost:8000.
 You can access it with http://localhost:8000/
+
+
+Run production server
+--------------------------------------------------------------
+If you are ready to run Kawaz in production server, follow the instruction below.
+
+1.  Write ``src/kawaz/local_settings.py`` to specify the followings
+
+    -   Email addresses of administrators
+    -   Cache configurations
+    -   Database configurations
+    -   Email configurations
+    -   SECRET_KEY
+    -   Google Calendar ID
+
+    See ``src/kawaz/local_settings.sample.py``
+
+2.  Create a new flesh database or drop all tables in the database
+3.  Run ``python manage.py init_database``. You may required to use
+    the command with ``--force`` option
+4.  Run ``python manage.py compilemessages``
+5.  Run ``python manage.py collectstatic``
+6.  Configure sever (e.g. apatch) to serve files under 'public'
+    directory
+7.  Configure server to deploy Kawaz via ``wsgi.py``
+

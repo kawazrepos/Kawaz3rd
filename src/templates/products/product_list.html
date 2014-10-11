@@ -1,0 +1,53 @@
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load products_tags %}
+{% block pre_css %}
+{{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/products.less" %}" media="screen">
+{% endblock %}
+{% block content-header %}
+    <div class="page-header">
+        <h1>{% trans "Product List" %}</h1>
+    </div>
+{% endblock %}
+{% block content-main %}
+    <div class="row">
+    {% for product in filter %}
+        <div class="item col-xs-12 col-lg-6">
+        {% include "products/components/list-item.html" %}
+        </div>
+    {% empty %}
+        <div class="alert alert-info">
+            <p> 該当するプロダクトは見つかりませんでした</p>
+            {% if user has 'products.add_product' %}
+                <a href="{% url "products_product_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+{% block content-aside %}
+    {% if user has 'products.add_product' %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Administration" %}</h2>
+            </div>
+            <div class="list-group">
+                <a href="{% url "products_product_create" %}" class="list-group-item list-group-item-success"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+            </div>
+        </div>
+    {% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Platforms" %}</h2>
+        </div>
+        {{ filter.form.platforms }}
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Categories" %}</h2>
+        </div>
+        {{ filter.form.categories }}
+    </div>
+{% endblock %}

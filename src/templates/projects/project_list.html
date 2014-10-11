@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load projects_tags %}
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/projects.less" %}" media="screen">
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-header project-list-header">
+        <h2 class="header-left">
+            {% trans "Active Projects" %}
+            <p><small>現在活動中のプロジェクトです</small></p>
+        </h2>
+        <div class="header-right">
+            <a href="{% url "projects_project_create" %}" class="btn btn-primary btn-lg" role="button">プロジェクトを発足する</a>
+        </div>
+    </div>
+
+    <div class="row list-group tiled-project-list">
+        {% get_projects 'active' as active_projects %}
+        {% for project in active_projects %}
+        <div class="project-list-item col-xs-12 col-md-3">
+            {% include "projects/components/list-item.html" %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="page-header project-list-header">
+        <h2>
+            {% trans "Planning Projects" %}
+            <p><small>現在企画中のプロジェクトです</small></p>
+        </h2>
+    </div>
+
+    <div class="row project-list list-group tiled-project-list">
+        {% get_projects 'recently_planned' as planning %}
+        {% for project in planning %}
+        <div class="project-list-item col-xs-12 col-md-3">
+            {% include "projects/components/list-item.html" %}
+        </div>
+        {% empty %}
+        <div class="alert alert-info">
+            <p>該当するプロジェクトは見つかりませんでした</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="page-header project-list-header">
+        <h2>
+            {% trans "Archived Projects" %}
+            <p><small>アーカイブされたプロジェクトです</small></p>
+        </h2>
+    </div>
+    <div class="row project-list-archived list-group">
+        {% get_projects 'archived' as archiving %}
+        {% for project in archiving|slice:":2" %}
+            {% include "projects/components/list-item-archived.html" %}
+        {% endfor %}
+        <a href="{% url "projects_project_archives" %}" class="list-group-item row" id="project-list-more">
+            {% trans "See More" %}
+        </a>
+    </div>
+
+{% endblock %}
+
+{% block post_javascript %}
+    {{ block.super }}
+    <script type="text/javascript">
+    $(function() {
+        var $popover = $("[data-toggle='popover']");
+        $popover.popover({
+            'content' : function() {
+                var $list = $(this).next('.member-list');
+                return $list.html();
+            }
+        });
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "twopane.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block pre_css %}
+{{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/markdown_nostyle.less" %}" media="screen">
+{% endblock %}
+{% block content-header %}
+    <div class="page-header blog-list-header">
+        <div class="header-left">
+            <h1>{% trans "Blog Articles" %}</h1>
+            <small>{% blocktrans with count=paginator.count %}There are {{ count }} blog entries.{% endblocktrans %}</small>
+        </div>
+        {% if user has 'blogs.add_entry' %}
+            <div class="header-right">
+                <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "Create Blog" %}</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block content-main %}
+    {{ block.super }}
+    {% for object in object_list %}
+        {% include "blogs/components/entry_truncated.html" %}
+    {% endfor %}
+    {% include "components/paginator.html" %}
+{% endblock %}
+{% block content-aside %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Hot Entries" %}</h2>
+        </div>
+        {# TODO: ここにスターの数等によるホットエントリーの設置 #}
+        {# Fix Me: ハードコーディング #}
+        <div class="list-group">
+            <a class="list-group-item" href="/blogs/system/2014/5/20/3/">VOXCHRONICLEに出演しました☆ <small class="text-muted">10 stars</small></a>
+            <a class="list-group-item" href="/blogs/system/2014/5/20/1/">日記 <small class="text-muted">5 stars</small></a>
+        </div>
+    </div>
+{% endblock %}

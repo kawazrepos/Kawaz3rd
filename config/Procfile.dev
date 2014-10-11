@@ -1,0 +1,1 @@
+django: PYTHONUNBUFFERED=true python manage.py runserver
