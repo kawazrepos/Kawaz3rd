@@ -21,25 +21,25 @@
     </div>
 
     <div class="row">
-      <div class="col col-lg-5 col-xs-12" id="project-thumbnail">
+      <div class="col col-lg-4 col-xs-12" id="project-thumbnail">
         <img class="group list-group-image" src="{{ project.get_huge_icon }}" alt="{{ project.title }} Thumbnail" />
       </div>
-      <div class="col col-lg-7 col-xs-12">
+      <div class="col col-lg-8 col-xs-12 project-head-info">
         <dl class="row">
-          <dt class="col col-lg-2 col-xs-4">{% trans "Status" %}</dt>
-          <dd class="col col-lg-10 col-xs-8">{{ project.get_status_display }}</dd>
+          <dt class="col col-lg-3 col-xs-4">{% trans "Status" %}</dt>
+          <dd class="col col-lg-9 col-xs-8">{{ project.get_status_display }}</dd>
         </dl>
         <dl class="row">
-          <dt class="col col-lg-2 col-xs-4">{% trans "Category" %}</dt>
-          <dd class="col col-lg-10 col-xs-8">{{ project.category }}</dd>
+          <dt class="col col-lg-3 col-xs-4">{% trans "Category" %}</dt>
+          <dd class="col col-lg-9 col-xs-8">{{ project.category }}</dd>
         </dl>
         <dl class="row">
-          <dt class="col col-lg-2 col-xs-4">{% trans "Tracker" %}</dt>
-          <dd class="col col-lg-10 col-xs-8"><a href="{{ project.tracker }}">{{ project.tracker }}</a></dd>
+          <dt class="col col-lg-3 col-xs-4">{% trans "Tracker" %}</dt>
+          <dd class="col col-lg-9 col-xs-8"><a href="{{ project.tracker }}">{{ project.tracker }}</a></dd>
         </dl>
         <dl class="row">
-          <dt class="col col-lg-2 col-xs-4">{% trans "Repository" %}</dt>
-          <dd class="col col-lg-10 col-xs-8"><a href="{{ project.repository }}">{{ project.repository }}</a></dd>
+          <dt class="col col-lg-3 col-xs-4">{% trans "Repository" %}</dt>
+          <dd class="col col-lg-9 col-xs-8"><a href="{{ project.repository }}">{{ project.repository }}</a></dd>
         </dl>
       </div>
     </div>
@@ -53,7 +53,8 @@
   {% block content-aside %}
     {% if user has 'projects.join_project' of project %}
     <a href="{% url 'projects_project_join' pk=project.pk %}" class="join-btn btn-default btn-lg post-link">
-      <span class="glyphicon glyphicon-plus"></span><span>{% trans "Join This Project" %}</span>
+      <span class="glyphicon glyphicon-plus"></span>
+      <span>{% trans "Join This Project" %}</span>
         <form method="POST" style="display: none;">{% csrf_token %}</form>
     </a>
     {% endif %}
