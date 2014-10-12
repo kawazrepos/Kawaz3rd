@@ -7,8 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.utils.permission import filter_with_perm
 
-
-class StarManager(models.Manager):
+class StarQuerySet(models.QuerySet):
     def get_for_object(self, obj):
         """
         指定されたオブジェクトに関係するスターを含むクエリを返す
@@ -18,6 +17,33 @@ class StarManager(models.Manager):
         """
         ct = ContentType.objects.get_for_model(obj)
         return self.filter(content_type=ct, object_id=obj.pk)
+
+    def published(self, user_obj):
+        """
+        指定されたユーザーが閲覧可能なスターを含むクエリを返す
+
+        Args:
+            user_obj (user instance): 対象ユーザーインスタンス
+
+        Returns:
+            queryset
+        """
+        # TODO: 可能な限りデータベース上でフィルタリング処理を行う
+        # Note: 下記は全てイテレータで処理を行なっているので一応遅延処理される
+        iterator = filter_with_perm(user_obj, self.all(), 'view')
+        iterator = (x.pk for x in iterator
+                    if getattr(x.content_object, 'pub_state', None) != 'draft')
+        return self.filter(pk__in=iterator)
+
+class StarManager(models.Manager):
+    def get_queryset(self):
+        return StarQuerySet(self.model, using=self._db)
+
+    def get_for_object(self, obj):
+        return self.get_queryset().get_for_object(obj)
+
+    def published(self, user_obj):
+        return self.get_queryset().published(user_obj)
 
     def add_to_object(self, obj, author, quote=''):
         """
@@ -71,23 +97,6 @@ class StarManager(models.Manager):
         stars = self.get_for_object(obj)
         for star in stars:
             star.delete()
-
-    def published(self, user_obj):
-        """
-        指定されたユーザーが閲覧可能なスターを含むクエリを返す
-
-        Args:
-            user_obj (user instance): 対象ユーザーインスタンス
-
-        Returns:
-            queryset
-        """
-        # TODO: 可能な限りデータベース上でフィルタリング処理を行う
-        # Note: 下記は全てイテレータで処理を行なっているので一応遅延処理される
-        iterator = filter_with_perm(user_obj, self.all(), 'view')
-        iterator = (x.pk for x in iterator
-                    if getattr(x.content_object, 'pub_state', None) != 'draft')
-        return self.filter(pk__in=iterator)
 
 
 @validate_on_save

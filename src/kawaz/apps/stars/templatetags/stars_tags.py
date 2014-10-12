@@ -1,6 +1,3 @@
-# TODO: StarはAPIで提供する予定なので恐らくこのテンプレートタグは不要
-#       完成時に本当に不要だった場合はメンテナンスのコスト削減のため
-#       コード自体を削除する
 from django import template
 from django.template import TemplateSyntaxError
 from django.contrib.contenttypes.models import ContentType
@@ -39,36 +36,24 @@ def get_star_endpoint(context, object):
     return '{}?{}'.format(reverse('star-list'), query)
 
 @register.assignment_tag(takes_context=True)
-def get_stars(context, lookup='published'):
+def get_stars(context, object):
     """
-    任意の<lookup>によりフィルタされた Star のクエリを取得し指定された
+    任意の<object>についた Star のクエリを取得し指定された
     <variable>に格納するテンプレートタグ
+    ただし、ログイン中のユーザーが見れるスターのみが返却される
 
     Syntax:
-        {% get_stars as <variable> %}
-        {% get_stars <lookup> as <variable> %}
-
-    Lookup: (Default: published)
-        published: ユーザーに対して公開された Star を返す
+        {% get_stars <object> as <variable> %}
 
     Examples:
         公開された Star のクエリを取得し、最新5件のみを描画
 
-        {% get_stars as stars %}
+        {% get_stars object as stars %}
         {% for star in stars|slice:":5" %}
             {{ star }}
         {% endfor %}
 
     """
-    ALLOWED_LOOKUPS = ('published',)
-    if lookup not in ALLOWED_LOOKUPS:
-        raise TemplateSyntaxError(
-            "Unknown 'lookup' is specified to 'get_stars'. "
-            "It need to be one of {}.".format(ALLOWED_LOOKUPS))
-    # 'request' は settings.TEMPLATE_CONTEXT_PROCESSOR に
-    # 'django.core.context_processors.request' が指定されていないと存在しない
-    # ここでは敢えて存在しない場合にエラーを出すため直接参照している
     request = context['request']
-    if lookup == 'published':
-        qs = Star.objects.published(request.user)
+    qs = Star.objects.published(request.user).get_for_object(object)
     return qs
