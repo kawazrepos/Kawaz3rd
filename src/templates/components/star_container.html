@@ -1,41 +1,31 @@
 {% load stars_tags %}
 {% load staticfiles %}
 <section class="star-container" ng-controller="StarController">
-    <script type="text/ng-template" id="star_item.html">
-        <div class="star-user">
-            <a ng-href="[[ star.author.url ]]">
-                <img class="avatar avatar-small" ng-src='[[ star.author.small_avatar ]]'>
-            {# TODO starをcontextで引っ張ってこないといけない #}
-                {% if user has 'stars.delete_star' of object %}
-                    <a href="#" class="star-remove" ng-click="deleteStar(star);" ng-show="star.visible"><span class="glyphicon glyphicon-remove"></span></a>
-                {% endif %}
-            </a>
-        </div>
-        <div class="star-popup" ng-show="star.visible" ng-style="popupPosition">
-            <p class="nickname" ng-bind="star.author.nickname"></p>
-            <hr ng-show="star.quote">
-            <p class="quote" ng-bind="'「[[ star.quote ]]」'" ng-show="star.quote"></p>
-        </div>
-    </script>
     {% get_star_endpoint object as endpoint %}
     <input type="hidden" ng-model="endpoint" ng-init="endpoint='{{ endpoint }}';fetchStars();">
     <div class="star-container">
         <div class="row">
-            {% if user has 'stars.add_star' of object %}
-                <div class="star-add-button-col col-lg-1">
+            <div class="star-add-button-col col-lg-1">
+                {% if user has 'stars.add_star' of object %}
                     <button class="btn btn-primary btm-sm add-star-button" ng-click="addStar($event);"><span class="glyphicon glyphicon-star"></span>イイネ</button>
-                </div>
-            {% endif %}
+                {% endif %}
+            </div>
             <div class="star-body-col col-lg-11">
+                {% get_stars object as stars %}
                 <ul>
-                    <li class="star"
-                        ng-repeat="star in visibleStars"
-                        ng-include=" 'star_item.html' "
-                        ng-mouseover="showPopup($event, star);"
-                        ng-mouseout="star.visible = false;"></li>
-                    <li class="star-read-more"
-                        ng-click="openReadMore();"
-                        ng-hide="stars.length <= starVisibleThreshold || isReadMoreOpened"><span class="glyphicon glyphicon-chevron-down"></span>[[ readMoreCount ]]</li>
+                    {% for star in stars %}
+                        <li class="star" rel="tooltip" data-toggle="tooltip" title="{{ star.author.nickname }}">
+                            <div class="star-user">
+                                <a href="{{ star.author.get_absolute_url }}">
+                                    <img class="avatar avatar-small" src="{{ star.author.get_small_avatar }}">
+                                    {# TODO starをcontextで引っ張ってこないといけない #}
+                                    {% if user has 'stars.delete_star' of star %}
+                                        <a href="#" class="star-remove" ng-click="deleteStar(star);"><span class="glyphicon glyphicon-remove"></span></a>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
