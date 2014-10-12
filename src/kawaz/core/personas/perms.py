@@ -20,8 +20,8 @@ class PersonaPermissionLogic(PermissionLogic):
 
     def _has_change_perm(self, user_obj, perm, obj):
         # owner and seele can change the user info manually
-        return (obj == user_obj and user_obj.role in ('seele', 'nerv', 'children')) \
-               or user_obj.role in ('seele', 'nerv',)
+        return ((obj == user_obj and user_obj.role in ('seele', 'nerv', 'children')) or
+                user_obj.role in ('seele', 'nerv',))
 
     def _has_delete_perm(self, user_obj, perm, obj):
         # nobody can delete user info except superuser

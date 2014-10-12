@@ -1,8 +1,9 @@
 from registration.compat import url
 from registration.compat import patterns
 from django.contrib.auth import views as auth_views
-from kawaz.core.personas.views import PersonaUpdateView, PersonaAssignAdamView, \
-    PersonaAssignSeeleView
+from kawaz.core.personas.views import (PersonaUpdateView,
+                                       PersonaAssignAdamView,
+                                       PersonaAssignSeeleView)
 
 urlpatterns = patterns('',
     url(r'^login/$', auth_views.login,
