@@ -146,7 +146,7 @@ class PersonaModelPermissionTestCase(TestCase):
         self._test_permission('seele', 'change', obj='self')
         self._test_permission('nerv', 'change', obj='self')
         self._test_permission('children', 'change', obj='self')
-        self._test_permission('wille', 'change', obj='self')
+        self._test_permission('wille', 'change', obj='self', negative=True)
 
     def test_delete_permission_without_obj(self):
         """

@@ -38,7 +38,7 @@
             <li class="{% active '^/?$' %}"><a href="/">{% trans "Home" %}</a></li>
             <li class="{% active '^/products.+' %}"><a href="{% url "products_product_list" %}">{% trans "Products" %}</a></li>
             <li class="{% active '^/events.+' %}"><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
-            <li class="{% active '^/blogs.+' %}"><a href="{% url "blogs_entry_list" %}">{% trans "Blogs" %}</a></li>
+            <li class="{% active '^/blogs.+' %}"><a href="{% url "blogs_entry_list" %}">{% trans "Blog" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right header-button">
             <li class="dropdown">
@@ -52,6 +52,28 @@
                         <ul class="dropdown-menu authenticated-menu" role="menu">
                             <li><a href="{{ user.profile.get_absolute_url }}">{% trans "View Profile" %}</a></li>
                             <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
+                            <li><a href="{% url "personas_persona_update" %}">{% trans "Change User Information" %}</a></li>
+                            <li><a href="{% url "password_change" %}">{% trans "Change Password" %}</a></li>
+                            {% if user has 'personas.assign_role_persona' %}
+                                {% if user.is_superuser %}
+                                    <li>
+                                        <a class="post-link"
+                                           href="{% url "personas_persona_assign_seele" %}">
+                                            {% trans "Make me human" %}
+                                            <form method="POST" style="display: none;">{% csrf_token %}</form>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a class="post-link"
+                                           confirm-message="{% trans "!CAUTION! You will get superuser privilege. Thus you can access to all records in this system." %}"
+                                           href="{% url "personas_persona_assign_adam" %}">
+                                            {% trans "Make me God" %}
+                                            <form method="POST" style="display: none;">{% csrf_token %}</form>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
                             <li role="presentation" class="divider"></li>
                             <li><a class="logout-link" href="{% url "logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
                         </ul>
@@ -119,5 +141,6 @@
     <script type="text/coffeescript" src="{% static "coffee/message.coffee" %}"></script>
 {% endblock %}
 {% endcompress %}
+{% include "components/god_stamp.html" %}
 </body>
 </html>

@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from .models import Persona
 from .forms import PersonaCreationForm
-from .forms import PersonaChangeForm
+from .forms import PersonaAdminUpdateForm
 
 class PersonaAdmin(UserAdmin):
     # The forms to add and change user instances
@@ -31,7 +31,7 @@ class PersonaAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-    form = PersonaChangeForm
+    form = PersonaAdminUpdateForm
     add_form = PersonaCreationForm
     list_display = ('nickname', 'username', 'email')
     list_filter = ('role', 'is_active', 'groups')

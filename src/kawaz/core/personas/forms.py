@@ -36,7 +36,7 @@ class PersonaCreationForm(UserCreationForm):
         )
 
 
-class PersonaChangeForm(UserChangeForm):
+class PersonaAdminUpdateForm(UserChangeForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
     password hash display field.
@@ -61,3 +61,26 @@ class PersonaChangeForm(UserChangeForm):
             )
             self.fields['role'].widget = RadioSelectWithHelpText(
                     choices=choices, help_texts=choices_help_texts)
+
+class PersonaUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Persona
+        fields = (
+            'last_name',
+            'first_name',
+            'email',
+            'nickname',
+            'avatar',
+            'quotes',
+            'gender',
+        )
+        exclude = (
+            'password',
+            'role',
+            'username',
+        )
+
+class PersonaRoleForm(forms.ModelForm):
+    class Meta:
+        model = Persona
+        fields = ('role',)
