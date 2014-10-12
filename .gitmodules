@@ -13,3 +13,6 @@
 [submodule "src/statics/vendor/angular-file-upload"]
 	path = src/statics/vendor/angular-file-upload
 	url = https://github.com/danialfarid/angular-file-upload
+[submodule "src/statics/vendor/jquery-cookie"]
+	path = src/statics/vendor/jquery-cookie
+	url = https://github.com/carhartl/jquery-cookie.git
