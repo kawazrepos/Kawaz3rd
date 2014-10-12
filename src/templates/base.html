@@ -141,9 +141,6 @@
     <script type="text/coffeescript" src="{% static "coffee/message.coffee" %}"></script>
 {% endblock %}
 {% endcompress %}
-{% if user.is_authenticated and user.is_superuser %}
-    {# 神マーカー：神権限の時の誤動作を防ぐために常に表示させる #}
-    <span class="god"><img src="{% static 'img/god-stamp.png' %}" alt="{% trans 'Now adventing ' %}"></span>
-{% endif %}
+{% include "components/god_stamp.html" %}
 </body>
 </html>
