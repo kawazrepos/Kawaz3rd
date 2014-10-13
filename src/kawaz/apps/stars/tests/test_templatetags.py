@@ -22,16 +22,14 @@ class StarsTemplateTagTestCase(TestCase):
             StarFactory(content_object=self.articles['draft']),
         )
 
-    def _render_stars_template(self, username, lookup=''):
+    def _render_stars_template(self, username, object):
         t = Template(
-            "{{% load stars_tags %}}"
-            "{{% get_stars {} as stars %}}".format(
-                "'{}'".format(lookup) if lookup else ''
-            )
+            "{% load stars_tags %}"
+            "{% get_stars object as stars %}"
         )
         r = MagicMock()
         r.user = self.users[username]
-        c = Context(dict(request=r))
+        c = Context(dict(request=r, object=object))
         r = t.render(c)
         # get_stars は何も描画しない
         self.assertEqual(r.strip(), "")
@@ -51,43 +49,23 @@ class StarsTemplateTagTestCase(TestCase):
         self.assertEqual(r.strip(), "")
         return c['star_endpoint']
 
-    def test_get_stars_published(self):
-        """get_stars published はユーザーが閲覧可能な Star を返す"""
+    def test_get_stars_object(self):
+        """get_stars object はobjectについたStarを返す"""
         patterns = (
-            ('adam', 5),
-            ('seele', 5),
-            ('nerv', 5),
-            ('children', 5),
-            ('wille', 3),
-            ('anonymous', 3),
+            ('adam', 2),
+            ('seele', 2),
+            ('nerv', 2),
+            ('children', 2),
+            ('wille', 2),
+            ('anonymous', 2),
         )
         # with lookup
         for username, nstars in patterns:
-            stars = self._render_stars_template(username, lookup='published')
-            self.assertEqual(stars.count(), nstars,
-                             "{} should see {} stars.".format(username,
-                                                              nstars))
-        # without lookup
-        for username, nstars in patterns:
-            stars = self._render_stars_template(username)
+            stars = self._render_stars_template(username, self.articles['protected'])
             self.assertEqual(stars.count(), nstars,
                              "{} should see {} stars.".format(username,
                                                               nstars))
 
-    def test_get_stars_unknown(self):
-        """get_stars unknown はエラーを出す"""
-        patterns = (
-            ('adam', 0),
-            ('seele', 0),
-            ('nerv', 0),
-            ('children', 0),
-            ('wille', 0),
-            ('anonymous', 0),
-        )
-        # with lookup
-        for username, nstars in patterns:
-            self.assertRaises(TemplateSyntaxError, self._render_stars_template,
-                              username, lookup='unknown')
 
     def test_get_star_endpoint(self):
         """
@@ -102,3 +80,10 @@ class StarsTemplateTagTestCase(TestCase):
             endpoint = self._render_endpoint_template(obj)
             self.assertEqual(endpoint,
                              "/api/stars?content_type={}&object_id={}".format(ct.pk, obj.pk))
+
+    def test_get_star_endpoint_with_none(self):
+        """
+        get_star_endpointにNoneオブジェクトを渡したとき、空白文字を返す
+        """
+        endpoint = self._render_endpoint_template(None)
+        self.assertEqual(endpoint, '')

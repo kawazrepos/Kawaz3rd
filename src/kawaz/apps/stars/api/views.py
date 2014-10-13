@@ -9,7 +9,7 @@ class StarViewSet(mixins.CreateModelMixin,
                   mixins.ListModelMixin,
                   KawazGenericViewSet):
     model = Star
-    queryset = Star.objects.all()
+    queryset = Star.objects.all().prefetch_related('author')
     serializer_class = StarSerializer
     author_field_name = 'author'
     filter_fields = ('content_type', 'object_id',)

@@ -49,6 +49,7 @@
     <article class="markdown project-article">
           {{ project.body | parser }}
     </article>
+    {% include "components/star_container.html" %}
   {% endblock %}
   {% block content-aside %}
     {% if user has 'projects.join_project' of project %}

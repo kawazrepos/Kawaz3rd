@@ -68,7 +68,10 @@ class StarListAPITestCase(BaseTestCase):
             star0 = response_obj[0]
             self.assertIsNotNone(star0['author']['nickname'])
             self.assertIsNotNone(star0['author']['gender'])
-            self.assertIsNotNone(star0['author']['avatar'])
+            self.assertIsNotNone(star0['author']['small_avatar'])
+            self.assertIsNotNone(star0['author']['middle_avatar'])
+            self.assertIsNotNone(star0['author']['large_avatar'])
+            self.assertIsNotNone(star0['author']['huge_avatar'])
             self.assertIsNotNone(star0['author']['role'])
             self.assertIsNotNone(star0['author']['nickname'])
 
