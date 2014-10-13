@@ -50,4 +50,4 @@ class KawazRoughPageTestCase(TestCase):
         """
         /draftsにアクセスして、roughpages/drafts.authenticated.htmlが表示できるかどうか
         """
-        self._test_template("/drafts", "drafts.authenticated", authenticated=True)
+        self._test_template("/drafts/", "drafts.authenticated", authenticated=True)
