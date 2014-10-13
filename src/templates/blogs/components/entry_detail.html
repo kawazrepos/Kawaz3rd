@@ -23,7 +23,6 @@
             <h1>{{ object.title }}</h1>
         </div>
         <p class="badge">{{ object.category.label }}</p>
-        {% include "components/star_container.html" %}
     </div>
     <article class="markdown">
         {{ object.body | parser }}
