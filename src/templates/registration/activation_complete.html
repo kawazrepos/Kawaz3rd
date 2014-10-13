@@ -1,4 +1,12 @@
 {% extends "base.html" %}
+{% load markdown %}
 {% block content %}
+    <div class="page-header">
+        会員登録が完了しました！
+    </div>
+
+    <article class="markdown">
+        {% render_markdown "markdown/welcome.md" %}
+    </article>
 
 {% endblock %}
