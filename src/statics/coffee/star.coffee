@@ -41,6 +41,7 @@ $('.star-container').each(->
       $starContainer.append($star)
       $star.hide().fadeIn( ->
         refreshStars()
+        $star.attr('title', data['tooltip'])
       )
     ).fail( () ->
       alert("スターを上手く付けられませんでした")

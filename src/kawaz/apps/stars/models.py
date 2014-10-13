@@ -141,6 +141,22 @@ class Star(models.Model):
     def __str__(self):
         return str(self.content_object)
 
+    @property
+    def tooltip_text(self):
+        """
+        ツールチップに表示させる内容を取り出します
+
+        Example:
+            井の中かわず
+            井の中かわず「ゲーム作りました」
+        """
+        if self.quote:
+            return _("%(nickname)s '%(quote)s'") % {
+                'nickname': self.author.nickname,
+                'quote': self.quote
+            }
+        return self.author.nickname
+
 
 from permission import add_permission_logic
 from .perms import StarPermissionLogic

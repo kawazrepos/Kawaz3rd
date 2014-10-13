@@ -1,4 +1,4 @@
-<li class="star" star-id="{{ star.pk }}" star-quote="{{ star.quote }}" rel="tooltip" data-toggle="tooltip" title="{{ star.author.nickname }}">
+<li class="star" star-id="{{ star.pk }}" star-quote="{{ star.quote }}" rel="tooltip" data-toggle="tooltip" title="{{ star.tooltip_text }}">
     <div class="star-user">
         <a href="{{ star.author.get_absolute_url }}">
             <img class="avatar avatar-small" src="{{ star.author.get_small_avatar }}">
