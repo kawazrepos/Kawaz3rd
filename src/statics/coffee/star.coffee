@@ -48,6 +48,25 @@ $('.star-container').each(->
     )
   )
 
+  $readmore = $(@).find('.star-read-more')
+  console.log $readmore
+  $stars = $(@).find('.star')
+  starCount = $stars.size()
+  $readmore.find('.text').text(starCount)
+  if starCount < 15
+    $readmore.hide()
+  else
+    $invisible = $stars[15...]
+    $wrapper = $('<div>')
+    $invisible.remove()
+    $wrapper.append($invisible)
+    $starContainer.append($wrapper)
+    $wrapper.hide()
+    $readmore.click(() ->
+      $wrapper.toggle()
+      $(@).hide()
+    )
+
   refreshStars = () ->
     $('.star').on('mouseover', () ->
       $(@).find('.star-remove').show()
