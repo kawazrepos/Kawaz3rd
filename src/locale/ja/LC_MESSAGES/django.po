@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-10 12:56+0900\n"
+"POT-Creation-Date: 2014-10-13 18:31+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,345 +18,382 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: apps/announcements/forms.py:11 apps/announcements/models.py:63
-#: apps/blogs/models.py:48 apps/events/forms.py:13 apps/events/models.py:69
-#: apps/projects/forms.py:11
-msgid "Body"
-msgstr "本文"
-
-#: apps/announcements/models.py:59 apps/blogs/models.py:44
-#: apps/events/models.py:65 apps/profiles/models.py:57
-#: apps/projects/models.py:92
-msgid "Publish status"
-msgstr "公開設定"
-
-#: apps/announcements/models.py:62 apps/blogs/models.py:47
-#: apps/events/models.py:68 apps/products/models.py:82
-#: apps/projects/models.py:97 apps/recent_activities/models.py:14
-#: templates/projects/project_archive.html:27
+#: kawaz/apps/activities/contrib/hatenablog/models.py:17
+#: kawaz/apps/announcements/models.py:62 kawaz/apps/blogs/models.py:47
+#: kawaz/apps/events/models.py:68 kawaz/apps/products/models.py:84
+#: kawaz/apps/projects/models.py:97 templates/projects/project_archive.html:27
 msgid "Title"
 msgstr "タイトル"
 
-#: apps/announcements/models.py:68 apps/attachments/models.py:23
-#: apps/blogs/models.py:55 apps/events/models.py:97
-#: apps/products/models.py:121 apps/products/models.py:200
-#: apps/profiles/models.py:73 apps/projects/models.py:127
-#: apps/recent_activities/models.py:17 apps/stars/models.py:120
-#: templates/announcements/components/announcement_detail.html:19
+#: kawaz/apps/activities/contrib/hatenablog/models.py:18
+#: kawaz/apps/products/models.py:239 kawaz/apps/profiles/models.py:64
+msgid "URL"
+msgstr "URL"
+
+#: kawaz/apps/activities/contrib/hatenablog/models.py:19
+#: kawaz/apps/products/models.py:275
+msgid "Image"
+msgstr "画像"
+
+#: kawaz/apps/activities/contrib/hatenablog/models.py:22
+#: kawaz/apps/announcements/models.py:68 kawaz/apps/attachments/models.py:23
+#: kawaz/apps/blogs/models.py:55 kawaz/apps/events/models.py:97
+#: kawaz/apps/products/models.py:123 kawaz/apps/products/models.py:200
+#: kawaz/apps/profiles/models.py:73 kawaz/apps/projects/models.py:127
+#: kawaz/apps/stars/models.py:120
+#: templates/announcements/components/announcement_detail.html:28
 msgid "Created at"
 msgstr "作成日時"
 
-#: apps/announcements/models.py:69 apps/blogs/models.py:56
-#: apps/events/models.py:98
+#: kawaz/apps/activities/contrib/hatenablog/models.py:29
+msgid "Hatenablog entry"
+msgstr "広報ブログ記事"
+
+#: kawaz/apps/activities/contrib/hatenablog/models.py:30
+#, fuzzy
+#| msgid "Recent Entries"
+msgid "Hatenablog entries"
+msgstr "最近書いたブログ"
+
+#: kawaz/apps/activities/models.py:55
+#, fuzzy
+#| msgid "Active"
+msgid "Activity"
+msgstr "活動中"
+
+#: kawaz/apps/activities/models.py:56
+#, fuzzy
+#| msgid "Active"
+msgid "Activities"
+msgstr "活動中"
+
+#: kawaz/apps/announcements/forms.py:11 kawaz/apps/announcements/models.py:63
+#: kawaz/apps/blogs/models.py:48 kawaz/apps/events/forms.py:13
+#: kawaz/apps/events/models.py:69 kawaz/apps/projects/forms.py:11
+msgid "Body"
+msgstr "本文"
+
+#: kawaz/apps/announcements/models.py:59 kawaz/apps/blogs/models.py:44
+#: kawaz/apps/events/models.py:65 kawaz/apps/profiles/models.py:57
+#: kawaz/apps/projects/models.py:92
+msgid "Publish status"
+msgstr "公開設定"
+
+#: kawaz/apps/announcements/models.py:69 kawaz/apps/blogs/models.py:56
+#: kawaz/apps/events/models.py:98
 msgid "Modified at"
 msgstr "更新日時"
 
-#: apps/announcements/models.py:75
+#: kawaz/apps/announcements/models.py:75
 msgid "Announcement"
 msgstr "お知らせ"
 
-#: apps/announcements/models.py:76
+#: kawaz/apps/announcements/models.py:76
 #: templates/announcements/announcement_detail.html:10
 #: templates/announcements/announcement_list.html:14
+#: templates/roughpages/drafts.authenticated.html:26
 msgid "Announcements"
 msgstr "お知らせ"
 
-#: apps/announcements/views.py:26
+#: kawaz/apps/announcements/views.py:26
 #, python-format
 msgid "Announcement '%(title)s' successfully created."
 msgstr "お知らせ「%(title)s」を作成しました"
 
-#: apps/announcements/views.py:37
+#: kawaz/apps/announcements/views.py:37
 #, python-format
 msgid "Announcement '%(title)s' successfully updated."
 msgstr "お知らせ「%(title)s」を更新しました"
 
-#: apps/announcements/views.py:48
+#: kawaz/apps/announcements/views.py:48
 msgid "Announcement successfully deleted."
 msgstr "お知らせを削除しました"
 
-#: apps/attachments/models.py:15
+#: kawaz/apps/attachments/models.py:15
 msgid "Content file"
 msgstr "ファイル"
 
-#: apps/attachments/models.py:20 apps/blogs/models.py:24
-#: apps/blogs/models.py:53 apps/stars/models.py:111
+#: kawaz/apps/attachments/models.py:20 kawaz/apps/blogs/models.py:24
+#: kawaz/apps/blogs/models.py:53 kawaz/apps/stars/models.py:111
 msgid "Author"
 msgstr "作者"
 
-#: apps/attachments/models.py:21
+#: kawaz/apps/attachments/models.py:21
 msgid "Slug"
 msgstr "素材ID"
 
-#: apps/attachments/models.py:27
+#: kawaz/apps/attachments/models.py:27
 msgid "Material"
 msgstr "素材"
 
-#: apps/attachments/models.py:28
+#: kawaz/apps/attachments/models.py:28
 msgid "Materials"
 msgstr "素材"
 
-#: apps/blogs/models.py:20
+#: kawaz/apps/blogs/models.py:20
 msgid "Category name"
 msgstr "カテゴリ名"
 
-#: apps/blogs/models.py:49 apps/events/models.py:95 apps/products/models.py:51
-#: apps/projects/models.py:21 apps/projects/models.py:113
+#: kawaz/apps/blogs/models.py:49 kawaz/apps/events/models.py:95
+#: kawaz/apps/products/models.py:53 kawaz/apps/projects/models.py:21
+#: kawaz/apps/projects/models.py:113
 #: templates/projects/project_archive.html:29
 #: templates/projects/project_detail.html:33
 msgid "Category"
 msgstr "カテゴリ"
 
-#: apps/blogs/models.py:57 templates/blogs/components/entry_detail.html:20
+#: kawaz/apps/blogs/models.py:57
+#: templates/blogs/components/entry_detail.html:29
 msgid "Published at"
 msgstr "公開日"
 
-#: apps/blogs/models.py:64
+#: kawaz/apps/blogs/models.py:64
 msgid "Entry"
 msgstr "ブログ記事"
 
-#: apps/blogs/models.py:65
+#: kawaz/apps/blogs/models.py:65
 msgid "Entries"
 msgstr "ブログ記事"
 
-#: apps/blogs/views.py:64
+#: kawaz/apps/blogs/views.py:64
 #, python-format
 msgid "Entry '%(title)s' successfully created."
 msgstr "ブログ記事「%(title)s」を作成しました"
 
-#: apps/blogs/views.py:80
+#: kawaz/apps/blogs/views.py:80
 #, python-format
 msgid "Entry '%(title)s' successfully updated."
 msgstr "ブログ記事「%(title)s」を更新しました"
 
-#: apps/blogs/views.py:90
+#: kawaz/apps/blogs/views.py:90
 msgid "Entry successfully deleted."
 msgstr "ブログ記事を削除しました"
 
-#: apps/events/filters.py:16 apps/products/filters.py:16
-#: apps/products/forms.py:26 apps/products/models.py:52
-#: apps/products/models.py:115 apps/projects/models.py:22
+#: kawaz/apps/events/filters.py:16 kawaz/apps/products/filters.py:16
+#: kawaz/apps/products/forms.py:26 kawaz/apps/products/models.py:54
+#: kawaz/apps/products/models.py:117 kawaz/apps/projects/models.py:22
 #: templates/events/event_list.html:49
 #: templates/products/product_detail.html:126
 #: templates/products/product_list.html:49
 msgid "Categories"
 msgstr "カテゴリ"
 
-#: apps/events/filters.py:18 apps/products/filters.py:13
-#: apps/products/filters.py:18 apps/profiles/filters.py:13
-#: core/filters/widgets.py:40
+#: kawaz/apps/events/filters.py:18 kawaz/apps/products/filters.py:13
+#: kawaz/apps/products/filters.py:18 kawaz/apps/profiles/filters.py:13
+#: kawaz/core/filters/widgets.py:40
 msgid "All"
 msgstr "すべて"
 
-#: apps/events/forms.py:14 apps/events/models.py:72
+#: kawaz/apps/events/forms.py:14 kawaz/apps/events/models.py:72
 msgid "Start time"
 msgstr "開始日時"
 
-#: apps/events/forms.py:15 apps/events/models.py:74
+#: kawaz/apps/events/forms.py:15 kawaz/apps/events/models.py:74
 msgid "End time"
 msgstr "終了日時"
 
-#: apps/events/forms.py:16 apps/events/models.py:82
+#: kawaz/apps/events/forms.py:16 kawaz/apps/events/models.py:82
 msgid "Attendance deadline"
 msgstr "参加締切日"
 
-#: apps/events/models.py:19 apps/events/models.py:27 apps/events/models.py:28
-#: apps/products/models.py:25 apps/products/models.py:45
-#: apps/products/models.py:195 apps/profiles/models.py:10
-#: apps/profiles/models.py:99
+#: kawaz/apps/events/models.py:19 kawaz/apps/events/models.py:27
+#: kawaz/apps/events/models.py:28 kawaz/apps/products/models.py:25
+#: kawaz/apps/products/models.py:46 kawaz/apps/products/models.py:195
+#: kawaz/apps/profiles/models.py:10 kawaz/apps/profiles/models.py:99
 msgid "Label"
 msgstr "ラベル"
 
-#: apps/events/models.py:20 apps/products/models.py:27
-#: apps/products/models.py:47 apps/profiles/models.py:12
+#: kawaz/apps/events/models.py:20 kawaz/apps/products/models.py:28
+#: kawaz/apps/products/models.py:49 kawaz/apps/profiles/models.py:12
 msgid "Order"
 msgstr "並び順"
 
-#: apps/events/models.py:59
+#: kawaz/apps/events/models.py:59
 msgid ""
 "A deadline of the attendance. No member can attend the event after this "
 "deadline."
 msgstr ""
 "参加締切日を設定できます。この日時を過ぎた場合、参加することはできません"
 
-#: apps/events/models.py:76 core/registrations/models.py:10
+#: kawaz/apps/events/models.py:76 kawaz/core/registrations/models.py:10
 msgid "Place"
 msgstr "場所"
 
-#: apps/events/models.py:78
+#: kawaz/apps/events/models.py:78
 msgid "Number restriction"
 msgstr "参加可能人数"
 
-#: apps/events/models.py:80
+#: kawaz/apps/events/models.py:80
 msgid "Use this to limit the number of attendees."
 msgstr "参加人数に上限を設けたい場合に設定してください"
 
-#: apps/events/models.py:87 templates/events/event_detail.html:133
+#: kawaz/apps/events/models.py:87 templates/events/event_detail.html:133
 msgid "Organizer"
 msgstr "主催者"
 
-#: apps/events/models.py:92 templates/events/event_detail.html:146
+#: kawaz/apps/events/models.py:92 templates/events/event_detail.html:146
 msgid "Attendees"
 msgstr "参加者"
 
-#: apps/events/models.py:107
+#: kawaz/apps/events/models.py:107
+#: templates/roughpages/drafts.authenticated.html:55
 msgid "Event"
 msgstr "イベント"
 
-#: apps/events/models.py:108 templates/base.html:42
+#: kawaz/apps/events/models.py:108 templates/base.html:40
 #: templates/events/event_form.html:17
 msgid "Events"
 msgstr "イベント"
 
-#: apps/events/models.py:132
+#: kawaz/apps/events/models.py:132
 msgid "End time must be later than start time."
 msgstr "イベント終了日時は必ず開始日時よりも後である必要があります"
 
-#: apps/events/models.py:136
+#: kawaz/apps/events/models.py:136
 msgid "Start time must be future."
 msgstr "イベント開始日は未来の日付である必要があります"
 
-#: apps/events/models.py:138
+#: kawaz/apps/events/models.py:138
 msgid "The period of event is too long."
 msgstr "イベント終了までが長すぎます。6日以内で設定してください"
 
-#: apps/events/models.py:140
+#: kawaz/apps/events/models.py:140
 msgid "You must set end time too"
 msgstr "終了時間を設定する必要があります"
 
-#: apps/events/models.py:143
+#: kawaz/apps/events/models.py:143
 msgid "Number restriction should be grater than 0"
 msgstr "参加可能人数が0に設定されています"
 
-#: apps/events/models.py:148
+#: kawaz/apps/events/models.py:148
 msgid "Attendance deadline must be future."
 msgstr "参加締切日は必ず未来の日付である必要があります"
 
-#: apps/events/models.py:206
+#: kawaz/apps/events/models.py:202
 msgid "Mon"
 msgstr "月"
 
-#: apps/events/models.py:206
+#: kawaz/apps/events/models.py:202
 msgid "Tue"
 msgstr "火"
 
-#: apps/events/models.py:206
+#: kawaz/apps/events/models.py:202
 msgid "Wed"
 msgstr "水"
 
-#: apps/events/models.py:206
+#: kawaz/apps/events/models.py:202
 msgid "Thu"
 msgstr "木"
 
-#: apps/events/models.py:206
+#: kawaz/apps/events/models.py:202
 msgid "Fri"
 msgstr "金"
 
-#: apps/events/models.py:206
+#: kawaz/apps/events/models.py:202
 msgid "Sat"
 msgstr "土"
 
-#: apps/events/models.py:206
+#: kawaz/apps/events/models.py:202
 msgid "Sun"
 msgstr "日"
 
-#: apps/events/models.py:214
+#: kawaz/apps/events/models.py:210
 msgid "%m/%d"
 msgstr "%m月%d日"
 
-#: apps/events/models.py:218
+#: kawaz/apps/events/models.py:214
 msgid "%Y/%m/%d"
 msgstr "%Y年%m月%d日"
 
-#: apps/events/models.py:221
+#: kawaz/apps/events/models.py:217
 msgid "%H:%M"
 msgstr "%H時%M分"
 
-#: apps/events/models.py:228
+#: kawaz/apps/events/models.py:224
 msgid "Unfixed"
 msgstr "開催日時未定"
 
-#: apps/events/models.py:230
+#: kawaz/apps/events/models.py:226
 #, fuzzy, python-format
 #| msgid "{} ~ End time is unfixed"
 msgid "%(start)s ~ End time is unfixed"
 msgstr "%(start)s 〜 終了日時未定"
 
-#: apps/events/models.py:235
+#: kawaz/apps/events/models.py:231
 #, python-format
 msgid "%(start)s ~ %(end)s"
 msgstr "%(start)s 〜 %(end)s"
 
-#: apps/events/views.py:65
+#: kawaz/apps/events/views.py:65
 #, python-format
 msgid "Event '%(title)s' successfully created."
 msgstr "イベント「%(title)s」を作成しました"
 
-#: apps/events/views.py:80
+#: kawaz/apps/events/views.py:80
 #, python-format
 msgid "Event '%(title)s' successfully updated."
 msgstr "イベント「%(title)s」を更新しました"
 
-#: apps/events/views.py:91
+#: kawaz/apps/events/views.py:91
 msgid "Event successfully deleted."
 msgstr "イベントを削除しました"
 
-#: apps/events/views.py:107
+#: kawaz/apps/events/views.py:107
 #, fuzzy
 #| msgid "The star have not been added to this object."
 msgid "You have been attended this event."
 msgstr "イベントに参加しました"
 
-#: apps/events/views.py:135
+#: kawaz/apps/events/views.py:135
 msgid "You have been quited from this event."
 msgstr "イベントの参加をやめました"
 
-#: apps/events/views.py:183
+#: kawaz/apps/events/views.py:183
 msgid "Event must be public or have `period_start`."
 msgstr "イベントは公開状態であるか、開始日時が設定されている必要があります"
 
-#: apps/products/filters.py:11 apps/products/forms.py:22
-#: apps/products/models.py:32 apps/products/models.py:114
+#: kawaz/apps/products/filters.py:11 kawaz/apps/products/forms.py:22
+#: kawaz/apps/products/models.py:33 kawaz/apps/products/models.py:116
 #: templates/products/product_detail.html:109
 #: templates/products/product_list.html:43
 msgid "Platforms"
 msgstr "プラットフォーム"
 
-#: apps/products/forms.py:29 apps/products/models.py:46
-#: apps/products/models.py:98 apps/profiles/models.py:11
-#: apps/projects/models.py:107
+#: kawaz/apps/products/forms.py:29 kawaz/apps/products/models.py:47
+#: kawaz/apps/products/models.py:100 kawaz/apps/profiles/models.py:11
+#: kawaz/apps/projects/models.py:107
 msgid "Description"
 msgstr "概要"
 
-#: apps/products/forms.py:30 apps/products/models.py:116
+#: kawaz/apps/products/forms.py:30 kawaz/apps/products/models.py:118
 msgid "Publish at"
 msgstr "公開日"
 
-#: apps/products/models.py:26 apps/profiles/models.py:100
+#: kawaz/apps/products/models.py:26 kawaz/apps/profiles/models.py:100
 msgid "Icon"
 msgstr "アイコン"
 
-#: apps/products/models.py:31 apps/products/models.py:196
+#: kawaz/apps/products/models.py:32 kawaz/apps/products/models.py:196
 msgid "Platform"
 msgstr "プラットフォーム"
 
-#: apps/products/models.py:76
+#: kawaz/apps/products/models.py:78
 msgid "Featured"
 msgstr "トップページのカルーセル + トップページにタイル表示"
 
-#: apps/products/models.py:77
+#: kawaz/apps/products/models.py:79
 msgid "Tiled"
 msgstr "トップページにタイル表示"
 
-#: apps/products/models.py:78
+#: kawaz/apps/products/models.py:80
 msgid "Normal"
 msgstr "トップページには表示されず、詳細ページでのみタイル表示"
 
-#: apps/products/models.py:83
+#: kawaz/apps/products/models.py:85
 msgid "Product slug"
 msgstr "プロダクトID"
 
-#: apps/products/models.py:84
+#: kawaz/apps/products/models.py:86
 msgid ""
 "It will be used on the url of the product thus it only allow alphabetical or "
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
@@ -366,11 +403,11 @@ msgstr ""
 "半角ハイフンのみ使用できます。一度設定すると変更することはできません。このよ"
 "うに設定されます。http://kawaz.org/products/xxxxxxxxxxxx"
 
-#: apps/products/models.py:93 apps/projects/models.py:110
+#: kawaz/apps/products/models.py:95 kawaz/apps/projects/models.py:110
 msgid "Thumbnail"
 msgstr "サムネイル"
 
-#: apps/products/models.py:96
+#: kawaz/apps/products/models.py:98
 msgid ""
 "This would be used as a product thumbnail image. The aspect ratio of the "
 "image should be 16:9."
@@ -378,11 +415,11 @@ msgstr ""
 "プロダクトのサムネイルとなる画像を設定できます。アスペクト比16:9で設定すると"
 "綺麗に表示されます。"
 
-#: apps/products/models.py:102
+#: kawaz/apps/products/models.py:104
 msgid "Advertisement Image"
 msgstr "告知用画像"
 
-#: apps/products/models.py:106
+#: kawaz/apps/products/models.py:108
 msgid ""
 "This would be used in the top page. The aspect ratio of the image should be "
 "16:9"
@@ -390,35 +427,36 @@ msgstr ""
 "このプロダクトをKawazのトップページに表示したい場合、そのための画像を設定でき"
 "ます。アスペクト比16:9で設定すると綺麗に表示されます。"
 
-#: apps/products/models.py:109
+#: kawaz/apps/products/models.py:111
 msgid "Trailer"
 msgstr "トレイラー"
 
-#: apps/products/models.py:110
+#: kawaz/apps/products/models.py:112
 msgid ""
 "Enter URL of your trailer movie on the YouTube. The movie would be embeded "
 "to the product page."
 msgstr ""
 "Youtubeの動画URLを入力すると、プロダクトページに埋め込むことができます。"
 
-#: apps/products/models.py:112 apps/projects/models.py:139
+#: kawaz/apps/products/models.py:114 kawaz/apps/projects/models.py:139
+#: templates/roughpages/drafts.authenticated.html:69
 msgid "Project"
 msgstr "プロジェクト"
 
-#: apps/products/models.py:120
+#: kawaz/apps/products/models.py:122
 msgid "Administrators"
 msgstr "プロジェクトの管理者"
 
-#: apps/products/models.py:122 apps/products/models.py:201
-#: apps/profiles/models.py:74 apps/projects/models.py:128
+#: kawaz/apps/products/models.py:124 kawaz/apps/products/models.py:201
+#: kawaz/apps/profiles/models.py:74 kawaz/apps/projects/models.py:128
 msgid "Updated at"
 msgstr "最終更新日"
 
-#: apps/products/models.py:135
+#: kawaz/apps/products/models.py:137
 msgid "Display mode"
 msgstr "表示モード"
 
-#: apps/products/models.py:137
+#: kawaz/apps/products/models.py:139
 msgid ""
 "How the product displayed on the site top. To use `featured`, it require "
 "`advertisement_image`."
@@ -426,214 +464,210 @@ msgstr ""
 "このプロダクトをトップページへカルーセル + タイル表示する場合、告知用画像を設"
 "定する必要があります。"
 
-#: apps/products/models.py:142 apps/products/models.py:198
-#: apps/products/models.py:278
+#: kawaz/apps/products/models.py:144 kawaz/apps/products/models.py:198
+#: kawaz/apps/products/models.py:278
 msgid "Product"
 msgstr "プロダクト"
 
-#: apps/products/models.py:143 templates/base.html:41
+#: kawaz/apps/products/models.py:145 templates/base.html:39
 msgid "Products"
 msgstr "プロダクト"
 
-#: apps/products/models.py:156
+#: kawaz/apps/products/models.py:158
 msgid "`feature` display mode require `advertisement_image`."
 msgstr ""
 "表示モードを「トップページのカルーセル + トップページにタイル表示」にする場"
 "合、「告知用画像」を設定する必要があります"
 
-#: apps/products/models.py:197
+#: kawaz/apps/products/models.py:161
+msgid "slug 'platforms' is reserved."
+msgstr "「platforms」というslugは利用できません"
+
+#: kawaz/apps/products/models.py:197
 msgid "Version"
 msgstr "バージョン"
 
-#: apps/products/models.py:221
+#: kawaz/apps/products/models.py:221
 msgid "File"
 msgstr "ファイル"
 
-#: apps/products/models.py:223 templates/products/product_detail.html:28
+#: kawaz/apps/products/models.py:223 templates/products/product_detail.html:28
 msgid "Downloads"
 msgstr "ダウンロード"
 
-#: apps/products/models.py:225
+#: kawaz/apps/products/models.py:225
 msgid "The number of downloads"
 msgstr "ダウンロード数"
 
-#: apps/products/models.py:228
+#: kawaz/apps/products/models.py:228
 msgid "Package release"
 msgstr "パッケージ"
 
-#: apps/products/models.py:229
+#: kawaz/apps/products/models.py:229
 msgid "Package releases"
 msgstr "パッケージ"
 
-#: apps/products/models.py:239 apps/profiles/models.py:64
-#: apps/recent_activities/models.py:15
-msgid "URL"
-msgstr "URL"
-
-#: apps/products/models.py:241
+#: kawaz/apps/products/models.py:241
 msgid "Page view"
 msgstr "閲覧数"
 
-#: apps/products/models.py:243
+#: kawaz/apps/products/models.py:243
 msgid "The number of page views"
 msgstr "閲覧数"
 
-#: apps/products/models.py:246
+#: kawaz/apps/products/models.py:246
 msgid "URL release"
 msgstr "URL"
 
-#: apps/products/models.py:247
+#: kawaz/apps/products/models.py:247
 msgid "URL releases"
 msgstr "URL"
 
-#: apps/products/models.py:275 apps/recent_activities/models.py:16
-msgid "Image"
-msgstr "画像"
-
-#: apps/products/models.py:282
+#: kawaz/apps/products/models.py:282
 msgid "Screen shot"
 msgstr "スクリーンショット"
 
-#: apps/products/models.py:283
+#: kawaz/apps/products/models.py:283
 msgid "Screen shots"
 msgstr "スクリーンショット"
 
-#: apps/products/views.py:162
+#: kawaz/apps/products/views.py:162
 #, python-format
 msgid "Product '%(title)s' successfully created."
 msgstr "作品「%(title)s」を作成しました"
 
-#: apps/products/views.py:180
+#: kawaz/apps/products/views.py:180
 #, python-format
 msgid "Product '%(title)s' successfully updated."
 msgstr "作品「%(title)s」を更新しました"
 
-#: apps/products/views.py:191
+#: kawaz/apps/products/views.py:191
 msgid "Product successfully deleted."
 msgstr "作品を削除しました"
 
-#: apps/profiles/filters.py:11 apps/profiles/forms.py:20
-#: apps/profiles/models.py:20 apps/profiles/models.py:66
+#: kawaz/apps/profiles/filters.py:11 kawaz/apps/profiles/forms.py:20
+#: kawaz/apps/profiles/models.py:20 kawaz/apps/profiles/models.py:66
 msgid "Skills"
 msgstr "できること"
 
-#: apps/profiles/forms.py:23 core/registrations/models.py:17
+#: kawaz/apps/profiles/forms.py:23 kawaz/core/registrations/models.py:17
 msgid "Remarks"
 msgstr "一言メッセージ"
 
-#: apps/profiles/forms.py:24 templates/profiles/profile_detail.html:28
+#: kawaz/apps/profiles/forms.py:24 templates/profiles/profile_detail.html:28
 msgid "Birthday"
 msgstr "誕生日"
 
-#: apps/profiles/models.py:19 core/registrations/models.py:14
+#: kawaz/apps/profiles/models.py:19 kawaz/core/registrations/models.py:14
 msgid "Skill"
 msgstr "できること"
 
-#: apps/profiles/models.py:52 core/publishments/models.py:6
+#: kawaz/apps/profiles/models.py:52 kawaz/core/publishments/models.py:6
 msgid "Public"
 msgstr "外部公開"
 
-#: apps/profiles/models.py:53 core/publishments/models.py:7
+#: kawaz/apps/profiles/models.py:53 kawaz/core/publishments/models.py:7
 msgid "Internal"
 msgstr "内部公開"
 
-#: apps/profiles/models.py:60
+#: kawaz/apps/profiles/models.py:60
 msgid "Birth day"
 msgstr "誕生日"
 
-#: apps/profiles/models.py:62 templates/profiles/profile_detail.html:32
+#: kawaz/apps/profiles/models.py:62 templates/profiles/profile_detail.html:32
 msgid "Address"
 msgstr "住んでるところ"
 
-#: apps/profiles/models.py:63
+#: kawaz/apps/profiles/models.py:63
 msgid "Your address will not be shown by anonymous user."
 msgstr "住所はKawazメンバーのみ見ることができ、外部ユーザには見えません。"
 
-#: apps/profiles/models.py:65
+#: kawaz/apps/profiles/models.py:65
 #, fuzzy
 #| msgid "Remarks"
 msgctxt "Profile"
 msgid "Remarks"
 msgstr "自己紹介"
 
-#: apps/profiles/models.py:71
+#: kawaz/apps/profiles/models.py:71
 msgid "User"
 msgstr "ユーザ"
 
-#: apps/profiles/models.py:80 templates/profiles/profile_form.html:11
+#: kawaz/apps/profiles/models.py:80 templates/profiles/profile_form.html:11
 msgid "Profile"
 msgstr "プロフィール"
 
-#: apps/profiles/models.py:81
+#: kawaz/apps/profiles/models.py:81
 msgid "Profiles"
 msgstr "プロフィール"
 
-#: apps/profiles/models.py:101
+#: kawaz/apps/profiles/models.py:101
 msgid "URL pattern"
 msgstr "ユーザID"
 
-#: apps/profiles/models.py:109 apps/profiles/models.py:116
+#: kawaz/apps/profiles/models.py:109 kawaz/apps/profiles/models.py:117
 msgid "Service"
 msgstr "サービス"
 
-#: apps/profiles/models.py:110
+#: kawaz/apps/profiles/models.py:110
 msgid "Services"
 msgstr "サービス"
 
-#: apps/profiles/models.py:115 apps/profiles/models.py:123
+#: kawaz/apps/profiles/models.py:115 kawaz/apps/profiles/models.py:124
 msgid "Account"
 msgstr "アカウント"
 
-#: apps/profiles/models.py:117
+#: kawaz/apps/profiles/models.py:118
 msgid "Publish State"
 msgstr "プロフィールの公開状態"
 
-#: apps/profiles/models.py:120
+#: kawaz/apps/profiles/models.py:121
 msgid "Username"
 msgstr "ユーザ名"
 
-#: apps/profiles/models.py:124 templates/profiles/profile_detail.html:125
+#: kawaz/apps/profiles/models.py:125
+#: templates/profiles/profile_detail.html:125
 msgid "Accounts"
 msgstr "アカウント"
 
-#: apps/profiles/views.py:93
+#: kawaz/apps/profiles/views.py:93
 msgid "Your profile successfully updated."
 msgstr "プロフィールを更新しました"
 
-#: apps/projects/models.py:17
+#: kawaz/apps/projects/models.py:17
 msgid "Name"
 msgstr "プロジェクト名"
 
-#: apps/projects/models.py:84
+#: kawaz/apps/projects/models.py:84
 msgid "Planning"
 msgstr "企画中"
 
-#: apps/projects/models.py:85
+#: kawaz/apps/projects/models.py:85
 msgid "Active"
 msgstr "活動中"
 
-#: apps/projects/models.py:86
+#: kawaz/apps/projects/models.py:86
 msgid "Suspended"
 msgstr "一時停止中"
 
-#: apps/projects/models.py:87
+#: kawaz/apps/projects/models.py:87
 msgid "Eternaled"
 msgstr "エターナった"
 
-#: apps/projects/models.py:88
+#: kawaz/apps/projects/models.py:88
 msgid "Released"
 msgstr "完成"
 
-#: apps/projects/models.py:95 templates/projects/project_archive.html:30
+#: kawaz/apps/projects/models.py:95 templates/projects/project_archive.html:30
 #: templates/projects/project_detail.html:29
 msgid "Status"
 msgstr "状態"
 
-#: apps/projects/models.py:98
+#: kawaz/apps/projects/models.py:98
 msgid "Project slug"
 msgstr "プロジェクトID"
 
-#: apps/projects/models.py:99
+#: kawaz/apps/projects/models.py:99
 msgid ""
 "It will be used on the url of the project thus it only allow alphabetical or "
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
@@ -643,75 +677,66 @@ msgstr ""
 "バー、半角ハイフンのみ使用できます。一度設定すると変更することはできません。"
 "このように設定されます。http://kawaz.org/products/xxxxxxxxxxxx"
 
-#: apps/projects/models.py:116
+#: kawaz/apps/projects/models.py:116
 msgid "Contact us if you cannot find a category you need."
 msgstr "どのカテゴリにも当てはまらない場合はお問い合わせください"
 
-#: apps/projects/models.py:120
+#: kawaz/apps/projects/models.py:120
 msgid "Administrator"
 msgstr "管理者"
 
-#: apps/projects/models.py:124 templates/profiles/profile_list.html:10
-#: templates/projects/project_detail.html:63
+#: kawaz/apps/projects/models.py:124 templates/profiles/profile_list.html:10
+#: templates/projects/project_detail.html:64
 msgid "Members"
 msgstr "プロジェクトメンバー"
 
-#: apps/projects/models.py:130
+#: kawaz/apps/projects/models.py:130
 msgid "Tracker URL"
 msgstr "トラッカーのURL"
 
-#: apps/projects/models.py:132
+#: kawaz/apps/projects/models.py:132
 msgid "Repository URL"
 msgstr "リポジトリのURL"
 
-#: apps/projects/models.py:140
+#: kawaz/apps/projects/models.py:140
 msgid "Projects"
 msgstr "プロジェクト"
 
-#: apps/projects/views.py:53
+#: kawaz/apps/projects/views.py:53
 #, python-format
 msgid "Project '%(title)s' successfully created."
 msgstr "プロジェクト「%(title)s」を作成しました"
 
-#: apps/projects/views.py:64
+#: kawaz/apps/projects/views.py:64
 #, python-format
 msgid "Project '%(title)s' successfully updated."
 msgstr "プロジェクト「%(title)s」を更新しました"
 
-#: apps/projects/views.py:74
+#: kawaz/apps/projects/views.py:74
 msgid "Project successfully deleted."
 msgstr "プロジェクトを削除しました"
 
-#: apps/projects/views.py:108
+#: kawaz/apps/projects/views.py:108
 #, fuzzy
 #| msgid "The star have not been added to this object."
 msgid "You have been joined to this project."
 msgstr "プロジェクトに参加しました"
 
-#: apps/projects/views.py:127
+#: kawaz/apps/projects/views.py:127
 #, fuzzy
 #| msgid "The star have not been added to this object."
 msgid "You have been quited from this project."
 msgstr "プロジェクトの参加をやめました"
 
-#: apps/recent_activities/models.py:24
-#: templates/roughpages/index.anonymous.html:46
-msgid "Recent Activity"
-msgstr "最近の活動"
-
-#: apps/recent_activities/models.py:25
-msgid "Recent Activities"
-msgstr "最近の活動"
-
-#: apps/stars/models.py:61
+#: kawaz/apps/stars/models.py:61
 msgid "The star have not been added to this object."
 msgstr "このコンテンツにはまだスターが付けられていません"
 
-#: apps/stars/models.py:114
+#: kawaz/apps/stars/models.py:114
 msgid "Quote"
 msgstr "引用"
 
-#: apps/stars/models.py:116
+#: kawaz/apps/stars/models.py:116
 msgid ""
 "This is used for quotation. When the user add a star with text selection, "
 "the selected text is passed to this."
@@ -719,112 +744,113 @@ msgstr ""
 "テキストを選択した状態でスターを付けると、選択部分のテキストを引用した形でス"
 "ターが付きます"
 
-#: apps/stars/models.py:126
+#: kawaz/apps/stars/models.py:126
 msgid "Star"
 msgstr "スター"
 
-#: apps/stars/models.py:127
+#: kawaz/apps/stars/models.py:127
 msgid "Stars"
 msgstr "スター"
 
-#: core/forms/mixins.py:30 templates/products/product_form.html:51
-#: templates/profiles/profile_form.html:23
+#: kawaz/core/forms/mixins.py:30 templates/products/product_form.html:51
+#: templates/profiles/profile_form.html:24
+#: templates/registration/persona_form.html:14
 msgid "Save"
 msgstr "保存する"
 
-#: core/gcal/models.py:30
+#: kawaz/core/gcal/models.py:30
 msgid "Google Calendar Event ID"
 msgstr "GoogleカレンダーのイベントID"
 
-#: core/personas/admin.py:22
+#: kawaz/core/personas/admin.py:22
 msgid "Personal info"
 msgstr "個人情報"
 
-#: core/personas/admin.py:23
+#: kawaz/core/personas/admin.py:23
 msgid "Extra info"
 msgstr "備考"
 
-#: core/personas/admin.py:24
+#: kawaz/core/personas/admin.py:24
 msgid "Permissions"
 msgstr "権限"
 
-#: core/personas/admin.py:26
+#: kawaz/core/personas/admin.py:26
 msgid "Important dates"
 msgstr "重要な日付"
 
-#: core/personas/forms.py:56
+#: kawaz/core/personas/forms.py:56
 msgid "Users in this role have all permissions"
 msgstr "全ての権限を持ちます"
 
-#: core/personas/forms.py:57
+#: kawaz/core/personas/forms.py:57
 msgid "Users in this role can promote to the adam"
 msgstr "他のユーザーに権限を与えたり、神権限になれる権限を持ちます"
 
-#: core/personas/forms.py:58
+#: kawaz/core/personas/forms.py:58
 msgid "Users in this role have staff permission"
 msgstr "スタッフ権限を持ちます"
 
-#: core/personas/forms.py:59
+#: kawaz/core/personas/forms.py:59
 msgid "Users in this role are assumed to be a member of the site"
 msgstr "一般的なユーザー権限を持ちます"
 
-#: core/personas/forms.py:60
+#: kawaz/core/personas/forms.py:60
 msgid "Users in this role are assumed to be a signed in visitor"
 msgstr "外部ユーザー権限を持ちます。ごく一部の機能のみが利用できます"
 
-#: core/personas/models.py:94
+#: kawaz/core/personas/models.py:94
 msgid "Man"
 msgstr "男性"
 
-#: core/personas/models.py:95
+#: kawaz/core/personas/models.py:95
 msgid "Woman"
 msgstr "女性"
 
-#: core/personas/models.py:96
+#: kawaz/core/personas/models.py:96
 msgid "Unknown"
 msgstr "ひみつ"
 
-#: core/personas/models.py:100
+#: kawaz/core/personas/models.py:100
 msgid "Adam"
 msgstr "アダム"
 
-#: core/personas/models.py:101
+#: kawaz/core/personas/models.py:101
 msgid "Seele"
 msgstr "ゼーレ"
 
-#: core/personas/models.py:102
+#: kawaz/core/personas/models.py:102
 msgid "Nerv"
 msgstr "ネルフ"
 
-#: core/personas/models.py:103
+#: kawaz/core/personas/models.py:103
 msgid "Children"
 msgstr "チルドレン"
 
-#: core/personas/models.py:104
+#: kawaz/core/personas/models.py:104
 msgid "Wille"
 msgstr "ヴィレ"
 
-#: core/personas/models.py:107
+#: kawaz/core/personas/models.py:107
 msgid "Nickname"
 msgstr "ニックネーム"
 
-#: core/personas/models.py:108
+#: kawaz/core/personas/models.py:108
 msgid "Mood message"
 msgstr "一言メッセージ"
 
-#: core/personas/models.py:109
+#: kawaz/core/personas/models.py:109
 msgid "Avatar"
 msgstr "ユーザアイコン"
 
-#: core/personas/models.py:111 templates/profiles/profile_detail.html:24
+#: kawaz/core/personas/models.py:111 templates/profiles/profile_detail.html:24
 msgid "Gender"
 msgstr "性別"
 
-#: core/personas/models.py:113
+#: kawaz/core/personas/models.py:113
 msgid "Role"
 msgstr "役職"
 
-#: core/personas/models.py:116
+#: kawaz/core/personas/models.py:116
 msgid ""
 "The role this user belongs to. A user will get permissions of the role thus "
 "the user cannot change ones role for security reason."
@@ -832,34 +858,48 @@ msgstr ""
 "ユーザーが所属している役割です。この役割に応じて、ユーザーに権限が与えられま"
 "す。セキュリティ上の理由から、ユーザーは自分の役割を変更できません。"
 
-#: core/personas/models.py:162
+#: kawaz/core/personas/models.py:162
 msgid "Persona"
 msgstr "ユーザー"
 
-#: core/personas/models.py:163
+#: kawaz/core/personas/models.py:163
 msgid "Personas"
 msgstr "ユーザー"
 
-#: core/publishments/models.py:8
+#: kawaz/core/personas/views.py:23
+#, fuzzy
+#| msgid "Your profile successfully updated."
+msgid "Your user information successfully updated."
+msgstr "プロフィールを更新しました"
+
+#: kawaz/core/personas/views.py:57
+msgid "Your role is changed to 'adam'"
+msgstr "神が降臨しました"
+
+#: kawaz/core/personas/views.py:68
+msgid "Your role is changed to 'seele'"
+msgstr "管理者ユーザーに戻りました"
+
+#: kawaz/core/publishments/models.py:8
 msgid "Draft"
 msgstr "下書き"
 
-#: core/registrations/models.py:11
+#: kawaz/core/registrations/models.py:11
 msgid "Fill your address. You must be related with Sapporo or neighbor cities."
 msgstr ""
 "札幌市または近郊都市の在住、もしくは出身などで札幌に縁のある必要があります。"
 
-#: core/registrations/models.py:15
+#: kawaz/core/registrations/models.py:15
 msgid ""
 "Fill your skills or what you want to do which related to game development."
 msgstr ""
 "どのようなことができるか、またはどのようなゲームが作りたいか書いてください。"
 
-#: settings.py:132
+#: kawaz/settings.py:87
 msgid "English"
 msgstr "英語"
 
-#: settings.py:133
+#: kawaz/settings.py:88
 msgid "Japanese"
 msgstr "日本語"
 
@@ -873,35 +913,68 @@ msgstr "%(count)s件のお知らせがあります"
 msgid "Recent Announcements"
 msgstr "最近のお知らせ"
 
-#: templates/base.html:40
+#: templates/announcements/components/announcement_detail.html:12
+#: templates/blogs/components/entry_detail.html:13
+#, fuzzy
+#| msgid "Do you want to delete this event?"
+msgid "Do you want to delete this entry?"
+msgstr "このイベントを削除してもよろしいですか？"
+
+#: templates/base.html:38
 msgid "Home"
 msgstr "ホーム"
 
-#: templates/base.html:43
-msgid "Blogs"
-msgstr "ブログ"
-
-#: templates/base.html:55
-msgid "View Profile"
-msgstr "プロフィールを見る"
-
-#: templates/base.html:56
-msgid "Change Profile"
-msgstr "プロフィールを編集"
-
-#: templates/base.html:58 templates/registration/logout.html:6
-msgid "Logout"
-msgstr "ログアウト"
-
-#: templates/base.html:64 templates/registration/login.html:7
-msgid "Login"
-msgstr "ログイン"
-
-#: templates/blogs/entry_detail.html:10
+#: templates/base.html:41 templates/blogs/entry_detail.html:10
+#: templates/roughpages/drafts.authenticated.html:41
 #, fuzzy
 #| msgid "Blogs"
 msgid "Blog"
 msgstr "ブログ"
+
+#: templates/base.html:53
+msgid "View Profile"
+msgstr "プロフィールを見る"
+
+#: templates/base.html:54 templates/roughpages/drafts.authenticated.html:10
+#: templates/roughpages/drafts.authenticated.html:15
+msgid "Manage Drafts"
+msgstr "下書きの管理"
+
+#: templates/base.html:55
+msgid "Change Profile"
+msgstr "プロフィールを編集"
+
+#: templates/base.html:56
+msgid "Change User Information"
+msgstr "ユーザー情報の変更"
+
+#: templates/base.html:57 templates/registration/password_change_form.html:13
+#, fuzzy
+#| msgid "Forgot Password?"
+msgid "Change Password"
+msgstr "パスワードを忘れたら"
+
+#: templates/base.html:63
+msgid "Make me human"
+msgstr "人間に戻る"
+
+#: templates/base.html:70
+msgid ""
+"!CAUTION! You will get superuser privilege. Thus you can access to all "
+"records in this system."
+msgstr "【警告】この操作を実行すると管理者権限を得ます。管理者状態では、システムの全てのデータの操作が可能です"
+
+#: templates/base.html:72
+msgid "Make me God"
+msgstr "神になる"
+
+#: templates/base.html:79 templates/registration/logout.html:6
+msgid "Logout"
+msgstr "ログアウト"
+
+#: templates/base.html:85 templates/registration/login.html:7
+msgid "Login"
+msgstr "ログイン"
 
 #: templates/blogs/entry_detail.html:11
 msgid "'s Entries"
@@ -924,6 +997,10 @@ msgstr "ブログ記事を書く"
 #: templates/blogs/entry_list.html:32
 msgid "Hot Entries"
 msgstr "ホットエントリー"
+
+#: templates/components/god_stamp.html:5
+msgid "You can hide this stamp with double clicking it."
+msgstr "ダブルクリックで神マークを非表示にできます"
 
 #: templates/components/login_form.html:18
 #: templates/registration/login.html:13
@@ -1035,7 +1112,7 @@ msgstr "%(count)s人の参加者がいます"
 #: templates/products/product_detail.html:87
 #: templates/products/product_list.html:34
 #: templates/profiles/profile_detail.html:114
-#: templates/projects/project_detail.html:89
+#: templates/projects/project_detail.html:90
 msgid "Administration"
 msgstr "管理"
 
@@ -1148,7 +1225,7 @@ msgstr "参加しているプロジェクト"
 msgid "There are no joinned projects."
 msgstr "参加できるプロジェクトはありません"
 
-#: templates/profiles/profile_form.html:18
+#: templates/profiles/profile_form.html:19
 #, fuzzy
 #| msgid "Using Services"
 msgid "Available Services"
@@ -1177,31 +1254,31 @@ msgstr "トラッカー"
 msgid "Repository"
 msgstr "リポジトリ"
 
-#: templates/projects/project_detail.html:56
+#: templates/projects/project_detail.html:57
 msgid "Join This Project"
 msgstr "プロジェクトに参加する"
 
-#: templates/projects/project_detail.html:77
+#: templates/projects/project_detail.html:78
 msgid "operation"
 msgstr "イベント管理"
 
-#: templates/projects/project_detail.html:80
+#: templates/projects/project_detail.html:81
 msgid "Leave this project"
 msgstr "プロジェクトから抜ける"
 
-#: templates/projects/project_detail.html:93
+#: templates/projects/project_detail.html:94
 msgid "Create Project"
 msgstr "新しいプロジェクトを作成する"
 
-#: templates/projects/project_detail.html:96
+#: templates/projects/project_detail.html:97
 msgid "Update Project"
 msgstr "プロジェクトを編集"
 
-#: templates/projects/project_detail.html:101
+#: templates/projects/project_detail.html:102
 msgid "Do you want to delete this project?"
 msgstr "このプロジェクトを削除してよろしいですか？"
 
-#: templates/projects/project_detail.html:102
+#: templates/projects/project_detail.html:103
 msgid "Delete Project"
 msgstr "プロジェクトを削除"
 
@@ -1219,6 +1296,10 @@ msgstr "企画中のプロジェクト"
 msgid "See More"
 msgstr "もっと見る"
 
+#: templates/registration/persona_form.html:7
+msgid "Change user information"
+msgstr "ユーザー情報の変更"
+
 #: templates/registration/registration_form.html:7
 msgid "Application for join us"
 msgstr "Kawazに参加する"
@@ -1227,6 +1308,34 @@ msgstr "Kawazに参加する"
 msgid "Register"
 msgstr "Kawazへ登録"
 
+#: templates/roughpages/drafts.authenticated.html:35
+#, fuzzy
+#| msgid "There are %(count)s announcement entries."
+msgid "There are no announcements in draft."
+msgstr "%(count)s件のお知らせがあります"
+
+#: templates/roughpages/drafts.authenticated.html:50
+#, fuzzy
+#| msgid "There are no entries yet"
+msgid "There are no blog entries in draft."
+msgstr "書いたブログはまだありません"
+
+#: templates/roughpages/drafts.authenticated.html:64
+#, fuzzy
+#| msgid "There are no entries yet"
+msgid "There are no events in draft."
+msgstr "書いたブログはまだありません"
+
+#: templates/roughpages/drafts.authenticated.html:78
+#, fuzzy
+#| msgid "There are no joinned projects."
+msgid "There are no projects in draft."
+msgstr "参加できるプロジェクトはありません"
+
+#: templates/roughpages/index.anonymous.html:46
+msgid "Recent Activity"
+msgstr "最近の活動"
+
 #: templates/roughpages/index.anonymous.html:67
 msgid "Recent Games"
 msgstr "最近のゲーム"
@@ -1234,6 +1343,12 @@ msgstr "最近のゲーム"
 #: templates/roughpages/index.anonymous.html:76
 msgid "Featured Games"
 msgstr "Kawazの代表作"
+
+#~ msgid "Recent Activities"
+#~ msgstr "最近の活動"
+
+#~ msgid "Blogs"
+#~ msgstr "ブログ"
 
 #~ msgid "{} ~ {}"
 #~ msgstr "{} 〜 {}"

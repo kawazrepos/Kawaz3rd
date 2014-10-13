@@ -45,3 +45,9 @@ class KawazRoughPageTestCase(TestCase):
         /にアクセスして、roughpages/index.authenticated.htmlが表示できるかどうか
         """
         self._test_template("/", "index.authenticated", authenticated=True)
+
+    def test_access_to_drafts_with_authenticated(self):
+        """
+        /draftsにアクセスして、roughpages/drafts.authenticated.htmlが表示できるかどうか
+        """
+        self._test_template("/drafts", "drafts.authenticated", authenticated=True)
