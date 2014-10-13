@@ -36,5 +36,5 @@ class Command(NoArgsCommand):
         for path in pathlist:
             print('- {}'.format(path))
             server.watch(path)
-        # Listen 35279 which is a common port for LiveReload browser ext.
+        # Listen 35729 which is a common port for LiveReload browser ext.
         server.serve(port=35729)
