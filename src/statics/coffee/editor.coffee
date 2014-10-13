@@ -48,7 +48,17 @@ $ ->
     $control.find('.mace-heading-2').click(mace.heading.bind(mace, 2))
     $control.find('.mace-heading-3').click(mace.heading.bind(mace, 3))
     # ["item 1"] リスト初期化用の配列なので、無くても良いです
-    $control.find('.mace-list').click(mace.list?.bind(mace, '-', ["item 1"]))
+    $control.find('.mace-list').click(mace.list.bind(mace, '-', ['item 1']))
+    $control.find('.mace-numeric-list').click(mace.list.bind(mace, 1, ['item 1']))
+    $control.find('.mace-bold').click(mace.bold.bind(mace, '*', 'bold text'))
+    $control.find('.mace-italic').click(mace.italic.bind(mace, '*', 'italic text'))
+    $control.find('.mace-line').click(mace.line.bind(mace, '*'))
+    $control.find('.mace-code').click(->
+      mace.code('write code here')
+    )
+    $control.find('.mace-quote').click(->
+      mace.quote('quoted text')
+    )
     $control.find('.mace-image').click(->
       url = prompt('画像の URL を入力')
       # 最後の引数の true は画像であることを示す
@@ -57,9 +67,6 @@ $ ->
     $control.find('.mace-link').click(->
       url = prompt('URL を入力')
       mace.link(url, 'リンク')
-    )
-    $control.find('.mace-code').click(->
-      mace.code('write code here')
     )
     $control.find('.mace-attachment').click(showAttachmentPopup)
   )
