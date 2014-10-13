@@ -18,3 +18,4 @@ httplib2
 git+https://github.com/enorvelle/GoogleApiPython3x.git#egg=google_api_python_client
 icalendar
 django_compressor
+livereload
