@@ -2,20 +2,18 @@
 {% load staticfiles %}
 {% get_star_endpoint object as endpoint %}
 <section class="star-container" star-endpoint="{{ endpoint }}">
-    <div class="row">
-        <div class="star-add-button-col col-lg-1">
-            {% if user has 'stars.add_star' of object %}
-                <button class="btn btn-primary btm-sm add-star-button"><span class="glyphicon glyphicon-star"></span>イイネ</button>
-            {% endif %}
-        </div>
-        <div class="star-body-col col-lg-11">
-            {% get_stars object as stars %}
-            <ul>
-                {% for star in stars %}
-                    {% include "components/star.html" %}
-                {% endfor %}
-                <li class="star-read-more"><span class="glyphicon glyphicon-chevron-down"></span><span class="text">10</span></li>
-            </ul>
-        </div>
+    <div class="star-add-col">
+        {% if user has 'stars.add_star' of object %}
+            <button class="btn btn-primary btm-sm add-star-button"><span class="glyphicon glyphicon-star"></span>イイネ</button>
+        {% endif %}
+    </div>
+    <div class="star-body-col">
+        {% get_stars object as stars %}
+        <ul>
+            {% for star in stars %}
+                {% include "components/star.html" %}
+            {% endfor %}
+            <li class="star-read-more"><span class="glyphicon glyphicon-chevron-down"></span><span class="text">10</span></li>
+        </ul>
     </div>
 </section>

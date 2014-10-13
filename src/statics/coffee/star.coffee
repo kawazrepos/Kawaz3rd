@@ -76,6 +76,8 @@ $('.star-container').each(->
     )
     $('.star').tooltip()
 
+  refreshStars()
+
   # スターの削除
   $('.star-remove').click(->
     $star = $(@).closest('.star')
