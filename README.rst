@@ -94,7 +94,7 @@ To do that, type commands below
     $ python manage.py compilemessages
     $ honcho start -f config/Procfile.dev
 
-It will start development server at localhost:8000 and livereload server at localhost:35217
+It will start development server at localhost:8000 and livereload server at localhost:35279
 You can access it with http://localhost:8000/ and if you turn on LiveReload extension of Google Chrome, the changes automatically trigger browser update.
 
 .. _LiveReload: https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
