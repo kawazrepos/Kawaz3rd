@@ -14,22 +14,13 @@
         </ul>
     </nav>
 
-{# activities アプリのサンプル #}
-<h2>Activities (Wall)</h2>
-{% get_latest_activities as activities %}
-{% for activity in activities %}
-<article>
-{% render_activity activity %}
-</article>
-{% endfor %}
-
-<h2>Activities</h2>
-{% get_activities as activities %}
-{% for activity in activities %}
-<article>
-{% render_activity activity %}
-</article>
-{% endfor %}
-{# activities アプリのサンプル終了 #}
+    <h2>Activities</h2>
+    {% get_activities as activities %}
+    {% for activity in activities %}
+        <article>
+            {% render_activity activity %}
+        </article>
+    {% endfor %}
+    {# activities アプリのサンプル終了 #}
 
 {% endblock %}

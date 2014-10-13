@@ -1,0 +1,82 @@
+{% extends "authenticated_base.html" %}
+{% load i18n %}
+{% load announcements_tags %}
+{% load events_tags %}
+{% load blogs_tags %}
+{% load projects_tags %}
+{% load products_tags %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="/drafts">{% trans "Manage Drafts" %}</a></li>
+{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <div class="page-header">
+        <h1>{% trans "Manage Drafts" %}</h1>
+    </div>
+    <p>
+       下書き状態の記事の一覧です。ここに表示されている記事はまだ公開されていません
+    </p>
+    {% get_announcements 'draft' as entries %}
+    {% get_entries 'draft' as entries %}
+    {% get_events 'draft' as events %}
+    {% get_projects 'draft' as projects %}
+    {% if user has 'announcements.add_announcement' %}
+        <section>
+            <h2>{% trans "Announcements" %}</h2>
+            {% if announcements.count > 0 %}
+                <div class="list-group">
+                    {% for annoucement in announcements %}
+                        <a href="{{ announcement.get_absolute_url }}" class="list-group-item">{{ announcements.title }}</a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    {% trans "There are no announcements in draft." %}
+                </div>
+            {% endif %}
+        </section>
+    {% endif %}
+    <section>
+        <h2>{% trans "Blog" %}</h2>
+        {% if entries.count > 0 %}
+            <div class="list-group">
+                {% for entry in entries %}
+                    <a href="{{ entry.get_absolute_url }}" class="list-group-item">{{ entry.title }}</a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                {% trans "There are no blog entries in draft." %}
+            </div>
+        {% endif %}
+    </section>
+    <section>
+        <h2>{% trans "Event" %}</h2>
+        {% if events.count > 0 %}
+            <div class="list-group">
+                {% for event in events %}
+                    <a href="{{ event.get_absolute_url }}" class="list-group-item">{{ event.title }}</a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                {% trans "There are no events in draft." %}
+            </div>
+        {% endif %}
+    </section>
+    <section>
+        <h2>{% trans "Project" %}</h2>
+        {% if projects.count > 0 %}
+            <div class="list-group">
+                {% for project in projects %}
+                    <a href="{{ project.get_absolute_url }}" class="list-group-item">{{ project.title }}</a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                {% trans "There are no projects in draft." %}
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
