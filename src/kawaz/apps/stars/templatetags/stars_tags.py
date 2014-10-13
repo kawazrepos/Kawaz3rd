@@ -22,6 +22,8 @@ def get_star_endpoint(context, object):
             <input type="submit">
         </form>
     """
+    if not object:
+        return ""
     from django.core.urlresolvers import reverse
     ct = ContentType.objects.get_for_model(object)
     # dataをdictで渡してしまうと、urllib.parse.urlencodeの
@@ -35,12 +37,11 @@ def get_star_endpoint(context, object):
     query = urllib.parse.urlencode(data)
     return '{}?{}'.format(reverse('star-list'), query)
 
-@register.assignment_tag(takes_context=True)
-def get_stars(context, object):
+@register.assignment_tag
+def get_stars(object):
     """
     任意の<object>についた Star のクエリを取得し指定された
     <variable>に格納するテンプレートタグ
-    ただし、ログイン中のユーザーが見れるスターのみが返却される
 
     Syntax:
         {% get_stars <object> as <variable> %}
@@ -54,6 +55,5 @@ def get_stars(context, object):
         {% endfor %}
 
     """
-    request = context['request']
-    qs = Star.objects.published(request.user).get_for_object(object)
+    qs = Star.objects.get_for_object(object)
     return qs

@@ -49,15 +49,15 @@ class StarsTemplateTagTestCase(TestCase):
         self.assertEqual(r.strip(), "")
         return c['star_endpoint']
 
-    def test_get_stars_published(self):
-        """get_stars published はユーザーが閲覧可能な Star を返す"""
+    def test_get_stars_object(self):
+        """get_stars object はobjectについたStarを返す"""
         patterns = (
             ('adam', 2),
             ('seele', 2),
             ('nerv', 2),
             ('children', 2),
-            ('wille', 0),
-            ('anonymous', 0),
+            ('wille', 2),
+            ('anonymous', 2),
         )
         # with lookup
         for username, nstars in patterns:
@@ -80,3 +80,10 @@ class StarsTemplateTagTestCase(TestCase):
             endpoint = self._render_endpoint_template(obj)
             self.assertEqual(endpoint,
                              "/api/stars?content_type={}&object_id={}".format(ct.pk, obj.pk))
+
+    def test_get_star_endpoint_with_none(self):
+        """
+        get_star_endpointにNoneオブジェクトを渡したとき、空白文字を返す
+        """
+        endpoint = self._render_endpoint_template(None)
+        self.assertEqual(endpoint, '')
