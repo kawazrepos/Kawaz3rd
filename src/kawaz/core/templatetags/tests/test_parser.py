@@ -106,7 +106,7 @@ class ParserTemplateTagTestCase(TestCase):
         content = "{{attachments:{}}}\n".format(slug)
         expected = (
             '<p><a href="/storage/attachments/kawaztan-material/kawaztan.png" '
-            'rel="lightbox" data-lightbox="thumbnail">\n    '
+            'rel="lightbox" data-lightbox="screenshots">\n    '
             '<img src="/storage/attachments/kawaztan-material/kawaztan.png" '
             'alt="kawaztan.png" style="max-width: 500px;" />\n'
             '</a>\n</p>'
