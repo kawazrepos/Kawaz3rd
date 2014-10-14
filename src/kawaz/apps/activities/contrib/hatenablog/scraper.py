@@ -2,6 +2,7 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+import hashlib
 import datetime
 import requests
 from bs4 import BeautifulSoup
@@ -30,6 +31,7 @@ class HatenablogFeedScraper(object):
         for i, entry in enumerate(entries):
             url = entry.link.string
             title = entry.title.string
+            m = hashlib.md5(entry.description.string.encode('utf-8')).digest()
 
             if self.verbose:
                 print("- Fetching entry '{}'... ({}/{})".format(
@@ -45,7 +47,9 @@ class HatenablogFeedScraper(object):
                 defaults=dict(
                     title=title,
                     created_at=created_at,
-                    thumbnail=thumbnail),
+                    thumbnail=thumbnail,
+                    md5=str(m),
+                ),
             )
             if created:
                 ncreated += 1
