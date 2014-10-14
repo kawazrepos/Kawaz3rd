@@ -66,10 +66,10 @@ class ActivitiesModelsActivityTestCase(TestCase):
         activity = Activity()
         self.assertTrue(hasattr(activity, 'status'))
         self.assertTrue(hasattr(activity, 'remarks'))
-        self.assertTrue(hasattr(activity, 'content_object'))
         self.assertTrue(hasattr(activity, 'object_id'))
         self.assertTrue(hasattr(activity, 'created_at'))
         self.assertTrue(hasattr(activity, '_snapshot'))
+        self.assertTrue(hasattr(activity, 'snapshot'))
 
     def test_snapshot(self):
         model = self.models[0]

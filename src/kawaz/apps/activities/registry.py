@@ -2,6 +2,7 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+from django.contrib.contenttypes.models import ContentType
 from .mediator import ActivityMediator
 
 
@@ -38,7 +39,7 @@ class Registry(object):
         """
         Get connected activity mediator of a model which the activity has.
         """
-        model = activity.content_object._meta.model
+        model = activity.content_type.model_class()
         return self._registry[model]
 
 

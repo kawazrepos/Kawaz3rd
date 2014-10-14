@@ -137,7 +137,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
 
         context.update.assert_called_with({
             'activity': activity,
-            'object': activity.content_object,
+            'object': activity.snapshot,
         })
         self.assertEqual(c, context)
 

@@ -16,8 +16,6 @@ class ActivityMediator(object):
     An ActivityMediator class which has responsivilities to controll automatic
     activity creation (with signal handling) or rendering.
     """
-    use_snapshot = False
-
     def _pre_delete_receiver(self, sender, instance, **kwargs):
         ct = ContentType.objects.get_for_model(instance)
         activity = Activity(content_type=ct,
@@ -26,9 +24,8 @@ class ActivityMediator(object):
         # call user defined alternation code
         activity = self.alter(instance, activity, **kwargs)
         if activity:
-            # save current instance snapshot if 'use_snapshot'
-            if self.use_snapshot:
-                activity.snapshot = instance
+            # save current instance as a snapshot
+            activity.snapshot = instance
             activity.save()
 
     def _post_save_receiver(self, sender, instance, created, **kwargs):
@@ -39,9 +36,8 @@ class ActivityMediator(object):
         # call user defined alternation code
         activity = self.alter(instance, activity, **kwargs)
         if activity:
-            # save current instance snapshot if 'use_snapshot'
-            if self.use_snapshot:
-                activity.snapshot = instance
+            # save current instance as a snapshot
+            activity.snapshot = instance
             activity.save()
 
     def _m2m_changed_receiver(self, sender, instance, **kwargs):
@@ -49,9 +45,8 @@ class ActivityMediator(object):
         # user need to create activity instance
         activity = self.alter(instance, None, **kwargs)
         if activity:
-            # save current instance snapshot if 'use_snapshot'
-            if self.use_snapshot:
-                activity.snapshot = instance
+            # save current instance as a snapshot
+            activity.snapshot = instance
             activity.save()
 
     def connect(self, model):
@@ -109,7 +104,7 @@ class ActivityMediator(object):
         """
         context.update({
             'activity': activity,
-            'object': activity.content_object
+            'object': activity.snapshot
         })
         return context
 
