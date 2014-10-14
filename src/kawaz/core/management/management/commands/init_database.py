@@ -123,6 +123,6 @@ class Command(NoArgsCommand):
                    "    honcho start -f Profile.dev\n\n"
                    "And access to 'http://localhost:8000'"))
             print(("You can login as administrator with:\n\n"
-                   "    Username: systen\n"
+                   "    Username: system\n"
                    "    Password: password\n"))
             print("*" * 80)
