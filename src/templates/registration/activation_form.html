@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load form_helper %}
 {% block content %}
     <h1>アクティベーション</h1>
+    {% get_form_helper "bare" as helper %}
     <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
-        {% crispy form %}
+        {% crispy form helper %}
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="アクティベーション" />
         </div>

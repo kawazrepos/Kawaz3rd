@@ -1,0 +1,31 @@
+{{ site.name }}:
+
+{{ user.username }}さんが新規会員登録申請を行いました。以下のリンクをクリックして許可もしくは拒否を行ってください。
+なおこのメールは新規会員登録を許可もしくは拒否できるメンバー全員に自動的に送信されています。
+
+http://{{ site.domain }}/central-dogma/registration/registrationprofile/
+
+
+{{ user.username }}さんの情報
+========================================
+
+スキル
+{{ profile.skill }}
+
+居住地
+{{ profile.place }}
+
+
+自由記入欄:
+{{ profile.remarks }}
+
+
+このメールが身に覚えのない方はお手数ですが webmaster@kawaz.org までご連絡をお願いいたします。
+
+-------------------------------------------------------
+札幌ゲーム製作者コミュニティ - Kawaz
+
+ホームページ: http://{{ site.domain }}
+責任者: giginet
+連絡先: webmaster@kawaz.org
+-------------------------------------------------------

@@ -1,1 +1,31 @@
-Activation URL: {% url 'registration_activate' activation_key=activation_key %}
+{% load url from future %}
+
+{{ site.name }}:
+
+{{ user.username }}さま。
+Kawazへの登録申請ありがとうございます。会員登録が承認されました！
+
+会員登録を完了するために{{ expiration_days }}日以内に以下のURLをクリックしてアカウントを有効にしてください。
+
+http://{{ site.domain }}{% url 'registration_activate' activation_key=activation_key %}
+
+なお{{ expiration_days }}日以内にアカウントが有効化されない場合は自動的にアカウント情報が削除されるので注意してください。
+
+承認完了後はプロフィールの設定ページが現れるので、必ず以下の点について設定してください
+
+- プロフィール
+- Kawazでやりたいこと
+- Skype/Twitterなどの連絡先
+
+Skypeのアカウントを設定していただいたのち、運営メンバーから連絡させていただきます。
+
+
+このメールが身に覚えのない方はお手数ですが webmaster@kawaz.org までご連絡をお願いいたします。
+
+-------------------------------------------------------
+札幌ゲーム製作者コミュニティ - Kawaz
+
+ホームページ: http://{{ site.domain }}
+責任者:   giginet
+連絡先:   webmaster@kawaz.org
+-------------------------------------------------------

@@ -40,13 +40,18 @@ DATABASES = {
 
 
 # メール用の設定を記載
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 25
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
+# 管理者用のメールアドレス
+# 新規会員登録がされたとき、このメールアドレス宛てに通知が届きます
+REGISTRATION_NOTIFICATION_RECIPIENTS = (
+
+)
 
 # Sessionの暗号化などに使用されるキーを変更。
 # セキュリティリスクを避けるためにこの文字列は公開してはいけない
