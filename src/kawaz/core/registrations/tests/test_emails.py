@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.template import Context
 from django.template.loader import render_to_string
 
 class RegistrationMailTemplateTestCase(TestCase):
@@ -13,7 +14,13 @@ class RegistrationMailTemplateTestCase(TestCase):
         """
         registration/acceptance_email.txtを正しくparseできる
         """
-        rendered = render_to_string('registration/acceptance_email.txt')
+        context = Context(dict(
+            activation_key='thisisanactivationkey',
+        ))
+        rendered = render_to_string(
+            'registration/acceptance_email.txt',
+            context_instance=context,
+        )
         self.assertIsNotNone(rendered)
 
     def test_rejection_subject_parse(self):
