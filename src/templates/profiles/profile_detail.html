@@ -146,8 +146,12 @@
                 {% get_published_joined_projects_of object.user as projects %}
                 {% for project in projects.all %}
                     <a class="list-group-item" href="{{ project.get_absolute_url }}">
-                        <img class="avatar avatar-small" src="{{ project.get_small_icon }}">
-                        <span class="link">{{ project.title }}</span>
+                        <div class="belong-project-icon">
+                            <img class="avatar avatar-small" src="{{ project.get_small_icon }}">
+                        </div>
+                        <div class="belong-project-title">
+                            <span class="link">{{ project.title }}</span>
+                        </div>
                     </a>
                 {% empty %}
                     <li class="list-group-item list-group-item-warning">{% trans "There are no joinned projects." %}</li>
