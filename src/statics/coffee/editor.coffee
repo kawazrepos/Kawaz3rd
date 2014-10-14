@@ -54,10 +54,10 @@ $ ->
     $control.find('.mace-italic').click(mace.italic.bind(mace, '*', 'イタリック'))
     $control.find('.mace-line').click(mace.line.bind(mace, '*'))
     $control.find('.mace-code').click(->
-      mace.code('write code here')
+      mace.code('ソースコード')
     )
     $control.find('.mace-quote').click(->
-      mace.quote('quoted text')
+      mace.quote('引用')
     )
     $control.find('.mace-image').click(->
       url = prompt('画像の URL を入力')
