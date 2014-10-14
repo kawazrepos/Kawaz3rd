@@ -88,7 +88,7 @@
                 {% get_published_entries_of object.user as entries %}
                 {% for entry in entries|slice:":5" %}
                     <a href="{{ entry.get_absolute_url }}" class="blog-entry list-group-item">
-                        <time>{{ entry.publish_at | date:"m/d" }}</time>
+                        <time>{{ entry.publish_at | date:"Y/m/d" }}</time>
                         <span class="link">{{ entry.title }}</span>
                     </a>
                     {% if forloop.last %}
