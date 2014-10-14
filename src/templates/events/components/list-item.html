@@ -32,9 +32,7 @@
 
             <ul class="event-attendees-list">
                 {% for attendee in event.attendees.all %}
-                    <a href="{{ attendee.profile.get_absolute_url }}" class="attendee-profile">
-                        <img src="{{ attendee.get_middle_avatar }}" alt="{{ attendee.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ attendee.nickname }}" class="avatar avatar-small" />
-                    </a>
+                    <img src="{{ attendee.get_middle_avatar }}" alt="{{ attendee.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ attendee.nickname }}" class="avatar avatar-small" />
                 {% endfor %}
             </ul>
         </div>
