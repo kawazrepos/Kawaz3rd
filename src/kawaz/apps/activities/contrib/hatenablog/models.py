@@ -19,6 +19,7 @@ class HatenablogEntry(models.Model):
     thumbnail = models.ImageField(_('Image'),
                                   upload_to=_get_upload_path,
                                   default='')
+    md5 = models.CharField(max_length=32)
     created_at = models.DateTimeField(_('Created at'))
 
     def __str__(self):
@@ -28,3 +29,11 @@ class HatenablogEntry(models.Model):
         ordering = ('-created_at',)
         verbose_name = _('Hatenablog entry')
         verbose_name_plural = _('Hatenablog entries')
+
+    def get_absolute_url(self):
+        return self.url
+
+from .activity import HatenablogEntryActivityMediator
+from kawaz.apps.activities.registry import registry
+registry.register(HatenablogEntry,
+                  HatenablogEntryActivityMediator())
