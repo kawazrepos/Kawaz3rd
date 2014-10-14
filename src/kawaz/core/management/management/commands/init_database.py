@@ -120,9 +120,9 @@ class Command(NoArgsCommand):
             print("*" * 80 + "\n")
             print(("The database get ready."))
             print(("Start the development server with honcho as\n\n"
-                   "    honcho start -f Profile.dev\n\n"
+                   "    honcho start -f config/Profile.dev\n\n"
                    "And access to 'http://localhost:8000'"))
             print(("You can login as administrator with:\n\n"
-                   "    Username: systen\n"
+                   "    Username: system\n"
                    "    Password: password\n"))
             print("*" * 80)
