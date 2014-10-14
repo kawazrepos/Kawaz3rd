@@ -37,6 +37,6 @@ class ActivitiesRegistryTestCase(TestCase):
         registry.register(model, mediator)
 
         activity = MagicMock()
-        activity.content_object._meta.model = model
+        activity.content_type.model_class = MagicMock(return_value=model)
 
         self.assertEqual(registry.get(activity), mediator)

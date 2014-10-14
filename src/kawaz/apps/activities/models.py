@@ -14,10 +14,6 @@ SNAPSHOT_CACHE_NAME = '_snapshot_cached'
 
 
 class ActivityManager(models.Manager):
-    def get_queryset(self):
-        # defer '_snapshot' column which only required during signal handling
-        # to accelerate database access
-        return super().get_queryset().defer('_snapshot')
 
     def latests(self):
         """
@@ -43,7 +39,6 @@ class Activity(models.Model):
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField('Object ID')
-    content_object = GenericForeignKey()
     _snapshot = models.BinaryField(default=None, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
