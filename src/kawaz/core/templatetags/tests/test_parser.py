@@ -108,7 +108,7 @@ class ParserTemplateTagTestCase(TestCase):
             '<p><a href="/storage/attachments/kawaztan-material/kawaztan.png" '
             'rel="lightbox" data-lightbox="thumbnail">\n    '
             '<img src="/storage/attachments/kawaztan-material/kawaztan.png" '
-            'alt="kawaztan.png" style="max-width: 600px;" />\n'
+            'alt="kawaztan.png" style="max-width: 500px;" />\n'
             '</a>\n</p>'
         )
         self._test_parser_filter(content, expected)
