@@ -127,3 +127,7 @@ add_permission_logic(Entry, KawazAuthorPermissionLogic(
     any_permission=True,
 ))
 add_permission_logic(Entry, PublishmentPermissionLogic())
+
+from .activity import EntryActivityMediator
+from kawaz.apps.activities.registry import registry
+registry.register(Entry, EntryActivityMediator())
