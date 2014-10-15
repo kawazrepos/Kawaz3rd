@@ -244,3 +244,7 @@ add_permission_logic(Project, ProjectPermissionLogic())
 add_permission_logic(Project, PublishmentPermissionLogic(
     author_field_name='administrator'
 ))
+
+from .activity import ProjectActivityMediator
+from kawaz.apps.activities.registry import registry
+registry.register(Project, ProjectActivityMediator())
