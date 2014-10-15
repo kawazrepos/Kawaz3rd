@@ -17,7 +17,7 @@ class ActivityManager(models.Manager):
 
     def latests(self):
         """
-        Return latest activities of each particular content_objects
+        それぞれのオブジェクトに対して、一番新しいアクティビティのみを返します
         """
         # find created_at list of latest activities of each particular
         # content_objects
@@ -40,8 +40,7 @@ class ActivityManager(models.Manager):
         Get activities related to the specified object
         """
         ct = ContentType.objects.get_for_model(obj)
-        return self.filter(content_type=ct, object_id=obj.pk)
-
+        return self.filter(content_type=ct, object_id=obj.pk).order_by()
 
 class Activity(models.Model):
     """
