@@ -4,8 +4,8 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.contrib.contenttypes.models import ContentType
 from kawaz.core.personas.models import Persona
-from kawaz.apps.activities.models import Activity
-from kawaz.apps.activities.mediator import ActivityMediator
+from activities.models import Activity
+from activities.mediator import ActivityMediator
 
 
 class HatenablogEntryActivityMediator(ActivityMediator):
