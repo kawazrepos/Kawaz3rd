@@ -21,7 +21,7 @@ def get(url, **kwargs):
     return response
 
 
-@patch('kawaz.apps.activities.contrib.hatenablog.scraper.requests.get', get)
+@patch('kawaz.core.activities.hatenablog.scraper.requests.get', get)
 class HatenablogFeedScraperTestCase(TestCase):
     def setUp(self):
         self.url = 'feed_url'

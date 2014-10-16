@@ -34,6 +34,6 @@ class HatenablogEntry(models.Model):
         return self.url
 
 from .activity import HatenablogEntryActivityMediator
-from kawaz.apps.activities.registry import registry
+from activities.registry import registry
 registry.register(HatenablogEntry,
                   HatenablogEntryActivityMediator())
