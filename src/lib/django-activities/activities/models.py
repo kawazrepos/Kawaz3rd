@@ -28,6 +28,20 @@ class ActivityManager(models.Manager):
         # return activities corresponding to the latests
         return self.filter(created_at__in=created_ats)
 
+    def get_for_model(self, model):
+        """
+        Get activities related to the specified model
+        """
+        ct = ContentType.objects.get_for_model(model)
+        return self.filter(content_type=ct)
+
+    def get_for_object(self, obj):
+        """
+        Get activities related to the specified object
+        """
+        ct = ContentType.objects.get_for_model(obj)
+        return self.filter(content_type=ct, object_id=obj.pk)
+
 
 class Activity(models.Model):
     """
@@ -49,6 +63,10 @@ class Activity(models.Model):
         ordering = ('-created_at',)
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
+
+    def __repr__(self):
+        return "<Activity: {}:{}>".format(self.content_type.model,
+                                          self.object_id)
 
     @property
     def snapshot(self):

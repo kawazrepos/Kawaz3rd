@@ -50,6 +50,16 @@ class ActivitiesModelsActivityManagerTestCase(TestCase):
         for latest in latests:
             self.assertEqual(latest.status, 'deleted')
 
+    def test_get_for_model(self):
+        qs = Activity.objects.get_for_model(ModelA)
+        ex = map(repr, reversed(self.activities[0:9]))
+        self.assertQuerysetEqual(qs, ex)
+
+    def test_get_for_object(self):
+        qs = Activity.objects.get_for_object(self.models[0])
+        ex = map(repr, reversed(self.activities[0:3]))
+        self.assertQuerysetEqual(qs, ex)
+
 
 class ActivitiesModelsActivityTestCase(TestCase):
     def setUp(self):
