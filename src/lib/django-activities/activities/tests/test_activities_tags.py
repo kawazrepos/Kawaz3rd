@@ -50,9 +50,9 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         # get_activities should not render anything
         self.assertEqual(r.strip(), '')
         # activities should be equal to activity queryset
-        # but the queryset is defer thus cannot compare directly
-        self.assertEqual([x.pk for x in c['activities']],
-                         [x.pk for x in Activity.objects.all()])
+        qs = Activity.objects.all()
+        ex = map(repr, c['activities'])
+        self.assertQuerysetEqual(qs, ex)
 
     def test_get_latest_activities(self):
         t = Template(
@@ -64,9 +64,9 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         # get_activities should not render anything
         self.assertEqual(r.strip(), '')
         # activities should be equal to activity queryset
-        # but the queryset is defer thus cannot compare directly
-        self.assertEqual([x.pk for x in c['activities']],
-                         [x.pk for x in Activity.objects.latests()])
+        qs = Activity.objects.latests()
+        ex = map(repr, c['activities'])
+        self.assertQuerysetEqual(qs, ex)
 
     @patch('activities.templatetags.activities_tags.registry')
     def test_render_activity(self, registry):
