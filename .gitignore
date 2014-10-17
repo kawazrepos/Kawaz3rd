@@ -11,6 +11,8 @@ public
 # Ignore files which should not be shared
 config/gcal/credentials.json
 config/gcal/client_secrets.json
+config/activities/notifiers/twitter/credentials.json
+config/activities/notifiers/twitter/client_secrets.json
 src/kawaz/local_settings.py
 
 # Ignore files which starts from '.'

@@ -13,3 +13,6 @@ class ActivitiesAppConf(AppConf):
 
     # A dictionary which contains extensions for each `typename`
     TEMPLATE_EXTENSIONS = {}
+
+    # Notifiers list
+    NOTIFIERS = []

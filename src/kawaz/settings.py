@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'compressor',
     'activities',
+    'activities.notifiers.twitter',
     'kawaz.core.management',
     'kawaz.core.db',
     'kawaz.core.utils',
@@ -214,6 +215,18 @@ GCAL_CLIENT_SECRETS = os.path.join(
     REPOSITORY_ROOT, 'config', 'gcal', 'client_secrets.json')
 GCAL_CREDENTIALS = os.path.join(
     REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
+
+
+# Activities
+ACTIVITIES_NOTIFIERS = (
+    'activities.notifiers.twitter.notifier.ActivityTwitterNotifier',
+)
+ACTIVITIES_NOTIFIERS_TWITTER_CLIENT_SECRETS = os.path.join(
+    REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+    'twitter', 'client_secrets.json')
+ACTIVITIES_NOTIFIERS_TWITTER_CREDENTIALS = os.path.join(
+    REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+    'twitter', 'credentials.json')
 
 
 # crispy-forms

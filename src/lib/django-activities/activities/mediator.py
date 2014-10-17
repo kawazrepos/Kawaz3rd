@@ -19,6 +19,15 @@ class ActivityMediator(object):
     """
     default_template_extension = None
     template_extensions = None
+    notifiers = None
+
+    def get_notifiers(self):
+        """
+        Get a list of activity notifier subclasses
+        """
+        # to prevent circular reference
+        from .notifiers.utils import get_notifiers
+        return get_notifiers(self.notifiers)
 
     @property
     def _default_template_extension(self):
@@ -45,6 +54,9 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             activity.snapshot = instance
             activity.save()
+            # notify
+            for notifier in self.get_notifiers():
+                notifier.notify(activity, **kwargs)
 
     def _post_save_receiver(self, sender, instance, created, **kwargs):
         ct = ContentType.objects.get_for_model(instance)
@@ -57,6 +69,9 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             activity.snapshot = instance
             activity.save()
+            # notify
+            for notifier in self.get_notifiers():
+                notifier.notify(activity, **kwargs)
 
     def _m2m_changed_receiver(self, sender, instance, **kwargs):
         # call user defined alternation code
@@ -66,6 +81,9 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             activity.snapshot = instance
             activity.save()
+            # notify
+            for notifier in self.get_notifiers():
+                notifier.notify(activity, **kwargs)
 
     def connect(self, model):
         """
