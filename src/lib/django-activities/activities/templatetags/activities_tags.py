@@ -12,23 +12,50 @@ from ..registry import registry
 register = template.Library()
 
 
-@register.simple_tag(takes_context=True)
-def render_activity(context, activity):
+class RenderActivityNode(template.Node):
+    def __init__(self, activity, typename=None):
+        self.activity = template.Variable(activity)
+        self.typename = template.Variable(typename) if typename else None
+
+    def render(self, context):
+        activity = self.activity.resolve(context)
+        # get activity mediator instance connected to a model which the
+        # activity target to
+        mediator = registry.get(activity)
+        # render activity instance via render method of a corresponding
+        # mediator
+        if self.typename:
+            typename = self.typename.resolve(context)
+        else:
+            typename = None
+        context.push()
+        rendered = mediator.render(activity, context, typename=typename)
+        context.pop()
+        return mark_safe(rendered)
+
+
+@register.tag
+def render_activity(parser, token):
     """
     Render an instance of Activity via 'render' method of a
-    corresponding activity mediator of a model which the activity target to
+    corresponding activity mediator of a model which the activity target to.
+    <typename> is used to specify a way of rendering
 
     Usage:
         {% render_activity <activity> %}
+        {% render_activity <activity> of <typename> %}
 
     """
-    # get activity mediator instance connected to a model which the
-    # activity target to
-    mediator = registry.get(activity)
-    # render activity instance via render method of a corresponding
-    # mediator
-    rendered = mediator.render(activity, context)
-    return mark_safe(rendered)
+    bits = token.split_contents()
+    if len(bits) == 4:
+        if bits[2] != 'of':
+            raise TemplateSyntaxError(
+                "first argument of {} tag must be 'of'".format(bits[0])
+            )
+        return RenderActivityNode(bits[1], bits[3])
+    elif len(bits) == 2:
+        return RenderActivityNode(bits[1])
+    raise TemplateSyntaxError("{} tag takes exactly 2 or 4 arguments.")
 
 
 @register.assignment_tag

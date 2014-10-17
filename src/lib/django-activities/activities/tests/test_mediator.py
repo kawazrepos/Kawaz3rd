@@ -11,8 +11,8 @@ from ..registry import Registry
 
 
 class ActivitiesActivityMediatorTestCase(TestCase):
-    @patch('kawaz.apps.activities.mediator.ContentType', spec=ContentType)
-    @patch('kawaz.apps.activities.mediator.Activity', spec=Activity)
+    @patch('activities.mediator.ContentType', spec=ContentType)
+    @patch('activities.mediator.Activity', spec=Activity)
     def test__pre_delete_receiver(self, Activity, ContentType):
         ct = MagicMock()
         instance = MagicMock()
@@ -34,8 +34,8 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         # activity save method is called
         activity.save.assert_called_with()
 
-    @patch('kawaz.apps.activities.mediator.ContentType', spec=ContentType)
-    @patch('kawaz.apps.activities.mediator.Activity', spec=Activity)
+    @patch('activities.mediator.ContentType', spec=ContentType)
+    @patch('activities.mediator.Activity', spec=Activity)
     def test__post_save_receiver(self, Activity, ContentType):
         ct = MagicMock()
         instance = MagicMock()
@@ -67,8 +67,8 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         # activity save method is called
         activity.save.assert_called_with()
 
-    @patch('kawaz.apps.activities.mediator.ContentType', spec=ContentType)
-    @patch('kawaz.apps.activities.mediator.Activity', spec=Activity)
+    @patch('activities.mediator.ContentType', spec=ContentType)
+    @patch('activities.mediator.Activity', spec=Activity)
     def test__m2m_changed_receiver(self, Activity, ContentType):
         ct = MagicMock()
         instance = MagicMock()
@@ -91,9 +91,9 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         activity.save.assert_called_with()
 
 
-    @patch('kawaz.apps.activities.mediator.post_save')
-    @patch('kawaz.apps.activities.mediator.pre_delete')
-    @patch('kawaz.apps.activities.mediator.m2m_changed')
+    @patch('activities.mediator.post_save')
+    @patch('activities.mediator.pre_delete')
+    @patch('activities.mediator.m2m_changed')
     def test_connect(self, m2m_changed, pre_delete, post_save):
         model = MagicMock()
         model._meta.app_label = 'app_label'
@@ -128,20 +128,54 @@ class ActivitiesActivityMediatorTestCase(TestCase):
                          'activities/app_label/status.html',
                          'activities/status.html'))
 
+    def test_get_template_name_with_typename(self):
+        model = MagicMock()
+        model.__name__ = MagicMock()
+        model.__name__.lower = MagicMock(return_value='model')
+        model._meta.app_label = 'app_label'
+        activity = MagicMock()
+        activity.status = 'status'
+
+        mediator = ActivityMediator()
+        mediator.connect(model)
+        self.assertEqual(mediator.get_template_names(activity, 'test'), (
+                         'activities/app_label/model_status.test.html',
+                         'activities/app_label/status.test.html',
+                         'activities/status.test.html',
+                         'activities/app_label/model_status.html',
+                         'activities/app_label/status.html',
+                         'activities/status.html'))
+
     def test_prepare_context(self):
         activity = MagicMock()
         context = MagicMock()
 
         mediator = ActivityMediator()
-        c = mediator.prepare_context(activity, context)
+        c = mediator.prepare_context(activity, context, typename=None)
 
         context.update.assert_called_with({
             'activity': activity,
             'object': activity.snapshot,
+            'typename': None,
         })
         self.assertEqual(c, context)
 
-    @patch('kawaz.apps.activities.mediator.select_template')
+    def test_prepare_context_with_typename(self):
+        activity = MagicMock()
+        context = MagicMock()
+        typename = MagicMock()
+
+        mediator = ActivityMediator()
+        c = mediator.prepare_context(activity, context, typename=typename)
+
+        context.update.assert_called_with({
+            'activity': activity,
+            'object': activity.snapshot,
+            'typename': typename,
+        })
+        self.assertEqual(c, context)
+
+    @patch('activities.mediator.select_template')
     def test_render(self, select_template):
         model = MagicMock()
         model.__name__ = MagicMock()
@@ -163,7 +197,38 @@ class ActivitiesActivityMediatorTestCase(TestCase):
 
         select_template.assert_called_with(
             mediator.get_template_names(activity))
-        mediator.prepare_context.assert_called_with(activity, context.new())
+        mediator.prepare_context.assert_called_with(activity,
+                                                    context.new(),
+                                                    typename=None)
+        template.render.assert_called_with(context.new())
+        self.assertEqual(r, rendered)
+
+    @patch('activities.mediator.select_template')
+    def test_render_with_typename(self, select_template):
+        model = MagicMock()
+        model.__name__ = MagicMock()
+        model.__name__.lower = MagicMock(return_value='model')
+        model._meta.app_label = 'app_label'
+        activity = MagicMock()
+        activity.status = 'status'
+        context = MagicMock()
+        rendered = MagicMock()
+        template = MagicMock()
+        template.render.return_value = rendered
+        select_template.return_value = template
+        typename = 'test'
+
+        mediator = ActivityMediator()
+        mediator.connect(model)
+        mediator.prepare_context = MagicMock(return_value=context.new())
+
+        r = mediator.render(activity, context, typename=typename)
+
+        select_template.assert_called_with(
+            mediator.get_template_names(activity, typename=typename))
+        mediator.prepare_context.assert_called_with(activity,
+                                                    context.new(),
+                                                    typename=typename)
         template.render.assert_called_with(context.new())
         self.assertEqual(r, rendered)
 

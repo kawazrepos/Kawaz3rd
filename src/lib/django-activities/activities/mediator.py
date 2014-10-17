@@ -64,18 +64,30 @@ class ActivityMediator(object):
         m2m_changed.connect(self._m2m_changed_receiver, sender=model,
                             weak=False)
 
-    def get_template_names(self, activity):
+    def get_template_names(self, activity, typename=None):
         """
         Get a list of template name used to render the activity
         """
         app_label = self.app_label
         model = self.model.__name__.lower()
         status = activity.status
-        return (
-            "activities/{}/{}_{}.html".format(app_label, model, status),
-            "activities/{}/{}.html".format(app_label, status),
-            "activities/{}.html".format(status),
-        )
+        if typename:
+            return (
+                "activities/{}/{}_{}.{}.html".format(
+                    app_label, model, status, typename),
+                "activities/{}/{}.{}.html".format(
+                    app_label, status, typename),
+                "activities/{}.{}.html".format(status, typename),
+                "activities/{}/{}_{}.html".format(app_label, model, status),
+                "activities/{}/{}.html".format(app_label, status),
+                "activities/{}.html".format(status),
+            )
+        else:
+            return (
+                "activities/{}/{}_{}.html".format(app_label, model, status),
+                "activities/{}/{}.html".format(app_label, status),
+                "activities/{}.html".format(status),
+            )
 
     def alter(self, instance, activity, **kwargs):
         """
@@ -98,21 +110,23 @@ class ActivityMediator(object):
         """
         return activity
 
-    def prepare_context(self, activity, context):
+    def prepare_context(self, activity, context, typename=None):
         """
         Prepare context which used in 'render' method.
         """
         context.update({
             'activity': activity,
-            'object': activity.snapshot
+            'object': activity.snapshot,
+            'typename': typename,
         })
         return context
 
-    def render(self, activity, context):
+    def render(self, activity, context, typename=None):
         """
         Return rendered string of the specified activity
         """
-        template_names = self.get_template_names(activity)
+        template_names = self.get_template_names(activity, typename)
         template = select_template(template_names)
-        context = self.prepare_context(activity, context.new())
+        context = self.prepare_context(activity, context.new(),
+                                       typename=typename)
         return template.render(context)

@@ -4,7 +4,7 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from unittest.mock import MagicMock, patch
 from django.test import TestCase
-from django.template import Template, Context
+from django.template import Template, Context, TemplateSyntaxError
 from django.contrib.contenttypes.models import ContentType
 from django.utils.safestring import SafeBytes
 from .models import ActivitiesTestModelA as ModelA
@@ -68,7 +68,7 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         self.assertEqual([x.pk for x in c['activities']],
                          [x.pk for x in Activity.objects.latests()])
 
-    @patch('kawaz.apps.activities.templatetags.activities_tags.registry')
+    @patch('activities.templatetags.activities_tags.registry')
     def test_render_activity(self, registry):
         activity = self.activities[0]
         mediator = MagicMock()
@@ -82,7 +82,43 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         r = t.render(c)
 
         registry.get.assert_called_with(activity)
-        mediator.render.assert_called_with(activity, c)
+        mediator.render.assert_called_with(activity, c, typename=None)
         self.assertEqual(r.strip(), '<strong>Hello</strong>')
 
+    @patch('activities.templatetags.activities_tags.registry')
+    def test_render_activity_with_typename(self, registry):
+        activity = self.activities[0]
+        mediator = MagicMock()
+        mediator.render.return_value = '<strong>Hello</strong>'
+        registry.get.return_value = mediator
+        t = Template(
+            "{% load activities_tags %}"
+            "{% render_activity activity of 'test' %}"
+        )
+        c = Context({'activity': activity})
+        r = t.render(c)
 
+        registry.get.assert_called_with(activity)
+        mediator.render.assert_called_with(activity, c, typename='test')
+        self.assertEqual(r.strip(), '<strong>Hello</strong>')
+
+    @patch('activities.templatetags.activities_tags.registry')
+    def test_render_activity_syntax_error(self, registry):
+        activity = self.activities[0]
+        mediator = MagicMock()
+        mediator.render.return_value = '<strong>Hello</strong>'
+        registry.get.return_value = mediator
+        self.assertRaises(TemplateSyntaxError, Template, 
+            "{% load activities_tags %}"
+            "{% render_activity %}"
+        )
+
+        self.assertRaises(TemplateSyntaxError, Template, 
+            "{% load activities_tags %}"
+            "{% render_activity activity of %}"
+        )
+
+        self.assertRaises(TemplateSyntaxError, Template, 
+            "{% load activities_tags %}"
+            "{% render_activity activity with 'test' %}"
+        )
