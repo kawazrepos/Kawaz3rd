@@ -51,7 +51,7 @@ def render_activity(parser, token):
     if len(bits) == 4:
         if bits[2] != 'of':
             raise TemplateSyntaxError(
-                "first argument of {} tag must be 'of'".format(bits[0])
+                "second argument of {} tag must be 'of'".format(bits[0])
             )
         return RenderActivityNode(bits[1], bits[3])
     elif len(bits) == 2:
