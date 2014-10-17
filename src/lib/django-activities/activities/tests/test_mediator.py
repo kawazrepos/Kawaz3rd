@@ -4,6 +4,7 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from unittest.mock import MagicMock, patch
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.contrib.contenttypes.models import ContentType
 from ..mediator import ActivityMediator
 from ..models import Activity
@@ -113,7 +114,24 @@ class ActivitiesActivityMediatorTestCase(TestCase):
                                                sender=model,
                                                weak=False)
 
-    def test_get_template_name(self):
+    @override_settings(
+        ACTIVITIES_DEFAULT_TEMPLATE_EXTENSION='.html',
+        ACTIVITIES_TEMPLATE_EXTENSIONS={},
+    )
+    def test_get_template_extension(self):
+        mediator = ActivityMediator()
+        self.assertEqual(mediator.get_template_extension(None), '.html')
+        self.assertEqual(mediator.get_template_extension('?'), '.html')
+
+        with override_settings(ACTIVITIES_DEFAULT_TEMPLATE_EXTENSION='.txt'):
+            self.assertEqual(mediator.get_template_extension(None), '.txt')
+            self.assertEqual(mediator.get_template_extension('?'), '.txt')
+
+        with override_settings(ACTIVITIES_TEMPLATE_EXTENSIONS={'?': '.txt'}):
+            self.assertEqual(mediator.get_template_extension(None), '.html')
+            self.assertEqual(mediator.get_template_extension('?'), '.txt')
+
+    def test_get_template_names(self):
         model = MagicMock()
         model.__name__ = MagicMock()
         model.__name__.lower = MagicMock(return_value='model')
@@ -122,29 +140,38 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         activity.status = 'status'
 
         mediator = ActivityMediator()
+        mediator.get_template_extension = MagicMock(return_value='.html')
         mediator.connect(model)
         self.assertEqual(mediator.get_template_names(activity), (
                          'activities/app_label/model_status.html',
                          'activities/app_label/status.html',
                          'activities/status.html'))
+        mediator.get_template_extension.assert_called_with(None)
 
-    def test_get_template_name_with_typename(self):
+    @override_settings(
+        ACTIVITIES_DEFAULT_EXTENSION='.html',
+        ACTIVITIES_TEMPLATE_EXTENSIONS={},
+    )
+    def test_get_template_names_with_typename(self):
         model = MagicMock()
         model.__name__ = MagicMock()
         model.__name__.lower = MagicMock(return_value='model')
         model._meta.app_label = 'app_label'
         activity = MagicMock()
         activity.status = 'status'
+        typename = 'test'
 
         mediator = ActivityMediator()
+        mediator.get_template_extension = MagicMock(return_value='.html')
         mediator.connect(model)
-        self.assertEqual(mediator.get_template_names(activity, 'test'), (
+        self.assertEqual(mediator.get_template_names(activity, typename), (
                          'activities/app_label/model_status.test.html',
                          'activities/app_label/status.test.html',
                          'activities/status.test.html',
                          'activities/app_label/model_status.html',
                          'activities/app_label/status.html',
                          'activities/status.html'))
+        mediator.get_template_extension.assert_called_with(typename)
 
     def test_prepare_context(self):
         activity = MagicMock()
