@@ -54,6 +54,39 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         ex = map(repr, c['activities'])
         self.assertQuerysetEqual(qs, ex)
 
+    def test_get_activities_of_with_object(self):
+        t = Template(
+            "{% load activities_tags %}"
+            "{% get_activities_of obj as activities %}"
+        )
+        c = Context(dict(
+            obj=self.models[0],
+        ))
+        r = t.render(c)
+        # get_activities should not render anything
+        self.assertEqual(r.strip(), '')
+        # activities should be equal to activity queryset
+        qs = Activity.objects.get_for_object(self.models[0])
+        ex = map(repr, c['activities'])
+        self.assertQuerysetEqual(qs, ex)
+
+    def test_get_activities_of_with_model(self):
+        t = Template(
+            "{% load activities_tags %}"
+            "{% get_activities_of 'activities.ActivitiesTestModelA' "
+            "as activities %}"
+        )
+        c = Context(dict(
+            obj=self.models[0],
+        ))
+        r = t.render(c)
+        # get_activities should not render anything
+        self.assertEqual(r.strip(), '')
+        # activities should be equal to activity queryset
+        qs = Activity.objects.get_for_model(ModelA)
+        ex = map(repr, c['activities'])
+        self.assertQuerysetEqual(qs, ex)
+
     def test_get_latest_activities(self):
         t = Template(
             "{% load activities_tags %}"

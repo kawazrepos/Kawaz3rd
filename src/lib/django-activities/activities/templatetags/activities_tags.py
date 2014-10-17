@@ -5,6 +5,7 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django import template
 from django.template import TemplateSyntaxError
 from django.utils.safestring import mark_safe
+from django.contrib.contenttypes.models import ContentType
 from ..models import Activity
 from ..registry import registry
 
@@ -78,3 +79,35 @@ def get_latest_activities():
         {% get_latest_activities as <variable> %}
     """
     return Activity.objects.latests()
+
+@register.assignment_tag
+def get_activities_of(model_or_object):
+    """
+    Get a queryset of activities which related to the specified model (string)
+    or object.
+
+    Usage:
+        {% get_activities_of <model> as <variable> %}
+        {% get_activities_of '<app_label>.<model_name>' as <variable> %}
+
+    Example:
+        {# Get activities related to the 'object' #}
+        {% get_activities_of object as activities %}
+
+        {# Get activities related to the 'events.Event' model #}
+        {% get_activities_of 'events.Event' as activities %}
+
+    """
+    if isinstance(model_or_object, str):
+        app_label, model_name = model_or_object.split('.', 1)
+        ct = ContentType.objects.get_by_natural_key(
+            app_label.lower(),
+            model_name.lower(),
+        )
+        return Activity.objects.get_for_model(ct.model_class())
+    else:
+        return Activity.objects.get_for_object(model_or_object)
+
+
+
+
