@@ -26,18 +26,16 @@ class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
         period_end = self.object.period_start + datetime.timedelta(hours=10)
         deadline = timezone.now() + datetime.timedelta(minutes=30)
         self._test_partial_update(
-            {
-                'period_start': period_start,
-                'period_end': period_end,
-                'place': 'ジオフロント',
-                'number_restriction': 10,
-                'attendance_deadline': deadline,
-            },
             (
                 'period_start_updated',
                 'period_end_updated',
                 'place_updated',
-            )
+            ),
+            period_start=period_start,
+            period_end=period_end,
+            place='ジオフロント',
+            number_restriction=10,
+            attendance_deadline=deadline
         )
 
     def test_delete(self):

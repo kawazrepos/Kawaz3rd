@@ -21,7 +21,7 @@ class BaseActivityMediatorTestCase(TestCase):
         self.assertEqual(activities[0].status, 'created')
         self.assertEqual(activities[0].snapshot, self.object)
 
-    def _test_partial_update(self, fields, context_names):
+    def _test_partial_update(self, context_names = (), **fields):
         activities = Activity.objects.get_for_object(self.object)
         self.assertEqual(len(activities), 1)
         for field, value in fields.items():

@@ -47,3 +47,4 @@ class PersonaActivityMediator(ActivityMediator):
                     # 通知が必要な変更ではないため通知しない
                     return None
                 activity.remarks = "\n".join(remarks)
+        return activity

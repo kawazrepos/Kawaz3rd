@@ -9,7 +9,6 @@ class ProfileActivityMediator(ActivityMediator):
     use_snapshot = True
 
     def alter(self, instance, activity, **kwargs):
-        # 状態がdraftの場合は通知しない
         if activity and activity.status == 'updated':
             # 通知が必要な状態の変更を詳細に記録する
             previous = activity.previous.snapshot
