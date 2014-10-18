@@ -176,6 +176,22 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             # 重複を避けるため削除する
             e.delete()
 
+    def test_set_last_modifier_via_create_view(self):
+        """
+        プロダクト作成時にlast_modifierが設定される
+        """
+        for i, user in enumerate(self.members):
+            self.prefer_login(user)
+            with open(self.image_file, 'rb') as f:
+                self.product_kwargs['thumbnail'] = f
+                r = self.client.post('/products/create/', self.product_kwargs)
+            self.assertRedirects(r, '/products/kawaztan-fantasy/')
+            self.assertEqual(Product.objects.count(), 1)
+            e = Product.objects.get(pk=i+1)
+            self.assertEqual(e.last_modifier, user)
+            # 重複を避けるため削除する
+            e.delete()
+
     def test_member_can_create_screenshot_via_product_form(self):
         """
         メンバーはプロダクトフォームからScreenshotモデルも作成できる
@@ -370,6 +386,21 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             self.assertEqual(e.title, 'クラッカーだよ！！！')
             self.assertTrue('messages' in r.cookies,
                             "No messages are appeared")
+
+    def test_set_last_modifier_via_update_product(self):
+        """
+        プロダクト編集時にlast_modifierがセットされる
+        """
+        for user in [self.members[0], self.administrator]:
+            self.prefer_login(user)
+            with open(self.image_file, 'rb') as f:
+                self.product_kwargs['thumbnail'] = f
+                r = self.client.post('/products/1/update/',
+                                     self.product_kwargs)
+            self.assertRedirects(r, '/products/{}/'.format(self.product.slug))
+            self.assertEqual(Product.objects.count(), 1)
+            e = Product.objects.get(pk=1)
+            self.assertEqual(e.last_modifier, user)
 
     def test_administrators_cannot_update_slug(self):
         """
