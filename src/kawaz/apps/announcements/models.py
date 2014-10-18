@@ -67,6 +67,10 @@ class Announcement(models.Model):
                                editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Modified at'), auto_now=True)
+    last_modifier = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                      verbose_name=_('Last modified by'),
+                                      editable=False,
+                                      null=True, related_name='last_modified_announcements')
 
     objects = AnnouncementManager()
     
