@@ -9,6 +9,7 @@ from .factories import ServiceFactory
 from ..models import Profile
 from ..models import Account
 from kawaz.core.personas.tests.factories import PersonaFactory
+from django.utils.timezone import get_default_timezone
 
 class ProfileDetailViewTestCase(TestCase):
 
@@ -176,9 +177,9 @@ class ProfileUpdateViewTestCase(TestCase):
 class ProfileListViewTestCase(TestCase):
     def setUp(self):
         self.profiles = (
-            ProfileFactory(),
+            ProfileFactory(user__last_login=datetime.datetime(2000, 1, 1, tzinfo=get_default_timezone())),
             ProfileFactory(user=PersonaFactory(is_active=False)),
-            ProfileFactory(pub_state='protected')
+            ProfileFactory(pub_state='protected', user__last_login=datetime.datetime(2001, 1, 1, tzinfo=get_default_timezone()))
         )
         self.user = PersonaFactory()
         self.user.set_password('password')
@@ -214,7 +215,7 @@ class ProfileListViewTestCase(TestCase):
 
     def test_authenticated_can_view_all_active_profiles(self):
         '''
-        Tests authenticated user can view all active profiles.
+        ログインユーザーが全てのユーザーが見れる、かつ最近ログイン順に並ぶ
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.get('/members/')
@@ -222,8 +223,8 @@ class ProfileListViewTestCase(TestCase):
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two profiles')
-        self.assertEqual(list[0], self.profiles[0], 'public')
-        self.assertEqual(list[1], self.profiles[2], 'protected')
+        self.assertEqual(list[0], self.profiles[2], 'protected')
+        self.assertEqual(list[1], self.profiles[0], 'public')
 
 
 class ProfilePreviewTestCase(TestCase):
