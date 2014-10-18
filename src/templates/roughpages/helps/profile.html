@@ -1,0 +1,13 @@
+{% extends "authenticated_base.html" %}
+{% load markdown %}
+{% load i18n %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="/helps">{% trans "Help" %}</a></li>
+    <li><a href="/helps/profile/">{% trans "Profile" %}</a></li>
+{% endblock %}
+{% block content %}
+    <article class="markdown">
+        {% render_markdown "markdown/helps/profile.md" %}
+    </article>
+{% endblock %}
