@@ -1,4 +1,4 @@
-<a href="{{ object.get_absolute_url }}">{{ object }}</a>において
+「<a href="{{ object.get_absolute_url }}">{{ object }}</a>」の
 {% if period_start_updated or period_end_updated or place_updated or number_restriction_updated or attendance_deadline_updated %}
   {% if period_start_updated %}開始日時{% endif %}
   {% if period_end_updated %}終了日時{% endif %}
@@ -56,3 +56,4 @@
 {% endif %}
 の指定が取り消されました。
 {% endif %}
+
