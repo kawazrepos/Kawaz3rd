@@ -1,1 +1,12 @@
-作成されました
+{% extends "activities/base.html" %}
+{% block body %}
+    {% if object.get_absolute_url %}
+        「<a href="{{ object.get_absolute_url }}">{{ object }}</a>」が
+    {% else %}
+        {{ object }}が
+    {% endif %}
+    {% block history-item %}
+        作成されました
+    {% endblock %}
+{% endblock %}
+

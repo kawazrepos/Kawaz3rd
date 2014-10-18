@@ -1,4 +1,5 @@
 {% extends "twopane.html" %}
+
 {% load activities_tags %}
 {% load i18n %}
 {% load staticfiles %}
@@ -12,16 +13,7 @@
         {% get_latest_activities as activities %}
         {% for activity in activities %}
             <article class="activity">
-                <div class="activity-body">
-                    {% render_activity activity of 'root' %}
-
-                    {% get_activities_of activity.snapshot as activities %}
-                    {% for activity in activities|slice:"1:5" %}
-                        <div class="activity-history">
-                            {% render_activity activity %}
-                        </div>
-                    {% endfor %}
-                </div>
+                {% render_activity activity of 'root' %}
             </article>
         {% endfor %}
     </section>

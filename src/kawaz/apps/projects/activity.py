@@ -73,7 +73,7 @@ class ProjectActivityMediator(ActivityMediator):
         return activity
 
     def prepare_context(self, activity, context, typename=None):
-        context = super().prepare_context(activity, context)
+        context = super().prepare_context(activity, context, typename)
 
         if activity.status == 'updated':
             # remarks に保存された変更状態を利便のためフラグ化

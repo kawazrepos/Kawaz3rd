@@ -1,6 +1,0 @@
-{% load activities_tags %}
-{% if object.get_absolute_url %}
-    「<a href="{{ object.get_absolute_url }}">{{ object }}</a>が作成されました
-{% else %}
-    {{ object }}が作成されました
-{% endif %}

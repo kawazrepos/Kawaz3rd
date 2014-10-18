@@ -1,15 +1,15 @@
 {% extends "activities/base.html" %}
 {% block icon %}
-    <img src="{{ object.organizer.get_middle_avatar }}" class="avatar avatar-middle">
+    <img src="{{ object.get_middle_icon }}" class="avatar avatar-middle">
 {% endblock %}
 {% block body %}
-    イベント
+    プロジェクト
     {% if object.get_absolute_url %}
         「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」が
     {% else %}
-        「{{ object.title }}」が
+        {{ object.title }}が
     {% endif %}
     {% block history-item %}
-        更新されました
+        作成されました
     {% endblock %}
 {% endblock %}

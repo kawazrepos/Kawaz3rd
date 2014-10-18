@@ -1,26 +1,37 @@
 @import "common/define";
 
+@icon-margin: 5px;
+@min-height: @avatar-size-middle + @icon-margin * 2;
+
 #activity-container {
 
   .activity {
     border: solid 1px @gray-lighter;
-    padding: 4px;
     margin-bottom: 15px;
-    min-height: 50px;
+    min-height: @min-height;
 
     .activity-body {
-      padding-left: 50px;
-      min-height: 50px;
+      display: inline-block;
+      padding-top: 2px;
+      padding-left: 5px;
+
+      .activity-header {
+        font-weight: bold;
+      }
+
     }
 
     .activity-history {
-      margin-left: 15px;
+      margin-left: 30px;
       font-size: small;
+
+      &-item {
+      }
+
     }
     .activity-icon {
-      float:left;
-      width: @avatar-size-middle;
-      height: @avatar-size-middle;
+      margin: @icon-margin;
+      float: left;
     }
 
   }
