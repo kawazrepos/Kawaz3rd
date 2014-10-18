@@ -33,14 +33,14 @@ class ActivityManager(models.Manager):
         Get activities related to the specified model
         """
         ct = ContentType.objects.get_for_model(model)
-        return self.filter(content_type=ct)
+        return self.filter(content_type=ct).order_by('-pk')
 
     def get_for_object(self, obj):
         """
         Get activities related to the specified object
         """
         ct = ContentType.objects.get_for_model(obj)
-        return self.filter(content_type=ct, object_id=obj.pk).order_by()
+        return self.filter(content_type=ct, object_id=obj.pk).order_by('-pk')
 
 class Activity(models.Model):
     """
