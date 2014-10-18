@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.timezone import get_default_timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
+from activities.registry import registry
 from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
@@ -129,5 +130,4 @@ add_permission_logic(Entry, KawazAuthorPermissionLogic(
 add_permission_logic(Entry, PublishmentPermissionLogic())
 
 from .activity import EntryActivityMediator
-from kawaz.apps.activities.registry import registry
 registry.register(Entry, EntryActivityMediator())

@@ -3,7 +3,7 @@
 # created by giginet on 2014/10/15
 #
 __author__ = 'giginet'
-from kawaz.apps.activities.mediator import ActivityMediator
+from activities.mediator import ActivityMediator
 
 class ProductActivityMediator(ActivityMediator):
     use_snapshot = True

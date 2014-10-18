@@ -246,5 +246,5 @@ add_permission_logic(Project, PublishmentPermissionLogic(
 ))
 
 from .activity import ProjectActivityMediator
-from kawaz.apps.activities.registry import registry
+from activities.registry import registry
 registry.register(Project, ProjectActivityMediator())

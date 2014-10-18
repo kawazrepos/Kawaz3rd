@@ -2,7 +2,7 @@
 #
 # created by giginet on 2014/10/17
 #
-from kawaz.apps.activities.tests.testcases import BaseActivityMediatorTestCase
+from activities.tests.testcases import BaseActivityMediatorTestCase
 from kawaz.apps.events.tests.factories import EventFactory
 
 __author__ = 'giginet'

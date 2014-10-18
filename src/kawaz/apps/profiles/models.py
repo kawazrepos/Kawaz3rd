@@ -168,5 +168,5 @@ add_permission_logic(Profile, PublishmentPermissionLogic(
 ))
 
 from .activity import ProfileActivityMediator
-from kawaz.apps.activities.registry import registry
+from activities.registry import registry
 registry.register(Profile, ProfileActivityMediator())

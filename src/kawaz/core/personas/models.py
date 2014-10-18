@@ -182,5 +182,5 @@ from .perms import PersonaPermissionLogic
 add_permission_logic(Persona, PersonaPermissionLogic())
 
 from .activity import PersonaActivityMediator
-from kawaz.apps.activities.registry import registry
+from activities.registry import registry
 registry.register(Persona, PersonaActivityMediator())

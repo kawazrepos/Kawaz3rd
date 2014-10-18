@@ -297,5 +297,5 @@ add_permission_logic(Product, ChildrenPermissionLogic(
 add_permission_logic(Product, ProductPermissionLogic())
 
 from .activity import ProductActivityMediator
-from kawaz.apps.activities.registry import registry
+from activities.registry import registry
 registry.register(Product, ProductActivityMediator())
