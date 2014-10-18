@@ -38,17 +38,24 @@ class ActivitiesModelsActivityManagerTestCase(TestCase):
 
     def test_all(self):
         qs = Activity.objects.all()
-        # '_snapshot' field should be defered
-        self.assertFalse('_snapshot' in qs.query.get_loaded_field_names())
-        for actual, expected in zip(qs, reversed(self.activities)):
-            # '_snapshot' field is defered thus cannot compare directly
-            self.assertEqual(actual.pk, expected.pk)
+        ex = map(repr, reversed(self.activities))
+        self.assertQuerysetEqual(qs, ex)
 
     def test_latests(self):
         latests = Activity.objects.latests()
         # the status of latest activity should be 'deleted'
         for latest in latests:
             self.assertEqual(latest.status, 'deleted')
+
+    def test_get_for_model(self):
+        qs = Activity.objects.get_for_model(ModelA)
+        ex = map(repr, reversed(self.activities[0:9]))
+        self.assertQuerysetEqual(qs, ex)
+
+    def test_get_for_object(self):
+        qs = Activity.objects.get_for_object(self.models[0])
+        ex = map(repr, reversed(self.activities[0:3]))
+        self.assertQuerysetEqual(qs, ex)
 
 
 class ActivitiesModelsActivityTestCase(TestCase):
@@ -103,8 +110,7 @@ class ActivitiesModelsActivityTestCase(TestCase):
         activity4 = Activity.objects.create(content_type=ct2,
                                             object_id=pk2,
                                             status='created')
-        # '_snapshot' field is defered thus cannot compare directly
         self.assertEqual(activity1.previous, None)
-        self.assertEqual(activity2.previous.pk, activity1.pk)
-        self.assertEqual(activity3.previous.pk, activity2.pk)
+        self.assertEqual(activity2.previous, activity1)
+        self.assertEqual(activity3.previous, activity2)
         self.assertEqual(activity4.previous, None)

@@ -4,7 +4,7 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from unittest.mock import MagicMock, patch
 from django.test import TestCase
-from django.template import Template, Context
+from django.template import Template, Context, TemplateSyntaxError
 from django.contrib.contenttypes.models import ContentType
 from django.utils.safestring import SafeBytes
 from .models import ActivitiesTestModelA as ModelA
@@ -50,9 +50,42 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         # get_activities should not render anything
         self.assertEqual(r.strip(), '')
         # activities should be equal to activity queryset
-        # but the queryset is defer thus cannot compare directly
-        self.assertEqual([x.pk for x in c['activities']],
-                         [x.pk for x in Activity.objects.all()])
+        qs = Activity.objects.all()
+        ex = map(repr, c['activities'])
+        self.assertQuerysetEqual(qs, ex)
+
+    def test_get_activities_of_with_object(self):
+        t = Template(
+            "{% load activities_tags %}"
+            "{% get_activities_of obj as activities %}"
+        )
+        c = Context(dict(
+            obj=self.models[0],
+        ))
+        r = t.render(c)
+        # get_activities should not render anything
+        self.assertEqual(r.strip(), '')
+        # activities should be equal to activity queryset
+        qs = Activity.objects.get_for_object(self.models[0])
+        ex = map(repr, c['activities'])
+        self.assertQuerysetEqual(qs, ex)
+
+    def test_get_activities_of_with_model(self):
+        t = Template(
+            "{% load activities_tags %}"
+            "{% get_activities_of 'activities.ActivitiesTestModelA' "
+            "as activities %}"
+        )
+        c = Context(dict(
+            obj=self.models[0],
+        ))
+        r = t.render(c)
+        # get_activities should not render anything
+        self.assertEqual(r.strip(), '')
+        # activities should be equal to activity queryset
+        qs = Activity.objects.get_for_model(ModelA)
+        ex = map(repr, c['activities'])
+        self.assertQuerysetEqual(qs, ex)
 
     def test_get_latest_activities(self):
         t = Template(
@@ -64,11 +97,11 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         # get_activities should not render anything
         self.assertEqual(r.strip(), '')
         # activities should be equal to activity queryset
-        # but the queryset is defer thus cannot compare directly
-        self.assertEqual([x.pk for x in c['activities']],
-                         [x.pk for x in Activity.objects.latests()])
+        qs = Activity.objects.latests()
+        ex = map(repr, c['activities'])
+        self.assertQuerysetEqual(qs, ex)
 
-    @patch('kawaz.apps.activities.templatetags.activities_tags.registry')
+    @patch('activities.templatetags.activities_tags.registry')
     def test_render_activity(self, registry):
         activity = self.activities[0]
         mediator = MagicMock()
@@ -82,7 +115,43 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         r = t.render(c)
 
         registry.get.assert_called_with(activity)
-        mediator.render.assert_called_with(activity, c)
+        mediator.render.assert_called_with(activity, c, typename=None)
         self.assertEqual(r.strip(), '<strong>Hello</strong>')
 
+    @patch('activities.templatetags.activities_tags.registry')
+    def test_render_activity_with_typename(self, registry):
+        activity = self.activities[0]
+        mediator = MagicMock()
+        mediator.render.return_value = '<strong>Hello</strong>'
+        registry.get.return_value = mediator
+        t = Template(
+            "{% load activities_tags %}"
+            "{% render_activity activity of 'test' %}"
+        )
+        c = Context({'activity': activity})
+        r = t.render(c)
 
+        registry.get.assert_called_with(activity)
+        mediator.render.assert_called_with(activity, c, typename='test')
+        self.assertEqual(r.strip(), '<strong>Hello</strong>')
+
+    @patch('activities.templatetags.activities_tags.registry')
+    def test_render_activity_syntax_error(self, registry):
+        activity = self.activities[0]
+        mediator = MagicMock()
+        mediator.render.return_value = '<strong>Hello</strong>'
+        registry.get.return_value = mediator
+        self.assertRaises(TemplateSyntaxError, Template, 
+            "{% load activities_tags %}"
+            "{% render_activity %}"
+        )
+
+        self.assertRaises(TemplateSyntaxError, Template, 
+            "{% load activities_tags %}"
+            "{% render_activity activity of %}"
+        )
+
+        self.assertRaises(TemplateSyntaxError, Template, 
+            "{% load activities_tags %}"
+            "{% render_activity activity with 'test' %}"
+        )

@@ -8,6 +8,7 @@ from django.db.models.signals import (post_save,
                                       pre_delete,
                                       m2m_changed)
 from django.contrib.contenttypes.models import ContentType
+from .conf import settings
 from .models import Activity
 
 
@@ -16,6 +17,23 @@ class ActivityMediator(object):
     An ActivityMediator class which has responsivilities to controll automatic
     activity creation (with signal handling) or rendering.
     """
+    default_template_extension = None
+    template_extensions = None
+
+    @property
+    def _default_template_extension(self):
+        if self.default_template_extension:
+            return self.default_template_extension
+        else:
+            return settings.ACTIVITIES_DEFAULT_TEMPLATE_EXTENSION
+
+    @property
+    def _template_extensions(self):
+        if self.template_extensions:
+            return self.template_extensions
+        else:
+            return settings.ACTIVITIES_TEMPLATE_EXTENSIONS
+
     def _pre_delete_receiver(self, sender, instance, **kwargs):
         ct = ContentType.objects.get_for_model(instance)
         activity = Activity(content_type=ct,
@@ -64,18 +82,50 @@ class ActivityMediator(object):
         m2m_changed.connect(self._m2m_changed_receiver, sender=model,
                             weak=False)
 
-    def get_template_names(self, activity):
+    def get_template_extension(self, typename=None):
+        """
+        Get template extension of a specified 'typename' determined from
+        `template_extensions` attribute of this instance.
+        It return `default_template_extension` of this instance if no extension
+        is specified in `template_extensions`
+        """
+        return self._template_extensions.get(
+            typename,
+            self._default_template_extension,
+        )
+
+    def get_template_names(self, activity, typename=None):
         """
         Get a list of template name used to render the activity
         """
         app_label = self.app_label
         model = self.model.__name__.lower()
         status = activity.status
-        return (
-            "activities/{}/{}_{}.html".format(app_label, model, status),
-            "activities/{}/{}.html".format(app_label, status),
-            "activities/{}.html".format(status),
-        )
+        ext = self.get_template_extension(typename)
+        if typename:
+            return (
+                "activities/{}/{}_{}.{}{}".format(
+                    app_label, model, status, typename, ext),
+                "activities/{}/{}.{}{}".format(
+                    app_label, status, typename, ext),
+                "activities/{}.{}{}".format(
+                    status, typename, ext),
+                "activities/{}/{}_{}{}".format(
+                    app_label, model, status, ext),
+                "activities/{}/{}{}".format(
+                    app_label, status, ext),
+                "activities/{}{}".format(
+                    status, ext),
+            )
+        else:
+            return (
+                "activities/{}/{}_{}{}".format(
+                    app_label, model, status, ext),
+                "activities/{}/{}{}".format(
+                    app_label, status, ext),
+                "activities/{}{}".format(
+                    status, ext),
+            )
 
     def alter(self, instance, activity, **kwargs):
         """
@@ -98,21 +148,23 @@ class ActivityMediator(object):
         """
         return activity
 
-    def prepare_context(self, activity, context):
+    def prepare_context(self, activity, context, typename=None):
         """
         Prepare context which used in 'render' method.
         """
         context.update({
             'activity': activity,
-            'object': activity.snapshot
+            'object': activity.snapshot,
+            'typename': typename,
         })
         return context
 
-    def render(self, activity, context):
+    def render(self, activity, context, typename=None):
         """
         Return rendered string of the specified activity
         """
-        template_names = self.get_template_names(activity)
+        template_names = self.get_template_names(activity, typename)
         template = select_template(template_names)
-        context = self.prepare_context(activity, context.new())
+        context = self.prepare_context(activity, context.new(),
+                                       typename=typename)
         return template.render(context)
