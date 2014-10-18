@@ -139,8 +139,9 @@ class ProductCreateView(ProductFormMixin, CreateView):
     model = Product
     form_class = ProductCreateForm
 
-    def form_valid(self, *args, **kwargs):
-        response = super().form_valid(*args, **kwargs)
+    def form_valid(self, form):
+        form.instance.last_modifier = self.request.user
+        response = super().form_valid(form)
         if self.object:
             # 作成に成功した場合は作成したユーザーを自動的に管理者に加える
             #
@@ -169,6 +170,10 @@ class ProductCreateView(ProductFormMixin, CreateView):
 class ProductUpdateView(ProductFormMixin, UpdateView):
     model = Product
     form_class = ProductUpdateForm
+
+    def form_valid(self, form):
+        form.instance.last_modifier = self.request.user
+        return super().form_valid(form)
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()

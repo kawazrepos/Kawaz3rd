@@ -47,6 +47,7 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         # 管理者を自動指定
         form.instance.administrator = self.request.user
+        form.instance.last_modifier = self.request.user
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
@@ -59,6 +60,10 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
 class ProjectUpdateView(SuccessMessageMixin, UpdateView):
     model = Project
     form_class = ProjectUpdateForm
+
+    def form_valid(self, form):
+        form.instance.last_modifier = self.request.user
+        return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
         return _("""Project '%(title)s' successfully updated.""") % {

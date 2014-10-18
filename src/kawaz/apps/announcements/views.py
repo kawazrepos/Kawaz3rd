@@ -20,6 +20,7 @@ class AnnouncementCreateView(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.last_modifier = self.request.user
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
@@ -32,6 +33,10 @@ class AnnouncementCreateView(SuccessMessageMixin, CreateView):
 class AnnouncementUpdateView(SuccessMessageMixin, UpdateView):
     model = Announcement
     form_class = AnnouncementForm
+
+    def form_valid(self, form):
+        form.instance.last_modifier = self.request.user
+        return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
         return _("""Announcement '%(title)s' successfully updated.""") % {
