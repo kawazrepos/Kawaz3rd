@@ -72,7 +72,7 @@ class ProjectActivityMediator(ActivityMediator):
             activity.remarks = "\n".join(kwargs.get('pk_set'))
         return activity
 
-    def prepare_context(self, activity, context):
+    def prepare_context(self, activity, context, typename=None):
         context = super().prepare_context(activity, context)
 
         if activity.status == 'updated':

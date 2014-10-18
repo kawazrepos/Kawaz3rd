@@ -2,9 +2,6 @@
 #
 # created by giginet on 2014/10/15
 #
-from django.contrib.contenttypes.models import ContentType
-from kawaz.core.personas.models import Persona
-from activities.models import Activity
 from activities.mediator import ActivityMediator
 
 __author__ = 'giginet'
