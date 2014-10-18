@@ -41,6 +41,6 @@ class BaseActivityMediatorTestCase(TestCase):
     def _test_delete(self):
         self.object.delete()
         # 削除されたモデルに対してget_for_objectは使えない
-        activity = Activity.objects.all()[1]
+        activity = Activity.objects.all()[0]
 
         self.assertEqual(activity.status, 'deleted')
