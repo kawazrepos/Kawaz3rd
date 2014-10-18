@@ -16,9 +16,7 @@ def mention(value):
     """
     文中の@username にリンクを貼るテンプレートフィルタです
     """
-    usernames = []
-    for username in USERNAME_PATTERN.findall(value):
-        usernames.append(username)
+    usernames = USERNAME_PATTERN.findall(value)
     users = Persona.objects.filter(username__in=usernames)
     users = {u.username: u for u in users}
     def repl(m):
