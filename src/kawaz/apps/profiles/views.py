@@ -18,6 +18,7 @@ class ProfileListView(FilterView):
     model = Profile
     filterset_class = ProfileFilter
     template_name_suffix = '_list'
+    paginate_by = 24
 
     def get_queryset(self):
         qs = Profile.objects.published(self.request.user)

@@ -15,7 +15,7 @@
         </div>
     {% endif %}
     <div class="row" id="profile-list">
-        {% for object in filter %}
+        {% for object in object_list %}
             <div class="thumbnail profile-list-item">
                 <a href="{{ object.get_absolute_url }}">
                     <img class="profile-avatar" alt="{{ object.user.nickname }}" src="{{ object.user.get_huge_avatar }}">
@@ -40,6 +40,7 @@
             </div>
         {% endfor %}
     </div>
+    {% include "components/paginator.html" %}
 {% endblock %}
 {% block content-aside %}
     <div class="panel panel-default">
