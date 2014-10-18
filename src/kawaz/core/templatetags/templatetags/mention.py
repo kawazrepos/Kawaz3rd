@@ -19,9 +19,8 @@ def mention(value):
     usernames = []
     for username in USERNAME_PATTERN.findall(value):
         usernames.append(username)
-    users = Persona.objects.filter(username__in=usernames).values()
-    users = {u['username']: u for u in users}
-    print(users)
+    users = Persona.objects.filter(username__in=usernames)
+    users = {u.username: u for u in users}
     def repl(m):
         username = m.group('username')
         if username in users.keys():
