@@ -57,7 +57,10 @@ class ServiceSelectWidget(widgets.Select):
             selected_html = ''
         if option_value.isdigit():
             service = Service.objects.get(pk=int(option_value))
-            url = service.icon.url
+            try:
+                url = service.icon.url
+            except:
+                pass
         return format_html('<option value="{0}" icon-url="{1}"{2}>{3}</option>',
                            option_value,
                            url,
