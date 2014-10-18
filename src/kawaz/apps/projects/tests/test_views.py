@@ -352,7 +352,7 @@ class ProjectUpdateViewTestCase(TestCase):
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.last_modifier, self.other)
-        self.assertNotEqual(e.last_modifier, e.author)
+        self.assertNotEqual(e.last_modifier, e.administrator)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_update_slug(self):
