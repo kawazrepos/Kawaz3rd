@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 
 from .factories import ProjectFactory, CategoryFactory
+from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
 
 class ProjectEditPermissionTestCase(TestCase):
@@ -167,6 +168,10 @@ class ProjectJoinPermissionTestCase(TestCase):
         '''Tests already member user cannot join to projects'''
         user = PersonaFactory()
         self.project.join(user)
+
+        # django-permissionのキャッシュ対応
+        user = Persona.objects.get(pk=user.pk)
+
         self.assertFalse(user.has_perm('projects.join_project', self.project))
 
     def test_anyone_cannot_join_draft_project(self):
