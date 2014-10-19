@@ -3,7 +3,7 @@
     <img src="{{ object.author.get_middle_avatar }}" class="avatar avatar-middle">
 {% endblock %}
 {% block body %}
-    <a href="{{ object.author.get_absolute_url }}">{{ object.author.nickname }}</a>さんが
+    <a href="{{ object.author.profile.get_absolute_url }}">{{ object.author.nickname }}</a>さんが
     {% if object.get_absolute_url %}
         「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」を
     {% else %}
