@@ -38,3 +38,22 @@ Kawazメンバーでない外部の人がトップページを見たときに、
 「最近のゲーム」は掲載順のため、古いモノは表示されませんが、この3カ所の表示はKawazトップページ上で固定され、表示され続けます。
 
 「このゲームは絶対に神ゲーだから絶対アピールしたい！」「埋もれさせたくないので表示させてほしい」という場合は、管理者にその旨を伝えてください。
+
+
+## 「リリース」の種類について
+
+- URL Release（App StoreやGoogle Playなど、外部にダウンロードサイトにリンクしている物）
+- Package Release（ファイルを直接Kawazポータルにアップロード）
+
+一つの作品に複数の「リリース」を設定することができます。
+
+つまり、[AppStore](https://itunes.apple.com/jp/genre/ios-gemu/id6014?mt=8)や[ふりーむ！](http://www.freem.ne.jp/)からのダウンロードURLを設定し、さらに同時にファイルをKawazポータルに直接アップロードすることもできます。
+
+各リリースには、名前、バージョン名、プラットフォームを設定できます。
+
+### 例：
+Package Release：Windows版 Version1.0  
+URL Release : iPhone版 Version1.0 App StoreのURL  
+Package Release ：　サウンドトラック バージョン、プラットフォーム未設定
+
+などなど

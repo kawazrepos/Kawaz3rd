@@ -16,6 +16,17 @@
 
 また、DropboxやSkypeなどプロジェクトに必要なものや、PlayStationNetworkやXboxLiveなど、使っているWebサービスのアカウントも登録しておくことができます。
 
+特に、
+
+- Dropbox
+- Skype
+- Twitter
+
+についてはゲーム作成で必要になることが多いため、もし持っている場合は必ず登録しましょう！
+
+
+
+
 [プロフィール変更ページへ](http://kawaz.org/members/update/)
 
 
