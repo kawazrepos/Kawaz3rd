@@ -107,6 +107,7 @@ class ProductFormMixin(SuccessMessageMixin):
                    url_release_formset,
                    package_release_formset,
                    screenshot_formset):
+        form.instance.last_modifier = self.request.user
         self.object = form.save()
         success_message = self.get_success_message(form.cleaned_data)
         if success_message:

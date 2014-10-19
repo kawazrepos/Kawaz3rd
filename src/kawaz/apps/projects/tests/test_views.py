@@ -171,6 +171,25 @@ class ProjectCreateViewTestCase(TestCase):
         self.assertEqual(e.title, '音楽ファンタジー')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
+    def test_authorized_user_can_create_via_create_view(self):
+        '''
+        プロジェクト作成時にlast_modifierがセットされる
+        '''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.post('/projects/create/', {
+            'pub_state' : 'public',
+            'title' : '音楽ファンタジー',
+            'status' : 'planning',
+            'body' : 'ルシがファルシでコクーン',
+            'slug' : 'music-fantasy',
+            'category' : self.category.pk
+        })
+        self.assertRedirects(r, '/projects/music-fantasy/')
+        self.assertEqual(Project.objects.count(), 1)
+        e = Project.objects.get(pk=1)
+        self.assertEqual(e.last_modifier, self.user)
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
+
     def test_user_cannot_modify_administrator_id(self):
         '''
         Tests authorized user cannot modify administrator id.
@@ -314,6 +333,26 @@ class ProjectUpdateViewTestCase(TestCase):
         self.assertEqual(Project.objects.count(), 1)
         e = Project.objects.get(pk=1)
         self.assertEqual(e.title, 'やっぱり書き換えます！')
+        self.assertTrue('messages' in r.cookies, "No messages are appeared")
+
+    def test_set_last_modifier_via_update_view(self):
+        """
+        プロジェクト編集時にlast_modifierがセットされる
+        """
+        self.project.join(self.other)
+        self.assertTrue(self.client.login(username=self.other, password='password'))
+        r = self.client.post('/projects/1/update/', {
+            'pub_state' : 'public',
+            'title' : 'やっぱり書き換えます！',
+            'body' : 'うえーい',
+            'status' : 'planning',
+            'category' : self.category.pk
+        })
+        self.assertRedirects(r, '/projects/{}/'.format(self.project.slug))
+        self.assertEqual(Project.objects.count(), 1)
+        e = Project.objects.get(pk=1)
+        self.assertEqual(e.last_modifier, self.other)
+        self.assertNotEqual(e.last_modifier, e.administrator)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_update_slug(self):

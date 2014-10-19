@@ -122,6 +122,10 @@ class Product(models.Model):
                                             verbose_name=_('Administrators'))
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+    last_modifier = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                      verbose_name=_('Last modified by'),
+                                      editable=False,
+                                      null=True, related_name='last_modified_products')
 
     #
     # Productの表示順番を制御する値です。Formsでexclude設定されるため通常

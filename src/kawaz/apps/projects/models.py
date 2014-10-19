@@ -126,11 +126,16 @@ class Project(models.Model):
                                      editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+    last_modifier = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                      verbose_name=_('Last modified by'),
+                                      editable=False,
+                                      null=True, related_name='last_modified_projects')
 
     tracker = models.URLField(_('Tracker URL'), blank=True, default='',
                               help_text='Kawaz RedmineのプロジェクトURLを入力してください')
     repository = models.URLField(_('Repository URL'), blank=True, default='',
                                  help_text='Kawaz GitLab, GitHubなどのプロジェクトURLを入力してください')
+
 
     objects = ProjectManager()
 
@@ -222,7 +227,6 @@ def join_administrator(**kwargs):
     instance = kwargs.get('instance')
     if created and instance.pub_state != 'draft':
         instance.join(instance.administrator)
-
 
 from permission import add_permission_logic
 from kawaz.core.personas.perms import KawazAuthorPermissionLogic
