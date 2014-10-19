@@ -10,6 +10,7 @@ django-thumbnailfield>=0.2.0
 django-inspectional-registration>=0.4.1
 django-crispy-forms
 django-contrib-comments
+django-debug-toolbar
 requests
 django-appconf
 honcho
