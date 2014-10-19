@@ -15,6 +15,28 @@ def check_object_permission(user_obj, codename, obj):
         bool or None: 指定されたパーミッションが存在する場合は`True`/`False`を
             返し、存在しない場合は`None`を返す
     """
+    # 以前に codename が存在しているか調べ、結果が missing として保持されて
+    # 居る場合は即 None を返す
+    if codename in check_object_permission._missing_codenames:
+        return None
+    # user_obj インスタンスにキャッシュが保存されている場合はそれを利用し
+    # ない場合は _check_object_permission を実行し結果をキャッシュする
+    cachename = '_object_perms_cache'
+    if not hasattr(user_obj, cachename):
+        setattr(user_obj, cachename, {})
+    cache = getattr(user_obj, cachename)
+    cachekey = "{} {}".format(codename, hash(obj))
+    if not cachekey in cache:
+        r = _check_object_permission(user_obj, codename, obj)
+        if r is None:
+            check_object_permission._missing_codenames.append(codename)
+            return None
+        else:
+            cache[cachekey] = r
+    return cache[cachekey]
+check_object_permission._missing_codenames = []
+
+def _check_object_permission(user_obj, codename, obj):
     try:
         perm = get_full_permission_name(codename, obj)
         # 文字列 permission を実体に変換（してみる）
