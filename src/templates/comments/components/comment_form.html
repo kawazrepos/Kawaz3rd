@@ -1,8 +1,14 @@
 {% load comments %}
+{% load i18n %}
 {% load form_helper %}
 {% load crispy_forms_tags %}
 {% get_comment_form for object as comment_form %}
-<div class="comment-form{% if request.user.is_authenticated %} authenticated-form{% endif %}">
-    {% get_form_helper "horizontal" as horizontal_helper %}
-    {% crispy comment_form horizontal_helper %}
-</div>
+{% if request.user.is_authenticated %}
+    <div class="comment-form authenticated-form">
+        {% get_form_helper "bare" as bare %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        {% trans "Participants are only allowed to comment to this entry. Please sign in to comment." %}
+    </div>
+{% endif %}
