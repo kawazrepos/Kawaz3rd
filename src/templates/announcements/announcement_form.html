@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+
+{% block title %}
+    {% if object %}
+        {{ object.title }}を編集する
+    {% else %}
+        新しいお知らせを作成
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <div class="page-header">
         {% if object %}

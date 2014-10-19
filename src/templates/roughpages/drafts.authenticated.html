@@ -5,6 +5,7 @@
 {% load blogs_tags %}
 {% load projects_tags %}
 {% load products_tags %}
+{% block title %}{% trans "Manage Drafts" %}{% endblock %}
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="/drafts">{% trans "Manage Drafts" %}</a></li>

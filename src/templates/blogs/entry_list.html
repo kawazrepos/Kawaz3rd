@@ -1,6 +1,7 @@
 {% extends "twopane.html" %}
 {% load i18n %}
 {% load staticfiles %}
+{% block title %}最近のブログ記事{% endblock %}
 {% block pre_css %}
 {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">

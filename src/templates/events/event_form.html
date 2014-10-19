@@ -1,6 +1,15 @@
 {% extends "form_base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+
+{% block title %}
+    {% if object %}
+        {% blocktrans with title=object.title %}Edit event "{{ title }}"{% endblocktrans %}
+    {% else %}
+        {% trans "Create Event" %}
+    {% endif %}
+{% endblock %}
+
 {% block content-header %}
     <div class="page-header">
         {% if object %}

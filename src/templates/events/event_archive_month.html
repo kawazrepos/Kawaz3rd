@@ -5,6 +5,7 @@
 {% load i18n %}
 {% load events_tags %}
 
+{% block title %}{{ month|date:"Y年m月" }}のイベント{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/events.less" %}" media="screen">

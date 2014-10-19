@@ -1,6 +1,7 @@
 {% extends "twopane.html" %}
 {% load staticfiles %}
 {% load i18n %}
+{% block title %}{% trans "Members" %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/profile.less" %}" media="screen">

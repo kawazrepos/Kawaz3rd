@@ -1,6 +1,15 @@
 {% extends "form_base.html" %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
+
+{% block title %}
+    {% if object %}
+        {{ object.title }}を編集する
+    {% else %}
+        新しいブログエントリーを作成
+    {% endif %}
+{% endblock %}
+
 {% block content-header %}
     <div class="page-header">
         {% if object %}
