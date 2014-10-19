@@ -2,6 +2,7 @@
 #
 # created by giginet on 2014/10/18
 #
+from django.contrib.contenttypes.models import ContentType
 from django.template import Context
 from django.test import TestCase
 from activities.models import Activity
@@ -39,8 +40,9 @@ class BaseActivityMediatorTestCase(TestCase):
             self.assertTrue(name in context, 'context variable {} is not contained'.format(name))
 
     def _test_delete(self):
+        ct = ContentType.objects.get_for_model(self.object)
+        pk = self.object.pk
         self.object.delete()
-        # 削除されたモデルに対してget_for_objectは使えない
-        activity = Activity.objects.all()[0]
+        activity = Activity.objects.filter(content_type=ct, object_id=pk).first()
 
         self.assertEqual(activity.status, 'deleted')
