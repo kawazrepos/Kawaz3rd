@@ -180,3 +180,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
 from permission import add_permission_logic
 from .perms import PersonaPermissionLogic
 add_permission_logic(Persona, PersonaPermissionLogic())
+
+from .activity import PersonaActivityMediator
+from activities.registry import registry
+registry.register(Persona, PersonaActivityMediator())

@@ -1,5 +1,11 @@
-{% if object.get_absolute_url %}
-<a href="{{ object.get_absolute_url }}">{{ object }}</a>が修正されました
-{% else %}
-{{ object }}が修正されました
-{% endif %}
+{% extends "activities/base.html" %}
+{% block body %}
+    {% if object.get_absolute_url %}
+        「<a href="{{ object.get_absolute_url }}">{{ object }}</a>」が
+    {% else %}
+        {{ object }}が
+    {% endif %}
+    {% block history-item %}
+        更新されました
+    {% endblock %}
+{% endblock %}

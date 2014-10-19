@@ -57,7 +57,6 @@ class ActivitiesModelsActivityManagerTestCase(TestCase):
         ex = map(repr, reversed(self.activities[0:3]))
         self.assertQuerysetEqual(qs, ex)
 
-
 class ActivitiesModelsActivityTestCase(TestCase):
     def setUp(self):
         self.models = (

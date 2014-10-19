@@ -1,0 +1,14 @@
+{% extends "activities/base.html" %}
+{% block icon %}
+    <img src="{{ object.user.get_middle_avatar }}" class="avatar avatar-middle">
+{% endblock %}
+{% block body %}
+    {% if object.get_absolute_url %}
+        「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」さんの
+    {% else %}
+        {{ object.title }}さんの
+    {% endif %}
+    {% block history-item %}
+        プロフィールが更新されました
+    {% endblock %}
+{% endblock %}

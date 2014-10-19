@@ -1,0 +1,33 @@
+{% load activities_tags %}
+{% load humanize %}
+
+{% if typename == 'root' %}
+    <div class="activity-icon">
+        {% block icon %}
+        {% endblock %}
+    </div>
+{% endif %}
+
+{% if typename == 'root' %}
+    <div class="activity-body">
+        <span class="activity-header">
+            {% block body %}
+            {% endblock %}
+        </span>
+        {% include "activities/components/activity_footer.html" %}
+        {% block history %}
+            {% get_activities_of activity.snapshot as activities %}
+            {% for activity in activities|slice:"1:5" %}
+                <div class="activity-history">
+                    {% render_activity activity %}
+                </div>
+            {% endfor %}
+        {% endblock %}
+    </div>
+{% else %}
+    <div class="activity-history-item">
+        {% block history-item %}
+        {% endblock %}
+        {% include "activities/components/activity_footer.html" %}
+    </div>
+{% endif %}

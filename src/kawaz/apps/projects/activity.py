@@ -1,14 +1,15 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+# ! -*- coding: utf-8 -*-
+#
+# created by giginet on 2014/10/15
+#
 from django.contrib.contenttypes.models import ContentType
 from kawaz.core.personas.models import Persona
 from activities.models import Activity
 from activities.mediator import ActivityMediator
 
+__author__ = 'giginet'
 
-class EventActivityMediator(ActivityMediator):
+class ProjectActivityMediator(ActivityMediator):
     use_snapshot = True
 
     def alter(self, instance, activity, **kwargs):
@@ -33,11 +34,7 @@ class EventActivityMediator(ActivityMediator):
             )
             remarks = []
             attributes = (
-                'period_start',
-                'period_end',
-                'place',
-                'number_restriction',
-                'attendance_deadline',
+                'body',
             )
             for attribute in attributes:
                 if is_created(attribute):
@@ -55,7 +52,7 @@ class EventActivityMediator(ActivityMediator):
             action = kwargs.get('action')
             model = kwargs.get('model')
             if model != Persona:
-                # attendees の変化以外は通知しない
+                # members の変化以外は通知しない
                 return None
             if action not in ('post_add', 'post_remove'):
                 # 追加/削除以外は通知しない

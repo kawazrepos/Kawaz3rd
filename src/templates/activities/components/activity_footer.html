@@ -1,0 +1,2 @@
+{% load humanize %}
+<time datetime="{{ activity.created_at|date:'c' }}">{{ activity.created_at|naturaltime }}</time>

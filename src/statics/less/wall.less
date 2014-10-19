@@ -1,0 +1,39 @@
+@import "common/define";
+
+@icon-margin: 5px;
+@min-height: @avatar-size-middle + @icon-margin * 2;
+
+#activity-container {
+
+  .activity {
+    border: solid 1px @gray-lighter;
+    margin-bottom: 15px;
+    min-height: @min-height;
+
+    .activity-body {
+      display: inline-block;
+      padding-top: 2px;
+      padding-left: 5px;
+
+      .activity-header {
+        font-weight: bold;
+      }
+
+    }
+
+    .activity-history {
+      margin-left: 30px;
+      font-size: small;
+
+      &-item {
+      }
+
+    }
+    .activity-icon {
+      margin: @icon-margin;
+      float: left;
+    }
+
+  }
+
+}

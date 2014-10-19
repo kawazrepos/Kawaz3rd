@@ -42,7 +42,6 @@ class ActivityManager(models.Manager):
         ct = ContentType.objects.get_for_model(obj)
         return self.filter(content_type=ct, object_id=obj.pk)
 
-
 class Activity(models.Model):
     """
     A model wihch represent create/update/delete (and user specified status
