@@ -1,5 +1,6 @@
 import datetime
 from unittest import mock
+from kawaz.core.personas.models import Persona
 from kawaz.core.tests.testcases.permissions import BasePermissionLogicTestCase
 from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Event
@@ -114,6 +115,11 @@ class EventPermissionLogicTestCase(BasePermissionLogicTestCase):
         self._test('children', 'attend', obj=self.event)
         self._test('wille', 'attend', obj=self.event)
         self._test('anonymous', 'attend', obj=self.event, neg=True)
+
+        # django-permissionのキャッシュ対応
+        organizer = Persona.objects.get(pk=self.users['organizer'].pk)
+        self.users['organizer'] = organizer
+
         self._test('organizer', 'attend', obj=self.event, neg=True)
         self._test('attendee', 'attend', obj=self.event, neg=True)
 
