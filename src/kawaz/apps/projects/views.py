@@ -45,7 +45,6 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
     form_class = ProjectCreateForm
 
     def form_valid(self, form):
-        # 管理者を自動指定
         form.instance.administrator = self.request.user
         form.instance.last_modifier = self.request.user
         return super().form_valid(form)
