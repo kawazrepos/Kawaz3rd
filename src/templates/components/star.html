@@ -2,7 +2,7 @@
     <div class="star-user">
         <a href="{{ star.author.get_absolute_url }}">
             <img class="avatar avatar-small" src="{{ star.author.get_small_avatar }}">
-            {% if user has 'stars_star_delete' of star %}
+            {% if user has 'stars.star_delete' of star %}
                 <a href="#" class="star-remove" style="display: none;"><span class="glyphicon glyphicon-remove"></span></a>
             {% endif %}
         </a>
