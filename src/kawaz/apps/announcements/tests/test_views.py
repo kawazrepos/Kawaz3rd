@@ -316,6 +316,7 @@ class AnnouncementUpdateViewTestCase(TestCase):
         """
         お知らせを更新したとき、last_modifierがセットされる
         """
+        previous_modifier = self.announcement.last_modifier
         self.assertTrue(self.client.login(username=self.nerv, password='password'))
         r = self.client.post('/announcements/1/update/', {
             'pub_state' : 'public',
@@ -327,7 +328,7 @@ class AnnouncementUpdateViewTestCase(TestCase):
         self.assertEqual(Announcement.objects.count(), 1)
         e = Announcement.objects.get(pk=1)
         self.assertEqual(e.last_modifier, self.nerv)
-        e = Announcement.objects.get(pk=1)
+        self.assertNotEqual(e.last_modifier, previous_modifier)
 
     def test_user_cannot_modify_author_id(self):
         '''
@@ -466,8 +467,8 @@ class AnnouncementListViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two announcements')
-        self.assertEqual(list[0], self.announcements[1], 'protected')
-        self.assertEqual(list[1], self.announcements[0], 'public')
+        self.assertEqual(list[0], self.announcements[0], 'public')
+        self.assertEqual(list[1], self.announcements[1], 'protected')
 
     def test_paginate_by(self):
         """
