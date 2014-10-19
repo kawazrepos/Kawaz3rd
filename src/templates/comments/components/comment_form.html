@@ -5,7 +5,14 @@
 {% get_comment_form for object as comment_form %}
 {% if request.user.is_authenticated %}
     <div class="comment-form authenticated-form">
-        {% get_form_helper "bare" as bare %}
+        <form action="{% comment_form_target %}" method="POST">
+            {% get_form_helper 'bare' as bare %}
+            {% crispy comment_form bare %}
+            <input type="hidden" name="next" value="{{ request.path }}" />
+            <div class="form-group">
+                <input type="submit" class="comment-submit btn btn-success btn-lg col-lg-offset-2 col-xs-offset-2" value="{% trans "Post Comment" %}" />
+            </div>
+        </form>
     </div>
 {% else %}
     <div class="alert alert-warning">

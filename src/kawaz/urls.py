@@ -8,7 +8,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^central-dogma/', include(admin.site.urls)),
-    url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^api/', include('kawaz.api.urls')),
     url(r'^announcements/', include('kawaz.apps.announcements.urls')),
     url(r'^events/', include('kawaz.apps.events.urls')),
@@ -19,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^attachments/', include('kawaz.apps.attachments.urls')),
     url(r'^registration/', include('kawaz.core.personas.urls')),
     url(r'^registration/', include('registration.urls')),
+    url(r'^comments/', include('django_comments.urls')),
 )
 
 if settings.DEBUG:
