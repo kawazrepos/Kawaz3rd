@@ -18,6 +18,7 @@
         <p class="badge">{{ object.category.label }}</p>
     </div>
     <article class="markdown">
-        {{ object.body | markdown | truncatechars_html:140}}
+        {% load parser %}
+        {{ object.body | parser | truncatechars_html:140}}
     </article>
 </div>
