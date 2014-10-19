@@ -1,3 +1,4 @@
+from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
@@ -29,6 +30,7 @@ class ProductListView(FilterView):
     model = Product
     filterset_class = ProductFilter
     template_name_suffix = '_list'
+    paginate_by = 20
 
 
 class ProductDetailView(DetailView):
