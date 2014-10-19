@@ -55,5 +55,5 @@ def get_stars(object):
         {% endfor %}
 
     """
-    qs = Star.objects.get_for_object(object)
+    qs = Star.objects.get_for_object(object).prefetch_related('author')
     return qs
