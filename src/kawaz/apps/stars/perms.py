@@ -89,13 +89,25 @@ class StarPermissionLogic(PermissionLogic):
                 return self._check_object_permissions(user_obj, 'view', obj)
             return False
         elif perm == 'stars.delete_star':
-            if self._check_object_permissions(user_obj, ('change', 'delete'),
-                                              obj.content_object):
-                # 付加先のコンテンツを編集可能な権限を持っている場合は削除可能
-                return True
-            if user_obj == obj.author:
-                # 自分が付加したスターは付加先のコンテンツの閲覧権限を持つ場合
-                # は削除可能
-                return self._check_object_permissions(user_obj, 'view',
-                                                      obj.content_object)
+            # 循環参照を避けるためにここでStarモデルをロードしている
+            from .models import Star
+            if isinstance(obj, Star):
+                if self._check_object_permissions(user_obj,
+                                                  ('change', 'delete'),
+                                                  obj.content_object):
+                    # 付加先のコンテンツを編集可能な権限を持っている
+                    # 場合は削除可能
+                    return True
+                if user_obj == obj.author:
+                    # 自分が付加したスターは付加先のコンテンツの閲覧権限
+                    # を持つ場合は削除可能
+                    return self._check_object_permissions(user_obj,
+                                                          'view',
+                                                          obj.content_object)
+            else:
+                # 対象オブジェクトの編集権限を持つという事は
+                # 対象オブジェクトに付加されたStarの削除権限を持つ
+                return self._check_object_permissions(user_obj,
+                                                      ('change', 'delete'),
+                                                      obj)
         return False

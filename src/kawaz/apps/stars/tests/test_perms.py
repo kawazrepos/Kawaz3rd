@@ -117,6 +117,19 @@ class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
         self._test('article_author', 'delete', obj=self.star)
         self._test('star_author', 'delete', obj=self.star)
 
+    def test_delete_permission_with_target_obj(self):
+        """
+        オブジェクトの所有者（編集権限所有者）は所属スターを削除する権限を持つ
+        """
+        self._test('adam', 'delete', obj=self.article)
+        self._test('seele', 'delete', obj=self.article, neg=True)
+        self._test('nerv', 'delete', obj=self.article, neg=True)
+        self._test('children', 'delete', obj=self.article, neg=True)
+        self._test('wille', 'delete', obj=self.article, neg=True)
+        self._test('anonymous', 'delete', obj=self.article, neg=True)
+        # オブジェクトの編集権限所有者はスターの削除権限を持つ
+        self._test('article_author', 'delete', obj=self.article)
+
     def test_delete_star_permission_with_invisible_obj(self):
         """
         メンバーは閲覧権限を持たないオブジェクトに対するスター削除権限は
