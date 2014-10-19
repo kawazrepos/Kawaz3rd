@@ -1,5 +1,13 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block content %}
-    メールアドレス宛てにメールを送付しました。
-    <a href="/">トップに戻る</a>
+    <div class="page-header">
+        <h1>{% trans "Your application have been sent" %}</h1>
+    </div>
+    <p>
+        {% blocktrans %}Your application was sent to administrators. We'll send back to you soon. Just a moment.{% endblocktrans %}
+    </p>
+
+    <a href="/" class="btn btn-success btn-lg">{% trans "Return to top page" %}</a>
 {% endblock %}
+

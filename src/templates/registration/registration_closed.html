@@ -1,5 +1,13 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block content %}
-    現在、新規会員登録の受け付けを中止しています。
-    <a href="/">トップに戻る</a>
+    <div class="page-header">
+        <h1>{% trans "Application is currently disabled." %}</h1>
+    </div>
+    <p>
+        {% blocktrans %}Participants application is currently disabled. Please contact us to join.{% endblocktrans %}
+    </p>
+
+    <a href="/" class="btn btn-success btn-lg">{% trans "Return to top page" %}</a>
 {% endblock %}
+
