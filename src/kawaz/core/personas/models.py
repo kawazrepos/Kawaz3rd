@@ -175,10 +175,6 @@ class Persona(AbstractUser, metaclass=PersonaBase):
 
     @models.permalink
     def get_absolute_url(self):
-        # Django1.7からUser.get_absolute_urlが廃止されたため、本来実装すべきではないが
-        # user.profile.get_absolute_urlを実行すると、
-        # personaが持っているusernameを使うだけなのに、わざわざprofileもfetchしないといけなくなり
-        # パフォーマンス的に無駄なので、ユーザーから直接引けるようにしている
         return ('profiles_profile_detail', (), {'slug': self.username})
 
 from permission import add_permission_logic

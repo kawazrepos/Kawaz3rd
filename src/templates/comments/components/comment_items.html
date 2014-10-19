@@ -16,7 +16,7 @@
                 <span class="comment-index">{{ forloop.counter }}</span>
                 {% if comment.user.is_authenticated %}
                     <span class="nickname">{{ comment.user.nickname }}さん</span>
-                    <span class="username">(<a href="{{ comment.user.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
+                    <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
                 {% else %}
                     <span>{{ comment.name }}さん</span>
                 {% endif %}
