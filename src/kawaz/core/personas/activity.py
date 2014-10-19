@@ -30,6 +30,8 @@ class PersonaActivityMediator(ActivityMediator):
                 remarks = []
                 attributes = (
                     'nickname',
+                    'gender',
+                    'avatar',
                 )
                 for attribute in attributes:
                     if is_created(attribute):
@@ -42,4 +44,7 @@ class PersonaActivityMediator(ActivityMediator):
                     # 通知が必要な変更ではないため通知しない
                     return None
                 activity.remarks = "\n".join(remarks)
+            else:
+                # previousがないとき、通知しない
+                return None
         return activity
