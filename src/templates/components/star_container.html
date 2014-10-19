@@ -10,9 +10,15 @@
     <div class="star-body-col">
         {% get_stars object as stars %}
         <ul>
+          {% if user has 'stars.delete_star' of object %}
             {% for star in stars %}
-                {% include "components/star.html" %}
+                {% include "components/star.html" with allowed_to_delete_star=True %}
             {% endfor %}
+          {% else %}
+            {% for star in stars %}
+                {% include "components/star.html" with allowed_to_delete_star=False %}
+            {% endfor %}
+          {% endif %} 
             <li class="star-read-more"><span class="glyphicon glyphicon-chevron-down"></span><span class="text">10</span></li>
         </ul>
     </div>

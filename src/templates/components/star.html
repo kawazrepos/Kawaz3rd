@@ -1,8 +1,10 @@
 <li class="star" star-id="{{ star.pk }}" star-quote="{{ star.quote }}" rel="tooltip" data-toggle="tooltip" title="{{ star.tooltip_text }}">
     <div class="star-user">
-        <a href="{{ star.author.get_absolute_url }}">
+        <a href="{{ star.author.profile.get_absolute_url }}">
             <img class="avatar avatar-small" src="{{ star.author.get_small_avatar }}">
-            {% if user has 'stars.star_delete' of star %}
+            {# allowed_to_delete_starはstar_container.htmlから渡され、このスター郡が付加されているオブジェクトの編集権限をユーザが持っている場合にTrueとなる #}
+            {# また SQL や メソッドの呼び出しを極力少なくするためにまずスターの所有者をチェックしてからパーミッションチェックを行なっている #}
+            {% if allowed_to_delete_star or star.author == user and user has 'stars.delete_star' of star %}
                 <a href="#" class="star-remove" style="display: none;"><span class="glyphicon glyphicon-remove"></span></a>
             {% endif %}
         </a>
