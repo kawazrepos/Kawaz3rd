@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'django_comments',
     'rest_framework',
     'permission',
+    'debug_toolbar',
     'thumbnailfield',
     'roughpages',
     'registration',
