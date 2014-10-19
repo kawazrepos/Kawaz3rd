@@ -688,7 +688,7 @@ msgstr "管理者"
 #: kawaz/apps/projects/models.py:124 templates/profiles/profile_list.html:10
 #: templates/projects/project_detail.html:64
 msgid "Members"
-msgstr "プロジェクトメンバー"
+msgstr "所属メンバー"
 
 #: kawaz/apps/projects/models.py:130
 msgid "Tracker URL"
