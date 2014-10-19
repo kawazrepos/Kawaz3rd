@@ -41,3 +41,21 @@ class KawazDiscoverRunner(MediaRootTestSuiteRunner):
     def setup_test_environment(self):
         super().setup_test_environment()
         settings.TESTING = True
+        #
+        # django-compress の COMPRESS_ENABLED の部分に下記のような記載がある
+        #
+        # > When COMPRESS_ENABLED is False the input will be rendered without
+        # > any compression except for code with a mimetype matching one listed
+        # > in the COMPRESS_PRECOMPILERS setting. These matching files are
+        # > still passed to the precompiler before rendering.
+        # ( http://django-compressor.readthedocs.org/
+        #   en/latest/settings/#django.conf.settings.COMPRESS_ENABLED )
+        #
+        # この様に django-compress は DEBUG=True（COMPRESS_ENABLED=False）の
+        # 場合でも coffee/less のコンパイルを行おうとする。それに伴いファイル
+        # の更新チェックなど余計なコードが大量に走るためユニットテストが尋常
+        # じゃないほど時間がかかることになる。
+        # ユニットテストにおいて coffee/less がコンパイルされている必要性は
+        # 皆無なので、この機能自体を停止することでテストの高速化を行なっている
+        #
+        settings.COMPRESS_PRECOMPILERS = ()
