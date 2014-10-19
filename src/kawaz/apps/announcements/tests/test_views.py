@@ -467,8 +467,8 @@ class AnnouncementListViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two announcements')
-        self.assertEqual(list[0], self.announcements[0], 'public')
-        self.assertEqual(list[1], self.announcements[1], 'protected')
+        self.assertTrue(self.announcements[1] in list)
+        self.assertTrue(self.announcements[0] in list)
 
     def test_paginate_by(self):
         """
