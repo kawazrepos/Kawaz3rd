@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-20 02:55+0900\n"
+"POT-Creation-Date: 2014-10-20 03:00+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -970,24 +970,28 @@ msgstr "プロフィールを見る"
 msgid "Manage Drafts"
 msgstr "下書きの管理"
 
-#: src/templates/base.html:57
+#: src/templates/base.html:58
 msgid "Change Profile"
 msgstr "プロフィールを編集"
 
-#: src/templates/base.html:58
+#: src/templates/base.html:59
 msgid "Change User Information"
 msgstr "ユーザー情報の変更"
 
-#: src/templates/base.html:59
+#: src/templates/base.html:60
 #: src/templates/registration/password_change_form.html:13
 msgid "Change Password"
 msgstr "パスワードを変更"
 
-#: src/templates/base.html:65
+#: src/templates/base.html:62
+msgid "Central Dogma"
+msgstr "セントラル・ドグマ"
+
+#: src/templates/base.html:68
 msgid "Make me human"
 msgstr "人間に戻る"
 
-#: src/templates/base.html:72
+#: src/templates/base.html:75
 msgid ""
 "!CAUTION! You will get superuser privilege. Thus you can access to all "
 "records in this system."
@@ -995,15 +999,15 @@ msgstr ""
 "【警告】この操作を実行すると管理者権限を得ます。管理者状態では、システムの全"
 "てのデータの操作が可能です"
 
-#: src/templates/base.html:74
+#: src/templates/base.html:77
 msgid "Make me God"
 msgstr "神になる"
 
-#: src/templates/base.html:81 src/templates/registration/logout.html:6
+#: src/templates/base.html:84 src/templates/registration/logout.html:6
 msgid "Logout"
 msgstr "ログアウト"
 
-#: src/templates/base.html:87 src/templates/registration/login.html:7
+#: src/templates/base.html:90 src/templates/registration/login.html:7
 msgid "Login"
 msgstr "ログイン"
 

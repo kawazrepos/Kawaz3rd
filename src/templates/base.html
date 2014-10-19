@@ -40,7 +40,7 @@
             <li class="{% active '^/events.+' %}"><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
             <li class="{% active '^/blogs.+' %}"><a href="{% url "blogs_entry_list" %}">{% trans "Blog" %}</a></li>
             <li class="{% active '^/projects.+' %}"><a href="{% url "projects_project_list" %}">{% trans "Projects" %}</a></li>
-            <li class="{% active '^/profiles.+' %}"><a href="{% url "profiles_profile_list" %}">{% trans "Members" %}</a></li>
+            <li class="{% active '^/members.+' %}"><a href="{% url "profiles_profile_list" %}">{% trans "Members" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right header-button">
             <li class="dropdown">
@@ -54,9 +54,12 @@
                         <ul class="dropdown-menu authenticated-menu" role="menu">
                             <li><a href="{{ user.profile.get_absolute_url }}">{% trans "View Profile" %}</a></li>
                             <li><a href="/drafts">{% trans "Manage Drafts" %}</a></li>
+                            <li role="presentation" class="divider"></li>
                             <li><a href="{% url "profiles_profile_update" %}">{% trans "Change Profile" %}</a></li>
                             <li><a href="{% url "personas_persona_update" %}">{% trans "Change User Information" %}</a></li>
                             <li><a href="{% url "password_change" %}">{% trans "Change Password" %}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="/central-dogma/">{% trans "Central Dogma" %}</a></li>
                             {% if user has 'personas.assign_role_persona' %}
                                 {% if user.is_superuser %}
                                     <li>
