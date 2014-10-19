@@ -10,23 +10,24 @@ class ProfileActivityMediator(ActivityMediator):
 
     def alter(self, instance, activity, **kwargs):
         if activity and activity.status == 'updated':
-            # 通知が必要な状態の変更を詳細に記録する
-            previous = activity.previous.snapshot
-            is_updated = lambda x: (
-                getattr(previous, x) and
-                getattr(instance, x) and
-                getattr(previous, x) != getattr(instance, x)
-            )
-            remarks = []
-            attributes = (
-                'remarks',
-                'place',
-            )
-            for attribute in attributes:
-                if is_updated(attribute):
-                    remarks.append(attribute + '_updated')
-            if not remarks:
-                # 通知が必要な変更ではないため通知しない
-                return None
-            activity.remarks = "\n".join(remarks)
+            if activity.previous:
+                # 通知が必要な状態の変更を詳細に記録する
+                previous = activity.previous.snapshot
+                is_updated = lambda x: (
+                    getattr(previous, x) and
+                    getattr(instance, x) and
+                    getattr(previous, x) != getattr(instance, x)
+                )
+                remarks = []
+                attributes = (
+                    'remarks',
+                    'place',
+                )
+                for attribute in attributes:
+                    if is_updated(attribute):
+                        remarks.append(attribute + '_updated')
+                if not remarks:
+                    # 通知が必要な変更ではないため通知しない
+                    return None
+                activity.remarks = "\n".join(remarks)
         return activity
