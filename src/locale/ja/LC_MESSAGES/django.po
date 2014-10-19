@@ -552,7 +552,7 @@ msgstr "できること"
 
 #: kawaz/apps/profiles/forms.py:23 kawaz/core/registrations/models.py:17
 msgid "Remarks"
-msgstr "一言メッセージ"
+msgstr "自由記入欄"
 
 #: kawaz/apps/profiles/forms.py:24 templates/profiles/profile_detail.html:28
 msgid "Birthday"
@@ -925,9 +925,7 @@ msgid "Home"
 msgstr "ホーム"
 
 #: templates/base.html:41 templates/blogs/entry_detail.html:10
-#: templates/roughpages/drafts.authenticated.html:41
-#, fuzzy
-#| msgid "Blogs"
+#: templates/roughpages/drafts.authenticated.html:41 templates/base.html:41
 msgid "Blog"
 msgstr "ブログ"
 
@@ -949,10 +947,8 @@ msgid "Change User Information"
 msgstr "ユーザー情報の変更"
 
 #: templates/base.html:57 templates/registration/password_change_form.html:13
-#, fuzzy
-#| msgid "Forgot Password?"
 msgid "Change Password"
-msgstr "パスワードを忘れたら"
+msgstr "パスワードを変更"
 
 #: templates/base.html:63
 msgid "Make me human"
@@ -1200,8 +1196,6 @@ msgid "There are no entries yet"
 msgstr "書いたブログはまだありません"
 
 #: templates/profiles/profile_detail.html:94
-#, fuzzy
-#| msgid "Recent Entries"
 msgid "Read all entries"
 msgstr "最近書いたブログ"
 
@@ -1226,8 +1220,6 @@ msgid "There are no joinned projects."
 msgstr "参加できるプロジェクトはありません"
 
 #: templates/profiles/profile_form.html:19
-#, fuzzy
-#| msgid "Using Services"
 msgid "Available Services"
 msgstr "使用中のサービス"
 
@@ -1309,26 +1301,18 @@ msgid "Register"
 msgstr "Kawazへ登録"
 
 #: templates/roughpages/drafts.authenticated.html:35
-#, fuzzy
-#| msgid "There are %(count)s announcement entries."
 msgid "There are no announcements in draft."
 msgstr "%(count)s件のお知らせがあります"
 
 #: templates/roughpages/drafts.authenticated.html:50
-#, fuzzy
-#| msgid "There are no entries yet"
 msgid "There are no blog entries in draft."
 msgstr "書いたブログはまだありません"
 
 #: templates/roughpages/drafts.authenticated.html:64
-#, fuzzy
-#| msgid "There are no entries yet"
 msgid "There are no events in draft."
 msgstr "書いたブログはまだありません"
 
 #: templates/roughpages/drafts.authenticated.html:78
-#, fuzzy
-#| msgid "There are no joinned projects."
 msgid "There are no projects in draft."
 msgstr "参加できるプロジェクトはありません"
 
