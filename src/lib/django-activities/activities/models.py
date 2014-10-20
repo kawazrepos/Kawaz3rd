@@ -64,8 +64,9 @@ class Activity(models.Model):
         verbose_name_plural = _('Activities')
 
     def __repr__(self):
-        return "<Activity: {}:{}>".format(self.content_type.model,
-                                          self.object_id)
+        return "<Activity: {}:{}:{}>".format(self.content_type.model,
+                                             self.object_id,
+                                             self.status)
 
     @property
     def snapshot(self):

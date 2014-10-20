@@ -2,6 +2,7 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+from functools import lru_cache
 from django.template import Context
 from django.template.loader import select_template
 from django.db.models.signals import (post_save,
@@ -20,6 +21,11 @@ class ActivityMediator(object):
     default_template_extension = None
     template_extensions = None
 
+    # if m2m_fields is None, get_m2m_fields return all many to many fields
+    # registered in the model.
+    # to prevent unwilling activity creation, default value is []
+    m2m_fields = []
+
     @property
     def _default_template_extension(self):
         if self.default_template_extension:
@@ -33,6 +39,26 @@ class ActivityMediator(object):
             return self.template_extensions
         else:
             return settings.ACTIVITIES_TEMPLATE_EXTENSIONS
+
+    @lru_cache()
+    def get_m2m_fields(self):
+        """
+        Return m2m fields which will be watched for recognizing m2m changes
+
+        It simply return a list defined as `m2m_fields` attribute or all
+        many to many fields defined in the connected model if `m2m_fields`
+        is `None`.
+        """
+        if self.m2m_fields is None:
+            return tuple(self.model._meta.local_many_to_many)
+        # convert field names to actual field instance
+        def _field_names_to_fields(field_names):
+            for field_or_field_name in field_names:
+                if isinstance(field_or_field_name, str):
+                    yield self.model._meta.get_field(field_or_field_name)
+                else:
+                    yield field_or_field_name
+        return tuple(_field_names_to_fields(self.m2m_fields))
 
     def _pre_delete_receiver(self, sender, instance, **kwargs):
         ct = ContentType.objects.get_for_model(instance)
@@ -74,13 +100,16 @@ class ActivityMediator(object):
         """
         self.model = model
         self.app_label = model._meta.app_label
-        # connect post_save signal
+        # connect post_save/pre_delete signal
         post_save.connect(self._post_save_receiver, sender=model,
                           weak=False)
         pre_delete.connect(self._pre_delete_receiver, sender=model,
                            weak=False)
-        m2m_changed.connect(self._m2m_changed_receiver, sender=model,
-                            weak=False)
+        # connect m2m_changed signal of all ManyToMany fields
+        for m2m in self.get_m2m_fields():
+            m2m_changed.connect(self._m2m_changed_receiver,
+                                sender=m2m.rel.through,
+                                weak=False)
 
     def get_template_extension(self, typename=None):
         """
