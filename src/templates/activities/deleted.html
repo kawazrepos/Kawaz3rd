@@ -1,4 +1,7 @@
 {% extends "activities/base.html" %}
-{% block body %}
-    {{ object }}が削除されました
+{% block root %}
+    {{ object }}
+{% endblock %}
+{% block history-item %}
+    削除されました
 {% endblock %}

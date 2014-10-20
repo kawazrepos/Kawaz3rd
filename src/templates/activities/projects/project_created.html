@@ -1,17 +1,4 @@
-{% extends "activities/base.html" %}
-{% block icon %}
-    <a href="{{ object.get_absolute_url }}">
-        <img src="{{ object.get_middle_icon }}" class="avatar avatar-middle">
-    </a>
-{% endblock %}
-{% block body %}
-    プロジェクト
-    {% if object.get_absolute_url %}
-        「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」が
-    {% else %}
-        {{ object.title }}が
-    {% endif %}
-    {% block history-item %}
-        発足しました
-    {% endblock %}
+{% extends "activities/projects/base.html" %}
+{% block history-item %}
+    {% include "components/small_avatar.html" with user=activity.snapshot.administrator render_username=False %}発足しました
 {% endblock %}

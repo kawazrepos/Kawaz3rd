@@ -11,13 +11,11 @@
 {% if typename == 'root' %}
     <div class="activity-body">
         <span class="activity-header">
-            {% block body %}
-            {% endblock %}
+            <h3> {% block root %} {% endblock %}</h3>
         </span>
-        {% include "activities/components/activity_footer.html" %}
         {% block history %}
             {% get_activities_of activity.snapshot as activities %}
-            {% for activity in activities|slice:"1:5" %}
+            {% for activity in activities|slice:":3" %}
                 <div class="activity-history">
                     {% render_activity activity %}
                 </div>

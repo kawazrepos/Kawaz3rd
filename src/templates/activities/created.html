@@ -1,9 +1,9 @@
 {% extends "activities/base.html" %}
-{% block body %}
+{% block root %}
     {% if object.get_absolute_url %}
-        「<a href="{{ object.get_absolute_url }}">{{ object }}</a>」が
+        「<a href="{{ object.get_absolute_url }}">{{ object }}</a>」
     {% else %}
-        {{ object }}が
+        {{ object }}
     {% endif %}
     {% block history-item %}
         作成されました

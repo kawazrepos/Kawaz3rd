@@ -1,0 +1,13 @@
+{% extends "activities/base.html" %}
+{% block icon %}
+    <a href="{{ object.get_absolute_url }}">
+        <img src="{{ object.get_middle_icon }}" class="avatar avatar-middle">
+    </a>
+{% endblock %}
+{% block root %}
+    {% if object.get_absolute_url %}
+        <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+    {% else %}
+        {{ object.title }}
+    {% endif %}
+{% endblock %}
