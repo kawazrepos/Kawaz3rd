@@ -96,10 +96,13 @@ class ActivitiesActivityMediatorTestCase(TestCase):
     @patch('activities.mediator.pre_delete')
     @patch('activities.mediator.m2m_changed')
     def test_connect(self, m2m_changed, pre_delete, post_save):
+        field = MagicMock()
         model = MagicMock()
         model._meta.app_label = 'app_label'
+        model._meta.get_field = MagicMock(return_value=field)
 
         mediator = ActivityMediator()
+        mediator.m2m_fields = ['field']
         mediator.connect(model)
         self.assertEqual(mediator.model, model)
         self.assertEqual(mediator.app_label, 'app_label')
@@ -111,7 +114,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
                                               sender=model,
                                               weak=False)
         m2m_changed.connect.assert_called_with(mediator._m2m_changed_receiver,
-                                               sender=model,
+                                               sender=field.rel.through,
                                                weak=False)
 
     @override_settings(

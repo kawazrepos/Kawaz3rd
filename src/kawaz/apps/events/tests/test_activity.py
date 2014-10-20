@@ -1,45 +1,100 @@
-# ! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/10/17
-#
-import datetime
+from datetime import timedelta
+from unittest.mock import MagicMock
+from django.test import TestCase
 from django.utils import timezone
-from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
-from kawaz.apps.events.tests.factories import EventFactory
+from activities.models import Activity
+from .factories import EventFactory, PersonaFactory
+from ..models import Event
+from ..activity import EventActivityMediator
 
-__author__ = 'giginet'
 
-class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
-    factory_class = EventFactory
+class EventActivityMediatorTestCase(TestCase):
 
-    def test_create(self):
-        """
-        イベント作成時にActivityが生成される
-        """
-        self._test_create()
+    def test_create_event(self):
+        nactivity = Activity.objects.get_for_model(Event).count()
+
+        event = EventFactory()
+        self.assertEqual(nactivity+1,
+                         Activity.objects.get_for_model(Event).count())
+        activity = Activity.objects.get_for_model(Event).first()
+        self.assertEqual(activity.snapshot, event)
+        self.assertEqual(activity.status, 'created')
 
     def test_update_event(self):
-        """
-        以下のカラムを更新したとき、`_updated`フラグがコンテキストに入る
-        """
-        period_start = self.object.period_start + datetime.timedelta(hours=2)
-        period_end = self.object.period_start + datetime.timedelta(hours=10)
-        deadline = timezone.now() + datetime.timedelta(minutes=30)
-        self._test_partial_update(
-            (
-                'period_start_updated',
-                'period_end_updated',
-                'place_updated',
-            ),
-            period_start=period_start,
-            period_end=period_end,
-            place='ジオフロント',
-            number_restriction=10,
-            attendance_deadline=deadline
-        )
+        event = EventFactory()
 
-    def test_delete(self):
-        """
-        イベント削除時にActivityが生成される
-        """
-        self._test_delete()
+        nactivity = Activity.objects.get_for_model(Event).count()
+        event.period_start = event.period_start + timedelta(hours=2)
+        event.period_end = event.period_end + timedelta(hours=2)
+        event.attendance_deadline = timezone.now() + timedelta(minutes=30)
+        event.save()
+
+        self.assertEqual(nactivity+1,
+                         Activity.objects.get_for_model(Event).count())
+        activity = Activity.objects.get_for_model(Event).first()
+        self.assertEqual(activity.snapshot, event)
+        self.assertEqual(activity.status, 'updated')
+        self.assertTrue('period_start_updated' in activity.remarks)
+        self.assertTrue('period_end_updated' in activity.remarks)
+        self.assertTrue('attendance_deadline_created' in activity.remarks)
+
+    def test_delete_event(self):
+        event = EventFactory()
+
+        nactivity = Activity.objects.get_for_model(Event).count()
+        pk = event.pk       # delete() により消去される pk を保持
+        event.delete()
+        event.pk = pk       # snapshotと比較するためpkを最適用（存在しない）
+        self.assertEqual(nactivity+1,
+                         Activity.objects.get_for_model(Event).count())
+        activity = Activity.objects.get_for_model(Event).first()
+        self.assertEqual(activity.snapshot, event)
+        self.assertEqual(activity.status, 'deleted')
+
+    def test_attend_event(self):
+        event = EventFactory()
+        user1 = PersonaFactory()
+        user2 = PersonaFactory()
+
+        nactivity = Activity.objects.get_for_model(Event).count()
+
+        event.attend(user1)
+        self.assertEqual(nactivity+1,
+                         Activity.objects.get_for_model(Event).count())
+        activity = Activity.objects.get_for_model(Event).first()
+        self.assertEqual(activity.snapshot, event)
+        self.assertEqual(activity.status, 'user_add')
+        self.assertTrue(str(user1.pk) in activity.remarks)
+
+        event.attend(user2)
+        self.assertEqual(nactivity+2,
+                         Activity.objects.get_for_model(Event).count())
+        activity = Activity.objects.get_for_model(Event).first()
+        self.assertEqual(activity.snapshot, event)
+        self.assertEqual(activity.status, 'user_add')
+        self.assertTrue(str(user2.pk) in activity.remarks)
+
+    def test_quit_event(self):
+        event = EventFactory()
+        user1 = PersonaFactory()
+        user2 = PersonaFactory()
+        event.attend(user1)
+        event.attend(user2)
+
+        nactivity = Activity.objects.get_for_model(Event).count()
+
+        event.quit(user1)
+        self.assertEqual(nactivity+1,
+                         Activity.objects.get_for_model(Event).count())
+        activity = Activity.objects.get_for_model(Event).first()
+        self.assertEqual(activity.snapshot, event)
+        self.assertEqual(activity.status, 'user_removed')
+        self.assertTrue(str(user1.pk) in activity.remarks)
+
+        event.quit(user2)
+        self.assertEqual(nactivity+2,
+                         Activity.objects.get_for_model(Event).count())
+        activity = Activity.objects.get_for_model(Event).first()
+        self.assertEqual(activity.snapshot, event)
+        self.assertEqual(activity.status, 'user_removed')
+        self.assertTrue(str(user2.pk) in activity.remarks)
