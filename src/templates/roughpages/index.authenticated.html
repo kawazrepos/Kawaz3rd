@@ -8,8 +8,10 @@
     <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
 {% endblock %}
 {% block content-main %}
-    <section id="activity-container">
+    <div class="page-header">
         <h2>Activities</h2>
+    </div>
+    <section id="activity-container">
         {% get_latest_activities as activities %}
         {% for activity in activities %}
             <article class="activity">

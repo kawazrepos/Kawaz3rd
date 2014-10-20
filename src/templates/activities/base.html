@@ -2,25 +2,28 @@
 {% load humanize %}
 
 {% if typename == 'root' %}
-    <div class="activity-icon">
+    <a class="activity-icon" href="{{ object.get_absolute_url }}">
         {% block icon %}
         {% endblock %}
-    </div>
+    </a>
 {% endif %}
 
 {% if typename == 'root' %}
+
     <div class="activity-body">
-        <span class="activity-header">
+        <a href="{{ object.get_absolute_url }}" class="activity-header">
             <h3> {% block root %} {% endblock %}</h3>
-        </span>
-        {% block history %}
-            {% get_activities_of activity.snapshot as activities %}
-            {% for activity in activities|slice:":3" %}
-                <div class="activity-history">
+        </a>
+
+
+        <div class="activity-history">
+            {% block history %}
+                {% get_activities_of activity.snapshot as activities %}
+                {% for activity in activities|slice:":3" %}
                     {% render_activity activity %}
-                </div>
-            {% endfor %}
-        {% endblock %}
+                {% endfor %}
+            {% endblock %}
+        </div>
     </div>
 {% else %}
     <div class="activity-history-item">
