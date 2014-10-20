@@ -1,1 +1,1 @@
-<a href="{{ user.get_absolute_url }}"><img src="{{ user.get_small_avatar }}" alt="{{ user.nickname }}" class="avatar avatar-small">{% if render_username %}{{ user.nickname }}{% endif %}</a>
+<a href="{{ user.get_absolute_url }}"><img src="{{ user.get_small_avatar }}" alt="{{ user.nickname }}" class="avatar avatar-small" rel="tooltip" data-toggle="tooltip" title="{{ user.nickname }}">{% if render_username %}{{ user.nickname }}{% endif %}</a>
