@@ -1,6 +1,8 @@
 {% extends "activities/base.html" %}
 {% block icon %}
-    <img src="{{ object.organizer.get_middle_avatar }}" class="avatar avatar-middle">
+    <a href="{{ object.organizer.get_absolute_url }}">
+        <img src="{{ object.organizer.get_middle_avatar }}" class="avatar avatar-middle" alt="{{ object.organizer.nickname }}">
+    </a>
 {% endblock %}
 {% block body %}
     イベント
@@ -12,7 +14,7 @@
             {% if place_updated %}開催場所{% endif %}
             {% if number_restriction_updated %}制限人数{% endif %}
             {% if attendance_deadline_updated %}参加締め切り{% endif %}
-            が更新されました。
+            が変更されました。
         {% endif %}
 
         {% if period_start_created or period_end_created %}
