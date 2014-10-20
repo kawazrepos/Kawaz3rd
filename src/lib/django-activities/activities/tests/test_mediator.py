@@ -102,7 +102,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         model._meta.get_field = MagicMock(return_value=field)
 
         mediator = ActivityMediator()
-        mediator.m2m_fields = 'field'
+        mediator.m2m_fields = ['field']
         mediator.connect(model)
         self.assertEqual(mediator.model, model)
         self.assertEqual(mediator.app_label, 'app_label')
