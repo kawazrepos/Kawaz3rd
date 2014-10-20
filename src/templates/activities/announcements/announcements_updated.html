@@ -1,15 +1,4 @@
-{% extends "activities/base.html" %}
-{% block icon %}
-    <img src="{{ object.author.get_middle_avatar }}" class="avatar avatar-middle">
-{% endblock %}
-{% block body %}
-    お知らせ
-    {% if object.get_absolute_url %}
-        「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」が
-    {% else %}
-        {{ object.title }}が
-    {% endif %}
-    {% block history-item %}
-        更新されました
-    {% endblock %}
+{% extends "activities/announcements/base.html" %}
+{% block history-item %}
+    {% include "components/small_avatar.html" with user=activity.snapshot.last_modifier render_username=False %}更新しました
 {% endblock %}

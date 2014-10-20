@@ -1,10 +1,4 @@
-{% extends "activities/base.html" %}
-{% block icon %}
-    <img src="{{ object.author.get_large_avatar }}" class="avatar avatar-large">
-{% endblock %}
-{% block root %}
-    {{ object.title }}
-{% endblock %}
+{% extends "activities/blogs/base.html" %}
 {% block history-item %}
-    書きました
+    {% include "components/small_avatar.html" with user=activity.snapshot.author render_username=False %}書きました
 {% endblock %}
