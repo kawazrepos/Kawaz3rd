@@ -1,6 +1,8 @@
 {% extends "activities/base.html" %}
 {% block icon %}
-    <img src="{{ object.get_middle_icon }}" class="avatar avatar-middle">
+    <a href="{{ object.get_absolute_url }}">
+        <img src="{{ object.get_middle_icon }}" class="avatar avatar-middle">
+    </a>
 {% endblock %}
 {% block body %}
     プロジェクト
@@ -10,6 +12,6 @@
         {{ object.title }}が
     {% endif %}
     {% block history-item %}
-        作成されました
+        発足しました
     {% endblock %}
 {% endblock %}

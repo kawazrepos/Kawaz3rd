@@ -1,15 +1,37 @@
 {% extends "activities/base.html" %}
 {% block icon %}
-    <img src="{{ object.get_middle_icon }}" class="avatar avatar-middle">
+    <a href="{{ object.get_absolute_url }}">
+        <img src="{{ object.get_middle_icon }}" class="avatar avatar-middle">
+    </a>
 {% endblock %}
 {% block body %}
-    プロジェクト
-    {% if object.get_absolute_url %}
-        「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」が
-    {% else %}
-        「{{ object.title }}」が
-    {% endif %}
     {% block history-item %}
-        更新されました
+        {% if typename == 'root' %}
+            {% include "components/small_avatar.html" with user=object.last_modifier %}さんが
+        {% else %}
+            {% include "components/small_avatar.html" with user=activity.snapshot.last_modifier %}さんが
+        {% endif %}
+        {% if typename == 'root' %}
+            {% if object.get_absolute_url %}
+                「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」
+            {% else %}
+                「{{ object.title }}」
+            {% endif %}
+        {% endif %}
+            {% if title_updated %}
+                {% if typename == "root" %}へ{% endif %}タイトルを変更しました
+            {% elif status_updated %}
+                {% if typename == 'root' %}の{% endif %}状態を「{{ activity.snapshot.get_status_display }}」へ変更しました
+            {% elif body_updated %}
+                {% if typename == 'root' %}の{% endif %}詳細を変更しました
+            {% elif icon_updated %}
+                {% if typename == 'root' %}の{% endif %}アイコンを変更しました
+            {% elif category_updated %}
+                {% if typename == 'root' %}の{% endif %}カテゴリーを「{{ activity.snapshot.category.label }}」に変更しました
+            {% elif icon_created %}
+                {% if typename == 'root' %}の{% endif %}アイコンを設定しました
+            {% else %}
+                {% if typename == 'root' %}の{% endif %}更新しました
+            {% endif %}
     {% endblock %}
 {% endblock %}

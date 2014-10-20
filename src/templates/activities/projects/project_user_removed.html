@@ -1,0 +1,18 @@
+{% extends "activities/base.html" %}
+{% block icon %}
+    <a href="{{ user.get_absolute_url }}">
+        <img src="{{ user.get_middle_avatar }}" class="avatar avatar-middle" alt="{{ user.nickname }}">
+    </a>
+{% endblock %}
+{% block body %}
+    <a href="{{ user.get_absolute_url }}">{{ user.nickname }}</a>さんが
+    {% if object.get_absolute_url %}
+        「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」への
+    {% else %}
+        「{{ object.title }}」への
+    {% endif %}
+        参加をやめました
+{% endblock %}
+{% block history-item %}
+    {% include "components/small_avatar.html" with user=user %}さんが参加をやめました
+{% endblock %}
