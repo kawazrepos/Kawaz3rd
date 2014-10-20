@@ -50,6 +50,9 @@
           {{ project.body | parser }}
     </article>
     {% include "components/star_container.html" %}
+    {% include "comments/components/comment_items.html" %}
+    {% include "comments/components/comment_form.html" %}
+    {% include "components/social.html" %}
   {% endblock %}
   {% block content-aside %}
     {% if user has 'projects.join_project' of project %}

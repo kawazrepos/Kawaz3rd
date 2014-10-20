@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'activities',
     'kawaz.core.management',
     'kawaz.core.db',
+    'kawaz.core.comments',
     'kawaz.core.utils',
     'kawaz.core.personas',
     'kawaz.core.publishments',
@@ -217,6 +218,7 @@ GCAL_CLIENT_SECRETS = os.path.join(
 GCAL_CREDENTIALS = os.path.join(
     REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
 
+COMMENTS_APP = 'kawaz.core.comments'
 
 # crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

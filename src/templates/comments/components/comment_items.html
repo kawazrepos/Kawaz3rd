@@ -1,4 +1,5 @@
 {% load comments %}
+{% load parser %}
 {% get_comment_list for object as comments %}
 <div class="comment-list">
     {% for comment in comments %}
@@ -7,7 +8,9 @@
                 <div class="comment-avatar">
                     {% if comment.user.is_authenticated %}
                         {# ログインユーザーはuserのavatar #}
-                        <img src="{{ comment.user.get_middle_avatar }}" class="avatar avatar-middle" alt="@{{ comment.user.username }}">
+                        <a href="{{ comment.user.get_absolute_url }}">
+                            <img src="{{ comment.user.get_middle_avatar }}" class="avatar avatar-middle" alt="@{{ comment.user.username }}">
+                        </a>
                     {% else %}
                         {# 非ログインユーザーはデフォルトのアイコン #}
                         <img src="/statics/img/defaults/profile_middle.png" class="avatar avatar-middle">
@@ -15,17 +18,17 @@
                 </div>
                 <span class="comment-index">{{ forloop.counter }}</span>
                 {% if comment.user.is_authenticated %}
-                    <span class="nickname">{{ comment.user.nickname }}さん</span>
+                    <span class="nickname">{{ comment.user.nickname }}</span>
                     <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
                 {% else %}
-                    <span>{{ comment.name }}さん</span>
+                    <span>{{ comment.name }}</span>
                 {% endif %}
             </header>
             <div class="comment-body col col-lg-12 comment-body">
                 {% if comment.user.is_authenticated %}
                     {# ログインユーザーはmarkdownを使える #}
                     <div class="markdown">
-                        {{ comment.comment | markdown }}
+                        {{ comment.comment | parser }}
                     </div>
                 {% else %}
                     {# 非ログインユーザーは改行のみ変換される #}
@@ -34,7 +37,7 @@
             </div>
 
             <footer class="col col-lg-12 comment-date">
-                <time><a href="{{ comment.get_absolute_url }}">{{ comment.submit_date|date:"Y/m/d H:i" }}</a></time>
+                <time datetime="{{ comment.submit_date|date:'c' }}"><a href="{{ comment.get_absolute_url }}">{{ comment.submit_date|date:"Y/m/d H:i" }}</a></time>
             </footer>
         </article>
     {% endfor %}
