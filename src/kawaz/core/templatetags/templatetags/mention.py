@@ -16,15 +16,17 @@ def mention(value):
     """
     文中の@username にリンクを貼るテンプレートフィルタです
     """
+    usernames = USERNAME_PATTERN.findall(value)
+    users = Persona.objects.filter(username__in=usernames)
+    users = {u.username: u for u in users}
     def repl(m):
         username = m.group('username')
-        try:
-            user = Persona.objects.get(username=username)
+        if username in users.keys():
             html = render_to_string("templatetags/mention.html", {
-                'user' : user
+                'user' : users[username]
             }).replace('\n', '')
             return html
-        except ObjectDoesNotExist:
+        else:
             return "@{}".format(username)
     value = USERNAME_PATTERN.sub(repl, value)
     return mark_safe(value)

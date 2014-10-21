@@ -167,6 +167,23 @@ class AnnouncementCreateViewTestCase(TestCase):
         })
         self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/create/')
 
+    def test_set_last_modifier_user(self):
+        """
+        お知らせを作成したときにlast_modifierとauthorがセットされる
+        """
+        self.assertTrue(self.client.login(username=self.nerv, password='password'))
+        r = self.client.post('/announcements/create/', {
+            'pub_state' : 'public',
+            'title' : '【悲報】データ消えました',
+            'body' : 'サードインパクトだ！',
+            'silently' : True
+        })
+        self.assertRedirects(r, '/announcements/1/')
+        self.assertEqual(Announcement.objects.count(), 1)
+        e = Announcement.objects.get(pk=1)
+        self.assertEqual(e.author, self.nerv)
+        self.assertEqual(e.last_modifier, self.nerv)
+
     def test_staffs_cannot_modify_author_id(self):
         '''
         Tests authorized user cannot modify author id.
@@ -294,6 +311,24 @@ class AnnouncementUpdateViewTestCase(TestCase):
         e = Announcement.objects.get(pk=1)
         self.assertEqual(e.title, '【悲報】データ消えました')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
+
+    def test_set_last_modifier_via_update_view(self):
+        """
+        お知らせを更新したとき、last_modifierがセットされる
+        """
+        previous_modifier = self.announcement.last_modifier
+        self.assertTrue(self.client.login(username=self.nerv, password='password'))
+        r = self.client.post('/announcements/1/update/', {
+            'pub_state' : 'public',
+            'title' : '【悲報】データ消えました',
+            'body' : 'サードインパクトだ！',
+            'silently' : True,
+        })
+        self.assertRedirects(r, '/announcements/1/')
+        self.assertEqual(Announcement.objects.count(), 1)
+        e = Announcement.objects.get(pk=1)
+        self.assertEqual(e.last_modifier, self.nerv)
+        self.assertNotEqual(e.last_modifier, previous_modifier)
 
     def test_user_cannot_modify_author_id(self):
         '''
@@ -432,8 +467,8 @@ class AnnouncementListViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two announcements')
-        self.assertEqual(list[0], self.announcements[1], 'protected')
-        self.assertEqual(list[1], self.announcements[0], 'public')
+        self.assertTrue(self.announcements[1] in list)
+        self.assertTrue(self.announcements[0] in list)
 
     def test_paginate_by(self):
         """

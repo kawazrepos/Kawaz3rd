@@ -92,7 +92,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @login-form-width: 400px;
 // ヘッダー
 .header-button {
-  margin-top: 7px;
+  margin-top: 9px;
+  margin-right: 3px;
   margin-left: 20px;
   .btn {
     padding-top: 2px;
@@ -104,6 +105,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     width: @login-form-width;
     border: @gray-light solid 1px;
     border-radius: 5px;
+  }
+  // メンバー向けメニュー
+  .authenticated-menu {
+    span {
+      margin-right: 5px;
+    }
   }
 }
 .login-form {

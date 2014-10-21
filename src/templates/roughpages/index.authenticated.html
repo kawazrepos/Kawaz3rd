@@ -1,26 +1,49 @@
-{% extends "base.html" %}
+{% extends "twopane.html" %}
+
 {% load activities_tags %}
-{% block content %}
-    <div class="jumbotron">
-        <h1>Welcome {{ user.username }}!</h1>
-        <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
-    </div>
-    <nav>
-        <ul>
-            <li><a href="{% url "products_product_create" %}">作品の作成</a></li>
-            <li><a href="{% url "events_event_create" %}">イベントの作成</a></li>
-            <li><a href="{% url "projects_project_create" %}">プロジェクトの作成</a></li>
-            <li><a href="{% url "blogs_entry_create" author=user.username %}">ブログの作成</a></li>
-        </ul>
-    </nav>
+{% load i18n %}
+{% load staticfiles %}
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
+{% endblock %}
+{% block content-main %}
+    <section id="activity-container">
+        <h2>Activities</h2>
+        {% get_latest_activities as activities %}
+        {% for activity in activities %}
+            <article class="activity">
+                {% render_activity activity of 'root' %}
+            </article>
+        {% endfor %}
+    </section>
 
-    <h2>Activities</h2>
-    {% get_activities as activities %}
-    {% for activity in activities %}
-        <article>
-            {% render_activity activity %}
-        </article>
-    {% endfor %}
-    {# activities アプリのサンプル終了 #}
-
+{% endblock %}
+{% block content-aside %}
+    <section id="wall-nav">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "New Contents" %}</h2>
+            </div>
+            <div class="list-group">
+                <a class="list-group-item" href="{% url "products_product_create" %}">作品の作成</a>
+                <a class="list-group-item" href="{% url "events_event_create" %}">イベントの作成</a>
+                <a class="list-group-item" href="{% url "projects_project_create" %}">プロジェクトの作成</a>
+                <a class="list-group-item" href="{% url "blogs_entry_create" author=user.username %}">ブログの作成</a>
+            </div>
+        </div>
+    </section>
+    <section id="wall-tools">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Member Tools" %}</h2>
+            </div>
+            <div class="list-group">
+                <a class="list-group-item" href="{% url "products_product_create" %}">Kawaz Redmine</a>
+                <a class="list-group-item" href="{% url "events_event_create" %}">Kawaz GitLab</a>
+                <a class="list-group-item" href="{% url "projects_project_create" %}">Twitter @kawazinfo</a>
+                <a class="list-group-item" href="{% url "blogs_entry_create" author=user.username %}">HipChat</a>
+            </div>
+        </div>
+    </section>
 {% endblock %}

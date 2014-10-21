@@ -13,7 +13,7 @@
 {% endblock %}
 {% block content-main %}
     <div class="row">
-    {% for product in filter %}
+    {% for product in object_list %}
         <div class="item col-xs-12 col-lg-6">
         {% include "products/components/list-item.html" %}
         </div>
@@ -26,6 +26,7 @@
         </div>
     {% endfor %}
     </div>
+    {% include "components/paginator.html" %}
 {% endblock %}
 {% block content-aside %}
     {% if user has 'products.add_product' %}

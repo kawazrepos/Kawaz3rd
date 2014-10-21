@@ -12,6 +12,10 @@ import sys
 
 REPOSITORY_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
+# Add extra PYTHON_PATH
+LIB = os.path.join(REPOSITORY_ROOT, 'src', 'lib')
+sys.path.insert(0, os.path.join(LIB, 'django-activities'))
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'xd(wr812awpkuu4+7o)#ugb)*a0z!-m^an+m)%ly$l(ses8_g1'
 
@@ -38,16 +42,20 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
     'django_comments',
     'rest_framework',
     'permission',
+    'debug_toolbar',
     'thumbnailfield',
     'roughpages',
     'registration',
     'crispy_forms',
     'compressor',
+    'activities',
     'kawaz.core.management',
     'kawaz.core.db',
+    'kawaz.core.comments',
     'kawaz.core.utils',
     'kawaz.core.personas',
     'kawaz.core.publishments',
@@ -55,8 +63,7 @@ INSTALLED_APPS = (
     'kawaz.core.forms',
     'kawaz.core.templatetags',
     'kawaz.core.gcal',
-    'kawaz.apps.activities',
-    'kawaz.apps.activities.contrib.hatenablog',
+    'kawaz.core.activities.hatenablog',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
     'kawaz.apps.profiles',
@@ -211,6 +218,7 @@ GCAL_CLIENT_SECRETS = os.path.join(
 GCAL_CREDENTIALS = os.path.join(
     REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
 
+COMMENTS_APP = 'kawaz.core.comments'
 
 # crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

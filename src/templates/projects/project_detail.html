@@ -50,6 +50,9 @@
           {{ project.body | parser }}
     </article>
     {% include "components/star_container.html" %}
+    {% include "comments/components/comment_items.html" %}
+    {% include "comments/components/comment_form.html" %}
+    {% include "components/social.html" %}
   {% endblock %}
   {% block content-aside %}
     {% if user has 'projects.join_project' of project %}
@@ -62,7 +65,7 @@
 
     <div class="member-list panel panel-default">
       <div class="panel-heading">
-        <h2 class="panel-title">{% trans "Members" %}</h2>
+        <h2 class="panel-title">{% trans "Join Members" %}</h2>
       </div>
       <div class="list-group">
       {% for member in object.members.all %}

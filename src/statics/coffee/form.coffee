@@ -90,3 +90,19 @@ $ ->
   }).prop('type', 'text')
   # Google Chrome標準のdate pickerがウザいので殺している
   # http://stackoverflow.com/questions/11270675/how-can-i-disable-the-new-chrome-html5-date-input
+
+
+$ ->
+  # Profileのアカウント登録用セレクトボックスにサービスアイコンを表示する
+  updateIcon = (target) ->
+    $option = $(target).find('option:selected')
+    url = $option.attr('icon-url')
+    console.log(url)
+    $(target).css('background-image', "url(#{url})")
+  $('.serviceselectwidget').change(->
+    updateIcon(@)
+  )
+  $.each($('.serviceselectwidget'), (i, v) ->
+    updateIcon(v)
+  )
+

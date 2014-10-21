@@ -1,3 +1,4 @@
+from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
@@ -29,6 +30,7 @@ class ProductListView(FilterView):
     model = Product
     filterset_class = ProductFilter
     template_name_suffix = '_list'
+    paginate_by = 20
 
 
 class ProductDetailView(DetailView):
@@ -105,6 +107,7 @@ class ProductFormMixin(SuccessMessageMixin):
                    url_release_formset,
                    package_release_formset,
                    screenshot_formset):
+        form.instance.last_modifier = self.request.user
         self.object = form.save()
         success_message = self.get_success_message(form.cleaned_data)
         if success_message:

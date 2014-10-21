@@ -3,6 +3,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 
 from .factories import ProjectFactory, CategoryFactory
+from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Project
 from ..models import ProjectManager
@@ -192,6 +193,9 @@ class ProjectModelTestCase(TestCase):
         project = ProjectFactory()
 
         project.join(user)
+
+        # django-permissionのキャッシュ対応
+        user = Persona.objects.get(pk=user.pk)
 
         self.assertRaises(PermissionDenied, project.join, user)
 
