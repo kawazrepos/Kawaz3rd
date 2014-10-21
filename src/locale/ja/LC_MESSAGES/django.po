@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2014-10-20 03:18+0900\n"
+=======
+"POT-Creation-Date: 2014-10-21 22:53+0900\n"
+>>>>>>> blog-detailのスタイリング再調整
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,19 +23,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/kawaz/apps/announcements/forms.py:11
+<<<<<<< HEAD
 #: src/kawaz/apps/announcements/models.py:63 src/kawaz/apps/blogs/models.py:49
+=======
+#: src/kawaz/apps/announcements/models.py:63 src/kawaz/apps/blogs/models.py:48
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/apps/events/forms.py:13 src/kawaz/apps/events/models.py:69
 #: src/kawaz/apps/projects/forms.py:11
 msgid "Body"
 msgstr "本文"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/announcements/models.py:59 src/kawaz/apps/blogs/models.py:45
+=======
+#: src/kawaz/apps/announcements/models.py:59 src/kawaz/apps/blogs/models.py:44
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/apps/events/models.py:65 src/kawaz/apps/profiles/models.py:57
 #: src/kawaz/apps/projects/models.py:92
 msgid "Publish status"
 msgstr "公開設定"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/announcements/models.py:62 src/kawaz/apps/blogs/models.py:48
+=======
+#: src/kawaz/apps/announcements/models.py:62 src/kawaz/apps/blogs/models.py:47
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/apps/events/models.py:68 src/kawaz/apps/products/models.py:84
 #: src/kawaz/apps/projects/models.py:97
 #: src/kawaz/core/activities/hatenablog/models.py:17
@@ -40,20 +56,31 @@ msgid "Title"
 msgstr "タイトル"
 
 #: src/kawaz/apps/announcements/models.py:68
+<<<<<<< HEAD
 #: src/kawaz/apps/attachments/models.py:23 src/kawaz/apps/blogs/models.py:56
 #: src/kawaz/apps/events/models.py:97 src/kawaz/apps/products/models.py:123
 #: src/kawaz/apps/products/models.py:204 src/kawaz/apps/profiles/models.py:73
+=======
+#: src/kawaz/apps/attachments/models.py:23 src/kawaz/apps/blogs/models.py:55
+#: src/kawaz/apps/events/models.py:97 src/kawaz/apps/products/models.py:123
+#: src/kawaz/apps/products/models.py:200 src/kawaz/apps/profiles/models.py:73
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/apps/projects/models.py:127 src/kawaz/apps/stars/models.py:129
 #: src/kawaz/core/activities/hatenablog/models.py:23
 #: src/templates/announcements/components/announcement_detail.html:28
 msgid "Created at"
 msgstr "作成日時"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/announcements/models.py:69 src/kawaz/apps/blogs/models.py:57
+=======
+#: src/kawaz/apps/announcements/models.py:69 src/kawaz/apps/blogs/models.py:56
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/apps/events/models.py:98
 msgid "Modified at"
 msgstr "更新日時"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/announcements/models.py:71
 #: src/kawaz/apps/products/models.py:126 src/kawaz/apps/projects/models.py:130
 msgid "Last modified by"
@@ -66,21 +93,42 @@ msgstr "お知らせ"
 #: src/kawaz/apps/announcements/models.py:80
 #: src/templates/announcements/announcement_detail.html:10
 #: src/templates/announcements/announcement_list.html:13
+=======
+#: src/kawaz/apps/announcements/models.py:75
+msgid "Announcement"
+msgstr "お知らせ"
+
+#: src/kawaz/apps/announcements/models.py:76
+#: src/templates/announcements/announcement_detail.html:10
+#: src/templates/announcements/announcement_list.html:14
+>>>>>>> blog-detailのスタイリング再調整
 #: src/templates/roughpages/drafts.authenticated.html:26
 msgid "Announcements"
 msgstr "お知らせ"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/announcements/views.py:27
+=======
+#: src/kawaz/apps/announcements/views.py:26
+>>>>>>> blog-detailのスタイリング再調整
 #, python-format
 msgid "Announcement '%(title)s' successfully created."
 msgstr "お知らせ「%(title)s」を作成しました"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/announcements/views.py:42
+=======
+#: src/kawaz/apps/announcements/views.py:37
+>>>>>>> blog-detailのスタイリング再調整
 #, python-format
 msgid "Announcement '%(title)s' successfully updated."
 msgstr "お知らせ「%(title)s」を更新しました"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/announcements/views.py:53
+=======
+#: src/kawaz/apps/announcements/views.py:48
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Announcement successfully deleted."
 msgstr "お知らせを削除しました"
 
@@ -88,8 +136,13 @@ msgstr "お知らせを削除しました"
 msgid "Content file"
 msgstr "ファイル"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/attachments/models.py:20 src/kawaz/apps/blogs/models.py:25
 #: src/kawaz/apps/blogs/models.py:54 src/kawaz/apps/stars/models.py:120
+=======
+#: src/kawaz/apps/attachments/models.py:20 src/kawaz/apps/blogs/models.py:24
+#: src/kawaz/apps/blogs/models.py:53 src/kawaz/apps/stars/models.py:120
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Author"
 msgstr "作者"
 
@@ -105,11 +158,19 @@ msgstr "素材"
 msgid "Materials"
 msgstr "素材"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/blogs/models.py:21
 msgid "Category name"
 msgstr "カテゴリ名"
 
 #: src/kawaz/apps/blogs/models.py:50 src/kawaz/apps/events/models.py:95
+=======
+#: src/kawaz/apps/blogs/models.py:20
+msgid "Category name"
+msgstr "カテゴリ名"
+
+#: src/kawaz/apps/blogs/models.py:49 src/kawaz/apps/events/models.py:95
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/apps/products/models.py:53 src/kawaz/apps/projects/models.py:21
 #: src/kawaz/apps/projects/models.py:113
 #: src/templates/projects/project_archive.html:29
@@ -117,6 +178,7 @@ msgstr "カテゴリ名"
 msgid "Category"
 msgstr "カテゴリ"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/blogs/models.py:58
 #: src/templates/blogs/components/entry_detail.html:29
 msgid "Published at"
@@ -127,6 +189,18 @@ msgid "Entry"
 msgstr "ブログ記事"
 
 #: src/kawaz/apps/blogs/models.py:66
+=======
+#: src/kawaz/apps/blogs/models.py:57
+#: src/templates/blogs/components/entry_detail.html:21
+msgid "Published at"
+msgstr "公開日"
+
+#: src/kawaz/apps/blogs/models.py:64
+msgid "Entry"
+msgstr "ブログ記事"
+
+#: src/kawaz/apps/blogs/models.py:65
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Entries"
 msgstr "ブログ記事"
 
@@ -173,7 +247,11 @@ msgstr "参加締切日"
 
 #: src/kawaz/apps/events/models.py:19 src/kawaz/apps/events/models.py:27
 #: src/kawaz/apps/events/models.py:28 src/kawaz/apps/products/models.py:25
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:46 src/kawaz/apps/products/models.py:199
+=======
+#: src/kawaz/apps/products/models.py:46 src/kawaz/apps/products/models.py:195
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/apps/profiles/models.py:10 src/kawaz/apps/profiles/models.py:99
 msgid "Label"
 msgstr "ラベル"
@@ -215,7 +293,10 @@ msgstr "参加者"
 
 #: src/kawaz/apps/events/models.py:107
 #: src/templates/roughpages/drafts.authenticated.html:55
+<<<<<<< HEAD
 #: src/templates/roughpages/helps/event.html:7
+=======
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Event"
 msgstr "イベント"
 
@@ -352,7 +433,11 @@ msgstr "公開日"
 msgid "Icon"
 msgstr "アイコン"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:32 src/kawaz/apps/products/models.py:200
+=======
+#: src/kawaz/apps/products/models.py:32 src/kawaz/apps/products/models.py:196
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Platform"
 msgstr "プラットフォーム"
 
@@ -417,9 +502,14 @@ msgid ""
 msgstr ""
 "Youtubeの動画URLを入力すると、プロダクトページに埋め込むことができます。"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:114 src/kawaz/apps/projects/models.py:144
 #: src/templates/roughpages/drafts.authenticated.html:69
 #: src/templates/roughpages/helps/project.html:7
+=======
+#: src/kawaz/apps/products/models.py:114 src/kawaz/apps/projects/models.py:139
+#: src/templates/roughpages/drafts.authenticated.html:69
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Project"
 msgstr "プロジェクト"
 
@@ -427,16 +517,28 @@ msgstr "プロジェクト"
 msgid "Administrators"
 msgstr "プロジェクトの管理者"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:124 src/kawaz/apps/products/models.py:205
+=======
+#: src/kawaz/apps/products/models.py:124 src/kawaz/apps/products/models.py:201
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/apps/profiles/models.py:74 src/kawaz/apps/projects/models.py:128
 msgid "Updated at"
 msgstr "最終更新日"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:141
 msgid "Display mode"
 msgstr "表示モード"
 
 #: src/kawaz/apps/products/models.py:143
+=======
+#: src/kawaz/apps/products/models.py:137
+msgid "Display mode"
+msgstr "表示モード"
+
+#: src/kawaz/apps/products/models.py:139
+>>>>>>> blog-detailのスタイリング再調整
 msgid ""
 "How the product displayed on the site top. To use `featured`, it require "
 "`advertisement_image`."
@@ -444,6 +546,7 @@ msgstr ""
 "このプロダクトをトップページへカルーセル + タイル表示する場合、告知用画像を設"
 "定する必要があります。"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:148 src/kawaz/apps/products/models.py:202
 #: src/kawaz/apps/products/models.py:282
 msgid "Product"
@@ -455,11 +558,24 @@ msgid "Products"
 msgstr "プロダクト"
 
 #: src/kawaz/apps/products/models.py:162
+=======
+#: src/kawaz/apps/products/models.py:144 src/kawaz/apps/products/models.py:198
+#: src/kawaz/apps/products/models.py:278
+msgid "Product"
+msgstr "プロダクト"
+
+#: src/kawaz/apps/products/models.py:145 src/templates/base.html:39
+msgid "Products"
+msgstr "プロダクト"
+
+#: src/kawaz/apps/products/models.py:158
+>>>>>>> blog-detailのスタイリング再調整
 msgid "`feature` display mode require `advertisement_image`."
 msgstr ""
 "表示モードを「トップページのカルーセル + トップページにタイル表示」にする場"
 "合、「告知用画像」を設定する必要があります"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:165
 msgid "slug 'platforms' is reserved."
 msgstr "「platforms」というslugは利用できません"
@@ -473,10 +589,26 @@ msgid "File"
 msgstr "ファイル"
 
 #: src/kawaz/apps/products/models.py:227
+=======
+#: src/kawaz/apps/products/models.py:161
+msgid "slug 'platforms' is reserved."
+msgstr "「platforms」というslugは利用できません"
+
+#: src/kawaz/apps/products/models.py:197
+msgid "Version"
+msgstr "バージョン"
+
+#: src/kawaz/apps/products/models.py:221
+msgid "File"
+msgstr "ファイル"
+
+#: src/kawaz/apps/products/models.py:223
+>>>>>>> blog-detailのスタイリング再調整
 #: src/templates/products/product_detail.html:28
 msgid "Downloads"
 msgstr "ダウンロード"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:229
 msgid "The number of downloads"
 msgstr "ダウンロード数"
@@ -490,10 +622,26 @@ msgid "Package releases"
 msgstr "パッケージ"
 
 #: src/kawaz/apps/products/models.py:243 src/kawaz/apps/profiles/models.py:64
+=======
+#: src/kawaz/apps/products/models.py:225
+msgid "The number of downloads"
+msgstr "ダウンロード数"
+
+#: src/kawaz/apps/products/models.py:228
+msgid "Package release"
+msgstr "パッケージ"
+
+#: src/kawaz/apps/products/models.py:229
+msgid "Package releases"
+msgstr "パッケージ"
+
+#: src/kawaz/apps/products/models.py:239 src/kawaz/apps/profiles/models.py:64
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/core/activities/hatenablog/models.py:18
 msgid "URL"
 msgstr "URL"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:245
 msgid "Page view"
 msgstr "閲覧数"
@@ -511,10 +659,30 @@ msgid "URL releases"
 msgstr "URL"
 
 #: src/kawaz/apps/products/models.py:279
+=======
+#: src/kawaz/apps/products/models.py:241
+msgid "Page view"
+msgstr "閲覧数"
+
+#: src/kawaz/apps/products/models.py:243
+msgid "The number of page views"
+msgstr "閲覧数"
+
+#: src/kawaz/apps/products/models.py:246
+msgid "URL release"
+msgstr "URL"
+
+#: src/kawaz/apps/products/models.py:247
+msgid "URL releases"
+msgstr "URL"
+
+#: src/kawaz/apps/products/models.py:275
+>>>>>>> blog-detailのスタイリング再調整
 #: src/kawaz/core/activities/hatenablog/models.py:19
 msgid "Image"
 msgstr "画像"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/models.py:286
 msgid "Screen shot"
 msgstr "スクリーンショット"
@@ -524,16 +692,35 @@ msgid "Screen shots"
 msgstr "スクリーンショット"
 
 #: src/kawaz/apps/products/views.py:165
+=======
+#: src/kawaz/apps/products/models.py:282
+msgid "Screen shot"
+msgstr "スクリーンショット"
+
+#: src/kawaz/apps/products/models.py:283
+msgid "Screen shots"
+msgstr "スクリーンショット"
+
+#: src/kawaz/apps/products/views.py:164
+>>>>>>> blog-detailのスタイリング再調整
 #, python-format
 msgid "Product '%(title)s' successfully created."
 msgstr "作品「%(title)s」を作成しました"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/views.py:183
+=======
+#: src/kawaz/apps/products/views.py:182
+>>>>>>> blog-detailのスタイリング再調整
 #, python-format
 msgid "Product '%(title)s' successfully updated."
 msgstr "作品「%(title)s」を更新しました"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/products/views.py:194
+=======
+#: src/kawaz/apps/products/views.py:193
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Product successfully deleted."
 msgstr "作品を削除しました"
 
@@ -598,7 +785,10 @@ msgstr "ユーザ"
 
 #: src/kawaz/apps/profiles/models.py:80
 #: src/templates/profiles/profile_form.html:11
+<<<<<<< HEAD
 #: src/templates/roughpages/helps/profile.html:7
+=======
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Profile"
 msgstr "プロフィール"
 
@@ -692,6 +882,7 @@ msgstr "管理者"
 msgid "Members"
 msgstr "所属メンバー"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/projects/models.py:134
 msgid "Tracker URL"
 msgstr "トラッカーのURL"
@@ -701,6 +892,17 @@ msgid "Repository URL"
 msgstr "リポジトリのURL"
 
 #: src/kawaz/apps/projects/models.py:145 src/templates/base.html:42
+=======
+#: src/kawaz/apps/projects/models.py:130
+msgid "Tracker URL"
+msgstr "トラッカーのURL"
+
+#: src/kawaz/apps/projects/models.py:132
+msgid "Repository URL"
+msgstr "リポジトリのURL"
+
+#: src/kawaz/apps/projects/models.py:140 src/templates/base.html:42
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Projects"
 msgstr "プロジェクト"
 
@@ -709,22 +911,38 @@ msgstr "プロジェクト"
 msgid "Project '%(title)s' successfully created."
 msgstr "プロジェクト「%(title)s」を作成しました"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/projects/views.py:68
+=======
+#: src/kawaz/apps/projects/views.py:64
+>>>>>>> blog-detailのスタイリング再調整
 #, python-format
 msgid "Project '%(title)s' successfully updated."
 msgstr "プロジェクト「%(title)s」を更新しました"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/projects/views.py:78
 msgid "Project successfully deleted."
 msgstr "プロジェクトを削除しました"
 
 #: src/kawaz/apps/projects/views.py:112
+=======
+#: src/kawaz/apps/projects/views.py:74
+msgid "Project successfully deleted."
+msgstr "プロジェクトを削除しました"
+
+#: src/kawaz/apps/projects/views.py:108
+>>>>>>> blog-detailのスタイリング再調整
 #, fuzzy
 #| msgid "The star have not been added to this object."
 msgid "You have been joined to this project."
 msgstr "プロジェクトに参加しました"
 
+<<<<<<< HEAD
 #: src/kawaz/apps/projects/views.py:131
+=======
+#: src/kawaz/apps/projects/views.py:127
+>>>>>>> blog-detailのスタイリング再調整
 #, fuzzy
 #| msgid "The star have not been added to this object."
 msgid "You have been quited from this project."
@@ -757,7 +975,11 @@ msgstr "スター"
 #: src/kawaz/apps/stars/models.py:154
 #, python-format
 msgid "%(nickname)s '%(quote)s'"
+<<<<<<< HEAD
 msgstr "%(nickname)s「%(quote)s」"
+=======
+msgstr "%(nickname)s「'%(quote)s'」"
+>>>>>>> blog-detailのスタイリング再調整
 
 #: src/kawaz/core/activities/hatenablog/models.py:30
 msgid "Hatenablog entry"
@@ -914,6 +1136,7 @@ msgid ""
 msgstr ""
 "どのようなことができるか、またはどのようなゲームが作りたいか書いてください。"
 
+<<<<<<< HEAD
 #: src/kawaz/settings.py:93
 msgid "English"
 msgstr "英語"
@@ -923,29 +1146,56 @@ msgid "Japanese"
 msgstr "日本語"
 
 #: src/lib/django-activities/activities/models.py:63
+=======
+#: src/kawaz/settings.py:91
+msgid "English"
+msgstr "英語"
+
+#: src/kawaz/settings.py:92
+msgid "Japanese"
+msgstr "日本語"
+
+#: src/lib/django-activities/activities/models.py:64
+>>>>>>> blog-detailのスタイリング再調整
 #, fuzzy
 #| msgid "Active"
 msgid "Activity"
 msgstr "活動中"
 
+<<<<<<< HEAD
 #: src/lib/django-activities/activities/models.py:64
+=======
+#: src/lib/django-activities/activities/models.py:65
+>>>>>>> blog-detailのスタイリング再調整
 #, fuzzy
 #| msgid "Active"
 msgid "Activities"
 msgstr "活動中"
 
+<<<<<<< HEAD
 #: src/templates/announcements/announcement_list.html:14
+=======
+#: src/templates/announcements/announcement_list.html:15
+>>>>>>> blog-detailのスタイリング再調整
 #, python-format
 msgid "There are %(count)s announcement entries."
 msgstr "%(count)s件のお知らせがあります"
 
 # msgstr "%(count)件のお知らせ"
+<<<<<<< HEAD
 #: src/templates/announcements/announcement_list.html:33
+=======
+#: src/templates/announcements/announcement_list.html:34
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Recent Announcements"
 msgstr "最近のお知らせ"
 
 #: src/templates/announcements/components/announcement_detail.html:12
+<<<<<<< HEAD
 #: src/templates/blogs/components/entry_detail.html:13
+=======
+#: src/templates/blogs/components/entry_detail.html:53
+>>>>>>> blog-detailのスタイリング再調整
 #, fuzzy
 #| msgid "Do you want to delete this event?"
 msgid "Do you want to delete this entry?"
@@ -957,6 +1207,11 @@ msgstr "ホーム"
 
 #: src/templates/base.html:41 src/templates/blogs/entry_detail.html:10
 #: src/templates/roughpages/drafts.authenticated.html:41
+<<<<<<< HEAD
+=======
+#, fuzzy
+#| msgid "Blogs"
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Blog"
 msgstr "ブログ"
 
@@ -970,6 +1225,7 @@ msgstr "プロフィールを見る"
 msgid "Manage Drafts"
 msgstr "下書きの管理"
 
+<<<<<<< HEAD
 #: src/templates/base.html:58
 msgid "Change Profile"
 msgstr "プロフィールを編集"
@@ -980,6 +1236,20 @@ msgstr "ユーザー情報の変更"
 
 #: src/templates/base.html:60
 #: src/templates/registration/password_change_form.html:13
+=======
+#: src/templates/base.html:57
+msgid "Change Profile"
+msgstr "プロフィールを編集"
+
+#: src/templates/base.html:58
+msgid "Change User Information"
+msgstr "ユーザー情報の変更"
+
+#: src/templates/base.html:59
+#: src/templates/registration/password_change_form.html:13
+#, fuzzy
+#| msgid "Forgot Password?"
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Change Password"
 msgstr "パスワードを変更"
 
@@ -987,6 +1257,7 @@ msgstr "パスワードを変更"
 msgid "Central Dogma"
 msgstr "セントラル・ドグマ"
 
+<<<<<<< HEAD
 #: src/templates/base.html:64
 msgid "Marduk Institute"
 msgstr "マルドゥック機関"
@@ -996,6 +1267,13 @@ msgid "Make me human"
 msgstr "人間に戻る"
 
 #: src/templates/base.html:78
+=======
+#: src/templates/base.html:65
+msgid "Make me human"
+msgstr "人間に戻る"
+
+#: src/templates/base.html:72
+>>>>>>> blog-detailのスタイリング再調整
 msgid ""
 "!CAUTION! You will get superuser privilege. Thus you can access to all "
 "records in this system."
@@ -1003,6 +1281,7 @@ msgstr ""
 "【警告】この操作を実行すると管理者権限を得ます。管理者状態では、システムの全"
 "てのデータの操作が可能です"
 
+<<<<<<< HEAD
 #: src/templates/base.html:80
 msgid "Make me God"
 msgstr "神になる"
@@ -1015,25 +1294,77 @@ msgstr "ログアウト"
 msgid "Login"
 msgstr "ログイン"
 
+=======
+#: src/templates/base.html:74
+msgid "Make me God"
+msgstr "神になる"
+
+#: src/templates/base.html:81 src/templates/registration/logout.html:6
+msgid "Logout"
+msgstr "ログアウト"
+
+#: src/templates/base.html:87 src/templates/registration/login.html:7
+msgid "Login"
+msgstr "ログイン"
+
+#: src/templates/blogs/components/entry_detail.html:30
+msgid "Blog author"
+msgstr "書いた人"
+
+#: src/templates/blogs/components/entry_detail.html:46
+#: src/templates/events/event_detail.html:174
+#: src/templates/products/product_detail.html:87
+#: src/templates/products/product_list.html:35
+#: src/templates/profiles/profile_detail.html:116
+#: src/templates/projects/project_detail.html:91
+msgid "Administration"
+msgstr "管理"
+
+#: src/templates/blogs/components/entry_detail.html:50
+#, fuzzy
+msgid "Entry Edit"
+msgstr "この記事を編集"
+
+#: src/templates/blogs/components/entry_detail.html:53
+msgid "Entry Delete"
+msgstr "この記事を削除"
+
+>>>>>>> blog-detailのスタイリング再調整
 #: src/templates/blogs/entry_detail.html:11
 msgid "'s Entries"
 msgstr "のブログ記事"
 
+<<<<<<< HEAD
 #: src/templates/blogs/entry_list.html:11
 msgid "Blog Articles"
 msgstr "ブログ記事"
 
 #: src/templates/blogs/entry_list.html:12
+=======
+#: src/templates/blogs/entry_list.html:12
+msgid "Blog Articles"
+msgstr "ブログ記事"
+
+#: src/templates/blogs/entry_list.html:13
+>>>>>>> blog-detailのスタイリング再調整
 #, python-format
 msgid "There are %(count)s blog entries."
 msgstr "%(count)s件のブログ記事があります"
 
 # msgstr "%(count)件のブログ記事"
+<<<<<<< HEAD
 #: src/templates/blogs/entry_list.html:16
 msgid "Create Blog"
 msgstr "ブログ記事を書く"
 
 #: src/templates/blogs/entry_list.html:31
+=======
+#: src/templates/blogs/entry_list.html:17
+msgid "Create Blog"
+msgstr "ブログ記事を書く"
+
+#: src/templates/blogs/entry_list.html:32
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Hot Entries"
 msgstr "ホットエントリー"
 
@@ -1151,6 +1482,7 @@ msgstr "参加締切はありません"
 msgid "There are %(count)s attendees."
 msgstr "%(count)s人の参加者がいます"
 
+<<<<<<< HEAD
 #: src/templates/events/event_detail.html:174
 #: src/templates/products/product_detail.html:87
 #: src/templates/products/product_list.html:35
@@ -1159,6 +1491,8 @@ msgstr "%(count)s人の参加者がいます"
 msgid "Administration"
 msgstr "管理"
 
+=======
+>>>>>>> blog-detailのスタイリング再調整
 #: src/templates/events/event_detail.html:180
 msgid "Update event"
 msgstr "イベントを編集"
@@ -1243,6 +1577,11 @@ msgid "There are no entries yet"
 msgstr "書いたブログはまだありません"
 
 #: src/templates/profiles/profile_detail.html:96
+<<<<<<< HEAD
+=======
+#, fuzzy
+#| msgid "Recent Entries"
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Read all entries"
 msgstr "最近書いたブログ"
 
@@ -1267,6 +1606,11 @@ msgid "There are no joinned projects."
 msgstr "参加できるプロジェクトはありません"
 
 #: src/templates/profiles/profile_form.html:19
+<<<<<<< HEAD
+=======
+#, fuzzy
+#| msgid "Using Services"
+>>>>>>> blog-detailのスタイリング再調整
 msgid "Available Services"
 msgstr "使用中のサービス"
 
@@ -1341,6 +1685,7 @@ msgstr "企画中のプロジェクト"
 msgid "See More"
 msgstr "もっと見る"
 
+<<<<<<< HEAD
 #: src/templates/registration/activation_complete.html:5
 #, fuzzy
 #| msgid "Entry successfully deleted."
@@ -1394,10 +1739,13 @@ msgstr "プロフィールを更新しました"
 msgid "Reset Password"
 msgstr "パスワードを変更"
 
+=======
+>>>>>>> blog-detailのスタイリング再調整
 #: src/templates/registration/persona_form.html:7
 msgid "Change user information"
 msgstr "ユーザー情報の変更"
 
+<<<<<<< HEAD
 #: src/templates/registration/registration_closed.html:5
 msgid "Application is currently disabled."
 msgstr "ただいま、新規会員登録を停止中です"
@@ -1431,6 +1779,8 @@ msgstr ""
 "新規会員登録申請が送信されました。管理者が確認し返信いたしますので、しばらく"
 "お待ちください"
 
+=======
+>>>>>>> blog-detailのスタイリング再調整
 #: src/templates/registration/registration_form.html:7
 msgid "Application for join us"
 msgstr "Kawazに参加する"
@@ -1440,18 +1790,34 @@ msgid "Register"
 msgstr "Kawazへ登録"
 
 #: src/templates/roughpages/drafts.authenticated.html:35
+<<<<<<< HEAD
+=======
+#, fuzzy
+#| msgid "There are %(count)s announcement entries."
+>>>>>>> blog-detailのスタイリング再調整
 msgid "There are no announcements in draft."
 msgstr "%(count)s件のお知らせがあります"
 
 #: src/templates/roughpages/drafts.authenticated.html:50
+<<<<<<< HEAD
+=======
+#, fuzzy
+#| msgid "There are no entries yet"
+>>>>>>> blog-detailのスタイリング再調整
 msgid "There are no blog entries in draft."
 msgstr "書いたブログはまだありません"
 
 #: src/templates/roughpages/drafts.authenticated.html:64
+<<<<<<< HEAD
+=======
+#, fuzzy
+#| msgid "There are no entries yet"
+>>>>>>> blog-detailのスタイリング再調整
 msgid "There are no events in draft."
 msgstr "書いたブログはまだありません"
 
 #: src/templates/roughpages/drafts.authenticated.html:78
+<<<<<<< HEAD
 msgid "There are no projects in draft."
 msgstr "参加できるプロジェクトはありません"
 
@@ -1468,6 +1834,13 @@ msgstr "使い方"
 msgid "Welcome"
 msgstr "ようこそ、Kawazへ！"
 
+=======
+#, fuzzy
+#| msgid "There are no joinned projects."
+msgid "There are no projects in draft."
+msgstr "参加できるプロジェクトはありません"
+
+>>>>>>> blog-detailのスタイリング再調整
 #: src/templates/roughpages/index.anonymous.html:46
 msgid "Recent Activity"
 msgstr "最近の活動"
