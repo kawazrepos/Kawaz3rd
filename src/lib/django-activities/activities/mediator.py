@@ -69,7 +69,9 @@ class ActivityMediator(object):
         activity = self.alter(instance, activity, **kwargs)
         if activity:
             # save current instance as a snapshot
-            activity.snapshot = instance
+            # the target instance might be changed thus use _content_object
+            # instead of 'instance'
+            activity.snapshot = activity._content_object
             activity.save()
 
     def _post_save_receiver(self, sender, instance, created, **kwargs):
@@ -81,7 +83,9 @@ class ActivityMediator(object):
         activity = self.alter(instance, activity, **kwargs)
         if activity:
             # save current instance as a snapshot
-            activity.snapshot = instance
+            # the target instance might be changed thus use _content_object
+            # instead of 'instance'
+            activity.snapshot = activity._content_object
             activity.save()
 
     def _m2m_changed_receiver(self, sender, instance, **kwargs):
@@ -90,7 +94,9 @@ class ActivityMediator(object):
         activity = self.alter(instance, None, **kwargs)
         if activity:
             # save current instance as a snapshot
-            activity.snapshot = instance
+            # the target instance might be changed thus use _content_object
+            # instead of 'instance'
+            activity.snapshot = activity._content_object
             activity.save()
 
     def connect(self, model):
