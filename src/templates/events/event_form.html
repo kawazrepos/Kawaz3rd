@@ -6,7 +6,7 @@
     {% if object %}
         {% blocktrans with title=object.title %}Edit event "{{ title }}"{% endblocktrans %}
     {% else %}
-        {% trans "Create Event" %}
+        {% trans "Create New Event" %}
     {% endif %}
 {% endblock %}
 
@@ -17,7 +17,7 @@
                 {% blocktrans with title=object.title %}Edit event "{{ title }}"{% endblocktrans %}
             </h1>
         {% else %}
-            <h1>{% trans "Create Event" %}</h1>
+            <h1>{% trans "Create New Event" %}</h1>
         {% endif %}
     </div>
 {% endblock %}

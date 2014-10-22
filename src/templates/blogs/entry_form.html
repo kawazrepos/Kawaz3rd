@@ -1,21 +1,22 @@
 {% extends "form_base.html" %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block title %}
     {% if object %}
-        {{ object.title }}を編集する
+        <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% blocktrans %}</h1>
     {% else %}
-        新しいブログエントリーを作成
+        <h1>{% trans "Create New Entry" %}</h1>
     {% endif %}
 {% endblock %}
 
 {% block content-header %}
     <div class="page-header">
         {% if object %}
-            <h1>{{ object.title }}を編集する</h1>
+            <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% blocktrans %}</h1>
         {% else %}
-            <h1>新しいブログエントリーを作成</h1>
+            <h1>{% trans "Create New Entry" %}</h1>
         {% endif %}
     </div>
 {% endblock %}

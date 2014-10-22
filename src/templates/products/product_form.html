@@ -4,18 +4,18 @@
 
 {% block title %}
     {% if object %}
-        {{ object.title }}を編集する
+        <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% blocktrans %}</h1>
     {% else %}
-        新しい作品を公開する
+        <h1>{% trans "Create New Product" %}</h1>
     {% endif %}
 {% endblock %}
 
 {% block content-header %}
     <div class="page-header">
         {% if object %}
-            <h1>{{ object.title }}を編集する</h1>
+            <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% blocktrans %}</h1>
         {% else %}
-            <h1>新しい作品を公開する</h1>
+            <h1>{% trans "Create New Product" %}</h1>
         {% endif %}
     </div>
 {% endblock %}
