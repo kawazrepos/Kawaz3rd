@@ -5,7 +5,7 @@
 
 {% block title %}
     {% if object %}
-        <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% blocktrans %}</h1>
+        <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</h1>
     {% else %}
         <h1>{% trans "Create New Entry" %}</h1>
     {% endif %}
@@ -14,7 +14,7 @@
 {% block content-header %}
     <div class="page-header">
         {% if object %}
-            <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% blocktrans %}</h1>
+            <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</h1>
         {% else %}
             <h1>{% trans "Create New Entry" %}</h1>
         {% endif %}
