@@ -167,6 +167,7 @@ add_permission_logic(Profile, PublishmentPermissionLogic(
     author_field_name='user'
 ))
 
-from .activity import ProfileActivityMediator
+from .activity import ProfileActivityMediator, AccountActivityMediator
 from activities.registry import registry
 registry.register(Profile, ProfileActivityMediator())
+registry.register(Account, AccountActivityMediator())

@@ -2,6 +2,11 @@
 #
 # created by giginet on 2014/10/15
 #
+from django.contrib.contenttypes.models import ContentType
+from activities.models import Activity
+from kawaz.apps.profiles.models import Account
+from kawaz.core.personas.models import Persona
+
 __author__ = 'giginet'
 from activities.mediator import ActivityMediator
 
@@ -41,4 +46,29 @@ class ProfileActivityMediator(ActivityMediator):
             # remarks に保存された変更状態を利便のためフラグ化
             for flag in activity.remarks.split():
                 context[flag] = True
+        elif activity.status in ('user_add', 'user_removed'):
+            # アカウントの追加を通知
+            account = Account.objects.get(pk=int(activity.remarks))
+            context['account'] = account
         return context
+
+
+class AccountActivityMediator(ActivityMediator):
+    def alter(self, instance, activity, **kwargs):
+        if activity.status == 'updated':
+            # アップデート時は通知しない
+            return None
+        if activity:
+            # account作成のActivityを親のProfileに所属させる
+            profile = instance.profile
+            ct = ContentType.objects.get_for_model(type(profile))
+            pk = profile.pk
+            activity.content_type = ct
+            activity.object_id = pk
+            if activity.status == "created":
+                activity.status = 'account_add'
+            elif activity.status == 'deleted':
+                activity.status = 'account_remove'
+            activity.remarks = instance.pk
+            activity.save()
+        return activity
