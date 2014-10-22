@@ -21,14 +21,72 @@
 
 // Blog Article
 @protected-color: #FCF8E3;
-.blog-article {
-  max-width: 800px;
-  margin: 10px auto 20px;
-  padding: 10px 30px 30px;
-}
 .blog-article-header {
   .clearfix();
+  margin-bottom: 20px;
+
 }
+.article-wrap {
+  .entry-item {
+    .blog-article {
+      padding: 0 5px;
+    }
+    dl {
+    &.blog-author {
+      dt {
+        font-weight: normal;
+        span {
+          &:first-child {
+            margin-right: 5px;
+          }
+        }
+
+      }
+      dd {
+        margin-top: 8px;
+        .blog-avatar {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .author-info {
+          display: block;
+          .author-quotes {
+            position: relative;
+            background: #fff;
+            border: 1px solid #ddd;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 5px;
+            width: 110px;
+            margin: 0;
+            color: @text-color;
+            border-radius: 5px;
+            font-size: 12px;
+          }
+          &:hover {
+            text-decoration: none;
+            background: #ddd;
+          }
+          &.author-name {
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+}
+.entry-item-right {
+  .blog-administration {
+    .blog-administration-head {
+      color: #fff;
+      background: @navbar-default-bg;
+      border-color: @navbar-default-bg;
+    }
+  }
+}
+
 // 内部公開記事用のスタイル
 .bg-protected {
   background-color: @protected-color;
@@ -41,28 +99,31 @@
 // Ref: http://line25.com/tutorials/how-to-create-a-cool-blog-post-date-icon-with-css
 // 使い方
 // <div class="date"><p>10<span>July</span></p></div>
+
 .date {
   line-height: 1;
-  width: 65px; height: 89px; 
+  width: 65px;
+  height: 89px;
   margin-right: 20px;
   padding: 8px 0 0 0;
-  background: #fcfcfc;
-  background: linear-gradient(to bottom, #fcfcfc, #dad8d8);
-  border: 1px solid #d2d2d2;
+  background: @navbar-default-bg;
   border-radius: 5px;
   p {
     font-family: Helvetica, sans-serif;
-    font-size: 50px; text-align: center; color: #9e9e9e;
+    font-size: 50px;
+    text-align: center;
+    color: #fff;
     span {
-      background: @brand-primary;
-      font-size: 22px;
+      font-size: 14px;
       font-weight: bold;
       color: #fff;
       text-transform: uppercase;
       display: block;
-      border-top: 2px solid darken(@brand-primary, 5%);
-      .border-bottom-radius(5px);
       padding: 4px 0 1px 0;
     }
   }
+}
+.entry-title {
+  font-size: 32px;
+  margin: 30px 0 0;
 }
