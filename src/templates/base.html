@@ -5,32 +5,32 @@
 <!DOCTYPE html>
 <html ng-app="kawaz">
 <head>
-{% compress css %}
-{% block pre_css %}
-    <link rel="stylesheet" href="{% static "vendor/lightbox/css/lightbox.css" %}" media="screen">
-    <link type="text/less" rel="stylesheet" href="{% static "less/main.less" %}" media="screen">
-    <link type="text/less" rel="stylesheet" href="{% static "less/components.less" %}" media="screen">
-    <link type="text/less" rel="stylesheet" href="{% static "less/social.less" %}" media="screen">
-    <link type="text/less" rel="stylesheet" href="{% static "less/form.less" %}" media="screen">
-    <link type="text/less" rel="stylesheet" href="{% static "less/markdown.less" %}" media="screen">
-    <link type="text/less" rel="stylesheet" href="{% static "less/comment.less" %}" media="screen">
-    <link type="text/less" rel="stylesheet" href="{% static "less/star.less" %}" media="screen">
-{% endblock %}
-{% endcompress %}
-    <title>Kawaz - {% block title %}札幌ゲーム製作者コミュニティ{% endblock %}</title>
+    {% compress css %}
+        {% block pre_css %}
+            <link rel="stylesheet" href="{% static "vendor/lightbox/css/lightbox.css" %}" media="screen">
+            <link type="text/less" rel="stylesheet" href="{% static "less/main.less" %}" media="screen">
+            <link type="text/less" rel="stylesheet" href="{% static "less/components.less" %}" media="screen">
+            <link type="text/less" rel="stylesheet" href="{% static "less/social.less" %}" media="screen">
+            <link type="text/less" rel="stylesheet" href="{% static "less/form.less" %}" media="screen">
+            <link type="text/less" rel="stylesheet" href="{% static "less/markdown.less" %}" media="screen">
+            <link type="text/less" rel="stylesheet" href="{% static "less/comment.less" %}" media="screen">
+            <link type="text/less" rel="stylesheet" href="{% static "less/star.less" %}" media="screen">
+        {% endblock %}
+    {% endcompress %}
+    <title>Kawaz - {% block title %}{% trans "Sapporo Game Creators' Community Kawaz" %}札幌ゲーム製作者コミュニティ{% endblock %}</title>
+</head>
 {% include "components/fb-header.html" %}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-<div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    </div>
-
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
@@ -111,14 +111,14 @@
 {% block carousel %}
 {% endblock %}
 <div class="container">
-{% block messages %}
-    {% for message in messages %}
-        {# message.coffeeでポップアップを生成する #}
-        <div class="message alert alert-{{ message.tags }}" message-tag="{{ message.tags }}" style="display: none;">{{ message }}</div>
-    {% endfor %}
-{% endblock %}
-{% block content %}
-{% endblock %}
+    {% block messages %}
+        {% for message in messages %}
+            {# message.coffeeでポップアップを生成する #}
+            <div class="message alert alert-{{ message.tags }}" message-tag="{{ message.tags }}" style="display: none;">{{ message }}</div>
+        {% endfor %}
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
 </div>
 <div id="footer">
     <div class="container">

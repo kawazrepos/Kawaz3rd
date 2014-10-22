@@ -1,6 +1,7 @@
 {% extends "authenticated_base.html" %}
 {% load markdown %}
 {% load i18n %}
+{% block title %}{% trans "Help" %}{% endblock %}
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="/helps">{% trans "Help" %}</a></li>

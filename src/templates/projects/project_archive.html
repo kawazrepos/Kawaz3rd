@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load utils %}
+{% block title %}{% trans "Archived Projects" %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/projects.less" %}" media="screen">

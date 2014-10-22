@@ -4,6 +4,7 @@
 {% load parser %}
 {% load projects_tags %}
 {% load blogs_tags %}
+{% block title %}{% blocktrans with nickname=object.user.nickname %}{{ nickname }}'s Profile{% endblocktrans %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/profile.less" %}" media="screen">

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load products_tags %}
+{% block title %}{% trans "All products" %}{% endblock %}
 {% block pre_css %}
 {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/products.less" %}" media="screen">

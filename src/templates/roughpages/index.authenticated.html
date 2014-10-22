@@ -3,6 +3,7 @@
 {% load activities_tags %}
 {% load i18n %}
 {% load staticfiles %}
+{% block title %}{% trans "My Page" %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
