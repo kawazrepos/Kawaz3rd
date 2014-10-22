@@ -14,10 +14,12 @@
     <section id="activity-container">
         <div class="activity-line"></div>
         {% get_latest_activities as activities %}
-        {% for activity in activities %}
+        {% for activity in activities|slice:":10" %}
             <article class="activity">
                 {% render_activity activity of 'root' %}
             </article>
+        {% empty %}
+            <div class="alert alert-info">まだ、活動はありません</div>
         {% endfor %}
     </section>
 
