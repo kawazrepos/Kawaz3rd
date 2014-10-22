@@ -29,7 +29,11 @@ class ProductActivityMediator(ActivityMediator):
                 )
                 remarks = []
                 attributes = (
+                    'title',
                     'description',
+                    'thumbnail',
+                    'display_mode',
+                    'trailer'
                 )
                 for attribute in attributes:
                     if is_created(attribute):
@@ -43,3 +47,12 @@ class ProductActivityMediator(ActivityMediator):
                     return None
                 activity.remarks = "\n".join(remarks)
         return activity
+
+    def prepare_context(self, activity, context, typename=None):
+        context = super().prepare_context(activity, context, typename)
+
+        if activity.status == 'updated':
+            # remarks に保存された変更状態を利便のためフラグ化
+            for flag in activity.remarks.split():
+                context[flag] = True
+        return context

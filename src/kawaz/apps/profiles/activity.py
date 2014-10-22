@@ -22,6 +22,8 @@ class ProfileActivityMediator(ActivityMediator):
                 attributes = (
                     'remarks',
                     'place',
+                    'url',
+                    'birthday',
                 )
                 for attribute in attributes:
                     if is_updated(attribute):
@@ -31,3 +33,12 @@ class ProfileActivityMediator(ActivityMediator):
                     return None
                 activity.remarks = "\n".join(remarks)
         return activity
+
+    def prepare_context(self, activity, context, typename=None):
+        context = super().prepare_context(activity, context, typename)
+
+        if activity.status == 'updated':
+            # remarks に保存された変更状態を利便のためフラグ化
+            for flag in activity.remarks.split():
+                context[flag] = True
+        return context
