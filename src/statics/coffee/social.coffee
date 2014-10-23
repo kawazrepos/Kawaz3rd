@@ -3,7 +3,7 @@
 prepareHatenaBookmarkButton = ->
   # はてなブックマークボタンを設置します
   $hb = $('.hatena-bookmark-button')
-  bookmark = "http://b.hatena.ne.jp/entry/{location.href}"
+  bookmark = "http://b.hatena.ne.jp/entry/#{location.href}"
   $hb.attr('href', bookmark)
 
 prepareFaceBookButton = ->
