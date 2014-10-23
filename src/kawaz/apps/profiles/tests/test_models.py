@@ -72,7 +72,7 @@ class ProfileTestCase(TestCase):
     def test_create_user(self):
         """Tests can access profile via user.get_profile()"""
         profile = ProfileFactory()
-        self.assertEqual(profile.user.profile, profile)
+        self.assertEqual(profile.user._profile, profile)
 
     def test_profile_get_absolute_url(self):
         '''

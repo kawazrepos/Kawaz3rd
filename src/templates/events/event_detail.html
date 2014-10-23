@@ -154,7 +154,7 @@
             <div class="panel-heading">
                 <h2 class="panel-title">{% trans "Organizer" %}</h2>
             </div>
-            <a href="{{ object.organizer.profile.get_absolute_url }}"
+            <a href="{{ object.organizer.get_absolute_url }}"
                class="list-group-item member-list-organizer">
                 <img src="{{ object.organizer.get_middle_avatar }}"
                      alt="{{ object.organizer.nickname }} Avatar"
@@ -174,7 +174,7 @@
             <ul class="list-group">
                 {% for attendee in event.attendees.all %}
                     {% if attendee != object.organizer %}
-                        <a href="{{ attendee.profile.get_absolute_url }}"
+                        <a href="{{ attendee.get_absolute_url }}"
                            class="list-group-item ">
                             <img src="{{ attendee.get_middle_avatar }}"
                                  alt="{{ attendee.nickname }} Avatar"

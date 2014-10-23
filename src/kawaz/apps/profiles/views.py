@@ -35,7 +35,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
 
     def get_object(self, queryset=None):
         if self.request.user.is_authenticated() and self.request.user:
-            return self.request.user.profile
+            return self.request.user._profile
         return None
 
     def get_formset(self):
@@ -83,7 +83,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
         if success_message:
             messages.success(self.request, success_message)
         for instance in instances:
-            instance.profile = self.request.user.profile
+            instance._profile = self.request.user._profile
             instance.save()
         return HttpResponseRedirect(self.get_success_url())
 

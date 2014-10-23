@@ -64,10 +64,18 @@ class Profile(models.Model):
     skills = models.ManyToManyField(Skill, verbose_name=_('Skills'),
                                     related_name='users',
                                     null=True, blank=True)
-    # Uneditable
+    # Note:
+    #   ProfileにはView権限が存在しているため{{ user.profile.birthday }}など
+    #   テンプレート側から間違えてアクセスし秘密情報を露呈してしまうのを防ぐ
+    #   ためにPersona.profileでは無くPersona._profileとして逆リファレンスを
+    #   張っている。
+    #   このためProfileのビュー以外からProfileにアクセスする必要がある場合
+    #   （例: PersonaDetailView）は別に'profile'というContextを渡しView側
+    #   で権限のチェックを行うようにする
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, verbose_name=_('User'),
-        related_name='profile', unique=True, primary_key=True, editable=False)
+        related_name='_profile', unique=True,
+        primary_key=True, editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 

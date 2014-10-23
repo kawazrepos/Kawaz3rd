@@ -2,7 +2,7 @@
 <div class="blog-article">
     <div class="blog-article-header">
         <div class="pull-right">
-            <a href="{{ object.author.profile.get_absolute_url }}">
+            <a href="{{ object.author.get_absolute_url }}">
                 <img src="{{ object.author.avatar.get_middle_avatar }}" alt="{{ object.author.nickname }} Avater" class="avatar avatar-middle"/> {{ object.author.nickname }}
             </a><br />
             {% if user has 'announcements.change_announcement' of object %}
