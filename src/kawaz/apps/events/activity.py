@@ -1,6 +1,8 @@
 # coding=utf-8
 """
 """
+from django_comments import Comment
+
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.contrib.contenttypes.models import ContentType
 from kawaz.core.personas.models import Persona
@@ -95,5 +97,13 @@ class EventActivityMediator(ActivityMediator):
             users = Persona.objects.filter(pk__in=(pk_set))
             context['users'] = users
             context['user'] = users[0]
-            context['user_count'] = len(users)
+            context['user_count'] = users.count()
+        elif activity.status == 'add_comment':
+            # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
+            # 取得してcontextに渡す
+            try:
+                comment = Comment.objects.get(pk=int(activity.remarks))
+                context['comment'] = comment
+            except:
+                pass
         return context

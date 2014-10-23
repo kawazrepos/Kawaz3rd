@@ -2,6 +2,8 @@
 #
 # created by giginet on 2014/10/15
 #
+from django_comments import Comment
+
 __author__ = 'giginet'
 from activities.mediator import ActivityMediator
 
@@ -55,4 +57,12 @@ class ProductActivityMediator(ActivityMediator):
             # remarks に保存された変更状態を利便のためフラグ化
             for flag in activity.remarks.split():
                 context[flag] = True
+        elif activity.status == 'add_comment':
+            # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
+            # 取得してcontextに渡す
+            try:
+                comment = Comment.objects.get(pk=int(activity.remarks))
+                context['comment'] = comment
+            except:
+                pass
         return context

@@ -4,11 +4,13 @@ from django.test import TestCase
 from django.utils import timezone
 from activities.models import Activity
 from .factories import EventFactory, PersonaFactory
+from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
 from ..models import Event
 from ..activity import EventActivityMediator
 
 
-class EventActivityMediatorTestCase(TestCase):
+class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
+    factory_class = EventFactory
 
     def test_create_event(self):
         nactivity = Activity.objects.get_for_model(Event).count()
@@ -98,3 +100,6 @@ class EventActivityMediatorTestCase(TestCase):
         self.assertEqual(activity.snapshot, event)
         self.assertEqual(activity.status, 'user_removed')
         self.assertTrue(str(user2.pk) in activity.remarks)
+
+    def test_add_comment(self):
+        self._test_add_comment()

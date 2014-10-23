@@ -19,3 +19,6 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
 
     def test_delete(self):
         self._test_delete()
+
+    def test_add_comment(self):
+        self._test_add_comment()
