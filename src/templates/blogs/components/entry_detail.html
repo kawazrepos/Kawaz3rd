@@ -11,7 +11,12 @@
         <div class="blog-article">
             <div class="blog-article-header">
                 <div class="page-header entry-title">
-                    <h1>{{ object.title }}</h1>
+                    <h1>
+                    {{ object.title }}
+                    {% if object.pub_state == "protected" %}
+                        <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
+                    {% endif %}
+                    </h1>
                 </div>
                 <p class="badge">{{ object.category.label }}</p>
             </div>
