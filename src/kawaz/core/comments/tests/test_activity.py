@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock
+from django.contrib.contenttypes.models import ContentType
 from django.template import Context
 from django.test import TestCase
 from activities.mediator import ActivityMediator
@@ -6,6 +7,7 @@ from activities.models import Activity
 from activities.registry import registry
 from .factories import CommentTestArticleFactory
 from .factories import CommentFactory
+from kawaz.core.activities.tests.factories import ActivityFactory
 from kawaz.core.comments.tests.models import CommentTestArticle
 
 __author__ = 'giginet'
@@ -40,16 +42,9 @@ class CommentActivityMediatorTestCase(TestCase):
          render_activityでadd_commentが正しく表示できる
         """
         target_object = CommentTestArticleFactory()
-
-        nactivities = Activity.objects.get_for_object(target_object).count()
-
-        # コメントをする
-        CommentFactory(content_object=target_object)
-
-        activities = Activity.objects.get_for_object(target_object)
-        self.assertEqual(nactivities + 1, activities.count())
-
-        activity = activities[0]
+        ct = ContentType.objects.get_for_model(CommentTestArticle)
+        pk = target_object.pk
+        activity = ActivityFactory(content_type=ct, object_id=pk, status='add_comment')
         mediator = registry.get(activity)
 
         self.assertTrue(mediator.render(activity, Context()))
