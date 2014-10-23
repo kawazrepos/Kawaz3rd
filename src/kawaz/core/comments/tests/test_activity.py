@@ -19,19 +19,19 @@ class CommentActivityMediatorTestCase(TestCase):
         """
         あるオブジェクトにコメントが付いたとき、そのオブジェクトのイベントとして、`add_comment`Activityが付く
         """
-        object = CommentTestArticleFactory()
+        target_object = CommentTestArticleFactory()
 
-        nactivities = Activity.objects.get_for_object(object).count()
+        nactivities = Activity.objects.get_for_object(target_object).count()
 
         # コメントをする
-        comment = CommentFactory(content_object=object)
+        comment = CommentFactory(content_object=target_object)
 
-        activities = Activity.objects.get_for_object(object)
+        activities = Activity.objects.get_for_object(target_object)
         self.assertEqual(nactivities + 1, activities.count())
 
         activity = activities[0]
         self.assertEqual(activity.status, 'add_comment')
-        self.assertEqual(activity.snapshot, object)
+        self.assertEqual(activity.snapshot, target_object)
         # remarksにコメントのpkが入る
         self.assertEqual(activity.remarks, str(comment.pk))
 
@@ -39,14 +39,14 @@ class CommentActivityMediatorTestCase(TestCase):
         """
          render_activityでadd_commentが正しく表示できる
         """
-        object = CommentTestArticleFactory()
+        target_object = CommentTestArticleFactory()
 
-        nactivities = Activity.objects.get_for_object(object).count()
+        nactivities = Activity.objects.get_for_object(target_object).count()
 
         # コメントをする
-        CommentFactory(content_object=object)
+        CommentFactory(content_object=target_object)
 
-        activities = Activity.objects.get_for_object(object)
+        activities = Activity.objects.get_for_object(target_object)
         self.assertEqual(nactivities + 1, activities.count())
 
         activity = activities[0]
