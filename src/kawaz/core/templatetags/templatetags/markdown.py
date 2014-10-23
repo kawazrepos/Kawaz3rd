@@ -55,11 +55,16 @@ def markdown(value):
         code-friendly
             https://github.com/trentm/python-markdown2/wiki/code-friendly
             _hello_, __yo__ などと言った記法を無効化します
+        tables
+            https://github.com/trentm/python-markdown2/wiki/tables
+            GFMのテーブル記法を展開します
+            これを使うにはPython-markdown2の2.3.0以上を使うこと！
 
     Usage:
         {{ object.body | markdown }}
     """
     md = markdown2.markdown(value, extras=['footnotes',
-                                           'code-friendly'],
+                                           'code-friendly',
+                                           'tables'],
     )
     return mark_safe(md)
