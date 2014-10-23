@@ -28,7 +28,7 @@
             <dt><span class="glyphicon glyphicon-pencil"></span><span>{% trans "Blog author" %}</span></dt>
             <dd>
                 <a class="author-info" href="{{ object.author.profile.get_absolute_url }}">
-                    <img src="{{ object.author.get_large_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-large"/> <p class="author-quotes">{{ object.author.quotes }}</p>
+                    <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/> <p class="author-quotes">{{ object.author.quotes }}</p>
                 </a>
                 <a class="author-info author-name" href="{{ object.author.profile.get_absolute_url }}">
                     {{ object.author.nickname }}(id: {{ object.author }})
