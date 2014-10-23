@@ -1,6 +1,6 @@
 from django import template
 from django.template import TemplateSyntaxError
-from ..models import Entry
+from ..models import Entry, Category
 
 register = template.Library()
 
@@ -56,3 +56,18 @@ def get_published_entries_of(context, author):
     """
     qs = get_entries(context)
     return qs.filter(author=author)
+
+@register.assignment_tag
+def get_categories(author=None):
+    """
+     ブログ記事カテゴリ一覧を取り出します
+     <user>を渡した場合は、そのユーザーが持っているカテゴリのみを取り出します
+
+     Syntax:
+        {% get_categories as categories %}
+        {% get_categories <user> as categories %}
+    """
+    qs = Category.objects.all()
+    if author:
+        qs = qs.filter(author__pk=author.pk)
+    return qs
