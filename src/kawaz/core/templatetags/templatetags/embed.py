@@ -8,11 +8,12 @@ from django import template
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
-YOUTUBE_PATTERN = re.compile(r"^https?:\/\/www.youtube.com\/watch\?v=(?P<id>[a-zA-Z0-9_-]+)$", flags=re.MULTILINE)
-NICONICO_PATTERN = re.compile(r"^http:/\/\www.nicovideo.jp\/watch\/(?P<id>[a-z]{2}[0-9]+)\/?$", flags=re.MULTILINE)
+YOUTUBE_PATTERN = re.compile(r"""https?:\/\/www.youtube.com\/watch\?v=(?P<id>[a-zA-Z0-9_-]+)""", flags=re.MULTILINE)
+NICONICO_PATTERN = re.compile(r"""http:/\/\www.nicovideo.jp\/watch\/(?P<id>[a-z]{2}[0-9]+)\/?""", flags=re.MULTILINE)
 DEFAULT_WIDTH = 640
 DEFAULT_HEIGHT = 360
 ASPECT_RATIO = 9.0 / 16.0
+IGNORE = ['"', "'",]
 
 register = template.Library()
 
@@ -21,8 +22,6 @@ register = template.Library()
 def youtube(value, size=None):
     """
     文中に含まれているYouTubeの動画URLをプレーヤーに変換します
-    ただし、URL以外の文字列を同じ行に含んではいけません
-    これは、プレイヤーの埋め込みという性質上の仕様です
 
     Size:
         描画サイズを変更します
@@ -64,6 +63,16 @@ def youtube(value, size=None):
         height = int(int(width) * ASPECT_RATIO)
 
     def repl(m):
+        # 'や"に囲まれているURLを展開しないようにしている
+        # 全部正規表現でやるのは大変なので、ロジックを書いている
+        start_pos = m.start()
+        end_pos = m.end()
+        prev_char = '' if start_pos == 0 else m.string[start_pos - 1]
+        next_char = '' if end_pos >= len(m.string) - 1 else m.string[end_pos + 1]
+        if prev_char in IGNORE or next_char in IGNORE:
+                # 置換しない
+                return m.group()
+
         id = m.group('id')
         params = {'video_id': id}
         if is_responsive:
@@ -86,10 +95,18 @@ def youtube(value, size=None):
 def nicovideo(value):
     """
     文中に含まれているニコニコ動画のURLをプレーヤーに変換します
-    ただし、URL以外の文字列を同じ行に含んではいけません
-    これは、プレイヤーの埋め込みという性質上の仕様です
     """
     def repl(m):
+        # 'や"に囲まれているURLを展開しないようにしている
+        # 全部正規表現でやるのは大変なので、ロジックを書いている
+        start_pos = m.start()
+        end_pos = m.end()
+        prev_char = '' if start_pos == 0 else m.string[start_pos - 1]
+        next_char = '' if end_pos >= len(m.string) - 1 else m.string[end_pos + 1]
+        if prev_char in IGNORE or next_char in IGNORE:
+            # 置換しない
+            return m.group()
+
         id = m.group('id')
         html = render_to_string("templatetags/nicovideo.html", {
             'video_id' : id
