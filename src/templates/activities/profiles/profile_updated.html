@@ -1,16 +1,10 @@
 {% extends "activities/profiles/base.html" %}
 {% block history-item %}
-    {% if account_add %}
-        <img src="{{ account.service.icon.url }}" data-toggle="tooltip" rel="tooltip" title="{{ account.username }}">のアカウントが追加されました
-    {% elif account_remove %}
-        <img src="{{ activity.snapshot.service.icon.url }}" data-toggle="tooltip" rel="tooltip" title="{{ activity.snapshot.username }}">のアカウントが追加されました
-    {% elif birthday_created %}
+    {% if birthday_created %}
         誕生日が<strong>{{ object.snapshot.birthday|date:'%m月%d日' }}</strong>に設定されました
     {% elif place_updated %}
         住んでる場所が変更されました
     {% else remarks_updated %}
         プロフィールが更新されました
-    {% elif remarks_created %}
-        プロフィールが追加されました
     {% endif %}
 {% endblock %}
