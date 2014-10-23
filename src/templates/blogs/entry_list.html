@@ -1,4 +1,5 @@
 {% extends "twopane.html" %}
+{% load blogs_tags %}
 {% load i18n %}
 {% load staticfiles %}
 {% block title %}最近のブログ記事{% endblock %}
@@ -38,4 +39,19 @@
             <a class="list-group-item" href="/blogs/system/2014/5/20/1/">日記 <small class="text-muted">5 stars</small></a>
         </div>
     </div>
+    {% if author %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Categories" %}</h2>
+            </div>
+            <div class="list-group">
+                {% get_categories author as categories %}
+                {% for category in categories %}
+                    <a class="list-group-item" href="{{ category.get_absolute_url }}">{{ category.label }}</a>
+                {% empty %}
+                    <div class="list-group-item list-group-item-warning">{% trans "There are no categories" %}</div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

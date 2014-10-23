@@ -127,9 +127,15 @@ class EntryAuthorMixin(EntryMultipleObjectMixin):
         # | したがって敢えて kwargs['author'] と指定している
         username = self.kwargs['author']
         # 名前からインスタンスを指定、存在しない場合は強制404
-        author = get_object_or_404(Persona, username=username)
+        self.author = get_object_or_404(Persona, username=username)
         # 著者でQuerySetを更に絞る
-        return super().get_queryset().filter(author=author)
+        return super().get_queryset().filter(author=self.author)
+
+    def get_context_data(self, **kwargs):
+        # ユーザーをコンテキストに入れておく
+        data = super().get_context_data(**kwargs)
+        data['author'] = self.author
+        return data
 
 
 class EntryAuthorListView(EntryListView, EntryAuthorMixin):
