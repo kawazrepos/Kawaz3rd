@@ -19,8 +19,7 @@ from .models import URLRelease
 class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False
 
-    body = MarkdownField(label=_('Body'))
-
+    description = MarkdownField(label=_('Description'))
     platforms = forms.ModelMultipleChoiceField(
         label=_('Platforms'),
         widget=widgets.CheckboxSelectMultiple,
@@ -29,7 +28,6 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         label=_('Categories'),
         widget=widgets.CheckboxSelectMultiple,
         queryset=Category.objects.all().order_by('pk'))
-    description = forms.CharField(label=_('Description'), widget=MaceEditorWidget)
     publish_at = forms.DateField(label=_('Publish at'), widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
