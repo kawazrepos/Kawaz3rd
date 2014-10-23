@@ -166,7 +166,3 @@ add_permission_logic(Profile, KawazAuthorPermissionLogic(
 add_permission_logic(Profile, PublishmentPermissionLogic(
     author_field_name='user'
 ))
-
-from .activity import ProfileActivityMediator
-from activities.registry import registry
-registry.register(Profile, ProfileActivityMediator())
