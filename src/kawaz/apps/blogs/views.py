@@ -17,7 +17,7 @@ from kawaz.core.personas.models import Persona
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
 
 from .forms import EntryForm
-from .models import Entry
+from .models import Entry, Category
 
 
 class EntryMultipleObjectMixin(MultipleObjectMixin):
@@ -151,3 +151,12 @@ class EntryAuthorYearArchiveView(EntryYearArchiveView, EntryAuthorMixin):
 class EntryPreview(SingleObjectPreviewMixin, DetailView):
     model = Entry
     template_name = "blogs/components/entry_detail.html"
+
+
+class EntryCategoryListView(ListView):
+    template_name = 'blogs/entry_list.html'
+
+    def get_queryset(self):
+        author = self.kwargs.get('author', None)
+        category = self.kwargs.get('category', None)
+        return Entry.objects.filter(category__author__username=author, category__label=category)

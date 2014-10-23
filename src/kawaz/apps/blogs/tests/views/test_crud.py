@@ -1,3 +1,5 @@
+import urllib
+from django.core.urlresolvers import reverse
 from django.utils.timezone import datetime, get_default_timezone
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -421,3 +423,40 @@ class EntryPreviewTestCase(TestCase):
         """
         r = self.client.get('/blogs/preview/')
         self.assertTemplateUsed(r, 'blogs/components/entry_detail.html')
+
+class EntryCategoryListView(TestCase):
+
+    def test_category_url(self):
+        """
+        """
+        author = PersonaFactory()
+        category = CategoryFactory()
+
+        label = urllib.parse.quote_plus(category.label)
+        self.assertEqual(reverse('blogs_entry_category_list',
+                                 kwargs={'author' :author.username, 'category': category.label}),
+                         '/blogs/{}/{}/'.format(author.username, label))
+
+    def test_category_list(self):
+        """
+        カテゴリ一に属してる記事一覧が見れる
+        """
+        user0 = PersonaFactory()
+        user1 = PersonaFactory()
+        category0 = CategoryFactory(author=user0, label="ゲームレビュー")
+        category1 = CategoryFactory(author=user1, label="ゲームレビュー")
+        entry0 = EntryFactory(category=category0, author=user0)
+        entry1 = EntryFactory(category=category0, author=user0)
+        entry2 = EntryFactory(category=category1, author=user1)
+
+        label0 = urllib.parse.quote_plus(category0.label)
+        url = '/blogs/{}/{}/'.format(user0.username, label0)
+        r = self.client.get(url)
+        self.assertEqual(len(r.context['object_list']), 2)
+        self.assertTrue(entry0 in r.context['object_list'])
+        self.assertTrue(entry1 in r.context['object_list'])
+
+        url = '/blogs/{}/{}/'.format(user1.username, category1.label)
+        r = self.client.get(url)
+        self.assertTrue(len(r.context['object_list']), 1)
+        self.assertTrue(entry2 in r.context['object_list'])

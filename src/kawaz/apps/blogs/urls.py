@@ -15,6 +15,7 @@ from .views import EntryTodayArchiveView
 from .views import EntryUpdateView
 from .views import EntryYearArchiveView
 from .views import EntryPreview
+from .views import EntryCategoryListView
 
 author_patterns = patterns('',
    url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<pk>\d+)/$',
@@ -25,6 +26,8 @@ author_patterns = patterns('',
        EntryUpdateView.as_view(), name='blogs_entry_update'),
    url(r'^(?P<pk>\d+)/delete/$',
        EntryDeleteView.as_view(), name='blogs_entry_delete'),
+   url(r'^(?P<category>\w+)/$',
+       EntryCategoryListView.as_view(), name='blogs_entry_category_list'),
    url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$',
        EntryAuthorDayArchiveView.as_view(),
        name='blogs_entry_author_archive_day'),
