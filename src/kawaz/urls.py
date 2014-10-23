@@ -17,8 +17,8 @@ urlpatterns = patterns('',
     url(r'^products/', include('kawaz.apps.products.urls')),
     url(r'^projects/', include('kawaz.apps.projects.urls')),
     url(r'^attachments/', include('kawaz.apps.attachments.urls')),
-    url(r'^registration/', include('kawaz.core.personas.urls')),
-    url(r'^registration/', include('registration.urls')),
+    url(r'^accounts/', include('kawaz.core.personas.urls')),
+    url(r'^registration/', include('kawaz.core.registrations.urls')),
     url(r'^comments/', include('django_comments.urls')),
 )
 
