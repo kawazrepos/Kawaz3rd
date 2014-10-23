@@ -18,8 +18,8 @@
 
         <div class="activity-history">
             {% block history %}
-                {% get_activities_of object as activities %}
-                {% for inner_activity in activities|slice:":3" %}
+                {% get_activities_of object as inner_activities %}
+                {% for inner_activity in inner_activities|slice:":3" %}
                     {% render_activity inner_activity %}
                 {% endfor %}
             {% endblock %}
