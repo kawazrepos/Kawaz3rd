@@ -22,7 +22,7 @@
 {% block content-aside %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Order</h3>
+            <h3 class="panel-title">{% trans "Order" %}</h3>
         </div>
         <div class="list-group">
             <a href="{{ request.url }}?o=title" class="list-group-item {% active ".+\?o=title" %}">{% trans "Title" %}</a>
