@@ -99,3 +99,31 @@ class MarkdownTemplateTagTestCase(TestCase):
                  "</ol>\n"
                  "</div>\n")
         self._test_markdown(before, after)
+
+    def test_markdown_with_table(self):
+        '''
+        extras = tablesが効いている
+        '''
+        before = ('''| Header 1 | *Header* 2 |\n'''
+                  '''| -------- | -------- |\n'''
+                  '''| `Cell 1` | [Cell 2](http://example.com) link |\n'''
+                  '''| Cell 3 | **Cell 4** |\n''')
+        after = ('''<table>\n'''
+                 '''<thead>\n'''
+                 '''<tr>\n'''
+                 '''  <th>Header 1</th>\n'''
+                 '''  <th><em>Header</em> 2</th>\n'''
+                 '''</tr>\n'''
+                 '''</thead>\n'''
+                 '''<tbody>\n'''
+                 '''<tr>\n'''
+                 '''  <td><code>Cell 1</code></td>\n'''
+                 '''  <td><a href="http://example.com">Cell 2</a> link</td>\n'''
+                 '''</tr>\n'''
+                 '''<tr>\n'''
+                 '''  <td>Cell 3</td>\n'''
+                 '''  <td><strong>Cell 4</strong></td>\n'''
+                 '''</tr>\n'''
+                 '''</tbody>\n'''
+                 '''</table>\n''')
+        self._test_markdown(before, after)
