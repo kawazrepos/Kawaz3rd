@@ -159,10 +159,11 @@ class EntryPreview(SingleObjectPreviewMixin, DetailView):
     template_name = "blogs/components/entry_detail.html"
 
 
-class EntryCategoryListView(ListView):
+class EntryCategoryListView(EntryMultipleObjectMixin, ListView):
     template_name = 'blogs/entry_list.html'
 
     def get_queryset(self):
+        qs = super().get_queryset()
         author = self.kwargs.get('author', None)
         category = self.kwargs.get('category', None)
-        return Entry.objects.filter(category__author__username=author, category__label=category)
+        return qs.filter(category__author__username=author, category__label=category)

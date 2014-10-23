@@ -454,6 +454,7 @@ class EntryCategoryListView(TestCase):
         entry0 = EntryFactory(category=category0, author=user0)
         entry1 = EntryFactory(category=category0, author=user0)
         entry2 = EntryFactory(category=category1, author=user1)
+        entry3 = EntryFactory(category=category1, pub_state='draft', author=user1)
 
         label0 = urllib.parse.quote_plus(category0.label)
         url = '/blogs/{}/{}/'.format(user0.username, label0)
