@@ -23,4 +23,5 @@ class CommentActivityMediator(ActivityMediator):
             activity.content_type = ct
             activity.object_id = pk
             activity.status = 'add_comment'
+            activity.remarks = str(pk)
             return activity
