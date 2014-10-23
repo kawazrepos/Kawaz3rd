@@ -42,16 +42,22 @@
 
     .activity-icon {
       display: flex;
+      flex-grow: 1;
+      flex-shrink: 1;
+      min-width: @avatar-size-large + @icon-margin * 2;
+      max-width: 512px;
 
       img {
         margin: auto @icon-margin;
+        max-width: 500px;
       }
 
     }
 
     .activity-body {
       flex-flow: column wrap;
-      flex-grow: 1;
+      flex-grow: 2;
+      flex-shrink: 1;
       display: flex;
       align-items: stretch;
 
