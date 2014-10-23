@@ -48,3 +48,35 @@ class CommentActivityMediatorTestCase(TestCase):
         mediator = registry.get(activity)
 
         self.assertTrue(mediator.render(activity, Context()))
+
+    def test_comment_delete(self):
+        """
+        コメントが削除されても特に通知されない
+        """
+        # コメントをする
+        comment = CommentFactory()
+        target_object = comment.content_object
+
+        nactivities = Activity.objects.get_for_object(target_object).count()
+
+        # コメントを削除する
+        comment.delete()
+        self.assertEqual(Activity.objects.get_for_object(target_object).count(), nactivities)
+
+    def test_comment_update(self):
+        """
+        コメントが更新されても特に通知されない
+        """
+        # コメントをする
+        comment = CommentFactory()
+        target_object = comment.content_object
+
+        nactivities = Activity.objects.get_for_object(target_object).count()
+
+        # コメントを変更する
+        comment.comment = 'コメント書き換えコメント書き換えコメント書き換え'
+        comment.save()
+
+        # 特に何も生成されてないはず
+        self.assertEqual(Activity.objects.get_for_object(target_object).count(), nactivities)
+
