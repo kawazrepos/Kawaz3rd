@@ -53,6 +53,7 @@ class Activity(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField('Object ID')
     _snapshot = models.BinaryField(default=None, null=True)
+    _content_object = GenericForeignKey()
 
     created_at = models.DateTimeField(auto_now_add=True)
 
