@@ -96,5 +96,5 @@ class ProjectActivityMediator(ActivityMediator):
             users = Persona.objects.filter(pk__in=(pk_set))
             context['users'] = users
             context['user'] = users[0]
-            context['user_count'] = len(users)
+            context['user_count'] = users.count()
         return context
