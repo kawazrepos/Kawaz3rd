@@ -1,6 +1,4 @@
-<ul>
-{% for user in users %}
-  <li><a href="{{ user.get_absolute_url }}">{{ user }}</a>
-{% endfor %}
-</ul>
-が参加を取り消しました
+{% extends "activities/events/base.html" %}
+{% block history-item %}
+    {% include "components/small_avatar.html" with user=user render_username=True %}さんが参加をやめました
+{% endblock %}

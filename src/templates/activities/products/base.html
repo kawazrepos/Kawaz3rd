@@ -1,0 +1,7 @@
+{% extends "activities/base.html" %}
+{% block icon %}
+    <img src="{{ object.thumbnail.huge.url }}">
+{% endblock %}
+{% block root %}
+    {{ object.title }}
+{% endblock %}

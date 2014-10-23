@@ -1,37 +1,94 @@
 @import "common/define";
+@import "common/vendor-prefixes";
+@import (reference) "../vendor/bootstrap/less/bootstrap";
 
-@icon-margin: 5px;
-@min-height: @avatar-size-middle + @icon-margin * 2;
+@icon-margin: 15px;
+@header-height: 30px;
 
 #activity-container {
+  position: relative;
+
+  .activity-line {
+    position: absolute;
+    margin: auto;
+    width: 0px;
+    height: 80%;
+    left: 0;
+    right: 0;
+    border-left: solid 1px @gray-light;
+    flex: 1;
+  }
 
   .activity {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    background: @body-bg;
     border: solid 1px @gray-lighter;
-    margin-bottom: 15px;
-    min-height: @min-height;
+    margin-bottom: 30px;
+    align-items: stretch;
+    .border-radius(3px);
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.4);
+
+    padding-right: 10px;
+
+    display: -webkit-flex;
+    display: flex;
+
+    &:hover {
+      background: @gray-lighter;
+    }
+
+    .activity-icon {
+      display: flex;
+
+      img {
+        margin: auto @icon-margin;
+      }
+
+    }
 
     .activity-body {
-      display: inline-block;
-      padding-top: 2px;
-      padding-left: 5px;
+      flex-flow: column wrap;
+      flex-grow: 1;
+      display: flex;
+      align-items: stretch;
 
       .activity-header {
+        margin: 0;
+        display: inline-block;
         font-weight: bold;
+        padding-left: 10px;
+        text-decoration: none;
+        color: @text-color;
+        border-bottom: solid 1px @gray-lighter;
       }
 
-    }
+      .activity-history {
+        display: block;
+        font-size: small;
+        align-self: flex-start;
+        padding: 20px;
+        padding-top: 5px;
 
-    .activity-history {
-      margin-left: 30px;
-      font-size: small;
+        &-item {
+          margin: 3px;
 
-      &-item {
+          .avatar {
+            margin-right: 5px;
+          }
+
+          time {
+            font-size: 10px;
+            color: @gray-light;
+            margin-left: 2px;
+            margin-right: 5px;
+          }
+        }
+
+
       }
-
-    }
-    .activity-icon {
-      margin: @icon-margin;
-      float: left;
     }
 
   }

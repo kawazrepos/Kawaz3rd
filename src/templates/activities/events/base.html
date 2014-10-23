@@ -1,0 +1,7 @@
+{% extends "activities/base.html" %}
+{% block icon %}
+    <img src="{{ object.organizer.get_large_avatar }}" class="avatar avatar-large">
+{% endblock %}
+{% block root %}
+    {{ object.title }}
+{% endblock %}

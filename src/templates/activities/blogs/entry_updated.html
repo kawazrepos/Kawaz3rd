@@ -1,15 +1,17 @@
-{% extends "activities/base.html" %}
-{% block icon %}
-    <img src="{{ object.author.get_middle_avatar }}" class="avatar avatar-middle">
-{% endblock %}
-{% block body %}
-    ブログ記事
-    {% if object.get_absolute_url %}
-        「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」が
+{% extends "activities/blogs/base.html" %}
+{% block history-item %}
+    {% include "components/small_avatar.html" with user=object.author render_username=False %}
+    {% if title_updated %}
+        タイトルを{{ activity.previous.snapshot.title }}から{{ object.title }}に変えました
+    {% elif category_updated %}
+        カテゴリを「<strong><{{ activity.previous.snapshot.category.label }}/strong>」から「<strong><{{ object.category.label }}/strong>」へ変えました
+    {% elif body_updated %}
+        本文を編集しました
+    {% elif category_created %}
+        カテゴリを「<strong>{{ object.category.label }}</strong>」にしました
+    {% elif category_deleted %}
+        カテゴリ「<strong>{{ activity.previous.snapshot.category.label }}</strong>」をやめました
     {% else %}
-        {{ object.title }}が
+        編集しました
     {% endif %}
-    {% block history-item %}
-        編集されました
-    {% endblock %}
 {% endblock %}

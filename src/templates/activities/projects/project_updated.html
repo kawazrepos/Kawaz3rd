@@ -1,15 +1,19 @@
-{% extends "activities/base.html" %}
-{% block icon %}
-    <img src="{{ object.get_middle_icon }}" class="avatar avatar-middle">
-{% endblock %}
-{% block body %}
-    プロジェクト
-    {% if object.get_absolute_url %}
-        「<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>」が
+{% extends "activities/projects/base.html" %}
+{% block history-item %}
+    {% include "components/small_avatar.html" with user=object.last_modifier render_username=False %}
+    {% if title_updated %}
+        「{{ activity.previous.snapshot.title }}」から「{{ object.title }}」へタイトルを変更しました
+    {% elif status_updated %}
+        状態を「<strong>{{ object.get_status_display }}</strong>」へ変更しました
+    {% elif body_updated %}
+        詳細を変更しました
+    {% elif icon_updated %}
+        アイコンを変更しました
+    {% elif category_updated %}
+        カテゴリーを「<strong>{{ object.category.label }}</strong>」に変更しました
+    {% elif icon_created %}
+        アイコンを設定しました
     {% else %}
-        「{{ object.title }}」が
+        更新しました
     {% endif %}
-    {% block history-item %}
-        更新されました
-    {% endblock %}
 {% endblock %}

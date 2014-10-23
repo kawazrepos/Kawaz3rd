@@ -154,10 +154,16 @@ THUMBNAIL_SIZE_PATTERNS = {
     'small': (24, 24,),
 }
 PRODUCT_THUMBNAIL_SIZE_PATTERNS = {
-    None: (32, 32),
+    'huge': (512, 288,),
+    'large': (172, 96,),
+    'middle': (86, 48,),
+    'small': (43, 24,),
 }
 ADVERTISEMENT_IMAGE_SIZE_PATTERNS = {
-    None: (32, 32),
+    'huge': (512, 288,),
+    'large': (172, 96,),
+    'middle': (86, 48,),
+    'small': (43, 24,),
 }
 SCREENSHOT_IMAGE_SIZE_PATTERNS = {
     None: (32, 32),

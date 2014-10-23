@@ -7,7 +7,6 @@ from activities.mediator import ActivityMediator
 __author__ = 'giginet'
 
 class PersonaActivityMediator(ActivityMediator):
-    use_snapshot = True
 
     def alter(self, instance, activity, **kwargs):
         if activity and activity.status == 'updated':
