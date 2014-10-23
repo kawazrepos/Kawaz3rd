@@ -1,4 +1,4 @@
 {% extends "activities/blogs/base.html" %}
 {% block history-item %}
-    {% include "components/small_avatar.html" with user=activity.snapshot.author render_username=False %}書きました
+    {% include "components/small_avatar.html" with user=object.author render_username=False %}書きました
 {% endblock %}

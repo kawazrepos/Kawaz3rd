@@ -88,6 +88,9 @@ class EventActivityMediator(ActivityMediator):
                 context[flag] = True
         elif activity.status in ('user_add', 'user_removed'):
             # ユーザーの追加・削除状態だった場合は誰が追加されたのかを設定
+            # 基本的に今の仕様では同時に一人までしか追加できないはずだが、
+            # {{ user.nickname }}さんと他{{ user_count | add:"-1" }}名
+            # みたいな感じで表示できるようにしている
             pk_set = map(int, activity.remarks.split())
             users = Persona.objects.filter(pk__in=(pk_set))
             context['users'] = users

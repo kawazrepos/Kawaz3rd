@@ -1,14 +1,14 @@
 {% extends "activities/blogs/base.html" %}
 {% block history-item %}
-    {% include "components/small_avatar.html" with user=activity.snapshot.author render_username=False %}
+    {% include "components/small_avatar.html" with user=object.author render_username=False %}
     {% if title_updated %}
-        タイトルを{{ activity.previous.snapshot.title }}から{{ activity.snapshot.title }}に変えました
+        タイトルを{{ activity.previous.snapshot.title }}から{{ object.title }}に変えました
     {% elif category_updated %}
-        カテゴリを「<strong><{{ activity.previous.snapshot.category.label }}/strong>」から「<strong><{{ activity.snapshot.category.label }}/strong>」へ変えました
+        カテゴリを「<strong><{{ activity.previous.snapshot.category.label }}/strong>」から「<strong><{{ object.category.label }}/strong>」へ変えました
     {% elif body_updated %}
         本文を編集しました
     {% elif category_created %}
-        カテゴリを「<strong>{{ activity.snapshot.category.label }}</strong>」にしました
+        カテゴリを「<strong>{{ object.category.label }}</strong>」にしました
     {% elif category_deleted %}
         カテゴリ「<strong>{{ activity.previous.snapshot.category.label }}</strong>」をやめました
     {% else %}

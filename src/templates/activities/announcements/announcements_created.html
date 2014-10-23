@@ -1,4 +1,4 @@
 {% extends "activities/announcements/base.html" %}
 {% block history-item %}
-    {% include "components/small_avatar.html" with user=activity.snapshot.last_modifier render_username=False %}作成しました
+    {% include "components/small_avatar.html" with user=object.last_modifier render_username=False %}作成しました
 {% endblock %}

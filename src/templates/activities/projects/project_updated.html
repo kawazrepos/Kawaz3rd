@@ -1,16 +1,16 @@
 {% extends "activities/projects/base.html" %}
 {% block history-item %}
-    {% include "components/small_avatar.html" with user=activity.snapshot.last_modifier render_username=False %}
+    {% include "components/small_avatar.html" with user=object.last_modifier render_username=False %}
     {% if title_updated %}
-        「{{ activity.previous.snapshot.title }}」から「{{ activity.snapshot.title }}」へタイトルを変更しました
+        「{{ activity.previous.snapshot.title }}」から「{{ object.title }}」へタイトルを変更しました
     {% elif status_updated %}
-        状態を「<strong>{{ activity.snapshot.get_status_display }}</strong>」へ変更しました
+        状態を「<strong>{{ object.get_status_display }}</strong>」へ変更しました
     {% elif body_updated %}
         詳細を変更しました
     {% elif icon_updated %}
         アイコンを変更しました
     {% elif category_updated %}
-        カテゴリーを「<strong>{{ activity.snapshot.category.label }}</strong>」に変更しました
+        カテゴリーを「<strong>{{ object.category.label }}</strong>」に変更しました
     {% elif icon_created %}
         アイコンを設定しました
     {% else %}

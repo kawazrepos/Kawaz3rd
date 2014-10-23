@@ -1,4 +1,4 @@
 {% extends "activities/events/base.html" %}
 {% block history-item %}
-    {% include "components/small_avatar.html" with user=activity.snapshot.organizer render_username=False %}企画しました
+    {% include "components/small_avatar.html" with user=object.organizer render_username=False %}企画しました
 {% endblock %}

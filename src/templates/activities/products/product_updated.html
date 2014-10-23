@@ -1,12 +1,12 @@
 {% extends "activities/products/base.html" %}
 {% block history-item %}
-    {% include "components/small_avatar.html" with user=activity.snapshot.last_modifier render_username=False %}
+    {% include "components/small_avatar.html" with user=object.last_modifier render_username=False %}
     {% if title_updated %}
-        タイトルが「<strong>{{ activity.previous.snapshot.title }}</strong>」から「<strong>{{ activity.snapshot.title }}</strong>」に変更されました
+        タイトルが「<strong>{{ activity.previous.snapshot.title }}</strong>」から「<strong>{{ object.title }}</strong>」に変更されました
     {% elif thumbnail_updated %}
         サムネイルが更新されました
     {% elif display_mode_updated %}
-        表示モードが「<strong>{{ activity.snapshot.get_display_mode_display }}</strong>」に変更されました
+        表示モードが「<strong>{{ object.get_display_mode_display }}</strong>」に変更されました
     {% elif trailer_created %}
         トレイラーが追加されました
     {% elif trailer_updated %}

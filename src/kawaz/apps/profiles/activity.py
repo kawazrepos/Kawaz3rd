@@ -6,7 +6,7 @@ __author__ = 'giginet'
 from activities.mediator import ActivityMediator
 
 class ProfileActivityMediator(ActivityMediator):
-    use_snapshot = True
+
 
     def alter(self, instance, activity, **kwargs):
         if activity and activity.status == 'updated':

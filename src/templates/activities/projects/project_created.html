@@ -1,4 +1,4 @@
 {% extends "activities/projects/base.html" %}
 {% block history-item %}
-    {% include "components/small_avatar.html" with user=activity.snapshot.administrator render_username=False %}発足しました
+    {% include "components/small_avatar.html" with user=object.administrator render_username=False %}発足しました
 {% endblock %}
