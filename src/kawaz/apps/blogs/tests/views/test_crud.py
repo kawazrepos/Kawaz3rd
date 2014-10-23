@@ -358,6 +358,7 @@ class EntryAuthorListViewTestCase(TestCase):
         r = self.client.get('/blogs/{}/'.format(self.user.username))
         self.assertTrue('page_obj' in r.context)
         self.assertTrue('paginator' in r.context)
+        self.assertEqual(r.context_data['author'], self.user)
 
     def test_paginate_by(self):
         """
@@ -371,10 +372,12 @@ class EntryAuthorListViewTestCase(TestCase):
         self.assertTrue('page_obj' in r.context)
         object_list = r.context['object_list']
         self.assertEqual(len(object_list), 5)
+        self.assertEqual(r.context_data['author'], self.user)
 
         r = self.client.get('/blogs/{}/?page=2'.format(self.user.username))
         object_list = r.context['object_list']
         self.assertEqual(len(object_list), 3)
+        self.assertEqual(r.context_data['author'], self.user)
 
     def test_anonymous_can_view_only_public_entries_of_the_author(self):
         '''
@@ -388,6 +391,7 @@ class EntryAuthorListViewTestCase(TestCase):
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 1, 'object_list has one entry')
         self.assertEqual(list[0], self.entries[1])
+        self.assertEqual(r.context_data['author'], self.user)
 
     def test_wille_can_view_only_public_entries_of_the_author(self):
         '''
@@ -401,6 +405,7 @@ class EntryAuthorListViewTestCase(TestCase):
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 1, 'object_list has one entry')
         self.assertEqual(list[0], self.entries[1])
+        self.assertEqual(r.context_data['author'], self.user)
 
     def test_authenticated_can_view_all_publish_entries_of_the_author(self):
         '''
@@ -414,6 +419,7 @@ class EntryAuthorListViewTestCase(TestCase):
         self.assertEqual(list.count(), 2, 'object_list has two entries')
         self.assertEqual(list[0], self.entries[3], 'protected')
         self.assertEqual(list[1], self.entries[1], 'public')
+        self.assertEqual(r.context_data['author'], self.user)
 
 
 class EntryPreviewTestCase(TestCase):
