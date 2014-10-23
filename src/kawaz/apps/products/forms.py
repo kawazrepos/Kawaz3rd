@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ModelForm
+from kawaz.core.forms.fields import MarkdownField
 from kawaz.core.forms.widgets import MaceEditorWidget
 from kawaz.core.forms.mixins import Bootstrap3HorizontalFormHelperMixin
 from kawaz.core.forms.mixins import Bootstrap3InlineFormHelperMixin
@@ -17,6 +18,8 @@ from .models import URLRelease
 
 class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False
+
+    body = MarkdownField(label=_('Body'))
 
     platforms = forms.ModelMultipleChoiceField(
         label=_('Platforms'),
