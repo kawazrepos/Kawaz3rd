@@ -77,14 +77,19 @@ class YouTubeTemplateTagTestCase(BaseViewerTemplateTagTestCase):
 
     def test_youtube_with_link_fail(self):
         """
-        HTMLタグや、行末、行頭にURLが含まれていた場合は、プレイヤーが展開されません
+        HTMLタグに含まれていた場合は展開しませんが、
+        行末、行頭にURLが含まれていた場合は、プレイヤーが展開されます
         """
         body = ("オススメの動画です\n"
                 """<a href="https://www.youtube.com/watch?v=r-j9FZ2TQd0">オススメ</a>\n"""
                 "\n"
                 "ついでにこっちもおもしろいです https://www.youtube.com/watch?v=LoH0dOyyGx8\n"
                 "https://www.youtube.com/watch?v=LoH0dOyyGx8 これも")
-        expected = body
+        expected = ("オススメの動画です\n"
+                    """<a href="https://www.youtube.com/watch?v=r-j9FZ2TQd0">オススメ</a>\n"""
+                    "\n"
+                    """ついでにこっちもおもしろいです <iframe width="640" height="360" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe>\n"""
+                    """<iframe width="640" height="360" src="//www.youtube.com/embed/LoH0dOyyGx8" frameborder="0" allowfullscreen></iframe> これも""")
         self._test_template(body, expected)
 
 
@@ -101,7 +106,7 @@ class NicoVideoTemplateTagTestCase(BaseViewerTemplateTagTestCase):
                   """<script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/sm10805698"></script>""")
         self._test_template(body, expect)
 
-    def test_nicoviceo_multiple(self):
+    def test_nicovideo_multiple(self):
         """
         文章中に複数のニコニコ動画URLが含まれていたとき、全てembedします
         """
@@ -126,5 +131,9 @@ class NicoVideoTemplateTagTestCase(BaseViewerTemplateTagTestCase):
                 "\n"
                 "http://www.nicovideo.jp/watch/sm9 レッツゴー\n"
                 "行頭 http://www.nicovideo.jp/watch/sm9")
-        expect = body
+        expect = ("全てはここから始まった\n"
+                """<a href="http://www.nicovideo.jp/watch/sm10805698">音楽マインスイーパー</a>\n"""
+                "\n"
+                """<script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/sm9"></script> レッツゴー\n"""
+                """行頭 <script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/sm9"></script>""")
         self._test_template(body, expect)
