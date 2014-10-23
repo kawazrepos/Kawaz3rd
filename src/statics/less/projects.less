@@ -43,6 +43,7 @@
 #project-list-more {
   text-align: center;
   color: @link-color;
+  width: 100%;
 }
 #project-list-more:hover {
   color: @link-hover-color;
@@ -104,11 +105,15 @@
 }
 
 .project-list-archived {
+  .archive-item-list {
+    width: 100%;
+  }
   .archive-item {
     display: inline-block;
     vertical-align: middle;
     .archive-item-badge {
       width: 25px;
+      margin-top: 5px;
     }
   }
   .col-title {
