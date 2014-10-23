@@ -35,9 +35,6 @@ class ParserTemplateTagTestCase(TestCase):
             """frameborder="0" allowfullscreen></iframe>"""
         )
         self._test_parser_filter(content, expected)
-        # URLのみの行が無い場合は展開しない
-        content = "foo {} bar".format(url)
-        self._test_parser_filter(content, expected, neg=True)
 
     def test_parser_filter_expand_nicovideo_url(self):
         """
@@ -52,9 +49,6 @@ class ParserTemplateTagTestCase(TestCase):
             """</script>"""
         )
         self._test_parser_filter(content, expected)
-        # URLのみの行が無い場合は展開しない
-        content = "foo {} bar".format(url)
-        self._test_parser_filter(content, expected, neg=True)
 
     def test_parser_filter_expand_url_and_mail_address(self):
         """
