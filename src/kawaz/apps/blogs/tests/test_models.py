@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from .factories import CategoryFactory, EntryFactory
 
 from django.contrib.auth.models import AnonymousUser
+from kawaz.apps.stars.tests.factories import StarFactory
 
 from kawaz.core.personas.tests.factories import PersonaFactory
 
@@ -85,6 +86,35 @@ class EntryManagerTestCase(TestCase):
         user = PersonaFactory()
         qs = Entry.objects.draft(user)
         self.assertEqual(qs.count(), 0)
+
+    def test_get_hotentries(self):
+        """
+        自分が見れるエントリーだけStarの多い順に取り出せる
+        """
+        entries = list(self.entries) + [
+            EntryFactory(),
+            EntryFactory(),
+            EntryFactory(),
+        ]
+        self.users = (
+            (PersonaFactory(role='adam'), 5),
+            (PersonaFactory(role='seele'), 5),
+            (PersonaFactory(role='nerv'), 5),
+            (PersonaFactory(role='children'), 5),
+            (PersonaFactory(role='wille'), 4),
+            (AnonymousUser(), 4),
+        )
+        for i, entry in enumerate(entries):
+            [StarFactory(content_object=entries[i]) for n in range(i * 2)]
+        for user, nentries in self.users:
+            fetched = Entry.objects.get_hotentries(user)
+            self.assertEqual(len(fetched), nentries)
+            self.assertEqual(fetched[0], entries[-1])
+            self.assertEqual(fetched[0].star_count, 12)
+            self.assertEqual(fetched[1], entries[-2])
+            self.assertEqual(fetched[1].star_count, 10)
+            self.assertEqual(fetched[2], entries[-3])
+            self.assertEqual(fetched[2].star_count, 8)
 
 
 class EntryModelTestCase(TestCase):
