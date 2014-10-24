@@ -1,0 +1,23 @@
+#
+# Site
+# -------------------------------------------------------------------------------
+- model: sites.site
+  pk: 1
+  fields:
+    domain: localhost:8000
+    name: ローカルサーバー
+- model: sites.site
+  pk: 2
+  fields:
+    domain: www.kawaz.org
+    name: 公開用サーバー
+- model: sites.site
+  pk: 3
+  fields:
+    domain: stg.kawaz.org
+    name: 実験公開用サーバー
+- model: sites.site
+  pk: 4
+  fields:
+    domain: dev.kawaz.org
+    name: 開発用サーバー
