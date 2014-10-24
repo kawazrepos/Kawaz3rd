@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load staticfiles %}
 {% load products_tags %}
+{% load announcements_tags %}
 {% load activities_hatenablog_tag %}
 {% block carousel %}
 <div id="featured-products-container">
@@ -105,6 +106,40 @@
             <p>Kawazはゲーム制作を中心に、何か新しいものを生み出したい、能力を高めたい人たちが集まるコミュニティです。大学生、専門学校生、社会人のほか、プロのゲーム開発者も交えて交流しています。</p>
             <p><strong>今まで制作されたゲームは60本以上！</strong></p>
             <p>プログラムができる、絵が描ける、音楽が作れる、何か覚えてみたい、とにかく興味がある。 そんなあなたをお待ちしています！</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="text-center">
+                <h3>{% trans "Announcements" %}</h3>
+                {% get_announcements as announcements %}
+                <ul class="footer-nav text-left">
+                    {% for announcement in announcements|slice:":5" %}
+                        <li><strong><time datetime="{{ announcement.created_at|date:'c' }}">{{ announcement.created_at|date:'m月d日' }}</time></strong> <a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+            <div class="text-center">
+                <h3>{% trans "Information" %}</h3>
+                <ul class="footer-nav text-left">
+                    <li><a href="/about/">{% trans "About us" %}</a></li>
+                    <li><a href="/published/">{% trans "Publish Information" %}</a></li>
+                    <li><a href="/privacy-policy/">{% trans "Privacy Policy" %}</a></li>
+                    <li><a href="/participation/">{% trans "How to participation in" %}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+            <div class="text-center">
+                <h3>{% trans "Contacts" %}</h3>
+                <ul class="footer-nav text-left">
+                    <li><a href="/contact/">{% trans "Contact us" %}</a></li>
+                    <li><a href="http://twitter.com/kawazinfo/">{% trans "@kawazinfo" %}</a></li>
+                    <li><a href="http://twitter.com/kawazpr/">{% trans "@kawazpr" %}</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}
