@@ -1,8 +1,16 @@
-{% extends "base.html" %}
+{% extends "authenticated_base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load form_helper %}
+
+{% block title %}{% trans "Change user information" %}{% endblock %}
 {% block content %}
+    <ol class="breadcrumb">
+        {% block breadcrumb %}
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url "personas_persona_update" %}">{% trans "Change User Information" %}</a></li>
+        {% endblock %}
+    </ol>
     <div class="page-header">
         <h1>{% trans "Change user information" %}</h1>
     </div>

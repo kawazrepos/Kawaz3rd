@@ -4,9 +4,9 @@
 
 {% block title %}
     {% if object %}
-        <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</h1>
+        {% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}
     {% else %}
-        <h1>{% trans "Create New Product" %}</h1>
+        {% trans "Create New Product" %}
     {% endif %}
 {% endblock %}
 
@@ -21,7 +21,12 @@
 {% endblock %}
 {% block breadcrumb %}
     {{ block.super }}
-    <li><a href="/products/">Products</a></li>
+    <li><a href="{% url 'products_product_list' %}">{% trans "Products" %}</a></li>
+    {% if object %}
+        <li><a href="{% url "products_product_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
+    {% else %}
+        <li><a href="{% url "products_product_create" %}">{% trans "Create New Product" %}</a></li>
+    {% endif %}
 {% endblock %}
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'products_product_preview' %}';">

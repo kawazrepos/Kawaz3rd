@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "authenticated_base.html" %}
 {% load staticfiles %}
 {% load i18n %}
 {% load projects_tags %}
@@ -7,9 +7,13 @@
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/projects.less" %}" media="screen">
 {% endblock %}
-
 {% block content %}
-
+    <ol class="breadcrumb">
+        {% block breadcrumb %}
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url "projects_project_list" %}">{% trans "Projects" %}</a></li>
+        {% endblock %}
+    </ol>
     <div class="page-header project-list-header">
         <h2 class="header-left">
             {% trans "Active Projects" %}

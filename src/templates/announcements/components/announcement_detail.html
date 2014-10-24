@@ -3,7 +3,7 @@
     <div class="blog-article-header">
         <div class="pull-right">
             <a href="{{ object.author.profile.get_absolute_url }}">
-                <img src="{{ object.author.avatar.large.url }}" alt="{{ object.author.nickname }} Avater" class="avatar avatar-middle"/> {{ object.author.nickname }}
+                <img src="{{ object.author.avatar.get_middle_avatar }}" alt="{{ object.author.nickname }} Avater" class="avatar avatar-middle"/> {{ object.author.nickname }}
             </a><br />
             {% if user has 'announcements.change_announcement' of object %}
                 <a href="{% url 'announcements_announcement_update' pk=object.pk %}" class="btn btn-default btn-sm">Edit</a>

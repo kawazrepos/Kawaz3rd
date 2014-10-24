@@ -9,6 +9,11 @@
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/projects.less" %}" media="screen">
 {% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'projects_project_list' %}">{% trans "Projects" %}</a></li>
+    <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
+{% endblock %}
 
 {% block content-header %}
   <div id="project-detail-wrap">

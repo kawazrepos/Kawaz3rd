@@ -10,7 +10,7 @@
     {{ block.super }}
     <li><a href="{% url "blogs_entry_list" %}">{% trans "Blog" %}</a></li>
     <li><a href="{% url "blogs_entry_author_list" author=object.author %}">{{ object.author.nickname }}{% trans "'s Entries" %}</a></li>
-    <li>{{ object.title }}</li>
+    <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
 {% endblock %}
 {% block content %}
     {{ block.super }}

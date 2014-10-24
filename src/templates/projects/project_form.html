@@ -4,11 +4,12 @@
 
 {% block title %}
     {% if object %}
-        <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</h1>
+        {% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}
     {% else %}
-        <h1>{% trans "Create New Project" %}</h1>
+        {% trans "Create New Project" %}
     {% endif %}
 {% endblock %}
+
 
 {% block content-header %}
     <div class="page-header">
@@ -19,10 +20,17 @@
         {% endif %}
     </div>
 {% endblock %}
+
 {% block breadcrumb %}
     {{ block.super }}
-    <li><a href="{% url "projects_project_list" %}">Project</a></li>
+    <li><a href="{% url 'projects_project_list' %}">{% trans "Projects" %}</a></li>
+    {% if object %}
+        <li><a href="{% url "projects_project_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
+    {% else %}
+        <li><a href="{% url "projects_project_create" %}">{% trans "Create New Project" %}</a></li>
+    {% endif %}
 {% endblock %}
+
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'projects_project_preview' %}';">
         {% crispy form %}
