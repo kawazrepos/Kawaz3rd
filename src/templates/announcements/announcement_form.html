@@ -4,16 +4,20 @@
 
 {% block title %}
     {% if object %}
-        <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</h1>
+        {% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}
     {% else %}
-        <h1>{% trans "Create New Announcement" %}</h1>
+        {% trans "Create New Announcement" %}
     {% endif %}
 {% endblock %}
 
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="{% url "announcements_announcement_list" %}">{% trans "Announcements" %}</a></li>
-    <li><a href="{% url "announcements_announcement_create" %}">{% trans "Create New Announcement" %}</a></li>
+    {% if object %}
+        <li><a href="{% url "announcements_announcement_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
+    {% else %}
+        <Li><a href="{% url "announcements_announcement_create" %}">{% trans "Create New Announcement" %}</a></li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

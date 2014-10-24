@@ -23,7 +23,11 @@
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="{% url "blogs_entry_list" %}">{% trans "Blog" %}</a></li>
-    <li><a href="{% url "blogs_entry_create" author=user.nickname %}">{% trans "Create New Entry" %}</a></li>
+    {% if object %}
+        <li><a href="{% url "blogs_entry_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
+    {% else %}
+        <Li><a href="{% url "blogs_entry_create" %}">{% trans "Create New Entry" %}</a></li>
+    {% endif %}
 {% endblock %}
 {% block form_header %}
     <div ng-controller="BlogCategoryController" ng-init="endpoint='{% url 'category-list' %}';">
