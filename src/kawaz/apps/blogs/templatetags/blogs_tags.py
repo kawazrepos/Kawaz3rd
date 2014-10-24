@@ -71,3 +71,19 @@ def get_categories(author=None):
     if author:
         qs = qs.filter(author__pk=author.pk)
     return qs
+
+@register.assignment_tag(takes_context=True)
+def get_hotentries(context, author=None):
+    """
+    ホッテントリの一覧を取り出します
+    <user>を渡した場合は、そのユーザーが作成した物のみに絞り込まれます
+
+    Syntax:
+        {% get_hotentries as entries %}
+        {% get_hotentries <user> as entries %}
+    """
+    user = context.get('user', None)
+    qs = Entry.objects.published(user).get_hotentries()
+    if author:
+        qs = qs.filter(author__pk=author.pk)
+    return qs

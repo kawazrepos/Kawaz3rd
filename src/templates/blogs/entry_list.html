@@ -32,11 +32,14 @@
         <div class="panel-heading">
             <h2 class="panel-title">{% trans "Hot Entries" %}</h2>
         </div>
-        {# TODO: ここにスターの数等によるホットエントリーの設置 #}
-        {# Fix Me: ハードコーディング #}
+        {% get_hotentries as entries %}
         <div class="list-group">
-            <a class="list-group-item" href="/blogs/system/2014/5/20/3/">VOXCHRONICLEに出演しました☆ <small class="text-muted">10 stars</small></a>
-            <a class="list-group-item" href="/blogs/system/2014/5/20/1/">日記 <small class="text-muted">5 stars</small></a>
+            {% for entry in entries|slice:":10" %}
+                <a class="list-group-item" href="{{ entry.get_absolute_url }}">
+                    <img src="{{ entry.author.get_small_avatar }}" alt="{{ entry.author.nickname }}" class="avatar avatar-small" rel="tooltip" data-toggle="tooltip" title="{{ entry.author.nickname }}">
+                    {{ entry.title }} <small class="text-muted">{{ entry.star_count }} stars</small>
+                </a>
+            {% endfor %}
         </div>
     </div>
     {% if author %}

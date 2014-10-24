@@ -1,11 +1,15 @@
 import datetime
 from django.conf import settings
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Count
 from django.utils import timezone
 from django.utils.timezone import get_default_timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from activities.registry import registry
+from kawaz.apps.stars.models import Star
 from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin
@@ -37,9 +41,18 @@ class Category(models.Model):
         return ('blogs_entry_category_list', (), {'author': self.author.username, 'category': self.label})
 
 
-class EntryManager(models.Manager, PublishmentManagerMixin):
-    pass
+class EntryQuerySet(models.QuerySet):
+    def get_hotentries(self):
+        qs = self.annotate(star_count=Count('star'))
+        return qs.order_by('-star_count').select_related('author')
 
+
+class EntryManager(models.Manager, PublishmentManagerMixin):
+    def get_queryset(self):
+        return EntryQuerySet(self.model, using=self._db)
+
+    def get_hotentries(self, user):
+        return self.published(user).get_hotentries()
 
 @validate_on_save
 class Entry(models.Model):
@@ -61,7 +74,7 @@ class Entry(models.Model):
     updated_at = models.DateTimeField(_('Modified at'), auto_now=True)
     publish_at = models.DateTimeField(_('Published at'),
                                       null=True, editable=False)
-
+    star = generic.GenericRelation(Star)
     objects = EntryManager()
 
     class Meta:
