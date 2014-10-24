@@ -175,7 +175,9 @@ class Persona(AbstractUser, metaclass=PersonaBase):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('personas_persona_detail', (), {'slug': self.username})
+        return ('personas_persona_detail', (), {
+            'slug': self.username
+        })
 
 from permission import add_permission_logic
 from .perms import PersonaPermissionLogic

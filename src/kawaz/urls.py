@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.contrib.auth import views as auth_views
 from django.conf import settings
 
 
@@ -7,6 +8,15 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
+    url(r'^login/$', auth_views.login,
+        name='login', kwargs=dict(
+            template_name='login.html'
+        )),
+    url(r'^logout/$', auth_views.logout, 
+        name='logout', kwargs=dict(
+            template_name='logout.html',
+            next_page='/',
+        )),
     url(r'^central-dogma/', include(admin.site.urls)),
     url(r'^api/', include('kawaz.api.urls')),
     url(r'^activities/', include('kawaz.core.activities.urls')),

@@ -133,36 +133,36 @@ class RegistrationViewTestCase(TestCase):
 
     def test_can_display_password_change_view(self):
         """
-        ログインユーザーが/registration/password/change/が表示できるか
+        ログインユーザーが/registration/password_change/が表示できるか
         """
         self.client.login(username='user', password='password')
         self._test_url_name('password_change',
-                            '/registration/password/change/')
-        self._test_can_display('password/change', 'password_change_form')
+                            '/registration/password_change/')
+        self._test_can_display('password_change', 'password_change_form')
 
     def test_can_display_password_change_done_view(self):
         """
-        ログインユーザーが/registration/password/change/done/が表示できるか
+        ログインユーザーが/registration/password_change/done/が表示できるか
         """
         self.client.login(username='user', password='password')
         self._test_url_name('password_change_done',
-                            '/registration/password/change/done/')
-        self._test_can_display('password/change/done', 'password_change_done')
+                            '/registration/password_change/done/')
+        self._test_can_display('password_change/done', 'password_change_done')
 
     def test_can_display_password_reset_view(self):
         """
-        /registration/password/reset/が表示できるか
+        /registration/password_reset/が表示できるか
         """
-        self._test_url_name('password_reset', '/registration/password/reset/')
-        self._test_can_display('password/reset', 'password_reset_form')
+        self._test_url_name('password_reset', '/registration/password_reset/')
+        self._test_can_display('password_reset', 'password_reset_form')
 
     def test_can_display_password_reset_complete_view(self):
         """
-        /registration/password/reset/complete/が表示できるか
+        /registration/reset/done/が表示できるか
         """
         self._test_url_name('password_reset_complete',
-                            '/registration/password/reset/complete/')
-        self._test_can_display('password/reset/complete',
+                            '/registration/reset/done/')
+        self._test_can_display('reset/done',
                                'password_reset_complete')
 
     def test_can_display_password_reset_done_view(self):
@@ -170,5 +170,5 @@ class RegistrationViewTestCase(TestCase):
         /registration/password/reset/done/が表示できるか
         """
         self._test_url_name('password_reset_done',
-                            '/registration/password/reset/done/')
-        self._test_can_display('password/reset/done', 'password_reset_done')
+                            '/registration/password_reset/done/')
+        self._test_can_display('password_reset/done', 'password_reset_done')

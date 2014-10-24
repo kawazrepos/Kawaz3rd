@@ -18,7 +18,7 @@
 {% endblock %}
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'profiles_profile_preview' %}';">
-        <p>ニックネームやアイコンは<a href="{% url "personas_persona_update" %}">ユーザー情報の変更</a>ページから変更できます</p>
+        <p>ニックネームやアイコンは<a href="{% url "personas_persona_update" slug=request.user.username %}">ユーザー情報の変更</a>ページから変更できます</p>
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
             {% crispy form %}
             <div class="form-group formset row" prefix="{{ formset.prefix }}" id="formset-{{ formset.prefix }}">
