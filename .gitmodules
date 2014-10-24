@@ -13,3 +13,6 @@
 [submodule "src/statics/vendor/jquery-cookie"]
 	path = src/statics/vendor/jquery-cookie
 	url = https://github.com/carhartl/jquery-cookie.git
+[submodule "src/statics/vendor/mace"]
+	path = src/statics/vendor/mace
+	url = https://github.com/kawazrepos/mace
