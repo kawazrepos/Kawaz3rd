@@ -27,7 +27,7 @@
     {% if object %}
         <li><a href="{% url "projects_project_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
     {% else %}
-        <Li><a href="{% url "projects_project_create" %}">{% trans "Create New Project" %}</a></li>
+        <li><a href="{% url "projects_project_create" %}">{% trans "Create New Project" %}</a></li>
     {% endif %}
 {% endblock %}
 
