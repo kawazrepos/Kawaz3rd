@@ -43,6 +43,9 @@ class Category(models.Model):
 
 class EntryQuerySet(models.QuerySet):
     def get_hotentries(self):
+        """
+        Starが多く付いた順にエントリを取り出します
+        """
         qs = self.annotate(star_count=Count('star'))
         return qs.order_by('-star_count').select_related('author')
 

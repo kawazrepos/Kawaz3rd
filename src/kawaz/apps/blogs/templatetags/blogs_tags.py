@@ -82,7 +82,7 @@ def get_hotentries(context, author=None):
         {% get_hotentries as entries %}
         {% get_hotentries <user> as entries %}
     """
-    user = context.get('user', None)
+    user = getattr(context['request'], 'user', None)
     qs = Entry.objects.published(user).get_hotentries()
     if author:
         qs = qs.filter(author__pk=author.pk)
