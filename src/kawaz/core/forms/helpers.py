@@ -44,3 +44,12 @@ class HorizontalBareFormHelper(Bootstrap3HorizontalFormHelper):
     form_tag = False
     """
     form_tag = False
+
+
+class InlineBareFormHelper(Bootstrap3InlineFormHelper):
+    """
+    InlineFormHelperの<form>タグでwrapされていない版です
+    主にget_form_helperテンプレートタグからの利用を想定しています
+    form_tag = False
+    """
+    form_tag = False
