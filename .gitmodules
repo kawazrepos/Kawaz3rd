@@ -7,9 +7,6 @@
 [submodule "src/statics/vendor/bootstrap-growl"]
 	path = src/statics/vendor/bootstrap-growl
 	url = https://github.com/ifightcrime/bootstrap-growl
-[submodule "src/statics/vendor/mace"]
-	path = src/statics/vendor/mace
-	url = https://github.com/ww24/mace
 [submodule "src/statics/vendor/angular-file-upload"]
 	path = src/statics/vendor/angular-file-upload
 	url = https://github.com/danialfarid/angular-file-upload
