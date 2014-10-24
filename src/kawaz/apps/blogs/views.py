@@ -17,7 +17,7 @@ from kawaz.core.personas.models import Persona
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
 
 from .forms import EntryForm
-from .models import Entry
+from .models import Entry, Category
 
 
 class EntryMultipleObjectMixin(MultipleObjectMixin):
@@ -127,9 +127,15 @@ class EntryAuthorMixin(EntryMultipleObjectMixin):
         # | したがって敢えて kwargs['author'] と指定している
         username = self.kwargs['author']
         # 名前からインスタンスを指定、存在しない場合は強制404
-        author = get_object_or_404(Persona, username=username)
+        self.author = get_object_or_404(Persona, username=username)
         # 著者でQuerySetを更に絞る
-        return super().get_queryset().filter(author=author)
+        return super().get_queryset().filter(author=self.author)
+
+    def get_context_data(self, **kwargs):
+        # ユーザーをコンテキストに入れておく
+        data = super().get_context_data(**kwargs)
+        data['author'] = self.author
+        return data
 
 
 class EntryAuthorListView(EntryListView, EntryAuthorMixin):
@@ -151,3 +157,13 @@ class EntryAuthorYearArchiveView(EntryYearArchiveView, EntryAuthorMixin):
 class EntryPreview(SingleObjectPreviewMixin, DetailView):
     model = Entry
     template_name = "blogs/components/entry_detail.html"
+
+
+class EntryCategoryListView(EntryMultipleObjectMixin, ListView):
+    template_name = 'blogs/entry_list.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        author = self.kwargs.get('author', None)
+        category = self.kwargs.get('category', None)
+        return qs.filter(category__author__username=author, category__label=category)

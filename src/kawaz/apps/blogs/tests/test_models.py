@@ -1,4 +1,5 @@
 import datetime
+import urllib
 from django.utils import timezone
 from django.test import TestCase
 from django.db.utils import IntegrityError
@@ -27,6 +28,14 @@ class CategoryTestCase(TestCase):
         def create_duplicate():
             CategoryFactory(label='独り言', author=user)
         self.assertRaises(IntegrityError, create_duplicate)
+
+    def test_get_absolute_url(self):
+        """
+        get_absolute_urlでカテゴリの記事一覧ページのURLが取得できる
+        """
+        category = CategoryFactory()
+        label = urllib.parse.quote_plus(category.label)
+        self.assertEqual(category.get_absolute_url(), '/blogs/{}/{}/'.format(category.author.username, label))
 
 
 class EntryManagerTestCase(TestCase):

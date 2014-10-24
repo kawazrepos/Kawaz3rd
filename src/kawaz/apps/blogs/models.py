@@ -32,6 +32,10 @@ class Category(models.Model):
     def __str__(self):
         return "{}({})".format(self.label, self.author.username)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('blogs_entry_category_list', (), {'author': self.author.username, 'category': self.label})
+
 
 class EntryManager(models.Manager, PublishmentManagerMixin):
     pass

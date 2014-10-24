@@ -3,7 +3,7 @@ from django.template import Template, Context, TemplateSyntaxError
 from unittest.mock import MagicMock
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.personas.tests.utils import create_role_users
-from .factories import EntryFactory
+from .factories import EntryFactory, CategoryFactory
 
 
 class BlogsTemplateTagTestCase(TestCase):
@@ -121,3 +121,63 @@ class BlogsTemplateTagTestCase(TestCase):
             self.assertEqual(entries.count(), nentries,
                              "{} should have {} entries.".format(username,
                                                                  nentries))
+
+    def test_get_categories(self):
+        """
+        get_categoriesタグで全てのユーザーの持つカテゴリーが取り出せる
+        """
+        t = Template(
+            "{% load blogs_tags %}"
+            "{% get_categories as categories %}"
+        )
+        CategoryFactory()
+        CategoryFactory()
+        CategoryFactory()
+        CategoryFactory()
+        patterns = (
+            ('adam', 4),
+            ('seele', 4),
+            ('nerv', 4),
+            ('children', 4),
+            ('wille', 4),
+            ('anonymous', 4),
+            ('author', 4),
+        )
+        r = MagicMock()
+        for username, ncategories in patterns:
+            c = Context(dict(request=r))
+            r = t.render(c)
+            # get_blog_entries は何も描画しない
+            self.assertEqual(r.strip(), "")
+
+            self.assertEqual(len(c['categories']), ncategories)
+
+    def test_get_categories_with_user(self):
+        """
+        get_categoriesタグで特定のユーザーの持つカテゴリーが取り出せる
+        """
+        t = Template(
+            "{% load blogs_tags %}"
+            "{% get_categories user as categories %}"
+        )
+        CategoryFactory(author=self.users['children'])
+        CategoryFactory(author=self.users['children'], label="日記")
+        CategoryFactory(author=self.users['seele'])
+        CategoryFactory()
+        patterns = (
+            ('adam', 0),
+            ('seele', 1),
+            ('nerv', 0),
+            ('children', 2),
+            ('wille', 0),
+            ('anonymous', 0),
+            ('author', 0),
+        )
+        r = MagicMock()
+        for username, ncategories in patterns:
+            c = Context(dict(request=r, user=self.users[username]))
+            r = t.render(c)
+            # get_blog_entries は何も描画しない
+            self.assertEqual(r.strip(), "")
+
+            self.assertEqual(len(c['categories']), ncategories)
