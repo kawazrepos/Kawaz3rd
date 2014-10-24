@@ -55,4 +55,4 @@ def get_recent_announcements(context, lookup='published'):
     qs = get_announcements(context, lookup)
     ct = timezone.now()
     seven_days_ago = ct -  timezone.timedelta(days=7)
-    return qs.filter(updated_at__gte=seven_days_ago)
+    return qs.filter(created_at__gte=seven_days_ago)
