@@ -5,7 +5,7 @@
 __author__ = 'giginet'
 from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
-from ..helpers import Bootstrap3HorizontalFormHelper
+from ..helpers import Bootstrap3HorizontalFormHelper, HorizontalBareFormHelper, InlineBareFormHelper
 
 
 class GetFormHelperTemplateTagTestCase(TestCase):
@@ -26,6 +26,16 @@ class GetFormHelperTemplateTagTestCase(TestCase):
         """get_helper horizontalでBootstrap3HorizontalFormHelperを取り出せる"""
         helper = self._render_template(type='horizontal')
         self.assertEqual(type(helper), Bootstrap3HorizontalFormHelper)
+
+    def test_get_helper_horizontal_bare(self):
+        """get_helper bareでHorizontalBareFormHelperを取り出せる"""
+        helper = self._render_template(type='bare')
+        self.assertEqual(type(helper), HorizontalBareFormHelper)
+
+    def test_get_helper_inline_bare(self):
+        """get_helper inline_bareでInlineBareFormHelperを取り出せる"""
+        helper = self._render_template(type='inline_bare')
+        self.assertEqual(type(helper), InlineBareFormHelper)
 
     def test_get_helper_unknown(self):
         """get_helperに存在しないtypeを渡したとき、TemplateSyntaxErrorが返る"""
