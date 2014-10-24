@@ -1,5 +1,6 @@
 from django import template
 from django.template import TemplateSyntaxError
+from django.utils import timezone
 from ..models import Announcement
 
 register = template.Library()
@@ -45,3 +46,13 @@ def get_announcements(context, lookup='published'):
     elif lookup == 'draft':
         qs = Announcement.objects.draft(request.user)
     return qs
+
+@register.assignment_tag(takes_context=True)
+def get_recent_announcements(context, lookup='published'):
+    """
+      get_announcementsで得られるQSのうち、作成日が1週間以内の物のみに絞り込みます
+    """
+    qs = get_announcements(context, lookup)
+    ct = timezone.now()
+    seven_days_ago = ct -  timezone.timedelta(days=7)
+    return qs.filter(created_at__gte=seven_days_ago)

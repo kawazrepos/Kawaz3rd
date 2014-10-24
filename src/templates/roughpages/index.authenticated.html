@@ -1,6 +1,7 @@
 {% extends "twopane.html" %}
 
 {% load activities_tags %}
+{% load announcements_tags %}
 {% load i18n %}
 {% load staticfiles %}
 {% block title %}{% trans "My Page" %}{% endblock %}
@@ -9,6 +10,15 @@
     <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
 {% endblock %}
 {% block content-main %}
+
+    {% get_recent_announcements as announcements %}
+    {% if not announcements|length_is:"0" %}
+        <h2>{% trans "Recent Announcements" %}</h2>
+            {% for announcement in announcements %}
+                <a class="list-group-item" href="{{ announcement.get_absolute_url }}"><strong><time datetime="{{ announcement.created_at|date:'c' }}">{{ announcement.created_at|date:'m月d日' }}</time></strong>{{ announcement.title }}</a>
+            {% endfor %}
+    {% endif %}
+
     <div class="page-header">
         <h2>Activities</h2>
     </div>
