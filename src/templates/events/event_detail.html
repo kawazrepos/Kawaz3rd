@@ -11,6 +11,11 @@
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/events.less" %}" media="screen">
 {% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'events_event_list' %}">{% trans "Events" %}</a></li>
+    <li><a href="{{ object.title }}">{{ object.title }}</a></li>
+{% endblock %}
 
 {% block content-header %}
 <div class="page-header event-detail-header-wrap">
@@ -26,7 +31,6 @@
     </div>
     <div class="row">
         <div class="col col-lg-9 col-xs-12 page-header-left">
-
             <div class="event-info-wrap event-info-wrap-{% if event.is_over_restriction or event.is_over_deadline or user has 'events.quit_event' of event %}low{% elif event.organizer == user %}high{% else %}middle{% endif %}">
                 <div class="event-info">
                     <div class="event-datetime-wrap event-info-detail">

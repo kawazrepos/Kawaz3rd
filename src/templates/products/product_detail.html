@@ -8,6 +8,11 @@
     <link type="text/less" rel="stylesheet" href="{% static "less/products.less" %}" media="screen">
 {% endblock %}
 {% block title %}{{ object.title }}{% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'products_product_list' %}">{% trans "Products" %}</a></li>
+    <li><a href="{% url 'products_product_detail' slug=object.slug %}">{{ object.title }}</a></li>
+{% endblock %}
 {% block content-header %}
     <div class="page-header">
         <h1>{{ object.title }}</h1>

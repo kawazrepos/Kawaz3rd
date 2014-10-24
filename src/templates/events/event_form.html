@@ -24,6 +24,7 @@
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="{% url "events_event_list" %}">{% trans "Events" %}</a></li>
+    <li><a href="{% url "events_event_create" %}">{% trans "Create New Event" %}</a></li>
 {% endblock %}
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'events_event_preview' %}';">

@@ -7,6 +7,10 @@
 {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/products.less" %}" media="screen">
 {% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'products_product_list' %}">{% trans "Products" %}</a></li>
+{% endblock %}
 {% block content-header %}
     <div class="page-header">
         <h1>{% trans "Product List" %}</h1>

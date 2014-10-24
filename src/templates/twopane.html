@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+    <ol class="breadcrumb">
+        {% block breadcrumb %}
+            <li><a href="/">Home</a></li>
+        {% endblock %}
+    </ol>
     {% block content-header %}
     {% endblock %}
     <article class="two-pane">

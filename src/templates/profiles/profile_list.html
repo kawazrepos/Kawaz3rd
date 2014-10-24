@@ -2,6 +2,10 @@
 {% load staticfiles %}
 {% load i18n %}
 {% block title %}{% trans "Members" %}{% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'profiles_profile_list' %}">{% trans "Members" %}</a></li>
+{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/profile.less" %}" media="screen">

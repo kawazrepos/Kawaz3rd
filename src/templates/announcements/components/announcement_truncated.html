@@ -6,7 +6,7 @@
                     <small>
                         <time datetime="{{ object.created_at|date:"c" }}">{{ object.created_at|date:"Y/m/d" }}</time>
                         <a href="{{ object.author.profile.get_absolute_url }}">
-                            <img src="{{ MEDIA_URL }}{{ object.author.avatar.small }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-small" />
+                            <img src="{{ MEDIA_URL }}{{ object.author.get_small_avatar }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-small" />
                         </a>
                         {% if object.pub_state == "protected" %}
                             <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="このお知らせは内部公開に設定されています"></span>

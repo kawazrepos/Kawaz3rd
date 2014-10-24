@@ -9,6 +9,11 @@
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/profile.less" %}" media="screen">
 {% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'profiles_profile_list' %}">{% trans "Members" %}</a></li>
+    <li><a href="{{ object.get_absolute_url }}">{{ object.user.nickname }}</a></li>
+{% endblock %}
 {% block content-main %}
     <div class="row" id="profile-header">
         <div class="col col-lg-5 col-xs-5" id="profile-avatar">

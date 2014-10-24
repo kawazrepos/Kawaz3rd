@@ -7,6 +7,10 @@
 {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
 {% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'blogs_entry_list' %}">{% trans "Blog" %}</a></li>
+{% endblock %}
 {% block content-header %}
     <div class="page-header blog-list-header">
         <div class="header-left">

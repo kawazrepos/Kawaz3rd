@@ -10,6 +10,12 @@
     {% endif %}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url "announcements_announcement_list" %}">{% trans "Announcements" %}</a></li>
+    <li><a href="{% url "announcements_announcement_create" %}">{% trans "Create New Announcement" %}</a></li>
+{% endblock %}
+
 {% block content %}
     <div class="page-header">
         {% if object %}
