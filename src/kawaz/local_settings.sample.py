@@ -20,6 +20,11 @@ ADMINS = (
 # Ref: http://docs.djangoproject.jp/en/latest/topics/cache.html
 CACHES = {
     'default': {
+        # 開発時に高速化したい場合は下記を利用
+        #'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        #'LOCATION': 'this value should be quite unique for Kawaz cache',
+
+        # 本番環境では下記を利用
         'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
         'LOCATION': '127.0.0.1:11211',
     }
