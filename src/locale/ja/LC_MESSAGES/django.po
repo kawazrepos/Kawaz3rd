@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-25 14:41+0900\n"
+"POT-Creation-Date: 2014-10-25 22:41+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,12 +208,12 @@ msgid "Use this to limit the number of attendees."
 msgstr "参加人数に上限を設けたい場合に設定してください"
 
 #: src/kawaz/apps/events/models.py:87
-#: src/templates/events/event_detail.html:142
+#: src/templates/events/event_detail.html:146
 msgid "Organizer"
 msgstr "主催者"
 
 #: src/kawaz/apps/events/models.py:92
-#: src/templates/events/event_detail.html:155
+#: src/templates/events/event_detail.html:159
 msgid "Attendees"
 msgstr "参加者"
 
@@ -298,6 +298,7 @@ msgid "Unfixed"
 msgstr "開催日時未定"
 
 #: src/kawaz/apps/events/models.py:226
+#, python-format
 msgid "%(start)s ~ End time is unfixed"
 msgstr "%(start)s 〜 終了日時未定"
 
@@ -379,9 +380,9 @@ msgid ""
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
 "value cannot be modified for preventing the URL changes."
 msgstr ""
-"作品のURLとなる文字列を設定してください。半角英数字、半角アンダーバー、"
-"半角ハイフンのみ使用できます。一度設定すると変更することはできません。このよ"
-"うに設定されます。http://kawaz.org/products/xxxxxxxxxxxx"
+"作品のURLとなる文字列を設定してください。半角英数字、半角アンダーバー、半角ハ"
+"イフンのみ使用できます。一度設定すると変更することはできません。このように設"
+"定されます。http://kawaz.org/products/xxxxxxxxxxxx"
 
 #: src/kawaz/apps/products/models.py:95 src/kawaz/apps/projects/models.py:110
 msgid "Thumbnail"
@@ -392,8 +393,8 @@ msgid ""
 "This would be used as a product thumbnail image. The aspect ratio of the "
 "image should be 16:9."
 msgstr ""
-"作品のサムネイルとなる画像を設定できます。アスペクト比16:9で設定すると"
-"綺麗に表示されます。"
+"作品のサムネイルとなる画像を設定できます。アスペクト比16:9で設定すると綺麗に"
+"表示されます。"
 
 #: src/kawaz/apps/products/models.py:104
 msgid "Advertisement Image"
@@ -404,8 +405,8 @@ msgid ""
 "This would be used in the top page. The aspect ratio of the image should be "
 "16:9"
 msgstr ""
-"この作品をKawazのトップページに表示したい場合、そのための画像を設定でき"
-"ます。アスペクト比16:9で設定すると綺麗に表示されます。"
+"この作品をKawazのトップページに表示したい場合、そのための画像を設定できます。"
+"アスペクト比16:9で設定すると綺麗に表示されます。"
 
 #: src/kawaz/apps/products/models.py:111
 msgid "Trailer"
@@ -415,8 +416,7 @@ msgstr "トレイラー"
 msgid ""
 "Enter URL of your trailer movie on the YouTube. The movie would be embeded "
 "to the product page."
-msgstr ""
-"Youtubeの動画URLを入力すると、作品ページに埋め込むことができます。"
+msgstr "Youtubeの動画URLを入力すると、作品ページに埋め込むことができます。"
 
 #: src/kawaz/apps/products/models.py:114 src/kawaz/apps/projects/models.py:144
 #: src/templates/roughpages/drafts.authenticated.html:70
@@ -442,8 +442,8 @@ msgid ""
 "How the product displayed on the site top. To use `featured`, it require "
 "`advertisement_image`."
 msgstr ""
-"この作品をトップページへカルーセル + タイル表示する場合、告知用画像を設"
-"定する必要があります。"
+"この作品をトップページへカルーセル + タイル表示する場合、告知用画像を設定する"
+"必要があります。"
 
 #: src/kawaz/apps/products/models.py:148 src/kawaz/apps/products/models.py:202
 #: src/kawaz/apps/products/models.py:282
@@ -459,12 +459,12 @@ msgid "Products"
 msgstr "作品"
 
 #: src/kawaz/apps/products/models.py:162
-msgid ""
-"`feature` display mode require"
-"`advertisement_image`."
+#, fuzzy
+#| msgid "`feature` display mode require`advertisement_image`."
+msgid "`feature` display mode require `advertisement_image`."
 msgstr ""
-"表示モードを「トップページのカルーセル + トップページにタイル表示」にする場合、"
-"「告知用画像」を設定する必要があります"
+"表示モードを「トップページのカルーセル + トップページにタイル表示」にする場"
+"合、「告知用画像」を設定する必要があります"
 
 #: src/kawaz/apps/products/models.py:165
 msgid "slug 'platforms' is reserved."
@@ -913,11 +913,14 @@ msgstr "下書き"
 
 #: src/kawaz/core/registrations/models.py:11
 msgid "Fill your address. You must be related with Sapporo or neighbor cities."
-msgstr "札幌市または近郊都市の在住、もしくは出身などで札幌に縁のある必要があります。"
+msgstr ""
+"札幌市または近郊都市の在住、もしくは出身などで札幌に縁のある必要があります。"
 
 #: src/kawaz/core/registrations/models.py:15
-msgid "Fill your skills or what you want to do which related to game development."
-msgstr "どのようなことができるか、またはどのようなゲームが作りたいか書いてください。"
+msgid ""
+"Fill your skills or what you want to do which related to game development."
+msgstr ""
+"どのようなことができるか、またはどのようなゲームが作りたいか書いてください。"
 
 #: src/kawaz/settings.py:94
 msgid "English"
@@ -948,6 +951,7 @@ msgstr "最近の活動"
 #: src/templates/projects/project_form.html:7
 #: src/templates/projects/project_form.html:17
 #: src/templates/projects/project_form.html:28
+#, python-format
 msgid "Edit %(title)s"
 msgstr "「%(title)s」の編集"
 
@@ -1054,11 +1058,11 @@ msgid "Blog author"
 msgstr "書いた人"
 
 #: src/templates/blogs/components/entry_detail.html:46
-#: src/templates/events/event_detail.html:183
+#: src/templates/events/event_detail.html:187
 #: src/templates/products/product_detail.html:93
 #: src/templates/products/product_list.html:40
 #: src/templates/profiles/profile_detail.html:122
-#: src/templates/projects/project_detail.html:100
+#: src/templates/projects/project_detail.html:118
 msgid "Administration"
 msgstr "管理"
 
@@ -1110,7 +1114,9 @@ msgstr "コメントする"
 msgid ""
 "Participants are only allowed to comment to this entry. Please sign in to "
 "comment."
-msgstr "このエントリにはKawazメンバーのみコメントできます。コメントするにはログインしてください。"
+msgstr ""
+"このエントリにはKawazメンバーのみコメントできます。コメントするにはログインし"
+"てください。"
 
 #: src/templates/comments/form.html:17
 msgid "Post"
@@ -1211,8 +1217,16 @@ msgstr "次のページへ"
 msgid "Older"
 msgstr "前のページへ"
 
-#: src/templates/events/components/list-item.html:28
-#: src/templates/events/event_detail.html:62
+#: src/templates/events/components/list-item.html:17
+#: src/templates/events/event_detail.html:27
+#: src/templates/projects/project_detail.html:44
+#: src/templates/projects/project_detail.html:54
+#: src/templates/projects/project_detail.html:64
+msgid "None"
+msgstr "未設定"
+
+#: src/templates/events/components/list-item.html:32
+#: src/templates/events/event_detail.html:66
 msgid "Venue unfixed"
 msgstr "開催場所未定"
 
@@ -1241,72 +1255,73 @@ msgstr "イベントを作成する"
 msgid "Back to upcoming events"
 msgstr "開催予定イベント一覧に戻る"
 
-#: src/templates/events/event_detail.html:40
+#: src/templates/events/event_detail.html:44
 msgid "unfixed"
 msgstr "未定"
 
-#: src/templates/events/event_detail.html:47
+#: src/templates/events/event_detail.html:51
 msgid "Download in iCal format"
 msgstr "iCal形式でダウンロード"
 
-#: src/templates/events/event_detail.html:55
+#: src/templates/events/event_detail.html:59
 msgid "See this place in Google Maps"
 msgstr "Googleマップでこの場所を見る"
 
-#: src/templates/events/event_detail.html:75
+#: src/templates/events/event_detail.html:79
 msgid "Attend This Event"
 msgstr "このイベントに参加"
 
-#: src/templates/events/event_detail.html:80
-#: src/templates/events/event_detail.html:91
+#: src/templates/events/event_detail.html:84
+#: src/templates/events/event_detail.html:95
 #, python-format
 msgid "Can join %(event.number_restriction)ss after"
 msgstr "あと%(event.number_restriction)s人が参加できます"
 
 # msgstr "あと%(event.number_restriction)人参加できます"
-#: src/templates/events/event_detail.html:86
-#: src/templates/events/event_detail.html:105
+#: src/templates/events/event_detail.html:90
+#: src/templates/events/event_detail.html:109
 msgid "Was closed participation"
 msgstr "参加者締め切りました"
 
-#: src/templates/events/event_detail.html:88
+#: src/templates/events/event_detail.html:92
 msgid "Call for participation now"
 msgstr "参加者募集中"
 
 # msgstr "あと%(event.number_restriction)人参加できます"
-#: src/templates/events/event_detail.html:99
+#: src/templates/events/event_detail.html:103
 msgid "Leave This Event"
 msgstr "参加をやめる"
 
-#: src/templates/events/event_detail.html:108
+#: src/templates/events/event_detail.html:112
 msgid "You need to login in<br> order to participate"
 msgstr "イベントに参加するには<br>ログインする必要があります"
 
-#: src/templates/events/event_detail.html:113
+#: src/templates/events/event_detail.html:117
 msgid "Participation deadline"
 msgstr "参加締切日"
 
-#: src/templates/events/event_detail.html:115
+#: src/templates/events/event_detail.html:119
 msgid "utill"
 msgstr "まで"
 
-#: src/templates/events/event_detail.html:119
+#: src/templates/events/event_detail.html:123
 msgid "Is not have participate deadline"
 msgstr "参加締切はありません"
 
-#: src/templates/events/event_detail.html:159
+#: src/templates/events/event_detail.html:163
+#, python-format
 msgid "There are %(count)s attendees."
 msgstr "%(count)s人の参加者がいます"
 
-#: src/templates/events/event_detail.html:189
+#: src/templates/events/event_detail.html:193
 msgid "Update event"
 msgstr "イベントを編集"
 
-#: src/templates/events/event_detail.html:195
+#: src/templates/events/event_detail.html:199
 msgid "Do you want to delete this event?"
 msgstr "このイベントを削除してもよろしいですか？"
 
-#: src/templates/events/event_detail.html:196
+#: src/templates/events/event_detail.html:200
 msgid "Delete event"
 msgstr "イベントを削除"
 
@@ -1447,43 +1462,43 @@ msgstr "%(count)s件のアーカイブされたプロジェクトがあります
 msgid "Created At"
 msgstr "作成日"
 
-#: src/templates/projects/project_detail.html:43
+#: src/templates/projects/project_detail.html:49
 msgid "Tracker"
 msgstr "トラッカー"
 
-#: src/templates/projects/project_detail.html:47
+#: src/templates/projects/project_detail.html:59
 msgid "Repository"
 msgstr "リポジトリ"
 
-#: src/templates/projects/project_detail.html:67
+#: src/templates/projects/project_detail.html:85
 msgid "Join This Project"
 msgstr "プロジェクトに参加する"
 
-#: src/templates/projects/project_detail.html:74
+#: src/templates/projects/project_detail.html:92
 msgid "Join Members"
 msgstr "所属メンバー"
 
-#: src/templates/projects/project_detail.html:88
+#: src/templates/projects/project_detail.html:106
 msgid "operation"
 msgstr "イベント管理"
 
-#: src/templates/projects/project_detail.html:91
+#: src/templates/projects/project_detail.html:109
 msgid "Leave this project"
 msgstr "プロジェクトから抜ける"
 
-#: src/templates/projects/project_detail.html:104
+#: src/templates/projects/project_detail.html:122
 msgid "Create Project"
 msgstr "新しいプロジェクトを作成する"
 
-#: src/templates/projects/project_detail.html:107
+#: src/templates/projects/project_detail.html:125
 msgid "Update Project"
 msgstr "プロジェクトを編集"
 
-#: src/templates/projects/project_detail.html:112
+#: src/templates/projects/project_detail.html:130
 msgid "Do you want to delete this project?"
 msgstr "このプロジェクトを削除してよろしいですか？"
 
-#: src/templates/projects/project_detail.html:113
+#: src/templates/projects/project_detail.html:131
 msgid "Delete Project"
 msgstr "プロジェクトを削除"
 
@@ -1537,8 +1552,8 @@ msgid ""
 "We've sent an email to your mail address. Click the link in the email to "
 "reset your password."
 msgstr ""
-"登録メールアドレスへメールを送信しました。記載されているリンクをクリックすることで"
-"パスワードをリセットできます。"
+"登録メールアドレスへメールを送信しました。記載されているリンクをクリックする"
+"ことでパスワードをリセットできます。"
 
 #: src/templates/registration/password_reset_done.html:5
 msgid "Your password successfully reset"
@@ -1558,7 +1573,8 @@ msgid "Application is currently disabled."
 msgstr "現在、会員登録を停止中です"
 
 #: src/templates/registration/registration_closed.html:8
-msgid "Participants application is currently disabled. Please contact us to join."
+msgid ""
+"Participants application is currently disabled. Please contact us to join."
 msgstr "現在、新規メンバー登録を停止中です。管理者に問い合わせてください"
 
 #: src/templates/registration/registration_complete.html:5
@@ -1570,8 +1586,7 @@ msgid ""
 "Your application was sent to administrators. We'll send back to you soon. "
 "Just a moment."
 msgstr ""
-"登録申請が送信されました！　管理者から返信があるので"
-"少しお待ちください。"
+"登録申請が送信されました！　管理者から返信があるので少しお待ちください。"
 
 #: src/templates/registration/registration_form.html:7
 msgid "Application for join us"
