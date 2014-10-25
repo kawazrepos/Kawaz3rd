@@ -41,9 +41,11 @@ Kawazでは、月1回程度を目処に全体ミーティングを開いてお�
 
 Kawazには、作成したゲームを多くの人に遊んで貰うために、以下のようなイベントに出展しているプロジェクト（チーム）もあります。
 
-- CEDEC、IGDA
-- 東京ゲームショウ、BitSummit
-- コミックマーケット、M3、デジゲー博
+- [東京ゲームショウ](http://expo.nikkeibp.co.jp/tgs/)、[BitSummit](http://bitsummit.org/index-jp.html)
+- [CEDEC](http://cedec.cesa.or.jp/)、[GDC](http://www.gdconf.com/)
+- [コミックマーケット](http://www.comiket.co.jp/)、[M3](http://www.m3net.jp/)、[デジゲー博](http://digigame-expo.org/)
+
+など
 
 
 ### ゲーム開発イベント「ゲームジャム」の運営
