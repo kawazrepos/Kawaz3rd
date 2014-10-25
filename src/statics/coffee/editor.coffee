@@ -1,4 +1,24 @@
+# 現在の画面サイズを判定する
+# http://stackoverflow.com/questions/14441456/how-to-detect-which-device-view-youre-on-using-twitter-bootstrap-api
+findBootstrapEnvironment = ->
+  envs = ['xs', 'sm', 'md', 'lg']
+  $el = $('<div>')
+  $el.appendTo($('body'))
+
+  for env in envs.reverse()
+    $el.addClass("hidden-#{env}")
+    if $el.is(':hidden')
+      $el.remove()
+      return env
+
 $ ->
+
+  # モバイル環境ならMaceを殺す
+  env = findBootstrapEnvironment()
+  if env is 'xs' or env is 'sm'
+    $('.editor-control').remove()
+    return false
+
   # 添付素材用のポップアップを表示する
   showAttachmentPopup = ->
     $targetEditor = $(@).closest('.editor-control').prev('textarea')
