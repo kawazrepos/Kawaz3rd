@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-26 00:49+0900\n"
+"POT-Creation-Date: 2014-10-26 01:07+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -945,7 +945,6 @@ msgstr "最近の活動"
 msgid "Edit %(title)s"
 msgstr "「%(title)s」の編集"
 
-# msgstr "%(count)件のお知らせ"
 #: src/templates/announcements/announcement_form.html:9
 #: src/templates/announcements/announcement_form.html:19
 #: src/templates/announcements/announcement_form.html:28
@@ -955,11 +954,10 @@ msgstr "お知らせを作成する"
 #: src/templates/announcements/announcement_list.html:19
 #, python-format
 msgid "There is only one announcement entry."
-msgid_plural "There are %(count)s announcement entries."
+msgid_plural "There are %(counter)s announcement entries."
 msgstr[0] "1件のお知らせがあります"
-msgstr[1] "%(count)s件のお知らせがあります"
+msgstr[1] "%(counter)s件のお知らせがあります"
 
-# msgstr "%(count)件のお知らせ"
 #: src/templates/announcements/announcement_list.html:38
 msgid "Recent Announcements"
 msgstr "最近のお知らせ"
@@ -1053,7 +1051,7 @@ msgid "Blog author"
 msgstr "書いた人"
 
 #: src/templates/blogs/components/entry_detail.html:46
-#: src/templates/events/event_detail.html:183
+#: src/templates/events/event_detail.html:181
 #: src/templates/products/product_detail.html:93
 #: src/templates/products/product_list.html:40
 #: src/templates/profiles/profile_detail.html:122
@@ -1087,9 +1085,9 @@ msgstr "ブログ記事"
 #: src/templates/blogs/entry_list.html:18
 #, python-format
 msgid "These is one blog entry."
-msgid_plural "There are %(count)s blog entries."
+msgid_plural "There are %(counter)s blog entries."
 msgstr[0] "1件のブログ記事"
-msgstr[1] "%(count)s件のブログ記事"
+msgstr[1] "%(counter)s件のブログ記事"
 
 #: src/templates/blogs/entry_list.html:37
 msgid "Hot entries"
@@ -1258,9 +1256,9 @@ msgstr "このイベントに参加"
 #: src/templates/events/event_detail.html:91
 #, python-format
 msgid "Only one person can join this event"
-msgid_plural "%(count)s people can join this event"
+msgid_plural "%(counter)s people can join this event"
 msgstr[0] "あと一人だけ参加できます"
-msgstr[1] "あと%(event.number_restriction)s人だけ参加できます"
+msgstr[1] "あと%(counter)s人だけ参加できます"
 
 #: src/templates/events/event_detail.html:86
 #: src/templates/events/event_detail.html:105
@@ -1291,22 +1289,22 @@ msgstr "まで"
 msgid "No participation deadline"
 msgstr "参加締切はありません"
 
-#: src/templates/events/event_detail.html:159
+#: src/templates/events/event_detail.html:158
 #, python-format
 msgid "There is one attendee."
-msgid_plural "There are %(count)s attendees."
+msgid_plural "There are %(counter)s attendees."
 msgstr[0] "一人の参加者が居ます"
-msgstr[1] "%(count)s人の参加者が居ます"
+msgstr[1] "%(counter)s人の参加者が居ます"
 
-#: src/templates/events/event_detail.html:189
+#: src/templates/events/event_detail.html:187
 msgid "Update the event"
 msgstr "イベントを編集"
 
-#: src/templates/events/event_detail.html:195
+#: src/templates/events/event_detail.html:193
 msgid "Do you want to delete the event?"
 msgstr "このイベントを削除してもよろしいですか？"
 
-#: src/templates/events/event_detail.html:196
+#: src/templates/events/event_detail.html:194
 msgid "Delete the event"
 msgstr "イベントを削除"
 
@@ -1421,9 +1419,9 @@ msgstr "アーカイブされたプロジェクト"
 #: src/templates/projects/project_archive.html:13
 #, python-format
 msgid "There is one archived project."
-msgid_plural "There are %(count)s archived projects."
+msgid_plural "There are %(counter)s archived projects."
 msgstr[0] "1件のアーカイブされたプロジェクトがあります"
-msgstr[1] "%(count)s件のアーカイブされたプロジェクトがあります"
+msgstr[1] "%(counter)s件のアーカイブされたプロジェクトがあります"
 
 #: src/templates/projects/project_detail.html:43
 msgid "Tracker"
