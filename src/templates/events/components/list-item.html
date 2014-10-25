@@ -11,7 +11,11 @@
                 <h3>{% if event.period_start %}<span class="title-date">{{ event.period_start | date:"m/d" }} </span>{% endif %}{{ event.title }}</h3>
                 <div class="event-category">
                     <span class="glyphicon glyphicon-folder-open event-category-icon"></span>
-                    <span>{{ event.category | default_if_none:"未設定" }}</span>
+                {% if event.category %}
+                    <span>{{ event.category }}</span>
+                {% else %}
+                    <span class="none_set">{% trans "None" %}</span>
+                {% endif %}
                 </div>
             </div>
 
