@@ -29,39 +29,47 @@ html {
     padding-right: 15px;
     padding-left: 15px;
     h2 {
-      margin-bottom: 30px;
+      margin: 45px 0 30px;
+    }
+    h3 {
+      border-bottom: 1px dotted @gray-base;
+      padding-bottom: 10px;
     }
     .text-muted {
       margin: 20px 0;
     }
-    @image-width: 300px;
-    .footer-logo {
-      width: @image-width;
-      margin: 0 auto;
-    }
-    .register-button-wrapper {
-      height: 80px;
-      padding-top: 10px;
-      div {
-        padding-top: 10px;
+    .footer-about-us {
+      margin: 20px 0;
+      @image-width: 300px;
+      .footer-logo {
+        width: @image-width;
         margin: 0 auto;
-        width: @image-width;
       }
-      a {
-        width: @image-width;
+      .register-button-wrapper {
+        height: 80px;
+        div {
+          padding-top: 10px;
+          margin: 0 auto;
+          width: @image-width;
+        }
+        a {
+          width: @image-width;
+        }
       }
-    }
-    .footer-nav {
-
-      padding-left: 15px;
-      li {
-        list-style: none;
+      .footer-about-text {
+        margin-top: 15px;
       }
-      a {
-        color: rgb(170, 177, 183);
-        &:hover {
-          text-decoration: none;
-          color: @gray-lighter;
+      .footer-nav {
+        padding-left: 15px;
+        li {
+          list-style: none;
+        }
+        a {
+          color: rgb(170, 177, 183);
+          &:hover {
+            text-decoration: none;
+            color: @gray-lighter;
+          }
         }
       }
     }
@@ -266,6 +274,12 @@ span {
 // protected title background color
 .bg-protected {
   background: #FCF8E3;
+}
+
+// 「未設定」
+.none_set {
+  color: @gray-light;
+  font-style: italic;
 }
 
 // 神降臨
