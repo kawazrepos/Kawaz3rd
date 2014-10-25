@@ -9,6 +9,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^central-dogma/', include(admin.site.urls)),
     url(r'^api/', include('kawaz.api.urls')),
+    url(r'^activities/', include('kawaz.core.activities.urls')),
     url(r'^announcements/', include('kawaz.apps.announcements.urls')),
     url(r'^events/', include('kawaz.apps.events.urls')),
     url(r'^members/', include('kawaz.apps.profiles.urls')),

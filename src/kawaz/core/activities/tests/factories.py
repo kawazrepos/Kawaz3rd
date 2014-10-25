@@ -13,4 +13,3 @@ __author__ = 'giginet'
 
 class ActivityFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Activity
-
