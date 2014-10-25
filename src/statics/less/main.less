@@ -1,6 +1,8 @@
 @import "../vendor/bootstrap/less/bootstrap.less";
 @import "common/define";
 
+@footer-muted-color: #777777;
+
 #featured-products>.carousel-inner>.item {
   img{
     min-width: 100%;
@@ -49,6 +51,26 @@ html {
         width: @image-width;
       }
     }
+    .footer-nav {
+
+      padding-left: 15px;
+      li {
+        list-style: none;
+      }
+      a {
+        color: rgb(170, 177, 183);
+        &:hover {
+          text-decoration: none;
+          color: @gray-lighter;
+        }
+      }
+    }
+  }
+}
+.django {
+  color: @footer-muted-color;
+  &:hover {
+    color: @footer-muted-color;
   }
 }
 .btn-default, .btn-primary {
