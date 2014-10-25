@@ -10,12 +10,12 @@
             {% crispy comment_form bare %}
             <input type="hidden" name="next" value="{{ request.path }}" />
             <div class="form-group">
-                <input type="submit" class="comment-submit btn btn-success btn-lg" value="{% trans "Post Comment" %}" />
+                <input type="submit" class="comment-submit btn btn-success btn-lg" value="{% trans "Post a comment" %}" />
             </div>
         </form>
     </div>
 {% else %}
     <div class="alert alert-warning">
-        {% trans "Participants are only allowed to comment to this entry. Please sign in to comment." %}
+        {% trans "Participants are only allowed to comment on the entry. Please login to comment." %}
     </div>
 {% endif %}

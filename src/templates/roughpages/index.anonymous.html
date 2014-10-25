@@ -44,7 +44,7 @@
 </div>
 <div id="recent-activity-container">
     <div class="container">
-        <h2>{% trans "Recent Activity" %}</h2>
+        <h2>{% trans "Recent activities" %}</h2>
         <div class="row">
             {% get_hatenablog_entries as hatenablog_entries %}
             {% for hatenablog_entry in hatenablog_entries|slice:"3" %}
@@ -57,7 +57,7 @@
             {% endfor %}
         </div>
         <div class="see-more">
-            <a href="http://kawazinfo.hateblo.jp/" target="_blank">{% trans "See More" %}
+            <a href="http://kawazinfo.hateblo.jp/" target="_blank">{% trans "See more" %}
                 <span class="glyphicon glyphicon-chevron-right"></span>
             </a>
         </div>
@@ -65,7 +65,7 @@
 </div>
 {% endblock %}
 {% block content %}
-    <h2>{% trans "Recent Games" %}</h2>
+    <h2>{% trans "Recent games" %}</h2>
     <div id="recent_products" class="row list-group">
     {% get_products 'normal' as recent_products %}
     {% for product in recent_products|slice:":5" %}
@@ -74,7 +74,7 @@
     </div>
     {% endfor %}
     </div>
-    <h2>{% trans "Featured Games" %}</h2>
+    <h2>{% trans "Featured games" %}</h2>
     <div id="products" class="row list-group">
     {% get_products as products %}
     {% for product in products %}
@@ -85,7 +85,7 @@
     </div>
     <div class="see-more">
         <a href="{% url "products_product_list" %}" target="_blank">
-            {% trans "See More" %}<span class="glyphicon glyphicon-chevron-right"></span>
+            {% trans "See more" %}<span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
 {% endblock %}
@@ -125,9 +125,9 @@
                 <h3>{% trans "Information" %}</h3>
                 <ul class="footer-nav text-left">
                     <li><a href="/about/">{% trans "About us" %}</a></li>
-                    <li><a href="/published/">{% trans "Publish Information" %}</a></li>
-                    <li><a href="/privacy-policy/">{% trans "Privacy Policy" %}</a></li>
-                    <li><a href="/participation/">{% trans "How to participation in" %}</a></li>
+                    <li><a href="/published/">{% trans "Published information" %}</a></li>
+                    <li><a href="/privacy-policy/">{% trans "Privacy policy" %}</a></li>
+                    <li><a href="/participation/">{% trans "How to participate" %}</a></li>
                 </ul>
             </div>
         </div>

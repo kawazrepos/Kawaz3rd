@@ -135,7 +135,10 @@ class Event(models.Model):
                    Event.objects.filter(pk=self.pk).count() == 0)):
                 raise ValidationError(_('Start time must be future.'))
             elif (self.period_end - self.period_start).days > 7:
-                raise ValidationError(_('The period of event is too long.'))
+                raise ValidationError(_(
+                    'The period of event is too long. '
+                    'The period must be shorter than 7 days.'
+                ))
         elif self.period_end and not self.period_start:
             raise ValidationError(_('You must set end time too'))
         if self.number_restriction is not None and self.number_restriction < 1:
@@ -221,7 +224,7 @@ class Event(models.Model):
             return ' '.join(times)
 
         if not self.period_start and not self.period_end:
-            return _('Unfixed')
+            return _('Start time is unfixed')
         elif not self.period_end:
             return _('%(start)s ~ End time is unfixed') % {
                 'start': humanize(self.period_start)

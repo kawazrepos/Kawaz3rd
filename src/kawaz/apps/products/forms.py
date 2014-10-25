@@ -28,7 +28,8 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         label=_('Categories'),
         widget=widgets.CheckboxSelectMultiple,
         queryset=Category.objects.all().order_by('pk'))
-    publish_at = forms.DateField(label=_('Publish at'), widget=forms.DateInput(attrs={'type': 'date'}))
+    # TODO: published
+    publish_at = forms.DateField(label=_('Published at'), widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Product

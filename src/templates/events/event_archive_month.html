@@ -15,7 +15,7 @@
 {% block content-main %}
 <div class="event-list-wrap">
     <div class="page-header event-list-header">
-      <h2>{% trans "Event Archives" %}</h2>
+      <h2>{% trans "Event archives" %}</h2>
     </div>
     {% for event in object_list %}
       {% include "events/components/list-item.html" %}
@@ -29,7 +29,7 @@
     {% if user has 'events.add_event' %}
     <a href="{% url "events_event_create" %}"
        class="btn btn-success event-join-btn btn-large">
-        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create event" %}</span>
+        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create a new event" %}</span>
     </a>
     {% endif %}
   </div>
@@ -38,7 +38,7 @@
     {# 過去のイベントリスト #}
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">{% trans "Event Archives" %}</h3>
+        <h3 class="panel-title">{% trans "Event archives" %}</h3>
       </div>
       <div class="list-group">
       {% get_monthly_archives as archives %}

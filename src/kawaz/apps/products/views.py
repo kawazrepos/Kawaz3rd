@@ -162,7 +162,7 @@ class ProductCreateView(ProductFormMixin, CreateView):
         return super().post(request, *args, **kwargs)
 
     def get_success_message(self, cleaned_data):
-        return _("""Product '%(title)s' successfully created.""") % {
+        return _("""A product '%(title)s' was successfully created.""") % {
             'title': cleaned_data['title']
         }
 
@@ -180,7 +180,7 @@ class ProductUpdateView(ProductFormMixin, UpdateView):
         return super().post(request, *args, **kwargs)
 
     def get_success_message(self, cleaned_data):
-        return _("""Product '%(title)s' successfully updated.""") % {
+        return _("""The product '%(title)s' was successfully updated.""") % {
             'title': cleaned_data['title']
         }
 
@@ -191,7 +191,7 @@ class ProductDeleteView(DeleteSuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('products_product_list')
 
     def get_success_message(self):
-        return _("Product successfully deleted.")
+        return _("The product was successfully deleted.")
 
 
 class ProductPreview(SingleObjectPreviewMixin, DetailView):

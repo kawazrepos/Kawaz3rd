@@ -62,7 +62,7 @@ class EventCreateView(SuccessMessageMixin, CreateView):
     form_class = EventForm
 
     def get_success_message(self, cleaned_data):
-        return _("""Event '%(title)s' successfully created.""") % {
+        return _("""A event '%(title)s' was successfully created.""") % {
             'title': cleaned_data['title']
         }
 
@@ -77,7 +77,7 @@ class EventUpdateView(SuccessMessageMixin, UpdateView):
     form_class = EventForm
 
     def get_success_message(self, cleaned_data):
-        return _("""Event '%(title)s' successfully updated.""") % {
+        return _("""The event '%(title)s' was successfully updated.""") % {
             'title': cleaned_data['title']
         }
 
@@ -88,7 +88,7 @@ class EventDeleteView(DeleteSuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('events_event_list')
 
     def get_success_message(self):
-        return _("Event successfully deleted.")
+        return _("The event was successfully deleted.")
 
 @permission_required('events.attend_event')
 class EventAttendView(UpdateView):
@@ -104,7 +104,8 @@ class EventAttendView(UpdateView):
         """
         self.object = self.get_object()
         success_url = self.get_success_url()
-        messages.add_message(request, messages.SUCCESS, _('You have been attended this event.'))
+        messages.add_message(request, messages.SUCCESS,
+                             _('You have just attended the event.'))
         try:
             self.object.attend(request.user)
             return HttpResponseRedirect(success_url)
@@ -127,12 +128,13 @@ class EventQuitView(UpdateView):
 
     def quit(self, request, *args, **kwargs):
         """
-        Calls the attend() method on the fetched object and then
+        Calls the quit() method on the fetched object and then
         redirects to the success URL.
         """
         self.object = self.get_object()
         success_url = self.get_success_url()
-        messages.add_message(request, messages.SUCCESS, _('You have been quited from this event.'))
+        messages.add_message(request, messages.SUCCESS,
+                             _('You have just withdraw from the event.'))
         try:
             self.object.quit(request.user)
             return HttpResponseRedirect(success_url)
@@ -180,7 +182,9 @@ class EventCalendarView(DetailView):
         object = context['object']
 
         if not object.period_start or object.pub_state == 'draft':
-            return HttpResponseNotFound(_('Event must be public or have `period_start`.'))
+            return HttpResponseNotFound(_(
+                'The event is private or does not have start time.'
+            ))
         cal = generate_ical(object)
         file = io.BytesIO(cal.to_ical())
         # テストの際に、closeされてしまうため

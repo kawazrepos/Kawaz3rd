@@ -14,7 +14,7 @@ class Category(models.Model):
 
     スタッフが作成し、メンバーがプロジェクト作成・編集時に利用する
     """
-    label = models.CharField(_('Name'), max_length=32, unique=True)
+    label = models.CharField(_('Category name'), max_length=32, unique=True)
 
     class Meta:
         ordering = ('label',)

@@ -92,7 +92,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
             form=form, formset=formset))
 
     def get_success_message(self, cleaned_data):
-        return _("Your profile successfully updated.")
+        return _("Your profile was successfully updated.")
 
 
 @permission_required('profiles.view_profile')

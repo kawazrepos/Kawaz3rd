@@ -50,7 +50,7 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""Project '%(title)s' successfully created.""") % {
+        return _("""A project '%(title)s' was successfully created.""") % {
             'title': cleaned_data['title']
         }
 
@@ -65,7 +65,7 @@ class ProjectUpdateView(SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""Project '%(title)s' successfully updated.""") % {
+        return _("""The project '%(title)s' was successfully updated.""") % {
             'title': cleaned_data['title']
         }
 
@@ -75,7 +75,7 @@ class ProjectDeleteView(DeleteSuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('projects_project_list')
 
     def get_success_message(self):
-        return _("Project successfully deleted.")
+        return _("The project was successfully deleted.")
 
 @permission_required('projects.view_project')
 class ProjectDetailView(DetailView):
@@ -109,7 +109,8 @@ class ProjectJoinView(SingleObjectMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.join(request.user)
-        messages.add_message(request, messages.SUCCESS, _('You have been joined to this project.'))
+        messages.add_message(request, messages.SUCCESS,
+                             _('You have just joined to the project.'))
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, **kwargs):
@@ -128,7 +129,8 @@ class ProjectQuitView(SingleObjectMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.quit(request.user)
-        messages.add_message(request, messages.SUCCESS, _('You have been quited from this project.'))
+        messages.add_message(request, messages.SUCCESS, 
+                             _('You have just leave the project.'))
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, **kwargs):

@@ -3,13 +3,13 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-{% trans "Edit Profile" %}
+{% trans "Edit your profile" %}
 {% endblock %}
 
 
 {% block content-header %}
     <div class="page-header">
-        <h1>{% trans "Edit Profile" %}</h1>
+        <h1>{% trans "Edit your profile" %}</h1>
     </div>
 {% endblock %}
 {% block breadcrumb %}
@@ -22,7 +22,7 @@
         <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
             {% crispy form %}
             <div class="form-group formset row" prefix="{{ formset.prefix }}" id="formset-{{ formset.prefix }}">
-                <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "Available Services" %}</label>
+                <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "Using services" %}</label>
                 <div class="col-sm-8 col-lg-8">
                     {% crispy formset "crispy" %}
                 </div>

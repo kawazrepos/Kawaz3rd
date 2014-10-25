@@ -53,32 +53,32 @@
                             {{ user.nickname }} <b class="caret"></b>
                         </button>
                         <ul class="dropdown-menu authenticated-menu" role="menu">
-                            <li><a href="{{ user.profile.get_absolute_url }}"><span class="glyphicon glyphicon-home"></span> {% trans "View Profile" %}</a></li>
-                            <li><a href="/drafts"><span class="glyphicon glyphicon-inbox"></span>{% trans "Manage Drafts" %}</a></li>
+                            <li><a href="{{ user.profile.get_absolute_url }}"><span class="glyphicon glyphicon-home"></span> {% trans "View profile" %}</a></li>
+                            <li><a href="/drafts"><span class="glyphicon glyphicon-inbox"></span>{% trans "Manage drafts" %}</a></li>
                             <li role="presentation" class="divider"></li>
-                            <li><a href="{% url "profiles_profile_update" %}"><span class="glyphicon glyphicon-pencil"></span>{% trans "Change Profile" %}</a></li>
-                            <li><a href="{% url "personas_persona_update" %}"><span class="glyphicon glyphicon-user"></span>{% trans "Change User Information" %}</a></li>
-                            <li><a href="{% url "password_change" %}"><span class="glyphicon glyphicon-wrench"></span>{% trans "Change Password" %}</a></li>
+                            <li><a href="{% url "profiles_profile_update" %}"><span class="glyphicon glyphicon-pencil"></span>{% trans "Change profile" %}</a></li>
+                            <li><a href="{% url "personas_persona_update" %}"><span class="glyphicon glyphicon-user"></span>{% trans "Change user information" %}</a></li>
+                            <li><a href="{% url "password_change" %}"><span class="glyphicon glyphicon-wrench"></span>{% trans "Change password" %}</a></li>
                             <li role="presentation" class="divider"></li>
                             {% if user.is_staff %}
                                 <li><a href="/central-dogma/" target="_blank"><span class="glyphicon glyphicon-cog"></span>{% trans "Central Dogma" %}</a></li>
-                                <li><a href=https://www.google.com/analytics/reporting/?reset=1&amp;id=38943028" target="_blank"><span class="glyphicon glyphicon-stats"></span>{% trans "Marduk Institute" %}</a></li>
+                                <li><a href=https://www.google.com/analytics/reporting/?reset=1&amp;id=38943028" target="_blank"><span class="glyphicon glyphicon-stats"></span>{% trans "Marduk institute" %}</a></li>
                             {% endif %}
                             {% if user has 'personas.assign_role_persona' %}
                                 {% if user.is_superuser %}
                                     <li>
                                         <a class="post-link"
                                            href="{% url "personas_persona_assign_seele" %}">
-                                            <span class="glyphicon glyphicon-tower"></span>{% trans "Make me human" %}
+                                            <span class="glyphicon glyphicon-tower"></span>{% trans "Demote to 'seele'" %}
                                             <form method="POST" style="display: none;">{% csrf_token %}</form>
                                         </a>
                                     </li>
                                 {% else %}
                                     <li>
                                         <a class="post-link"
-                                           confirm-message="{% trans "!CAUTION! You will get superuser privilege. Thus you can access to all records in this system." %}"
+                                           confirm-message="{% trans "!CAUTION! Promoting to 'Adam' is strongly not recommended while you will have any permissions to any object in this system. It means that you potentially cause critical damages on the system. Are you sure to promote?" %}"
                                            href="{% url "personas_persona_assign_adam" %}">
-                                            <span class="glyphicon glyphicon-tower"></span>{% trans "Make me God" %}
+                                            <span class="glyphicon glyphicon-tower"></span>{% trans "Promote to 'Adam'" %}
                                             <form method="POST" style="display: none;">{% csrf_token %}</form>
                                         </a>
                                     </li>
