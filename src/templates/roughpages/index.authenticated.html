@@ -22,17 +22,11 @@
     <div class="page-header">
         <h2>Activities</h2>
     </div>
-    <section id="activity-container">
-        <div class="activity-line"></div>
-        {% get_latest_activities as activities %}
-        {% for activity in activities|slice:":10" %}
-            <article class="activity">
-                {% render_activity activity of 'root' %}
-            </article>
-        {% empty %}
-            <div class="alert alert-info">まだ、活動はありません</div>
-        {% endfor %}
-    </section>
+    {% get_latest_activities as activities %}
+    {% include "activities/components/activity_container.html" with activities=activities %}
+    <div class="text-center">
+        <a class="btn btn-default" href="{% url "activities_activity_list" %}?page=2&type=wall">{% trans "Read More" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div>
 
 {% endblock %}
 {% block content-aside %}

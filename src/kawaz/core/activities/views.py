@@ -4,9 +4,7 @@ __author__ = 'giginet'
 
 from django.views.generic.list import ListView
 from activities.models import Activity
-from kawaz.core.personas.perms import ChildrenPermissionLogic
 
-#@permission_required('activities.view_activity')
 class ActivityListView(ListView):
     paginate_by = 10
     model = Activity

@@ -1,1 +1,15 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block title %}{% trans "Past Activities" %}{% endblock %}
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h2>Activities</h2>
+    </div>
+    {% include "activities/components/activity_container.html" with activities=object_list %}
+    {% include "components/paginator.html" %}
+{% endblock %}
