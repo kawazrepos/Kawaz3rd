@@ -57,7 +57,7 @@ msgstr "更新日時"
 #: src/kawaz/apps/announcements/models.py:71
 #: src/kawaz/apps/products/models.py:126 src/kawaz/apps/projects/models.py:130
 msgid "Last modified by"
-msgstr "最終更新日"
+msgstr "最終更新者"
 
 #: src/kawaz/apps/announcements/models.py:79
 msgid "Announcement"
@@ -371,7 +371,7 @@ msgstr "トップページには表示されず、詳細ページでのみタイ
 
 #: src/kawaz/apps/products/models.py:85
 msgid "Product slug"
-msgstr "プロダクトID"
+msgstr "作品ID"
 
 #: src/kawaz/apps/products/models.py:86
 msgid ""
@@ -379,7 +379,7 @@ msgid ""
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
 "value cannot be modified for preventing the URL changes."
 msgstr ""
-"プロダクトのURLとなる文字列を設定してください。半角英数字、半角アンダーバー、"
+"作品のURLとなる文字列を設定してください。半角英数字、半角アンダーバー、"
 "半角ハイフンのみ使用できます。一度設定すると変更することはできません。このよ"
 "うに設定されます。http://kawaz.org/products/xxxxxxxxxxxx"
 
@@ -392,7 +392,7 @@ msgid ""
 "This would be used as a product thumbnail image. The aspect ratio of the "
 "image should be 16:9."
 msgstr ""
-"プロダクトのサムネイルとなる画像を設定できます。アスペクト比16:9で設定すると"
+"作品のサムネイルとなる画像を設定できます。アスペクト比16:9で設定すると"
 "綺麗に表示されます。"
 
 #: src/kawaz/apps/products/models.py:104
@@ -404,7 +404,7 @@ msgid ""
 "This would be used in the top page. The aspect ratio of the image should be "
 "16:9"
 msgstr ""
-"このプロダクトをKawazのトップページに表示したい場合、そのための画像を設定でき"
+"この作品をKawazのトップページに表示したい場合、そのための画像を設定でき"
 "ます。アスペクト比16:9で設定すると綺麗に表示されます。"
 
 #: src/kawaz/apps/products/models.py:111
@@ -416,7 +416,7 @@ msgid ""
 "Enter URL of your trailer movie on the YouTube. The movie would be embeded "
 "to the product page."
 msgstr ""
-"Youtubeの動画URLを入力すると、プロダクトページに埋め込むことができます。"
+"Youtubeの動画URLを入力すると、作品ページに埋め込むことができます。"
 
 #: src/kawaz/apps/products/models.py:114 src/kawaz/apps/projects/models.py:144
 #: src/templates/roughpages/drafts.authenticated.html:70
@@ -442,13 +442,13 @@ msgid ""
 "How the product displayed on the site top. To use `featured`, it require "
 "`advertisement_image`."
 msgstr ""
-"このプロダクトをトップページへカルーセル + タイル表示する場合、告知用画像を設"
+"この作品をトップページへカルーセル + タイル表示する場合、告知用画像を設"
 "定する必要があります。"
 
 #: src/kawaz/apps/products/models.py:148 src/kawaz/apps/products/models.py:202
 #: src/kawaz/apps/products/models.py:282
 msgid "Product"
-msgstr "プロダクト"
+msgstr "作品"
 
 #: src/kawaz/apps/products/models.py:149 src/templates/base.html:39
 #: src/templates/products/product_detail.html:13
@@ -456,7 +456,7 @@ msgstr "プロダクト"
 #: src/templates/products/product_list.html:12
 #: src/templates/roughpages/helps/products.html:7
 msgid "Products"
-msgstr "プロダクト"
+msgstr "作品"
 
 #: src/kawaz/apps/products/models.py:162
 msgid ""
@@ -1374,11 +1374,11 @@ msgstr "パッケージ"
 
 #: src/templates/products/product_list.html:5
 msgid "All products"
-msgstr "すべてのプロダクト"
+msgstr "すべての作品"
 
 #: src/templates/products/product_list.html:16
 msgid "Product List"
-msgstr "プロダクト一覧"
+msgstr "作品一覧"
 
 #: src/templates/profiles/profile_detail.html:7
 #, python-format
@@ -1400,7 +1400,7 @@ msgstr "書いたブログはまだありません"
 
 #: src/templates/profiles/profile_detail.html:102
 msgid "Read all entries"
-msgstr "このユーザのすべてのブログを読む"
+msgstr "このユーザのすべての記事を読む"
 
 #: src/templates/profiles/profile_detail.html:106
 msgid "No entries have been written yet."
@@ -1555,11 +1555,11 @@ msgstr "ユーザー情報の変更"
 
 #: src/templates/registration/registration_closed.html:5
 msgid "Application is currently disabled."
-msgstr "この機能はまだ使用できません"
+msgstr "現在、会員登録を停止中です"
 
 #: src/templates/registration/registration_closed.html:8
 msgid "Participants application is currently disabled. Please contact us to join."
-msgstr "このKawazメンバー向け機能は、今はまだ使用できません。参加申請を完了させてください。"
+msgstr "現在、新規メンバー登録を停止中です。管理者に問い合わせてください"
 
 #: src/templates/registration/registration_complete.html:5
 msgid "Your application have been sent"
@@ -1588,7 +1588,7 @@ msgstr "Kawazとは"
 
 #: src/templates/roughpages/drafts.authenticated.html:36
 msgid "There are no announcements in draft."
-msgstr "お知らせ下書きはありません"
+msgstr "お知らせの下書きはありません"
 
 #: src/templates/roughpages/drafts.authenticated.html:51
 msgid "There are no blog entries in draft."
@@ -1636,7 +1636,7 @@ msgstr "プライバシーポリシー"
 
 #: src/templates/roughpages/index.anonymous.html:130
 msgid "How to participation in"
-msgstr "参加方法"
+msgstr "メンバー登録について"
 
 #: src/templates/roughpages/index.anonymous.html:136
 msgid "Contacts"
