@@ -20,6 +20,7 @@ script:
 after_success:
   - coverage report
   - coveralls --rcfile=config/coveragerc
+  - pip freeze
 
 notifications:
   slack: kawaz:Dh59b2T0KqhQnBR6qHYUDdpn
