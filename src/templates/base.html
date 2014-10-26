@@ -76,7 +76,7 @@
                                 {% else %}
                                     <li>
                                         <a class="post-link"
-                                           confirm-message="{% trans "!CAUTION! Promoting to 'Adam' is strongly not recommended while you will have any permissions to any object in this system. It means that you potentially cause critical damages on the system. Are you sure to promote?" %}"
+                                           confirm-message="{% trans "!CAUTION! Promoting to 'Adam' is strongly not recommended while you will have any permissions to any objects in this system. It means that you potentially cause critical damages on the system. Are you sure to promote?" %}"
                                            href="{% url "personas_persona_assign_adam" %}">
                                             <span class="glyphicon glyphicon-tower"></span>{% trans "Promote to 'Adam'" %}
                                             <form method="POST" style="display: none;">{% csrf_token %}</form>

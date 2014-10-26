@@ -150,7 +150,7 @@ class Product(models.Model):
         max_length=10, choices=DISPLAY_MODES, default='normal',
         help_text=_(
             "How the product displayed on the top page. "
-            "To use 'Futured', it require `advertisement_image`."
+            "To use 'Featured', an 'Advertisement image' is required."
         ))
 
     class Meta:

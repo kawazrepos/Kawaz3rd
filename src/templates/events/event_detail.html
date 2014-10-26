@@ -67,7 +67,12 @@
         </div>
         <div class="col col-lg-3 col-xs-12 page-header-right">
             <div class="event-join-utility">
-
+                {# event.number_restriction が設定されている場合は「あと何人」参加可能かを計算し変数に代入 #}
+                {% if even.number_restriction %}
+                  {% expr event.number_restriction - event.attendees.count() as remaining_attendees_restriction %}
+                {% else %}
+                  {% expr 0 as remaining_attendees_restriction %}
+                {% endif %}
                 {% if user has 'events.attend_event' of event %}
                     {# 参加できる状態 #}
                     <a href="{% url "events_event_attend" event.pk %}"
@@ -76,9 +81,11 @@
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                     {% if event.number_restriction %}
-                        <p class="event-join-count">
-                          {% blocktrans count counter=event.number_restriction%}Only one person can join this event{% plural %}{{ counter }} people can join this event{% endblocktrans %}
-                        </p>
+                    {% spaceless %}
+                      <p class="event-join-count">
+                        {% blocktrans count counter=remaining_attendees_restriction %}Only one more person can join this event{% plural %}{{ counter }} more people can join this event{% endblocktrans %}
+                      </p>
+                    {% endspaceless %}
                     {% endif %}
                 {% elif user has 'events.delete_event' of event %}
                     {# イベント管理者向け #}
@@ -87,9 +94,11 @@
                     {% else %}
                         <p class="event-recruit event-status">{% trans "Call for participats" %}</p>
                         {% if event.number_restriction %}
-                            <p class="event-join-count">
-                          {% blocktrans count counter=event.number_restriction %}Only one person can join this event{% plural %}{{ counter }} people can join this event{% endblocktrans %}
-                            </p>
+                        {% spaceless %}
+                          <p class="event-join-count">
+                            {% blocktrans count counter=remaining_attendees_restriction %}Only one more person can join this event{% plural %}{{ counter }} more people can join this event{% endblocktrans %}
+                          </p>
+                        {% endspaceless %}
                         {% endif %}
                     {% endif %}
                 {% elif user has 'events.quit_event' of event %}

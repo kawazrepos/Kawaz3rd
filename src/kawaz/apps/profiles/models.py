@@ -58,9 +58,7 @@ class Profile(models.Model):
                                  choices=PUB_STATES, default="public")
     # Non required
     birthday = models.DateField(_('Birthday'), null=True, blank=True)
-    place = models.CharField(
-        _('Address'), max_length=255, blank=True,
-        help_text=_('Anonymous users cannot see your address'))
+    place = models.CharField(_('Address'), max_length=255, blank=True)
     url = models.URLField(_("URL"), max_length=255, blank=True)
     remarks = models.TextField(pgettext_lazy("Profile", "Remarks"))
     skills = models.ManyToManyField(Skill, verbose_name=_('Skills'),
