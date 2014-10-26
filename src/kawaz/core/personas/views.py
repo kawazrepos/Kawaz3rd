@@ -7,9 +7,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
+from django_filters.views import FilterView
 from permission.decorators import permission_required
 from kawaz.core.personas.forms import PersonaUpdateForm, PersonaRoleForm
 from kawaz.core.personas.models import Persona
+from .filters import PersonaFilter
 
 
 class PersonaDetailView(DetailView):
@@ -23,7 +25,7 @@ class PersonaDetailView(DetailView):
             '_profile__skills',
             '_profile__accounts__service',
         )
-        return qs
+        return qs.exclude(role='wille')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -38,6 +40,23 @@ class PersonaDetailView(DetailView):
             # Fail silently で扱っている
             pass
         return context
+
+
+class PersonaListView(FilterView):
+    model = Persona
+    filterset_class = PersonaFilter
+    template_name_suffix = '_list'
+    paginate_by = 24
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.prefetch_related(
+            '_profile',
+            '_profile__skills',
+            '_profile__accounts__service',
+        )
+        return qs.exclude(role='wille')
+
 
 
 @permission_required('personas.change_persona')

@@ -1,9 +1,11 @@
+from datetime import timedelta
 from itertools import chain
 from unittest.mock import patch, MagicMock
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 from kawaz.apps.profiles.tests.factories import ProfileFactory
 from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
@@ -76,6 +78,45 @@ class PersonaDetailViewTestCase(PersonaViewTestCaseBase):
             self.assertTemplateUsed(r, 'personas/persona_detail.html')
             self.assertEqual(r.context_data['object'], profile.user)
             self.assertTrue('profile' not in r.context_data)
+
+
+class PersonaListViewTestCase(TestCase):
+    def setUp(self):
+        now = timezone.now()
+        self.personas = (
+            ProfileFactory(user__last_login=now-timedelta(days=1),
+                           user__role='children').user,
+            ProfileFactory(user__last_login=now-timedelta(days=2),
+                           user__role='children').user,
+            ProfileFactory(user__last_login=now-timedelta(days=3),
+                           user__role='children').user,
+            PersonaFactory(last_login=now-timedelta(days=4),
+                           role='wille'),
+            PersonaFactory(last_login=now-timedelta(days=5),
+                           role='wille'),
+        )
+
+    def test_reverse_persona_list_url(self):
+        """
+        PersonaListViewの逆引き
+        """
+        self.assertEqual(
+            reverse('personas_persona_list'),
+            '/accounts/'
+        )
+
+    def test_wille_personas_are_not_listed(self):
+        """
+        Wille権限のユーザーはリストに表示されない
+        """
+        url = reverse('personas_persona_list')
+        r = self.client.get(url)
+        self.assertTemplateUsed('persona/persona_list.html')
+        self.assertTrue('object_list' in r.context_data)
+        object_list = r.context_data['object_list']
+        self.assertEqual(object_list.count(), 3)
+        for obj in object_list:
+            self.assertNotEqual(obj.role, 'wille')
 
 
 class PersonaUpdateViewTestCase(PersonaViewTestCaseBase):
