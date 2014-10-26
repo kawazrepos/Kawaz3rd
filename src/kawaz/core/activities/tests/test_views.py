@@ -12,9 +12,6 @@ __author__ = 'giginet'
 
 class ActivityViewTestCase(TestCase):
 
-    def setUp(self):
-        registry.register(Persona, ActivityMediator())
-
     def test_activities_activity_list_url(self):
         """
         name=activities_activity_listから/activities/を引ける
@@ -25,13 +22,15 @@ class ActivityViewTestCase(TestCase):
         """
         10件ずつActivityを取得できる
         """
+        ct = ContentType.objects.get_for_model(Persona)
         for i in range(15):
             PersonaFactory()
+
         r = self.client.get('/activities/')
         self.assertEqual(len(r.context['object_list']), 10)
 
         r = self.client.get('/activities/?page=2')
-        self.assertEqual(len(r.context['object_list']), 10)
+        self.assertEqual(len(r.context['object_list']), 5)
         self.assertIsNotNone(r.context['page_obj'])
         self.assertIsNotNone(r.context['paginator'])
 
@@ -41,7 +40,7 @@ class ActivityViewTestCase(TestCase):
         """
         for i in range(5):
             persona = PersonaFactory()
-            persona.nickname = 'user{}'.format(i)
+            persona.nickname = 'hoge'
             persona.save()
 
         r = self.client.get('/activities/?type=wall')
