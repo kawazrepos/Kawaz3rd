@@ -25,7 +25,7 @@
     {% get_latest_activities as activities %}
     {% include "activities/components/activity_container.html" with activities=activities %}
     <div class="text-center">
-        <a class="btn btn-default" href="{% url "activities_activity_list" %}?page=2&type=wall">{% trans "Read More" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="btn btn-default" href="{% url "activities_activity_list" %}?page=2&type=wall">{% trans "Read more" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
 
 {% endblock %}

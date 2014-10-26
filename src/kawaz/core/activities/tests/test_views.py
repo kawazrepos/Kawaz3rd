@@ -38,13 +38,19 @@ class ActivityViewTestCase(TestCase):
         """
          type=wallのとき、latestsの物だけを10件取得できる
         """
-        for i in range(5):
+        for i in range(15):
             persona = PersonaFactory()
             persona.nickname = 'hoge'
             persona.save()
 
         r = self.client.get('/activities/?type=wall')
+        self.assertEqual(len(r.context['object_list']), 10)
+        r = self.client.get('/activities/?type=wall&page=2')
         self.assertEqual(len(r.context['object_list']), 5)
 
         r = self.client.get('/activities/')
+        self.assertEqual(len(r.context['object_list']), 10)
+        r = self.client.get('/activities/?page=2')
+        self.assertEqual(len(r.context['object_list']), 10)
+        r = self.client.get('/activities/?page=3')
         self.assertEqual(len(r.context['object_list']), 10)
