@@ -24,41 +24,49 @@ html {
   width: 100%;
   height: @footer-height;
   background-color: @footer-color;
-  color: white;
+  color: @gray-lighter;
   .container {
     padding-right: 15px;
     padding-left: 15px;
     h2 {
-      margin-bottom: 30px;
+      margin: 45px 0 30px;
+    }
+    h3 {
+      border-bottom: 1px dotted @gray-base;
+      padding-bottom: 10px;
     }
     .text-muted {
       margin: 20px 0;
     }
-    @image-width: 300px;
-    .footer-logo {
-      width: @image-width;
-      margin: 0 auto;
-    }
-    .register-button-wrapper {
-      height: 80px;
-      padding-top: 10px;
-      div {
-        padding-top: 10px;
+    .footer-about-us {
+      margin: 20px 0;
+      @image-width: 300px;
+      .footer-logo {
+        width: @image-width;
         margin: 0 auto;
-        width: @image-width;
       }
-      a {
-        width: @image-width;
+      .register-button-wrapper {
+        height: 80px;
+        div {
+          padding-top: 10px;
+          margin: 0 auto;
+          width: @image-width;
+        }
+        a {
+          width: @image-width;
+        }
+      }
+      .footer-about-text {
+        margin-top: 15px;
       }
     }
     .footer-nav {
-
       padding-left: 15px;
       li {
         list-style: none;
       }
       a {
-        color: rgb(170, 177, 183);
+        color: #aab1b7;
         &:hover {
           text-decoration: none;
           color: @gray-lighter;
