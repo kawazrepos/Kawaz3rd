@@ -94,16 +94,16 @@
             </div>
             <div class="list-group">
                 {% if user has 'products.add_product' %}
-                    <a class="list-group-item list-group-item-success" href="{% url "products_product_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create Product" %}</a>
+                    <a class="list-group-item list-group-item-success" href="{% url "products_product_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new product" %}</a>
                 {% endif %}
                 {% if user has 'products.change_product' of object %}
-                    <a class="list-group-item" href="{% url "products_product_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Product" %}</a>
+                    <a class="list-group-item" href="{% url "products_product_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update the product" %}</a>
                 {% endif %}
                 {% if user has 'products.delete_product' of object %}
                     <a class="list-group-item list-group-item-danger"
                        href="{% url "products_product_delete" object.pk %}"
-                       confirm-message="{% trans "Do you want to delete this product?" %}">
-                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete Product" %}
+                       confirm-message="{% trans "Do you want to delete the product?" %}">
+                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete the product" %}
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% endif %}
@@ -140,7 +140,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2 class="panel-title">{% trans "Recommended Games" %}</h2>
+            <h2 class="panel-title">{% trans "Recommended games" %}</h2>
         </div>
         <div id="products" class="list-group">
             {% get_relative object as products %}

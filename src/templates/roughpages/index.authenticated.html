@@ -4,7 +4,7 @@
 {% load announcements_tags %}
 {% load i18n %}
 {% load staticfiles %}
-{% block title %}{% trans "My Page" %}{% endblock %}
+{% block title %}{% trans "My page" %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
@@ -13,7 +13,7 @@
 
     {% get_recent_announcements as announcements %}
     {% if not announcements|length_is:"0" %}
-        <h2>{% trans "Recent Announcements" %}</h2>
+        <h2>{% trans "Recent announcements" %}</h2>
             {% for announcement in announcements %}
                 <a class="list-group-item" href="{{ announcement.get_absolute_url }}"><strong><time datetime="{{ announcement.created_at|date:'c' }}">{{ announcement.created_at|date:'m月d日' }}</time></strong>{{ announcement.title }}</a>
             {% endfor %}
@@ -39,7 +39,7 @@
     <section id="wall-nav">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title">{% trans "New Contents" %}</h2>
+                <h2 class="panel-title">{% trans "Create new contents" %}</h2>
             </div>
             <div class="list-group">
                 <a class="list-group-item" href="{% url "products_product_create" %}">作品の作成</a>
@@ -52,7 +52,7 @@
     <section id="wall-tools">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title">{% trans "Member Tools" %}</h2>
+                <h2 class="panel-title">{% trans "Member tools" %}</h2>
             </div>
             <div class="list-group">
                 <a class="list-group-item" href="{% url "products_product_create" %}">Kawaz Redmine</a>

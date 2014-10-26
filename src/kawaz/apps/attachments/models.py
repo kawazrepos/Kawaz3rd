@@ -18,7 +18,7 @@ class Material(models.Model):
     # 原因は調査中だが、直した方が良さそう
     #author = models.ForeignKey(Persona, verbose_name=_('Author'), edifable=False)
     author = models.ForeignKey(Persona, verbose_name=_('Author'))
-    slug = models.SlugField(_('Slug'), unique=True, editable=False, blank=True)
+    slug = models.SlugField(_('Material slug'), unique=True, editable=False, blank=True)
     ip_address  = models.IPAddressField("IP Address", editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
 

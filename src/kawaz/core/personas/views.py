@@ -20,7 +20,7 @@ class PersonaUpdateView(SuccessMessageMixin, UpdateView):
     template_name = 'registration/persona_form.html'
 
     def get_success_message(self, cleaned_data):
-        return _('Your user information successfully updated.')
+        return _('Your user information was successfully updated.')
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -54,7 +54,7 @@ class PersonaAssignAdamView(AssignRoleMixin, UpdateView):
     role = 'adam'
 
     def get_success_message(self, cleaned_data):
-        return _("""Your role is changed to 'adam'""")
+        return _("You have promoted to 'Adam'")
 
 
 @permission_required('personas.assign_role_persona')
@@ -65,4 +65,4 @@ class PersonaAssignSeeleView(AssignRoleMixin, UpdateView):
     role = 'seele'
 
     def get_success_message(self, cleaned_data):
-        return _("""Your role is changed to 'seele'""")
+        return _("You have demoted to 'Seele'")

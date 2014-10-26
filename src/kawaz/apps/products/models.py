@@ -75,9 +75,16 @@ class Product(models.Model):
         return os.path.join(basedir, filename)
 
     DISPLAY_MODES = (
-        ('featured', _('Featured')),
-        ('tiled', _('Tiled')),
-        ('normal', _('Normal')),
+        ('featured', _(
+            'Fetured: Displayed in the curled cell and the tiled cell '
+            'on the top page'
+        )),
+        ('tiled', _(
+            'Tiled: Displayed in the tiled cell on the top page'
+        )),
+        ('normal', _(
+            'Normal: Displayed only in tiled cell on the detailed page'
+        )),
     )
 
     # 必須フィールド
@@ -115,7 +122,8 @@ class Product(models.Model):
                                 null=True, blank=True)
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
-    publish_at = models.DateField(_('Publish at'))
+    # TODO: published
+    publish_at = models.DateField(_('Published at'))
 
     # 編集不可
     administrators = models.ManyToManyField(Persona, editable=False,
@@ -140,8 +148,10 @@ class Product(models.Model):
     display_mode = models.CharField(
         _('Display mode'),
         max_length=10, choices=DISPLAY_MODES, default='normal',
-        help_text=_("How the product displayed on the site top. "
-                    "To use `featured`, it require `advertisement_image`."))
+        help_text=_(
+            "How the product displayed on the top page. "
+            "To use 'Featured', an 'Advertisement image' is required."
+        ))
 
     class Meta:
         ordering = ('display_mode', '-publish_at',)
@@ -159,10 +169,13 @@ class Product(models.Model):
         if not self.advertisement_image and self.display_mode == 'featured':
             # advertisement_imageがセットされていないときは
             # display_modeをfeaturedに設定できない
-            raise ValidationError(_("`feature` display mode require "
-                                    "`advertisement_image`."))
+            raise ValidationError(_(
+                "Display mode 'Feature' requires 'Advertisement image'"
+            ))
         if self.slug == 'platforms':
-            raise ValidationError(_("slug 'platforms' is reserved."))
+            raise ValidationError(_(
+                "A product slug 'platforms' is reserved."
+            ))
 
     def join(self, user):
         """

@@ -6,7 +6,7 @@
     {% if object %}
         {% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}
     {% else %}
-        {% trans "Create New Project" %}
+        {% trans "Create a new project" %}
     {% endif %}
 {% endblock %}
 
@@ -16,7 +16,7 @@
         {% if object %}
             <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</h1>
         {% else %}
-            <h1>{% trans "Create New Project" %}</h1>
+            <h1>{% trans "Create a new project" %}</h1>
         {% endif %}
     </div>
 {% endblock %}
@@ -27,7 +27,7 @@
     {% if object %}
         <li><a href="{% url "projects_project_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
     {% else %}
-        <li><a href="{% url "projects_project_create" %}">{% trans "Create New Project" %}</a></li>
+        <li><a href="{% url "projects_project_create" %}">{% trans "Create a new project" %}</a></li>
     {% endif %}
 {% endblock %}
 

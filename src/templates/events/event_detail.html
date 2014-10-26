@@ -67,45 +67,54 @@
         </div>
         <div class="col col-lg-3 col-xs-12 page-header-right">
             <div class="event-join-utility">
-
+                {# event.number_restriction が設定されている場合は「あと何人」参加可能かを計算し変数に代入 #}
+                {% if even.number_restriction %}
+                  {% expr event.number_restriction - event.attendees.count() as remaining_attendees_restriction %}
+                {% else %}
+                  {% expr 0 as remaining_attendees_restriction %}
+                {% endif %}
                 {% if user has 'events.attend_event' of event %}
                     {# 参加できる状態 #}
                     <a href="{% url "events_event_attend" event.pk %}"
                        class="btn btn-success event-attend-btn btn-large post-link">
-                        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Attend This Event" %}</span>
+                        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Attend this event" %}</span>
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                     {% if event.number_restriction %}
-                        <p class="event-join-count">
-                            {% blocktrans %}Can join {{ event.number_restriction }}s after{% endblocktrans %}
-                        </p>
+                    {% spaceless %}
+                      <p class="event-join-count">
+                        {% blocktrans count counter=remaining_attendees_restriction %}Only one more person can join this event{% plural %}{{ counter }} more people can join this event{% endblocktrans %}
+                      </p>
+                    {% endspaceless %}
                     {% endif %}
                 {% elif user has 'events.delete_event' of event %}
                     {# イベント管理者向け #}
                     {% if event.is_over_restriction or event.is_over_deadline %}
-                        <p class="event-closed event-status">{% trans "Was closed participation" %}</p>
+                        <p class="event-closed event-status">{% trans "The participation has been closed" %}</p>
                     {% else %}
-                        <p class="event-recruit event-status">{% trans "Call for participation now" %}</p>
+                        <p class="event-recruit event-status">{% trans "Call for participats" %}</p>
                         {% if event.number_restriction %}
-                            <p class="event-join-count">
-                                {% blocktrans %}Can join {{ event.number_restriction }}s after{% endblocktrans %}
-                            </p>
+                        {% spaceless %}
+                          <p class="event-join-count">
+                            {% blocktrans count counter=remaining_attendees_restriction %}Only one more person can join this event{% plural %}{{ counter }} more people can join this event{% endblocktrans %}
+                          </p>
+                        {% endspaceless %}
                         {% endif %}
                     {% endif %}
                 {% elif user has 'events.quit_event' of event %}
                     {# イベント参加者 #}
                     <a href="{% url "events_event_quit" event.pk %}"
                        class="btn event-leave-btn btn-large post-link">
-                        <span class="glyphicon glyphicon-log-out"></span><span>{% trans "Leave This Event" %}</span>
+                        <span class="glyphicon glyphicon-log-out"></span><span>{% trans "Withdraw from the event" %}</span>
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% else %}
                     {% if event.is_over_restriction or event.is_over_deadline %}
                         {# closeしたイベント #}
-                        <p class="event-closed event-status">{% trans "Was closed participation" %}</p>
+                        <p class="event-closed event-status">{% trans "The participation has been closed" %}</p>
                     {% else %}
                         {# 外部ユーザ向け #}
-                        <p class="event-outside event-status">{% trans "You need to login in<br> order to participate" %}</p>
+                        <p class="event-outside event-status">{% trans "You need to login to join the event." %}</p>
                     {% endif %}
                 {% endif %}
                 {% if event.attendance_deadline %}
@@ -116,7 +125,7 @@
                         </dd>
                     </dl>
                 {% else %}
-                    <p class="attendance-deadline">{% trans "Is not have participate deadline" %}</p>
+                    <p class="attendance-deadline">{% trans "No participation deadline" %}</p>
                 {% endif %}
             </div>
         </div>
@@ -155,9 +164,7 @@
                 <h2 class="panel-title">{% trans "Attendees" %}</h2>
                 <p>
                     {# 参加者全員の人数から主催者を引いている #}
-                    {% with count=event.attendees.count|add:"-1" %}
-                        {% blocktrans %}There are {{ count }} attendees.{% endblocktrans %}
-                    {% endwith %}
+                    {% blocktrans count counter=event.attendees.count|add:"-1" %}There is one attendee.{% plural %}There are {{ counter }} attendees.{% endblocktrans %}
                 </p>
             </div>
             <ul class="list-group">
@@ -186,14 +193,14 @@
                 {% if user has 'events.change_event' of object %}
                     <a class="list-group-item"
                        href="{% url "events_event_update" object.pk %}"><span
-                            class="glyphicon glyphicon-pencil"></span> {% trans "Update event" %}
+                            class="glyphicon glyphicon-pencil"></span> {% trans "Update the event" %}
                     </a>
                 {% endif %}
                 {% if user has 'events.delete_event' of object %}
                     <a class="list-group-item list-group-item-danger post-link"
                        href="{% url "events_event_delete" object.pk %}"
-                       confirm-message="{% trans "Do you want to delete this event?" %}">
-                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete event" %}
+                       confirm-message="{% trans "Do you want to delete the event?" %}">
+                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete the event" %}
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% endif %}

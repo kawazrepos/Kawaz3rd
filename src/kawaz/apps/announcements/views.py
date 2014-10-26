@@ -24,7 +24,7 @@ class AnnouncementCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""Announcement '%(title)s' successfully created.""") % {
+        return _("""An announcement '%(title)s' was successfully created.""") % {
             'title': cleaned_data['title']
         }
 
@@ -39,7 +39,7 @@ class AnnouncementUpdateView(SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""Announcement '%(title)s' successfully updated.""") % {
+        return _("""The announcement '%(title)s' was successfully updated.""") % {
             'title': cleaned_data['title']
         }
 
@@ -50,7 +50,7 @@ class AnnouncementDeleteView(DeleteSuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('announcements_announcement_list')
 
     def get_success_message(self):
-        return _("Announcement successfully deleted.")
+        return _("The announcement was successfully deleted.")
 
 
 @permission_required('announcements.view_announcement')

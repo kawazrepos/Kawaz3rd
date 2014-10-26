@@ -4,7 +4,7 @@
 {% load parser %}
 {% load projects_tags %}
 {% load blogs_tags %}
-{% block title %}{% blocktrans with nickname=object.user.nickname %}{{ nickname }}'s Profile{% endblocktrans %}{% endblock %}
+{% block title %}{% blocktrans with nickname=object.user.nickname %}{{ nickname }}'s profile{% endblocktrans %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/profile.less" %}" media="screen">
@@ -84,10 +84,10 @@
     </article>
     {% include "components/star_container.html" %}
     <div id="recent-entries">
-        <h2>{% trans "Recent Entries" %}</h2>
+        <h2>{% trans "Recent blog entries" %}</h2>
         {% if object.user.blog_entries.all|length_is:0 %}
             <div class="alert alert-info">
-                {% trans "There are no entries yet" %}
+                {% trans "No entries have been written yet." %}
             </div>
         {% else %}
             <div class="list-group">
@@ -123,7 +123,7 @@
                 </div>
                 <div class="list-group">
                     {% if user has 'profiles.change_profile' of object %}
-                        <a class="list-group-item" href="{% url "profiles_profile_update" %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update Profile" %}</a>
+                        <a class="list-group-item" href="{% url "profiles_profile_update" %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> {% trans "Edit your profile" %}</a>
                     {% endif %}
                 </div>
             </div>
@@ -146,7 +146,7 @@
         {# 参加中のプロジェクト  #}
         <div id="profile-joined-projects" class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title">{% trans "Joined Projects" %}</h2>
+                <h2 class="panel-title">{% trans "Joined projects" %}</h2>
             </div>
             <div class="list-group">
                 {% get_published_joined_projects_of object.user as projects %}

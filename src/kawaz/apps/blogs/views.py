@@ -61,7 +61,7 @@ class EntryCreateView(SuccessMessageMixin, CreateView):
         return kwargs
 
     def get_success_message(self, cleaned_data):
-        return _("""Entry '%(title)s' successfully created.""") % {
+        return _("""A blog entry '%(title)s' was successfully created.""") % {
             'title': cleaned_data['title']
         }
 
@@ -77,7 +77,7 @@ class EntryUpdateView(SuccessMessageMixin, UpdateView):
         return kwargs
 
     def get_success_message(self, cleaned_data):
-        return _("""Entry '%(title)s' successfully updated.""") % {
+        return _("""The blog entry '%(title)s' was successfully updated.""") % {
             'title': cleaned_data['title']
         }
 
@@ -87,7 +87,7 @@ class EntryDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Entry
 
     def get_success_message(self):
-        return _("Entry successfully deleted.")
+        return _("The blog entry was successfully deleted.")
 
 
 class EntryTodayArchiveView(TodayArchiveView, EntryMultipleObjectMixin):

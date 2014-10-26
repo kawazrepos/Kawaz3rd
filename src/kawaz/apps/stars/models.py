@@ -84,7 +84,8 @@ class StarManager(models.Manager):
         stars = self.get_for_object(obj)
         if star not in stars.all():
             raise ObjectDoesNotExist(
-                _('The star have not been added to this object.'))
+                _('The object does not have any stars')
+            )
         star.delete()
 
     def cleanup_object(self, obj):

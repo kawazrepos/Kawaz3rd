@@ -386,7 +386,7 @@ class EventTestCase(TestCase):
         開催日未定のとき、unfixedになる
         """
         event = EventFactory(period_start=None, period_end=None)
-        self.assertEqual(event.humanized_period, 'Unfixed')
+        self.assertEqual(event.humanized_period, 'Start time is unfixed')
 
     def test_humanize_period_end_time_unfixed(self):
         """

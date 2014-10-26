@@ -6,7 +6,7 @@
     {% if object %}
         {% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}
     {% else %}
-        {% trans "Create New Product" %}
+        {% trans "Create a new product" %}
     {% endif %}
 {% endblock %}
 
@@ -15,7 +15,7 @@
         {% if object %}
             <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</h1>
         {% else %}
-            <h1>{% trans "Create New Product" %}</h1>
+            <h1>{% trans "Create a new product" %}</h1>
         {% endif %}
     </div>
 {% endblock %}
@@ -25,7 +25,7 @@
     {% if object %}
         <li><a href="{% url "products_product_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
     {% else %}
-        <li><a href="{% url "products_product_create" %}">{% trans "Create New Product" %}</a></li>
+        <li><a href="{% url "products_product_create" %}">{% trans "Create a new product" %}</a></li>
     {% endif %}
 {% endblock %}
 {% block tab-content %}
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="form-group formset row" prefix="{{ url_release_formset.prefix }}" id="formset-{{ url_release_formset.prefix }}">
-                <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "URL Releases" %}</label>
+                <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "URL releases" %}</label>
                 <div class="col-sm-8 col-lg-8">
                     <div class="alert alert-info">
                         <p>外部サイトで配布している場合、ダウンロード先のURLを追加できます</p>
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="form-group formset row" prefix="{{ package_release_formset.prefix }}" id="formset-{{ package_release_formset.prefix }}">
-                <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "Package Releases" %}</label>
+                <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "Package releases" %}</label>
                 <div class="col-sm-8 col-lg-8">
                     <div class="alert alert-info">
                         <p>配付する作品のパッケージを追加できます</p>

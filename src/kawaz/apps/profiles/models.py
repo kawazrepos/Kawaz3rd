@@ -57,10 +57,8 @@ class Profile(models.Model):
     pub_state = models.CharField(_("Publish status"), max_length=10,
                                  choices=PUB_STATES, default="public")
     # Non required
-    birthday = models.DateField(_('Birth day'), null=True, blank=True)
-    place = models.CharField(
-        _('Address'), max_length=255, blank=True,
-        help_text=_('Your address will not be shown by anonymous user.'))
+    birthday = models.DateField(_('Birthday'), null=True, blank=True)
+    place = models.CharField(_('Address'), max_length=255, blank=True)
     url = models.URLField(_("URL"), max_length=255, blank=True)
     remarks = models.TextField(pgettext_lazy("Profile", "Remarks"))
     skills = models.ManyToManyField(Skill, verbose_name=_('Skills'),
@@ -115,7 +113,7 @@ class Account(models.Model):
         Profile, verbose_name=_('Account'), editable=False,
         related_name='accounts')
     service = models.ForeignKey(Service, verbose_name=_('Service'))
-    pub_state = models.CharField(_('Publish State'),
+    pub_state = models.CharField(_('Publish status'),
                                  choices=Profile.PUB_STATES,
                                  max_length=10, default='public')
     username = models.CharField(_('Username'), max_length=64)

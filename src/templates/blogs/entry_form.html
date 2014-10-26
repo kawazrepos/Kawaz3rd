@@ -7,7 +7,7 @@
     {% if object %}
         {% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}
     {% else %}
-        {% trans "Create New Entry" %}
+        {% trans "Create a new blog entry" %}
     {% endif %}
 {% endblock %}
 
@@ -16,7 +16,7 @@
         {% if object %}
             <h1>{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</h1>
         {% else %}
-            <h1>{% trans "Create New Entry" %}</h1>
+            <h1>{% trans "Create a new blog entry" %}</h1>
         {% endif %}
     </div>
 {% endblock %}
@@ -26,7 +26,7 @@
     {% if object %}
         <li><a href="{% url "blogs_entry_update" author=object.author.username pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
     {% else %}
-        <Li><a href="{% url "blogs_entry_create" author=user.username %}">{% trans "Create New Entry" %}</a></li>
+        <Li><a href="{% url "blogs_entry_create" author=user.username %}">{% trans "Create a new blog entry" %}</a></li>
     {% endif %}
 {% endblock %}
 {% block form_header %}

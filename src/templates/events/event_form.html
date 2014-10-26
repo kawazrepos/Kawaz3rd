@@ -6,7 +6,7 @@
     {% if object %}
         {% blocktrans with title=object.title %}Edit event "{{ title }}"{% endblocktrans %}
     {% else %}
-        {% trans "Create New Event" %}
+        {% trans "Create a new event" %}
     {% endif %}
 {% endblock %}
 
@@ -14,10 +14,10 @@
     <div class="page-header">
         {% if object %}
             <h1>
-                {% blocktrans with title=object.title %}Edit event "{{ title }}"{% endblocktrans %}
+                {% blocktrans with title=object.title %}Edit the event "{{ title }}"{% endblocktrans %}
             </h1>
         {% else %}
-            <h1>{% trans "Create New Event" %}</h1>
+            <h1>{% trans "Create a new event" %}</h1>
         {% endif %}
     </div>
 {% endblock %}
@@ -28,7 +28,7 @@
     {% if object %}
         <li><a href="{% url "events_event_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
     {% else %}
-        <li><a href="{% url "events_event_create" %}">{% trans "Create New Event" %}</a></li>
+        <li><a href="{% url "events_event_create" %}">{% trans "Create a new event" %}</a></li>
     {% endif %}
 {% endblock %}
 

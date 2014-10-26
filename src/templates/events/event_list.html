@@ -26,7 +26,7 @@
             <div class="alert alert-info">
                 <p>{% trans "Matching events can not be found" %}</p>
                 {% if user has 'events.add_event' %}
-                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create event" %}</a>
+                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new event" %}</a>
                 {% endif %}
             </div>
         {% endfor %}
@@ -43,7 +43,7 @@
         {% if user has 'events.add_event' %}
             <a href="{% url "events_event_create" %}"
                class="btn btn-success event-attend-btn btn-large">
-                <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create event" %}</span>
+                <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create a new event" %}</span>
             </a>
         {% endif %}
     </div>
@@ -61,7 +61,7 @@
     {# 過去のイベントリスト #}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">{% trans "Event Archives" %}</h3>
+            <h3 class="panel-title">{% trans "Archived events" %}</h3>
         </div>
 
         <div class="list-group">

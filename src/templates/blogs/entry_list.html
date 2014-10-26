@@ -14,12 +14,12 @@
 {% block content-header %}
     <div class="page-header blog-list-header">
         <div class="header-left">
-            <h1>{% trans "Blog Articles" %}</h1>
-            <small>{% blocktrans with count=paginator.count %}There are {{ count }} blog entries.{% endblocktrans %}</small>
+            <h1>{% trans "Blog entries" %}</h1>
+            <small>{% blocktrans count counter=paginator.count %}There is one blog entry.{% plural %}There are {{ counter }} blog entries.{% endblocktrans %}</small>
         </div>
         {% if user has 'blogs.add_entry' %}
             <div class="header-right">
-                <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "Create Blog" %}</a>
+                <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "Create a new blog entry" %}</a>
             </div>
         {% endif %}
     </div>
@@ -34,7 +34,7 @@
 {% block content-aside %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2 class="panel-title">{% trans "Hot Entries" %}</h2>
+            <h2 class="panel-title">{% trans "Hot entries" %}</h2>
         </div>
         {# TODO: ここにスターの数等によるホットエントリーの設置 #}
         {# Fix Me: ハードコーディング #}
@@ -53,7 +53,7 @@
                 {% for category in categories %}
                     <a class="list-group-item" href="{{ category.get_absolute_url }}">{{ category.label }}</a>
                 {% empty %}
-                    <div class="list-group-item list-group-item-warning">{% trans "There are no categories" %}</div>
+                    <div class="list-group-item list-group-item-warning">{% trans "There is no category" %}</div>
                 {% endfor %}
             </div>
         </div>

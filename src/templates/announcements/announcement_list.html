@@ -16,7 +16,7 @@
     <div class="page-header blog-list-header">
         <div class="header-left">
             <h1>{% trans "Announcements" %}</h1>
-            <small>{% blocktrans with count=paginator.count %}There are {{ count }} announcement entries.{% endblocktrans %}</small>
+            <small>{% blocktrans count counter=paginator.count %}There is only one announcement entry.{% plural %}There are {{ counter }} announcement entries.{% endblocktrans %}</small>
         </div>
         {% if user has 'announcements.add_entry' %}
             <div class="header-right">
