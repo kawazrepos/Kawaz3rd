@@ -1,11 +1,18 @@
 # Kawazポータルの使い方
 
-- [はじめてのKawaz](/helps/welcome)
-- [イベント](/helps/event)
-- [プロジェクト](/helps/project)
-- [作品](/helps/products)
-- [プロフィール](/helps/profile)
-- [Markdown記法の書き方](http://www.kawaz.org/projects/kawaz/wikis/Markdown%E3%81%AE%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/)
+- [はじめてのKawaz](/helps/welcome/)
+- [プロフィール](/helps/profile/)
+- [イベント](/helps/event/)
+- [プロジェクト](/helps/project/)
+- [作品](/helps/products/)
+- [Markdown記法の書き方](/helps/markdown/)
+
+# Kawazについて
+
+- [Kawazについて](/about/)
+- [利用規約](/rules/)
+- [掲載情報](/published/)
+- [ライセンス表示のガイドライン](/guideline/credits/)
 
 
 <!--

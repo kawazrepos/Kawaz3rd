@@ -4,5 +4,7 @@
 {% block title %}{% trans "About us" %}{% endblock %}
 
 {% block content %}
-    Kawazについて
+    <article class="markdown">
+        {% render_markdown "markdown/about.md" %}
+    </article>
 {% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Guideline of credits" %}{% endblock %}
+
+{% block content %}
+    <article class="markdown">
+        {% render_markdown "markdown/guideline/credits.md" %}
+    </article>
+{% endblock %}
