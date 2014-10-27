@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Contact us" %}{% endblock %}
+
+{% block content %}
+    <article class="markdown">
+        {% render_markdown "markdown/contact.md" %}
+    </article>
+{% endblock %}

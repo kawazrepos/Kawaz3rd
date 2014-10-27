@@ -1,9 +1,9 @@
 # Kawazポータルの使い方
 
 - [はじめてのKawaz](/helps/welcome/)
-- [プロフィール](/helps/profile/)
-- [イベント](/helps/event/)
-- [プロジェクト](/helps/project/)
+- [プロフィール](/helps/profiles/)
+- [イベント](/helps/events/)
+- [プロジェクト](/helps/projects/)
 - [作品](/helps/products/)
 - [Markdown記法の書き方](/helps/markdown/)
 
