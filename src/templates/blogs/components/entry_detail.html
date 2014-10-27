@@ -1,8 +1,6 @@
 {% load i18n %}
 {% load parser %}
-
-<div class="row list-group article-wrap">
-    <div class="entry-item entry-date col-xs-12 col-md-1">
+    <div class="entry-item entry-date">
         <div class="date">
             <p>{{ object.created_at|date:"d" }}<span>{{ object.created_at|date:"Y/m" }}</span></p>
         </div>
@@ -20,43 +18,9 @@
                 </div>
                 <p class="badge">{{ object.category.label }}</p>
             </div>
-            <article class="markdown">
+            <article class="markdown blog-article-body">
                 {{ object.body | parser }}
                 <time datetime="{ object.publish_at|date:'c' } "></time>
             </article>
         </div>
     </div>
-
-    <div class="entry-item entry-item-right col-xs-12 col-md-2">
-        <dl class="blog-author">
-            <dt><span class="glyphicon glyphicon-pencil"></span><span>{% trans "Blog author" %}</span></dt>
-            <dd>
-                <a class="author-info" href="{{ object.author.profile.get_absolute_url }}">
-                    <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/> <p class="author-quotes">{{ object.author.quotes }}</p>
-                </a>
-                <a class="author-info author-name" href="{{ object.author.profile.get_absolute_url }}">
-                    {{ object.author.nickname }}(id: {{ object.author }})
-                </a>
-            </dd>
-        </dl>
-
-{% if user has 'blogs.change_entry' of object or user has 'blogs.delete_entry' of object %}
-    <div class="panel panel-default blog-administration">
-      <div class="panel-heading blog-administration-head">
-          <h2 class="panel-title">{% trans "Administration" %}</h2>
-      </div>
-      <div class="list-group">
-          {% if user has 'blogs.change_entry' of object %}
-        <a class="list-group-item" href="{% url 'blogs_entry_update' author=user.username pk=object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Edit the blog entry" %}</a>
-            {% endif %}
-            {% if user has 'blogs.delete_entry' of object %}
-            <a class="list-group-item list-group-item-danger post-link" href="{% url 'blogs_entry_delete' author=user.username pk=object.pk %}" confirm-message="{% trans "Do you want to delete this entry?" %}"><span class="glyphicon glyphicon-remove"></span>
-                {% trans "Delete the blog entry" %}
-                <form method="POST" style="display: none;">{% csrf_token %}</form>
-            </a>
-            {% endif %}
-      </div>
-    </div>
-{% endif %}
-    </div>
-</div>

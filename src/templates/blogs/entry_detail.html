@@ -14,9 +14,7 @@
 {% endblock %}
 {% block content %}
     {{ block.super }}
-    {% include "blogs/components/entry_detail.html" %}
+    {% include "blogs/components/entry_detail_article.html" %}
     {% include "components/star_container.html" %}
-    {% include "comments/components/comment_items.html" %}
-    {% include "comments/components/comment_form.html" %}
     {% include "components/social.html" %}
 {% endblock %}
