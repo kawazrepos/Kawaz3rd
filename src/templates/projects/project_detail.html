@@ -37,15 +37,33 @@
         </dl>
         <dl class="row">
           <dt class="col col-lg-3 col-xs-4">{% trans "Category" %}</dt>
-          <dd class="col col-lg-9 col-xs-8">{{ project.category }}</dd>
+          <dd class="col col-lg-9 col-xs-8">
+          {% if project.category %}
+            {{ project.category }}
+          {% else %}
+            <span class="none-set">{% trans "None" %}</span>
+          {% endif %}
+          </dd>
         </dl>
         <dl class="row">
           <dt class="col col-lg-3 col-xs-4">{% trans "Tracker" %}</dt>
-          <dd class="col col-lg-9 col-xs-8"><a href="{{ project.tracker }}">{{ project.tracker }}</a></dd>
+          <dd class="col col-lg-9 col-xs-8">
+          {% if project.tracker %}
+          <a href="{{ project.tracker }}">{{ project.tracker }}</a>
+          {% else %}
+            <span class="none-set">{% trans "None" %}</span>
+          {% endif %}
+          </dd>
         </dl>
         <dl class="row">
           <dt class="col col-lg-3 col-xs-4">{% trans "Repository" %}</dt>
-          <dd class="col col-lg-9 col-xs-8"><a href="{{ project.repository }}">{{ project.repository }}</a></dd>
+          <dd class="col col-lg-9 col-xs-8">
+          {% if project.repository %}
+            <a href="{{ project.repository }}">{{ project.repository }}</a>
+          {% else %}
+            <span class="none-set">{% trans "None" %}</span>
+          {% endif %}
+          </dd>
         </dl>
       </div>
     </div>

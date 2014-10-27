@@ -21,7 +21,11 @@
 <div class="page-header event-detail-header-wrap">
     <div class="event-category">
         <span class="glyphicon glyphicon-folder-open event-category-icon"></span>
-        <span>{{ event.category | default_if_none:"未設定" }}</span>
+        {% if event.category %}
+            <span>{{ event.category }}</span>
+        {% else %}
+            <span class="none-set">{% trans "None" %}</span>
+        {% endif %}
     </div>
     <div class="event-title{% if object.pub_state == "protected" %} bg-protected{% endif %}">
         {% if event.pub_state == 'protected' %}
