@@ -134,6 +134,8 @@
 </div>
 {% compress js %}
 {% block post_javascript %}
+    {# Google Analytics #}
+    {% include "components/google_analytics.html" with analytics_id='UA-23902196-1' %}
     <script src="{% static "vendor/jquery-2.1.1.min.js" %}"></script>
     <script src="{% static "vendor/jquery-cookie/src/jquery.cookie.js" %}"></script>
     <script src="{% static "vendor/angular/angular.js" %}"></script>
