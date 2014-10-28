@@ -366,7 +366,7 @@ class EventTestCase(TestCase):
         event.humanize_periodで開始時間、終了時間が取れる
         """
         event = EventFactory()
-        self.assertEqual(event.humanized_period, '09/04(Mon) 01:00 ~ 04:00')
+        self.assertEqual(event.humanized_period, '09/04(Mon) 10:00 ~ 13:00')
 
 
     def test_humanize_period_other_year(self):
@@ -378,7 +378,7 @@ class EventTestCase(TestCase):
         event = EventFactory(period_start=now + datetime.timedelta(days=365, hours=1),
                              period_end=now + datetime.timedelta(days=365, hours=4)
         )
-        self.assertEqual(event.humanized_period, '2001/09/04(Tue) 01:00 ~ 04:00')
+        self.assertEqual(event.humanized_period, '2001/09/04(Tue) 10:00 ~ 13:00')
 
     def test_humanize_period_unfixed(self):
         """
@@ -394,7 +394,7 @@ class EventTestCase(TestCase):
         終了時間が未定のとき、終了時間未定になる
         """
         event = EventFactory(period_end=None)
-        self.assertEqual(event.humanized_period, '09/04(Mon) 01:00 ~ End time is unfixed')
+        self.assertEqual(event.humanized_period, '09/04(Mon) 10:00 ~ End time is unfixed')
 
     def test_humanize_period_otherday(self):
         """
@@ -405,7 +405,7 @@ class EventTestCase(TestCase):
         event = EventFactory(period_start=now + datetime.timedelta(hours=1),
                              period_end=now + datetime.timedelta(days=2, hours=4)
         )
-        self.assertEqual(event.humanized_period, '09/04(Mon) 01:00 ~ 09/06(Wed) 04:00')
+        self.assertEqual(event.humanized_period, '09/04(Mon) 10:00 ~ 09/06(Wed) 13:00')
 
 @mock.patch('django.utils.timezone.now', static_now)
 class EventValidationTestCase(TestCase):

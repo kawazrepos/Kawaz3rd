@@ -2,6 +2,7 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.db.models import Q, F, Count
+from django.utils.timezone import get_current_timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
@@ -206,6 +207,8 @@ class Event(models.Model):
         now = timezone.now()
 
         def humanize(dt, only_time=False):
+            tz = get_current_timezone()
+            dt = dt.astimezone(tz)
             times = []
             weekday = weekdays[dt.weekday()]
             if dt.year == now.year:
