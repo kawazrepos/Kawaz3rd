@@ -76,9 +76,25 @@ html {
 .btn-default, .btn-primary {
   border-bottom-width: 3px;
 }
-img.logo-header {
-  margin-top: -4px;
+
+//PC logo
+@media (min-width: @screen-lg-min){
+  .logo-header {
+background: red;
+//    background :url(../img/kawaz-logo-header.png) no-repeat;
+  }
 }
+
+//SP logo
+@media (max-width: @screen-md-max) {
+  .logo-header {
+background: yellow;
+//    background :url(../img/kawaz-logo-header-sp.png) no-repeat;
+  }
+}
+
+
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: bold;
 }
