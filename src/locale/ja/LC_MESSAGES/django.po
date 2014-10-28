@@ -1475,16 +1475,12 @@ msgstr ""
 
 
 #: src/templates/projects/project_detail.html:81
-#, fuzzy
-#| msgid "Delete the product"
 msgid "Release product now"
-msgstr "作品を公開する"
+msgstr "いますぐ作品を公開する"
 
 #: src/templates/projects/project_detail.html:82
-#, fuzzy
-#| msgid "Create a new product"
 msgid "Learn about product"
-msgstr "新規作品を公開する"
+msgstr "作品って何？"
 
 #: src/templates/projects/project_detail.html:98
 msgid "Join the project"
