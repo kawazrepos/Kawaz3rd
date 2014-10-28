@@ -178,3 +178,9 @@
     label: mixi
     url_pattern: http://mixi.jp/show_profile.pl?id={username}
     icon: profiles/services/mixi.png
+- model: profiles.service
+  pk: 18
+  fields:
+    label: 3DSフレンドコード
+    url_pattern: ""
+    icon: profiles/services/3ds.png
