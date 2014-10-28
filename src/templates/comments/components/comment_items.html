@@ -16,13 +16,18 @@
                         <img src="/statics/img/defaults/profile_middle.png" class="avatar avatar-middle">
                     {% endif %}
                 </div>
-                <span class="comment-index">{{ forloop.counter }}</span>
-                {% if comment.user.is_authenticated %}
-                    <span class="nickname">{{ comment.user.nickname }}</span>
-                    <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
-                {% else %}
-                    <span>{{ comment.name }}</span>
-                {% endif %}
+                <div class="col col-lg-8">
+                    <span class="comment-index">{{ forloop.counter }}</span>
+                    {% if comment.user.is_authenticated %}
+                        <span class="nickname">{{ comment.user.nickname }}</span>
+                        <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
+                    {% else %}
+                        <span>{{ comment.name }}</span>
+                    {% endif %}
+                </div>
+                <div class="col col-lg-4 comment-date">
+                    <time class="text-right" datetime="{{ comment.submit_date|date:'c' }}"><a href="{{ comment.get_absolute_url }}">{{ comment.submit_date|date:"Y/m/d H:i" }}</a></time>
+                </div>
             </header>
             <div class="comment-body col col-lg-12 comment-body">
                 {% if comment.user.is_authenticated %}
@@ -37,9 +42,6 @@
             </div>
             <div class="comment-star col-lg-8">
                 {% include "components/star_container.html" with object=comment %}
-            </div>
-            <div class="col col-lg-4 comment-date">
-                <time datetime="{{ comment.submit_date|date:'c' }}"><a href="{{ comment.get_absolute_url }}">{{ comment.submit_date|date:"Y/m/d H:i" }}</a></time>
             </div>
         </article>
     {% endfor %}

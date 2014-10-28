@@ -51,6 +51,7 @@
     -moz-border-radius: @border-radius @border-radius 0 0;
     margin: 0;
     padding: 5px @avatar-size-small + 16px;
+    padding-right: 5px;
     .comment-index {
       font-weight: bold;
     }
@@ -82,6 +83,11 @@
     }
   }
   .comment-star {
+    padding-bottom: 4px;
+    .star-container {
+      padding-left: 15px;
+      padding-bottom: 4px;
+    }
   }
   .comment-date {
     time {
@@ -90,7 +96,5 @@
       }
       float: right;
     }
-    padding-bottom: 3px;
   }
-
 }
