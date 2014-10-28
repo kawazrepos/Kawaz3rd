@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ModelForm
+from kawaz.apps.projects.models import Project
 from kawaz.core.forms.fields import MarkdownField
 from kawaz.core.forms.widgets import MaceEditorWidget
 from kawaz.core.forms.mixins import Bootstrap3HorizontalFormHelperMixin
@@ -20,6 +21,7 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False
 
     description = MarkdownField(label=_('Description'))
+    project = forms.ModelChoiceField(queryset=Project.objects.filter(status='done', product=None), label=_('Project'))
     platforms = forms.ModelMultipleChoiceField(
         label=_('Platforms'),
         widget=widgets.CheckboxSelectMultiple,
