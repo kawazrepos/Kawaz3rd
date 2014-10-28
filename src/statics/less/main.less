@@ -76,9 +76,38 @@ html {
 .btn-default, .btn-primary {
   border-bottom-width: 3px;
 }
-img.logo-header {
-  margin-top: -4px;
+.logo-header {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  margin: 10px 15px 0 0;
 }
+
+// .navbar-brandがbootstrap-cssでネガティブマージン使ってるのでここで無理矢理上書き
+.navbar > .container .navbar-brand,
+  .navbar > .container-fluid .navbar-brand {
+    margin-left: 0;
+}
+
+//PC logo
+@media (min-width: @screen-lg-min){
+  .logo-header {
+    width: 125px;
+    height: 30px;
+    background :url(../img/kawaz-logo-header.png) no-repeat;
+  }
+}
+
+//SP logo
+@media (max-width: @screen-md-max) {
+  .logo-header {
+    width: 30px;
+    height: 30px;
+    background :url(../img/kawaz-logo-header-sp.png) no-repeat;
+  }
+}
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: bold;
 }
