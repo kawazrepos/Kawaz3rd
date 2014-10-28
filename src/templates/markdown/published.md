@@ -82,12 +82,6 @@ GlobalGameJam
 ![](http://www.kawaz.org/commons/1732/download/)
 
 
-記事掲載
-----------------
-- [ぎゃるちぇん：フリーゲームレビュー](http://freegames-review.blog.so-net.ne.jp/gal_change)
-- [フリーサウンドノベルレビュー　『ぎゃるちぇん』 : 久住女中本舗](http://kuzumi.exblog.jp/20619479/)
-
-
 [VOXQUEST-オクスクエスト-](http://www.kawaz.org/projects/voxquest/)
 ===============
 記事掲載
