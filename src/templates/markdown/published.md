@@ -29,7 +29,7 @@ GlobalGameJam
 音楽マインスイーパー
 ===============
 
-[音楽マインスイーパ（MusicMineSweeper）](http://www.kawaz.org/projects/musicminesweeper/)
+[プロジェクトページ - 音楽マインスイーパ（MusicMineSweeper）](http://www.kawaz.org/projects/musicminesweeper/)
 
 東京ゲームショウ2010-センスオブワンダーナイト2010-プレゼンテーション出典
 ----------------
@@ -56,7 +56,7 @@ GlobalGameJam
 VOXCHRONICLE-オクスクロニクル-
 ===============
 
-[VOXCHRONICLE-オクスクロニクル-](http://www.kawaz.org/projects/voxchronicle/)
+[プロジェクトページ - VOXCHRONICLE-オクスクロニクル-](http://www.kawaz.org/projects/voxchronicle/)
 
 
 東京ゲームショウ2013-センスオブワンダーナイト2013-一次選考通過
@@ -75,7 +75,7 @@ VOXCHRONICLE-オクスクロニクル-
 疾走系2D斬劇アクション　「タスラッシュ！」
 ===============
 
-[疾走系２D斬撃アクション　「タスラッシュ！」](http://www.kawaz.org/projects/tasrush/)
+[プロジェクトページ - 疾走系２D斬撃アクション　「タスラッシュ！」](http://www.kawaz.org/projects/tasrush/)
 
 雑誌掲載
 ----------------
@@ -94,7 +94,7 @@ VOXCHRONICLE-オクスクロニクル-
 ぎゃるちぇん
 ===============
 
-[ぎゃるちぇん](http://www.kawaz.org/projects/after-another-gal_novel/)
+[プロジェクトページ - ぎゃるちぇん](http://www.kawaz.org/projects/after-another-gal_novel/)
 
 雑誌掲載
 ----------------
@@ -105,7 +105,7 @@ VOXCHRONICLE-オクスクロニクル-
 VOXQUARTER（仮題）
 =======================
 
-[VOXQUARTER](http://www.kawaz.org/projects/vq3/)（仮題）
+[プロジェクトページ - VOXQUARTER](http://www.kawaz.org/projects/vq3/)（仮題）
 
 - [インディーゲームの祭典『BitSummit 2014』一般デーブース総ざらいレポート：Eブロック ｜ ガジェット通信](http://getnews.jp/archives/558965)
 - [「BitSummit MMXIV（2014）」イベントレポート（注目のブース編） | MF2dlog](http://blog.mf-2.net/2014/03/08/9078/)
@@ -128,14 +128,14 @@ Wave Weaver
 multiplex
 ========================
 
-[multiplex](http://www.kawaz.org/projects/multiplex/)
+[プロジェクトページ - multiplex](http://www.kawaz.org/projects/multiplex/)
 
 [【週末ゲーム】第566回：フリーのシューティングゲーム4作品をピックアップ - 窓の杜](http://www.forest.impress.co.jp/docs/serial/shumatsu/20140718_658529.html)
 
 みるみら for PS Vita
 =========================
 
-[みるみら for PS Vita](http://www.kawaz.org/projects/mirumira/)
+[プロジェクトページ - みるみら for PS Vita](http://www.kawaz.org/projects/mirumira/)
 
 [IndieGames.com - The Weblog Freeware Pick: test your spatial skills in puzzle platformer MiruMirror](http://indiegames.com/2014/01/free_game_test_your_spatial_pu.html)
 
@@ -143,7 +143,7 @@ multiplex
 VOXQUEST-オクスクエスト-
 ===============
 
-[VOXQUEST-オクスクエスト-](http://www.kawaz.org/projects/voxquest/)
+[プロジェクトページ - VOXQUEST-オクスクエスト-](http://www.kawaz.org/projects/voxquest/)
 
 記事掲載
 ----------------
@@ -152,7 +152,7 @@ VOXQUEST-オクスクエスト-
 音楽ファンタジー
 ===============
 
-[音楽ファンタジー](http://www.kawaz.org/projects/music_fantasy/)
+[プロジェクトページ - 音楽ファンタジー](http://www.kawaz.org/projects/music_fantasy/)
 
 記事掲載
 ----------------
@@ -162,7 +162,7 @@ VOXQUEST-オクスクエスト-
 かわずたんたたき！
 ===============
 
-[かわずたんたたき！](http://www.kawaz.org/projects/kawaz_buster/)
+[プロジェクトページ - かわずたんたたき！](http://www.kawaz.org/projects/kawaz_buster/)
 
 記事掲載
 ----------------
@@ -172,9 +172,9 @@ VOXQUEST-オクスクエスト-
 音楽ブロック崩し
 ===============
 
-[音楽ブロック崩し](http://www.kawaz.org/projects/music_breakout/)
+[プロジェクトページ - 音楽ブロック崩し](http://www.kawaz.org/projects/music_breakout/)
 
 記事掲載
 ----------------
 
-- [【レビュー】ブロック崩しの反射音がなぜかメロディーになる「音楽ブロックくずし」 - 窓の杜](http://www.forest.impress.co.jp/docs/review/20130704_606432.html?ref=twitter)
+- [【レビュー】ブロック崩しの反射音がなぜかメロディーになる「音楽ブロックくずし」 - 窓の杜](http://www.forest.impress.co.jp/docs/review/20130704_606432.html)
