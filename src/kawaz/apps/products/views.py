@@ -138,6 +138,7 @@ class ProductFormMixin(SuccessMessageMixin):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         if 'project' in self.request.GET:
+            # ?project=<pk>を指定すると、それが初期状態になる
             default_project = self.request.GET['project']
             pk = int(default_project)
             kwargs.update({'initial': {'project': pk}})
