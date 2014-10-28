@@ -21,7 +21,9 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False
 
     description = MarkdownField(label=_('Description'))
-    project = forms.ModelChoiceField(queryset=Project.objects.filter(status='done', product=None), label=_('Project'))
+    project = forms.ModelChoiceField(queryset=Project.objects.filter(status='done', product=None),
+                                     label=_('Project'),
+                                     required=False)
     platforms = forms.ModelMultipleChoiceField(
         label=_('Platforms'),
         widget=widgets.CheckboxSelectMultiple,
