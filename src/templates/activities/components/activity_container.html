@@ -1,6 +1,5 @@
 {% load activities_tags %}
 <section id="activity-container">
-    <div class="activity-line"></div>
     {% for activity in activities %}
         <article class="activity">
             {% render_activity activity of 'root' %}
