@@ -126,10 +126,9 @@ class Product(models.Model):
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
     # TODO: published
     publish_at = models.DateField(_('Published at'))
-
-    # 編集不可
-    administrators = models.ManyToManyField(Persona, editable=False,
+    administrators = models.ManyToManyField(Persona,
                                             verbose_name=_('Administrators'))
+
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     last_modifier = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -173,6 +172,10 @@ class Product(models.Model):
             # display_modeをfeaturedに設定できない
             raise ValidationError(_(
                 "Display mode 'Feature' requires 'Advertisement image'"
+            ))
+        if self.administrators.count() == 0:
+            raise ValidationError(_(
+                '`Administrators` must contain one user at least.'
             ))
         if self.slug == 'platforms':
             raise ValidationError(_(
