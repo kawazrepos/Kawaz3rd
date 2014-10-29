@@ -173,10 +173,6 @@ class Product(models.Model):
             raise ValidationError(_(
                 "Display mode 'Feature' requires 'Advertisement image'"
             ))
-        if self.administrators.count() == 0:
-            raise ValidationError(_(
-                '`Administrators` must contain one user at least.'
-            ))
         if self.slug == 'platforms':
             raise ValidationError(_(
                 "A product slug 'platforms' is reserved."
