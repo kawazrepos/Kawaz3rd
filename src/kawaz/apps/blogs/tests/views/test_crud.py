@@ -434,14 +434,15 @@ class EntryCategoryListView(TestCase):
 
     def test_category_url(self):
         """
+        blogs_entry_category_listから
+        /blogs/<author>/category/<category_pk>/が引ける
         """
         author = PersonaFactory()
         category = CategoryFactory()
 
-        label = urllib.parse.quote_plus(category.label)
         self.assertEqual(reverse('blogs_entry_category_list',
-                                 kwargs={'author' :author.username, 'category': category.label}),
-                         '/blogs/{}/{}/'.format(author.username, label))
+                                 kwargs={'author' :author.username, 'pk': category.pk}),
+                         '/blogs/{}/category/{}/'.format(author.username, category.pk))
 
     def test_category_list(self):
         """
@@ -456,14 +457,13 @@ class EntryCategoryListView(TestCase):
         entry2 = EntryFactory(category=category1, author=user1)
         entry3 = EntryFactory(category=category1, pub_state='draft', author=user1)
 
-        label0 = urllib.parse.quote_plus(category0.label)
-        url = '/blogs/{}/{}/'.format(user0.username, label0)
+        url = '/blogs/{}/category/{}/'.format(user0.username, category0.pk)
         r = self.client.get(url)
         self.assertEqual(len(r.context['object_list']), 2)
         self.assertTrue(entry0 in r.context['object_list'])
         self.assertTrue(entry1 in r.context['object_list'])
 
-        url = '/blogs/{}/{}/'.format(user1.username, category1.label)
+        url = '/blogs/{}/category/{}/'.format(user1.username, category1.pk)
         r = self.client.get(url)
         self.assertTrue(len(r.context['object_list']), 1)
         self.assertTrue(entry2 in r.context['object_list'])

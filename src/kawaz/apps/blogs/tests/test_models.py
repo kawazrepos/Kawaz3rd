@@ -32,10 +32,10 @@ class CategoryTestCase(TestCase):
     def test_get_absolute_url(self):
         """
         get_absolute_urlでカテゴリの記事一覧ページのURLが取得できる
+        /blogs/<author>/category/<category_pk>/
         """
         category = CategoryFactory()
-        label = urllib.parse.quote_plus(category.label)
-        self.assertEqual(category.get_absolute_url(), '/blogs/{}/{}/'.format(category.author.username, label))
+        self.assertEqual(category.get_absolute_url(), '/blogs/{}/category/{}/'.format(category.author.username, category.pk))
 
 
 class EntryManagerTestCase(TestCase):

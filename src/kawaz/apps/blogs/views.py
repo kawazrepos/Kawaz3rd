@@ -165,5 +165,5 @@ class EntryCategoryListView(EntryMultipleObjectMixin, ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         author = self.kwargs.get('author', None)
-        category = self.kwargs.get('category', None)
-        return qs.filter(category__author__username=author, category__label=category)
+        category = self.kwargs.get('pk', None)
+        return qs.filter(category__author__username=author, category__pk=int(category))
