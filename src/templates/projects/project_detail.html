@@ -26,7 +26,7 @@
       {% endif %}
     </div>
 
-    <div class="row">
+    <div class="row" id="project-header">
       <div class="col col-lg-4 col-xs-12" id="project-thumbnail">
         <img class="group list-group-image" src="{{ project.get_huge_icon }}" alt="{{ project.title }} Thumbnail" />
       </div>
@@ -70,7 +70,20 @@
   {% endblock %}
 
   {% block content-main %}
-    <article class="markdown project-article">
+      {# プロジェクトが完成していたら、プロダクト作成を促す #}
+      {% if user has 'projects.change_project' of project and project.product == None and project.status == 'done' %}
+          <div class="alert alert-warning release-alert">
+              {% blocktrans %}
+                  <p>The status of this project is specified as 'done' but no product of this project exists.</p>
+                  <p>Please make a new product of this project to share the product release to external users.</p>
+              {% endblocktrans %}
+              <div>
+                  <a class="btn btn-success btn-lg" href="{% url "products_product_create" %}?project={{ project.pk }}">{% trans "Release product now" %}</a>
+                  <a href="/helps/products/" class="learn-product">{% trans "Learn about product" %}</a>
+              </div>
+          </div>
+      {% endif %}
+      <article class="markdown project-article">
           {{ project.body | parser }}
     </article>
     {% include "components/star_container.html" %}

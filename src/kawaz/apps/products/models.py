@@ -103,7 +103,8 @@ class Product(models.Model):
         upload_to=_get_thumbnail_upload_path,
         patterns=settings.PRODUCT_THUMBNAIL_SIZE_PATTERNS,
         help_text=_("This would be used as a product thumbnail image. "
-                    "The aspect ratio of the image should be 16:9."))
+                    "The aspect ratio of the image should be 16:9."
+                    "We recommend the image size to be 800 * 450."))
     description = models.TextField(_('Description'), max_length=4096)
 
     # 省略可能フィールド
@@ -113,13 +114,14 @@ class Product(models.Model):
         upload_to=_get_advertisement_image_upload_path,
         patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
         help_text=_("This would be used in the top page. "
-                    "The aspect ratio of the image should be 16:9"))
+                    "The aspect ratio of the image should be 16:9"
+                    "We recommend the image size to be 800 * 450"))
     trailer = models.URLField(
         _('Trailer'), null=True, blank=True,
         help_text=_("Enter URL of your trailer movie on the YouTube. "
                     "The movie would be embeded to the product page."))
-    project = models.ForeignKey(Project, verbose_name=_('Project'),
-                                null=True, blank=True)
+    project = models.OneToOneField(Project, verbose_name=_('Project'),
+                                null=True, blank=True, related_name='product')
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
     # TODO: published

@@ -19,6 +19,7 @@ from permission.decorators import permission_required
 from .forms import ProductCreateForm, ProductUpdateForm
 from .forms import PackageReleaseForm, URLReleaseForm, ScreenshotForm
 from .forms import PackageReleaseFormSet, URLReleaseFormSet, ScreenshotFormSet
+from kawaz.apps.projects.models import Project
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
 from .models import Product
 from .models import PackageRelease, URLRelease, Screenshot
@@ -133,6 +134,15 @@ class ProductFormMixin(SuccessMessageMixin):
             package_release_formset=package_release_formset,
             screenshot_formset=screenshot_formset,
         ))
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if 'project' in self.request.GET:
+            # ?project=<pk>を指定すると、それが初期状態になる
+            default_project = self.request.GET['project']
+            pk = int(default_project)
+            kwargs.update({'initial': {'project': pk}})
+        return kwargs
 
 
 @permission_required('products.add_product')
