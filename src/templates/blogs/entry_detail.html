@@ -1,4 +1,4 @@
-{% extends "authenticated_base.html" %}
+{% extends "twopane.html" %}
 {% load i18n %}
 {% load staticfiles %}
 {% block title %}{{ object.title }}{% endblock %}
@@ -12,9 +12,42 @@
     <li><a href="{% url "blogs_entry_author_list" author=object.author %}">{{ object.author.nickname }}{% trans "'s blog entries" %}</a></li>
     <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
 {% endblock %}
-{% block content %}
+{% block content-main %}
     {{ block.super }}
     {% include "blogs/components/entry_detail_article.html" %}
     {% include "components/star_container.html" %}
     {% include "components/social.html" %}
+{% endblock %}
+{% block content-aside %}
+    <div class="entry-item entry-item-right">
+        <dl class="blog-author">
+            <dt><span class="glyphicon glyphicon-pencil"></span><span>{% trans "Blog author" %}</span></dt>
+            <dd>
+                <a class="author-info" href="{{ object.author.profile.get_absolute_url }}">
+                    <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/> <p class="author-quotes">{{ object.author.quotes }}</p>
+                </a>
+                <a class="author-info author-name" href="{{ object.author.profile.get_absolute_url }}">
+                    {{ object.author.nickname }}(id: {{ object.author }})
+                </a>
+            </dd>
+        </dl>
+    </div>
+    {% if user has 'blogs.change_entry' of object or user has 'blogs.delete_entry' of object %}
+        <div class="panel panel-default blog-administration">
+          <div class="panel-heading blog-administration-head">
+              <h2 class="panel-title">{% trans "Administration" %}</h2>
+          </div>
+          <div class="list-group">
+              {% if user has 'blogs.change_entry' of object %}
+            <a class="list-group-item" href="{% url 'blogs_entry_update' author=user.username pk=object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Edit the blog entry" %}</a>
+                {% endif %}
+                {% if user has 'blogs.delete_entry' of object %}
+                <a class="list-group-item list-group-item-danger post-link" href="{% url 'blogs_entry_delete' author=user.username pk=object.pk %}" confirm-message="{% trans "Do you want to delete this entry?" %}"><span class="glyphicon glyphicon-remove"></span>
+                    {% trans "Delete the blog entry" %}
+                    <form method="POST" style="display: none;">{% csrf_token %}</form>
+                </a>
+                {% endif %}
+          </div>
+        </div>
+    {% endif %}
 {% endblock %}
