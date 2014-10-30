@@ -1,20 +1,20 @@
 {% load i18n %}
 <div class="blog-article{% if object.pub_state == "protected" %} bg-protected{% endif %}">
     <div class="blog-article-header">
-            <h2>
-                <p>
-                    <small>
-                        <time datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time>
-                        <a href="{{ object.author.profile.get_absolute_url }}">
-                            <img src="{{ object.author.get_small_avatar }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-small" />
-                        </a>
-                        {% if object.pub_state == "protected" %}
-                            <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
-                        {% endif %}
-                    </small>
-                </p>
-                <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
-            </h2>
+
+        <p>
+            <small>
+                <time class="entry-pub-date" datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time>
+                <a href="{{ object.author.profile.get_absolute_url }}">
+                    <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-middle" />
+                </a>
+                {% if object.pub_state == "protected" %}
+                <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
+                {% endif %}
+            </small>
+        </p>
+        <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+
         <p class="badge">{{ object.category.label }}</p>
     </div>
     <article class="markdown">

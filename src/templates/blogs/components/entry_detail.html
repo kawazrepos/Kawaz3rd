@@ -4,7 +4,7 @@
     <div class="entry-item col-xs-12 col-md-12">
         <div class="blog-article">
             <div class="blog-article-header">
-                    <time datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time> 
+                    <time class="entry-pub-date" datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time> 
                 <div class="page-header entry-title">
                     <h1>
                     {{ object.title }}
