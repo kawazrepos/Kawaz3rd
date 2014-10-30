@@ -2,13 +2,14 @@
 #
 # created by giginet on 2014/10/15
 #
+from django.contrib.contenttypes.models import ContentType
 from django_comments import Comment
+from kawaz.apps.products.models import AbstractRelease
 
 __author__ = 'giginet'
 from activities.mediator import ActivityMediator
 
 class ProductActivityMediator(ActivityMediator):
-
 
     def alter(self, instance, activity, **kwargs):
         # 状態がdraftの場合は通知しない
@@ -65,4 +66,31 @@ class ProductActivityMediator(ActivityMediator):
                 context['comment'] = comment
             except:
                 pass
+        elif activity.status == 'add_release':
+            # releaseをcontextに加える
+            try:
+                ct_pk, pk = activity.remarks.split(',')
+                ct = ContentType.objects.get_for_id(ct_pk)
+                release_class = ct.model_class()
+                release = release_class.objects.get(pk=pk)
+                context['release'] = release
+            except:
+                pass
         return context
+
+
+class ReleaseActivityMediator(ActivityMediator):
+
+    def alter(self, instance, activity, **kwargs):
+        if activity and activity.status == 'created':
+            target = instance.product
+            # リリースが作成されたとき、対象オブジェクトを書き換える
+            ct = ContentType.objects.get_for_model(type(target))
+            pk = target.pk
+            activity.content_type = ct
+            activity.object_id = pk
+            activity.status = 'add_release'
+            # URLRelease, PackageRelease、どちらにも対応できるように付いたリリースのctを入れている
+            release_ct = ContentType.objects.get_for_model(type())
+            activity.remarks = '{},{}'.format(str(release_ct.pk), str(instance.pk))
+            return activity

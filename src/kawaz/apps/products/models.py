@@ -318,3 +318,7 @@ add_permission_logic(Product, ProductPermissionLogic())
 from .activity import ProductActivityMediator
 from activities.registry import registry
 registry.register(Product, ProductActivityMediator())
+
+from .activity import ReleaseActivityMediator
+registry.register(PackageRelease, ReleaseActivityMediator())
+registry.register(URLRelease, ReleaseActivityMediator())
