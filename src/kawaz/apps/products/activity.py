@@ -4,7 +4,7 @@
 #
 from django.contrib.contenttypes.models import ContentType
 from django_comments import Comment
-from kawaz.apps.products.models import AbstractRelease
+from kawaz.apps.products.models import AbstractRelease, Screenshot
 
 __author__ = 'giginet'
 from activities.mediator import ActivityMediator
@@ -76,6 +76,14 @@ class ProductActivityMediator(ActivityMediator):
                 context['release'] = release
             except:
                 pass
+        elif activity.status == 'add_screenshot':
+            # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
+            # 取得してcontextに渡す
+            try:
+                ss = Screenshot.objects.get(pk=int(activity.remarks))
+                context['screenshot'] = ss
+            except:
+                pass
         return context
 
 
@@ -93,4 +101,20 @@ class ReleaseActivityMediator(ActivityMediator):
             # URLRelease, PackageRelease、どちらにも対応できるように付いたリリースのctを入れている
             release_ct = ContentType.objects.get_for_model(type(instance))
             activity.remarks = '{},{}'.format(str(release_ct.pk), str(instance.pk))
+        return activity
+
+
+class ScreenshotActivityMediator(ActivityMediator):
+
+    def alter(self, instance, activity, **kwargs):
+        if activity and activity.status == 'created':
+            target = instance.product
+            # スクリーンショットが作成されたとき、対象オブジェクトを書き換える
+            ct = ContentType.objects.get_for_model(type(target))
+            pk = target.pk
+            activity.content_type = ct
+            activity.object_id = pk
+            activity.status = 'add_screenshot'
+            # Screenshotのpkをremarksに入れる
+            activity.remarks = str(instance.pk)
         return activity
