@@ -2,9 +2,9 @@
 {% block history-item %}
     {% include "components/small_avatar.html" with user=object.author render_username=False %}
     {% if title_updated %}
-        タイトルを{{ activity.previous.snapshot.title }}から{{ object.title }}に変えました
+        タイトルを「<strong>{{ activity.previous.snapshot.title }}</strong>」から「<strong>{{ object.title }}</strong>」に変えました
     {% elif category_updated %}
-        カテゴリを「<strong><{{ activity.previous.snapshot.category.label }}/strong>」から「<strong><{{ object.category.label }}/strong>」へ変えました
+        カテゴリを「<strong>{{ activity.previous.snapshot.category.label }}/strong>」から「<strong><{{ object.category.label }}</strong>」へ変えました
     {% elif body_updated %}
         本文を編集しました
     {% elif category_created %}
