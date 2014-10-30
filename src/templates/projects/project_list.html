@@ -46,8 +46,10 @@
             {% include "projects/components/list-item.html" %}
         </div>
         {% empty %}
-        <div class="alert alert-info">
-            <p>該当するプロジェクトは見つかりませんでした</p>
+        <div class="col-xs-12 col-md-12">
+            <div class="alert alert-info">
+                <p>該当するプロジェクトは見つかりませんでした</p>
+            </div>
         </div>
         {% endfor %}
     </div>
@@ -58,12 +60,12 @@
             <p><small>アーカイブされたプロジェクトです</small></p>
         </h2>
     </div>
-    <div class="row project-list-archived list-group">
+    <div class="project-list-archived list-group">
         {% get_projects 'archived' as archiving %}
         {% for project in archiving|slice:":2" %}
             {% include "projects/components/list-item-archived.html" %}
         {% endfor %}
-        <a href="{% url "projects_project_archives" %}" class="list-group-item row" id="project-list-more">
+        <a href="{% url "projects_project_archives" %}" class="list-group-item" id="project-list-more">
             {% trans "See more" %}
         </a>
     </div>
