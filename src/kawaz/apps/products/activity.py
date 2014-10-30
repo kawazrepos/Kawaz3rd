@@ -91,6 +91,6 @@ class ReleaseActivityMediator(ActivityMediator):
             activity.object_id = pk
             activity.status = 'add_release'
             # URLRelease, PackageRelease、どちらにも対応できるように付いたリリースのctを入れている
-            release_ct = ContentType.objects.get_for_model(type())
+            release_ct = ContentType.objects.get_for_model(type(instance))
             activity.remarks = '{},{}'.format(str(release_ct.pk), str(instance.pk))
-            return activity
+        return activity
