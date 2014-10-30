@@ -40,8 +40,10 @@ class CommentPermissionLogic(PermissionLogic):
         Object permission:
             change: 誰も持たない
             delete: 誰も持たない
-            can_moderate: 指定されたスターがリンクしているオブジェクトの編集権限
-                があれ、ネルフ権限以上がある、コメントの作者が自分であればTrue
+            can_moderate: 以下のいずれかの条件を満たす
+                - ネルフ権限以上がある
+                - コメントの作者が自分である
+                - 指定されたコメントがリンクしているオブジェクトの編集権限を持っている
 
         Notice:
             django_comments.can_moderateはdjango_comments.Commentが持つパーミッションであり
@@ -61,7 +63,7 @@ class CommentPermissionLogic(PermissionLogic):
             permissions = ('django_comments.add_comment', 'django_comments.can_moderate',)
             if perm in permissions:
                 if user_obj.is_authenticated() and user_obj.is_member:
-                    # メンバーはスターの付加、moderateが可能
+                    # メンバーはコメントの付加、moderateが可能
                     return True
             return False
         # object permission
