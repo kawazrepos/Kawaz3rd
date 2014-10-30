@@ -236,7 +236,9 @@ GCAL_CLIENT_SECRETS = os.path.join(
 GCAL_CREDENTIALS = os.path.join(
     REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
 
+# django_comments
 COMMENTS_APP = 'kawaz.core.comments'
+COMMENTS_HIDE_REMOVED = False
 
 # crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
