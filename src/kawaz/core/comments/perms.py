@@ -42,6 +42,10 @@ class CommentPermissionLogic(PermissionLogic):
             delete: 誰も持たない
             can_moderate: 指定されたスターがリンクしているオブジェクトの編集権限
                 があれ、ネルフ権限以上がある、コメントの作者が自分であればTrue
+
+        Notice:
+            django_comments.can_moderateはdjango_comments.Commentが持つパーミッションであり
+            commentのis_removedフラグを変更する権限である
         """
 
         # filter interest permissions
@@ -51,7 +55,7 @@ class CommentPermissionLogic(PermissionLogic):
                         'django_comments.can_moderate'):
             return False
         if perm == 'django_comments.change_comment' or perm == 'django_comments.delete_comment':
-            # あらゆるユーザーがコメントの削除、変更不可能
+            # あらゆるユーザーがコメントの削除、変更不可能（神除く）
             return False
         if obj is None:
             permissions = ('django_comments.add_comment', 'django_comments.can_moderate',)
@@ -62,6 +66,7 @@ class CommentPermissionLogic(PermissionLogic):
             return False
         # object permission
         if perm == 'django_comments.can_moderate':
+            # コメントを非表示にする権限
             if user_obj.is_staff:
                 # ネルフ権限以上であればmoderate可能
                 return True
@@ -69,6 +74,9 @@ class CommentPermissionLogic(PermissionLogic):
                 # コメント作者はmoderate可能
                 return True
             # それ以外の場合、対象オブジェクトの変更権限があればmoderate可能
-            return self._check_object_permissions(user_obj, 'update',
+            return self._check_object_permissions(user_obj, 'change',
                                                   obj.content_object)
+        elif perm == 'django_comments.add_comment':
+            # メンバーなら全てのオブジェクトにコメントを追加可能
+            return user_obj.is_authenticated() and user_obj.is_member
         return False
