@@ -40,6 +40,12 @@
       background: @gray-lighter;
     }
 
+    .activity-image {
+      img {
+        max-width: 100%;
+      }
+    }
+
     .activity-icon {
       flex-grow: 1;
       // アイコン領域は縮まない
@@ -58,8 +64,8 @@
     .activity-body {
       flex-flow: column wrap;
       display: flex;
-      flex-grow: 4;
-      flex-shrink: 2;
+      flex-grow: 6;
+      flex-shrink: 4;
       align-items: stretch;
 
       .activity-header {
