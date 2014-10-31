@@ -40,12 +40,24 @@
       background: @gray-lighter;
     }
 
+    .activity-image {
+      img {
+        max-width: 100%;
+      }
+    }
+
     .activity-icon {
+      flex-grow: 1;
+      // アイコン領域は縮まない
+      flex-shrink: 0;
       display: flex;
+      justify-content: center;
+      align-items: center;
 
       img {
         margin: auto @icon-margin;
         max-width: 500px;
+        min-width: @avatar-size-large;
       }
 
     }
@@ -53,6 +65,8 @@
     .activity-body {
       flex-flow: column wrap;
       display: flex;
+      flex-grow: 6;
+      flex-shrink: 2;
       align-items: stretch;
 
       .activity-header {
