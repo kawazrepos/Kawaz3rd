@@ -77,7 +77,7 @@ class ProductActivityMediator(ActivityMediator):
             except:
                 pass
         elif activity.status == 'add_screenshot':
-            # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
+            # コメントが付いたとき、remarksにscreenshotのpkが入ってるはずなので
             # 取得してcontextに渡す
             try:
                 ss = Screenshot.objects.get(pk=int(activity.remarks))
