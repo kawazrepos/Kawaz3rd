@@ -49,7 +49,6 @@ $('.star-container').each(->
   )
 
   $readmore = $(@).find('.star-read-more')
-  console.log $readmore
   $stars = $(@).find('.star')
   starCount = $stars.size()
   $readmore.find('.text').text(starCount)
