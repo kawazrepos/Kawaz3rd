@@ -1,6 +1,6 @@
 # Kawazでの記事の書き方について
 
-Kawazポータルでは、Markdownという簡単に文章の整形ができる記法が使えるほか、ブログパーツを貼り付けたりなど、多才な表現が可能です。
+Kawazポータルでは、Markdownという簡単に文章の整形ができる記法が使えるほか、ブログパーツを貼り付けたりなど、多彩な表現が可能です。
 
 
 この記事では、Kawazでの記事の書き方についてお伝えします。
@@ -14,7 +14,7 @@ Kawazでは、多くの場所で上記のようなエディタを利用するこ
 これを使うことで、簡単に整形を行うことができますが、正しい書き方を知らないと、大きくデザインが崩れてしまうことがあります。
 
 
-また、書きかけの文章はいつでも**プレビュー**ボタンから確認することができます。
+また、書きかけの文章はいつでも**プレビュー**タブから確認することができます。
 
 ![](../../statics/img/help/preview.png)
 
@@ -173,7 +173,7 @@ Kawazでは、多くの場所で上記のようなエディタを利用するこ
 
 
 <div class="inner-markdown">
-    <p>Kawazは2009年に<strong>geekdrums</strong>によって成立された。</p>
+    <p>Kawazは2009年に<strong>geekdrums</strong>によって設立された。</p>
 </div>
 
 
@@ -294,15 +294,15 @@ Web上の画像に直リンクしたいときにご利用ください。
 
 #### 例
 
-    抜きたくなる画像
+    かわずたん！
 
-    ![抜きたくなる画像](http://i.ytimg.com/vi/Ca3lvbHHzJE/maxresdefault.jpg)
+    ![かわずたん！](http://www.kawaz.org/statics/img/help/kawaztan.png)
 
 
 <div class="inner-markdown">
-    <p>抜きたくなる画像</p>
+    <p>かわずたん！</p>
 
-    <p><img src="http://i.ytimg.com/vi/Ca3lvbHHzJE/maxresdefault.jpg" alt="抜きたくなる画像"></p>
+    <p><img src="http://www.kawaz.org/statics/img/help/kawaztan.png" alt="かわずたん！"></p>
 
 </div>
 
@@ -318,12 +318,12 @@ Web上の画像に直リンクしたいときにご利用ください。
 #### 例
 
 
-    毎年数千万円が貰える大チャンス！詳しくは[こちら](http://www.kantei.go.jp/)から！！！
+    毎年数千万円が貰える大チャンス！詳しくは[こちら](https://www.hellowork.go.jp/)から！！！
 
 
 <div class="inner-markdown">
 
-    <p>毎年数千万円が貰える大チャンス！詳しくは<a href="http://www.kantei.go.jp/">こちら</a>から！！！</p>
+    <p>毎年数千万円が貰える大チャンス！詳しくは<a href="https://www.hellowork.go.jp/">こちら</a>から！！！</p>
 
 </div>
 
@@ -362,7 +362,7 @@ Kawazでは以下のファイルに対応しています。
 Kawaz3rdでは、**記事中で全てのHTMLタグを利用できるようになりました**
 
 
-そのため、Kawaz2ndではできなかった、ブログパーツの貼り付けなど、多才な表現ができるようになりました。
+そのため、Kawaz2ndではできなかった、ブログパーツの貼り付けなど、多彩な表現ができるようになりました。
 
 
 ### Twitter
