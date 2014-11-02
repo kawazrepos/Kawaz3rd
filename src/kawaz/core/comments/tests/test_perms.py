@@ -35,17 +35,6 @@ class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
         self._test('wille', 'add', neg=True)
         self._test('anonymous', 'add', neg=True)
 
-    def test_add_comment_permission_with_obj(self):
-        """
-        メンバーは全てのオブジェクトに対するコメント付加権限を持つ
-        """
-        self._test('adam', 'add', obj=self.article)
-        self._test('seele', 'add', obj=self.article)
-        self._test('nerv', 'add', obj=self.article)
-        self._test('children', 'add', obj=self.article)
-        self._test('wille', 'add', obj=self.article, neg=True)
-        self._test('anonymous', 'add', obj=self.article, neg=True)
-
     def test_change_permission_without_obj(self):
         """
         基本的に変更権限は誰も持たない（神を除く）
@@ -128,7 +117,7 @@ class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def test_can_moderate_with_obj(self):
         """
-        コメントを書いた人と、コメントが付いた記事作者と、ネルフ以上のみが削除権限を持つ
+        コメントを書いた人と、コメントが付いた記事作者と、ネルフ以上のみが非表示にする権限を持つ
         """
         self.use_model_name = False
         self._test('adam', 'can_moderate', obj=self.comment)
@@ -137,7 +126,7 @@ class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
         self._test('children', 'can_moderate', obj=self.comment, neg=True)
         self._test('wille', 'can_moderate', obj=self.comment, neg=True)
         self._test('anonymous', 'can_moderate', obj=self.comment, neg=True)
-        # オブジェクトの編集権限所有者はコメントの削除権限も持たない
+        # オブジェクトの編集権限所有者はコメントを非表示にする権限を持つ
         self._test('comment_author', 'can_moderate', obj=self.comment)
         self._test('comment_author', 'can_moderate', obj=self.comment)
         self.use_model_name = True

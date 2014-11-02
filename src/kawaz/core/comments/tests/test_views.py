@@ -7,7 +7,7 @@ __author__ = 'giginet'
 
 class CommentViewTestCase(TestCase):
 
-    def test_can_delete_via_comment_delete(self):
+    def test_can_moderate_via_comments_delete(self):
         """
         comments-deleteから自分のコメントを非表示にできる
 

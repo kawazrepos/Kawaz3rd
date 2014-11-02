@@ -56,7 +56,7 @@ class CommentPermissionLogic(PermissionLogic):
                         'django_comments.delete_comment',
                         'django_comments.can_moderate'):
             return False
-        if perm == 'django_comments.change_comment' or perm == 'django_comments.delete_comment':
+        if perm in ('django_comments.change_comment', 'django_comments.delete_comment'):
             # あらゆるユーザーがコメントの削除、変更不可能（神除く）
             return False
         if obj is None:
@@ -78,7 +78,4 @@ class CommentPermissionLogic(PermissionLogic):
             # それ以外の場合、対象オブジェクトの変更権限があればmoderate可能
             return self._check_object_permissions(user_obj, 'change',
                                                   obj.content_object)
-        elif perm == 'django_comments.add_comment':
-            # メンバーなら全てのオブジェクトにコメントを追加可能
-            return user_obj.is_authenticated() and user_obj.is_member
         return False
