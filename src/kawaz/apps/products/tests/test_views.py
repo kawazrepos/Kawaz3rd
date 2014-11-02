@@ -111,6 +111,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             'publish_at': datetime.date.today(),
             'platforms': (1,),
             'categories': (1,),
+            'administrators': (1,),
             'description': '剣と魔法の物語です',
             'screenshots-TOTAL_FORMS': 0,           # No screenshots
             'screenshots-INITIAL_FORMS': 0,
@@ -301,6 +302,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             'publish_at': datetime.date.today(),
             'platforms': (1,),
             'categories': (1,),
+            'administrators': (1,),
             'description': '剣と魔法の物語です',
             'screenshots-TOTAL_FORMS': 0,           # No screenshots
             'screenshots-INITIAL_FORMS': 1,

@@ -9,6 +9,7 @@ from django.forms import widgets
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext as _
+from kawaz.core.personas.models import Persona
 from .models import Product
 from .models import Platform
 from .models import Category
@@ -16,6 +17,13 @@ from .models import Screenshot
 from .models import PackageRelease
 from .models import URLRelease
 
+class PersonaChoiceField(forms.ModelMultipleChoiceField):
+    """
+    forms.ModelMultipleChoiceFieldのラベルにpersona.nicknameが使われるようにする
+    """
+
+    def label_from_instance(self, obj):
+        return obj.nickname
 
 class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False
@@ -32,7 +40,11 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         label=_('Categories'),
         widget=widgets.CheckboxSelectMultiple,
         queryset=Category.objects.all().order_by('pk'))
-    # TODO: published
+    administrators = PersonaChoiceField(
+        label=_('Administrators'),
+        widget=widgets.CheckboxSelectMultiple,
+        queryset=Persona.objects.filter(is_active=True).order_by('pk'),
+        help_text=_('Check the users who can manage this product.'))
     publish_at = forms.DateField(label=_('Published at'), widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
