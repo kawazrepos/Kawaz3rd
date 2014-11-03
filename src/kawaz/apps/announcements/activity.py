@@ -1,12 +1,8 @@
-# ! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/10/14
-#
 __author__ = 'giginet'
 from activities.mediator import ActivityMediator
 from django_comments.models import Comment
 
-class EntryActivityMediator(ActivityMediator):
+class AnnouncementActivityMediator(ActivityMediator):
 
     def alter(self, instance, activity, **kwargs):
         # 状態がdraftの場合は通知しない
@@ -33,7 +29,6 @@ class EntryActivityMediator(ActivityMediator):
                 attributes = (
                     'title',
                     'body',
-                    'category',
                 )
                 for attribute in attributes:
                     if is_created(attribute):
