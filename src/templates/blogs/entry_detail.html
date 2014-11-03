@@ -22,10 +22,11 @@
     <div class="entry-item entry-item-right">
         <dl class="blog-author">
             <dt><span class="glyphicon glyphicon-pencil"></span><span>{% trans "Blog author" %}</span></dt>
-            <dd>
-                <a class="author-info" href="{{ object.author.profile.get_absolute_url }}">
-                    <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/> <p class="author-quotes">{{ object.author.quotes }}</p>
-                </a>
+            <dd class="author-info">
+                <a href="{{ object.author.profile.get_absolute_url }}">
+                    <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/> 
+                    </a>
+                    <p class="author-quotes">{{ object.author.quotes }}</p>
                 <a class="author-info author-name" href="{{ object.author.profile.get_absolute_url }}">
                     {{ object.author.nickname }}(id: {{ object.author }})
                 </a>

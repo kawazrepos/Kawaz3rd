@@ -13,18 +13,17 @@
   h1 {
     padding: 8px;
     border-left: 2px solid @text-color;
-    background: #f5f5f5;
+    background: @gray-lighter;
     font-size: 24px;
     margin-top: 30px;
   }
 
   h2 {
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid @gray-lighter;
     font-size: 22px;
     padding-bottom: 5px;
     padding-left: 5px;
-    margin-top: 30px;
-    margin-bottom: 15px
+    margin: 30px 0 15px;
   }
 
   h3 {
@@ -50,21 +49,17 @@
     font-style: italic;
     line-height: @line-height-base * 1.5;
     border-left: solid 5px desaturate(lighten(@brand-primary, 40%), 40%);
-    padding-top: 2px;
-    padding-left: 10px;
-    padding-bottom: 12px;
-    margin-left: 40px;
-    margin-top: 25px;
-    margin-bottom: 25px;
+    padding: 2px 0 12px 10px;
+    margin: 25px 0 25px 40px;
 
     blockquote {
       margin-left: 12px;
     }
   }
 
-strong{
-  color: #282828;
-}
+  strong {
+    color: @gray-darker;
+  }
 
   code {
     color: @text-color;
@@ -75,12 +70,7 @@ strong{
   img {
     max-width: 500px;
   }
-  a {
-    color: rgb(87, 152, 225);
-    &:hover {
-      color: rgb(192, 204, 236);
-    }
-  }
+
 
   // Baseline styles
   // Markdownから生成されたtableにはクラスが付加されないため

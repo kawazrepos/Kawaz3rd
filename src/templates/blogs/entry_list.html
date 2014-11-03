@@ -5,57 +5,63 @@
 {% block title %}最近のブログ記事{% endblock %}
 {% block pre_css %}
 {{ block.super }}
-    <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
+<link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
 {% endblock %}
 {% block breadcrumb %}
-    {{ block.super }}
-    <li><a href="{% url 'blogs_entry_list' %}">{% trans "Blog" %}</a></li>
+{{ block.super }}
+<li><a href="{% url 'blogs_entry_list' %}">{% trans "Blog" %}</a></li>
 {% endblock %}
 {% block content-header %}
-    <div class="page-header blog-list-header">
-        <div class="header-left">
-            <h1>{% trans "Blog entries" %}</h1>
-            <small>{% blocktrans count counter=paginator.count %}There is one blog entry.{% plural %}There are {{ counter }} blog entries.{% endblocktrans %}</small>
-        </div>
-        {% if user has 'blogs.add_entry' %}
-            <div class="header-right">
-                <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "Create a new blog entry" %}</a>
-            </div>
-        {% endif %}
+<div class="page-header blog-list-header">
+    <div class="header-left">
+        <h1>{% trans "Blog entries" %}</h1>
+        <small>{% blocktrans count counter=paginator.count %}There is one blog entry.{% plural %}There are {{ counter }} blog entries.{% endblocktrans %}</small>
     </div>
+    {% if user has 'blogs.add_entry' %}
+    <div class="header-right">
+        <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "Create a new blog entry" %}</a>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
 {% block content-main %}
-    {{ block.super }}
-    {% for object in object_list %}
-        {% include "blogs/components/entry_truncated.html" %}
-    {% endfor %}
-    {% include "components/paginator.html" %}
+{{ block.super }}
+{% for object in object_list %}
+{% include "blogs/components/entry_truncated.html" %}
+{% endfor %}
+{% include "components/paginator.html" %}
 {% endblock %}
 {% block content-aside %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2 class="panel-title">{% trans "Hot entries" %}</h2>
-        </div>
-        {# TODO: ここにスターの数等によるホットエントリーの設置 #}
-        {# Fix Me: ハードコーディング #}
-        <div class="list-group">
-            <a class="list-group-item" href="/blogs/system/2014/5/20/3/">VOXCHRONICLEに出演しました☆ <small class="text-muted">10 stars</small></a>
-            <a class="list-group-item" href="/blogs/system/2014/5/20/1/">日記 <small class="text-muted">5 stars</small></a>
-        </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Panel heading without title</div>
+  <div class="panel-body">
+    Panel content
+</div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Panel title</h3>
+</div>
+<div class="panel-body">
+    Panel content
+</div>
+</div>
+
+{% if author %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">{% trans "Categories" %}</h2>
     </div>
-    {% if author %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title">{% trans "Categories" %}</h2>
-            </div>
-            <div class="list-group">
-                {% get_categories author as categories %}
-                {% for category in categories %}
-                    <a class="list-group-item" href="{{ category.get_absolute_url }}">{{ category.label }}</a>
-                {% empty %}
-                    <div class="list-group-item list-group-item-warning">{% trans "There is no category" %}</div>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
+    <div class="list-group">
+        {% get_categories author as categories %}
+        {% for category in categories %}
+        <a class="list-group-item" href="{{ category.get_absolute_url }}">{{ category.label }}</a>
+        {% empty %}
+        <div class="list-group-item list-group-item-warning">{% trans "There is no category" %}</div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 {% endblock %}
