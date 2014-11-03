@@ -43,9 +43,10 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         activity = activities[0]
         self.assertEqual(activity.status, 'add_release')
         self.assertEqual(activity.snapshot, self.object)
-        # remarksにリリースのct,pkが入る
+        # remarksにリリースのapp_label,model,pkが入る
         ct = ContentType.objects.get_for_model(type(release))
-        remarks = '{},{}'.format(ct.pk, release.pk)
+        ct = ContentType.objects.get_for_model(type(release))
+        remarks = 'products,packagerelease,{}'.format(release.pk)
         self.assertEqual(activity.remarks, remarks)
 
         self._test_render(activity)
@@ -68,9 +69,9 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         activity = activities[0]
         self.assertEqual(activity.status, 'add_release')
         self.assertEqual(activity.snapshot, self.object)
-        # remarksにリリースのct,pkが入る
+        # remarksにリリースのapp_label,model,pkが入る
         ct = ContentType.objects.get_for_model(type(release))
-        remarks = '{},{}'.format(ct.pk, release.pk)
+        remarks = 'products,urlrelease,{}'.format(release.pk)
         self.assertEqual(activity.remarks, remarks)
 
         self._test_render(activity)

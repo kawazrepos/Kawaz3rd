@@ -69,8 +69,8 @@ class ProductActivityMediator(ActivityMediator):
         elif activity.status == 'add_release':
             # releaseをcontextに加える
             try:
-                ct_pk, pk = activity.remarks.split(',')
-                ct = ContentType.objects.get_for_id(ct_pk)
+                app_label, model, pk = activity.remarks.split(',')
+                ct = ContentType.objects.get_by_natural_key(app_label, model)
                 release_class = ct.model_class()
                 release = release_class.objects.get(pk=pk)
                 context['release'] = release
@@ -98,9 +98,10 @@ class ReleaseActivityMediator(ActivityMediator):
             activity.content_type = ct
             activity.object_id = pk
             activity.status = 'add_release'
-            # URLRelease, PackageRelease、どちらにも対応できるように付いたリリースのctを入れている
+            # URLRelease, PackageRelease、どちらにも対応できるように付いたリリースのCTを
+            # <app_label>,<model>,<pk>の書式で入れている
             release_ct = ContentType.objects.get_for_model(type(instance))
-            activity.remarks = '{},{}'.format(str(release_ct.pk), str(instance.pk))
+            activity.remarks = ','.join((release_ct.app_label, release_ct.model, str(instance.pk)))
         return activity
 
 
