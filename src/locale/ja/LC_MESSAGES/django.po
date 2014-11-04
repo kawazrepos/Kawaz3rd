@@ -966,8 +966,8 @@ msgstr "お知らせを作成する"
 #, python-format
 msgid "There is only one announcement entry."
 msgid_plural "There are %(counter)s announcement entries."
-msgstr[0] "1件のお知らせがあります"
-msgstr[1] "%(counter)s件のお知らせがあります"
+msgstr[0] "%(counter)s件のお知らせがあります"
+msgstr[1] "1件のお知らせがあります"
 
 #: src/templates/announcements/announcement_list.html:38
 msgid "Recent Announcements"
@@ -1097,8 +1097,8 @@ msgstr "ブログ記事"
 #, python-format
 msgid "There is one blog entry."
 msgid_plural "There are %(counter)s blog entries."
-msgstr[0] "1件のブログ記事"
-msgstr[1] "%(counter)s件のブログ記事"
+msgstr[0] "%(counter)s件のブログ記事"
+msgstr[1] "1件のブログ記事"
 
 #: src/templates/blogs/entry_list.html:37
 msgid "Hot entries"
@@ -1281,8 +1281,8 @@ msgstr "このイベントに参加"
 #, python-format
 msgid "Only one more person can join this event"
 msgid_plural "%(counter)s more people can join this event"
-msgstr[0] "あと1人だけ参加できます"
-msgstr[1] "あと%(counter)s人だけ参加できます"
+msgstr[0] "あと%(counter)s人だけ参加できます"
+msgstr[1] "あと1人だけ参加できます"
 
 #: src/templates/events/event_detail.html:97
 #: src/templates/events/event_detail.html:118
@@ -1317,8 +1317,8 @@ msgstr "参加締切はありません"
 #, python-format
 msgid "There is one attendee."
 msgid_plural "There are %(counter)s attendees."
-msgstr[0] "1人の参加者が居ます"
-msgstr[1] "%(counter)s人の参加者が居ます"
+msgstr[0] "%(counter)s人の参加者が居ます"
+msgstr[1] "1人の参加者が居ます"
 
 #: src/templates/events/event_detail.html:200
 msgid "Update the event"
@@ -1448,8 +1448,8 @@ msgstr "アーカイブされたプロジェクト"
 #, python-format
 msgid "There is one archived project."
 msgid_plural "There are %(counter)s archived projects."
-msgstr[0] "1件のアーカイブされたプロジェクトがあります"
-msgstr[1] "%(counter)s件のアーカイブされたプロジェクトがあります"
+msgstr[0] "%(counter)s件のアーカイブされたプロジェクトがあります"
+msgstr[1] "1件のアーカイブされたプロジェクトがあります"
 
 #: src/templates/projects/project_detail.html:49
 msgid "Tracker"
