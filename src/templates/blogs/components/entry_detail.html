@@ -16,7 +16,11 @@
                     {% endif %}
                 </h1>
             </div>
-            <p class="badge">{{ object.category.label }}</p>
+            {% if object.category %}
+                <a class="badge" href="{{ object.category.get_absolute_url }}">{{ object.category.label }}</a>
+            {% else %}
+                <p class="badge">{% trans "None" %}</p>
+            {% endif %}
         </div>
         <article class="markdown">
             {{ object.body | parser }}
