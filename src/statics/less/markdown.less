@@ -68,9 +68,11 @@
     .border-radius(5px)
   }
   img {
+    // PCではデカくなりすぎないようにしている
     @media (min-width: @screen-lg-min) {
       max-width: 500px;
     }
+    // SPWebで画像がはみ出さないようにしている
     @media (max-width: @screen-md-max) {
       max-width: 100%;
     }

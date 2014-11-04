@@ -2,6 +2,8 @@
 @import (reference) "common/define";
 @import (reference) "common/vendor-prefixes";
 
+@blog-date-font-size: 1.8em;
+
 // Blog List Header
 .blog-list-header {
   .header-left {
@@ -27,10 +29,9 @@
   color: @gray-light;
   font-weight: normal;
   line-height: 1;
-  font-size: @blog-date-font;
+  font-size: @blog-date-font-size;
 }
 
-@protected-color: #FCF8E3;
 .blog-article-header {
   margin-bottom: 15px;
   h1 {
@@ -43,7 +44,7 @@
     margin-top: 30px;
     vertical-align: middle;  
   }
-  .badge{
+  .badge {
     padding: 5px 8px;
     font-size: 14px;
   }
@@ -72,7 +73,7 @@ a {
     width: 110px;
     margin: 0;
     color: @text-color;
-    border-radius: 5px;
+    .border-radius(5px);
     font-size: 12px;
   }
   .author-name {
@@ -97,7 +98,7 @@ a {
 }
 .text-protected {
   color: darken(@protected-color, 50%);
-  font-size: @blog-date-font;
+  font-size: @blog-date-font-size;
   margin-left: 5px;
   margin-right: 5px;
   vertical-align: middle;
