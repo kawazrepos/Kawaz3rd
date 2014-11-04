@@ -14,24 +14,25 @@
 {% endblock %}
 {% block content-main %}
     {{ block.super }}
-    {% include "blogs/components/entry_detail_article.html" %}
+    {% include "blogs/components/entry_detail.html" %}
     {% include "components/star_container.html" %}
     {% include "components/social.html" %}
 {% endblock %}
 {% block content-aside %}
-    <div class="entry-item entry-item-right">
-        <dl class="blog-author">
-            <dt><span class="glyphicon glyphicon-pencil"></span><span>{% trans "Blog author" %}</span></dt>
-            <dd class="author-info">
-                <a href="{{ object.author.profile.get_absolute_url }}">
-                    <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/> 
-                    </a>
-                    <p class="author-quotes">{{ object.author.quotes }}</p>
-                <a class="author-info author-name" href="{{ object.author.profile.get_absolute_url }}">
-                    {{ object.author.nickname }}(id: {{ object.author }})
-                </a>
-            </dd>
-        </dl>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-pencil"></span>
+            {% trans "Blog author" %}
+        </div>
+        <div class="panel-body author-info text-center">
+            <a href="{{ object.author.profile.get_absolute_url }}">
+                <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/>
+            </a>
+            <p class="author-quotes">{{ object.author.quotes }}</p>
+            <a class="author-info author-name" href="{{ object.author.profile.get_absolute_url }}">
+                {{ object.author.nickname }}(id: {{ object.author }})
+            </a>
+        </div>
     </div>
     {% if user has 'blogs.change_entry' of object or user has 'blogs.delete_entry' of object %}
         <div class="panel panel-default blog-administration">

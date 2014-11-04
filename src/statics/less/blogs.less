@@ -55,51 +55,31 @@
   .border-radius(5px);
 }
 
-.entry-item {
-  dl {
-    &.blog-author {
-      dt {
-        font-weight: normal;
-        span {
-          &:first-child {
-            margin-right: 5px;
-          }
-        }
-
-      }
-      dd {
-        margin-top: 8px;
-        .blog-avatar {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        .author-info {
-          display: block;
-          .author-quotes {
-            position: relative;
-            background: #fff;
-            border: 1px solid @gray-light;
-            display: inline-block;
-            vertical-align: middle;
-            padding: 5px;
-            width: 110px;
-            margin: 0;
-            color: @text-color;
-            border-radius: 5px;
-            font-size: 12px;
-          }
-          &:hover {
-            text-decoration: none;
-            background: @gray-light;
-          }
-          &.author-name {
-            margin-top: 5px;
-          }
-        }
-      }
-    }
+.blog-avatar {
+  display: inline-block;
+  vertical-align: middle;
+}
+a {
+  text-decoration: none;
+}
+.author-info {
+  display: block;
+  .author-quotes {
+    border: 1px solid @gray-lighter;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 5px;
+    width: 110px;
+    margin: 0;
+    color: @text-color;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+  .author-name {
+    margin-top: 5px;
   }
 }
+
 .entry-item-right {
   .blog-administration {
     .blog-administration-head {
