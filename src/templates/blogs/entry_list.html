@@ -4,7 +4,7 @@
 {% load staticfiles %}
 {% block title %}最近のブログ記事{% endblock %}
 {% block pre_css %}
-{{ block.super }}
+    {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
 {% endblock %}
 {% block breadcrumb %}
@@ -32,17 +32,16 @@
     {% include "components/paginator.html" %}
 {% endblock %}
 {% block content-aside %}
+
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2 class="panel-title">{% trans "Hot entries" %}</h2>
-        </div>
-        {# TODO: ここにスターの数等によるホットエントリーの設置 #}
-        {# Fix Me: ハードコーディング #}
-        <div class="list-group">
-            <a class="list-group-item" href="/blogs/system/2014/5/20/3/">VOXCHRONICLEに出演しました☆ <small class="text-muted">10 stars</small></a>
-            <a class="list-group-item" href="/blogs/system/2014/5/20/1/">日記 <small class="text-muted">5 stars</small></a>
-        </div>
+        <div class="panel-heading"><h3 class="panel-title">{% trans "Hot entries" %}</h3></div>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-warning">
+                ホットエントリーは準備中です
+            </li>
+        </ul>
     </div>
+
     {% if author %}
         <div class="panel panel-default">
             <div class="panel-heading">

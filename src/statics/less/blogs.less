@@ -1,5 +1,8 @@
 @import "../vendor/bootstrap/less/mixins.less";
-@import "common/define";
+@import (reference) "common/define";
+@import (reference) "common/vendor-prefixes";
+
+@blog-date-font-size: 1.8em;
 
 // Blog List Header
 .blog-list-header {
@@ -20,68 +23,64 @@
 }
 
 // Blog Article
-@protected-color: #FCF8E3;
-.blog-article-header {
-  .clearfix();
-  margin-bottom: 20px;
 
+// エントリーの日時
+.entry-pub-date {
+  color: @gray-light;
+  font-weight: normal;
+  line-height: 1;
+  font-size: @blog-date-font-size;
 }
-.article-wrap {
-  .entry-item {
-    .blog-article {
-      padding: 0 5px;
-      .blog-article-body {
-        margin-bottom: 50px;
-        padding-bottom: 40px;
-        border-bottom: 1px solid @gray-lighter;
-      }
-    }
-    dl {
-    &.blog-author {
-      dt {
-        font-weight: normal;
-        span {
-          &:first-child {
-            margin-right: 5px;
-          }
-        }
 
-      }
-      dd {
-        margin-top: 8px;
-        .blog-avatar {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        .author-info {
-          display: block;
-          .author-quotes {
-            position: relative;
-            background: #fff;
-            border: 1px solid #ddd;
-            display: inline-block;
-            vertical-align: middle;
-            padding: 5px;
-            width: 110px;
-            margin: 0;
-            color: @text-color;
-            border-radius: 5px;
-            font-size: 12px;
-          }
-          &:hover {
-            text-decoration: none;
-            background: #ddd;
-          }
-          &.author-name {
-            margin-top: 5px;
-          }
-        }
-      }
-    }
+.blog-article-header {
+  margin-bottom: 15px;
+  h1 {
+    margin: -4px 0 -2px;
+  }
+  h2 {
+    margin-top: -8px;
+  }
+  .entry-pub-date {
+    margin-top: 30px;
+    vertical-align: middle;  
+  }
+  .badge {
+    padding: 5px 8px;
+    font-size: 14px;
+  }
+}
+.blog-article {
+  padding: 20px 30px;
+  margin-bottom: 30px;
+  border: 1px solid @gray-lighter;
+  .border-radius(5px);
+}
+
+.blog-avatar {
+  display: inline-block;
+  vertical-align: middle;
+}
+a {
+  text-decoration: none;
+}
+.author-info {
+  display: block;
+  .author-quotes {
+    border: 1px solid @gray-lighter;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 5px;
+    width: 110px;
+    margin: 0;
+    color: @text-color;
+    .border-radius(5px);
+    font-size: 12px;
+  }
+  .author-name {
+    margin-top: 5px;
   }
 }
 
-}
 .entry-item-right {
   .blog-administration {
     .blog-administration-head {
@@ -99,6 +98,10 @@
 }
 .text-protected {
   color: darken(@protected-color, 50%);
+  font-size: @blog-date-font-size;
+  margin-left: 5px;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 // Blog Entry Date
 // Ref: http://line25.com/tutorials/how-to-create-a-cool-blog-post-date-icon-with-css
@@ -130,6 +133,18 @@
 }
 .entry-title {
   font-size: 32px;
-  margin: 30px 0 0;
+  margin: 10px 0 10px;
 }
 
+.star-container {
+  width: 845px;
+}
+
+.social-button{
+  margin-top: -25px;
+}
+
+.comment-list {
+  margin: 20px 0 80px 80px;
+  width: 885px;
+}

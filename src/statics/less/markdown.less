@@ -11,28 +11,29 @@
     word-break: break-all;
   }
   h1 {
-    font-size: 28px;
-    color: white;
-    padding: 10px;
-    background: @navbar-default-bg;
-    background-repeat: repeat;
-    margin-bottom: 20px;
-    text-shadow: 0px 1px 2px #666;
-  }
-  h2 {
     padding: 8px;
-    border-left: 10px solid @text-color;
-    background: #f5f5f5;
+    border-left: 2px solid @text-color;
+    background: @gray-lighter;
     font-size: 24px;
-    border-bottom: 2px dotted #999;
+    margin-top: 30px;
   }
-  h3 {
-    border-bottom: 3px solid @text-color;
-    font-size: 24px;
+
+  h2 {
+    border-bottom: 1px solid @gray-lighter;
+    font-size: 22px;
     padding-bottom: 5px;
     padding-left: 5px;
-    margin-top: 25px;
+    margin: 30px 0 15px;
   }
+
+  h3 {
+    padding: 8px;
+    border-left: @text-color;
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px
+  }
+
   h4 {
     font-size: 18px;
     padding-left: 5px;
@@ -45,17 +46,21 @@
   blockquote {
     font-size: @font-size-base;
     color: @gray-light;
+    font-style: italic;
     line-height: @line-height-base * 1.5;
     border-left: solid 5px desaturate(lighten(@brand-primary, 40%), 40%);
-    margin-left: 40px;
-    margin-bottom: 2px;
-    padding-top: 2px;
-    padding-left: 10px;
-    padding-bottom: 2px;
+    padding: 2px 0 12px 10px;
+    margin: 25px 0 25px 40px;
+
     blockquote {
       margin-left: 12px;
     }
   }
+
+  strong {
+    color: @gray-darker;
+  }
+
   code {
     color: @text-color;
     padding: 5px 15px 5px;
@@ -63,14 +68,16 @@
     .border-radius(5px)
   }
   img {
-    max-width: 500px;
-  }
-  a {
-    color: rgb(87, 152, 225);
-    &:hover {
-      color: rgb(192, 204, 236);
+    // PCではデカくなりすぎないようにしている
+    @media (min-width: @screen-lg-min) {
+      max-width: 500px;
+    }
+    // SPWebで画像がはみ出さないようにしている
+    @media (max-width: @screen-md-max) {
+      max-width: 100%;
     }
   }
+
 
   // Baseline styles
   // Markdownから生成されたtableにはクラスが付加されないため
