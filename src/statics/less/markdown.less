@@ -68,7 +68,12 @@
     .border-radius(5px)
   }
   img {
-    max-width: 500px;
+    @media (min-width: @screen-lg-min) {
+      max-width: 500px;
+    }
+    @media (max-width: @screen-md-max) {
+      max-width: 100%;
+    }
   }
 
 
