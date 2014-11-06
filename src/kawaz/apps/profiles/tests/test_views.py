@@ -1,6 +1,5 @@
-from django.test import TestCase
-
 import datetime
+from django.test import TestCase
 from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
@@ -10,6 +9,10 @@ from ..models import Profile
 from ..models import Account
 from kawaz.core.personas.tests.factories import PersonaFactory
 from django.utils.timezone import get_default_timezone
+
+
+BASE_URL = 'profiles'
+
 
 class ProfileDetailViewTestCase(TestCase):
 
@@ -28,7 +31,9 @@ class ProfileDetailViewTestCase(TestCase):
     def test_authorized_user_can_view_public_profile(self):
         '''Tests authorized user can view public profile'''
         profile = ProfileFactory()
-        self.assertTrue(self.client.login(username=self.user, password='password'))
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
         r = self.client.get(profile.get_absolute_url())
         self.assertTemplateUsed(r, 'profiles/profile_detail.html')
         self.assertEqual(r.context_data['object'], profile)
@@ -37,21 +42,29 @@ class ProfileDetailViewTestCase(TestCase):
         '''Tests anonymous user can not view protected profile'''
         profile = ProfileFactory(pub_state='protected')
         r = self.client.get(profile.get_absolute_url())
-        self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, profile.get_absolute_url()))
+        self.assertRedirects(r, '{0}?next={1}'.format(
+            settings.LOGIN_URL, profile.get_absolute_url()
+        ))
 
     def test_wille_user_can_not_view_protected_profile(self):
         '''Tests wille user can not view protected profile'''
         profile = ProfileFactory(pub_state='protected')
         self.user.role = 'wille'
         self.user.save()
-        self.assertTrue(self.client.login(username=self.user, password='password'))
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
         r = self.client.get(profile.get_absolute_url())
-        self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, profile.get_absolute_url()))
+        self.assertRedirects(r, '{}?next={}'.format(
+            settings.LOGIN_URL, profile.get_absolute_url()
+        ))
 
     def test_authorized_user_can_view_protected_profile(self):
         '''Tests authorized user can view public profile'''
         profile = ProfileFactory(pub_state='protected')
-        self.assertTrue(self.client.login(username=self.user, password='password'))
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
         r = self.client.get(profile.get_absolute_url())
         self.assertTemplateUsed(r, 'profiles/profile_detail.html')
         self.assertEqual(r.context_data['object'], profile)
@@ -72,25 +85,33 @@ class ProfileUpdateViewTestCase(TestCase):
 
     def test_anonymous_user_can_not_view_profile_update_view(self):
         '''Tests anonymous user can not view ProfileUpdateView'''
-        r = self.client.get('/members/update/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/members/update/')
+        r = self.client.get('/{}/update/'.format(BASE_URL))
+        self.assertRedirects(r, '{}?next=/{}/update/'.format(
+            settings.LOGIN_URL,
+            BASE_URL,
+        ))
 
     def test_authorized_user_can_view_profile_update_view(self):
         '''
         Tests authorized user can view ProfileUpdateView
         '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/members/update/')
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
+        r = self.client.get('/{}/update/'.format(BASE_URL))
         self.assertTemplateUsed(r, 'profiles/profile_form.html')
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.profile)
 
     def test_profile_update_view_has_accounts_formset(self):
         """
-        プロフィール更新用のビューにアカウント用のフォームセットが渡されているかを確認します
+        プロフィール更新用のビューにアカウント用のフォームセットが渡されている
+        かを確認します
         """
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/members/update/')
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
+        r = self.client.get('/{}/update/'.format(BASE_URL))
         self.assertTrue('formset' in r.context)
 
     def test_anonymous_user_can_not_update_via_update_view(self):
@@ -98,22 +119,28 @@ class ProfileUpdateViewTestCase(TestCase):
         Tests anonymous user can not update profile via ProfileUpdateView
         It will redirect to LOGIN_URL
         '''
-        r = self.client.post('/members/update/', {
+        r = self.client.post('/{}/update/'.format(BASE_URL), {
             'pub_state' : 'public',
             'place' : '札幌市北区',
             'url' : 'http://www.kawaz.org/members/kawaztan/',
             'remarks' : 'けろーん',
             'birth_day' : datetime.datetime.today()
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/members/update/')
+        self.assertRedirects(r, '{}?next=/{}/update/'.format(
+            settings.LOGIN_URL,
+            BASE_URL,
+        ))
         self.assertEqual(self.profile.place, 'グランエターナ')
 
     def test_owner_can_update_via_update_view(self):
         '''
-        プロフィールの持ち主がプロフィール更新用のビューからプロフィールを更新できる
+        プロフィールの持ち主がプロフィール更新用のビューからプロフィールを
+        更新できる
         '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/members/update/', {
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
+        r = self.client.post('/{}/update/'.format(BASE_URL), {
             'pub_state': 'public',
             'place': '札幌市北区',
             'url': 'http://www.kawaz.org/members/kawaztan/',
@@ -123,7 +150,10 @@ class ProfileUpdateViewTestCase(TestCase):
             'accounts-INITIAL_FORMS': 1,
             'accounts-MAX_NUM_FORMS': 1000,
         })
-        self.assertRedirects(r, '/members/{}/'.format(self.user.username))
+        self.assertRedirects(r, '/{}/{}/'.format(
+            BASE_URL,
+            self.user.username
+        ))
         self.assertEqual(Profile.objects.count(), 1)
         e = Profile.objects.get(pk=1)
         self.assertEqual(e.place, '札幌市北区')
@@ -131,11 +161,14 @@ class ProfileUpdateViewTestCase(TestCase):
 
     def test_owner_can_update_via_update_view_with_accounts(self):
         '''
-        プロフィールの持ち主がプロフィール更新用のビューから複数のアカウントを設定できる
+        プロフィールの持ち主がプロフィール更新用のビューから複数のアカウントを
+        設定できる
         '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
         self.assertEqual(Account.objects.count(), 0)
-        r = self.client.post('/members/update/', {
+        r = self.client.post('/{}/update/'.format(BASE_URL), {
             'pub_state': 'public',
             'place': '札幌市北区',
             'url': 'http://www.kawaz.org/members/kawaztan/',
@@ -151,7 +184,10 @@ class ProfileUpdateViewTestCase(TestCase):
             'accounts-INITIAL_FORMS': 0,
             'accounts-MAX_NUM_FORMS': 1000,
         })
-        self.assertRedirects(r, '/members/{}/'.format(self.user.username))
+        self.assertRedirects(r, '/{}/{}/'.format(
+            BASE_URL,
+            self.user.username
+        ))
         self.assertEqual(Profile.objects.count(), 1)
         e = Profile.objects.get(pk=1)
         self.assertEqual(e.place, '札幌市北区')
@@ -168,8 +204,10 @@ class ProfileUpdateViewTestCase(TestCase):
         self.assertEqual(accounts[1].pub_state, 'public')
 
     def test_account_formset(self):
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/members/update/')
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
+        r = self.client.get('/{}/update/'.format(BASE_URL))
         self.assertTemplateUsed(r, 'profiles/profile_form.html')
         self.assertTrue('formset' in r.context_data)
 
@@ -177,9 +215,14 @@ class ProfileUpdateViewTestCase(TestCase):
 class ProfileListViewTestCase(TestCase):
     def setUp(self):
         self.profiles = (
-            ProfileFactory(user__last_login=datetime.datetime(2000, 1, 1, tzinfo=get_default_timezone())),
+            ProfileFactory(user__last_login=datetime.datetime(
+                2000, 1, 1, tzinfo=get_default_timezone()
+            )),
             ProfileFactory(user=PersonaFactory(is_active=False)),
-            ProfileFactory(pub_state='protected', user__last_login=datetime.datetime(2001, 1, 1, tzinfo=get_default_timezone()))
+            ProfileFactory(pub_state='protected',
+                           user__last_login=datetime.datetime(
+                               2001, 1, 1, tzinfo=get_default_timezone()
+                           ))
         )
         self.user = PersonaFactory()
         self.user.set_password('password')
@@ -191,7 +234,7 @@ class ProfileListViewTestCase(TestCase):
         The protected profiles are not displayed.
         '''
         user = AnonymousUser()
-        r = self.client.get('/members/')
+        r = self.client.get('/{}/'.format(BASE_URL))
         self.assertTemplateUsed('profiles/profile_list.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
@@ -205,8 +248,10 @@ class ProfileListViewTestCase(TestCase):
         '''
         self.user.role = 'wille'
         self.user.save()
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/members/')
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
+        r = self.client.get('/{}/'.format(BASE_URL))
         self.assertTemplateUsed('profiles/profile_list.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
@@ -217,8 +262,10 @@ class ProfileListViewTestCase(TestCase):
         '''
         ログインユーザーが全てのユーザーが見れる、かつ最近ログイン順に並ぶ
         '''
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/members/')
+        self.assertTrue(self.client.login(
+            username=self.user, password='password'
+        ))
+        r = self.client.get('/{}/'.format(BASE_URL))
         self.assertTemplateUsed('profiles/profile_list.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
@@ -230,7 +277,7 @@ class ProfileListViewTestCase(TestCase):
 class ProfilePreviewTestCase(TestCase):
     def test_profile_preview(self):
         """
-        ユーザーが/members/preview/を閲覧できる
+        ユーザーが/profiles/preview/を閲覧できる
         """
-        r = self.client.get("/members/preview/")
+        r = self.client.get("/{}/preview/".format(BASE_URL))
         self.assertTemplateUsed(r, "profiles/components/profile_detail.html")

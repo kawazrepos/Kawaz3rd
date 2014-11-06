@@ -73,7 +73,7 @@ class ParserTemplateTagTestCase(TestCase):
         ProfileFactory(user=user)
         content = "@kawaztan_mention\n@kawaztan_unknown"
         expected = (
-            """<a href="/accounts/kawaztan_mention/">"""
+            """<a href="/members/kawaztan_mention/">"""
             """<img src="/statics/img/defaults/profile_small.png">@kawaztan_mention</a>\n"""
             """@kawaztan_unknown"""
         )

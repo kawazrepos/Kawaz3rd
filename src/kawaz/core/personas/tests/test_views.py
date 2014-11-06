@@ -11,6 +11,9 @@ from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
 
 
+BASE_URL = 'members'
+
+
 class PersonaViewTestCaseBase(TestCase):
     def setUp(self):
         self.members = (
@@ -42,7 +45,7 @@ class PersonaDetailViewTestCase(PersonaViewTestCaseBase):
                 reverse('personas_persona_detail', kwargs=dict(
                     slug=user.username
                 )),
-                '/accounts/{}/'.format(user.username),
+                '/{}/{}/'.format(BASE_URL, user.username),
             )
 
 
@@ -102,7 +105,7 @@ class PersonaListViewTestCase(TestCase):
         """
         self.assertEqual(
             reverse('personas_persona_list'),
-            '/accounts/'
+            '/{}/'.format(BASE_URL),
         )
 
     def test_wille_personas_are_not_listed(self):
@@ -143,7 +146,10 @@ class PersonaUpdateViewTestCase(PersonaViewTestCaseBase):
                 reverse('personas_persona_update', kwargs=dict(
                     slug=user.username
                 )),
-                '/accounts/{}/update/'.format(user.username),
+                '/{}/{}/update/'.format(
+                    BASE_URL,
+                    user.username
+                ),
             )
 
     def test_nobody_can_access_persona_update_view_of_others(self):
@@ -255,7 +261,10 @@ class PersonaAssignAdamViewTestCase(PersonaViewTestCaseBase):
                 reverse('personas_persona_assign_adam', kwargs=dict(
                     slug=user.username
                 )),
-                '/accounts/{}/assign/adam/'.format(user.username),
+                '/{}/{}/assign/adam/'.format(
+                    BASE_URL,
+                    user.username
+                ),
             )
 
     def test_GET_is_not_allowed(self):
@@ -325,7 +334,10 @@ class PersonaAssignSeeleViewTestCase(PersonaViewTestCaseBase):
                 reverse('personas_persona_assign_seele', kwargs=dict(
                     slug=user.username
                 )),
-                '/accounts/{}/assign/seele/'.format(user.username),
+                '/{}/{}/assign/seele/'.format(
+                    BASE_URL,
+                    user.username
+                ),
             )
 
     def test_GET_is_not_allowed(self):

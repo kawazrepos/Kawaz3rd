@@ -8,6 +8,7 @@ from .factories import SkillFactory
 from .factories import AccountFactory
 from .factories import ServiceFactory
 
+
 class ProfileManagerTestCase(TestCase):
 
     def setUp(self):
@@ -76,10 +77,10 @@ class ProfileTestCase(TestCase):
 
     def test_profile_get_absolute_url(self):
         '''
-        Tests Profile.get_absolute_url returns `/members/<username>/`
+        Tests Profile.get_absolute_url returns `/profiles/<username>/`
         '''
         profile = ProfileFactory()
-        self.assertEqual(profile.get_absolute_url(), '/members/{}/'.format(profile.user.username))
+        self.assertEqual(profile.get_absolute_url(), '/profiles/{}/'.format(profile.user.username))
 
 class ProfileAuthorPermissionTestCase(TestCase):
 
