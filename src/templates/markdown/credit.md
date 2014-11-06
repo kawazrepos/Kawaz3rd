@@ -42,6 +42,7 @@ Kawaz http://www.kawaz.org
 - クレジット画面、エンドロールが存在する場合、Kawaz、または	
 [http://www.kawaz.org](http://www.kawaz.org)
 と表示してください	
+
 クレジット画面が存在しない場合、readme等に[http://www.kawaz.org](http://www.kawaz.org)と表記してください
 
 
