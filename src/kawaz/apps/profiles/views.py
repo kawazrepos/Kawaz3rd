@@ -1,17 +1,14 @@
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import ugettext as _
-from django_filters.views import FilterView
 
 from permission.decorators.classbase import permission_required
+from kawaz.core.views.preview import SingleObjectPreviewMixin
 from .forms import ProfileForm
 from .forms import AccountFormSet
-from kawaz.apps.profiles.filters import ProfileFilter
-from kawaz.core.views.preview import SingleObjectPreviewMixin
 from .models import Profile
 
 
