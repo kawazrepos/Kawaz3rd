@@ -14,18 +14,6 @@ from kawaz.apps.profiles.filters import ProfileFilter
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 from .models import Profile
 
-class ProfileListView(FilterView):
-    model = Profile
-    filterset_class = ProfileFilter
-    template_name_suffix = '_list'
-    paginate_by = 24
-
-    def get_queryset(self):
-        qs = Profile.objects.published(self.request.user)
-        qs = qs.prefetch_related('accounts__service').prefetch_related('skills').select_related('user')
-        qs = qs.order_by('-user__last_login')
-        return qs
-
 
 @permission_required('profiles.change_profile')
 class ProfileUpdateView(SuccessMessageMixin, UpdateView):
@@ -93,16 +81,6 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
 
     def get_success_message(self, cleaned_data):
         return _("Your profile was successfully updated.")
-
-
-@permission_required('profiles.view_profile')
-class ProfileDetailView(DetailView):
-    model = Profile
-    slug_field = 'user__username'
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.prefetch_related('skills').prefetch_related('accounts__service').select_related('user')
 
 
 class ProfilePreview(SingleObjectPreviewMixin, DetailView):

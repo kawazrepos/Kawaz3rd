@@ -14,62 +14,6 @@ from django.utils.timezone import get_default_timezone
 BASE_URL = 'profiles'
 
 
-class ProfileDetailViewTestCase(TestCase):
-
-    def setUp(self):
-        self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
-
-    def test_anonymous_user_can_view_public_profile(self):
-        '''Tests anonymous user can view public profile'''
-        profile = ProfileFactory()
-        r = self.client.get(profile.get_absolute_url())
-        self.assertTemplateUsed(r, 'profiles/profile_detail.html')
-        self.assertEqual(r.context_data['object'], profile)
-
-    def test_authorized_user_can_view_public_profile(self):
-        '''Tests authorized user can view public profile'''
-        profile = ProfileFactory()
-        self.assertTrue(self.client.login(
-            username=self.user, password='password'
-        ))
-        r = self.client.get(profile.get_absolute_url())
-        self.assertTemplateUsed(r, 'profiles/profile_detail.html')
-        self.assertEqual(r.context_data['object'], profile)
-
-    def test_anonymous_user_can_not_view_protected_profile(self):
-        '''Tests anonymous user can not view protected profile'''
-        profile = ProfileFactory(pub_state='protected')
-        r = self.client.get(profile.get_absolute_url())
-        self.assertRedirects(r, '{0}?next={1}'.format(
-            settings.LOGIN_URL, profile.get_absolute_url()
-        ))
-
-    def test_wille_user_can_not_view_protected_profile(self):
-        '''Tests wille user can not view protected profile'''
-        profile = ProfileFactory(pub_state='protected')
-        self.user.role = 'wille'
-        self.user.save()
-        self.assertTrue(self.client.login(
-            username=self.user, password='password'
-        ))
-        r = self.client.get(profile.get_absolute_url())
-        self.assertRedirects(r, '{}?next={}'.format(
-            settings.LOGIN_URL, profile.get_absolute_url()
-        ))
-
-    def test_authorized_user_can_view_protected_profile(self):
-        '''Tests authorized user can view public profile'''
-        profile = ProfileFactory(pub_state='protected')
-        self.assertTrue(self.client.login(
-            username=self.user, password='password'
-        ))
-        r = self.client.get(profile.get_absolute_url())
-        self.assertTemplateUsed(r, 'profiles/profile_detail.html')
-        self.assertEqual(r.context_data['object'], profile)
-
-
 class ProfileUpdateViewTestCase(TestCase):
 
     def setUp(self):
@@ -150,8 +94,7 @@ class ProfileUpdateViewTestCase(TestCase):
             'accounts-INITIAL_FORMS': 1,
             'accounts-MAX_NUM_FORMS': 1000,
         })
-        self.assertRedirects(r, '/{}/{}/'.format(
-            BASE_URL,
+        self.assertRedirects(r, '/members/{}/'.format(
             self.user.username
         ))
         self.assertEqual(Profile.objects.count(), 1)
@@ -184,8 +127,7 @@ class ProfileUpdateViewTestCase(TestCase):
             'accounts-INITIAL_FORMS': 0,
             'accounts-MAX_NUM_FORMS': 1000,
         })
-        self.assertRedirects(r, '/{}/{}/'.format(
-            BASE_URL,
+        self.assertRedirects(r, '/members/{}/'.format(
             self.user.username
         ))
         self.assertEqual(Profile.objects.count(), 1)
@@ -210,68 +152,6 @@ class ProfileUpdateViewTestCase(TestCase):
         r = self.client.get('/{}/update/'.format(BASE_URL))
         self.assertTemplateUsed(r, 'profiles/profile_form.html')
         self.assertTrue('formset' in r.context_data)
-
-
-class ProfileListViewTestCase(TestCase):
-    def setUp(self):
-        self.profiles = (
-            ProfileFactory(user__last_login=datetime.datetime(
-                2000, 1, 1, tzinfo=get_default_timezone()
-            )),
-            ProfileFactory(user=PersonaFactory(is_active=False)),
-            ProfileFactory(pub_state='protected',
-                           user__last_login=datetime.datetime(
-                               2001, 1, 1, tzinfo=get_default_timezone()
-                           ))
-        )
-        self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
-
-    def test_anonymous_can_view_only_public_profiles(self):
-        '''
-        Tests anonymous user can view public Profiles only.
-        The protected profiles are not displayed.
-        '''
-        user = AnonymousUser()
-        r = self.client.get('/{}/'.format(BASE_URL))
-        self.assertTemplateUsed('profiles/profile_list.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 1, 'object_list has one profile')
-        self.assertEqual(list[0], self.profiles[0], 'public')
-
-    def test_wille_can_view_all_active_profiles(self):
-        '''
-        Tests wille user can view public Profiles only.
-        The protected profiles are not displayed.
-        '''
-        self.user.role = 'wille'
-        self.user.save()
-        self.assertTrue(self.client.login(
-            username=self.user, password='password'
-        ))
-        r = self.client.get('/{}/'.format(BASE_URL))
-        self.assertTemplateUsed('profiles/profile_list.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 1, 'object_list has one profile')
-        self.assertEqual(list[0], self.profiles[0], 'public')
-
-    def test_authenticated_can_view_all_active_profiles(self):
-        '''
-        ログインユーザーが全てのユーザーが見れる、かつ最近ログイン順に並ぶ
-        '''
-        self.assertTrue(self.client.login(
-            username=self.user, password='password'
-        ))
-        r = self.client.get('/{}/'.format(BASE_URL))
-        self.assertTemplateUsed('profiles/profile_list.html')
-        self.assertTrue('object_list', r.context_data)
-        list = r.context_data['object_list']
-        self.assertEqual(list.count(), 2, 'object_list has two profiles')
-        self.assertEqual(list[0], self.profiles[2], 'protected')
-        self.assertEqual(list[1], self.profiles[0], 'public')
 
 
 class ProfilePreviewTestCase(TestCase):

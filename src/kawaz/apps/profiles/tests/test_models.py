@@ -62,6 +62,7 @@ class ProfileManagerTestCase(TestCase):
         self.assertEqual(qs.count(), 1, 'Queryset have one profile')
         self.assertEqual(qs[0], self.active_profile, 'Queryset have public profile')
 
+
 class ProfileTestCase(TestCase):
 
     def test_str(self):
@@ -75,12 +76,6 @@ class ProfileTestCase(TestCase):
         profile = ProfileFactory()
         self.assertEqual(profile.user._profile, profile)
 
-    def test_profile_get_absolute_url(self):
-        '''
-        Tests Profile.get_absolute_url returns `/profiles/<username>/`
-        '''
-        profile = ProfileFactory()
-        self.assertEqual(profile.get_absolute_url(), '/profiles/{}/'.format(profile.user.username))
 
 class ProfileAuthorPermissionTestCase(TestCase):
 

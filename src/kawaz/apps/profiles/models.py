@@ -1,4 +1,5 @@
 import os
+import warnings
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -92,9 +93,18 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.nickname
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('profiles_profile_detail', (), {'slug': self.user.username})
+        # 開発が安定するまでわかりやすいエラーを出すことで人為的ミスを防ぐ
+        # 最終的にはこのメソッド自体を消してProfileUpdateViewなどは個別に
+        # URLを指定するように変更したい
+        warnings.warn(
+            'Profile.get_absolute_url is obsolute. '
+            'Use Persona.get_absolute_url instead. '
+            'e.g. user.profile.get_absolute_url => '
+            'user.get_absolute_url',
+            DeprecationWarning
+        )
+        return self.user.get_absolute_url()
 
 
 class Service(models.Model):

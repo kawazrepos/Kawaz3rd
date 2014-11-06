@@ -12,10 +12,7 @@
         <h1>{% trans "Edit your profile" %}</h1>
     </div>
 {% endblock %}
-{% block breadcrumb %}
-    {{ block.super }}
-    <li><a href="{% url "profiles_profile_list" %}">{% trans "Profile" %}</a></li>
-{% endblock %}
+
 {% block tab-content %}
     <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'profiles_profile_preview' %}';">
         <p>ニックネームやアイコンは<a href="{% url "personas_persona_update" slug=request.user.username %}">ユーザー情報の変更</a>ページから変更できます</p>
