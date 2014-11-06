@@ -76,6 +76,9 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
         return self.render_to_response(self.get_context_data(
             form=form, formset=formset))
 
+    def get_success_url(self):
+        return self.object.user.get_absolute_url()
+
     def get_success_message(self, cleaned_data):
         return _("Your profile was successfully updated.")
 

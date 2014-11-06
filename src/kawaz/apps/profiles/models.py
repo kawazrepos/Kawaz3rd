@@ -94,17 +94,15 @@ class Profile(models.Model):
         return self.user.nickname
 
     def get_absolute_url(self):
-        # 開発が安定するまでわかりやすいエラーを出すことで人為的ミスを防ぐ
-        # 最終的にはこのメソッド自体を消してProfileUpdateViewなどは個別に
-        # URLを指定するように変更したい
-        warnings.warn(
-            'Profile.get_absolute_url is obsolute. '
+        # TODO: このメソッドは使用しないため削除
+        # テンプレートなどで間違えて使用されていた場合を考えメソッド自体は
+        # 一定期間残し、代わりに例外を投げる
+        raise Exception(
+            'Profile.get_absolute_url is obsolete. '
             'Use Persona.get_absolute_url instead. '
             'e.g. user.profile.get_absolute_url => '
-            'user.get_absolute_url',
-            DeprecationWarning
+            'user.get_absolute_url'
         )
-        return self.user.get_absolute_url()
 
 
 class Service(models.Model):
