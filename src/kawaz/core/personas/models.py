@@ -8,29 +8,28 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from thumbnailfield.fields import ThumbnailField
-
 from kawaz.core.db.decorators import validate_on_save
 
 
 class PersonaManager(BaseUserManager):
     """
-    A custom user manager for the `Persona` model.
+    Persona用カスタムマネージャ
 
-    This is required because `is_staff` and `is_superuser` fields are omitted
-    from `Persona` model in database level.
+    PersonaモデルはDjangoがデフォルトで利用する `is_staff` や `is_superuser` を
+    DBレベルで廃止しているため、このカスタムが必要
 
-    Instead of using these fields, `PersonaManager` use a `role` fields to
-    distinguish the user and the superuser.
-    When the user was created by `create_superuser` method, the `role` field of
-    the user is specified to 'adam', otherwise to 'wille'.
+    PersonaManagerでは`role`によりユーザーとスーパーユーザを区別しているため
+    `create_superuser`で作成されたユーザーは`role`が`'adam'`になり、その他の
+    場合は`'wille'`となる。
     """
     def _create_user(self, username, email, password, role, **extra_fields):
         """
-        Creates and saves a User with the given username, email and password.
+        与えられたユーザー名、メールアドレスおよびパスワードと役職から新しい
+        ユーザーインスタンスをDB上に作成する
         """
         now = timezone.now()
         if not username:
-            raise ValueError('The given username must be set')
+            raise ValueError(_('The `username` attribute is required'))
         email = self.normalize_email(email)
         user = self.model(username=username, email=email,
                           is_active=True, last_login=now, role=role,
@@ -50,18 +49,11 @@ class PersonaManager(BaseUserManager):
 
 class PersonaBase(ModelBase):
     """
-    A metaclass of `Persona` model which remove inherited `is_staff` (from
-    `AbstractUser`) and `is_superuser` (from `PermissionMixin`) fields.
+    `AbstractUser`から継承されたために自動作成される`is_staff`や`is_superuser`
+    フィールドを強制的に削除するためのメタクラス
 
-    While `Persona` model have a `role` field and the value of `is_staff` or
-    `is_superuser` are based on the `role` value, the database columns for
-    these fields are unnecessary.
-
-    Django use these values on its admin site but `is_staff` and `is_superuser`
-    are defined as property attributes in the `Persona` class.
-    Thus there should not be any exceptions with this field deletion (except
-    for testing `is_staff` or `is_superuser` database values).
-
+    `Persona`モデルは`role`フィールドを持ち、その値により`is_staff`や
+    `is_superuser`の値を決定するためDB上にこれらの値を保持する必要性がない。
     """
     def __init__(cls, class_name, bases, namespace):
         disused_field_names = ('is_staff', 'is_superuser')
@@ -79,12 +71,11 @@ class PersonaBase(ModelBase):
 @validate_on_save
 class Persona(AbstractUser, metaclass=PersonaBase):
     """
-    A custom user model used in Kawaz
+    Kawazで利用する認証用カスタムユーザーモデル
 
-    This user model does not have `is_staff` and `is_superuser` database fields
-    but properties.
-    `is_staff` and `is_superuser` values are determined from the value of `role`
-    field.
+    このユーザーモデルはDjangoデフォルトのモデルと異なり`is_staff`と
+    `is_superuser`の値をDB上に保持しない。代わりにこれらの値は`role`の値から
+    自動的に決定され、プロパティとして提供される
     """
     def _get_upload_path(self, filename):
         root = os.path.join('personas', 'avatars', self.username)
@@ -120,6 +111,16 @@ class Persona(AbstractUser, metaclass=PersonaBase):
                             ))
 
     objects = PersonaManager()
+
+    class Meta:
+        ordering = ('username',)
+        verbose_name = _('Persona')
+        verbose_name_plural = _('Personas')
+        permissions = (
+            ('view_persona', 'Can view the persona'),
+            ('activate_persona', 'Can activate/deactivate the persona'),
+            ('assign_role_persona', 'Can assign the role to the persona'),
+        )
 
     @property
     def is_staff(self):
@@ -157,18 +158,8 @@ class Persona(AbstractUser, metaclass=PersonaBase):
     get_large_avatar = lambda self: self.get_avatar('large')
     get_huge_avatar = lambda self: self.get_avatar('huge')
 
-    class Meta:
-        ordering = ('username',)
-        verbose_name = _('Persona')
-        verbose_name_plural = _('Personas')
-        permissions = (
-            ('view_persona', 'Can view the persona'),
-            ('activate_persona', 'Can activate/deactivate the persona'),
-            ('assign_role_persona', 'Can assign the role to the persona'),
-        )
-
     def clean_fields(self, exclude=None, **kwargs):
-        # automatically assign the nickname before field validation
+        # ニックネームが指定されていない場合は自動的にユーザー名を当てはめる
         if not self.nickname:
             self.nickname = self.username
         super().clean_fields(exclude=exclude, **kwargs)
