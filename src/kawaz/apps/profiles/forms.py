@@ -5,7 +5,7 @@ from django.forms.models import inlineformset_factory
 from django.utils.encoding import force_text
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, pgettext_lazy
 from django.forms import widgets
 from kawaz.core.forms.fields import MarkdownField
 from kawaz.core.forms.widgets import MaceEditorWidget
@@ -25,7 +25,7 @@ class ProfileForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         label=_('Skills'),
         widget=widgets.CheckboxSelectMultiple,
         queryset=Skill.objects.all().order_by('pk'), required=False)
-    remarks = MarkdownField(label=_('Remarks'))
+    remarks = MarkdownField(label=pgettext_lazy("Profile", "Remarks"))
     birthday = forms.DateField(label=_('Birthday'), widget=forms.DateInput(attrs={'type': 'date'}), required=False)
 
 
