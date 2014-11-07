@@ -85,4 +85,4 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
 
 class ProfilePreview(SingleObjectPreviewMixin, DetailView):
     model = Profile
-    template_name = "profiles/components/profile_detail.html"
+    template_name = "profiles/profile_preview.html"
