@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import kawaz.apps.profiles.models
 from django.conf import settings
+import kawaz.core.personas.profiles.models
 
 
 class Migration(migrations.Migration):
@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='service',
             name='icon',
-            field=models.ImageField(upload_to=kawaz.apps.profiles.models.Service._get_upload_path, verbose_name='アイコン'),
+            field=models.ImageField(upload_to=kawaz.core.personas.profiles.models.Service._get_upload_path, verbose_name='アイコン'),
             preserve_default=True,
         ),
         migrations.AlterField(

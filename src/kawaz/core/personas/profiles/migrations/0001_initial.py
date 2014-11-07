@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
-import kawaz.apps.profiles.models
+import kawaz.core.personas.profiles.models
 
 
 class Migration(migrations.Migration):
@@ -52,7 +52,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('label', models.CharField(verbose_name='Label', unique=True, max_length=64)),
-                ('icon', models.ImageField(verbose_name='Icon', upload_to=kawaz.apps.profiles.models.Service._get_upload_path)),
+                ('icon', models.ImageField(verbose_name='Icon',
+                                           upload_to=kawaz.core.personas.profiles.models.Service._get_upload_path)),
                 ('url_pattern', models.CharField(verbose_name='URL pattern', null=True, max_length=256, blank=True)),
             ],
             options={

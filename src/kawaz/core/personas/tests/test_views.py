@@ -6,9 +6,9 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils import timezone
-from kawaz.apps.profiles.tests.factories import ProfileFactory
 from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
+from kawaz.core.personas.profiles.tests.factories import ProfileFactory
 
 
 BASE_URL = 'members'

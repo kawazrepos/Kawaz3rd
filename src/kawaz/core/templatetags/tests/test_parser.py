@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.template import Template, Context
 from django.template.loader import render_to_string
 from kawaz.core.personas.tests.factories import PersonaFactory
-from kawaz.apps.profiles.tests.factories import ProfileFactory
+from kawaz.core.personas.profiles.tests.factories import ProfileFactory
 from kawaz.apps.attachments.tests.factories import MaterialFactory
 
 
