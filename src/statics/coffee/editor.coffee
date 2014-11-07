@@ -54,6 +54,10 @@ $ ->
 
     # Mace を組み込む
     mace = new Mace($wrapper.get(0))
+    # 文字を折り返すようにする
+    mace.ace.getSession().setUseWrapMode(true)
+    # 線を消す
+    mace.ace.setShowPrintMargin(false);
     # 入力内容を textarea に反映
     mace.ace.on('change', ->
       $editor.val(mace.value)
