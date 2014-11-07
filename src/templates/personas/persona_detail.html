@@ -16,8 +16,8 @@ TODO:
 したがって'profile'が存在しない場合のデザインを行う必要がある。
 
 NOTE:
-{% if user has 'profiles.change_profile' of profile %} としている部分は'profile'が'None'になるため非オブジェクトパーミッションを調べることになり
-潜在的に'True'が変えるようになる。これは「ミスによる'profile'の情報漏洩」と「ミスによる踏めないリンクの表示」を比較した際に明らかに情報漏洩のほうが問題があるため「仕様」として存在している。そのためパーミッションチェックを行う場合は必ず{% if profile and user has 'profiles.change_profile' of profile %}のようにまず'profile'の存在確認を行うのが良い
+{% if user has 'personas.change_profile' of profile %} としている部分は'profile'が'None'になるため非オブジェクトパーミッションを調べることになり
+潜在的に'True'が変えるようになる。これは「ミスによる'profile'の情報漏洩」と「ミスによる踏めないリンクの表示」を比較した際に明らかに情報漏洩のほうが問題があるため「仕様」として存在している。そのためパーミッションチェックを行う場合は必ず{% if profile and user has 'personas.change_profile' of profile %}のようにまず'profile'の存在確認を行うのが良い
 なお、この問題はdjango-permission側による修正が予定されている
 https://github.com/lambdalisue/django-permission/issues/29
 {% endcomment %}
@@ -51,7 +51,7 @@ https://github.com/lambdalisue/django-permission/issues/29
                     {% for skill in profile.skills.all %}
                         <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
                     {% empty %}
-                        {% if user has 'profiles.change_profile' of profile %}
+                        {% if user has 'personas.change_profile' of profile %}
                             <span class="badge" data-toggle="tooltip" data-placement="top" data-title="「できること」が未設定です">ニート</span>
                         {% else %}
                             <span class="badge" data-toggle="tooltip" data-placement="top" data-title="何の能力も持たない無能力者です">ニート</span>
@@ -61,7 +61,7 @@ https://github.com/lambdalisue/django-permission/issues/29
             </div>
         </div>
     </div>
-    {% if profile and user has 'profiles.change_profile' of profile %}
+    {% if profile and user has 'personas.change_profile' of profile %}
         {% if profile.remarks %}
             {# 自分のページの時 #}
             <div class="alert alert-info">
@@ -73,7 +73,7 @@ https://github.com/lambdalisue/django-permission/issues/29
                 <p>これはあなたのページですが、まだプロフィールが設定されていません。</p>
                 <p>他のメンバーと交流するために、必ずプロフィールを設定してください。</p>
                 <p><strong><small>長期間放置されているアカウントは削除される場合があります。</small></strong></p>
-                <p><a class="btn btn-success btn-lg" href="{% url "profiles_profile_update" %}">今すぐ設定する</a></p>
+                <p><a class="btn btn-success btn-lg" href="{% url "personas_profile_update" %}">今すぐ設定する</a></p>
             </div>
         {% endif %}
         {% if profile.skills.all|length_is:"0" %}
@@ -81,7 +81,7 @@ https://github.com/lambdalisue/django-permission/issues/29
             <div class="alert alert-warning">
                 <p>まだ「<strong>できること</strong>」が設定されていません。</p>
                 <p>「<strong>できること</strong>」は他のメンバーと繋がるために必要な情報です。必ず設定してください。</p>
-                <p><a class="btn btn-success btn-lg" href="{% url "profiles_profile_update" %}">今すぐ設定する</a></p>
+                <p><a class="btn btn-success btn-lg" href="{% url "personas_profile_update" %}">今すぐ設定する</a></p>
             </div>
         {% endif %}
     {% endif %}
@@ -128,7 +128,7 @@ https://github.com/lambdalisue/django-permission/issues/29
                     <h2 class="panel-title">{% trans "Administration" %}</h2>
                 </div>
                 <div class="list-group">
-                  <a class="list-group-item" href="{% url "profiles_profile_update" %}" class="btn btn-default">
+                  <a class="list-group-item" href="{% url "personas_profile_update" %}" class="btn btn-default">
                     <span class="glyphicon glyphicon-pencil"></span> {% trans "Update Profile" %}
                   </a>
                 </div>

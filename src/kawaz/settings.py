@@ -58,7 +58,6 @@ INSTALLED_APPS = (
     'kawaz.core.comments',
     'kawaz.core.utils',
     'kawaz.core.personas',
-    'kawaz.core.personas.profiles',
     'kawaz.core.publishments',
     'kawaz.core.registrations',
     'kawaz.core.forms',

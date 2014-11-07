@@ -1,9 +1,12 @@
 from django.conf.urls import patterns, url, include
-from kawaz.core.personas.views import (PersonaDetailView,
-                                       PersonaListView,
-                                       PersonaUpdateView,
-                                       PersonaAssignAdamView,
-                                       PersonaAssignSeeleView)
+from .views import (PersonaDetailView,
+                    PersonaListView,
+                    PersonaUpdateView,
+                    PersonaAssignAdamView,
+                    PersonaAssignSeeleView,
+                    ProfileUpdateView,
+                    ProfilePreviewView)
+
 
 inner_patterns = patterns('',
     url(r'^update/$', PersonaUpdateView.as_view(),
@@ -17,6 +20,10 @@ inner_patterns = patterns('',
 urlpatterns = patterns('',
     url(r'^$',
         PersonaListView.as_view(), name='personas_persona_list'),
+    url(r'^profile/update/$',
+        ProfileUpdateView.as_view(), name='personas_profile_update'),
+    url(r'^profile/preview/$',
+        ProfilePreviewView.as_view(), name='personas_profile_preview'),
     url(r'^(?P<slug>[^/]+)/$',
         PersonaDetailView.as_view(), name='personas_persona_detail'),
     url(r'^(?P<slug>[^/]+)/', include(inner_patterns)),
