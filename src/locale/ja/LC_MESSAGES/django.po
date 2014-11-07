@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-29 22:41+0900\n"
+"POT-Creation-Date: 2014-11-07 19:17+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,19 +19,19 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/kawaz/apps/announcements/forms.py:12
-#: src/kawaz/apps/announcements/models.py:63 src/kawaz/apps/blogs/forms.py:20
+#: src/kawaz/apps/announcements/models.py:64 src/kawaz/apps/blogs/forms.py:20
 #: src/kawaz/apps/blogs/models.py:53 src/kawaz/apps/events/forms.py:14
 #: src/kawaz/apps/events/models.py:70
 msgid "Body"
 msgstr "本文"
 
-#: src/kawaz/apps/announcements/models.py:59 src/kawaz/apps/blogs/models.py:49
+#: src/kawaz/apps/announcements/models.py:60 src/kawaz/apps/blogs/models.py:49
 #: src/kawaz/apps/events/models.py:66 src/kawaz/apps/profiles/models.py:57
 #: src/kawaz/apps/profiles/models.py:116 src/kawaz/apps/projects/models.py:92
 msgid "Publish status"
 msgstr "公開設定"
 
-#: src/kawaz/apps/announcements/models.py:62 src/kawaz/apps/blogs/models.py:52
+#: src/kawaz/apps/announcements/models.py:63 src/kawaz/apps/blogs/models.py:52
 #: src/kawaz/apps/events/models.py:69 src/kawaz/apps/products/models.py:91
 #: src/kawaz/apps/projects/models.py:97
 #: src/kawaz/core/activities/hatenablog/models.py:17
@@ -39,7 +39,7 @@ msgstr "公開設定"
 msgid "Title"
 msgstr "タイトル"
 
-#: src/kawaz/apps/announcements/models.py:68
+#: src/kawaz/apps/announcements/models.py:69
 #: src/kawaz/apps/attachments/models.py:23 src/kawaz/apps/blogs/models.py:60
 #: src/kawaz/apps/events/models.py:98 src/kawaz/apps/products/models.py:132
 #: src/kawaz/apps/products/models.py:218 src/kawaz/apps/profiles/models.py:71
@@ -50,27 +50,27 @@ msgstr "タイトル"
 msgid "Created at"
 msgstr "作成日時"
 
-#: src/kawaz/apps/announcements/models.py:69 src/kawaz/apps/blogs/models.py:61
+#: src/kawaz/apps/announcements/models.py:70 src/kawaz/apps/blogs/models.py:61
 #: src/kawaz/apps/events/models.py:99
 msgid "Modified at"
 msgstr "更新日時"
 
-#: src/kawaz/apps/announcements/models.py:71
+#: src/kawaz/apps/announcements/models.py:72
 #: src/kawaz/apps/products/models.py:135 src/kawaz/apps/projects/models.py:130
 msgid "Last modified by"
 msgstr "最終更新者"
 
-#: src/kawaz/apps/announcements/models.py:79
+#: src/kawaz/apps/announcements/models.py:80
 msgid "Announcement"
 msgstr "お知らせ"
 
-#: src/kawaz/apps/announcements/models.py:80
+#: src/kawaz/apps/announcements/models.py:81
 #: src/templates/announcements/announcement_detail.html:11
 #: src/templates/announcements/announcement_form.html:15
 #: src/templates/announcements/announcement_list.html:8
 #: src/templates/announcements/announcement_list.html:18
 #: src/templates/roughpages/drafts.authenticated.html:27
-#: src/templates/roughpages/index.anonymous.html:114
+#: src/templates/roughpages/index.anonymous.html:116
 msgid "Announcements"
 msgstr "お知らせ"
 
@@ -151,7 +151,7 @@ msgstr "ブログ記事を削除しました"
 #: src/kawaz/apps/events/filters.py:16 src/kawaz/apps/products/filters.py:16
 #: src/kawaz/apps/products/forms.py:40 src/kawaz/apps/products/models.py:54
 #: src/kawaz/apps/products/models.py:126 src/kawaz/apps/projects/models.py:22
-#: src/templates/blogs/entry_list.html:49
+#: src/templates/blogs/entry_list.html:48
 #: src/templates/events/event_list.html:54
 #: src/templates/products/product_detail.html:132
 #: src/templates/products/product_list.html:55
@@ -978,7 +978,7 @@ msgid "Recent Announcements"
 msgstr "最近のお知らせ"
 
 #: src/templates/announcements/components/announcement_detail.html:12
-#: src/templates/blogs/components/entry_detail_article.html:55
+#: src/templates/blogs/entry_detail.html:47
 msgid "Do you want to delete this entry?"
 msgstr "この記事を削除してもよろしいですか？"
 
@@ -1061,11 +1061,25 @@ msgstr "ログアウト"
 msgid "Login"
 msgstr "ログイン"
 
-#: src/templates/blogs/components/entry_detail_article.html:34
+#: src/templates/blogs/components/entry_detail.html:22
+#: src/templates/blogs/components/entry_truncated.html:20
+#: src/templates/events/components/list-item.html:17
+#: src/templates/events/event_detail.html:27
+#: src/templates/projects/project_detail.html:44
+#: src/templates/projects/project_detail.html:54
+#: src/templates/projects/project_detail.html:64
+msgid "None"
+msgstr "未設定"
+
+#: src/templates/blogs/entry_detail.html:12
+msgid "'s blog entries"
+msgstr "のブログ記事"
+
+#: src/templates/blogs/entry_detail.html:25
 msgid "Blog author"
 msgstr "書いた人"
 
-#: src/templates/blogs/components/entry_detail_article.html:48
+#: src/templates/blogs/entry_detail.html:40
 #: src/templates/events/event_detail.html:194
 #: src/templates/products/product_detail.html:93
 #: src/templates/products/product_list.html:40
@@ -1074,17 +1088,13 @@ msgstr "書いた人"
 msgid "Administration"
 msgstr "管理"
 
-#: src/templates/blogs/components/entry_detail_article.html:52
+#: src/templates/blogs/entry_detail.html:44
 msgid "Edit the blog entry"
 msgstr "記事を編集"
 
-#: src/templates/blogs/components/entry_detail_article.html:56
+#: src/templates/blogs/entry_detail.html:48
 msgid "Delete the blog entry"
 msgstr "記事を削除"
-
-#: src/templates/blogs/entry_detail.html:12
-msgid "'s blog entries"
-msgstr "のブログ記事"
 
 #: src/templates/blogs/entry_form.html:10
 #: src/templates/blogs/entry_form.html:19
@@ -1108,7 +1118,7 @@ msgstr[1] "1件のブログ記事"
 msgid "Hot entries"
 msgstr "ホットエントリー"
 
-#: src/templates/blogs/entry_list.html:56
+#: src/templates/blogs/entry_list.html:55
 msgid "There is no category"
 msgstr "カテゴリはありません"
 
@@ -1123,6 +1133,32 @@ msgid ""
 msgstr ""
 "このエントリにはKawazメンバーのみコメントできます。コメントするにはログインし"
 "てください。"
+
+#: src/templates/comments/components/comment_items.html:31
+#, fuzzy
+#| msgid "Do you want to delete this entry?"
+msgid "Do you want to delete this comment?"
+msgstr "この記事を削除してもよろしいですか？"
+
+#: src/templates/comments/components/comment_items.html:41
+msgid "This comment have been deleted."
+msgstr ""
+
+#: src/templates/comments/deleted.html:6
+#, fuzzy
+#| msgid "Your password has been updated."
+msgid "Your comment has been deleted."
+msgstr "パスワードを変更しました"
+
+#: src/templates/comments/deleted.html:8
+#: src/templates/registration/logged_out.html:7
+#: src/templates/registration/password_change_done.html:7
+#: src/templates/registration/password_reset_complete.html:11
+#: src/templates/registration/password_reset_done.html:8
+#: src/templates/registration/registration_closed.html:11
+#: src/templates/registration/registration_complete.html:11
+msgid "Return to top page"
+msgstr "トップへ戻る"
 
 #: src/templates/comments/form.html:17
 msgid "Post"
@@ -1224,13 +1260,13 @@ msgstr "前のページへ"
 msgid "Older"
 msgstr "戻る"
 
-#: src/templates/events/components/list-item.html:17
-#: src/templates/events/event_detail.html:27
-#: src/templates/projects/project_detail.html:44
-#: src/templates/projects/project_detail.html:54
-#: src/templates/projects/project_detail.html:64
-msgid "None"
-msgstr "未設定"
+#: src/templates/crispy/whole_uni_formset.html:20
+msgid "Remove this form"
+msgstr "この項目を削除"
+
+#: src/templates/crispy/whole_uni_formset.html:55
+msgid "Add new form"
+msgstr "フォームを追加する"
 
 #: src/templates/events/components/list-item.html:32
 #: src/templates/events/event_detail.html:66
@@ -1444,7 +1480,7 @@ msgstr "使用中のサービス"
 
 #: src/templates/projects/project_archive.html:5
 #: src/templates/projects/project_archive.html:12
-#: src/templates/projects/project_list.html:57
+#: src/templates/projects/project_list.html:59
 msgid "Archived projects"
 msgstr "アーカイブされたプロジェクト"
 
@@ -1529,7 +1565,7 @@ msgstr "活動中のプロジェクト"
 msgid "Planning projects"
 msgstr "企画中のプロジェクト"
 
-#: src/templates/projects/project_list.html:67
+#: src/templates/projects/project_list.html:69
 #: src/templates/roughpages/index.anonymous.html:60
 #: src/templates/roughpages/index.anonymous.html:88
 msgid "See more"
@@ -1542,15 +1578,6 @@ msgstr "登録が完了しました！"
 #: src/templates/registration/logged_out.html:5
 msgid "Logged out from the account"
 msgstr "ログアウト"
-
-#: src/templates/registration/logged_out.html:7
-#: src/templates/registration/password_change_done.html:7
-#: src/templates/registration/password_reset_complete.html:11
-#: src/templates/registration/password_reset_done.html:8
-#: src/templates/registration/registration_closed.html:11
-#: src/templates/registration/registration_complete.html:11
-msgid "Return to top page"
-msgstr "トップへ戻る"
 
 #: src/templates/registration/password_change_done.html:5
 msgid "Your password has been updated."
@@ -1614,12 +1641,12 @@ msgid "Register"
 msgstr "Kawazへ登録"
 
 #: src/templates/roughpages/about.html:4
-#: src/templates/roughpages/index.anonymous.html:127
+#: src/templates/roughpages/index.anonymous.html:129
 msgid "About us"
 msgstr "Kawazとは"
 
 #: src/templates/roughpages/contact.html:4
-#: src/templates/roughpages/index.anonymous.html:138
+#: src/templates/roughpages/index.anonymous.html:140
 msgid "Contact us"
 msgstr "お問い合わせ"
 
@@ -1663,33 +1690,33 @@ msgstr "最近のゲーム"
 msgid "Featured games"
 msgstr "Kawazの代表作"
 
-#: src/templates/roughpages/index.anonymous.html:125
+#: src/templates/roughpages/index.anonymous.html:127
 msgid "Information"
 msgstr "インフォメーション"
 
-#: src/templates/roughpages/index.anonymous.html:128
+#: src/templates/roughpages/index.anonymous.html:130
 #: src/templates/roughpages/rules.html:4
 msgid "Agreements"
 msgstr "Kawazを利用するにあたって"
 
-#: src/templates/roughpages/index.anonymous.html:129
+#: src/templates/roughpages/index.anonymous.html:131
 msgid "Published information"
 msgstr "掲載情報"
 
-#: src/templates/roughpages/index.anonymous.html:130
+#: src/templates/roughpages/index.anonymous.html:132
 #: src/templates/roughpages/registration.html:5
 msgid "How to participate"
 msgstr "メンバー登録について"
 
-#: src/templates/roughpages/index.anonymous.html:136
+#: src/templates/roughpages/index.anonymous.html:138
 msgid "Contacts"
 msgstr "お問い合わせ"
 
-#: src/templates/roughpages/index.anonymous.html:139
+#: src/templates/roughpages/index.anonymous.html:141
 msgid "@kawazinfo"
 msgstr "@kawazinfo"
 
-#: src/templates/roughpages/index.anonymous.html:140
+#: src/templates/roughpages/index.anonymous.html:142
 msgid "@kawazpr"
 msgstr "@kawazpr"
 
