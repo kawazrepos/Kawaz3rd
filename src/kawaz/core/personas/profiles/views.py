@@ -17,6 +17,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
     formset_prefix = 'accounts'
+    template_name = "personas/profiles/profile_form.html"
 
     def get_object(self, queryset=None):
         if self.request.user.is_authenticated() and self.request.user:
@@ -85,4 +86,4 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
 
 class ProfilePreview(SingleObjectPreviewMixin, DetailView):
     model = Profile
-    template_name = "profiles/profile_preview.html"
+    template_name = "personas/profiles/profile_preview.html"

@@ -43,7 +43,7 @@ class ProfileUpdateViewTestCase(TestCase):
             username=self.user, password='password'
         ))
         r = self.client.get('/{}/update/'.format(BASE_URL))
-        self.assertTemplateUsed(r, 'profiles/profile_form.html')
+        self.assertTemplateUsed(r, 'personas/profiles/profile_form.html')
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.profile)
 
@@ -150,7 +150,7 @@ class ProfileUpdateViewTestCase(TestCase):
             username=self.user, password='password'
         ))
         r = self.client.get('/{}/update/'.format(BASE_URL))
-        self.assertTemplateUsed(r, 'profiles/profile_form.html')
+        self.assertTemplateUsed(r, 'personas/profiles/profile_form.html')
         self.assertTrue('formset' in r.context_data)
 
 
@@ -160,4 +160,4 @@ class ProfilePreviewTestCase(TestCase):
         ユーザーが/profiles/preview/を閲覧できる
         """
         r = self.client.get("/{}/preview/".format(BASE_URL))
-        self.assertTemplateUsed(r, "profiles/components/profile_detail.html")
+        self.assertTemplateUsed(r, "personas/profiles/profile_preview.html")
