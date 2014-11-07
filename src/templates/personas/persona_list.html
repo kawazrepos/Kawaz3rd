@@ -20,10 +20,10 @@
         </div>
     {% endif %}
     <div class="row" id="persona-list">
-        {% for object.profile in object.profile_list %}
+        {% for object in filter %}
             <div class="thumbnail persona-list-item">
-                <a href="{{ object.profile.get_absolute_url }}">
-                    <img class="persona-avatar" alt="{{ object.profile.nickname }}" src="{{ object.profile.get_huge_avatar }}">
+                <a href="{{ object.get_absolute_url }}">
+                    <img class="persona-avatar" alt="{{ object.nickname }}" src="{{ object.get_huge_avatar }}">
                 </a>
                 <div class="well">
                     <div class="caption">

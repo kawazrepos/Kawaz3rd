@@ -7,6 +7,7 @@ from .models import Persona
 
 class PersonaFilter(FilterSet):
     skills = filters.ModelChoiceFilter(
+        name='_profile__skills',
         label=_('Skills'),
         queryset=Skill.objects.all(),
         widget=ListGroupLinkWidget(choices=[('', _('All'))])
@@ -14,4 +15,3 @@ class PersonaFilter(FilterSet):
 
     class Meta:
         model = Persona
-        fields = ['_profile__skills',]
