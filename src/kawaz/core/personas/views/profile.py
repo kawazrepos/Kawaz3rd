@@ -4,6 +4,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import ugettext as _
+from django.shortcuts import get_object_or_404
 from permission.decorators.classbase import permission_required
 from kawaz.core.views.preview import SingleObjectPreviewMixin
 from ..forms import ProfileForm
@@ -18,10 +19,23 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     formset_prefix = 'accounts'
     template_name = "personas/profile_form.html"
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.prefetch_related(
+            'user',
+            'skills',
+            'accounts__service',
+        )
+        # WilleはProfile等を持たないため除外
+        return qs.exclude(user__role='wille')
+
     def get_object(self, queryset=None):
-        if self.request.user.is_authenticated() and self.request.user:
-            return self.request.user._profile
-        return None
+        if not self.request.user.is_authenticated():
+            raise Http404(
+                _("Anonymouse user does not have a profile update view")
+            )
+        qs = queryset or self.get_queryset()
+        return get_object_or_404(qs, user__pk=self.request.user.pk)
 
     def get_formset(self):
         kwargs = {

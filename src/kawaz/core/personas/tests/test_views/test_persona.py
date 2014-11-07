@@ -140,82 +140,51 @@ class PersonaUpdateViewTestCase(PersonaViewTestCaseBase):
         """
         PersonaUpdateViewの逆引き
         """
-        # AnonymousUserはusernameすら持たないのでチェックをしていない
-        for user in chain(self.members, self.non_members):
-            self.assertEqual(
-                reverse('personas_persona_update', kwargs=dict(
-                    slug=user.username
-                )),
-                '/{}/{}/update/'.format(
-                    BASE_URL,
-                    user.username
-                ),
-            )
-
-    def test_nobody_can_access_persona_update_view_of_others(self):
-        """
-        ほかユーザーのユーザー編集ページにはアクセス出来ない
-        """
-        someone = PersonaFactory()
-        url = reverse('personas_persona_update', kwargs=dict(
-            slug=someone.username
-        ))
-        login_url = "{}?next={}".format(settings.LOGIN_URL, url)
-        # Adamはあらゆる権限を持つため除外している
-        for user in chain(self.members[1:], self.non_members,
-                          [self.anonymous]):
-            self.prefer_login(user)
-            r = self.client.get(url)
-            self.assertRedirects(r, login_url)
+        self.assertEqual(
+            reverse('personas_persona_update'),
+            '/{}/my/update/'.format(
+                BASE_URL,
+            ))
 
     def test_non_members_cannot_access_persona_update_view(self):
         """
-        非メンバーは自身のユーザー編集ページは見ることが出来ない
+        メンバー以外がユーザー編集ページにアクセスした場合は404
         """
-        for user in self.non_members:
-            url = reverse('personas_persona_update', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
+        url = reverse('personas_persona_update')
+        for user in chain(self.non_members, [self.anonymous]):
             self.prefer_login(user)
             r = self.client.get(url)
-            self.assertRedirects(r, login_url)
+            self.assertEqual(r.status_code, 404)
 
     def test_members_can_access_persona_update_view_of_own(self):
         """
-        自身のユーザー編集ページにはアクセス可能
+        メンバーはユーザー編集ページにアクセス可能
         """
+        url = reverse('personas_persona_update')
         for user in self.members:
-            url = reverse('personas_persona_update', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
             self.prefer_login(user)
             r = self.client.get(url)
             self.assertEqual(r.status_code, 200)
+            self.assertTemplateUsed(r, 'personas/persona_form.html')
+            self.assertTrue('object' in r.context_data)
+            self.assertEqual(r.context_data['object'], user)
 
     def test_non_members_cannot_update_persona(self):
         """
         非メンバーはユーザー情報を編集できない
         """
-        for user in self.non_members:
-            url = reverse('personas_persona_update', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
+        url = reverse('personas_persona_update')
+        for user in chain(self.non_members, [self.anonymous]):
             self.prefer_login(user)
             r = self.client.post(url, self.persona_kwargs)
-            self.assertRedirects(r, login_url)
+            self.assertEqual(r.status_code, 404)
 
     def test_members_can_update_own_persona(self):
         """
-        メンバーは自分のユーザー情報を編集できる
+        メンバーはユーザー情報を編集できる
         """
+        url = reverse('personas_persona_update')
         for user in self.members:
-            url = reverse('personas_persona_update', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
             self.prefer_login(user)
             r = self.client.post(url, self.persona_kwargs)
             self.assertRedirects(r, user.get_absolute_url())
@@ -230,12 +199,9 @@ class PersonaUpdateViewTestCase(PersonaViewTestCaseBase):
         """
         どのユーザーもユーザー情報変更ページから役職を変更することはできない
         """
+        url = reverse('personas_persona_update')
         # Adamは最初からAdamなので除外
         for user in self.members[1:]:
-            url = reverse('personas_persona_update', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
             self.prefer_login(user)
             previous_role = user.role
             self.persona_kwargs['role'] = 'adam'
@@ -255,65 +221,40 @@ class PersonaAssignAdamViewTestCase(PersonaViewTestCaseBase):
         """
         personas_persona_assign_adamの逆引き
         """
-        # AnonymousUserはusernameを持たないため除外
-        for user in chain(self.members, self.non_members):
-            self.assertEqual(
-                reverse('personas_persona_assign_adam', kwargs=dict(
-                    slug=user.username
-                )),
-                '/{}/{}/assign/adam/'.format(
-                    BASE_URL,
-                    user.username
-                ),
-            )
+        self.assertEqual(
+            reverse('personas_persona_assign_adam'),
+            '/{}/my/assign/adam/'.format(
+                BASE_URL,
+            ))
 
     def test_GET_is_not_allowed(self):
         """GETによるアクセスは許可されていない"""
+        url = reverse('personas_persona_assign_adam')
         for user in chain(self.members, self.non_members):
-            url = reverse('personas_persona_assign_adam', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
             self.prefer_login(user)
             r = self.client.get(url)
             # 405: NotAllowed
             self.assertEqual(r.status_code, 405)
 
-    def test_nobody_cannot_promote_others_to_adam(self):
-        """自身のアカウントではない場合アダムへの昇格ができない"""
-        adam = PersonaFactory(role='adam')
-        # たとえAdamであっても自分自身のアカウントでない限り不可
-        for user in chain(self.members, self.non_members,
-                          [self.anonymous]):
-            url = reverse('personas_persona_assign_adam', kwargs=dict(
-                slug=adam.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
-            self.prefer_login(user)
-            r = self.client.post(url)
-            if getattr(user, 'role', None) in ('adam', 'seele'):
-                self.assertEqual(r.status_code, 403)
-            else:
-                self.assertRedirects(r, login_url)
-
     def test_non_seele_cannot_promote_to_adam(self):
         """ゼーレ以外はアダムへの昇格ができない"""
-        for user in chain(self.members[2:], self.non_members):
-            url = reverse('personas_persona_assign_adam', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
+        url = reverse('personas_persona_assign_adam')
+        login_url = "{}?next={}".format(settings.LOGIN_URL, url)
+        # Nerv, Children などのメンバーの場合はLOGIN URLにリダイレクト
+        for user in chain(self.members[2:]):
             self.prefer_login(user)
             r = self.client.post(url)
             self.assertRedirects(r, login_url)
+        # Wille, Anonymous などの非メンバーの場合は404
+        for user in chain(self.non_members, [self.anonymous]):
+            self.prefer_login(user)
+            r = self.client.post(url)
+            self.assertEqual(r.status_code, 404)
 
     def test_seele_can_promote_to_adam(self):
         """ゼーレ以上はアダムへの昇格が可能"""
+        url = reverse('personas_persona_assign_adam')
         for user in chain(self.members[:2]):
-            url = reverse('personas_persona_assign_adam', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
             self.prefer_login(user)
             r = self.client.post(url)
             self.assertRedirects(r, user.get_absolute_url())
@@ -328,65 +269,41 @@ class PersonaAssignSeeleViewTestCase(PersonaViewTestCaseBase):
         """
         personas_persona_assign_seeleの逆引き
         """
-        # AnonymousUserはusernameを持たないため除外
-        for user in chain(self.members, self.non_members):
-            self.assertEqual(
-                reverse('personas_persona_assign_seele', kwargs=dict(
-                    slug=user.username
-                )),
-                '/{}/{}/assign/seele/'.format(
-                    BASE_URL,
-                    user.username
-                ),
-            )
+        self.assertEqual(
+            reverse('personas_persona_assign_seele'),
+            '/{}/my/assign/seele/'.format(
+                BASE_URL,
+            ))
 
     def test_GET_is_not_allowed(self):
         """GETによるアクセスは許可されていない"""
+        url = reverse('personas_persona_assign_seele')
         for user in chain(self.members, self.non_members):
-            url = reverse('personas_persona_assign_seele', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
             self.prefer_login(user)
             r = self.client.get(url)
             # 405: NotAllowed
             self.assertEqual(r.status_code, 405)
 
-    def test_nobody_cannot_promote_others_to_seele(self):
-        """自身のアカウントではない場合ゼーレへの降格ができない"""
-        seele = PersonaFactory(role='seele')
-        # たとえAdamであっても自分自身のアカウントでない限り不可
-        for user in chain(self.members, self.non_members,
-                          [self.anonymous]):
-            url = reverse('personas_persona_assign_seele', kwargs=dict(
-                slug=seele.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
-            self.prefer_login(user)
-            r = self.client.post(url)
-            if getattr(user, 'role', None) in ('adam', 'seele'):
-                self.assertEqual(r.status_code, 403)
-            else:
-                self.assertRedirects(r, login_url)
-
     def test_non_seele_cannot_promote_to_seele(self):
         """ゼーレ以外はゼーレへの降格ができない"""
-        for user in chain(self.members[2:], self.non_members):
-            url = reverse('personas_persona_assign_seele', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
+        url = reverse('personas_persona_assign_seele')
+        login_url = "{}?next={}".format(settings.LOGIN_URL, url)
+        # Nerv, Children などのメンバーの場合はLOGIN URLにリダイレクト
+        for user in chain(self.members[2:]):
             self.prefer_login(user)
             r = self.client.post(url)
             self.assertRedirects(r, login_url)
+        # Wille, Anonymous などの非メンバーの場合は404
+        for user in chain(self.non_members, [self.anonymous]):
+            self.prefer_login(user)
+            r = self.client.post(url)
+            self.assertEqual(r.status_code, 404)
+
 
     def test_seele_can_promote_to_seele(self):
         """ゼーレ以上はゼーレへの降格が可能"""
+        url = reverse('personas_persona_assign_seele')
         for user in chain(self.members[:2]):
-            url = reverse('personas_persona_assign_seele', kwargs=dict(
-                slug=user.username
-            ))
-            login_url = "{}?next={}".format(settings.LOGIN_URL, url)
             self.prefer_login(user)
             r = self.client.post(url)
             self.assertRedirects(r, user.get_absolute_url())

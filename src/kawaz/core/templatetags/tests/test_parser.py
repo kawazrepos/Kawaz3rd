@@ -74,7 +74,7 @@ class ParserTemplateTagTestCase(TestCase):
         content = "@kawaztan_mention\n@kawaztan_unknown"
         expected = (
             """<a href="/members/kawaztan_mention/">"""
-            """<img src="/statics/img/defaults/profile_small.png">@kawaztan_mention</a>\n"""
+            """<img src="/statics/img/defaults/persona_avatar_small.png">@kawaztan_mention</a>\n"""
             """@kawaztan_unknown"""
         )
         self._test_parser_filter(content, expected)

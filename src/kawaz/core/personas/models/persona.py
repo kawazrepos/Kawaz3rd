@@ -11,6 +11,12 @@ from thumbnailfield.fields import ThumbnailField
 from kawaz.core.db.decorators import validate_on_save
 
 
+# URLルールなどにより使用できないユーザー名
+INVALID_USERNAMES = (
+    'my',
+)
+
+
 class PersonaManager(BaseUserManager):
     """
     Persona用カスタムマネージャ
@@ -138,7 +144,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
         """
         デフォルトアバターを返します
         """
-        filename = 'profile_{}.png'.format(size)
+        filename = 'persona_avatar_{}.png'.format(size)
         return os.path.join('/statics', 'img', 'defaults', filename)
 
     def get_avatar(self, size):
@@ -159,6 +165,12 @@ class Persona(AbstractUser, metaclass=PersonaBase):
     get_huge_avatar = lambda self: self.get_avatar('huge')
 
     def clean_fields(self, exclude=None, **kwargs):
+        # 使用不可のユーザー名が指定されていた場合はエラー
+        if self.username in INVALID_USERNAMES:
+            raise ValidationError(_(
+                "The username '%(username)s' is reserved. "
+                "Please chose a different username."
+            ) % {'username': self.username})
         # ニックネームが指定されていない場合は自動的にユーザー名を当てはめる
         if not self.nickname:
             self.nickname = self.username

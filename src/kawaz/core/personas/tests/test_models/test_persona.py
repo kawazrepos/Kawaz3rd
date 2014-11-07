@@ -11,6 +11,13 @@ class PersonaModelTestCase(TestCase):
         self.assertEqual(user.first_name, 'Kawaz')
         self.assertEqual(user.last_name, 'Inonaka')
 
+    def test_invalid_username_validation(self):
+        """
+        INVALID_USERNAMES に指定されているユーザー名は指定できない
+        """
+        user = PersonaFactory.build(username='my')
+        self.assertRaises(ValidationError, user.save)
+
     def test_automatical_nickname_assign(self):
         """
         The nickname field should automatically assigned from the username

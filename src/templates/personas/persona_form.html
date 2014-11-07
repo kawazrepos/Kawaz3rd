@@ -8,7 +8,7 @@
     <ol class="breadcrumb">
         {% block breadcrumb %}
             <li><a href="/">Home</a></li>
-            <li><a href="{% url "personas_persona_update" slug=user.username %}">{% trans "Change user information" %}</a></li>
+            <li><a href="{% url "personas_persona_update" %}">{% trans "Change user information" %}</a></li>
         {% endblock %}
     </ol>
     <div class="page-header">

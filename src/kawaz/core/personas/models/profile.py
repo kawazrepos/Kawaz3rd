@@ -108,7 +108,7 @@ class Skill(models.Model):
 class Service(models.Model):
 
     def _get_upload_path(self, filename):
-        return os.path.join('profiles', 'services', filename)
+        return os.path.join('personas', 'services', filename)
 
     label = models.CharField(_('Label'), max_length=64, unique=True)
     icon = models.ImageField(_('Icon'), upload_to=_get_upload_path)

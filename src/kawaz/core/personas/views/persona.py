@@ -1,12 +1,14 @@
 from django.contrib import messages
 from django.http import (HttpResponseNotAllowed,
                          HttpResponseRedirect,
-                         HttpResponseForbidden)
+                         HttpResponseForbidden,
+                         Http404)
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
+from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
 from permission.decorators import permission_required
 from ..forms import PersonaUpdateForm, PersonaRoleForm
@@ -61,9 +63,25 @@ class PersonaListView(FilterView):
 @permission_required('personas.change_persona')
 class PersonaUpdateView(SuccessMessageMixin, UpdateView):
     model = Persona
-    slug_field = 'username'
     form_class = PersonaUpdateForm
     template_name = 'personas/persona_form.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.prefetch_related(
+            '_profile',
+            '_profile__skills',
+            '_profile__accounts__service',
+        )
+        return qs.exclude(role='wille')
+
+    def get_object(self, queryset=None):
+        if not self.request.user.is_authenticated():
+            raise Http404(
+                _("Anonymouse user does not have a persona update view")
+            )
+        qs = queryset or self.get_queryset()
+        return get_object_or_404(qs, pk=self.request.user.pk)
 
     def get_success_message(self, cleaned_data):
         return _('Your user information was successfully updated.')
@@ -71,8 +89,24 @@ class PersonaUpdateView(SuccessMessageMixin, UpdateView):
 
 class AssignRoleMixin(object):
     model = Persona
-    slug_field = 'username'
     role = None
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.prefetch_related(
+            '_profile',
+            '_profile__skills',
+            '_profile__accounts__service',
+        )
+        return qs.exclude(role='wille')
+
+    def get_object(self, queryset=None):
+        if not self.request.user.is_authenticated():
+            raise Http404(
+                _("Anonymouse user does not have an assign role view")
+            )
+        qs = queryset or self.get_queryset()
+        return get_object_or_404(qs, pk=self.request.user.pk)
 
     def get(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(['POST',])
@@ -80,20 +114,10 @@ class AssignRoleMixin(object):
     @permission_required('personas.assign_role_persona')
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object != request.user:
-            # Promote/Demote 機能は非常に危険な機能なためAdminでは他人に対し
-            # Assign権限を持つゼーレやアダムでも自身以外に対するPromote/Demote
-            # を行おうとした場合は Forbidden する
-            return HttpResponseForbidden(_(
-                "Promotin/Demotion is only allowed for your own account. "
-                "If you required to assign role to a particuar user, use "
-                "admin site (central-dogma) instead."
-            ))
-        else:
-            self.object.role = self.role
-            self.object.save()
-            messages.success(request, self.get_success_message({}))
-            return HttpResponseRedirect(self.get_success_url())
+        self.object.role = self.role
+        self.object.save()
+        messages.success(request, self.get_success_message({}))
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return self.get_object().get_absolute_url()

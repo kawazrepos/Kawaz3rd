@@ -7,24 +7,24 @@ from .views import (PersonaDetailView,
                     ProfileUpdateView,
                     ProfilePreviewView)
 
-
-inner_patterns = patterns('',
-    url(r'^update/$', PersonaUpdateView.as_view(),
-        name='personas_persona_update'),
-    url(r'^assign/adam/$', PersonaAssignAdamView.as_view(),
-        name='personas_persona_assign_adam'),
-    url(r'^assign/seele/$', PersonaAssignSeeleView.as_view(),
-        name='personas_persona_assign_seele'),
-)
-
 urlpatterns = patterns('',
     url(r'^$',
         PersonaListView.as_view(), name='personas_persona_list'),
-    url(r'^profile/update/$',
+    url(r'^my/update/$', PersonaUpdateView.as_view(),
+        name='personas_persona_update'),
+    url(r'^my/assign/adam/$', PersonaAssignAdamView.as_view(),
+        name='personas_persona_assign_adam'),
+    url(r'^my/assign/seele/$', PersonaAssignSeeleView.as_view(),
+        name='personas_persona_assign_seele'),
+    url(r'^my/profile/update/$',
         ProfileUpdateView.as_view(), name='personas_profile_update'),
-    url(r'^profile/preview/$',
+    url(r'^my/profile/preview/$',
         ProfilePreviewView.as_view(), name='personas_profile_preview'),
+    # Note:
+    #   PersonaDetailViewはユーザー名がURLに含まれるため上記のURLルールが先に
+    #   適用されるために最後に指定される必要がある
+    #   また、モデルレベルで'my'というユーザー名が許可されていないため上記
+    #   によりアクセス出来ないユーザーが発生することはない
     url(r'^(?P<slug>[^/]+)/$',
         PersonaDetailView.as_view(), name='personas_persona_detail'),
-    url(r'^(?P<slug>[^/]+)/', include(inner_patterns)),
 )

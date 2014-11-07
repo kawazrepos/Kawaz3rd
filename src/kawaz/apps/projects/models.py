@@ -193,7 +193,7 @@ class Project(models.Model):
         """
         デフォルトアイコンを返します
         """
-        filename = 'project_{}.png'.format(size)
+        filename = 'project_icon_{}.png'.format(size)
         return os.path.join('/statics', 'img', 'defaults', filename)
 
     def get_icon(self, size):
