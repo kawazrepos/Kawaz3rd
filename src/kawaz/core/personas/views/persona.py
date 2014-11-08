@@ -93,11 +93,6 @@ class AssignRoleMixin(object):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        qs = qs.prefetch_related(
-            '_profile',
-            '_profile__skills',
-            '_profile__accounts__service',
-        )
         return qs.exclude(role='wille')
 
     def get_object(self, queryset=None):

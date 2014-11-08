@@ -17,7 +17,7 @@ TODO:
 
 NOTE:
 {% if user has 'personas.change_profile' of profile %} としている部分は'profile'が'None'になるため非オブジェクトパーミッションを調べることになり
-潜在的に'True'が変えるようになる。これは「ミスによる'profile'の情報漏洩」と「ミスによる踏めないリンクの表示」を比較した際に明らかに情報漏洩のほうが問題があるため「仕様」として存在している。そのためパーミッションチェックを行う場合は必ず{% if profile and user has 'personas.change_profile' of profile %}のようにまず'profile'の存在確認を行うのが良い
+潜在的に'True'が返るようになる。これは「ミスによる'profile'の情報漏洩」と「ミスによる踏めないリンクの表示」を比較した際に明らかに情報漏洩のほうが問題があるため「仕様」として存在している。そのためパーミッションチェックを行う場合は必ず{% if profile and user has 'personas.change_profile' of profile %}のようにまず'profile'の存在確認を行うのが良い
 なお、この問題はdjango-permission側による修正が予定されている
 https://github.com/lambdalisue/django-permission/issues/29
 {% endcomment %}

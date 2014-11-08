@@ -131,9 +131,9 @@ class ProfileUpdateViewTestCase(ProfileViewTestCaseBase):
         """
         kwargs = dict(self.profile_kwargs)
         url = reverse('personas_profile_update')
-        for user in self.members:
-            username1 = random_str()
-            username2 = random_str()
+        for i, user in enumerate(self.members):
+            username1 = "{}-{}".format(random_str(), i)
+            username2 = "{}-{}".format(random_str(), i)
             kwargs.update({
                 'accounts-0-service': 1,
                 'accounts-0-username': username1,
