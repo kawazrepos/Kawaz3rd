@@ -73,8 +73,11 @@ class ParserTemplateTagTestCase(TestCase):
         ProfileFactory(user=user)
         content = "@kawaztan_mention\n@kawaztan_unknown"
         expected = (
+            '''<span class="mention">'''
             """<a href="/members/kawaztan_mention/">"""
-            """<img src="/statics/img/defaults/persona_avatar_small.png">@kawaztan_mention</a>\n"""
+            """<img class="avatar avatar-small" src="/statics/img/defaults/persona_avatar_small.png">"""
+            """<span class="mention-username">@kawaztan_mention</span></a>"""
+            """</span>\n"""
             """@kawaztan_unknown"""
         )
         self._test_parser_filter(content, expected)
