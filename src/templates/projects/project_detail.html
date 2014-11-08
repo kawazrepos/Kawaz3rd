@@ -106,7 +106,7 @@
       </div>
       <div class="list-group">
       {% for member in object.members.all %}
-        <a href="{{ member.profile.get_absolute_url }}" class="list-group-item">
+        <a href="{{ member.get_absolute_url }}" class="list-group-item">
           <img class="avatar avatar-middle" src="{{ member.get_middle_avatar }}" alt="{{ member.nickname }}">
             {{ member.nickname }}さん</a>
       {% endfor %}

@@ -1,0 +1,30 @@
+{% extends "form_base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{% trans "Edit your profile" %}
+{% endblock %}
+
+
+{% block content-header %}
+    <div class="page-header">
+        <h1>{% trans "Edit your profile" %}</h1>
+    </div>
+{% endblock %}
+
+{% block tab-content %}
+    <div class="tab-pane active" id="editor-main" ng-init="previewURL = '{% url 'personas_profile_preview' %}';">
+        <p>ニックネームやアイコンは<a href="{% url "personas_persona_update" %}">ユーザー情報の変更</a>ページから変更できます</p>
+        <form class="form-horizontal" role="form" method="POST" action=".">{% csrf_token %}
+            {% crispy form %}
+            <div class="form-group formset row" prefix="{{ formset.prefix }}" id="formset-{{ formset.prefix }}">
+                <label class="control-label col-sm-2 col-lg-2" for="id_services">{% trans "Using services" %}</label>
+                <div class="col-sm-8 col-lg-8">
+                    {% crispy formset "crispy" %}
+                </div>
+            </div>
+            <input type="submit" class="btn btn-success btn-lg col-xs-offset-2 col-lg-offset-2" value="{% trans "Save" %}" />
+        </form>
+    </div>
+{% endblock %}

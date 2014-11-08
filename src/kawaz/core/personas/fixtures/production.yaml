@@ -1,0 +1,186 @@
+- model: personas.skill
+  pk: 1
+  fields:
+    label: プログラミング
+    description: ゲームプログラミングができます
+    order: 1
+- model: personas.skill
+  pk: 2
+  fields:
+    label: イラスト
+    description: 2Dイラストが描けます
+    order: 2
+- model: personas.skill
+  pk: 3
+  fields:
+    label: 3Dモデリング
+    description: 3Dモデリングができます
+    order: 4
+- model: personas.skill
+  pk: 4
+  fields:
+    label: 作曲
+    description: DTMなど、作曲ができます
+    order: 6
+- model: personas.skill
+  pk: 5
+  fields:
+    label: 企画
+    description: ゲーム企画ができます
+    order: 10
+- model: personas.skill
+  pk: 6
+  fields:
+    label: シナリオライター
+    description: シナリオが書けます
+    order: 9
+- model: personas.skill
+  pk: 7
+  fields:
+    label: Webプログラム
+    description: Web開発ができます
+    order: 12
+- model: personas.skill
+  pk: 8
+  fields:
+    label: UIデザイン
+    description: ゲーム画面など、UIデザインができます
+    order: 3
+- model: personas.skill
+  pk: 9
+  fields:
+    label: ボイス
+    description: 声優ができます
+    order: 8
+- model: personas.skill
+  pk: 10
+  fields:
+    label: レベルデザイン
+    description: ゲームのレベルデザインができます
+    order: 11
+- model: personas.skill
+  pk: 11
+  fields:
+    label: サーバー管理
+    description: インフラ周りの管理ができます
+    order: 13
+- model: personas.skill
+  pk: 12
+  fields:
+    label: 効果音
+    description: ゲーム効果音が作成できます
+    order: 7
+- model: personas.skill
+  pk: 13
+  fields:
+    label: Webデザイン
+    description: CSSなど、Webデザインができます
+    order: 5
+- model: personas.service
+  pk: 1
+  fields:
+    label: Twitter
+    url_pattern: http://twitter.com/{username}/
+    icon: personas/services/twitter.png
+- model: personas.service
+  pk: 2
+  fields:
+    label: Skype
+    url_pattern: skype:{username}?add
+    icon: personas/services/skype.png
+- model: personas.service
+  pk: 3
+  fields:
+    label: Facebook
+    url_pattern: http://www.facebook.com/{username}/
+    icon: personas/services/facebook.png
+- model: personas.service
+  pk: 4
+  fields:
+    label: Foursquare
+    url_pattern: http://foursquare.com/{username}/
+    icon: personas/services/foursquare.png
+- model: personas.service
+  pk: 5
+  fields:
+    label: Google
+    url_pattern: mailto:{username}@gmail.com
+    icon: personas/services/google.png
+- model: personas.service
+  pk: 6
+  fields:
+    label: Pixiv
+    url_pattern: http://www.pixiv.net/member.php?id={username}
+    icon: personas/services/pixiv.png
+- model: personas.service
+  pk: 7
+  fields:
+    label: はてな
+    url_pattern: http://www.hatena.ne.jp/{username}/
+    icon: personas/services/hatena.png
+- model: personas.service
+  pk: 8
+  fields:
+    label: Dropbox
+    url_pattern: mailto:{username}
+    icon: personas/services/dropbox.png
+- model: personas.service
+  pk: 9
+  fields:
+    label: Xbox Live
+    url_pattern: http://live.xbox.com/ja-JP/MyXbox/Profile?gamertag={username}
+    icon: personas/services/xbox.png
+- model: personas.service
+  pk: 10
+  fields:
+    label: PlayStation Network
+    url_pattern: http://playstationhome.jp/community/mypage.php?OnlineID={username}
+    icon: personas/services/psn.png
+- model: personas.service
+  pk: 11
+  fields:
+    label: Miiverse
+    url_pattern: https://miiverse.nintendo.net/users/{username}
+    icon: personas/services/miiverse.png
+- model: personas.service
+  pk: 12
+  fields:
+    label: Github
+    url_pattern: http://github.com/{username}/
+    icon: personas/services/github.png
+- model: personas.service
+  pk: 13
+  fields:
+    label: Tumblr
+    url_pattern: http://{username}.tumblr.com/
+    icon: personas/services/tumblr.png
+- model: personas.service
+  pk: 14
+  fields:
+    label: Raptr
+    url_pattern: http://raptr.com/{username}/wall
+    icon: personas/services/raptr.png
+- model: personas.service
+  pk: 15
+  fields:
+    label: Steam
+    url_pattern: http://steamcommunity.com/personas/{username}/
+    icon: personas/services/steam.png
+- model: personas.service
+  pk: 16
+  fields:
+    label: SoundCloud
+    url_pattern: http://soundcloud.com/{username}/
+    icon: personas/services/soundcloud.png
+- model: personas.service
+  pk: 17
+  fields:
+    label: mixi
+    url_pattern: http://mixi.jp/show_profile.pl?id={username}
+    icon: personas/services/mixi.png
+- model: personas.service
+  pk: 18
+  fields:
+    label: 3DSフレンドコード
+    url_pattern: ""
+    icon: personas/services/3ds.png

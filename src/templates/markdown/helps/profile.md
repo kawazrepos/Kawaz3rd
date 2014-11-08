@@ -27,7 +27,7 @@
 
 
 
-[プロフィール変更ページへ](http://kawaz.org/members/update/)
+[プロフィール変更ページへ](http://kawaz.org/members/my/update/)
 
 
 

@@ -66,7 +66,6 @@ INSTALLED_APPS = (
     'kawaz.core.activities.hatenablog',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
-    'kawaz.apps.profiles',
     'kawaz.apps.projects',
     'kawaz.apps.events',
     'kawaz.apps.blogs',
@@ -156,6 +155,15 @@ DATABASES = {
 # validation_on_save decorator (kawaz.core.db.decorators)
 # To disable automatical validation, set this variable to False
 VALIDATE_ON_SAVE_DISABLE = False
+
+
+# kawaz.core.personas
+# 使用可能なユーザー名の正規表現
+PERSONAS_VALID_USERNAME_PATTERN = r"^[\w\-\_]+$"
+# 使用不可なユーザー名（URLルールなどにより）
+PERSONAS_INVALID_USERNAMES = (
+    'my',
+)
 
 
 # django-thumbnailfield
