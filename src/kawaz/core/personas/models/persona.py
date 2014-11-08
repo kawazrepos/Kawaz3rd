@@ -8,7 +8,6 @@ from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
 from thumbnailfield.fields import ThumbnailField
 from kawaz.core.db.decorators import validate_on_save
 
