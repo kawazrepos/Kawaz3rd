@@ -44,9 +44,12 @@ class ProfileForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         return []
 
 class ServiceSelectWidget(widgets.Select):
+    def __init__(self, attrs=None, choices=()):
+        super().__init__(attrs, choices)
+        self.option_urls = {str(s.pk): '' if not s.icon else s.icon.url
+                            for s in Service.objects.all()}
 
     def render_option(self, selected_choices, option_value, option_label):
-        url = ''
         if option_value is None:
             option_value = ''
         option_value = force_text(option_value)
@@ -57,12 +60,7 @@ class ServiceSelectWidget(widgets.Select):
                 selected_choices.remove(option_value)
         else:
             selected_html = ''
-        if option_value.isdigit():
-            service = Service.objects.get(pk=int(option_value))
-            try:
-                url = service.icon.url
-            except:
-                pass
+        url = self.option_urls.get(option_value, '')
         return format_html('<option value="{}" icon-url="{}"{}>{}</option>',
                            option_value,
                            url,
