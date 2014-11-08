@@ -5,15 +5,15 @@
         <div class="blog-article-header">
             <p class="blog-article-info">
                 <small>
-                    <time class="entry-pub-date" datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time> 
-                    <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
+                    <time class="entry-pub-date" datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time>
+                    {% if object.pub_state == "protected" %}
+                        <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
+                    {% endif %}
                 </small>
             </p>
             <div class="page-header entry-title">
                 <h1>
                     {{ object.title }}
-                    {% if object.pub_state == "protected" %}
-                    {% endif %}
                 </h1>
             </div>
             {% if object.category %}
