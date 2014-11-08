@@ -1,3 +1,4 @@
+import re
 import os
 from django.conf import settings
 from django.db import models
@@ -7,14 +8,18 @@ from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from thumbnailfield.fields import ThumbnailField
 from kawaz.core.db.decorators import validate_on_save
 
 
-# URLルールなどにより使用できないユーザー名
-INVALID_USERNAMES = (
-    'my',
+# 使用可能なユーザー名パターン
+VALID_USERNAME_PATTERN = re.compile(
+    settings.PERSONAS_VALID_USERNAME_PATTERN
 )
+
+# URLルールなどにより使用できないユーザー名
+INVALID_USERNAMES = settings.PERSONAS_INVALID_USERNAMES
 
 
 class PersonaManager(BaseUserManager):
@@ -164,6 +169,16 @@ class Persona(AbstractUser, metaclass=PersonaBase):
     get_huge_avatar = lambda self: self.get_avatar('huge')
 
     def clean_fields(self, exclude=None, **kwargs):
+        # 使用不可な文字列が指定されていた場合はエラー
+        # Note:
+        #   AbstractUser では RegexValidator('^[\\w.@+-]+$')
+        #   でチェックしているが Kawaz の仕様的に . @ + は使用できると不味い
+        #   ので追加でチェックしている
+        if not VALID_USERNAME_PATTERN.match(self.username):
+            raise ValidationError(_(
+                "The username '%(username)s' contains invalid characters. "
+                "Letters, digits, and - are the only characters available."
+            ) % {'username': self.username})
         # 使用不可のユーザー名が指定されていた場合はエラー
         if self.username in INVALID_USERNAMES:
             raise ValidationError(_(
@@ -180,6 +195,11 @@ class Persona(AbstractUser, metaclass=PersonaBase):
         return ('personas_persona_detail', (), {
             'slug': self.username
         })
+# username に対し独自のValidationをかけているためデフォルトのhelp_textと
+# 実情があっていないため、強制的に書き換える
+Persona._meta.get_field('username').help_text = _(
+    'Required. 30 characters or fewer. Letters, digits and /-/_ only.'
+)
 
 from permission import add_permission_logic
 from ..perms import PersonaPermissionLogic

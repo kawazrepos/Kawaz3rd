@@ -11,6 +11,19 @@ class PersonaModelTestCase(TestCase):
         self.assertEqual(user.first_name, 'Kawaz')
         self.assertEqual(user.last_name, 'Inonaka')
 
+    def test_valid_username_pattern_validation(self):
+        """
+        VALID_USERNAME_PATTERN に指定された文字列以外は指定できない
+        """
+        INVALIDS = ('@', '.', '+')
+        for invalid in INVALIDS:
+            user = PersonaFactory.build(username='foo' + invalid)
+            self.assertRaises(ValidationError, user.full_clean)
+        VALIDS = ('1', '-', '_')
+        for valid in VALIDS:
+            user = PersonaFactory.build(username='foo' + valid)
+            user.full_clean()
+
     def test_invalid_username_validation(self):
         """
         INVALID_USERNAMES に指定されているユーザー名は指定できない
