@@ -20,7 +20,7 @@
         </div>
     {% endif %}
     <div class="row" id="persona-list">
-        {% for object in filter %}
+        {% for object in object_list %}
             <div class="thumbnail persona-list-item">
                 <a href="{{ object.get_absolute_url }}">
                     <img class="persona-avatar" alt="{{ object.nickname }}" src="{{ object.get_huge_avatar }}">

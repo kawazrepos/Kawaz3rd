@@ -87,11 +87,11 @@ class PersonaListViewTestCase(TestCase):
     def setUp(self):
         now = timezone.now()
         self.personas = (
-            ProfileFactory(user__last_login=now-timedelta(days=1),
+            ProfileFactory(user__last_login=now-timedelta(days=3),
                            user__role='children').user,
             ProfileFactory(user__last_login=now-timedelta(days=2),
                            user__role='children').user,
-            ProfileFactory(user__last_login=now-timedelta(days=3),
+            ProfileFactory(user__last_login=now-timedelta(days=1),
                            user__role='children').user,
             PersonaFactory(last_login=now-timedelta(days=4),
                            role='wille'),
@@ -120,6 +120,35 @@ class PersonaListViewTestCase(TestCase):
         self.assertEqual(object_list.count(), 3)
         for obj in object_list:
             self.assertNotEqual(obj.role, 'wille')
+
+    def test_personas_list_order_by_last_login(self):
+        '''
+        ユーザーの一覧は最新ログイン順に並ぶ
+        '''
+        r = self.client.get('/members/')
+        self.assertTemplateUsed('personas/persona_list.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 3, 'object_list should have three users')
+        self.assertEqual(list[0], self.personas[2], 'public')
+        self.assertEqual(list[1], self.personas[1], 'public')
+        self.assertEqual(list[2], self.personas[0], 'public')
+
+    def test_personas_list_paginate_by(self):
+        '''
+        ユーザーの一覧は24件ずつ表示される
+        '''
+        [PersonaFactory() for i in range(30)]
+        r = self.client.get('/members/')
+        self.assertTemplateUsed('personas/persona_list.html')
+        self.assertTrue('object_list', r.context_data)
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 24, 'object_list should have 24 users at once')
+
+        # 30 + 3で33人いるはずで、2ページ目には9人いるはず
+        r = self.client.get('/members/?page=2')
+        list = r.context_data['object_list']
+        self.assertEqual(list.count(), 9)
 
 
 class PersonaUpdateViewTestCase(PersonaViewTestCaseBase):
