@@ -38,35 +38,45 @@ https://github.com/lambdalisue/django-permission/issues/29
                 {% endif %}
             </div>
             <div class="profile-info">
-                <div class="row">
-                    <div class="col col-lg-6 col-xs-6"><label>{% trans "Gender" %}</label></div>
-                    <div class="col col-lg-6 col-xs-6">{{ object.get_gender_display }}</div>
-                </div>
-                <div class="row">
-                    <div class="col col-lg-6 col-xs-6"><label>{% trans "Birthday" %}</label></div>
-                    <div class="col col-lg-6 col-xs-6">{{ profile.birthday | date:"m/d" }}</div>
-                </div>
-                <div class="row">
-                    <div class="col col-lg-6 col-xs-6"><label>{% trans "Address" %}</label></div>
-                    <div class="col col-lg-6 col-xs-6">{{ profile.place }}</div>
-                </div>
-                <div class="row">
-                    <div class="col col-lg-6 col-xs-6"><label>{% trans "Abilities" %}</label></div>
-                    <div class="col col-lg-6 col-xs-6">
-                        {% for skill in profile.skills.all %}
-                            <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
-                        {% empty %}
-                            {% if user has 'personas.change_profile' of profile %}
-                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="「できること」が未設定です">ニート</span>
-                            {% else %}
-                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="何の能力も持たない無能力者です">ニート</span>
-                            {% endif %}
-                        {% endfor %}
+                {% if profile.pub_state == 'public' %}
+                    <div class="row">
+                        <div class="col col-lg-6 col-xs-6"><label>{% trans "Gender" %}</label></div>
+                        <div class="col col-lg-6 col-xs-6">{{ object.get_gender_display }}</div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col col-lg-6 col-xs-6"><label>{% trans "Birthday" %}</label></div>
+                        <div class="col col-lg-6 col-xs-6">{{ profile.birthday | date:"m/d" }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg-6 col-xs-6"><label>{% trans "Address" %}</label></div>
+                        <div class="col col-lg-6 col-xs-6">{{ profile.place }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg-6 col-xs-6"><label>{% trans "Abilities" %}</label></div>
+                        <div class="col col-lg-6 col-xs-6">
+                            {% for skill in profile.skills.all %}
+                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                            {% empty %}
+                                {% if user has 'personas.change_profile' of profile %}
+                                    <span class="badge" data-toggle="tooltip" data-placement="top" data-title="「できること」が未設定です">ニート</span>
+                                {% else %}
+                                    <span class="badge" data-toggle="tooltip" data-placement="top" data-title="何の能力も持たない無能力者です">ニート</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
+    {% if not profile and not user.is_authenticated %}
+        {# プロフィールが渡されていないとき、すなわち非公開の時 #}
+        <div class="alert alert-warning">
+            <p>
+                {% blocktrans with nickname=object.nickname %}{{ nickname }} may conceal own profile from non participants. Please login to see the profile.{% endblocktrans %}
+            </p>
+        </div>
+    {% endif %}
     {% if profile and user has 'personas.change_profile' of profile %}
         {% if profile.remarks %}
             {# 自分のページの時 #}
@@ -91,9 +101,11 @@ https://github.com/lambdalisue/django-permission/issues/29
             </div>
         {% endif %}
     {% endif %}
-    <article id="profile-main" class="markdown">
-        {{ profile.remarks | parser }}
-    </article>
+    {% if profile %}
+        <article id="profile-main" class="markdown">
+            {{ profile.remarks | parser }}
+        </article>
+    {% endif %}
     {% include "components/star_container.html" %}
     <div id="recent-entries">
         <h2>{% trans "Recent Entries" %}</h2>
