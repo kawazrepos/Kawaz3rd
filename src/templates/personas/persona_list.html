@@ -29,7 +29,15 @@
                     <div class="caption">
                         <h3>{{ object.nickname }}</h3>
                         <p class="username">@{{ object.username }}</p>
-                        <div class="quotes">{{ object.quotes }}</div>
+                        <div class="quotes">
+                            {% if object.quotes %}
+                                {{ object.quotes }}
+                            {% else %}
+                                <span class="quotes-none">
+                                    ...
+                                </span>
+                            {% endif %}
+                        </div>
                         <div class="persona-skills">
                             {% for skill in object.profile.skills.all %}
                                 <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>

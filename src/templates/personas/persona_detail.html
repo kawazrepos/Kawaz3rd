@@ -21,7 +21,7 @@ NOTE:
 なお、この問題はdjango-permission側による修正が予定されている
 https://github.com/lambdalisue/django-permission/issues/29
 {% endcomment %}
-    <div class="row" id="profile-header">
+    <div class="row" id="persona-header">
         <div class="col col-lg-5 col-xs-5" id="profile-avatar">
             <img class="avatar avatar-huge" src="{{ object.get_huge_avatar }}" alt="{{ object.username }}">
         </div>
@@ -31,32 +31,38 @@ https://github.com/lambdalisue/django-permission/issues/29
                 <h1>{{ object.nickname }}</h1>
             </div>
             <div class="quotes">
-                {{ object.quotes }}
+                {% if object.quotes %}
+                    {{ object.quotes }}
+                {% else %}
+                    <span class="quotes-none">...</span>
+                {% endif %}
             </div>
-            <div class="row">
-                <div class="col col-lg-6 col-xs-6"><label>{% trans "Gender" %}</label></div>
-                <div class="col col-lg-6 col-xs-6">{{ object.get_gender_display }}</div>
-            </div>
-            <div class="row">
-                <div class="col col-lg-6 col-xs-6"><label>{% trans "Birthday" %}</label></div>
-                <div class="col col-lg-6 col-xs-6">{{ profile.birthday | date:"m/d" }}</div>
-            </div>
-            <div class="row">
-                <div class="col col-lg-6 col-xs-6"><label>{% trans "Address" %}</label></div>
-                <div class="col col-lg-6 col-xs-6">{{ profile.place }}</div>
-            </div>
-            <div class="row">
-                <div class="col col-lg-6 col-xs-6"><label>{% trans "Abilities" %}</label></div>
-                <div class="col col-lg-6 col-xs-6">
-                    {% for skill in profile.skills.all %}
-                        <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
-                    {% empty %}
-                        {% if user has 'personas.change_profile' of profile %}
-                            <span class="badge" data-toggle="tooltip" data-placement="top" data-title="「できること」が未設定です">ニート</span>
-                        {% else %}
-                            <span class="badge" data-toggle="tooltip" data-placement="top" data-title="何の能力も持たない無能力者です">ニート</span>
-                        {% endif %}
-                    {% endfor %}
+            <div class="profile-info">
+                <div class="row">
+                    <div class="col col-lg-6 col-xs-6"><label>{% trans "Gender" %}</label></div>
+                    <div class="col col-lg-6 col-xs-6">{{ object.get_gender_display }}</div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-6 col-xs-6"><label>{% trans "Birthday" %}</label></div>
+                    <div class="col col-lg-6 col-xs-6">{{ profile.birthday | date:"m/d" }}</div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-6 col-xs-6"><label>{% trans "Address" %}</label></div>
+                    <div class="col col-lg-6 col-xs-6">{{ profile.place }}</div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-6 col-xs-6"><label>{% trans "Abilities" %}</label></div>
+                    <div class="col col-lg-6 col-xs-6">
+                        {% for skill in profile.skills.all %}
+                            <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                        {% empty %}
+                            {% if user has 'personas.change_profile' of profile %}
+                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="「できること」が未設定です">ニート</span>
+                            {% else %}
+                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="何の能力も持たない無能力者です">ニート</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
