@@ -42,6 +42,7 @@ class EventActivityMediator(ActivityMediator):
                     'period_start',
                     'period_end',
                     'place',
+                    'category',
                     'number_restriction',
                     'attendance_deadline',
                 )
