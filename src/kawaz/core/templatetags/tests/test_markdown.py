@@ -127,3 +127,24 @@ class MarkdownTemplateTagTestCase(TestCase):
                  '''</tbody>\n'''
                  '''</table>\n''')
         self._test_markdown(before, after)
+
+
+class BlockMarkdownTemplateTagTestCase(TestCase):
+
+    def test_block_markdown(self):
+        """
+        {% markdown %}
+        {% endmarkdown %}
+        に囲まれたMarkdownがHTMLにレンダリングされる
+        """
+        markdown_text = """かわずたん！ [こちら](http://www.kawaz.org/)"""
+        t = Template(
+            """{{% load markdown %}}"""
+            """{{% markdown %}}"""
+            """{}"""
+            """{{% endmarkdown %}}""".format(markdown_text)
+        )
+        c = Context()
+        render = t.render(c)
+        after = mark_safe(markdown(markdown_text))
+        self.assertEqual(render, after)
