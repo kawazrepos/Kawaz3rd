@@ -19,7 +19,7 @@
 
             <div class="activity-history">
                 {% block history %}
-                    {% for inner_activity in activity.related|slice:":3" %}
+                    {% for inner_activity in activity.get_related_activities|slice:":3" %}
                         {% render_activity inner_activity %}
                     {% endfor %}
                 {% endblock %}

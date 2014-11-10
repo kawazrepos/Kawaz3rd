@@ -108,20 +108,21 @@ class Activity(models.Model):
         Get previous activity model of a particular content_object which
         this activity target to. If there is no activity, it return None.
         """
-        return self.related.last()
+        qs = self.get_related_activities()
+        if self.pk:
+            qs = qs.exclude(created_at__gte=self.created_at)
+        return qs.last()
 
-    @property
-    def related(self):
+    def get_related_activities(self):
         """
         Get related activity models of a particular content_object which
         this activity target to.
         """
         cache_name = '_related_cache'
         if not hasattr(self, cache_name):
-            qs = Activity.objects.all()
+            qs = Activity.objects.filter(content_type=self.content_type,
+                                         object_id=self.object_id)
             if self.pk:
-                qs = qs.exclude(created_at__gte=self.created_at)
-            qs = qs.filter(content_type=self.content_type,
-                        object_id=self.object_id)
+                qs = qs.exclude(pk=self.pk)
             setattr(self, cache_name, qs.order_by())
         return getattr(self, cache_name)
