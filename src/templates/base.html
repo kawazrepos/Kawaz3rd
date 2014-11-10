@@ -48,7 +48,6 @@
             <li class="{% active '^/helps.+' %}"><a href="/helps/">{% trans "Helps" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right header-button">
-            {% include "components/set_language_form.html" %}
             <li class="dropdown">
                 {% if user.is_authenticated %}
                     {# ログインユーザー向け #}
@@ -64,7 +63,9 @@
                             <li><a href="{% url "personas_profile_update" %}"><span class="glyphicon glyphicon-pencil"></span>{% trans "Change profile" %}</a></li>
                             <li><a href="{% url "personas_persona_update" %}"><span class="glyphicon glyphicon-user"></span>{% trans "Change user information" %}</a></li>
                             <li><a href="{% url "password_change" %}"><span class="glyphicon glyphicon-wrench"></span>{% trans "Change password" %}</a></li>
-                            <li role="presentation" class="divider"></li>
+                            {% if user.is_staff or user.is_superuser %}
+                                <li role="presentation" class="divider"></li>
+                            {% endif %}
                             {% if user.is_staff %}
                                 <li><a href="/central-dogma/" target="_blank"><span class="glyphicon glyphicon-cog"></span>{% trans "Central Dogma" %}</a></li>
                                 <li><a href=https://www.google.com/analytics/reporting/?reset=1&amp;id=38943028" target="_blank"><span class="glyphicon glyphicon-stats"></span>{% trans "Marduk institute" %}</a></li>
