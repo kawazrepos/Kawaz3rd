@@ -57,6 +57,7 @@ class PersonaListView(FilterView):
             '_profile__skills',
             '_profile__accounts__service',
         )
+        qs = qs.order_by('-last_login')
         return qs.exclude(role='wille')
 
 
