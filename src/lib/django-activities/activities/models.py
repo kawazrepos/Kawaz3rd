@@ -29,7 +29,7 @@ class ActivityManager(models.Manager):
         qs = super().get_queryset()
         qs = qs.values('content_type_id', 'object_id')
         qs = qs.annotate(created_at=Max('created_at'))
-        created_ats = qs.order_by().values_list('created_at', flat=True)
+        created_ats = qs.values_list('created_at', flat=True)
         # return activities corresponding to the latests
         return self.filter(created_at__in=created_ats)
 
@@ -111,7 +111,7 @@ class Activity(models.Model):
         qs = self.get_related_activities()
         if self.pk:
             qs = qs.exclude(created_at__gte=self.created_at)
-        return qs.last()
+        return qs.first()
 
     def get_related_activities(self):
         """
@@ -124,5 +124,5 @@ class Activity(models.Model):
                                          object_id=self.object_id)
             if self.pk:
                 qs = qs.exclude(pk=self.pk)
-            setattr(self, cache_name, qs.order_by())
+            setattr(self, cache_name, qs)
         return getattr(self, cache_name)
