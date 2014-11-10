@@ -22,7 +22,7 @@ NOTE:
 https://github.com/lambdalisue/django-permission/issues/29
 {% endcomment %}
     <div class="row" id="persona-header">
-        <div class="col col-lg-5 col-xs-5" id="profile-avatar">
+        <div class="col col-lg-5 col-xs-5" id="persona-avatar">
             <img class="avatar avatar-huge" src="{{ object.get_huge_avatar }}" alt="{{ object.username }}">
         </div>
         <div class="col col-lg-7 col-xs-7">
@@ -37,7 +37,7 @@ https://github.com/lambdalisue/django-permission/issues/29
                     <span class="quotes-none">...</span>
                 {% endif %}
             </div>
-            <div class="profile-info">
+            <div class="persona-info">
                 {% if profile.pub_state == 'public' %}
                     <div class="row">
                         <div class="col col-lg-6 col-xs-6"><label>{% trans "Gender" %}</label></div>
@@ -102,7 +102,7 @@ https://github.com/lambdalisue/django-permission/issues/29
         {% endif %}
     {% endif %}
     {% if profile %}
-        <article id="profile-main" class="markdown">
+        <article id="persona-main" class="markdown">
             {{ profile.remarks | parser }}
         </article>
     {% endif %}
@@ -139,7 +139,7 @@ https://github.com/lambdalisue/django-permission/issues/29
     </div>
 {% endblock %}
 {% block content-aside %}
-    <div id="profile-aside">
+    <div id="persona-aside">
         {% if profile and user has 'profiles.change_profile' of profile %}
             <div id="profile-administration" class="panel panel-default">
                 <div class="panel-heading">
@@ -152,7 +152,7 @@ https://github.com/lambdalisue/django-permission/issues/29
                 </div>
             </div>
         {% endif %}
-        <div id="profile-accounts" class="panel panel-default">
+        <div id="persona-accounts" class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title">{% trans "Accounts" %}</h2>
             </div>
@@ -168,7 +168,7 @@ https://github.com/lambdalisue/django-permission/issues/29
             </div>
         </div>
         {# 参加中のプロジェクト  #}
-        <div id="profile-joined-projects" class="panel panel-default">
+        <div id="persona-joined-projects" class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title">{% trans "Joined Projects" %}</h2>
             </div>
