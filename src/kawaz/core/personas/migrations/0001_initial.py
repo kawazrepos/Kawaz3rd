@@ -142,38 +142,3 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
     ]
-
-
-    if getattr(settings, 'TESTING'):
-        # settings.TESTING is assigned in
-        # kawaz.core.tests.runner.KawazDiscoverRunner
-        operations.extend([
-            migrations.CreateModel(
-                name='PersonaTestArticle',
-                fields=[
-                    ('id', models.AutoField(
-                        auto_created=True,
-                        serialize=False,
-                        primary_key=True,
-                        verbose_name='ID')),
-                    ('pub_state', models.CharField(
-                        default='public',
-                        max_length=10,
-                        choices=[
-                            ('public', 'Public'),
-                            ('protected', 'Internal'),
-                            ('draft', 'Draft')
-                        ],
-                        verbose_name='Publish status')),
-                    ('title', models.CharField(
-                        max_length=255, 
-                        verbose_name='Title')),
-                    ('author', models.ForeignKey(
-                        to=settings.AUTH_USER_MODEL,
-                        verbose_name='Author')),
-                ],
-                options={
-                },
-                bases=(models.Model,),
-            ),
-        ])
