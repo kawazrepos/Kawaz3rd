@@ -97,9 +97,9 @@ CACHES = {
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 from django.utils.translation import ugettext_lazy as _
 USE_I18N = True
-LANGUAGE_CODE = 'ja'
+LANGUAGE_CODE = 'en'
 LANGUAGES = (
-    ('en-us', _('English')),
+    ('en', _('English')),
     ('ja', _('Japanese')),
 )
 

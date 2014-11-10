@@ -8,6 +8,7 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
+    url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^login/$', auth_views.login,
         name='login', kwargs=dict(
             template_name='login.html'
