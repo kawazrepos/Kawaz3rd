@@ -1,8 +1,8 @@
 {% extends "twopane.html" %}
-
 {% load activities_tags %}
 {% load announcements_tags %}
 {% load i18n %}
+{% load markdown %}
 {% load staticfiles %}
 {% block title %}{% trans "My page" %}{% endblock %}
 {% block pre_css %}
@@ -10,6 +10,29 @@
     <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
 {% endblock %}
 {% block content-main %}
+    {% if profile.remarks %}
+        <div class="modal fade" id="tutorial-modal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">ようこそ、Kawazへ！</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-warning">
+                            <p>このウィンドウはまだプロフィールを編集していないメンバーに表示されています</p>
+                            <p>他のメンバーと交流するために、必ずプロフィールを設定してください</p>
+                            <p><a class="btn btn-lg btn-success" href="{% url "personas_profile_update" %}">今すぐ設定する</a></p>
+                        </div>
+                        {% render_markdown "markdown/helps/welcome.md" %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    {% endif %}
 
     {% get_recent_announcements as announcements %}
     {% if not announcements|length_is:"0" %}
@@ -58,4 +81,8 @@
             </div>
         </div>
     </section>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script type="text/coffeescript" src="{% static "coffee/tutorial.coffee" %}"></script>
 {% endblock %}
