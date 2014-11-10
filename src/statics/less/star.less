@@ -1,7 +1,12 @@
 @import "common/define";
 
+@container-min-height: 40px;
+
 .star-container {
-  padding-bottom: 25px;
+  padding: 10px 10px 15px;
+  min-height: @container-min-height;
+  position: relative;
+  display: flex;
   ul {
     padding-left: 3px;
   }
@@ -9,17 +14,19 @@
     height: @avatar-size-small;
   }
   .add-star-button {
+    margin: 0;
     span {
       margin-left: 3px;
     }
   }
   .star-add-col {
-    float: left;
+    flex: 1 1 40px;
+    max-width: 50px;
+    padding: 0;
   }
   .star-body-col {
+    flex: 11;
     display: inline-block;
-    padding-top: 7px;
-    padding-left: 8px;
   }
   .star-read-more {
     span {
@@ -35,6 +42,7 @@
     cursor: pointer;
   }
   .star {
+    display: inline;
     width: @avatar-size-small;
     float: left;
     list-style-type: none;

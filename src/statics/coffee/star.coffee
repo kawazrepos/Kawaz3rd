@@ -60,6 +60,7 @@ $('.star-container').each(->
     $wrapper.append($invisible)
     $starContainer.append($wrapper)
     $wrapper.hide()
+    $readmore.show()
     $readmore.click(() ->
       $wrapper.toggle()
       $(@).hide()
