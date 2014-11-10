@@ -40,7 +40,6 @@ $('.star-container').each(->
       $star = $(html)
       $starContainer.append($star)
       $star.hide().fadeIn( ->
-        refreshStars()
         $star.attr('title', data['tooltip'])
       )
     ).fail( () ->
@@ -61,24 +60,24 @@ $('.star-container').each(->
     $wrapper.append($invisible)
     $starContainer.append($wrapper)
     $wrapper.hide()
+    $readmore.show()
     $readmore.click(() ->
       $wrapper.toggle()
       $(@).hide()
     )
 
-  refreshStars = () ->
-    $('.star').on('mouseover', () ->
-      $(@).find('.star-remove').show()
-    )
-    $('.star').on('mouseout', () ->
-      $(@).find('.star-remove').hide()
-    )
-    $('.star').tooltip()
+  # スターにマウスオーバーしたときに削除ボタンをトグルする
+  # Note: 動的に追加されたスターにも適応するためにon(delegate)を利用している
+  $(@).on('mouseover', '.star', ->
+    $(@).find('.star-remove').show()
+  )
+  $(@).on('mouseout', '.star', ->
+    $(@).find('.star-remove').hide()
+  )
+  $('.star').tooltip()
 
-  refreshStars()
-
-  # スターの削除
-  $('.star-remove').click(->
+  # スターの削除ボタンを押したときの挙動
+  $(@).on('click', '.star-remove', ->
     $star = $(@).closest('.star')
     pk = $star.attr('star-id')
     if confirm("削除します。よろしいですか？")
@@ -92,7 +91,6 @@ $('.star-container').each(->
         alert("スターの削除に失敗しました")
       )
     return false
-
   )
 
 )

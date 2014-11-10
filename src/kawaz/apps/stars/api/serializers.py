@@ -13,7 +13,8 @@ class StarSerializer(serializers.ModelSerializer):
     def get_html(self, obj):
         # スターの描画用テンプレートを返す
         return render_to_string('components/star.html', {
-            'star': obj
+            'star': obj,
+            'from_api': True
         })
 
     class Meta:
