@@ -30,6 +30,6 @@ from registration.signals import user_activated
 
 
 @receiver(user_activated)
-def add_role_to_new_user(user, password, is_generated, request, **kwargs):
+def add_role_to_new_user(sender, user, password, is_generated, request, **kwargs):
     user.role = 'children'      # ユーザーをChildrenにする
     user.save()
