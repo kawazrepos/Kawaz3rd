@@ -48,6 +48,7 @@
             <li class="{% active '^/helps.+' %}"><a href="/helps/">{% trans "Helps" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right header-button">
+            {% include "components/set_language_form.html" %}
             <li class="dropdown">
                 {% if user.is_authenticated %}
                     {# ログインユーザー向け #}
