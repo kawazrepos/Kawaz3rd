@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.core.urlresolvers import reverse
+from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
 from .factories import RegistrationProfileFactory
 
@@ -172,3 +173,36 @@ class RegistrationViewTestCase(TestCase):
         self._test_url_name('password_reset_done',
                             '/registration/password_reset/done/')
         self._test_can_display('password_reset/done', 'password_reset_done')
+
+
+class ParticipantsApplicationViewTestCase(TestCase):
+    def test_create_user_after_application(self):
+        """
+        登録フォームからユーザー登録をしたとき、ユーザーが生成される
+        """
+        before_count = Persona.objects.count()
+        r = self.client.post("/registration/register/", {
+            'username' : 'kawaztan',
+            'email1' : 'webmaster@kawaz.org',
+            'email2' : 'webmaster@kawaz.org',
+            'place' : '安息の地',
+            'skill' : 'マスコットできます！'
+        })
+        self.assertEqual(Persona.objects.count(), before_count + 1)
+        self.assertRedirects(r, '/registration/register/complete/')
+        self.assertIsNotNone(Persona.objects.get(username='kawaztan'))
+
+    def test_new_user_should_be_wille(self):
+        """
+        登録フォームから登録したユーザーがwille権限になる
+        アクティベーションした瞬間にchildrenになる
+        """
+        r = self.client.post("/registration/register/", {
+            'username' : 'kawaztan',
+            'email1' : 'webmaster@kawaz.org',
+            'email2' : 'webmaster@kawaz.org',
+            'place' : '安息の地',
+            'skill' : 'マスコットできます！'
+        })
+        new_user = Persona.objects.get(username='kawaztan')
+        self.assertEqual(new_user.role, 'wille')
