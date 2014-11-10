@@ -44,10 +44,11 @@ class ProfileForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         return []
 
 class ServiceSelectWidget(widgets.Select):
-    def __init__(self, attrs=None, choices=()):
-        super().__init__(attrs, choices)
+
+    def render_options(self, *args, **kwargs):
         self.option_urls = {str(s.pk): '' if not s.icon else s.icon.url
                             for s in Service.objects.all()}
+        return super().render_options(*args, **kwargs)
 
     def render_option(self, selected_choices, option_value, option_label):
         if option_value is None:
