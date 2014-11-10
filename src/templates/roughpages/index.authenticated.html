@@ -4,13 +4,15 @@
 {% load i18n %}
 {% load markdown %}
 {% load staticfiles %}
+{% load profiles_tags %}
 {% block title %}{% trans "My page" %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
 {% endblock %}
 {% block content-main %}
-    {% if profile.remarks %}
+    {% get_my_profile as profile %}
+    {% if not profile.remarks %}
         <div class="modal fade" id="tutorial-modal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -20,7 +22,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-warning">
-                            <p>このウィンドウはまだプロフィールを編集していないメンバーに表示されています</p>
+                            <p>このウィンドウはまだプロフィールを設定していないメンバーに表示されています</p>
                             <p>他のメンバーと交流するために、必ずプロフィールを設定してください</p>
                             <p><a class="btn btn-lg btn-success" href="{% url "personas_profile_update" %}">今すぐ設定する</a></p>
                         </div>
