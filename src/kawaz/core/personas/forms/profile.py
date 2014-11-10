@@ -44,9 +44,17 @@ class ProfileForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         return []
 
 class ServiceSelectWidget(widgets.Select):
+    """
+    サービスを選択するフォームセットのサービスを選択するフィールド用のWidget
+    選択項目にサービスのfaviconが埋め込まれるようになっている
+    """
+
+    def render_options(self, *args, **kwargs):
+        self.option_urls = {str(s.pk): '' if not s.icon else s.icon.url
+                            for s in Service.objects.all()}
+        return super().render_options(*args, **kwargs)
 
     def render_option(self, selected_choices, option_value, option_label):
-        url = ''
         if option_value is None:
             option_value = ''
         option_value = force_text(option_value)
@@ -57,12 +65,7 @@ class ServiceSelectWidget(widgets.Select):
                 selected_choices.remove(option_value)
         else:
             selected_html = ''
-        if option_value.isdigit():
-            service = Service.objects.get(pk=int(option_value))
-            try:
-                url = service.icon.url
-            except:
-                pass
+        url = self.option_urls.get(option_value, '')
         return format_html('<option value="{}" icon-url="{}"{}>{}</option>',
                            option_value,
                            url,

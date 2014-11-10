@@ -108,6 +108,3 @@ def get_activities_of(model_or_object):
     else:
         return Activity.objects.get_for_object(model_or_object)
 
-
-
-
