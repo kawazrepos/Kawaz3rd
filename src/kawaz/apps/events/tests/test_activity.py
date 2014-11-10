@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from django.test import TestCase
 from django.utils import timezone
 from activities.models import Activity
-from .factories import EventFactory, PersonaFactory
+from .factories import EventFactory, PersonaFactory, CategoryFactory
 from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
 from ..models import Event
 from ..activity import EventActivityMediator
@@ -29,6 +29,7 @@ class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
         event.period_start = event.period_start + timedelta(hours=2)
         event.period_end = event.period_end + timedelta(hours=2)
         event.attendance_deadline = timezone.now() + timedelta(minutes=30)
+        event.category = CategoryFactory()
         event.save()
 
         self.assertEqual(nactivity+1,
@@ -39,6 +40,7 @@ class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertTrue('period_start_updated' in activity.remarks)
         self.assertTrue('period_end_updated' in activity.remarks)
         self.assertTrue('attendance_deadline_created' in activity.remarks)
+        self.assertTrue('category_created' in activity.remarks)
 
     def test_delete_event(self):
         event = EventFactory()
