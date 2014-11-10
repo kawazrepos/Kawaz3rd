@@ -111,7 +111,7 @@ class Activity(models.Model):
         qs = self.get_related_activities()
         if self.pk:
             qs = qs.exclude(created_at__gte=self.created_at)
-        return qs.last()
+        return qs.first()
 
     def get_related_activities(self):
         """
