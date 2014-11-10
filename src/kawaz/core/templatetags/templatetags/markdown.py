@@ -68,3 +68,25 @@ def markdown(value):
                                            'tables'],
     )
     return mark_safe(md)
+
+@register.tag(name="markdown")
+def block_markdown(parser, token):
+    nodelist = parser.parse(('endmarkdown'),)
+    parser.delete_first_token()
+    return MarkdownNode(nodelist)
+
+class MarkdownNode(template.Node):
+    """
+    囲んだ部分をMarkdownとしてレンダリングするテンプレートタグです
+
+    Usage:
+        {% markdown %}
+            かわずたん！ [Kawaz](http://www.kawaz.org/)
+        {% endmarkdown %}
+    """
+    def __init__(self, nodelist):
+        self.nodelist = nodelist
+
+    def render(self, context):
+        output = self.nodelist.render(context)
+        return markdown(output)
