@@ -44,6 +44,10 @@ class ProfileForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         return []
 
 class ServiceSelectWidget(widgets.Select):
+    """
+    サービスを選択するフォームセットのサービスを選択するフィールド用のWidget
+    選択項目にサービスのfaviconが埋め込まれるようになっている
+    """
 
     def render_options(self, *args, **kwargs):
         self.option_urls = {str(s.pk): '' if not s.icon else s.icon.url
