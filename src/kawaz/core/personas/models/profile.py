@@ -154,6 +154,8 @@ class Account(models.Model):
     def url(self):
         return self.service.url_pattern.format(username=self.username)
 
+from ..activities.profile import AccountActivityMediator
+registry.register(Account, AccountActivityMediator())
 
 from permission import add_permission_logic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic

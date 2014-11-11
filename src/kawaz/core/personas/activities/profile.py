@@ -53,3 +53,20 @@ class ProfileActivityMediator(ActivityMediator):
                 # previousがないとき、通知しない
                 return None
         return activity
+
+
+class AccountActivityMediator(ActivityMediator):
+    def alter(self, instance, activity, **kwargs):
+        if activity and activity.status == 'created':
+            # プロフィールに新しくサービスアカウントが作成されたとき
+            # このActivityをユーザーの物にしてしまう
+            # また、ステータスも`add_account`に変える
+            # remarksには付いたアカウントのPKを入れる
+            target = instance.profile.user
+            ct = ContentType.objects.get_for_model(type(target))
+            pk = target.pk
+            activity.content_type = ct
+            activity.object_id = pk
+            activity.status = 'add_account'
+            activity.remarks = str(instance.pk)
+            return activity

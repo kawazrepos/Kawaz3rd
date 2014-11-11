@@ -6,7 +6,7 @@ import datetime
 from django.template import Context
 from activities.models import Activity
 from activities.registry import registry
-from .factories import PersonaFactory, ProfileFactory
+from .factories import PersonaFactory, ProfileFactory, AccountFactory
 from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
 
 __author__ = 'giginet'
@@ -52,3 +52,28 @@ class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
         for name in ('place_updated', 'birthday_updated', 'url_updated', 'remarks_created'):
             self.assertTrue(name in context, 'context variable {} is not contained'.format(name))
         self._test_render(activities[0])
+
+    def test_add_account(self):
+        """
+        アカウントを作成したとき、ユーザーに対してadd_account Activityが発行される
+        """
+
+        # アカウントを作る
+        account = AccountFactory()
+
+        # Personaに対して、profile_updatedが発行されている
+        activities = Activity.objects.get_for_object(account.profile.user)
+        self.assertEqual(len(activities), 2)
+        activity = activities[0]
+        self.assertEqual(activity.status, 'add_account')
+
+        # activityのremarksにアカウントのpkが設定されている
+        self.assertEqual(activity.remarks, str(account.pk))
+
+        # contextにaccount, serviceを含んでいる
+        mediator = registry.get(activity)
+        context = Context()
+        context = mediator.prepare_context(activity, context)
+        self.assertEqual(context['account'], account)
+        self.assertEqual(context['service'], account.service)
+

@@ -57,6 +57,17 @@ class PersonaActivityMediator(ActivityMediator):
             # また、プロフィールの更新についてもcontextを発行している
             for flag in activity.remarks.split():
                 context[flag] = True
+        elif activity.status == 'add_account':
+            # アカウントが付いたとき、remarksにaccountのpkが入ってるはずなので
+            # 取得してcontextに渡す
+            # ついでにserviceも渡している
+            try:
+                from ..models import Account
+                account = Account.objects.get(pk=int(activity.remarks))
+                context['account'] = account
+                context['service'] = account.service
+            except:
+                pass
         elif activity.status == 'add_comment':
             # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
             # 取得してcontextに渡す

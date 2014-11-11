@@ -1,0 +1,4 @@
+{% extends "activities/personas/persona_base.html" %}
+{% block history-item %}
+    <img src="{{ service.icon.url }}" alt="{{ service.label }}"> {{ service.label }}アカウント「<a href="{{ account.url }}"><strong>{{ account.username }}</strong></a>」が追加されました
+{% endblock %}
