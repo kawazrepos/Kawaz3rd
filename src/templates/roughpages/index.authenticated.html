@@ -20,7 +20,7 @@
     {% endif %}
 
     <div class="page-header">
-        <h2>Activities</h2>
+        <h2>{% trans "Activities" %}</h2>
     </div>
     {% get_latest_activities as activities %}
     {% include "activities/components/activity_container.html" with activities=activities %}

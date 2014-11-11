@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-11 12:12+0900\n"
+"POT-Creation-Date: 2014-11-11 22:16+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +27,7 @@ msgstr "本文"
 #: src/kawaz/apps/announcements/models.py:60 src/kawaz/apps/blogs/models.py:49
 #: src/kawaz/apps/events/models.py:66 src/kawaz/apps/projects/models.py:92
 #: src/kawaz/core/personas/models/profile.py:43
-#: src/kawaz/core/personas/models/profile.py:132
+#: src/kawaz/core/personas/models/profile.py:135
 msgid "Publish status"
 msgstr "公開設定"
 
@@ -181,14 +180,14 @@ msgstr "参加締切日"
 #: src/kawaz/apps/events/models.py:20 src/kawaz/apps/events/models.py:28
 #: src/kawaz/apps/events/models.py:29 src/kawaz/apps/products/models.py:25
 #: src/kawaz/apps/products/models.py:46 src/kawaz/apps/products/models.py:213
-#: src/kawaz/core/personas/models/profile.py:95
-#: src/kawaz/core/personas/models/profile.py:113
+#: src/kawaz/core/personas/models/profile.py:98
+#: src/kawaz/core/personas/models/profile.py:116
 msgid "Label"
 msgstr "ラベル"
 
 #: src/kawaz/apps/events/models.py:21 src/kawaz/apps/products/models.py:28
 #: src/kawaz/apps/products/models.py:49
-#: src/kawaz/core/personas/models/profile.py:97
+#: src/kawaz/core/personas/models/profile.py:100
 #: src/templates/projects/project_archive.html:25
 msgid "Order"
 msgstr "並び順"
@@ -348,7 +347,7 @@ msgstr "プラットフォーム"
 
 #: src/kawaz/apps/products/forms.py:31 src/kawaz/apps/products/models.py:47
 #: src/kawaz/apps/products/models.py:108 src/kawaz/apps/projects/models.py:107
-#: src/kawaz/core/personas/models/profile.py:96
+#: src/kawaz/core/personas/models/profile.py:99
 msgid "Description"
 msgstr "概要"
 
@@ -368,7 +367,7 @@ msgid "Check the users who can manage this product."
 msgstr "この作品を管理できるユーザーにチェックを入れてください"
 
 #: src/kawaz/apps/products/models.py:26
-#: src/kawaz/core/personas/models/profile.py:114
+#: src/kawaz/core/personas/models/profile.py:117
 msgid "Icon"
 msgstr "アイコン"
 
@@ -409,10 +408,6 @@ msgid "Thumbnail"
 msgstr "サムネイル"
 
 #: src/kawaz/apps/products/models.py:105
-#, fuzzy
-#| msgid ""
-#| "This would be used as a product thumbnail image. The aspect ratio of the "
-#| "image should be 16:9."
 msgid ""
 "This would be used as a product thumbnail image. The aspect ratio of the "
 "image should be 16:9.We recommend the image size to be 800 * 450."
@@ -425,10 +420,6 @@ msgid "Advertisement Image"
 msgstr "告知用画像"
 
 #: src/kawaz/apps/products/models.py:116
-#, fuzzy
-#| msgid ""
-#| "This would be used in the top page. The aspect ratio of the image should "
-#| "be 16:9"
 msgid ""
 "This would be used in the top page. The aspect ratio of the image should be "
 "16:9We recommend the image size to be 800 * 450"
@@ -616,6 +607,7 @@ msgid "Administrator"
 msgstr "管理者"
 
 #: src/kawaz/apps/projects/models.py:124 src/templates/base.html:47
+#: src/templates/personas/persona_detail.html:14
 #: src/templates/personas/persona_list.html:4
 #: src/templates/personas/persona_list.html:7
 #: src/templates/personas/persona_list.html:15
@@ -728,27 +720,27 @@ msgstr "重要な日付"
 #: src/kawaz/core/personas/filters.py:10
 #: src/kawaz/core/personas/forms/profile.py:26
 #: src/kawaz/core/personas/models/profile.py:50
-#: src/kawaz/core/personas/models/profile.py:105
+#: src/kawaz/core/personas/models/profile.py:108
 msgid "Skills"
 msgstr "できること"
 
-#: src/kawaz/core/personas/forms/persona.py:49
+#: src/kawaz/core/personas/forms/persona.py:58
 msgid "Users in this role have all permissions"
 msgstr "全ての権限を持ちます"
 
-#: src/kawaz/core/personas/forms/persona.py:50
+#: src/kawaz/core/personas/forms/persona.py:59
 msgid "Users in this role can promote to the adam"
 msgstr "他のユーザーに権限を与えたり、神になれる権限を持ちます"
 
-#: src/kawaz/core/personas/forms/persona.py:51
+#: src/kawaz/core/personas/forms/persona.py:60
 msgid "Users in this role have staff permission"
 msgstr "スタッフ権限を持ちます"
 
-#: src/kawaz/core/personas/forms/persona.py:52
+#: src/kawaz/core/personas/forms/persona.py:61
 msgid "Users in this role are assumed to be a member of the site"
 msgstr "一般的なユーザー権限を持ちます"
 
-#: src/kawaz/core/personas/forms/persona.py:53
+#: src/kawaz/core/personas/forms/persona.py:62
 msgid "Users in this role are assumed to be a signed in visitor"
 msgstr "外部ユーザー権限を持ちます。ごく一部の機能のみが利用できます"
 
@@ -760,74 +752,74 @@ msgstr "自己紹介"
 
 #: src/kawaz/core/personas/forms/profile.py:30
 #: src/kawaz/core/personas/models/profile.py:46
-#: src/templates/personas/persona_detail.html:47
+#: src/templates/personas/persona_detail.html:52
 msgid "Birthday"
 msgstr "誕生日"
 
 #: src/kawaz/core/personas/forms/profile.py:78
-#: src/kawaz/core/personas/models/profile.py:123
-#: src/kawaz/core/personas/models/profile.py:131
+#: src/kawaz/core/personas/models/profile.py:126
+#: src/kawaz/core/personas/models/profile.py:134
 msgid "Service"
 msgstr "サービス"
 
-#: src/kawaz/core/personas/models/persona.py:42
+#: src/kawaz/core/personas/models/persona.py:45
 msgid "The `username` attribute is required"
 msgstr "ユーザー名の入力は必須です"
 
-#: src/kawaz/core/personas/models/persona.py:95
+#: src/kawaz/core/personas/models/persona.py:98
 msgid "Man"
 msgstr "男性"
 
-#: src/kawaz/core/personas/models/persona.py:96
+#: src/kawaz/core/personas/models/persona.py:99
 msgid "Woman"
 msgstr "女性"
 
-#: src/kawaz/core/personas/models/persona.py:97
+#: src/kawaz/core/personas/models/persona.py:100
 msgid "Unknown"
 msgstr "ひみつ"
 
-#: src/kawaz/core/personas/models/persona.py:101
+#: src/kawaz/core/personas/models/persona.py:104
 msgid "Adam"
 msgstr "アダム"
 
-#: src/kawaz/core/personas/models/persona.py:102
+#: src/kawaz/core/personas/models/persona.py:105
 msgid "Seele"
 msgstr "ゼーレ"
 
-#: src/kawaz/core/personas/models/persona.py:103
+#: src/kawaz/core/personas/models/persona.py:106
 msgid "Nerv"
 msgstr "ネルフ"
 
-#: src/kawaz/core/personas/models/persona.py:104
+#: src/kawaz/core/personas/models/persona.py:107
 msgid "Children"
 msgstr "チルドレン"
 
-#: src/kawaz/core/personas/models/persona.py:105
+#: src/kawaz/core/personas/models/persona.py:108
 msgid "Wille"
 msgstr "ヴィレ"
 
-#: src/kawaz/core/personas/models/persona.py:108
+#: src/kawaz/core/personas/models/persona.py:111
 msgid "Nickname"
 msgstr "ニックネーム"
 
-#: src/kawaz/core/personas/models/persona.py:109
+#: src/kawaz/core/personas/models/persona.py:112
 msgid "Mood message"
 msgstr "一言メッセージ"
 
-#: src/kawaz/core/personas/models/persona.py:110
+#: src/kawaz/core/personas/models/persona.py:113
 msgid "Avatar"
 msgstr "ユーザアイコン"
 
-#: src/kawaz/core/personas/models/persona.py:112
-#: src/templates/personas/persona_detail.html:43
+#: src/kawaz/core/personas/models/persona.py:115
+#: src/templates/personas/persona_detail.html:48
 msgid "Gender"
 msgstr "性別"
 
-#: src/kawaz/core/personas/models/persona.py:114
+#: src/kawaz/core/personas/models/persona.py:117
 msgid "Role"
 msgstr "役職"
 
-#: src/kawaz/core/personas/models/persona.py:117
+#: src/kawaz/core/personas/models/persona.py:120
 msgid ""
 "The role this user belongs to. A user will get permissions of the role thus "
 "the user cannot change ones role for security reason."
@@ -835,30 +827,35 @@ msgstr ""
 "ユーザーが所属している役割です。この役割に応じて、ユーザーに権限が与えられま"
 "す。セキュリティ上の理由から、ユーザーは自分の役割を変更できません。"
 
-#: src/kawaz/core/personas/models/persona.py:127
+#: src/kawaz/core/personas/models/persona.py:130
 msgid "Persona"
 msgstr "ユーザー"
 
-#: src/kawaz/core/personas/models/persona.py:128
+#: src/kawaz/core/personas/models/persona.py:131
 msgid "Personas"
 msgstr "ユーザー"
 
-#: src/kawaz/core/personas/models/persona.py:178
+#: src/kawaz/core/personas/models/persona.py:181
 #, python-format
 msgid ""
 "The username '%(username)s' contains invalid characters. Letters, digits, "
 "and - are the only characters available."
-msgstr "「%(username)s」というユーザー名には使えない文字列が含まれています。ユーザー名には英数字、アンダースコア、ハイフンのみが使えます"
+msgstr ""
+"「%(username)s」というユーザー名には使えない文字列が含まれています。ユーザー"
+"名には英数字、アンダースコア、ハイフンのみが使えます"
 
-#: src/kawaz/core/personas/models/persona.py:184
+#: src/kawaz/core/personas/models/persona.py:187
 #, python-format
 msgid ""
 "The username '%(username)s' is reserved. Please chose a different username."
-msgstr "ユーザー名「%(username)s」は既に使われているようです。他の名前を使ってください"
+msgstr ""
+"ユーザー名「%(username)s」は既に使われているようです。他の名前を使ってくださ"
+"い"
 
-#: src/kawaz/core/personas/models/persona.py:200
+#: src/kawaz/core/personas/models/persona.py:203
 msgid "Required. 30 characters or fewer. Letters, digits and /-/_ only."
-msgstr "ユーザー名は30文字以下で、英数字、アンダースコア、ハイフンのみが使えます"
+msgstr ""
+"ユーザー名は30文字以下で、英数字、アンダースコア、ハイフンのみが使えます"
 
 #: src/kawaz/core/personas/models/profile.py:38
 #: src/kawaz/core/publishments/models.py:6
@@ -871,7 +868,7 @@ msgid "Internal"
 msgstr "内部公開"
 
 #: src/kawaz/core/personas/models/profile.py:47
-#: src/templates/personas/persona_detail.html:51
+#: src/templates/personas/persona_detail.html:56
 msgid "Address"
 msgstr "住んでいるところ"
 
@@ -888,30 +885,30 @@ msgstr "プロフィール"
 msgid "Profiles"
 msgstr "プロフィール"
 
-#: src/kawaz/core/personas/models/profile.py:104
+#: src/kawaz/core/personas/models/profile.py:107
 #: src/kawaz/core/registrations/models.py:14
 msgid "Skill"
 msgstr "できること"
 
-#: src/kawaz/core/personas/models/profile.py:115
+#: src/kawaz/core/personas/models/profile.py:118
 msgid "URL pattern"
 msgstr "URLパターン"
 
-#: src/kawaz/core/personas/models/profile.py:124
+#: src/kawaz/core/personas/models/profile.py:127
 msgid "Services"
 msgstr "サービス"
 
-#: src/kawaz/core/personas/models/profile.py:129
-#: src/kawaz/core/personas/models/profile.py:138
+#: src/kawaz/core/personas/models/profile.py:132
+#: src/kawaz/core/personas/models/profile.py:141
 msgid "Account"
 msgstr "アカウント"
 
-#: src/kawaz/core/personas/models/profile.py:135
+#: src/kawaz/core/personas/models/profile.py:138
 msgid "Username"
 msgstr "ユーザ名"
 
-#: src/kawaz/core/personas/models/profile.py:139
-#: src/templates/personas/persona_detail.html:157
+#: src/kawaz/core/personas/models/profile.py:142
+#: src/templates/personas/persona_detail.html:162
 msgid "Accounts"
 msgstr "アカウント"
 
@@ -978,8 +975,6 @@ msgid "Activities"
 msgstr "最近の活動"
 
 #: src/templates/activities/activity_list.html:4
-#, fuzzy
-#| msgid "Activities"
 msgid "Activity list"
 msgstr "最近の活動"
 
@@ -1120,7 +1115,7 @@ msgstr "書いた人"
 
 #: src/templates/blogs/entry_detail.html:42
 #: src/templates/events/event_detail.html:194
-#: src/templates/personas/persona_detail.html:146
+#: src/templates/personas/persona_detail.html:151
 #: src/templates/products/product_detail.html:93
 #: src/templates/products/product_list.html:40
 #: src/templates/projects/project_detail.html:131
@@ -1143,8 +1138,7 @@ msgid "Create a new blog entry"
 msgstr "ブログ記事を作成する"
 
 #: src/templates/blogs/entry_list.html:14
-#, fuzzy, python-format
-#| msgid "%(nickname)s's profile"
+#, python-format
 msgid "%(nickname)s's entries"
 msgstr "%(nickname)sのプロフィール"
 
@@ -1153,8 +1147,6 @@ msgid "Blog entries"
 msgstr "ブログ記事"
 
 #: src/templates/blogs/entry_list.html:24
-#, fuzzy
-#| msgid "There are no blog entries in draft."
 msgid "There are no blog entries."
 msgstr "ブログの下書きはありません"
 
@@ -1186,8 +1178,6 @@ msgstr ""
 "てください。"
 
 #: src/templates/comments/components/comment_items.html:31
-#, fuzzy
-#| msgid "Do you want to delete this entry?"
 msgid "Do you want to delete this comment?"
 msgstr "この記事を削除してもよろしいですか？"
 
@@ -1196,8 +1186,6 @@ msgid "This comment have been deleted."
 msgstr "このコメントは削除されています"
 
 #: src/templates/comments/deleted.html:6
-#, fuzzy
-#| msgid "Your password has been updated."
 msgid "Your comment has been deleted."
 msgstr "パスワードを変更しました"
 
@@ -1447,17 +1435,16 @@ msgid "Archived events"
 msgstr "アーカイブされたイベント"
 
 #: src/templates/personas/persona_detail.html:7
-#, fuzzy, python-format
-#| msgid "%(nickname)s's profile"
+#, python-format
 msgid "%(nickname)s's Profile"
 msgstr "%(nickname)sのプロフィール"
 
-#: src/templates/personas/persona_detail.html:55
+#: src/templates/personas/persona_detail.html:60
 #: src/templates/personas/persona_list.html:61
 msgid "Abilities"
 msgstr "できること"
 
-#: src/templates/personas/persona_detail.html:76
+#: src/templates/personas/persona_detail.html:81
 #, python-format
 msgid ""
 "%(nickname)s may conceal own profile from non participants. Please login to "
@@ -1466,43 +1453,35 @@ msgstr ""
 "%(nickname)sさんはプロフィールを非公開設定にしています。プロフィールを見るた"
 "めにはログインが必要です"
 
-#: src/templates/personas/persona_detail.html:111
-#, fuzzy
-#| msgid "Recent blog entries"
+#: src/templates/personas/persona_detail.html:116
 msgid "Recent Entries"
 msgstr "最近書いたブログ"
 
-#: src/templates/personas/persona_detail.html:114
-#, fuzzy
-#| msgid "There are no blog entries in draft."
+#: src/templates/personas/persona_detail.html:119
 msgid "There are no entries yet"
 msgstr "ブログの下書きはありません"
 
-#: src/templates/personas/persona_detail.html:126
+#: src/templates/personas/persona_detail.html:131
 msgid "Read all entries"
 msgstr "このユーザのすべての記事を読む"
 
-#: src/templates/personas/persona_detail.html:130
+#: src/templates/personas/persona_detail.html:135
 msgid "No entries have been written yet."
 msgstr "書いたブログはまだありません"
 
-#: src/templates/personas/persona_detail.html:150
-#, fuzzy
-#| msgid "Profile"
+#: src/templates/personas/persona_detail.html:155
 msgid "Update Profile"
 msgstr "プロフィール"
 
-#: src/templates/personas/persona_detail.html:166
+#: src/templates/personas/persona_detail.html:171
 msgid "There are no accounts."
 msgstr "利用サービスが設定されていません"
 
-#: src/templates/personas/persona_detail.html:173
-#, fuzzy
-#| msgid "Joined projects"
+#: src/templates/personas/persona_detail.html:178
 msgid "Joined Projects"
 msgstr "参加しているプロジェクト"
 
-#: src/templates/personas/persona_detail.html:187
+#: src/templates/personas/persona_detail.html:192
 msgid "There are no joinned projects."
 msgstr "参加しているプロジェクトはありません"
 
@@ -1803,8 +1782,6 @@ msgid "Recent announcements"
 msgstr "最近のお知らせ"
 
 #: src/templates/roughpages/index.authenticated.html:28
-#, fuzzy
-#| msgid "See more"
 msgid "Read more"
 msgstr "もっと見る"
 
