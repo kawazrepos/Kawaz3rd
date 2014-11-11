@@ -89,6 +89,9 @@ class Profile(models.Model):
             'user.get_absolute_url'
         )
 
+from ..activities.profile import ProfileActivityMediator
+from activities.registry import registry
+registry.register(Profile, ProfileActivityMediator())
 
 class Skill(models.Model):
     """It is the model which indicates what users can"""
@@ -151,6 +154,8 @@ class Account(models.Model):
     def url(self):
         return self.service.url_pattern.format(username=self.username)
 
+from ..activities.profile import AccountActivityMediator
+registry.register(Account, AccountActivityMediator())
 
 from permission import add_permission_logic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic

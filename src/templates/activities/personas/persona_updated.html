@@ -1,0 +1,15 @@
+{% extends "activities/personas/persona_base.html" %}
+{% block history-item %}
+    {% include "components/small_avatar.html" with user=object render_username=False %}
+    {% if is_active_created %}
+        メンバーになりました
+    {% elif is_active_deleted %}
+        退会しました
+    {% elif avatar_updated or avatar_created %}
+        アイコンを変えました
+    {% elif nickname_updated %}
+        ニックネームを「<strong>{{ activity.previous.snapshot.nickname }}</strong>」から「<strong>{{ object.nickname }}</strong>」にしました
+    {% elif gendar_updated %}
+        性別を「<strong>{{ activity.previous.snapshot.get_gender_display }}</strong>」から「<strong>{{ object.get_gender_display }}</strong>」に変えました
+    {% endif %}
+{% endblock %}

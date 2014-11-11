@@ -1,5 +1,6 @@
 import re
 import os
+
 from django.conf import settings
 from django.db import models
 from django.db.models.base import ModelBase
@@ -9,7 +10,9 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from thumbnailfield.fields import ThumbnailField
+
 from kawaz.core.db.decorators import validate_on_save
+
 
 
 # 使用可能なユーザー名パターン
@@ -204,6 +207,6 @@ from permission import add_permission_logic
 from ..perms import PersonaPermissionLogic
 add_permission_logic(Persona, PersonaPermissionLogic())
 
-from ..activity import PersonaActivityMediator
+from ..activities.persona import PersonaActivityMediator
 from activities.registry import registry
 registry.register(Persona, PersonaActivityMediator())
