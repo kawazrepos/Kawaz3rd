@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -32,7 +32,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     def get_object(self, queryset=None):
         if not self.request.user.is_authenticated():
             raise Http404(
-                _("Anonymouse user does not have a profile update view")
+                _("Anonymous user does not have a profile update view")
             )
         qs = queryset or self.get_queryset()
         return get_object_or_404(qs, user__pk=self.request.user.pk)

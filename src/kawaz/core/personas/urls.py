@@ -25,6 +25,6 @@ urlpatterns = patterns('',
     #   適用されるために最後に指定される必要がある
     #   また、モデルレベルで'my'というユーザー名が許可されていないため上記
     #   によりアクセス出来ないユーザーが発生することはない
-    url(r'^(?P<slug>[^/]+)/$',
+    url(r'^(?P<slug>[^/.+]+)/$',
         PersonaDetailView.as_view(), name='personas_persona_detail'),
 )
