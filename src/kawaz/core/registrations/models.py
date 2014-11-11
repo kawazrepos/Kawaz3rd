@@ -31,10 +31,7 @@ from registration.signals import user_activated
 
 
 @receiver(user_activated)
-def add_role_to_new_user(sender, user, password, is_generated, request, **kwargs):
+def setup_for_participation(sender, user, password, is_generated, request, **kwargs):
     user.role = 'children'      # ユーザーをChildrenにする
     user.save()
-
-@receiver(user_activated)
-def create_profile_to_new_user(sender, user, password, is_generated, request, **kwargs):
     Profile.objects.create(user=user)
