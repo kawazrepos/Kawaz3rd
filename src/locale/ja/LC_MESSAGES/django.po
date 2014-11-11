@@ -858,7 +858,7 @@ msgstr "ユーザー名「%(username)s」は既に使われているようです
 
 #: src/kawaz/core/personas/models/persona.py:200
 msgid "Required. 30 characters or fewer. Letters, digits and /-/_ only."
-msgstr "ユーザー名は30文字以下で、英数字か-、_だけを含む必要があります"
+msgstr "ユーザー名は30文字以下で、英数字、アンダースコア、ハイフンのみが使えます"
 
 #: src/kawaz/core/personas/models/profile.py:38
 #: src/kawaz/core/publishments/models.py:6
