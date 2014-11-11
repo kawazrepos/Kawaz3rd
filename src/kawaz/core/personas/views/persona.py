@@ -79,7 +79,7 @@ class PersonaUpdateView(SuccessMessageMixin, UpdateView):
     def get_object(self, queryset=None):
         if not self.request.user.is_authenticated():
             raise Http404(
-                _("Anonymouse user does not have a persona update view")
+                _("Anonymous user does not have a persona update view")
             )
         qs = queryset or self.get_queryset()
         return get_object_or_404(qs, pk=self.request.user.pk)
@@ -99,7 +99,7 @@ class AssignRoleMixin(object):
     def get_object(self, queryset=None):
         if not self.request.user.is_authenticated():
             raise Http404(
-                _("Anonymouse user does not have an assign role view")
+                _("Anonymous user does not have an assign role view")
             )
         qs = queryset or self.get_queryset()
         return get_object_or_404(qs, pk=self.request.user.pk)
