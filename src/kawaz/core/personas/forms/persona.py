@@ -39,6 +39,15 @@ class PersonaAdminUpdateForm(UserChangeForm):
     """
     class Meta:
         model = Persona
+        fields = (
+            'last_name',
+            'first_name',
+            'email',
+            'nickname',
+            'avatar',
+            'quotes',
+            'gender',
+        )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
