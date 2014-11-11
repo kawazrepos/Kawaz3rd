@@ -159,7 +159,7 @@ class EntryPreview(SingleObjectPreviewMixin, DetailView):
     template_name = "blogs/components/entry_detail.html"
 
 
-class EntryCategoryListView(EntryMultipleObjectMixin, ListView):
+class EntryCategoryListView(EntryAuthorMixin, ListView):
     template_name = 'blogs/entry_list.html'
 
     def get_queryset(self):
