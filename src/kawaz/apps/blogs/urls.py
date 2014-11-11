@@ -58,5 +58,5 @@ urlpatterns = patterns('',
         EntryTodayArchiveView.as_view(), name='blogs_entry_archive_today'),
     url(r'^preview/$',
        EntryPreview.as_view(), name='blogs_entry_preview'),
-    (r'^(?P<author>\w+)/', include(author_patterns)),
+    (r'^(?P<author>[^/]+)/', include(author_patterns)),
 )
