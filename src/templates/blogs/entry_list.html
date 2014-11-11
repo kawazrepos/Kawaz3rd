@@ -50,11 +50,8 @@
             </div>
             <div class="list-group">
                 {% get_categories author as categories %}
-                {% for category in categories %}
-                    {% with regex=category.pk %}
-                        {# URLにカテゴリのPKが入っていたらactiveタグを付けている。厳密な比較ではないため、ユーザー名にそのユーザーが所有しているカテゴリのPKと同じ数値が入っているとバグるが、滅多にないため考えていない #}
-                        <a class="list-group-item {% active regex|stringformat:"d" %}" href="{{ category.get_absolute_url }}">{{ category.label }}</a>
-                    {% endwith %}
+                {% for c in categories %}
+                    <a class="list-group-item{% if category and category.pk == c.pk %} active{% endif %}" href="{{ c.get_absolute_url }}">{{ c.label }}</a>
                 {% empty %}
                     <div class="list-group-item list-group-item-warning">{% trans "There is no category" %}</div>
                 {% endfor %}

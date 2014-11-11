@@ -167,3 +167,9 @@ class EntryCategoryListView(EntryAuthorMixin, ListView):
         author = self.kwargs.get('author', None)
         category = self.kwargs.get('pk', None)
         return qs.filter(category__author__username=author, category__pk=int(category))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_pk = self.kwargs.get('pk', None)
+        context['category'] = Category.objects.get(pk=int(category_pk))
+        return context
