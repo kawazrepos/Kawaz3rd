@@ -854,7 +854,7 @@ msgstr "「%(username)s」というユーザー名には使えない文字列が
 #, python-format
 msgid ""
 "The username '%(username)s' is reserved. Please chose a different username."
-msgstr "このユーザー名は既に使われているようです。他の名前を使ってください"
+msgstr "ユーザー名「%(username)s」は既に使われているようです。他の名前を使ってください"
 
 #: src/kawaz/core/personas/models/persona.py:200
 msgid "Required. 30 characters or fewer. Letters, digits and /-/_ only."
