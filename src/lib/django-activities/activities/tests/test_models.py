@@ -90,6 +90,38 @@ class ActivitiesModelsActivityTestCase(TestCase):
         loaded_activity = Activity.objects.get(pk=activity.pk)
         self.assertEqual(loaded_activity.snapshot, model)
 
+    def test_get_related_activities(self):
+        model1 = self.models[0]
+        model2 = self.models[1]
+        ct1 = ContentType.objects.get_for_model(model1)
+        ct2 = ContentType.objects.get_for_model(model2)
+        pk1 = model1.pk
+        pk2 = model2.pk
+        activity1 = Activity.objects.create(content_type=ct1,
+                                            object_id=pk1,
+                                            status='created')
+        activity2 = Activity.objects.create(content_type=ct1,
+                                            object_id=pk1,
+                                            status='updated')
+        activity3 = Activity.objects.create(content_type=ct1,
+                                            object_id=pk1,
+                                            status='updated')
+        activity4 = Activity.objects.create(content_type=ct1,
+                                            object_id=pk1,
+                                            status='update')
+        activity5 = Activity.objects.create(content_type=ct1,
+                                            object_id=pk1,
+                                            status='update')
+        activity6 = Activity.objects.create(content_type=ct2,
+                                            object_id=pk2,
+                                            status='update')
+        activities = activity3.get_related_activities()
+        self.assertEqual(len(activities), 4)
+        # the order of appearance is also important
+        self.assertQuerysetEqual(activities,
+                                 (5, 4, 2, 1),
+                                 transform=lambda x: x.pk)
+
     def test_previous(self):
         model1 = self.models[0]
         model2 = self.models[1]
@@ -106,10 +138,18 @@ class ActivitiesModelsActivityTestCase(TestCase):
         activity3 = Activity.objects.create(content_type=ct1,
                                             object_id=pk1,
                                             status='updated')
-        activity4 = Activity.objects.create(content_type=ct2,
+        activity4 = Activity.objects.create(content_type=ct1,
+                                            object_id=pk1,
+                                            status='update')
+        activity5 = Activity.objects.create(content_type=ct1,
+                                            object_id=pk1,
+                                            status='update')
+        activity6 = Activity.objects.create(content_type=ct2,
                                             object_id=pk2,
-                                            status='created')
+                                            status='update')
         self.assertEqual(activity1.previous, None)
         self.assertEqual(activity2.previous, activity1)
         self.assertEqual(activity3.previous, activity2)
-        self.assertEqual(activity4.previous, None)
+        self.assertEqual(activity4.previous, activity3)
+        self.assertEqual(activity5.previous, activity4)
+        self.assertEqual(activity6.previous, None)
