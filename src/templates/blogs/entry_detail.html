@@ -26,14 +26,17 @@
             <span class="glyphicon glyphicon-pencil"></span>
             {% trans "Blog author" %}
         </div>
-        <div class="panel-body author-info text-center">
-            <a href="{{ object.author.profile.get_absolute_url }}">
-                <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/>
-            </a>
-            <p class="author-quotes">{{ object.author.quotes }}</p>
-            <a class="author-info author-name" href="{{ object.author.profile.get_absolute_url }}">
+        <div class="panel-body author-info">
+            <div class="row">
+                <a class="author-icon col col-lg-4 col-xs-3" href="{{ object.author.profile.get_absolute_url }}">
+                    <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar blog-avatar" class="avatar avatar-middle"/>
+                </a>
+                <p class="author-quotes col col-lg-8 col-xs-9">{{ object.author.quotes }}</p>
+            </div>
+            <a class="author-name" href="{{ object.author.profile.get_absolute_url }}">
                 {{ object.author.nickname }}(id: {{ object.author }})
             </a>
+
         </div>
     </div>
     {% if user has 'blogs.change_entry' of object or user has 'blogs.delete_entry' of object %}

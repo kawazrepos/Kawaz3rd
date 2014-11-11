@@ -64,19 +64,30 @@ a {
 }
 .author-info {
   display: block;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  .author-icon {
+    // アイコンとメッセージを縦方向中央揃えしてるけど、
+    // colクラス側でfloat:leftしてるのでそれ消すためにfloat:none
+    float: none;
+    padding-right: 10px;
+  }
   .author-quotes {
     border: 1px solid @gray-lighter;
     display: inline-block;
     vertical-align: middle;
     padding: 5px;
-    width: 110px;
     margin: 0;
+    // アイコンとメッセージを縦方向中央揃えしてるけど、
+    // colクラス側でfloat:leftしてるのでそれ消すためにfloat:none
+    float: none;
     color: @text-color;
     .border-radius(5px);
     font-size: 12px;
   }
   .author-name {
-    margin-top: 5px;
+    display: block;
+    margin-top: 10px;
   }
 }
 
@@ -138,8 +149,3 @@ a {
 .star-container {
   width: 100%;
 }
-
-.social-button{
-  margin-top: -25px;
-}
-
