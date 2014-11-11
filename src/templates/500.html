@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load form_helper %}
+{% block content %}
+    <div class="page-header">
+        <h1>{% trans "internal server error" %}</h1>
+    </div>
+    <img src="{% static "img/error/500.png" %}" alt="{% trans "internal server error" %}">
+{% endblock %}

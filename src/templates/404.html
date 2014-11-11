@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load form_helper %}
+{% block content %}
+    <div class="page-header">
+        <h1>{% trans "page not found" %}</h1>
+    </div>
+    <img src="{% static "img/error/404.png" %}" alt="{% trans "page not found" %}">
+{% endblock %}
