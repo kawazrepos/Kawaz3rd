@@ -14,7 +14,7 @@
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="{% url 'events_event_list' %}">{% trans "Events" %}</a></li>
-    <li><a href="{{ object.title }}">{{ object.title }}</a></li>
+    <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
 {% endblock %}
 
 {% block content-header %}
