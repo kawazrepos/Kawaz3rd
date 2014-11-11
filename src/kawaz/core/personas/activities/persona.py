@@ -52,8 +52,9 @@ class PersonaActivityMediator(ActivityMediator):
 
     def prepare_context(self, activity, context, typename=None):
         context = super().prepare_context(activity, context, typename)
-        if activity.status == 'updated':
+        if activity.status == 'updated' or activity.status == 'profile_updated':
             # remarks に保存された変更状態を利便のためフラグ化
+            # また、プロフィールの更新についてもcontextを発行している
             for flag in activity.remarks.split():
                 context[flag] = True
         elif activity.status == 'add_comment':

@@ -89,6 +89,9 @@ class Profile(models.Model):
             'user.get_absolute_url'
         )
 
+from ..activities.profile import ProfileActivityMediator
+from activities.registry import registry
+registry.register(Profile, ProfileActivityMediator())
 
 class Skill(models.Model):
     """It is the model which indicates what users can"""
