@@ -19,7 +19,9 @@
 
             <div class="activity-history">
                 {% block history %}
-                    {% for inner_activity in activity.get_related_activities|slice:":3" %}
+                    {# 自分自身と、過去の物2つ、3件を更新履歴として表示する #}
+                    {% render_activity activity %}
+                    {% for inner_activity in activity.get_related_activities|slice:":2" %}
                         {% render_activity inner_activity %}
                     {% endfor %}
                 {% endblock %}
