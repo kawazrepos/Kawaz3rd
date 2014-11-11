@@ -848,7 +848,7 @@ msgstr "ユーザー"
 msgid ""
 "The username '%(username)s' contains invalid characters. Letters, digits, "
 "and - are the only characters available."
-msgstr "「%(username)s」というユーザー名には使えない文字列が含まれています。ユーザー名には英数字、_、-のみが使えます"
+msgstr "「%(username)s」というユーザー名には使えない文字列が含まれています。ユーザー名には英数字、アンダースコア、ハイフンのみが使えます"
 
 #: src/kawaz/core/personas/models/persona.py:184
 #, python-format
@@ -934,7 +934,7 @@ msgstr "権限が「%(role)s」に変更されました"
 
 #: src/kawaz/core/personas/views/profile.py:35
 msgid "Anonymous user does not have a profile update view"
-msgstr "日ログインユーザーはプロフィール変更ページにアクセスできません"
+msgstr "非ログインユーザーはプロフィール変更ページにアクセスできません"
 
 #: src/kawaz/core/personas/views/profile.py:97
 msgid "Your profile was successfully updated."
