@@ -11,43 +11,39 @@ class PersonaActivityMediator(ActivityMediator):
 
     def alter(self, instance, activity, **kwargs):
         if activity and activity.status == 'updated':
-            if activity.previous:
-                # 通知が必要な状態の変更を詳細に記録する
-                previous = activity.previous.snapshot
-                is_created = lambda x: (
-                    not getattr(previous, x) and
-                    getattr(instance, x)
-                )
-                is_updated = lambda x: (
-                    getattr(previous, x) and
-                    getattr(instance, x) and
-                    getattr(previous, x) != getattr(instance, x)
-                )
-                is_deleted = lambda x: (
-                    getattr(previous, x) and
-                    not getattr(instance, x)
-                )
-                remarks = []
-                attributes = (
-                    'nickname',
-                    'gender',
-                    'avatar',
-                    'is_active',
-                )
-                for attribute in attributes:
-                    if is_created(attribute):
-                        remarks.append(attribute + '_created')
-                    elif is_updated(attribute):
-                        remarks.append(attribute + '_updated')
-                    elif is_deleted(attribute):
-                        remarks.append(attribute + '_deleted')
-                if not remarks:
-                    # 通知が必要な変更ではないため通知しない
-                    return None
-                activity.remarks = "\n".join(remarks)
-            else:
-                # previousがないとき、通知しない
+            # 通知が必要な状態の変更を詳細に記録する
+            previous = activity.previous.snapshot
+            is_created = lambda x: (
+                not getattr(previous, x, None) and
+                getattr(instance, x)
+            )
+            is_updated = lambda x: (
+                getattr(previous, x, None) and
+                getattr(instance, x) and
+                getattr(previous, x, None) != getattr(instance, x)
+            )
+            is_deleted = lambda x: (
+                getattr(previous, x, None) and
+                not getattr(instance, x)
+            )
+            remarks = []
+            attributes = (
+                'nickname',
+                'gender',
+                'avatar',
+                'is_active',
+            )
+            for attribute in attributes:
+                if is_created(attribute):
+                    remarks.append(attribute + '_created')
+                elif is_updated(attribute):
+                    remarks.append(attribute + '_updated')
+                elif is_deleted(attribute):
+                    remarks.append(attribute + '_deleted')
+            if not remarks:
+                # 通知が必要な変更ではないため通知しない
                 return None
+            activity.remarks = "\n".join(remarks)
         return activity
 
     def prepare_context(self, activity, context, typename=None):
@@ -57,6 +53,8 @@ class PersonaActivityMediator(ActivityMediator):
             # また、プロフィールの更新についてもcontextを発行している
             for flag in activity.remarks.split():
                 context[flag] = True
+            if activity.status == 'profile_updated':
+                context['profile'] = activity.snapshot._profile
         elif activity.status == 'add_account':
             # アカウントが付いたとき、remarksにaccountのpkが入ってるはずなので
             # 取得してcontextに渡す
