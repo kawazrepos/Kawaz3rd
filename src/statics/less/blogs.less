@@ -67,6 +67,8 @@ a {
   padding-right: 25px;
   padding-bottom: 15px;
   .author-icon {
+    // アイコンとメッセージを縦方向中央揃えしてるけど、
+    // colクラス側でfloat:leftしてるのでそれ消すためにfloat:none
     float: none;
     padding-right: 10px;
   }
@@ -76,6 +78,8 @@ a {
     vertical-align: middle;
     padding: 5px;
     margin: 0;
+    // アイコンとメッセージを縦方向中央揃えしてるけど、
+    // colクラス側でfloat:leftしてるのでそれ消すためにfloat:none
     float: none;
     color: @text-color;
     .border-radius(5px);
