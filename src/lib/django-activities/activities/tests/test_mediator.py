@@ -34,8 +34,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         # user defined alternation code is called
         mediator.alter.assert_called_with(instance, activity)
         # user defined snapshot preparation code is called
-        mediator.prepare_snapshot.assert_called_with(activity._content_object,
-                                                     activity)
+        mediator.prepare_snapshot.assert_called_with(instance, activity)
         # activity save method is called
         activity.save.assert_called_with()
 
@@ -71,8 +70,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         # user defined alternation code is called
         mediator.alter.assert_called_with(instance, activity)
         # user defined snapshot preparation code is called
-        mediator.prepare_snapshot.assert_called_with(activity._content_object,
-                                                     activity)
+        mediator.prepare_snapshot.assert_called_with(instance, activity)
         # activity save method is called
         activity.save.assert_called_with()
 
@@ -97,8 +95,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
                                           action='pre_add',
                                           reverse=False)
         # user defined snapshot preparation code is called
-        mediator.prepare_snapshot.assert_called_with(activity._content_object,
-                                                     activity,
+        mediator.prepare_snapshot.assert_called_with(instance, activity,
                                                      action='pre_add',
                                                      reverse=False)
         # activity save method is called
@@ -224,7 +221,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
 
         mediator = ActivityMediator()
         s = mediator.prepare_snapshot(instance, activity)
-        self.assertIsNone(s)
+        self.assertEqual(s, activity._content_object)
 
     @patch('activities.mediator.select_template')
     def test_render(self, select_template):

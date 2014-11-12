@@ -71,7 +71,7 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             # the target instance might be changed thus use _content_object
             # instead of 'instance'
-            activity.snapshot = self.prepare_snapshot(activity._content_object,
+            activity.snapshot = self.prepare_snapshot(instance,
                                                       activity, **kwargs)
             activity.save()
 
@@ -86,7 +86,7 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             # the target instance might be changed thus use _content_object
             # instead of 'instance'
-            activity.snapshot = self.prepare_snapshot(activity._content_object,
+            activity.snapshot = self.prepare_snapshot(instance,
                                                       activity, **kwargs)
             activity.save()
 
@@ -98,7 +98,7 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             # the target instance might be changed thus use _content_object
             # instead of 'instance'
-            activity.snapshot = self.prepare_snapshot(activity._content_object,
+            activity.snapshot = self.prepare_snapshot(instance,
                                                       activity, **kwargs)
             activity.save()
 
@@ -202,10 +202,10 @@ class ActivityMediator(object):
             **kwargs (dict): keyword arguments which passed in signal handling
 
         Returns:
-            None or instance. If None is returend, the instance will be used
-            as a snapshot (default behavior).
+            An instance which will be saved into `snapshot` field of activity
+            instance. It will return `activity._content_object` in default.
         """
-        return None
+        return activity._content_object
 
     def prepare_context(self, activity, context, typename=None):
         """
