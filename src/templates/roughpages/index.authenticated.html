@@ -23,11 +23,12 @@
         <h2>{% trans "Activities" %}</h2>
     </div>
     {% get_latest_activities as activities %}
-    {% include "activities/components/activity_container.html" with activities=activities %}
-    <div class="text-center">
-        <a class="btn btn-default" href="{% url "activities_activity_list" %}?page=2&type=wall">{% trans "Read more" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
-    </div>
-
+    {% include "activities/components/activity_container.html" with activities=activities|slice:":10" %}
+    {% if activities|length > 10 %}
+        <div class="text-center">
+            <a class="btn btn-default" href="{% url "activities_activity_list" %}?page=2&type=wall">{% trans "Read more" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+    {% endif %}
 {% endblock %}
 {% block content-aside %}
     <section id="wall-nav">
