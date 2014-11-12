@@ -1592,7 +1592,7 @@ msgstr "所属メンバー"
 
 #: src/templates/projects/project_detail.html:113
 msgid "Administrator of this project"
-msgstr "プロジェクトの管理者"
+msgstr "このプロジェクトの管理者"
 
 #: src/templates/projects/project_detail.html:127
 msgid "Event operations"
