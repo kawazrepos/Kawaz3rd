@@ -231,8 +231,8 @@
           font-size: 18px;
         }
         .tooltip {
-          // widthを指定しないと横幅が一文字分しかない
-          width: 150px;
+          // 親DOMのposition: relativeによりwidthがアレなことになっているのでここで指定
+          width: 170px;
         }
       }
     }
