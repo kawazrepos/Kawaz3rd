@@ -105,18 +105,23 @@ class Activity(models.Model):
     @property
     def previous(self):
         """
-        Get previous activity model of a particular content_object which
-        this activity target to. If there is no activity, it return None.
+        Get a previous activity instance which have same content_type and
+        object_id as this activity instance.
+        This is a shortcut property of the following code
+
+            qs = activity.get_previous_activities()
+            previous = qs.first()
+
         """
-        qs = self.get_related_activities()
-        if self.pk:
-            qs = qs.exclude(created_at__gte=self.created_at)
+        qs = self.get_previous_activities()
         return qs.first()
 
     def get_related_activities(self):
         """
-        Get related activity models of a particular content_object which
-        this activity target to.
+        Get a queryset of activities which have same content_type and object_id
+        as this activity instance except the activity itself.
+        Note that the queryset is cached in the instance thus you may need to
+        re-get the instance from a database to update the cache.
         """
         cache_name = '_related_cache'
         if not hasattr(self, cache_name):
@@ -126,3 +131,25 @@ class Activity(models.Model):
                 qs = qs.exclude(pk=self.pk)
             setattr(self, cache_name, qs)
         return getattr(self, cache_name)
+
+    def get_previous_activities(self):
+        """
+        Get a queryset of activities which is smilar to the queryset returned
+        by `get_related_activities` method but only older activities are
+        contained.
+        """
+        qs = self.get_related_activities()
+        if self.pk:
+            qs = qs.exclude(created_at__gte=self.created_at)
+        return qs
+
+    def get_next_activities(self):
+        """
+        Get a queryset of activities which is smilar to the queryset returned
+        by `get_related_activities` method but only newer activities are
+        contained.
+        """
+        qs = self.get_related_activities()
+        if self.pk:
+            qs = qs.exclude(created_at__lte=self.created_at)
+        return qs
