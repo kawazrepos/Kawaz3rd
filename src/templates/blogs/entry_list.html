@@ -1,5 +1,6 @@
 {% extends "twopane.html" %}
 {% load blogs_tags %}
+{% load utils %}
 {% load i18n %}
 {% load staticfiles %}
 {% block title %}最近のブログ記事{% endblock %}
@@ -58,8 +59,8 @@
             </div>
             <div class="list-group">
                 {% get_categories author as categories %}
-                {% for category in categories %}
-                    <a class="list-group-item" href="{{ category.get_absolute_url }}">{{ category.label }}</a>
+                {% for c in categories %}
+                    <a class="list-group-item{% if category and category.pk == c.pk %} active{% endif %}" href="{{ c.get_absolute_url }}">{{ c.label }}</a>
                 {% empty %}
                     <div class="list-group-item list-group-item-warning">{% trans "There is no category" %}</div>
                 {% endfor %}

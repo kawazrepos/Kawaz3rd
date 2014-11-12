@@ -467,3 +467,5 @@ class EntryCategoryListView(TestCase):
         r = self.client.get(url)
         self.assertTrue(len(r.context['object_list']), 1)
         self.assertTrue(entry2 in r.context['object_list'])
+
+        self.assertTrue('author' in r.context)
