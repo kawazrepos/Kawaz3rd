@@ -49,8 +49,6 @@ class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
         mediator = registry.get(activity)
         context = Context()
         context = mediator.prepare_context(activity, context)
-        for name in ('place_created', 'birthday_created', 'url_created', 'remarks_created'):
-            self.assertTrue(name in context, 'context variable {} is not contained'.format(name))
         self._test_render(activities[0])
 
         # contextにprofileを含んでいる

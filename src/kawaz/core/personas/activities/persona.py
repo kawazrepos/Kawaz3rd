@@ -12,17 +12,20 @@ class PersonaActivityMediator(ActivityMediator):
     def alter(self, instance, activity, **kwargs):
         if activity and activity.status == 'updated':
             # 通知が必要な状態の変更を詳細に記録する
-            previous = activity.previous.snapshot
+            previous = getattr(activity.previous, 'snapshot', None)
             is_created = lambda x: (
+                previous and
                 not getattr(previous, x, None) and
                 getattr(instance, x)
             )
             is_updated = lambda x: (
+                previous and
                 getattr(previous, x, None) and
                 getattr(instance, x) and
                 getattr(previous, x, None) != getattr(instance, x)
             )
             is_deleted = lambda x: (
+                previous and
                 getattr(previous, x, None) and
                 not getattr(instance, x)
             )

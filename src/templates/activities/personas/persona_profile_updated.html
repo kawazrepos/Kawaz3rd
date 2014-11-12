@@ -1,13 +1,4 @@
 {% extends "activities/personas/persona_base.html" %}
 {% block history-item %}
-    {% include "components/small_avatar.html" with user=object render_username=False %}
-    {% if birthday_created or birthday_updated %}
-        誕生日が「<strong>{{ profile.birthday|date:'m/d' }}</strong>」に設定されました
-    {% elif place_created or place_updated %}
-        居住地域が「<strong>{{ profile.place }}</strong>」に設定されました
-    {% elif url_created or url_updated %}
-        URLが「<a href="{{ profile.url }}"><strong>{{ profile.url }}</strong></a>」に設定されました
-    {% elif remarks_updated %}
-        自己紹介が更新されました
-    {% endif %}
+    {% include "components/small_avatar.html" with user=object render_username=False %}プロフィールが更新されました
 {% endblock %}
