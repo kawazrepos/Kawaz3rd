@@ -19,12 +19,15 @@ angular.kawaz.controller('FormController', ($scope, $http) ->
 
     # これ、jQueryを使わずに上手くできないか
     $form = $('#editor-main form')
-    dump = $form.serialize()
+    # jQuery.serializeObjectでformをJSON化している
+    dump = $form.serializeObject()
+    json = JSON.stringify(dump)
 
     $scope.showPreview = true
 
     # Preview用ページを取得する:
-    $http.get("#{previewURL}?#{dump}").success( (data, status, headers, config) ->
+    $http.post(previewURL, json).success( (data, status, headers, config) ->
+      console.log(data)
       $scope.preview = data
     )
     false
