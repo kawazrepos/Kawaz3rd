@@ -481,6 +481,7 @@ class ProductPreviewTestCase(TestCase):
         """
         products_product_previewが表示できる
         """
-        r = self.client.get('/products/preview/')
+        import json
+        r = self.client.post('/events/preview/', json.dumps({}), content_type='application/json')
         self.assertTemplateUsed(r, 'products/components/product_detail.html')
         self.assertEqual(r.status_code, 200)

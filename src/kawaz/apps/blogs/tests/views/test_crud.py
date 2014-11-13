@@ -427,7 +427,8 @@ class EntryPreviewTestCase(TestCase):
         """
         ユーザーがEntryのPreviewを見れる
         """
-        r = self.client.get('/blogs/preview/')
+        import json
+        r = self.client.post('/blogs/preview/', json.dumps({}), content_type='application/json')
         self.assertTemplateUsed(r, 'blogs/components/entry_detail.html')
 
 class EntryCategoryListView(TestCase):
