@@ -40,5 +40,5 @@ if settings.DEBUG:
                           document_root=settings.MEDIA_ROOT)
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += (
-        url(r'^favicon\.ico$', RedirectView.as_view(url='/statics/img/favicon.ico')),
+        url(r'^favicon\.ico$', RedirectView.as_view(url='/statics/favicon.ico')),
     )
