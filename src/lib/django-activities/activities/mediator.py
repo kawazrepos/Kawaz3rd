@@ -71,7 +71,8 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             # the target instance might be changed thus use _content_object
             # instead of 'instance'
-            activity.snapshot = activity._content_object
+            activity.snapshot = self.prepare_snapshot(instance,
+                                                      activity, **kwargs)
             activity.save()
 
     def _post_save_receiver(self, sender, instance, created, **kwargs):
@@ -85,7 +86,8 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             # the target instance might be changed thus use _content_object
             # instead of 'instance'
-            activity.snapshot = activity._content_object
+            activity.snapshot = self.prepare_snapshot(instance,
+                                                      activity, **kwargs)
             activity.save()
 
     def _m2m_changed_receiver(self, sender, instance, **kwargs):
@@ -96,7 +98,8 @@ class ActivityMediator(object):
             # save current instance as a snapshot
             # the target instance might be changed thus use _content_object
             # instead of 'instance'
-            activity.snapshot = activity._content_object
+            activity.snapshot = self.prepare_snapshot(instance,
+                                                      activity, **kwargs)
             activity.save()
 
     def connect(self, model):
@@ -182,6 +185,27 @@ class ActivityMediator(object):
             will be canceled.
         """
         return activity
+
+    def prepare_snapshot(self, instance, activity, **kwargs):
+        """
+        Prepare snapshot which automatically saved to the activity instance
+
+        Note:
+            `activity.snapshot = mediator.prepare_snapshot(...)` will be called
+            in downstream thus users should not specify the snapshot to the
+            activity manually.
+            Just return the instance of a snapshot.
+
+        Args:
+            instance (instance): An instance of a target model
+            activity (instance): An instance of an Activity model
+            **kwargs (dict): keyword arguments which passed in signal handling
+
+        Returns:
+            An instance which will be saved into `snapshot` field of activity
+            instance. It will return `activity._content_object` in default.
+        """
+        return activity._content_object
 
     def prepare_context(self, activity, context, typename=None):
         """

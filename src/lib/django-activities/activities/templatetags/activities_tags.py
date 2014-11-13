@@ -83,12 +83,15 @@ def get_latest_activities():
 @register.assignment_tag
 def get_activities_of(model_or_object):
     """
-    Get a queryset of activities which related to the specified model (string)
-    or object.
+    Get a queryset of activities which related to
+    -   a model (string)
+    -   an object instance
+    -   a target object instance of an activity
 
     Usage:
         {% get_activities_of <model> as <variable> %}
         {% get_activities_of '<app_label>.<model_name>' as <variable> %}
+        {% get_activities_of <activity> as <variable> %}
 
     Example:
         {# Get activities related to the 'object' #}
@@ -97,6 +100,8 @@ def get_activities_of(model_or_object):
         {# Get activities related to the 'events.Event' model #}
         {% get_activities_of 'events.Event' as activities %}
 
+        {# Get activities related to the object which the activity target to #}
+        {% get_activities_of activity as activities %}
     """
     if isinstance(model_or_object, str):
         app_label, model_name = model_or_object.split('.', 1)
@@ -105,6 +110,8 @@ def get_activities_of(model_or_object):
             model_name.lower(),
         )
         return Activity.objects.get_for_model(ct.model_class())
+    elif isinstance(model_or_object, Activity):
+        return model_or_object.get_related_activities()
     else:
         return Activity.objects.get_for_object(model_or_object)
 
