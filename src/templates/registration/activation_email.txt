@@ -17,7 +17,7 @@ http://{{ site.domain }}{% url 'password_reset' %}
 -------------------------------------------------------
 札幌ゲーム製作者コミュニティ - Kawaz
 
-ホームページ:	http://{{ site.domain }}
-責任者:    AttaQ
-連絡先:			webmaster@kawaz.org
+ホームページ: http://{{ site.domain }}
+責任者: AttaQ
+連絡先:	 webmaster@kawaz.org
 -------------------------------------------------------
