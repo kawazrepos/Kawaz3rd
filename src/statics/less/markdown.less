@@ -67,7 +67,7 @@
     background-color: rgb(244, 244, 244);
     .border-radius(5px)
   }
-  img {
+  img, video, iframe, embed {
     // PCではデカくなりすぎないようにしている
     @media (min-width: @screen-lg-min) {
       max-width: 500px;
@@ -77,37 +77,6 @@
       max-width: 100%;
     }
   }
-    video {
-      // PCではデカくなりすぎないようにしている
-      @media (min-width: @screen-lg-min) {
-        max-width: 500px;
-      }
-      // SPWebで画像がはみ出さないようにしている
-      @media (max-width: @screen-md-max) {
-        max-width: 100%;
-      }
-    }
-    // SPWebでYouTubeプレイヤーなどのブログパーツの見栄えを整える
-    iframe {
-      // PCではデカくなりすぎないようにしている
-      @media (min-width: @screen-lg-min) {
-        max-width: 500px;
-      }
-      // SPWebで画像がはみ出さないようにしている
-      @media (max-width: @screen-md-max) {
-        max-width: 100%;
-      }
-    }
-    embed {
-      // PCではデカくなりすぎないようにしている
-      @media (min-width: @screen-lg-min) {
-        max-width: 500px;
-      }
-      // SPWebで画像がはみ出さないようにしている
-      @media (max-width: @screen-md-max) {
-        max-width: 100%;
-      }
-    }
 
 
   // Baseline styles
