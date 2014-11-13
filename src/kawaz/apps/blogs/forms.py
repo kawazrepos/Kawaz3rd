@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm, ModelChoiceField
 from kawaz.core.forms.fields import MarkdownField
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from kawaz.core.forms.mixins import Bootstrap3HorizontalFormHelperMixin
 from .models import Category
 

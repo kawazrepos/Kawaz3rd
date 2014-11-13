@@ -2,7 +2,7 @@ import os
 from django.conf import settings
 from django.db import models
 from django.core.exceptions import PermissionDenied
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from thumbnailfield.fields import ThumbnailField
 from kawaz.core.publishments.models import PUB_STATES
 from kawaz.core.publishments.models import PublishmentManagerMixin

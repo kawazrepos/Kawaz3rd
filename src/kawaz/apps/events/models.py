@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q, F, Count
 from django.utils.timezone import get_current_timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone

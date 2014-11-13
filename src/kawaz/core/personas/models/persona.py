@@ -7,7 +7,7 @@ from django.db.models.base import ModelBase
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from thumbnailfield.fields import ThumbnailField
 

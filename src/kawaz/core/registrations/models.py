@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from registration.supplements import RegistrationSupplementBase
 from registration.models import RegistrationProfile
 from kawaz.core.personas.models import Profile

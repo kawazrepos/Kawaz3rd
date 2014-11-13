@@ -5,7 +5,7 @@ from django.forms.models import inlineformset_factory
 from django.utils.encoding import force_text
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _, pgettext_lazy
+from django.utils.translation import ugettext_lazy as _, pgettext_lazy
 from django.forms import widgets
 from kawaz.core.forms.fields import MarkdownField
 from kawaz.core.forms.widgets import MaceEditorWidget
