@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-11 22:16+0900\n"
+"POT-Creation-Date: 2014-11-12 21:13+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,7 +152,7 @@ msgstr "ブログ記事を削除しました"
 #: src/kawaz/apps/events/filters.py:16 src/kawaz/apps/products/filters.py:16
 #: src/kawaz/apps/products/forms.py:40 src/kawaz/apps/products/models.py:54
 #: src/kawaz/apps/products/models.py:126 src/kawaz/apps/projects/models.py:22
-#: src/templates/blogs/entry_list.html:57
+#: src/templates/blogs/entry_list.html:58
 #: src/templates/events/event_list.html:54
 #: src/templates/products/product_detail.html:132
 #: src/templates/products/product_list.html:55
@@ -199,7 +199,7 @@ msgid ""
 msgstr "参加締切日。この日時を過ぎた場合、参加することはできません"
 
 #: src/kawaz/apps/events/models.py:77
-#: src/kawaz/core/registrations/models.py:10
+#: src/kawaz/core/registrations/models.py:11
 msgid "Place"
 msgstr "場所"
 
@@ -886,7 +886,7 @@ msgid "Profiles"
 msgstr "プロフィール"
 
 #: src/kawaz/core/personas/models/profile.py:107
-#: src/kawaz/core/registrations/models.py:14
+#: src/kawaz/core/registrations/models.py:15
 msgid "Skill"
 msgstr "できること"
 
@@ -941,20 +941,20 @@ msgstr "プロフィールを更新しました"
 msgid "Draft"
 msgstr "下書き"
 
-#: src/kawaz/core/registrations/models.py:11
+#: src/kawaz/core/registrations/models.py:12
 msgid "Fill your address. You must be related with Sapporo or neighbor cities."
 msgstr ""
 "居住地を書いてください。札幌市または近郊都市の在住、もしくは出身などで札幌に"
 "縁のある必要があります。"
 
-#: src/kawaz/core/registrations/models.py:15
+#: src/kawaz/core/registrations/models.py:16
 msgid ""
 "Fill your skills or what you want to do which related to game development."
 msgstr ""
 "どのようなことができるか、またはゲームに関連したやりたいことを書いてくださ"
 "い。"
 
-#: src/kawaz/core/registrations/models.py:17
+#: src/kawaz/core/registrations/models.py:18
 msgid "Remarks"
 msgstr "一言メッセージ"
 
@@ -971,6 +971,7 @@ msgid "Activity"
 msgstr "最近の活動"
 
 #: src/lib/django-activities/activities/models.py:71
+#: src/templates/roughpages/index.authenticated.html:23
 msgid "Activities"
 msgstr "最近の活動"
 
@@ -1013,7 +1014,7 @@ msgid "Recent Announcements"
 msgstr "最近のお知らせ"
 
 #: src/templates/announcements/components/announcement_detail.html:12
-#: src/templates/blogs/entry_detail.html:49
+#: src/templates/blogs/entry_detail.html:52
 msgid "Do you want to delete this entry?"
 msgstr "この記事を削除してもよろしいですか？"
 
@@ -1027,7 +1028,7 @@ msgstr "ホーム"
 
 #: src/templates/base.html:45 src/templates/blogs/entry_detail.html:11
 #: src/templates/blogs/entry_form.html:25
-#: src/templates/blogs/entry_list.html:12
+#: src/templates/blogs/entry_list.html:13
 #: src/templates/roughpages/drafts.authenticated.html:42
 msgid "Blog"
 msgstr "ブログ"
@@ -1113,55 +1114,55 @@ msgstr "のブログ記事"
 msgid "Blog author"
 msgstr "書いた人"
 
-#: src/templates/blogs/entry_detail.html:42
+#: src/templates/blogs/entry_detail.html:45
 #: src/templates/events/event_detail.html:194
 #: src/templates/personas/persona_detail.html:151
 #: src/templates/products/product_detail.html:93
 #: src/templates/products/product_list.html:40
-#: src/templates/projects/project_detail.html:131
+#: src/templates/projects/project_detail.html:139
 msgid "Administration"
 msgstr "管理"
 
-#: src/templates/blogs/entry_detail.html:46
+#: src/templates/blogs/entry_detail.html:49
 msgid "Edit the blog entry"
 msgstr "記事を編集"
 
-#: src/templates/blogs/entry_detail.html:50
+#: src/templates/blogs/entry_detail.html:53
 msgid "Delete the blog entry"
 msgstr "記事を削除"
 
 #: src/templates/blogs/entry_form.html:10
 #: src/templates/blogs/entry_form.html:19
 #: src/templates/blogs/entry_form.html:29
-#: src/templates/blogs/entry_list.html:31
+#: src/templates/blogs/entry_list.html:32
 msgid "Create a new blog entry"
 msgstr "ブログ記事を作成する"
 
-#: src/templates/blogs/entry_list.html:14
+#: src/templates/blogs/entry_list.html:15
 #, python-format
 msgid "%(nickname)s's entries"
 msgstr "%(nickname)sのプロフィール"
 
-#: src/templates/blogs/entry_list.html:20
+#: src/templates/blogs/entry_list.html:21
 msgid "Blog entries"
 msgstr "ブログ記事"
 
-#: src/templates/blogs/entry_list.html:24
+#: src/templates/blogs/entry_list.html:25
 msgid "There are no blog entries."
 msgstr "ブログの下書きはありません"
 
-#: src/templates/blogs/entry_list.html:27
+#: src/templates/blogs/entry_list.html:28
 #, python-format
 msgid "There is one blog entry."
 msgid_plural "There are %(counter)s blog entries."
 msgstr[0] "%(counter)s件のブログ記事"
 msgstr[1] "1件のブログ記事"
 
-#: src/templates/blogs/entry_list.html:46
+#: src/templates/blogs/entry_list.html:47
 msgid "Hot entries"
 msgstr "ホットエントリー"
 
-#: src/templates/blogs/entry_list.html:64
+#: src/templates/blogs/entry_list.html:65
 msgid "There is no category"
 msgstr "カテゴリはありません"
 
@@ -1589,30 +1590,34 @@ msgstr "プロジェクトに参加する"
 msgid "Joined members"
 msgstr "所属メンバー"
 
-#: src/templates/projects/project_detail.html:119
+#: src/templates/projects/project_detail.html:113
+msgid "Administrator of this project"
+msgstr "このプロジェクトの管理者"
+
+#: src/templates/projects/project_detail.html:127
 msgid "Event operations"
 msgstr "イベント管理"
 
-#: src/templates/projects/project_detail.html:122
+#: src/templates/projects/project_detail.html:130
 msgid "Leave the project"
 msgstr "プロジェクトから抜ける"
 
-#: src/templates/projects/project_detail.html:135
+#: src/templates/projects/project_detail.html:143
 #: src/templates/projects/project_form.html:9
 #: src/templates/projects/project_form.html:19
 #: src/templates/projects/project_form.html:30
 msgid "Create a new project"
 msgstr "新しいプロジェクトを作成する"
 
-#: src/templates/projects/project_detail.html:138
+#: src/templates/projects/project_detail.html:146
 msgid "Update the project"
 msgstr "プロジェクトを編集"
 
-#: src/templates/projects/project_detail.html:143
+#: src/templates/projects/project_detail.html:151
 msgid "Do you want to delete the project?"
 msgstr "このプロジェクトを削除してよろしいですか？"
 
-#: src/templates/projects/project_detail.html:144
+#: src/templates/projects/project_detail.html:152
 msgid "Delete the project"
 msgstr "プロジェクトを削除"
 
@@ -1781,15 +1786,15 @@ msgstr "マイページ"
 msgid "Recent announcements"
 msgstr "最近のお知らせ"
 
-#: src/templates/roughpages/index.authenticated.html:28
+#: src/templates/roughpages/index.authenticated.html:29
 msgid "Read more"
 msgstr "もっと見る"
 
-#: src/templates/roughpages/index.authenticated.html:36
+#: src/templates/roughpages/index.authenticated.html:37
 msgid "Create new contents"
 msgstr "新しく作成する"
 
-#: src/templates/roughpages/index.authenticated.html:49
+#: src/templates/roughpages/index.authenticated.html:50
 msgid "Member tools"
 msgstr "所属メンバー向けツール"
 

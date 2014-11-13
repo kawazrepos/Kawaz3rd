@@ -221,6 +221,20 @@
     }
     .member-list {
       margin: 10px 0 0;
+      .administrator-icon {
+        position: relative;
+        .administrator-icon-star{
+          color: #cfe604;
+          position: absolute;
+          left: 30px;
+          top: 20px;
+          font-size: 18px;
+        }
+        .tooltip {
+          // 親DOMのposition: relativeによりwidthがアレなことになっているのでここで指定
+          width: 170px;
+        }
+      }
     }
   }
   .panel {
