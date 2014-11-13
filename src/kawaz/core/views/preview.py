@@ -1,5 +1,4 @@
-import simplejson
-
+import json
 
 class SingleObjectPreviewMixin(object):
 
@@ -30,7 +29,7 @@ class SingleObjectPreviewMixin(object):
         fields = model._meta.get_all_field_names()
         # http://stackoverflow.com/questions/1208067/wheres-my-json-data-in-my-incoming-django-request
         # Django1.5からAjaxではrequest.POSTでQueryDictを取れなくなったので、JSONに変換している
-        params = simplejson.loads(self.request.body)
+        params = json.loads(self.request.body)
         # filter field values
         return {k: v for k, v in params.items() if k in fields}
 
