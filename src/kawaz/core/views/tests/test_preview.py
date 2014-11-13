@@ -1,3 +1,4 @@
+import json
 from unittest.mock import MagicMock
 from django.test import TestCase
 from ..preview import SingleObjectPreviewMixin
@@ -7,10 +8,11 @@ from .models import Article
 class KawazSingleObjectPreviewMixinTestCase(TestCase):
     def setUp(self):
         self.request = MagicMock()
-        self.request.GET.dict.return_value = dict(
+        params = dict(
             foo='foo', bar='bar',
             hoge='hoge', piyo='piyo', ahya='ahya',
         )
+        self.request.body = json.dumps(params)
         self.instance = SingleObjectPreviewMixin()
         self.instance.model = None
         self.instance.get_queryset = MagicMock(return_value=None)
