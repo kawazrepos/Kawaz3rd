@@ -18,7 +18,7 @@ class CategoryChoiceField(ModelChoiceField):
 class EntryForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     body = MarkdownField(label=_('Body'))
-    category = CategoryChoiceField(queryset=Category.objects.all(), required=False)
+    category = CategoryChoiceField(label=_('Category'), queryset=Category.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
