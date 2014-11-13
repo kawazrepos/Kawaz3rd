@@ -36,7 +36,7 @@
     height: 100%;
     img {
       border: solid 1px @gray-lighter;
-      background-color: @gray-lighter;
+      background-color: @body-bg;
     }
   }
   .comment-info {
@@ -56,21 +56,25 @@
     .comment-index {
       font-weight: bold;
     }
-    .comment-delete {
-      margin-left: 5px;
-      padding: 3px 5px;
-      font-size: 10px;
-      border-radius: 3px;
+    .comment-delete-column {
+      padding-left: 5px;
+      .comment-delete {
+        margin-left: 5px;
+        padding: 3px 5px;
+        font-size: 10px;
+        border-radius: 3px;
+      }
     }
+
     .nickname {
       color: @button-text-color;
       font-weight: bold;
     }
     .username {
       font-size: 12px;
-      color: @gray-light;
+      color: @gray-lighter;
       a {
-        color: @gray-light;
+        color: @gray-lighter;
       }
     }
   }
@@ -81,7 +85,7 @@
     min-height: 40px;
     // 削除済みコメント
     .comment-deleted {
-      color: @gray-light;
+      color: @gray;
     }
   }
   .comment-star {
