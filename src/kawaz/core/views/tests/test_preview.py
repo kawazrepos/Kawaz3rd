@@ -12,7 +12,7 @@ class KawazSingleObjectPreviewMixinTestCase(TestCase):
             foo='foo', bar='bar',
             hoge='hoge', piyo='piyo', ahya='ahya',
         )
-        self.request.body = json.dumps(params)
+        self.request.body = json.dumps(params).encode('utf-8')
         self.instance = SingleObjectPreviewMixin()
         self.instance.model = None
         self.instance.get_queryset = MagicMock(return_value=None)
