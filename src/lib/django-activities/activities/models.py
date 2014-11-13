@@ -58,6 +58,8 @@ class Activity(models.Model):
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField('Object ID')
+    silent = models.BooleanField(_('Silent activity'), default=False)
+
     _snapshot = models.BinaryField(default=None, null=True)
     _content_object = GenericForeignKey()
 
