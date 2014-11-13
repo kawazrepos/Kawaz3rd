@@ -21,7 +21,8 @@ $ ->
 
   # 添付素材用のポップアップを表示する
   showAttachmentPopup = ->
-    $targetEditor = $(@).closest('.editor-control').prev('textarea')
+    $targetEditor = $(@).closest('.controls').find('textarea')
+    console.log($targetEditor)
     $dialog = $('#attachment-dialog').on('show.bs.modal', ->
       $input = $(@).find("input[type='text']")
       .hide()
@@ -118,7 +119,7 @@ angular.kawaz.controller('AttachmentController', ($scope, $http, $upload) ->
           "content_file": file
       ).progress((evt) ->
         percent = parseInt(100.0 * evt.loaded / evt.total)
-        setPercentage(percent)
+        setPercentage(percent, "#{percent}%")
 
       ).success((data, status, headers, config) ->
         # レスポンスから "{attachments:<slug>}"みたいな文字列を取り出して、エディタ中に挿入する
