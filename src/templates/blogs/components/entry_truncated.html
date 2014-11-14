@@ -9,7 +9,7 @@
                     <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
                 {% endif %}
             </small>
-            <a href="{{ object.author.profile.get_absolute_url }}">
+            <a href="{{ object.author.get_absolute_url }}">
                 <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-middle" />
             </a>
         </p>
