@@ -27,6 +27,7 @@ class SingleObjectPreviewMixin(object):
         # Use 'model' of queryset or 'model' attribute
         model = getattr(queryset, 'model', self.model)
         fields = model._meta.get_all_field_names()
+        # Ref https://docs.djangoproject.com/en/dev/releases/1.5/#non-form-data-in-http-requests
         # http://stackoverflow.com/questions/1208067/wheres-my-json-data-in-my-incoming-django-request
         # Django1.5からAjaxではrequest.POSTでQueryDictを取れなくなったので、JSONに変換している
         params = json.loads(self.request.body.decode('utf-8'))
