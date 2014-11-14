@@ -16,3 +16,6 @@
 [submodule "src/statics/vendor/mace"]
 	path = src/statics/vendor/mace
 	url = https://github.com/kawazrepos/mace
+[submodule "src/statics/vendor/jQuery.serializeObject"]
+	path = src/statics/vendor/jQuery.serializeObject
+	url = https://github.com/hongymagic/jQuery.serializeObject.git

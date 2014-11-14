@@ -178,7 +178,8 @@ class ProfilePreviewTestCase(ProfileViewTestCaseBase):
         url = reverse('personas_profile_preview')
         for user in chain(self.members, self.non_members, [self.anonymous]):
             self.prefer_login(user)
-            r = self.client.get(url)
+            import json
+            r = self.client.post(url, json.dumps({}), content_type='application/json')
             self.assertEqual(r.status_code, 200)
             self.assertTemplateUsed(r, 'personas/profile_preview.html')
             self.assertTrue('object' in r.context_data)

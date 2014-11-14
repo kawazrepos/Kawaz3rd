@@ -1,4 +1,4 @@
-angular.kawaz.controller('FormController', ($scope, $http) ->
+angular.kawaz.controller('FormController', ($scope, $http, $sce) ->
 
   # Previewに表示する文字列
   $scope.preview = ""
@@ -19,14 +19,15 @@ angular.kawaz.controller('FormController', ($scope, $http) ->
 
     # これ、jQueryを使わずに上手くできないか
     $form = $('#editor-main form')
-    dump = $form.serialize()
+    # jQuery.serializeObjectでformをJSON化している
+    dump = $form.serializeObject()
 
     $scope.showPreview = true
 
     # Preview用ページを取得する:
-    $http.get("#{previewURL}?#{dump}").success( (data, status, headers, config) ->
-      $scope.preview = data
+    $http.post(previewURL, dump).success( (data, status, headers, config) ->
+      # http://stackoverflow.com/questions/20165780/insert-an-iframe-into-page-dynamically-in-angularjs
+      $scope.preview = $sce.trustAsHtml(data)
     )
     false
-
 )
