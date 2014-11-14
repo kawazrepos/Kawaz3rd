@@ -16,21 +16,24 @@
     {% endif %}
 {% endblock %}
 {% block content-header %}
-    <div class="page-header blog-list-header">
-        <div class="header-left">
+    <div class="page-header blog-list-header row">
+        <div class="col col-lg-9 col-xs-12">
             <h1>{% trans "Blog entries" %}</h1>
-        </div>
-        {% if paginator.count == 0 %}
-            <div class="alert alert-warning">
-                {% trans "There are no blog entries." %}
-            </div>
-        {% else %}
+            {% if paginator.count > 0 %}
             <small>{% blocktrans count counter=paginator.count %}There is one blog entry.{% plural %}There are {{ counter }} blog entries.{% endblocktrans %}</small>
-        {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="col col-lg-3 col-xs-12 header-right">
         {% if user has 'blogs.add_entry' %}
-            <div class="header-right">
-                <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "Create a new blog entry" %}</a>
-            </div>
+            <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "Create a new blog entry" %}</a>
+        {% endif %}
+        </div>
+
+        {% if paginator.count == 0 %}
+        <div class="alert alert-warning">
+            {% trans "There are no blog entries." %}
+        </div>
         {% endif %}
     </div>
 {% endblock %}
