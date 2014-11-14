@@ -426,10 +426,8 @@ msgid ""
 msgstr "YouTubeの動画URLを入力すると、作品ページに埋め込むことができます。"
 
 #: src/kawaz/apps/products/models.py:128
-#, fuzzy
-#| msgid "Contact us"
 msgid "Contact info"
-msgstr "お問い合わせ"
+msgstr "問い合わせ先"
 
 #: src/kawaz/apps/products/models.py:129
 msgid ""
