@@ -36,8 +36,16 @@
   h1 {
     margin: -4px 0 -2px;
   }
+
   h2 {
     margin-top: -8px;
+  }
+  .blog-article-info {
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
   .entry-pub-date {
     margin-top: 30px;
@@ -71,6 +79,9 @@ a {
     // colクラス側でfloat:leftしてるのでそれ消すためにfloat:none
     float: none;
     padding-right: 10px;
+      &:hover {
+      text-decoration: none;
+    }
   }
   .author-quotes {
     border: 1px solid @gray-lighter;
