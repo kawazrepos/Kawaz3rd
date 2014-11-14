@@ -4,7 +4,7 @@
 #
 __author__ = 'giginet'
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from crispy_forms.layout import Submit
 from .helpers import Bootstrap3HorizontalFormHelper, Bootstrap3InlineFormHelper
 

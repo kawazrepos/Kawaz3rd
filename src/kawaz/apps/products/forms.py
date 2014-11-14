@@ -8,7 +8,7 @@ from kawaz.core.forms.mixins import Bootstrap3InlineFormHelperMixin
 from django.forms import widgets
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from kawaz.core.personas.models import Persona
 from .models import Product
 from .models import Platform

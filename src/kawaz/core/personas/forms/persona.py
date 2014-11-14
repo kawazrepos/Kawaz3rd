@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.widgets import RadioFieldRenderer
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 from kawaz.core.forms.widgets import RadioSelectWithHelpText
