@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import pgettext_lazy
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
@@ -125,7 +126,7 @@ class Product(models.Model):
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
     contact_info = models.TextField(_('Contact info'), default='', blank=True,
-                                    help_text='Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account')
+                                    help_text=_('Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account'))
     # TODO: published
     publish_at = models.DateField(_('Published at'))
     administrators = models.ManyToManyField(Persona,
@@ -211,7 +212,7 @@ class AbstractRelease(models.Model):
     """
     リリース形態のアブストラクトモデル
     """
-    label = models.CharField(_('Label'), max_length=32)
+    label = models.CharField(pgettext_lazy('Release name', 'Label'), max_length=32)
     platform = models.ForeignKey(Platform, verbose_name=_('Platform'))
     version = models.CharField(_('Version'), max_length=32, default='', blank=True)
     product = models.ForeignKey(Product, verbose_name=_('Product'),
