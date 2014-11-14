@@ -124,6 +124,8 @@ class Product(models.Model):
                                 null=True, blank=True, related_name='product')
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
+    contact_info = models.TextField(_('Contact info'), default='', blank=True,
+                                    help_text='Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account')
     # TODO: published
     publish_at = models.DateField(_('Published at'))
     administrators = models.ManyToManyField(Persona,
@@ -206,13 +208,12 @@ class Product(models.Model):
 
 
 class AbstractRelease(models.Model):
-
     """
     リリース形態のアブストラクトモデル
     """
     label = models.CharField(_('Label'), max_length=32)
     platform = models.ForeignKey(Platform, verbose_name=_('Platform'))
-    version = models.CharField(_('Version'), max_length=32, default='')
+    version = models.CharField(_('Version'), max_length=32, default='', blank=True)
     product = models.ForeignKey(Product, verbose_name=_('Product'),
                                 related_name='%(class)ss', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
