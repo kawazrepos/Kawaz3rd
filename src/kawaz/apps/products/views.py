@@ -150,6 +150,14 @@ class ProductCreateView(ProductFormMixin, CreateView):
     model = Product
     form_class = ProductCreateForm
 
+    def get_form(self, form_class):
+        form = super().get_form(form_class)
+        # Contact Infoの初期値としてニックネームとメールアドレスを入れている
+        user = getattr(self.request, 'user')
+        contact_info = "{}: {}".format(user.nickname, user.email)
+        form.fields['contact_info'].initial = contact_info
+        return form
+
     def form_valid(self, *args, **kwargs):
         response = super().form_valid(*args, **kwargs)
         if self.object:

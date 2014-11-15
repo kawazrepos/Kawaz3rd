@@ -156,6 +156,19 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, login_url)
 
+    def test_contact_info_initial_value(self):
+        """
+        Contact infoの初期値が
+        ニックネーム: メールアドレス
+        になっている
+        """
+        for i, user in enumerate(self.members):
+            self.prefer_login(user)
+            r = self.client.get('/products/create/')
+            form = r.context['form']
+            contact_info = "{}: {}".format(user.nickname, user.email)
+            self.assertEqual(form.fields['contact_info'].initial, contact_info)
+
     def test_members_can_create_product(self):
         """
         メンバーはプロダクトを作成することが出来る
