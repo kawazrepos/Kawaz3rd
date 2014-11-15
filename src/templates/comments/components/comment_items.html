@@ -17,24 +17,26 @@
                         <img src="/statics/img/defaults/guest_avatar_middle.png" class="avatar avatar-middle">
                     {% endif %}
                 </div>
-                <div class="comment-author">
-                    <span class="comment-index">{{ forloop.counter }}</span>
-                    {% if comment.user.is_authenticated %}
-                        <span class="nickname">{{ comment.user.nickname }}</span>
-                        <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
-                    {% else %}
-                        <span>{{ comment.name }}</span>
-                    {% endif %}
+                <div class="comment-author row">
+                    <div class="col col-lg-11 col-xs-10">
+                        <span class="comment-index">{{ forloop.counter }}</span>
+                        {% if comment.user.is_authenticated %}
+                            <span class="nickname">{{ comment.user.nickname }}</span>
+                            <span class="username">(<a href="{{ comment.user.profile.get_absolute_url }}">@{{ comment.user.username }}</a>)</span>
+                        {% else %}
+                            <span>{{ comment.name }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="col col-lg-1 col-xs-2 comment-delete-column">
                     {# スタッフであるとき、もしくは自分の作成したコメントなら非表示にできる #}
                     {% if not comment.is_removed and user has 'django_comments.can_moderate' of comment  %}
-                        <a href="{% url 'comments-delete' comment.pk %}?next={{ request.path }}" class="post-link comment-delete btn btn-sm btn-danger"
-                           confirm-message="{% trans "Do you want to delete this comment?" %}">
+                        <a href="{% url 'comments-delete' comment.pk %}?next={{ request.path }}" class="post-link comment-delete btn btn-sm btn-info" confirm-message="{% trans "Do you want to delete this comment?" %}">
                             <span class="glyphicon glyphicon-trash"></span>
                             <form method="POST" style="display: none;">{% csrf_token %}</form>
                         </a>
                     {% endif %}
+                    </div>
                 </div>
-
             </header>
             <div class="comment-body comment-body">
                 {% if comment.is_removed %}
