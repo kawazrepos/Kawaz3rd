@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-15 22:37+0900\n"
+"POT-Creation-Date: 2014-11-15 23:09+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1576,12 +1576,12 @@ msgid "Recommended games"
 msgstr "おすすめのゲーム"
 
 #: src/templates/products/product_detail.html:157
-msgid "Administrator address"
-msgstr "プロジェクトの管理者"
+msgid "Contact Info"
+msgstr "問い合わせ先"
 
 #: src/templates/products/product_detail.html:166
-msgid "Contact for Kawaz"
-msgstr "Kawazへ問い合わせる"
+msgid "Contact us about this product"
+msgstr "この作品について問い合わせる"
 
 #: src/templates/products/product_list.html:5
 msgid "All products"
@@ -1854,6 +1854,12 @@ msgstr "所属メンバー向けツール"
 #: src/templates/roughpages/published.html:4
 msgid "Published articles"
 msgstr "掲載情報"
+
+#~ msgid "Administrator address"
+#~ msgstr "プロジェクトの管理者"
+
+#~ msgid "Contact for Kawaz"
+#~ msgstr "Kawazへ問い合わせる"
 
 #~ msgid "%m/%d"
 #~ msgstr "%m月%d日"
