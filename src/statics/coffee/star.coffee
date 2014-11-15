@@ -1,3 +1,7 @@
+# DjangoのCSRF protectionを回避するため、Cookieのcsrfトークンを
+# リクエストヘッダーに追加している
+# このコードをCoffeeScriptに移植しただけ
+# Ref : https://docs.djangoproject.com/en/1.7/ref/contrib/csrf/#ajax
 $ ->
   csrftoken = $.cookie('csrftoken')
 
@@ -16,6 +20,7 @@ $('.star-container').each(->
 
   $starContainer = $(@).find('.star-body-col ul')
 
+  # スター追加ボタンが押されたとき
   $button.click((e) ->
     # 現在のカーソルの選択範囲をquoteにする
     quote = document.getSelection().toString()
@@ -47,14 +52,16 @@ $('.star-container').each(->
     )
   )
 
+  # スターが15個以上付いてるとき、畳む
   $readmore = $(@).find('.star-read-more')
   $stars = $(@).find('.star')
   starCount = $stars.size()
   $readmore.find('.text').text(starCount)
-  if starCount < 15
+  maxStarCount = 15
+  if starCount < maxStarCount
     $readmore.hide()
   else
-    $invisible = $stars[15...]
+    $invisible = $stars[maxStarCount...]
     $wrapper = $('<div>')
     $invisible.remove()
     $wrapper.append($invisible)
@@ -83,7 +90,7 @@ $('.star-container').each(->
     selector: '.star'
   )
 
-  # スターの削除ボタンを押したときの挙動
+  # スターの削除ボタンを押したとき
   $(@).on('click', '.star-remove', ->
     $star = $(@).closest('.star')
     pk = $star.attr('star-id')
