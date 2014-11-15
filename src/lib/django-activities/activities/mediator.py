@@ -67,13 +67,9 @@ class ActivityMediator(object):
                             status='deleted')
         # call user defined alternation code
         activity = self.alter(instance, activity, **kwargs)
-        if activity:
-            # save current instance as a snapshot
-            # the target instance might be changed thus use _content_object
-            # instead of 'instance'
-            activity.snapshot = self.prepare_snapshot(instance,
-                                                      activity, **kwargs)
-            activity.save()
+        self._exec_post_processes_of_receivers(
+            instance, activity, **kwargs
+        )
 
     def _post_save_receiver(self, sender, instance, created, **kwargs):
         ct = ContentType.objects.get_for_model(instance)
@@ -82,25 +78,27 @@ class ActivityMediator(object):
                             status='created' if created else 'updated')
         # call user defined alternation code
         activity = self.alter(instance, activity, **kwargs)
-        if activity:
-            # save current instance as a snapshot
-            # the target instance might be changed thus use _content_object
-            # instead of 'instance'
-            activity.snapshot = self.prepare_snapshot(instance,
-                                                      activity, **kwargs)
-            activity.save()
+        self._exec_post_processes_of_receivers(
+            instance, activity, **kwargs
+        )
 
     def _m2m_changed_receiver(self, sender, instance, **kwargs):
         # call user defined alternation code
         # user need to create activity instance
         activity = self.alter(instance, None, **kwargs)
+        self._exec_post_processes_of_receivers(
+            instance, activity, **kwargs
+        )
+
+    def _exec_post_processes_of_receivers(self, instance, activity, **kwargs):
         if activity:
-            # save current instance as a snapshot
-            # the target instance might be changed thus use _content_object
-            # instead of 'instance'
-            activity.snapshot = self.prepare_snapshot(instance,
-                                                      activity, **kwargs)
+            # save snapshot if the activity is specified
+            activity.snapshot = self.prepare_snapshot(
+                instance, activity, **kwargs
+            )
+            # save the activity into the database
             activity.save()
+
 
     def connect(self, model):
         """
