@@ -58,14 +58,26 @@ html {
     }
     .footer-nav {
       padding-left: 15px;
-      li {
-        list-style: none;
-      }
-      a {
-        color: #aab1b7;
-        &:hover {
-          text-decoration: none;
-          color: @gray-lighter;
+      width: 100%;
+      tr {
+        border-top: 1px dotted @gray-dark;
+        &:first-child {
+          border: none;
+        }
+        th {
+          width: 115px;
+          padding: 5px 0;
+        }
+        td {
+          padding: 5px 0;
+          line-height: 1.25em;
+          a {
+            color: #aab1b7;
+            &:hover {
+              text-decoration: none;
+              color: @gray-lighter;
+            }
+          }
         }
       }
     }
