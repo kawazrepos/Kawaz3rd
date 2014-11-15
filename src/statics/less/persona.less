@@ -2,6 +2,9 @@
 @import (reference) "common/define";
 @import (reference) "common/vendor-prefixes";
 
+//
+// 共通
+//
 .username {
   color: @gray-light;
   font-size: small;
@@ -15,10 +18,15 @@
     color: @gray-light;
   }
 }
+//
 // persona Detail
+//
 #persona-header {
   margin-top: 30px;
   margin-bottom: 20px;
+  .page-header {
+    margin-top: 0;
+  }
   #persona-avatar {
     text-align: center;
   }
@@ -66,7 +74,9 @@
   width: 220px;
 }
 
+//
 // persona List
+//
 #persona-list {
   // がんばってPinterestっぽいの作った
   // http://stackoverflow.com/questions/22148063/making-a-pinterest-like-grid-with-bootstrap-the-boxes-are-not-displayed-right-b
