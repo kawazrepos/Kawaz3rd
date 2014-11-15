@@ -74,7 +74,14 @@ $('.star-container').each(->
   $(@).on('mouseout', '.star', ->
     $(@).find('.star-remove').hide()
   )
-  $('.star').tooltip()
+
+  # hoverしたときのtooltipを登録する
+  # Note:
+  # `selector`オプションを加えることで$.onでbindできるため
+  # あとから追加されたStarについてもtooltipが表示される
+  $(@).tooltip(
+    selector: '.star'
+  )
 
   # スターの削除ボタンを押したときの挙動
   $(@).on('click', '.star-remove', ->
