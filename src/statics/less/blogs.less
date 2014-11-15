@@ -4,16 +4,10 @@
 
 @blog-date-font-size: 1.8em;
 
-// Blog List Header
-.blog-list-header {
-  .header-right {
-    text-align: right;
-    margin-top: 25px;
-  }
-  .clearfix();
-}
 
-// Blog Article
+// ========================================================
+// blog common
+// ========================================================
 
 // エントリーの日時
 .entry-pub-date {
@@ -48,6 +42,62 @@
     font-size: 14px;
   }
 }
+
+// 内部公開記事用のスタイル
+.bg-protected {
+  background-color: @protected-color;
+  border-radius: 10px;
+}
+
+// Blog Entry Date
+// Ref: http://line25.com/tutorials/how-to-create-a-cool-blog-post-date-icon-with-css
+// 使い方
+// <div class="date"><p>10<span>July</span></p></div>
+
+.date {
+  line-height: 1;
+  width: 65px;
+  height: 89px;
+  margin-right: 20px;
+  padding: 8px 0 0 0;
+  background: @navbar-default-bg;
+  border-radius: 5px;
+  p {
+    font-family: Helvetica, sans-serif;
+    font-size: 50px;
+    text-align: center;
+    color: #fff;
+    span {
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      text-transform: uppercase;
+      display: block;
+      padding: 4px 0 1px 0;
+    }
+  }
+}
+.entry-title {
+  font-size: 32px;
+  margin: 10px 0 10px;
+}
+
+.star-container {
+  width: 100%;
+}
+
+// ========================================================
+// blog list
+// ========================================================
+
+// Blog List Header
+.blog-list-header {
+  .header-right {
+    text-align: right;
+    margin-top: 25px;
+  }
+  .clearfix();
+}
 .blog-article {
   padding: 20px 30px;
   margin-bottom: 30px;
@@ -55,13 +105,16 @@
   .border-radius(5px);
 }
 
+
+// ========================================================
+// blog detail
+// ========================================================
+
 .blog-avatar {
   display: inline-block;
   vertical-align: middle;
 }
-a {
-  text-decoration: none;
-}
+
 .author-info {
   display: block;
   padding-right: 25px;
@@ -104,51 +157,10 @@ a {
   }
 }
 
-// 内部公開記事用のスタイル
-.bg-protected {
-  background-color: @protected-color;
-  border-radius: 10px;
-}
 .text-protected {
   color: darken(@protected-color, 50%);
   font-size: @blog-date-font-size;
   margin-left: 5px;
   margin-right: 5px;
   vertical-align: middle;
-}
-// Blog Entry Date
-// Ref: http://line25.com/tutorials/how-to-create-a-cool-blog-post-date-icon-with-css
-// 使い方
-// <div class="date"><p>10<span>July</span></p></div>
-
-.date {
-  line-height: 1;
-  width: 65px;
-  height: 89px;
-  margin-right: 20px;
-  padding: 8px 0 0 0;
-  background: @navbar-default-bg;
-  border-radius: 5px;
-  p {
-    font-family: Helvetica, sans-serif;
-    font-size: 50px;
-    text-align: center;
-    color: #fff;
-    span {
-      font-size: 14px;
-      font-weight: bold;
-      color: #fff;
-      text-transform: uppercase;
-      display: block;
-      padding: 4px 0 1px 0;
-    }
-  }
-}
-.entry-title {
-  font-size: 32px;
-  margin: 10px 0 10px;
-}
-
-.star-container {
-  width: 100%;
 }
