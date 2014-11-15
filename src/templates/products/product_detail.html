@@ -145,10 +145,27 @@
         <div id="products" class="list-group">
             {% get_relative object as products %}
             {% for product in products|slice:":3" %}
-                <div class="item list-group-item">
+                <div class="item list-group-item recommend-item">
                     {% include "products/components/thumbnail-item.html" %}
                 </div>
             {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Administrator address" %}</h2>
+        </div>
+        <div id="products" class="list-group">
+            <address>
+            {% if product.contact_info %}
+                <a class="list-group-item">
+                    {{ product.contact_info }}
+                </a>
+            {% else %}
+                <a class="item list-group-item" href="contact/">{% trans "Contact for Kawaz" %}</a>
+            {% endif %}
+            </address>
         </div>
     </div>
 
