@@ -12,4 +12,9 @@ class ActivitiesAppConf(AppConf):
     DEFAULT_TEMPLATE_EXTENSION = '.html'
 
     # A dictionary which contains extensions for each `typename`
-    TEMPLATE_EXTENSIONS = {}
+    TEMPLATE_EXTENSIONS = {
+        'twitter': '.txt',
+    }
+
+    DEFAULT_NOTIFIERS = ()
+    ENABLE_NOTIFICATION = True

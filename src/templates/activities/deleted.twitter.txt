@@ -1,0 +1,1 @@
+{{ object }}が削除されました http://www.kawaz.org

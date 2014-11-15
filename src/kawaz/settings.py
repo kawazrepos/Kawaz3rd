@@ -233,6 +233,28 @@ DEFAULT_RENDERER_CLASSES = (
     'rest_framework.renderers.JSONRenderer',
 )
 
+# django-activities
+from activities.notifiers.registry import registry
+from activities.notifiers.oauth.twitter import TwitterActivityNotifier
+registry.register(TwitterActivityNotifier(
+    TwitterActivityNotifier.get_credentials(os.path.join(
+        REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+        'credentials_twitter_kawaz_test.json'
+    ))
+), 'twitter_kawaz_official')
+registry.register(TwitterActivityNotifier(
+    TwitterActivityNotifier.get_credentials(os.path.join(
+        REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+        'credentials_twitter_kawazinfo_test.json'
+    ))
+), 'twitter_kawaz_info')
+ACTIVITIES_DEFAULT_NOTIFIERS = (
+    'twitter_kawaz_official',
+    'twitter_kawaz_info',
+)
+del registry
+del TwitterActivityNotifier
+
 # kawaz.apps.activities.contrib.hatenablog
 ACTIVITIES_HATENABLOG_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 

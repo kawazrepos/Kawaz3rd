@@ -11,6 +11,7 @@ from django.db.models.signals import (post_save,
 from django.contrib.contenttypes.models import ContentType
 from .conf import settings
 from .models import Activity
+from .notifiers.registry import registry as notifier_registry
 
 
 class ActivityMediator(object):
@@ -25,6 +26,8 @@ class ActivityMediator(object):
     # registered in the model.
     # to prevent unwilling activity creation, default value is []
     m2m_fields = []
+
+    notifiers = []
 
     @property
     def _default_template_extension(self):
@@ -59,6 +62,21 @@ class ActivityMediator(object):
                 else:
                     yield field_or_field_name
         return tuple(_field_names_to_fields(self.m2m_fields))
+
+    @lru_cache()
+    def get_notifiers(self):
+        """
+        Return notifier instance which this mediator should send notification.
+        """
+        _notifiers = []
+        for notifier in (self.notifiers or
+                         settings.ACTIVITIES_DEFAULT_NOTIFIERS):
+            if isinstance(notifier, str):
+                notifier = notifier_registry.get(notifier)
+            else:
+                notifier = notifier_registry.get_or_register(notifier)
+            _notifiers.append(notifier)
+        return _notifiers
 
     def _pre_delete_receiver(self, sender, instance, **kwargs):
         ct = ContentType.objects.get_for_model(instance)
@@ -98,7 +116,10 @@ class ActivityMediator(object):
             )
             # save the activity into the database
             activity.save()
-
+            # notify
+            if settings.ACTIVITIES_ENABLE_NOTIFICATION:
+                for notifier in self.get_notifiers():
+                    notifier.notify(activity)
 
     def connect(self, model):
         """

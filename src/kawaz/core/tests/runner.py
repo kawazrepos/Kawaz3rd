@@ -59,3 +59,8 @@ class KawazDiscoverRunner(MediaRootTestSuiteRunner):
         # 皆無なので、この機能自体を停止することでテストの高速化を行なっている
         #
         settings.COMPRESS_PRECOMPILERS = ()
+        #
+        # django-activities の通知機能がテスト中に走るととても遅い and API制限
+        # に引っかかる可能性が高いため無効化する
+        #
+        settings.ACTIVITIES_ENABLE_NOTIFICATION = False

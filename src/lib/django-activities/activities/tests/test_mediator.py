@@ -37,6 +37,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         mediator.prepare_snapshot.assert_called_with(instance, activity)
         # activity save method is called
         activity.save.assert_called_with()
+        # TODO: test notifiers call
 
     @patch('activities.mediator.ContentType', spec=ContentType)
     @patch('activities.mediator.Activity', spec=Activity)
@@ -73,6 +74,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         mediator.prepare_snapshot.assert_called_with(instance, activity)
         # activity save method is called
         activity.save.assert_called_with()
+        # TODO: test notifiers call
 
     @patch('activities.mediator.ContentType', spec=ContentType)
     @patch('activities.mediator.Activity', spec=Activity)
@@ -100,7 +102,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
                                                      reverse=False)
         # activity save method is called
         activity.save.assert_called_with()
-
+        # TODO: test notifiers call
 
     @patch('activities.mediator.post_save')
     @patch('activities.mediator.pre_delete')

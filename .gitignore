@@ -12,6 +12,12 @@ config/gcal/credentials.json
 config/gcal/client_secrets.json
 src/kawaz/local_settings.py
 
+src/lib/django-activities/activities/tests/test_notifiers/test_oauth/data/credentials_twitter.json
+config/activities/notifiers/credentials_twitter_kawaz_official.json
+config/activities/notifiers/credentials_twitter_kawazinfo.json
+config/activities/notifiers/credentials_twitter_kawaz_test.json
+config/activities/notifiers/credentials_twitter_kawazinfo_test.json
+
 # Ignore files which starts from '.'
 .*
 # But following
@@ -32,3 +38,5 @@ __pycache__/
 # Ignore files automatically generated in Mac OS X
 Network Trash Folder
 Temporary Items
+
+
