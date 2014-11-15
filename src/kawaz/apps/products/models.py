@@ -125,7 +125,7 @@ class Product(models.Model):
                                 null=True, blank=True, related_name='product')
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
-    contact_info = models.TextField(_('Contact info'), default='', blank=True,
+    contact_info = models.CharField(_('Contact info'), default='', blank=True, max_length=256,
                                     help_text=_('Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account'))
     # TODO: published
     publish_at = models.DateField(_('Published at'))

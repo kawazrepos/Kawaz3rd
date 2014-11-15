@@ -14,19 +14,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='product',
             name='contact_info',
-            field=models.TextField(help_text='Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account', default='', verbose_name='Contact info', blank=True),
+            field=models.CharField(help_text='Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account', blank=True, default='', max_length=256, verbose_name='Contact info'),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='packagerelease',
             name='version',
-            field=models.CharField(max_length=32, default='', blank=True, verbose_name='Version'),
+            field=models.CharField(verbose_name='Version', blank=True, default='', max_length=32),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='urlrelease',
             name='version',
-            field=models.CharField(max_length=32, default='', blank=True, verbose_name='Version'),
+            field=models.CharField(verbose_name='Version', blank=True, default='', max_length=32),
             preserve_default=True,
         ),
     ]
