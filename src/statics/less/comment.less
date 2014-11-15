@@ -68,6 +68,16 @@
         }
       }
     }
+    // コメントのヘッダーをhoverしたときだけ
+    // 削除ボタンが表示されるようにする
+    .comment-delete {
+      display: none;
+    }
+    &:hover {
+      .comment-delete {
+        display: inline;
+      }
+    }
 
     .nickname {
       color: @button-text-color;
