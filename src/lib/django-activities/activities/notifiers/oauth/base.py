@@ -46,7 +46,7 @@ class OAuth1ActivityNotifier(ActivityNotifierBase):
 
     @tolerate
     def send(self, rendered_content):
-        if not settings.ENABLE_OAUTH_NOTIFICATION:
+        if not settings.ACTIVITIES_ENABLE_OAUTH_NOTIFICATION:
             return
         params = dict(self.params)
         params[self.key] = rendered_content
