@@ -61,6 +61,6 @@ class KawazDiscoverRunner(MediaRootTestSuiteRunner):
         settings.COMPRESS_PRECOMPILERS = ()
         #
         # django-activities の通知機能がテスト中に走るととても遅い and API制限
-        # に引っかかる可能性が高いため無効化する
+        # に引っかかる可能性が高いためOAuthのポスト部分を無効化する
         #
-        settings.ACTIVITIES_ENABLE_NOTIFICATION = False
+        settings.ACTIVITIES_ENABLE_OAUTH_NOTIFICATION = False

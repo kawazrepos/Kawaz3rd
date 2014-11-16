@@ -2,14 +2,8 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-import tolerance
-from django.conf import settings
 from django.template import Context
 from django.contrib.sites.models import Site
-
-
-# Do not ignore exceptions in DEBUG mode
-tolerance.tolerate.disabled = settings.DEBUG
 
 
 class ActivityNotifierBase(object):
@@ -33,8 +27,6 @@ class ActivityNotifierBase(object):
         mediator = activity_registry.get(activity)
         return mediator.render(activity, context, typename)
 
-    # ignore exceptions in this method on production mode
-    @tolerance.tolerate()
     def notify(self, activity, context=None, typename=None):
         """
         Notify the activity change via 'send' method of this instance

@@ -18,3 +18,4 @@ class ActivitiesAppConf(AppConf):
 
     DEFAULT_NOTIFIERS = ()
     ENABLE_NOTIFICATION = True
+    ENABLE_OAUTH_NOTIFICATION = False

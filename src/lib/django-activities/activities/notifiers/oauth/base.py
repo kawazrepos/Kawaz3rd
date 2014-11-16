@@ -4,9 +4,24 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import os
 import json
+import tolerance
 from requests_oauthlib import OAuth1Session
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from ..base import ActivityNotifierBase
+
+
+def tolerate(fn):
+    """
+    A function decorator to make the function fail silently if 
+    settings.DEBUG is False or fail_silently=True is specified
+    """
+    def switch_function(*args, **kwargs):
+        fail_silently = kwargs.pop('fail_silently', True)
+        if settings.DEBUG or not fail_silently:
+            return False, args, kwargs
+        return True, args, kwargs
+    return tolerance.tolerate(switch=switch_function)(fn)
 
 
 class OAuth1ActivityNotifier(ActivityNotifierBase):
@@ -29,7 +44,10 @@ class OAuth1ActivityNotifier(ActivityNotifierBase):
         params.update(credentials)
         self.oauth_session = OAuth1Session(**params)
 
+    @tolerate
     def send(self, rendered_content):
+        if not settings.ENABLE_OAUTH_NOTIFICATION:
+            return
         params = dict(self.params)
         params[self.key] = rendered_content
         self.oauth_session.post(self.url, data=params)
