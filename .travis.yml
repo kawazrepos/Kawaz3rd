@@ -2,8 +2,8 @@ language: python
 python:
 - '3.3'
 before_install:
-- ./utils/decrypt-files $password_for_secret_files
-- git submodule update --init --recursive
+  - ./utils/decrypt-files $password_for_secret_files
+  - git submodule update --init --recursive
 install:
 - pip install tox
 - pip install coverage coveralls
@@ -16,4 +16,4 @@ notifications:
   slack: kawaz:Dh59b2T0KqhQnBR6qHYUDdpn
 env:
   global:
-  - secure: fXljnnEfB9uvXcS98cABeuyL5XuNGmfb3HTAp6NWmPqd+Rbe762xx2zGSn2Zc8+vFIIQuzAj6DskS0Vn4kVQb/cxRACiyYKjruIkrC2A4ThIGWAVk86i6MWCWnlLyRUFJ0P/2Og4CcT6n9RFFkRJzSTclkHhby+W88oXp66igfY=
+    secure: Q2kKgYQDvse9FvA1Qt7T50UkS1ydEOYLx0Q+jZ24KG6DBO5zEqaPP0WLkLVfE9OBe1BoQWsBC0UwocfabkAkQNgFnKbnH94nGL8kQbZFf/rrV3oqnZfCeNMy+b+NDkXEwtpPSwXNn1nqMxJSihW9Uk+VuSpv7uydAvRbohQIpIw=

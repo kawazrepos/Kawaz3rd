@@ -10,5 +10,8 @@ decrypt() {
     gpg --passphrase $PASSWORD --batch $1.gpg
 }
 
+decrypt src/lib/django-activities/activities/tests/test_notifiers/test_oauth/data/credentials_twitter.json
 decrypt config/gcal/client_secrets.json
 decrypt config/gcal/credentials.json
+decrypt config/activities/notifiers/credentials_twitter_kawaz_test.json
+decrypt config/activities/notifiers/credentials_twitter_kawazinfo_test.json
