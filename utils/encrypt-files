@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+PASSWORD="$1"
+
+if [ -x $PASSWORD ]; then
+    echo "Usage: encrypt-files PASSWORD"
+    echo "! No password is given. Exit."
+    exit 1
+fi
+
+encrypt() {
+    if [ -f $1.gpg ]; then
+        rm $1.gpg
+    fi
+    gpg --passphrase $PASSWORD --batch -c $1
+}
+
+encrypt config/gcal/client_secrets.json
+encrypt config/gcal/credentials.json

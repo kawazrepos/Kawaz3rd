@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+PASSWORD="$1"
+if [ -x $PASSWORD ]; then
+    echo "Usage: decrypt-files PASSWORD"
+    echo "! No password is given. Exit."
+    exit 1
+fi
+
+decrypt() {
+    gpg --passphrase $PASSWORD --batch $1.gpg
+}
+
+decrypt config/gcal/client_secrets.json
+decrypt config/gcal/credentials.json
