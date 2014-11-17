@@ -59,7 +59,8 @@
                         </button>
                         <ul class="dropdown-menu authenticated-menu" role="menu">
                             <li><a href="{{ user.get_absolute_url }}"><span class="glyphicon glyphicon-home"></span> {% trans "View profile" %}</a></li>
-                            <li><a href="/drafts"><span class="glyphicon glyphicon-inbox"></span>{% trans "Manage drafts" %}</a></li>
+                            <li><a href="/drafts"><span class="glyphicon glyphicon-file"></span>{% trans "My entries" %}</a></li>
+                            <li><a href="{% url "blogs_entry_author_list" author=user.username %}"><span class="glyphicon glyphicon-inbox"></span>{% trans "Manage drafts" %}</a></li>
                             <li role="presentation" class="divider"></li>
                             <li><a href="{% url "personas_profile_update" %}"><span class="glyphicon glyphicon-pencil"></span>{% trans "Change profile" %}</a></li>
                             <li><a href="{% url "personas_persona_update" %}"><span class="glyphicon glyphicon-user"></span>{% trans "Change user information" %}</a></li>
