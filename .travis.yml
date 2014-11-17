@@ -1,25 +1,19 @@
 language: python
 python:
-  - '3.3'
-
+- '3.3'
 before_install:
-  - openssl aes-256-cbc
-    -K $encrypted_f141a85a02d3_key
-    -iv $encrypted_f141a85a02d3_iv
-    -in config/credentials.json.enc
-    -out config/gcal/credentials.json -d
-  - git submodule update --init --recursive
-
+- ./utils/decrypt-files $password_for_secret_files
+- git submodule update --init --recursive
 install:
-  - pip install tox
-  - pip install coverage coveralls
-
+- pip install tox
+- pip install coverage coveralls
 script:
-  - tox -r -c config/tox.ini
-
+- tox -r -c config/tox.ini
 after_success:
-  - coverage report
-  - coveralls --rcfile=config/coveragerc
-
+- coverage report
+- coveralls --rcfile=config/coveragerc
 notifications:
   slack: kawaz:Dh59b2T0KqhQnBR6qHYUDdpn
+env:
+  global:
+  - secure: fXljnnEfB9uvXcS98cABeuyL5XuNGmfb3HTAp6NWmPqd+Rbe762xx2zGSn2Zc8+vFIIQuzAj6DskS0Vn4kVQb/cxRACiyYKjruIkrC2A4ThIGWAVk86i6MWCWnlLyRUFJ0P/2Og4CcT6n9RFFkRJzSTclkHhby+W88oXp66igfY=
