@@ -8,45 +8,23 @@ from activities.mediator import ActivityMediator
 __author__ = 'giginet'
 
 class PersonaActivityMediator(ActivityMediator):
+    """
+    Note:
+        Personaは3つのMediatorからさまざまなイベントが発行される
+        activated: Profileの作成（ユーザーのアクティベート時にプロフィールが作成されるため、
+        プロフィールが生成されたときをアクティベートされたと判定している）
+        profile_updated: プロフィールの更新
+        add_comment: コメントの追加
+        add_account: アカウントの追加
+
+        updatedイベントは初回更新時の前回との差分がないとき、`last_login`カラムが更新されるだけでも通知されてしまう問題があり
+        対処が面倒なので、ユーザーの更新は一切通知されない仕様にする
+    """
 
     def alter(self, instance, activity, **kwargs):
-        if activity and activity.status == 'updated':
-            # 通知が必要な状態の変更を詳細に記録する
-            previous = getattr(activity.previous, 'snapshot', None)
-            is_created = lambda x: (
-                previous and
-                not getattr(previous, x, None) and
-                getattr(instance, x)
-            )
-            is_updated = lambda x: (
-                previous and
-                getattr(previous, x, None) and
-                getattr(instance, x) and
-                getattr(previous, x, None) != getattr(instance, x)
-            )
-            is_deleted = lambda x: (
-                previous and
-                getattr(previous, x, None) and
-                not getattr(instance, x)
-            )
-            remarks = []
-            attributes = (
-                'nickname',
-                'gender',
-                'avatar',
-                'is_active',
-            )
-            for attribute in attributes:
-                if is_created(attribute):
-                    remarks.append(attribute + '_created')
-                elif is_updated(attribute):
-                    remarks.append(attribute + '_updated')
-                elif is_deleted(attribute):
-                    remarks.append(attribute + '_deleted')
-            if not remarks:
-                # 通知が必要な変更ではないため通知しない
-                return None
-            activity.remarks = "\n".join(remarks)
+        if activity.status in ('created', 'updated', 'deleted'):
+            # 作成、更新、削除イベントは通知しない
+            return None
         return activity
 
     def prepare_context(self, activity, context, typename=None):

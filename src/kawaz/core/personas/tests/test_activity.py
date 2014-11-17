@@ -15,15 +15,46 @@ __author__ = 'giginet'
 class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
     factory_class = PersonaFactory
 
+    def test_create(self):
+        """
+        Personaの作成イベントは通知されない
+        """
+        nactivity = Activity.objects.count()
+        PersonaFactory()
+        self.assertEqual(Activity.objects.count(), nactivity)
+
     def test_update(self):
-        self._test_partial_update(('nickname_updated', 'gender_updated', 'avatar_created', 'is_active_deleted'),
-                                  nickname='ニックネーム変えました',
-                                  gender='man',
-                                  avatar='icon.png',
-                                  is_active=False)
+        """
+        Personaの更新イベントは通知されない
+        """
+        persona = PersonaFactory()
+        nactivity = Activity.objects.count()
+        persona.nickname = "new nickname"
+        persona.save()
+        self.assertEqual(Activity.objects.count(), nactivity)
+
+    def test_delete(self):
+        """
+        Personaの削除イベントは通知されない
+        """
+        persona = PersonaFactory()
+        nactivity = Activity.objects.count()
+        persona.delete()
+        self.assertEqual(Activity.objects.count(), nactivity)
 
     def test_add_comment(self):
         self._test_add_comment()
+
+    def test_activated(self):
+        """
+        Profileが作成されたとき、activatedイベントが発行される
+        """
+        nactivity = Activity.objects.count()
+        profile = ProfileFactory()
+        self.assertEqual(Activity.objects.count(), nactivity + 1)
+        activity = Activity.objects.first()
+        self.assertEqual(activity.status, 'activated')
+        self.assertEqual(activity.snapshot, profile.user)
 
     def test_update_profile(self):
         """
@@ -53,6 +84,15 @@ class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
 
         # contextにprofileを含んでいる
         self.assertEqual(context['profile'], profile)
+
+    def test_delete(self):
+        """
+        Profileの削除イベントは通知されない
+        """
+        profile = ProfileFactory()
+        nactivity = Activity.objects.count()
+        profile.delete()
+        self.assertEqual(Activity.objects.count(), nactivity)
 
     def test_add_account(self):
         """
