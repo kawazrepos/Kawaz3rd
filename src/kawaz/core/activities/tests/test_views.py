@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from activities.models import Activity
+from activities.tests.models import ActivitiesTestModelA
 from activities.registry import registry
 from activities.mediator import ActivityMediator
 from kawaz.core.personas.models import Persona
@@ -9,6 +10,8 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.activities.tests.factories import ActivityFactory
 
 __author__ = 'giginet'
+
+registry.register(ActivitiesTestModelA, ActivityMediator())
 
 class ActivityViewTestCase(TestCase):
 
@@ -22,9 +25,10 @@ class ActivityViewTestCase(TestCase):
         """
         10件ずつActivityを取得できる
         """
-        ct = ContentType.objects.get_for_model(Persona)
+        ct = ContentType.objects.get_for_model(ActivitiesTestModelA)
         for i in range(15):
-            PersonaFactory()
+            test_model = ActivitiesTestModelA(text="hogehoge")
+            test_model.save()
 
         r = self.client.get('/activities/')
         self.assertEqual(len(r.context['object_list']), 10)
@@ -39,9 +43,13 @@ class ActivityViewTestCase(TestCase):
          type=wallのとき、latestsの物だけを10件取得できる
         """
         for i in range(15):
-            persona = PersonaFactory()
-            persona.nickname = 'hoge'
-            persona.save()
+            # 作成する
+            test_model = ActivitiesTestModelA(text="hogehoge")
+            test_model.save()
+            # 更新する
+            test_model.nickname = 'hoge'
+            test_model.save()
+        # 1つのinstanceあたり2つ、合計30個のActivityが生成されてるはず
 
         r = self.client.get('/activities/?type=wall')
         self.assertEqual(len(r.context['object_list']), 10)
