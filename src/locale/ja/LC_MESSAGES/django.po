@@ -1233,7 +1233,7 @@ msgstr "このコメントは削除されています"
 
 #: src/templates/comments/deleted.html:6
 msgid "Your comment has been deleted."
-msgstr "パスワードを変更しました"
+msgstr "コメントが削除されました"
 
 #: src/templates/comments/deleted.html:8
 #: src/templates/registration/logged_out.html:7
