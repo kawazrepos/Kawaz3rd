@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-15 23:09+0900\n"
+"POT-Creation-Date: 2014-11-18 06:09+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -664,7 +664,6 @@ msgid "The object does not have any stars"
 msgstr "このコンテンツにはまだスターが付けられていません"
 
 #: src/kawaz/apps/stars/models.py:124
-#: src/templates/components/mace_header.html:35
 msgid "Quote"
 msgstr "引用"
 
@@ -1087,37 +1086,41 @@ msgid "View profile"
 msgstr "プロフィールを見る"
 
 #: src/templates/base.html:62
+msgid "My entries"
+msgstr "自分のブログ記事"
+
+#: src/templates/base.html:63
 #: src/templates/roughpages/drafts.authenticated.html:8
 #: src/templates/roughpages/drafts.authenticated.html:11
 #: src/templates/roughpages/drafts.authenticated.html:16
 msgid "Manage drafts"
 msgstr "下書きの管理"
 
-#: src/templates/base.html:64
+#: src/templates/base.html:65
 msgid "Change profile"
 msgstr "プロフィールを編集"
 
-#: src/templates/base.html:65 src/templates/personas/persona_form.html:11
+#: src/templates/base.html:66 src/templates/personas/persona_form.html:11
 msgid "Change user information"
 msgstr "ユーザー情報の変更"
 
-#: src/templates/base.html:66
+#: src/templates/base.html:67
 msgid "Change password"
 msgstr "パスワードを変更する"
 
-#: src/templates/base.html:71
+#: src/templates/base.html:72
 msgid "Central Dogma"
 msgstr "セントラルドグマ"
 
-#: src/templates/base.html:72
+#: src/templates/base.html:73
 msgid "Marduk institute"
 msgstr "マルドゥック機関"
 
-#: src/templates/base.html:79
+#: src/templates/base.html:80
 msgid "Demote to 'seele'"
 msgstr "「ゼーレ」に降格"
 
-#: src/templates/base.html:86
+#: src/templates/base.html:87
 msgid ""
 "!CAUTION! Promoting to 'Adam' is strongly not recommended while you will "
 "have any permissions to any objects in this system. It means that you "
@@ -1128,15 +1131,15 @@ msgstr ""
 "可能性があります。この様に「アダム」への昇格は危険性を含むため推奨されていま"
 "せん。本当に「アダム」に昇格しても宜しいですか？"
 
-#: src/templates/base.html:88
+#: src/templates/base.html:89
 msgid "Promote to 'Adam'"
 msgstr "「アダム」に昇格"
 
-#: src/templates/base.html:95 src/templates/logout.html:6
+#: src/templates/base.html:96 src/templates/logout.html:6
 msgid "Logout"
 msgstr "ログアウト"
 
-#: src/templates/base.html:101 src/templates/components/login_form.html:18
+#: src/templates/base.html:102 src/templates/components/login_form.html:18
 #: src/templates/login.html:7 src/templates/login.html.py:13
 msgid "Login"
 msgstr "ログイン"
@@ -1261,59 +1264,69 @@ msgstr "ダブルクリックで神マークを非表示にできます"
 msgid "Forgot your password?"
 msgstr "パスワードを忘れたら"
 
-#: src/templates/components/mace_header.html:5
+#: src/templates/components/mace_header.html:6
 msgid "Indent"
 msgstr "字下げ"
 
-#: src/templates/components/mace_header.html:8
+#: src/templates/components/mace_header.html:9
 msgid "Header1"
 msgstr "見出し1"
 
-#: src/templates/components/mace_header.html:11
+#: src/templates/components/mace_header.html:12
 msgid "Header2"
 msgstr "見出し2"
 
-#: src/templates/components/mace_header.html:14
+#: src/templates/components/mace_header.html:15
 msgid "Header3"
 msgstr "見出し3"
 
-#: src/templates/components/mace_header.html:17
+#: src/templates/components/mace_header.html:18
 msgid "List"
 msgstr "リスト"
 
-#: src/templates/components/mace_header.html:20
-msgid "Numeric list"
+#: src/templates/components/mace_header.html:21
+#, fuzzy
+#| msgid "Numeric list"
+msgid "Numeric List"
 msgstr "番号付きリスト"
 
-#: src/templates/components/mace_header.html:23
+#: src/templates/components/mace_header.html:24
 msgid "Bold"
 msgstr "太字"
 
-#: src/templates/components/mace_header.html:26
+#: src/templates/components/mace_header.html:27
 msgid "Italic"
 msgstr "斜体"
 
-#: src/templates/components/mace_header.html:29
+#: src/templates/components/mace_header.html:30
 msgid "Separator"
 msgstr "セパレータ（区切り線）"
 
-#: src/templates/components/mace_header.html:32
-msgid "Code block"
+#: src/templates/components/mace_header.html:33
+#, fuzzy
+#| msgid "Code block"
+msgid "Code Block"
 msgstr "コードブロック"
 
-#: src/templates/components/mace_header.html:38
+#: src/templates/components/mace_header.html:36
+#, fuzzy
+#| msgid "Quote"
+msgid "Code Quote"
+msgstr "引用"
+
+#: src/templates/components/mace_header.html:39
 msgid "Insert image"
 msgstr "画像挿入"
 
-#: src/templates/components/mace_header.html:41
+#: src/templates/components/mace_header.html:42
 msgid "Insert link"
 msgstr "リンク挿入"
 
-#: src/templates/components/mace_header.html:44
+#: src/templates/components/mace_header.html:45
 msgid "Upload file"
 msgstr "ファイルアップロード"
 
-#: src/templates/components/mace_header.html:47
+#: src/templates/components/mace_header.html:48
 #: src/templates/roughpages/helps.html:4 src/templates/roughpages/helps.html:7
 #: src/templates/roughpages/helps/events.html:6
 #: src/templates/roughpages/helps/markdown.html:6
@@ -1752,12 +1765,12 @@ msgid "Register"
 msgstr "Kawazへ登録"
 
 #: src/templates/roughpages/about.html:4
-#: src/templates/roughpages/index.anonymous.html:129
+#: src/templates/roughpages/index.anonymous.html:133
 msgid "About us"
 msgstr "Kawazとは"
 
 #: src/templates/roughpages/contact.html:4
-#: src/templates/roughpages/index.anonymous.html:140
+#: src/templates/roughpages/index.anonymous.html:144
 msgid "Contact us"
 msgstr "お問い合わせ"
 
@@ -1801,33 +1814,33 @@ msgstr "最近のゲーム"
 msgid "Featured games"
 msgstr "Kawazの代表作"
 
-#: src/templates/roughpages/index.anonymous.html:127
+#: src/templates/roughpages/index.anonymous.html:131
 msgid "Information"
 msgstr "インフォメーション"
 
-#: src/templates/roughpages/index.anonymous.html:130
+#: src/templates/roughpages/index.anonymous.html:134
 #: src/templates/roughpages/rules.html:4
 msgid "Agreements"
 msgstr "Kawazを利用するにあたって"
 
-#: src/templates/roughpages/index.anonymous.html:131
+#: src/templates/roughpages/index.anonymous.html:135
 msgid "Published information"
 msgstr "掲載情報"
 
-#: src/templates/roughpages/index.anonymous.html:132
+#: src/templates/roughpages/index.anonymous.html:136
 #: src/templates/roughpages/registration.html:5
 msgid "How to participate"
 msgstr "メンバー登録について"
 
-#: src/templates/roughpages/index.anonymous.html:138
+#: src/templates/roughpages/index.anonymous.html:142
 msgid "Contacts"
 msgstr "お問い合わせ"
 
-#: src/templates/roughpages/index.anonymous.html:141
+#: src/templates/roughpages/index.anonymous.html:145
 msgid "@kawazinfo"
 msgstr "@kawazinfo"
 
-#: src/templates/roughpages/index.anonymous.html:142
+#: src/templates/roughpages/index.anonymous.html:146
 msgid "@kawazpr"
 msgstr "@kawazpr"
 
