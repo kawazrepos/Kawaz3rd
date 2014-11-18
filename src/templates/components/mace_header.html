@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load staticfiles %}
 <div class="editor-control">
     <div class="btn-group btn-group-sm">
         <div class="mace-indent btn btn-default">
@@ -14,10 +15,10 @@
             <span data-toggle="tooltip" rel="tooltip" title="{% trans "Header3" %}">H3</span>
         </div>
         <div class="mace-list btn btn-default">
-            <span class="glyphicon glyphicon-list" data-toggle="tooltip" rel="tooltip" title="{% trans "List" %}"></span>
+            <img src="{% static "img/editor/icon-list.png" %}" alt="{% trans "List" %}" data-toggle="tooltip" rel="tooltip" title="{% trans "List" %}">
         </div>
         <div class="mace-numeric-list btn btn-default">
-            <span class="glyphicon glyphicon-list-alt" data-toggle="tooltip" rel="tooltip" title="{% trans "Numeric list" %}"></span>
+            <img src="{% static "img/editor/icon-listnum.png" %}" alt="{% trans "Numeric list" %}" data-toggle="tooltip" rel="tooltip" title="{% trans "Numeric list" %}">
         </div>
         <div class="mace-bold btn btn-default">
             <span class="glyphicon glyphicon-bold" data-toggle="tooltip" rel="tooltip" title="{% trans "Bold" %}"></span>
@@ -26,13 +27,13 @@
             <span class="glyphicon glyphicon-italic" data-toggle="tooltip" rel="tooltip" title="{% trans "Italic" %}"></span>
         </div>
         <div class="mace-line btn btn-default">
-            <span class="glyphicon glyphicon-minus" data-toggle="tooltip" rel="tooltip" title="{% trans "Separator" %}"></span>
+            <img src="{% static "img/editor/icon-separator.png" %}" alt="{% trans "Separator" %}" data-toggle="tooltip" rel="tooltip" title="{% trans "Separator" %}">
         </div>
         <div class="mace-code btn btn-default">
-            <span class="glyphicon glyphicon-pencil" data-toggle="tooltip" rel="tooltip" title="{% trans "Code block" %}"></span>
+            <img src="{% static "img/editor/icon-codeblock.png" %}" alt="{% trans "Code block" %}" data-toggle="tooltip" rel="tooltip" title="{% trans "Code block" %}">
         </div>
         <div class="mace-quote btn btn-default">
-            <span class="glyphicon glyphicon-book" data-toggle="tooltip" rel="tooltip" title="{% trans "Quote" %}"></span>
+            <img src="{% static "img/editor/icon-quotation.png" %}" alt="{% trans "Quote" %}" data-toggle="tooltip" rel="tooltip" title="{% trans "Quote" %}">
         </div>
         <div class="mace-image btn btn-default">
             <span class="glyphicon glyphicon-picture" data-toggle="tooltip" rel="tooltip" title="{% trans "Insert image" %}"></span>

@@ -87,10 +87,23 @@ label.checkbox {
 .formset-button-label {
   margin-left: 8px;
 }
+// Mace周り
 // Maceエディタにボーダーを付けている
 .form-group {
   .edit-area {
     border: solid 1px @input-border;
     .border-radius(@input-border-radius);
+  }
+}
+// Maceのボタンの大きさを揃えている
+.editor-control {
+  .btn {
+    width: 40px;
+    height: 35px;
+  }
+  img {
+    vertical-align: middle;
+    width: 16px;
+    margin-bottom: 2px;
   }
 }
