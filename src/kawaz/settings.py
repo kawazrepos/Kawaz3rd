@@ -236,15 +236,18 @@ DEFAULT_RENDERER_CLASSES = (
 # django-activities
 from activities.notifiers.registry import registry
 from activities.notifiers.oauth.twitter import TwitterActivityNotifier
+ACTIVITIES_NOTIFIER_CONFIG_ROOT = os.path.join(
+    REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+) 
 registry.register(TwitterActivityNotifier(
     TwitterActivityNotifier.get_credentials(os.path.join(
-        REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+        ACTIVITIES_NOTIFIER_CONFIG_ROOT,
         'credentials_twitter_kawaz_test.json'
     ))
 ), 'twitter_kawaz_official')
 registry.register(TwitterActivityNotifier(
     TwitterActivityNotifier.get_credentials(os.path.join(
-        REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+        ACTIVITIES_NOTIFIER_CONFIG_ROOT,
         'credentials_twitter_kawazinfo_test.json'
     ))
 ), 'twitter_kawaz_info')
