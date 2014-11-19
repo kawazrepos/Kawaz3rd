@@ -1,0 +1,1 @@
+{{ object }}にスクリーンショットが追加されました http://{{ site.domain }}{{ object.get_absolute_url }}

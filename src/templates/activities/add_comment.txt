@@ -1,0 +1,1 @@
+{{ user.nickname }}: 「{{ comment.comment|striptags|truncatechars:"80" }} http://{{ site.domain }}{{ object.get_absolute_url }}
