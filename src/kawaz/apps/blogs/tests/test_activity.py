@@ -20,5 +20,5 @@ class EntryActivityMediatorTestCase(BaseActivityMediatorTestCase):
     def test_delete(self):
         self._test_delete()
 
-    def test_add_comment(self):
-        self._test_add_comment()
+    def test_comment_add(self):
+        self._test_comment_add()

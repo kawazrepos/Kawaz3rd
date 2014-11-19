@@ -98,7 +98,7 @@ class ProjectActivityMediator(ActivityMediator):
             context['users'] = users
             context['user'] = users[0]
             context['user_count'] = users.count()
-        elif activity.status == 'add_comment':
+        elif activity.status == 'comment_add':
             # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
             # 取得してcontextに渡す
             try:

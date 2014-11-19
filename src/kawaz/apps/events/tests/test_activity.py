@@ -103,5 +103,5 @@ class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertEqual(activity.status, 'user_removed')
         self.assertTrue(str(user2.pk) in activity.remarks)
 
-    def test_add_comment(self):
-        self._test_add_comment()
+    def test_comment_add(self):
+        self._test_comment_add()
