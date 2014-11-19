@@ -7,6 +7,7 @@ import tempfile
 from contextlib import ExitStack
 from unittest.mock import MagicMock, patch
 from django.test import TestCase
+from django.test.utils import override_settings
 from ....notifiers.oauth.base import OAuth1ActivityNotifier
 
 
@@ -55,6 +56,9 @@ class OAuth1ActivityNotifierTestCase(TestCase):
             self.assertEqual(instance.oauth_session,
                              mOAuth1Session.return_value)
 
+    @override_settings(
+        ACTIVITIES_ENABLE_OAUTH_NOTIFICATION=True,
+    )
     def test_send(self):
         notifier = self.cls(dict(
             client_key='client_key',

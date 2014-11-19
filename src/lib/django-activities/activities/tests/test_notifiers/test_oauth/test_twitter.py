@@ -5,11 +5,9 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import os
 import json
 import random
-import warnings
 from unittest import skipUnless
-from contextlib import ExitStack
-from unittest.mock import MagicMock, patch
 from django.test import TestCase
+from django.test.utils import override_settings
 from ....notifiers.oauth.twitter import TwitterActivityNotifier
 
 
@@ -18,17 +16,20 @@ TEST_CREDENTIALS = os.path.join(
 )
 
 
-@skipUnless(os.path.exists(TEST_CREDENTIALS),
-            "A credentials file '{}' is not found.".format(
-                TEST_CREDENTIALS
-            ))
+@skipUnless(
+    os.path.exists(TEST_CREDENTIALS),
+    "A credentials file '{}' is not found.".format(TEST_CREDENTIALS)
+)
 class TwitterActivityNotifierTestCase(TestCase):
+    @override_settings(
+        ACTIVITIES_ENABLE_OAUTH_NOTIFICATION=True,
+    )
     def test_send(self):
         credentials = TwitterActivityNotifier.get_credentials(
             TEST_CREDENTIALS
         )
         randomstr = "".join([random.choice("abcdefghijklmnopqrstuvwxyz")
-                                for x in range(100)])
+                             for x in range(100)])
         randomstr = "django-activities: {}".format(randomstr)
         notifier = TwitterActivityNotifier(credentials)
         notifier.send(randomstr)

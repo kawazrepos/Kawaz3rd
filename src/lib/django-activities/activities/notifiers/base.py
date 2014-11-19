@@ -34,9 +34,9 @@ class ActivityNotifierBase(object):
         if typename is None:
             typename = self.get_typename()
         if context is None:
-            context = Context()
-        # add site instance
-        context['site'] = Site.objects.get_current()
+            context = Context({
+                'site': Site.objects.get_current(),
+            })
         rendered_content = self.render(activity, context, typename)
         # send rendered content via 'send' method
         self.send(rendered_content)
