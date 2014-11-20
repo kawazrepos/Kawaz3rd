@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% load markdown %}
+
 {% load i18n %}
 
 {% block title %}{% trans "How to participate" %}{% endblock %}
 
 {% block content %}
     <article class="markdown">
-        {% render_markdown "markdown/registration.md" %}
+        {% include_kfm "markdown/registration.md" %}
     </article>
 {% endblock %}

@@ -2,18 +2,18 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load form_helper %}
-{% load markdown %}
+
 {% block content %}
     <div class="page-header">
         <h1>{% trans "Application for join us" %}</h1>
     </div>
     <div class="alert alert-warning">
-        {% markdown %}
+        {% kfm %}
 - Kawazの活動内容については[Kawazについて](/about/)をご覧ください
 - メンバー登録の前に**必ず[メンバー登録について](/registration/)をお読みください**。申請に必要な事項が正しく書かれていない場合、こちらから返信させて頂きます
 - アカウント発行と同時に**[利用規約](/rules/)に同意したものと見なされます**。ご確認の上、登録申請をしてください
 - 通常、申請を頂いてから1日程度で返信いたしますが、運営メンバーの都合などにより返信が遅れる場合があります
-        {% endmarkdown %}
+        {% endkfm %}
     </div>
     {% get_form_helper "bare" as helper %}
     <form class="form-horizontal row" role="form" method="POST" action=".">{% csrf_token %}
