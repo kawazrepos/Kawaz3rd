@@ -1,6 +1,5 @@
 {% load comments %}
 {% load i18n %}
-{% load parser %}
 {% get_comment_list for object as comments %}
 <div class="comment-list">
     {% for comment in comments %}
@@ -45,7 +44,7 @@
                     {% if comment.user.is_authenticated %}
                         {# ログインユーザーはmarkdownを使える #}
                         <div class="markdown">
-                            {{ comment.comment | parser }}
+                            {{ comment.comment | kfm }}
                         </div>
                     {% else %}
                         {# 非ログインユーザーは改行のみ変換される #}

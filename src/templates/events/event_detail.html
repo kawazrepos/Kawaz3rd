@@ -4,8 +4,6 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load events_tags %}
-{% load parser %}
-
 {% block title %}{{ object.title }}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
@@ -140,7 +138,7 @@
 
 {% block content-main %}
     <article class="markdown">
-        {{ object.body | parser }}
+        {{ object.body | kfm }}
     </article>
     {% include "components/star_container.html" %}
     {% include "comments/components/comment_items.html" %}

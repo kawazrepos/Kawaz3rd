@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load parser %}
 <div class="article-wrap">
     <div class="blog-article">
         <div class="blog-article-header">
@@ -23,7 +22,7 @@
             {% endif %}
         </div>
         <article class="markdown">
-            {{ object.body | parser }}
+            {{ object.body | kfm }}
             <time datetime="{ object.publish_at|date:'c' } "></time>
         </article>
     </div>
