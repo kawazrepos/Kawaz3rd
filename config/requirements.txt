@@ -21,3 +21,4 @@ icalendar
 django_compressor
 livereload
 pygments
+docutils

@@ -11,7 +11,7 @@ from ..parser import parse_kfm
 register = template.Library()
 
 
-@register.simple_tag(takes_context=True)
+@register.simple_tag
 def include_kfm(template_path):
     """
     テンプレートフォルダに存在する Kawaz Flavored Markdown ファイルを読み込み
