@@ -2,27 +2,36 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+from functools import wraps
 from django import template
 from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
+from django.template.loader_tags import do_include
 from ..parser import parse_kfm
 
 
 register = template.Library()
 
 
-@register.simple_tag
-def include_kfm(template_path):
+@register.tag('include_kfm')
+def do_include_kfm(parser, token):
     """
     テンプレートフォルダに存在する Kawaz Flavored Markdown ファイルを読み込み
     レンダリングするテンプレートタグ
 
     Usage:
+
         {% include_kfm "markdown/about.md" %}
 
     """
-    value = render_to_string(template_path)
-    return mark_safe(parse_kfm(value))
+    def parse_kfm_decorator(fn):
+        @wraps(fn)
+        def render(*args, **kwargs):
+            rendered = fn(*args, **kwargs)
+            return parse_kfm(rendered)
+        return render
+    node = do_include(parser, token)
+    node.render = parse_kfm_decorator(node.render)
+    return node
 
 
 @register.filter('kfm')
