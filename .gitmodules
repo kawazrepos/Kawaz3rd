@@ -19,3 +19,6 @@
 [submodule "src/statics/vendor/jQuery.serializeObject"]
 	path = src/statics/vendor/jQuery.serializeObject
 	url = https://github.com/hongymagic/jQuery.serializeObject.git
+[submodule "src/statics/vendor/pygments-css"]
+	path = src/statics/vendor/pygments-css
+	url = https://github.com/richleland/pygments-css

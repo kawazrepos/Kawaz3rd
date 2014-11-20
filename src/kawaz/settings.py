@@ -256,6 +256,11 @@ COMMENTS_HIDE_REMOVED = False
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap3', 'crispy')
 
+# django-suit
+SUIT_CONFIG = dict(
+    ADMIN_NAME='Kawaz',
+    SEARCH_URL='/central-dogma/personas/persona/',
+)
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている
