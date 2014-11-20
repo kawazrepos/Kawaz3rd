@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-18 06:09+0900\n"
+"POT-Creation-Date: 2014-11-20 12:40+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -122,7 +122,7 @@ msgstr "カテゴリ"
 msgid "Category name"
 msgstr "カテゴリ名"
 
-#: src/kawaz/apps/blogs/models.py:62 src/kawaz/apps/products/forms.py:48
+#: src/kawaz/apps/blogs/models.py:62 src/kawaz/apps/products/forms.py:54
 #: src/kawaz/apps/products/models.py:131
 msgid "Published at"
 msgstr "公開日"
@@ -150,7 +150,7 @@ msgid "The blog entry was successfully deleted."
 msgstr "ブログ記事を削除しました"
 
 #: src/kawaz/apps/events/filters.py:16 src/kawaz/apps/products/filters.py:16
-#: src/kawaz/apps/products/forms.py:40 src/kawaz/apps/products/models.py:55
+#: src/kawaz/apps/products/forms.py:44 src/kawaz/apps/products/models.py:55
 #: src/kawaz/apps/products/models.py:127 src/kawaz/apps/projects/models.py:22
 #: src/templates/blogs/entry_list.html:61
 #: src/templates/events/event_list.html:54
@@ -326,7 +326,7 @@ msgstr "イベントの参加をやめました"
 msgid "The event is private or does not have start time."
 msgstr "このイベントは非公開状態であるか、開始日時が設定されていません"
 
-#: src/kawaz/apps/products/filters.py:11 src/kawaz/apps/products/forms.py:36
+#: src/kawaz/apps/products/filters.py:11 src/kawaz/apps/products/forms.py:39
 #: src/kawaz/apps/products/models.py:34 src/kawaz/apps/products/models.py:126
 #: src/templates/products/product_detail.html:115
 #: src/templates/products/product_list.html:49
@@ -346,13 +346,15 @@ msgstr "概要"
 msgid "Project"
 msgstr "プロジェクト"
 
-#: src/kawaz/apps/products/forms.py:44 src/kawaz/apps/products/models.py:133
+#: src/kawaz/apps/products/forms.py:49 src/kawaz/apps/products/models.py:133
 msgid "Administrators"
 msgstr "プロジェクトの管理者"
 
-#: src/kawaz/apps/products/forms.py:47
-msgid "Check the users who can manage this product."
-msgstr "この作品を管理できるユーザーにチェックを入れてください"
+#: src/kawaz/apps/products/forms.py:53
+#, fuzzy
+#| msgid "Check the users who can manage this product."
+msgid "Check the users who can manage this product. You should use Ctrl + F."
+msgstr "この作品を管理できるユーザーにチェックを入れてください。Ctrl + Fで検索すると便利です"
 
 #: src/kawaz/apps/products/models.py:27
 #: src/kawaz/core/personas/models/profile.py:117
@@ -437,6 +439,10 @@ msgstr ""
 "ユーザーへの連絡先を入力してください。例：Twitterアカウント、メールアドレス、"
 "Facebook IDなど"
 
+#: src/kawaz/apps/products/models.py:131
+msgid "If this product have been already released, please fill the date."
+msgstr "もし、この作品が過去にリリース済みの場合、その日付を入力してください"
+
 #: src/kawaz/apps/products/models.py:136 src/kawaz/apps/products/models.py:221
 #: src/kawaz/apps/projects/models.py:128
 #: src/kawaz/core/personas/models/profile.py:66
@@ -478,8 +484,6 @@ msgid "A product slug 'platforms' is reserved."
 msgstr "「platforms」という作品IDは利用できません"
 
 #: src/kawaz/apps/products/models.py:215
-#, fuzzy
-#| msgid "Label"
 msgctxt "Release name"
 msgid "Label"
 msgstr "リリース名"
@@ -664,6 +668,7 @@ msgid "The object does not have any stars"
 msgstr "このコンテンツにはまだスターが付けられていません"
 
 #: src/kawaz/apps/stars/models.py:124
+#: src/templates/components/mace_header.html:36
 msgid "Quote"
 msgstr "引用"
 
@@ -1287,7 +1292,7 @@ msgstr "リスト"
 #: src/templates/components/mace_header.html:21
 #, fuzzy
 #| msgid "Numeric list"
-msgid "Numeric List"
+msgid "Numeric list"
 msgstr "番号付きリスト"
 
 #: src/templates/components/mace_header.html:24
@@ -1305,14 +1310,8 @@ msgstr "セパレータ（区切り線）"
 #: src/templates/components/mace_header.html:33
 #, fuzzy
 #| msgid "Code block"
-msgid "Code Block"
+msgid "Code block"
 msgstr "コードブロック"
-
-#: src/templates/components/mace_header.html:36
-#, fuzzy
-#| msgid "Quote"
-msgid "Code Quote"
-msgstr "引用"
 
 #: src/templates/components/mace_header.html:39
 msgid "Insert image"
@@ -1867,6 +1866,11 @@ msgstr "所属メンバー向けツール"
 #: src/templates/roughpages/published.html:4
 msgid "Published articles"
 msgstr "掲載情報"
+
+#, fuzzy
+#~| msgid "Quote"
+#~ msgid "Code Quote"
+#~ msgstr "引用"
 
 #~ msgid "Administrator address"
 #~ msgstr "プロジェクトの管理者"
