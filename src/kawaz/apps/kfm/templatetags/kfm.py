@@ -12,7 +12,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def include_markdown(context, template_path):
+def include_kfm(context, template_path):
     """
     テンプレートフォルダに存在する Kawaz Flavored Markdown ファイルを読み込み
     レンダリングするテンプレートタグ
