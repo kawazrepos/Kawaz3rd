@@ -14,8 +14,8 @@ class PersonaActivityMediator(ActivityMediator):
         activated: Profileの作成（ユーザーのアクティベート時にプロフィールが作成されるため、
         プロフィールが生成されたときをアクティベートされたと判定している）
         profile_updated: プロフィールの更新
-        comment_add: コメントの追加
-        account_add: アカウントの追加
+        comment_added: コメントの追加
+        account_added: アカウントの追加
 
         updatedイベントは初回更新時の前回との差分がないとき、`last_login`カラムが更新されるだけでも通知されてしまう問題があり
         対処が面倒なので、ユーザーの更新は一切通知されない仕様にする
@@ -36,7 +36,7 @@ class PersonaActivityMediator(ActivityMediator):
                 context[flag] = True
             if activity.status == 'profile_updated':
                 context['profile'] = activity.snapshot._profile
-        elif activity.status == 'account_add':
+        elif activity.status == 'account_added':
             # アカウントが付いたとき、remarksにaccountのpkが入ってるはずなので
             # 取得してcontextに渡す
             # ついでにserviceも渡している
@@ -47,7 +47,7 @@ class PersonaActivityMediator(ActivityMediator):
                 context['service'] = account.service
             except:
                 pass
-        elif activity.status == 'comment_add':
+        elif activity.status == 'comment_added':
             # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
             # 取得してcontextに渡す
             try:

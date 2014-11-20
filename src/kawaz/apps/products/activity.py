@@ -58,7 +58,7 @@ class ProductActivityMediator(ActivityMediator):
             # remarks に保存された変更状態を利便のためフラグ化
             for flag in activity.remarks.split():
                 context[flag] = True
-        elif activity.status == 'comment_add':
+        elif activity.status == 'comment_added':
             # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
             # 取得してcontextに渡す
             try:
@@ -66,7 +66,7 @@ class ProductActivityMediator(ActivityMediator):
                 context['comment'] = comment
             except:
                 pass
-        elif activity.status == 'release_add':
+        elif activity.status == 'release_added':
             # releaseをcontextに加える
             try:
                 app_label, model, pk = activity.remarks.split(',')
@@ -76,7 +76,7 @@ class ProductActivityMediator(ActivityMediator):
                 context['release'] = release
             except:
                 pass
-        elif activity.status == 'screenshot_add':
+        elif activity.status == 'screenshot_added':
             # コメントが付いたとき、remarksにscreenshotのpkが入ってるはずなので
             # 取得してcontextに渡す
             try:
@@ -97,7 +97,7 @@ class ReleaseActivityMediator(ActivityMediator):
             pk = target.pk
             activity.content_type = ct
             activity.object_id = pk
-            activity.status = 'release_add'
+            activity.status = 'release_added'
             # URLRelease, PackageRelease、どちらにも対応できるように付いたリリースのCTを
             # <app_label>,<model>,<pk>の書式で入れている
             release_ct = ContentType.objects.get_for_model(type(instance))
@@ -115,7 +115,7 @@ class ScreenshotActivityMediator(ActivityMediator):
             pk = target.pk
             activity.content_type = ct
             activity.object_id = pk
-            activity.status = 'screenshot_add'
+            activity.status = 'screenshot_added'
             # Screenshotのpkをremarksに入れる
             activity.remarks = str(instance.pk)
         return activity

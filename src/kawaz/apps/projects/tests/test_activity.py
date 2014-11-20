@@ -20,5 +20,5 @@ class ProjectActivityMediatorTestCase(BaseActivityMediatorTestCase):
     def test_delete(self):
         self._test_delete()
 
-    def test_comment_add(self):
-        self._test_comment_add()
+    def test_comment_added(self):
+        self._test_comment_added()

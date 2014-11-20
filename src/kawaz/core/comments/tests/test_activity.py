@@ -17,9 +17,9 @@ class CommentActivityMediatorTestCase(TestCase):
     def setUp(self):
         registry.register(CommentTestArticle, ActivityMediator())
 
-    def test_comment_add(self):
+    def test_comment_added(self):
         """
-        あるオブジェクトにコメントが付いたとき、そのオブジェクトのイベントとして、`comment_add`Activityが付く
+        あるオブジェクトにコメントが付いたとき、そのオブジェクトのイベントとして、`comment_added`Activityが付く
         """
         target_object = CommentTestArticleFactory()
 
@@ -32,19 +32,19 @@ class CommentActivityMediatorTestCase(TestCase):
         self.assertEqual(nactivities + 1, activities.count())
 
         activity = activities[0]
-        self.assertEqual(activity.status, 'comment_add')
+        self.assertEqual(activity.status, 'comment_added')
         self.assertEqual(activity.snapshot, target_object)
         # remarksにコメントのpkが入る
         self.assertEqual(activity.remarks, str(comment.pk))
 
-    def test_render_comment_add(self):
+    def test_render_comment_added(self):
         """
-         render_activityでcomment_addが正しく表示できる
+         render_activityでcomment_addedが正しく表示できる
         """
         target_object = CommentTestArticleFactory()
         ct = ContentType.objects.get_for_model(CommentTestArticle)
         pk = target_object.pk
-        activity = ActivityFactory(content_type=ct, object_id=pk, status='comment_add')
+        activity = ActivityFactory(content_type=ct, object_id=pk, status='comment_added')
         mediator = registry.get(activity)
 
         self.assertTrue(mediator.render(activity, Context()))

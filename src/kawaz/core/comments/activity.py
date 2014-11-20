@@ -17,11 +17,11 @@ class CommentActivityMediator(ActivityMediator):
             # あるモデルにコメントが付いたことを通知させるため
             # コメントが作成されたタイミングで、そのアクティビティを
             # コメントが追加されたオブジェクトの物に変えてしまう
-            # また、ステータスも`comment_add`に変える
+            # また、ステータスも`comment_added`に変える
             ct = ContentType.objects.get_for_model(type(target))
             pk = target.pk
             activity.content_type = ct
             activity.object_id = pk
-            activity.status = 'comment_add'
+            activity.status = 'comment_added'
             activity.remarks = str(instance.pk)
             return activity
