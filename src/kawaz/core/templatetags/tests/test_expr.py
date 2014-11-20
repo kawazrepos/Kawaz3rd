@@ -1,8 +1,5 @@
 from django.test import TestCase
 from django.template import Template, Context
-from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
-from ..templatetags.markdown import markdown
 
 
 class ExprTemplateTagTestCase(TestCase):
