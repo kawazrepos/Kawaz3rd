@@ -128,7 +128,7 @@ class Product(models.Model):
     contact_info = models.CharField(_('Contact info'), default='', blank=True, max_length=256,
                                     help_text=_('Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account'))
     # TODO: published
-    publish_at = models.DateField(_('Published at'))
+    publish_at = models.DateField(_('Published at'), help_text=_('If this product have been already released, please fill the date.'))
     administrators = models.ManyToManyField(Persona,
                                             verbose_name=_('Administrators'))
 

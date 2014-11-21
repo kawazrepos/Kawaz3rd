@@ -50,7 +50,7 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         widget=widgets.CheckboxSelectMultiple,
         cache_choices=True,
         queryset=Persona.objects.filter(is_active=True).order_by('pk'),
-        help_text=_('Check the users who can manage this product.'))
+        help_text=_('Check the users who can manage this product. You should use Ctrl + F.'))
     publish_at = forms.DateField(label=_('Published at'), widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
