@@ -1,5 +1,4 @@
 {% extends "twopane.html" %}
-{% load parser %}
 {% load staticfiles %}
 {% load i18n %}
 {% load projects_tags %}
@@ -84,7 +83,7 @@
           </div>
       {% endif %}
       <article class="markdown project-article">
-          {{ project.body | parser }}
+          {{ project.body | kfm }}
     </article>
     {% include "components/star_container.html" %}
     {% include "comments/components/comment_items.html" %}

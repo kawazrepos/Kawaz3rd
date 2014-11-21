@@ -24,7 +24,7 @@
         <p class="badge">{{ object.category.label }}</p>
     </div>
     <article class="markdown">
-        {{ object.body | markdown }}
+        {{ object.body | kfm }}
         <time datetime="{{ object.created_at|date:"c" }}"><label>{% trans "Created at" %}</label>: {{ object.created_at|date:"Y/m/d H:i" }}</time>
     </article>
 </div>

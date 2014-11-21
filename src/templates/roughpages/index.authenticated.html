@@ -2,7 +2,7 @@
 {% load activities_tags %}
 {% load announcements_tags %}
 {% load i18n %}
-{% load markdown %}
+
 {% load staticfiles %}
 {% load profiles_tags %}
 {% block title %}{% trans "My page" %}{% endblock %}
@@ -26,7 +26,7 @@
                             <p>他のメンバーと交流するために、必ずプロフィールを設定してください</p>
                             <p><a class="btn btn-lg btn-success" href="{% url "personas_profile_update" %}">今すぐ設定する</a></p>
                         </div>
-                        {% render_markdown "markdown/helps/welcome.md" %}
+                        {% include_kfm "markdown/helps/welcome.md" %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>

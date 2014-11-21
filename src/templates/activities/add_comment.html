@@ -1,5 +1,5 @@
 {% extends "activities/base.html" %}
 {% block history-item %}
     {# 現在、非ログインユーザーのコメントは考慮していない #}
-    {% include "components/small_avatar.html" with user=comment.user render_username=False %}「{{ comment.comment|markdown|striptags|truncatechars:"140" }}」
+    {% include "components/small_avatar.html" with user=comment.user render_username=False %}「{{ comment.comment|kfm|striptags|truncatechars:"140" }}」
 {% endblock %}

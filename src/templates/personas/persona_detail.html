@@ -1,7 +1,6 @@
 {% extends "twopane.html" %}
 {% load staticfiles %}
 {% load i18n %}
-{% load parser %}
 {% load projects_tags %}
 {% load blogs_tags %}
 {% block title %}{% blocktrans with nickname=object.nickname %}{{ nickname }}'s Profile{% endblocktrans %}{% endblock %}
@@ -108,7 +107,7 @@ https://github.com/lambdalisue/django-permission/issues/29
     {% endif %}
     {% if profile %}
         <article id="persona-main" class="markdown">
-            {{ profile.remarks | parser }}
+            {{ profile.remarks | kfm }}
         </article>
     {% endif %}
     {% include "components/star_container.html" %}

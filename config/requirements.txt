@@ -20,3 +20,6 @@ git+https://github.com/enorvelle/GoogleApiPython3x.git#egg=google_api_python_cli
 icalendar
 django_compressor
 livereload
+pygments
+docutils
+django-suit

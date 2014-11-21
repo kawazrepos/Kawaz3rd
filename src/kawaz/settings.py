@@ -35,7 +35,9 @@ TESTING = False
 
 # Application definition
 INSTALLED_APPS = (
+    'suit',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -71,6 +73,7 @@ INSTALLED_APPS = (
     'kawaz.apps.blogs',
     'kawaz.apps.products',
     'kawaz.apps.stars',
+    'kawaz.apps.kfm',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -81,6 +84,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'roughpages.middleware.RoughpageFallbackMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
@@ -252,6 +256,11 @@ COMMENTS_HIDE_REMOVED = False
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap3', 'crispy')
 
+# django-suit
+SUIT_CONFIG = dict(
+    ADMIN_NAME='Kawaz',
+    SEARCH_URL='/central-dogma/personas/persona/',
+)
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている
