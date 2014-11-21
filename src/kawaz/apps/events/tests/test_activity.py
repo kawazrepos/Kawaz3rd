@@ -67,7 +67,7 @@ class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
                          Activity.objects.get_for_model(Event).count())
         activity = Activity.objects.get_for_model(Event).first()
         self.assertEqual(activity.snapshot, event)
-        self.assertEqual(activity.status, 'user_add')
+        self.assertEqual(activity.status, 'user_added')
         self.assertTrue(str(user1.pk) in activity.remarks)
 
         event.attend(user2)
@@ -75,7 +75,7 @@ class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
                          Activity.objects.get_for_model(Event).count())
         activity = Activity.objects.get_for_model(Event).first()
         self.assertEqual(activity.snapshot, event)
-        self.assertEqual(activity.status, 'user_add')
+        self.assertEqual(activity.status, 'user_added')
         self.assertTrue(str(user2.pk) in activity.remarks)
 
     def test_quit_event(self):
@@ -103,5 +103,5 @@ class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertEqual(activity.status, 'user_removed')
         self.assertTrue(str(user2.pk) in activity.remarks)
 
-    def test_add_comment(self):
-        self._test_add_comment()
+    def test_comment_added(self):
+        self._test_comment_added()

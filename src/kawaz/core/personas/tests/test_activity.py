@@ -42,8 +42,8 @@ class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
         persona.delete()
         self.assertEqual(Activity.objects.count(), nactivity)
 
-    def test_add_comment(self):
-        self._test_add_comment()
+    def test_comment_added(self):
+        self._test_comment_added()
 
     def test_activated(self):
         """
@@ -94,9 +94,9 @@ class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
         profile.delete()
         self.assertEqual(Activity.objects.count(), nactivity)
 
-    def test_add_account(self):
+    def test_account_added(self):
         """
-        アカウントを作成したとき、ユーザーに対してadd_account Activityが発行される
+        アカウントを作成したとき、ユーザーに対してaccount_added Activityが発行される
         """
 
         # アカウントを作る
@@ -106,7 +106,7 @@ class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
         activities = Activity.objects.get_for_object(account.profile.user)
         self.assertEqual(len(activities), 2)
         activity = activities[0]
-        self.assertEqual(activity.status, 'add_account')
+        self.assertEqual(activity.status, 'account_added')
 
         # activityのremarksにアカウントのpkが設定されている
         self.assertEqual(activity.remarks, str(account.pk))

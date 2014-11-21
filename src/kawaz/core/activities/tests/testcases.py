@@ -54,9 +54,9 @@ class BaseActivityMediatorTestCase(TestCase):
 
         self._test_render(activity)
 
-    def _test_add_comment(self):
+    def _test_comment_added(self):
         """
-        commentしたときに、add_commentが発行される
+        commentしたときに、comment_addedが発行される
         """
         nactivities = Activity.objects.get_for_object(self.object).count()
 
@@ -67,7 +67,7 @@ class BaseActivityMediatorTestCase(TestCase):
         self.assertEqual(nactivities + 1, activities.count())
 
         activity = activities[0]
-        self.assertEqual(activity.status, 'add_comment')
+        self.assertEqual(activity.status, 'comment_added')
         self.assertEqual(activity.snapshot, self.object)
         # remarksにコメントのpkが入る
         self.assertEqual(activity.remarks, str(comment.pk))

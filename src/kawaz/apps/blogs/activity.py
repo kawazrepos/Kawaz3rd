@@ -56,7 +56,7 @@ class EntryActivityMediator(ActivityMediator):
             # remarks に保存された変更状態を利便のためフラグ化
             for flag in activity.remarks.split():
                 context[flag] = True
-        elif activity.status == 'add_comment':
+        elif activity.status == 'comment_added':
             # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
             # 取得してcontextに渡す
             try:

@@ -1,0 +1,1 @@
+{{ comment.user.nickname }}さんが「{{ comment.content_object }}」にコメントしました http://{{ site.domain }}{{ object.get_absolute_url }}

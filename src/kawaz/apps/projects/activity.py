@@ -71,7 +71,7 @@ class ProjectActivityMediator(ActivityMediator):
                 return None
             # 追加・削除をトラックするActivityを作成
             ct = ContentType.objects.get_for_model(instance)
-            status = 'user_add' if action == 'post_add' else 'user_removed'
+            status = 'user_added' if action == 'post_add' else 'user_removed'
             activity = Activity(content_type=ct,
                                 object_id=instance.pk,
                                 status=status)
@@ -88,7 +88,7 @@ class ProjectActivityMediator(ActivityMediator):
             # remarks に保存された変更状態を利便のためフラグ化
             for flag in activity.remarks.split():
                 context[flag] = True
-        elif activity.status in ('user_add', 'user_removed'):
+        elif activity.status in ('user_added', 'user_removed'):
             # ユーザーの追加・削除状態だった場合は誰が追加されたのかを設定
             # 基本的に今の仕様では同時に一人までしか追加できないはずだが、
             # {{ user.nickname }}さんと他{{ user_count | add:"-1" }}名
@@ -98,7 +98,7 @@ class ProjectActivityMediator(ActivityMediator):
             context['users'] = users
             context['user'] = users[0]
             context['user_count'] = users.count()
-        elif activity.status == 'add_comment':
+        elif activity.status == 'comment_added':
             # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
             # 取得してcontextに渡す
             try:

@@ -25,12 +25,12 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
     def test_delete(self):
         self._test_delete()
 
-    def test_add_comment(self):
-        self._test_add_comment()
+    def test_comment_added(self):
+        self._test_comment_added()
 
-    def test_add_package_release(self):
+    def test_package_release_added(self):
         """
-        PackageReleaseを追加したときに、add_releaseが発行される
+        PackageReleaseを追加したときに、release_addedが発行される
         """
         nactivities = Activity.objects.get_for_object(self.object).count()
 
@@ -41,7 +41,7 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertEqual(nactivities + 1, activities.count())
 
         activity = activities[0]
-        self.assertEqual(activity.status, 'add_release')
+        self.assertEqual(activity.status, 'release_added')
         self.assertEqual(activity.snapshot, self.object)
         # remarksにリリースのapp_label,model,pkが入る
         ct = ContentType.objects.get_for_model(type(release))
@@ -54,9 +54,9 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         context = mediator.prepare_context(activity, Context())
         self.assertTrue('release' in context, """context doesn't contain 'release'""")
 
-    def test_add_url_release(self):
+    def test_url_release_added(self):
         """
-        URLReleaseを追加したときに、add_releaseが発行される
+        URLReleaseを追加したときに、release_addedが発行される
         """
         nactivities = Activity.objects.get_for_object(self.object).count()
 
@@ -67,7 +67,7 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertEqual(nactivities + 1, activities.count())
 
         activity = activities[0]
-        self.assertEqual(activity.status, 'add_release')
+        self.assertEqual(activity.status, 'release_added')
         self.assertEqual(activity.snapshot, self.object)
         # remarksにリリースのapp_label,model,pkが入る
         ct = ContentType.objects.get_for_model(type(release))
@@ -79,9 +79,9 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         context = mediator.prepare_context(activity, Context())
         self.assertTrue('release' in context, """context doesn't contain 'release'""")
 
-    def test_add_screenshot(self):
+    def test_screenshot_added(self):
         """
-        Screenshotを追加したときに、add_screenshotが発行される
+        Screenshotを追加したときに、screenshot_addedが発行される
         """
         nactivities = Activity.objects.get_for_object(self.object).count()
 
@@ -92,7 +92,7 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertEqual(nactivities + 1, activities.count())
 
         activity = activities[0]
-        self.assertEqual(activity.status, 'add_screenshot')
+        self.assertEqual(activity.status, 'screenshot_added')
         self.assertEqual(activity.snapshot, self.object)
         # remarksにスクリーンショットのpkが入る
         remarks = str(ss.pk)

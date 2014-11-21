@@ -32,13 +32,13 @@ class AccountActivityMediator(ActivityMediator):
         if activity and activity.status == 'created':
             # プロフィールに新しくサービスアカウントが作成されたとき
             # このActivityをユーザーの物にしてしまう
-            # また、ステータスも`add_account`に変える
+            # また、ステータスも`account_added`に変える
             # remarksには付いたアカウントのPKを入れる
             target = instance.profile.user
             ct = ContentType.objects.get_for_model(type(target))
             pk = target.pk
             activity.content_type = ct
             activity.object_id = pk
-            activity.status = 'add_account'
+            activity.status = 'account_added'
             activity.remarks = str(instance.pk)
             return activity

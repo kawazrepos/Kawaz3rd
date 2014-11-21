@@ -11,6 +11,9 @@ from ..models import Activity
 from ..registry import Registry
 
 
+@override_settings(
+    ACTIVITIES_ENABLE_NOTIFICATION=False
+)
 class ActivitiesActivityMediatorTestCase(TestCase):
     @patch('activities.mediator.ContentType', spec=ContentType)
     @patch('activities.mediator.Activity', spec=Activity)
@@ -26,6 +29,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         mediator = ActivityMediator()
         mediator.alter = MagicMock(return_value=activity)
         mediator.prepare_snapshot = MagicMock(return_value=None)
+        mediator.render = MagicMock()   # it will be called by notifiers
         mediator._pre_delete_receiver(None, instance)
 
         Activity.assert_called_with(content_type=ct,
@@ -37,6 +41,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         mediator.prepare_snapshot.assert_called_with(instance, activity)
         # activity save method is called
         activity.save.assert_called_with()
+        # TODO: test notifiers call
 
     @patch('activities.mediator.ContentType', spec=ContentType)
     @patch('activities.mediator.Activity', spec=Activity)
@@ -52,6 +57,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         mediator = ActivityMediator()
         mediator.alter = MagicMock(return_value=activity)
         mediator.prepare_snapshot = MagicMock(return_value=None)
+        mediator.render = MagicMock()   # it will be called by notifiers
         mediator._post_save_receiver(None, instance, created=True)
 
         Activity.assert_called_with(content_type=ct,
@@ -73,6 +79,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         mediator.prepare_snapshot.assert_called_with(instance, activity)
         # activity save method is called
         activity.save.assert_called_with()
+        # TODO: test notifiers call
 
     @patch('activities.mediator.ContentType', spec=ContentType)
     @patch('activities.mediator.Activity', spec=Activity)
@@ -87,6 +94,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         mediator = ActivityMediator()
         mediator.alter = MagicMock(return_value=activity)
         mediator.prepare_snapshot = MagicMock(return_value=None)
+        mediator.render = MagicMock()   # it will be called by notifiers
         mediator._m2m_changed_receiver(None, instance, action='pre_add',
                                        reverse=False)
 
@@ -100,7 +108,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
                                                      reverse=False)
         # activity save method is called
         activity.save.assert_called_with()
-
+        # TODO: test notifiers call
 
     @patch('activities.mediator.post_save')
     @patch('activities.mediator.pre_delete')
