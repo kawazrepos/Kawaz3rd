@@ -1,1 +1,1 @@
-{{ user.nickname }}: 「{{ comment.comment|striptags|truncatechars:"80" }} http://{{ site.domain }}{{ object.get_absolute_url }}
+{{ comment.user.nickname }}さんが「{{ comment.content_object }}」にコメントしました http://{{ site.domain }}{{ object.get_absolute_url }}

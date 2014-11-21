@@ -1,1 +1,1 @@
-{{ object }}が削除されました http://www.kawaz.org
+「{{ object }}」が削除されました http://www.kawaz.org
