@@ -1,1 +1,1 @@
-{{ object.last_modifier.nickname }}「{{ release.label }}をリリースしました」 http://{{ site.domain }}{{ release.get_absolute_url }}
+{{ object.last_modifier.nickname }}さんが「{{ release.product.title }}」に「{{ release.label }}」を追加しました http://{{ site.domain }}{{ release.get_absolute_url }}
