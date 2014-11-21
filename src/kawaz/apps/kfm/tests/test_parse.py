@@ -12,6 +12,10 @@ from ..parser import parse_kfm
 
 
 class ParseKFMTestCase(TestCase):
+    """
+    TODO それぞれのシンタックスの展開順のテストはしていないので、そのうちする必要がある
+    例：　コードブロック内にmention記法を記述した場合など
+    """
 
     def test_parse_kfm_multiple_underscore_in_words(self):
         """KFMは_や__によるem, strongを扱わない"""
