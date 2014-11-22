@@ -58,7 +58,8 @@ class KawazDiscoverRunner(MediaRootTestSuiteRunner):
         # ユニットテストにおいて coffee/less がコンパイルされている必要性は
         # 皆無なので、この機能自体を停止することでテストの高速化を行なっている
         #
-        settings.COMPRESS_ENABLE = False
+        settings.COMPRESS_ENABLED = False
+        settings.COMPRESS_OFFLINE = False
         settings.COMPRESS_PRECOMPILERS = ()
         #
         # django-activities の通知機能がテスト中に走るととても遅い and API制限
