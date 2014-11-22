@@ -146,8 +146,7 @@ class Product(models.Model):
         help_text=_(
             "Fill your contact info for visitors, "
             "e.g. Twitter account, Email address or Facebook account"))
-    # TODO: published
-    publish_at = models.DateField(
+    published_at = models.DateField(
         _('Published at'),
         help_text=_(
             "If this product have been already released, "
@@ -181,7 +180,7 @@ class Product(models.Model):
         ))
 
     class Meta:
-        ordering = ('display_mode', '-publish_at',)
+        ordering = ('display_mode', '-published_at',)
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
         permissions = (

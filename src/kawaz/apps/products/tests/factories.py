@@ -36,7 +36,7 @@ class ProductFactory(factory.DjangoModelFactory):
     description = 'かわずたんが井戸から飛び出す一大スペクタクルです'
     project = factory.SubFactory(ProjectFactory)
     display_mode = 'featured'
-    publish_at = datetime.datetime(2009, 10, 15, tzinfo=timezone.utc)
+    published_at = datetime.datetime(2009, 10, 15, tzinfo=timezone.utc)
 
     @factory.post_generation
     def administrators(self, create, extracted, **kwargs):

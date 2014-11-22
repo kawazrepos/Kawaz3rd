@@ -28,7 +28,7 @@ class EntryYearArchiveViewTestCase(TestCase):
         The protected entries are not displayed.
         '''
         user = AnonymousUser()
-        r = self.client.get('/blogs/{}/'.format(self.entries[0].publish_at.year))
+        r = self.client.get('/blogs/{}/'.format(self.entries[0].published_at.year))
         self.assertTemplateUsed('blogs/entry_archive_year.html')
         self.assertTrue('date_list' in r.context_data)
         list = r.context_data['date_list']
@@ -40,7 +40,7 @@ class EntryYearArchiveViewTestCase(TestCase):
         The protected entries are not displayed.
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
-        r = self.client.get('/blogs/{}/'.format(self.entries[0].publish_at.year))
+        r = self.client.get('/blogs/{}/'.format(self.entries[0].published_at.year))
         self.assertTemplateUsed('blogs/entry_archive_year.html')
         self.assertTrue('date_list' in r.context_data)
         list = r.context_data['date_list']
@@ -51,7 +51,7 @@ class EntryYearArchiveViewTestCase(TestCase):
         Tests authenticated user can view all published  written in the year entries.
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/{}/'.format(self.entries[0].publish_at.year))
+        r = self.client.get('/blogs/{}/'.format(self.entries[0].published_at.year))
         self.assertTemplateUsed('blogs/entry_archive_year.html')
         self.assertTemplateUsed('blogs/entry_archive_year.html')
         self.assertTrue('date_list' in r.context_data)
@@ -80,7 +80,7 @@ class EntryAuthorYearArchiveViewTestCase(TestCase):
         The protected entries are not displayed.
         '''
         user = AnonymousUser()
-        r = self.client.get('/blogs/{0}/{1}/'.format(self.user.username, self.entries[0].publish_at.year))
+        r = self.client.get('/blogs/{0}/{1}/'.format(self.user.username, self.entries[0].published_at.year))
         self.assertTemplateUsed('blogs/entry_archive_year.html')
         self.assertTrue('date_list' in r.context_data)
         list = r.context_data['date_list']
@@ -92,7 +92,7 @@ class EntryAuthorYearArchiveViewTestCase(TestCase):
         The protected entries are not displayed.
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/'.format(self.user.username, self.entries[0].publish_at.year))
+        r = self.client.get('/blogs/{0}/{1}/'.format(self.user.username, self.entries[0].published_at.year))
         self.assertTemplateUsed('blogs/entry_archive_year.html')
         self.assertTrue('date_list' in r.context_data)
         list = r.context_data['date_list']
@@ -103,7 +103,7 @@ class EntryAuthorYearArchiveViewTestCase(TestCase):
         Tests authenticated user can view all published entries written by specific author in the year.
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/'.format(self.user.username, self.entries[0].publish_at.year))
+        r = self.client.get('/blogs/{0}/{1}/'.format(self.user.username, self.entries[0].published_at.year))
         self.assertTemplateUsed('blogs/entry_archive_year.html')
         self.assertTrue('date_list' in r.context_data)
         list = r.context_data['date_list']
@@ -130,7 +130,7 @@ class EntryMonthArchiveViewTestCase(TestCase):
         '''
         user = AnonymousUser()
         entry = self.entries[0]
-        lt = get_local_time(entry.publish_at)
+        lt = get_local_time(entry.published_at)
         r = self.client.get('/blogs/{0}/{1}/'.format(lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
@@ -145,7 +145,7 @@ class EntryMonthArchiveViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
         entry = self.entries[0]
-        lt = get_local_time(entry.publish_at)
+        lt = get_local_time(entry.published_at)
         r = self.client.get('/blogs/{0}/{1}/'.format(lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
@@ -159,7 +159,7 @@ class EntryMonthArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        lt = get_local_time(entry.publish_at)
+        lt = get_local_time(entry.published_at)
         r = self.client.get('/blogs/{0}/{1}/'.format(lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
@@ -191,7 +191,7 @@ class EntryAuthorMonthArchiveViewTestCase(TestCase):
         '''
         user = AnonymousUser()
         entry = self.entries[0]
-        lt = get_local_time(entry.publish_at)
+        lt = get_local_time(entry.published_at)
         r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
@@ -206,7 +206,7 @@ class EntryAuthorMonthArchiveViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
         entry = self.entries[0]
-        lt = get_local_time(entry.publish_at)
+        lt = get_local_time(entry.published_at)
         r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
@@ -220,7 +220,7 @@ class EntryAuthorMonthArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        lt = get_local_time(entry.publish_at)
+        lt = get_local_time(entry.published_at)
         r = self.client.get('/blogs/{0}/{1}/{2}/'.format(self.user.username, lt.year, lt.month))
         self.assertTemplateUsed('blogs/entry_archive_month.html')
         self.assertTrue('object_list' in r.context_data)
@@ -250,7 +250,7 @@ class EntryDayArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         user = AnonymousUser()
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.published_at).year, get_local_time(entry.published_at).month, get_local_time(entry.published_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -264,7 +264,7 @@ class EntryDayArchiveViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
         entry = self.entries[0]
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.published_at).year, get_local_time(entry.published_at).month, get_local_time(entry.published_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -277,7 +277,7 @@ class EntryDayArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/'.format(get_local_time(entry.published_at).year, get_local_time(entry.published_at).month, get_local_time(entry.published_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -307,7 +307,7 @@ class EntryAuthorDayArchiveViewTestCase(TestCase):
         The protected entries are not displayed.
         '''
         entry = self.entries[0]
-        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.published_at).year, get_local_time(entry.published_at).month, get_local_time(entry.published_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -321,7 +321,7 @@ class EntryAuthorDayArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.wille, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.published_at).year, get_local_time(entry.published_at).month, get_local_time(entry.published_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
@@ -334,7 +334,7 @@ class EntryAuthorDayArchiveViewTestCase(TestCase):
         '''
         entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.publish_at).year, get_local_time(entry.publish_at).month, get_local_time(entry.publish_at).day))
+        r = self.client.get('/blogs/{0}/{1}/{2}/{3}/'.format(self.user.username, get_local_time(entry.published_at).year, get_local_time(entry.published_at).month, get_local_time(entry.published_at).day))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
