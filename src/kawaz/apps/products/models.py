@@ -11,6 +11,23 @@ from kawaz.core.personas.models import Persona
 from kawaz.apps.projects.models import Project
 
 
+PRODUCT_THUMBNAIL_SIZE_PATTERNS = {
+    'huge': (512, 288,),
+    'large': (172, 96,),
+    'middle': (86, 48,),
+    'small': (43, 24,),
+}
+ADVERTISEMENT_IMAGE_SIZE_PATTERNS = {
+    'huge': (512, 288,),
+    'large': (172, 96,),
+    'middle': (86, 48,),
+    'small': (43, 24,),
+}
+SCREENSHOT_IMAGE_SIZE_PATTERNS = {
+    None: (32, 32),
+}
+
+
 class Platform(models.Model):
 
     """
@@ -102,7 +119,7 @@ class Product(models.Model):
     thumbnail = ThumbnailField(
         _('Thumbnail'),
         upload_to=_get_thumbnail_upload_path,
-        patterns=settings.PRODUCT_THUMBNAIL_SIZE_PATTERNS,
+        patterns=PRODUCT_THUMBNAIL_SIZE_PATTERNS,
         help_text=_("This would be used as a product thumbnail image. "
                     "The aspect ratio of the image should be 16:9."
                     "We recommend the image size to be 800 * 450."))
@@ -113,7 +130,7 @@ class Product(models.Model):
         _('Advertisement Image'),
         null=True, blank=True,
         upload_to=_get_advertisement_image_upload_path,
-        patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
+        patterns=ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
         help_text=_("This would be used in the top page. "
                     "The aspect ratio of the image should be 16:9"
                     "We recommend the image size to be 800 * 450"))
@@ -293,7 +310,7 @@ class Screenshot(models.Model):
 
     image = ThumbnailField(
         _('Image'), upload_to=_get_upload_path,
-        patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
+        patterns=SCREENSHOT_IMAGE_SIZE_PATTERNS)
     product = models.ForeignKey(
         Product, verbose_name=_('Product'), editable=False, related_name='screenshots')
 
