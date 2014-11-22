@@ -3,24 +3,8 @@
 #   Kawaz ポータルサイトの設定
 #
 ###############################################################################
-import os
-import sys
+from .pre_settings import *
 from django.utils.translation import ugettext_lazy as _
-
-# リポジトリルートのパスを変数へ格納
-REPOSITORY_ROOT = os.path.abspath(
-    os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-)
-# 設定ファイル格納ディレクトリルートのパスを格納
-CONFIG_ROOT = os.path.join(REPOSITORY_ROOT, 'config')
-
-# ライブラリ公開予定のアプリを参照するためにPYTHON_PATHに追加
-LIB = os.path.join(REPOSITORY_ROOT, 'src', 'lib')
-sys.path.insert(0, os.path.join(LIB, 'django-activities'))
-sys.path.insert(0, os.path.join(LIB, 'django-google-calendar'))
-
-
-# 設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # セッション暗号化用文字列の指定
 SECRET_KEY = 'ここに十分に長いランダムな文字列'
@@ -219,29 +203,20 @@ DEFAULT_RENDERER_CLASSES = (
 )
 
 # django-activities
-from activities.notifiers.registry import registry
-from activities.notifiers.oauth.twitter import TwitterActivityNotifier
-ACTIVITIES_NOTIFIER_CONFIG_ROOT = os.path.join(
-    REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+ACTIVITIES_INSTALLED_NOTIFIERS = (
+    ('twitter_kawaz_official',
+     'activities.notifiers.oauth.twitter.TwitterActivityNotifier',
+     os.path.join(CONFIG_ROOT, 'activities', 'notifiers',
+                  'credentials_twitter_kawaz_test.json')),
+    ('twitter_kawaz_info',
+     'activities.notifiers.oauth.twitter.TwitterActivityNotifier',
+     os.path.join(CONFIG_ROOT, 'activities', 'notifiers',
+                  'credentials_twitter_kawazinfo_test.json')),
 )
-registry.register(TwitterActivityNotifier(
-    TwitterActivityNotifier.get_credentials(os.path.join(
-        ACTIVITIES_NOTIFIER_CONFIG_ROOT,
-        'credentials_twitter_kawaz_test.json'
-    ))
-), 'twitter_kawaz_official')
-registry.register(TwitterActivityNotifier(
-    TwitterActivityNotifier.get_credentials(os.path.join(
-        ACTIVITIES_NOTIFIER_CONFIG_ROOT,
-        'credentials_twitter_kawazinfo_test.json'
-    ))
-), 'twitter_kawaz_info')
 ACTIVITIES_DEFAULT_NOTIFIERS = (
     'twitter_kawaz_official',
     'twitter_kawaz_info',
 )
-del registry
-del TwitterActivityNotifier
 
 # kawaz.apps.activities.contrib.hatenablog
 ACTIVITIES_HATENABLOG_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'

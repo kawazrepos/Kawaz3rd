@@ -40,6 +40,8 @@ class OAuth1ActivityNotifier(ActivityNotifierBase):
     access_token_url=None
 
     def __init__(self, credentials, params={}):
+        if isinstance(credentials, str):
+            credentials = self.__class__.get_credentials(credentials)
         params = dict(params)
         params.update(credentials)
         self.oauth_session = OAuth1Session(**params)
