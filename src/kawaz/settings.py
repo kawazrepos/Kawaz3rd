@@ -161,14 +161,6 @@ DATABASES = {
     }
 }
 
-# kawaz.core.personas
-# 使用可能なユーザー名の正規表現
-PERSONAS_VALID_USERNAME_PATTERN = r"^[\w\-\_]+$"
-# 使用不可なユーザー名（URLルールなどにより）
-PERSONAS_INVALID_USERNAMES = (
-    'my',
-)
-
 
 # django-thumbnailfield
 THUMBNAIL_SIZE_PATTERNS = {

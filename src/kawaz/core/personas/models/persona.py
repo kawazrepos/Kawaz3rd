@@ -14,14 +14,13 @@ from thumbnailfield.fields import ThumbnailField
 from kawaz.core.db.decorators import validate_on_save
 
 
-
-# 使用可能なユーザー名パターン
-VALID_USERNAME_PATTERN = re.compile(
-    settings.PERSONAS_VALID_USERNAME_PATTERN
+# kawaz.core.personas
+# 使用可能なユーザー名の正規表現
+VALID_USERNAME_PATTERN = re.compile(r"^[\w\-\_]+$")
+# 使用不可なユーザー名（URLルールなどにより）
+INVALID_USERNAMES = (
+    'my',
 )
-
-# URLルールなどにより使用できないユーザー名
-INVALID_USERNAMES = settings.PERSONAS_INVALID_USERNAMES
 
 
 class PersonaManager(BaseUserManager):
