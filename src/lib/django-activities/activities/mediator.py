@@ -1,9 +1,7 @@
 # coding=utf-8
 """
 """
-
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-from copy import copy
 from functools import lru_cache
 from django.template import Context
 from django.template.loader import select_template
@@ -245,6 +243,6 @@ class ActivityMediator(object):
         """
         template_names = self.get_template_names(activity, typename)
         template = select_template(template_names)
-        context = self.prepare_context(activity, copy(context),
+        context = self.prepare_context(activity, context.new(context),
                                        typename=typename)
         return template.render(context)
