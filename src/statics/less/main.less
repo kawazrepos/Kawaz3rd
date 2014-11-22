@@ -25,6 +25,16 @@ html {
   height: @footer-height;
   background-color: @footer-color;
   color: @gray-lighter;
+  a {
+    color: #aab1b7;
+    &:hover {
+      text-decoration: none;
+      color: @gray-lighter;
+    }
+  }
+  ul {
+    list-style-type: none;
+  }
   .container {
     padding-right: 15px;
     padding-left: 15px;
@@ -72,13 +82,6 @@ html {
         td {
           padding: 5px 0;
           line-height: 1.25em;
-          a {
-            color: #aab1b7;
-            &:hover {
-              text-decoration: none;
-              color: @gray-lighter;
-            }
-          }
         }
       }
     }
