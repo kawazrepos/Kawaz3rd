@@ -13,6 +13,7 @@
 
 {% block breadcrumb %}
     {{ block.super }}
+    <li><a href="{% url 'events_event_list' %}">{% trans "Upcoming events" %}</a></li>
 {% endblock %}
 
 {% block content-main %}
