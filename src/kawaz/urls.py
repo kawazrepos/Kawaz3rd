@@ -46,6 +46,4 @@ if not settings.PRODUCT:
             serve, kwargs=dict(document_root=settings.MEDIA_ROOT)),
         url(r'^%s(?P<path>.*)$' % re.escape(settings.STATIC_URL.lstrip('/')),
             serve, kwargs=dict(document_root=settings.STATIC_ROOT)),
-        url(r'^favicon\.ico$',
-            RedirectView.as_view(url='/statics/favicon.ico')),
     )
