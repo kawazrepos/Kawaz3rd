@@ -29,7 +29,6 @@ SCREENSHOT_IMAGE_SIZE_PATTERNS = {
 
 
 class Platform(models.Model):
-
     """
     プロダクトがサポートしているプラットフォームを表すモデル
 
@@ -55,7 +54,6 @@ class Platform(models.Model):
 
 
 class Category(models.Model):
-
     """
     プロダクトが所属するカテゴリーを表すモデル
 
@@ -77,7 +75,6 @@ class Category(models.Model):
 
 @validate_on_save
 class Product(models.Model):
-
     """
     完成したプロダクトを表すモデル
 
@@ -139,13 +136,22 @@ class Product(models.Model):
         help_text=_("Enter URL of your trailer movie on the YouTube. "
                     "The movie would be embeded to the product page."))
     project = models.OneToOneField(Project, verbose_name=_('Project'),
-                                null=True, blank=True, related_name='product')
+                                   null=True, blank=True,
+                                   related_name='product')
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
-    categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
-    contact_info = models.CharField(_('Contact info'), default='', blank=True, max_length=256,
-                                    help_text=_('Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account'))
+    categories = models.ManyToManyField(Category,
+                                        verbose_name=_('Categories'))
+    contact_info = models.CharField(
+        _('Contact info'), default='', blank=True, max_length=256,
+        help_text=_(
+            "Fill your contact info for visitors, "
+            "e.f. Twitter account, Email address or Facebook account"))
     # TODO: published
-    publish_at = models.DateField(_('Published at'), help_text=_('If this product have been already released, please fill the date.'))
+    publish_at = models.DateField(
+        _('Published at'),
+        help_text=_(
+            "If this product have been already released, "
+            "please fill the date."))
     administrators = models.ManyToManyField(Persona,
                                             verbose_name=_('Administrators'))
 
@@ -153,8 +159,8 @@ class Product(models.Model):
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     last_modifier = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name=_('Last modified by'),
-                                      editable=False,
-                                      null=True, related_name='last_modified_products')
+                                      editable=False, null=True,
+                                      related_name='last_modified_products')
 
     #
     # Productの表示順番を制御する値です。Formsでexclude設定されるため通常
@@ -229,9 +235,11 @@ class AbstractRelease(models.Model):
     """
     リリース形態のアブストラクトモデル
     """
-    label = models.CharField(pgettext_lazy('Release name', 'Label'), max_length=32)
+    label = models.CharField(pgettext_lazy('Release name', 'Label'),
+                             max_length=32)
     platform = models.ForeignKey(Platform, verbose_name=_('Platform'))
-    version = models.CharField(_('Version'), max_length=32, default='', blank=True)
+    version = models.CharField(_('Version'), max_length=32,
+                               default='', blank=True)
     product = models.ForeignKey(Product, verbose_name=_('Product'),
                                 related_name='%(class)ss', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -246,7 +254,6 @@ class AbstractRelease(models.Model):
 
 
 class PackageRelease(AbstractRelease):
-
     """
     ファイル添付形式でのリリースモデル
     """
@@ -267,7 +274,6 @@ class PackageRelease(AbstractRelease):
 
 
 class URLRelease(AbstractRelease):
-
     """
     URL指定形式でのリリースモデル。主に外部ホスティングでのリリース用
 
@@ -297,7 +303,6 @@ class URLRelease(AbstractRelease):
 
 
 class Screenshot(models.Model):
-
     """
     プロダクトのスクリーンショットモデル
 
@@ -312,7 +317,8 @@ class Screenshot(models.Model):
         _('Image'), upload_to=_get_upload_path,
         patterns=SCREENSHOT_IMAGE_SIZE_PATTERNS)
     product = models.ForeignKey(
-        Product, verbose_name=_('Product'), editable=False, related_name='screenshots')
+        Product, verbose_name=_('Product'), editable=False,
+        related_name='screenshots')
 
     class Meta:
         ordering = ('pk',)
