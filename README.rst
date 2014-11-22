@@ -102,6 +102,9 @@ You can access it with http://localhost:8000/ and if you turn on LiveReload exte
 
 Run production server
 --------------------------------------------------------------
+
+**Note: `memcached` is required in production server to keep session**
+
 If you are ready to run Kawaz in production server, follow the instruction below.
 
 1.  Write ``src/kawaz/local_settings.py`` to specify the followings

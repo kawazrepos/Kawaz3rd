@@ -77,7 +77,6 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,15 +86,19 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'roughpages.middleware.RoughpageFallbackMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 CACHES = {
     'default': {
-        # 開発用にダミーキャッシュを指定
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        # 開発用にローカルキャッシュを使用する
+        # セッション情報の保持にキャッシュシステムを使用しているため
+        # ダミーキャッシュは使用できない
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'this value should be quite unique for Kawaz cache',
     }
 }
+# djangoのセッション情報をキャッシュおよびDBに保存
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
