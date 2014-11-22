@@ -36,12 +36,16 @@ urlpatterns = patterns('',
 
 if not settings.PRODUCT:
     # 本番環境以外では開発用サーバーにて静的ファイルも提供
-    from django.conf.urls.static import static
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
-    urlpatterns += staticfiles_urlpatterns()
+    # なお DEBUG=False (ローカルでの本番テスト）時にも静的ファイルを提供
+    # するために Django が提供する django.conf.urls.static は使用していない
+    # https://github.com/django/django/blob/1.7.1/django/conf/urls/static.py
+    import re
+    from django.views.static import serve
     urlpatterns += (
+        url(r'^%s(?P<path>.*)$' % re.escape(settings.MEDIA_URL.lstrip('/')),
+            serve, kwargs=dict(document_root=settings.MEDIA_ROOT)),
+        url(r'^%s(?P<path>.*)$' % re.escape(settings.STATIC_URL.lstrip('/')),
+            serve, kwargs=dict(document_root=settings.STATIC_ROOT)),
         url(r'^favicon\.ico$',
             RedirectView.as_view(url='/statics/favicon.ico')),
     )

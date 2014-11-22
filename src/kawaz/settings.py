@@ -62,12 +62,13 @@ INSTALLED_APPS = (
 
 # 利用しているミドルウェア
 MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'roughpages.middleware.RoughpageFallbackMiddleware',
@@ -249,6 +250,21 @@ SUIT_CONFIG = dict(
     ADMIN_NAME='Kawaz',
     SEARCH_URL='/central-dogma/personas/persona/',
 )
+
+
+# django-debug-toolbar
+def show_debug_toolbar(request):
+    user = getattr(request, 'user', None)
+    if DEBUG or (not request.is_ajax() and user and user.is_superuser):
+        return True
+    return False
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = True
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': 'kawaz.settings.show_debug_toolbar',
+}
+
+# 雑多な設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている
