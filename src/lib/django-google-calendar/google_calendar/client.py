@@ -4,13 +4,11 @@ Google Calendar manipulation library (Raw level)
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import warnings
-from argparse import ArgumentParser
 import httplib2
 
 # require: google_api_python_client
 from apiclient import discovery
 from oauth2client.file import Storage
-from oauth2client import tools
 
 from .conf import settings
 
@@ -40,16 +38,16 @@ class GoogleCalendarClient(object):
     """
     def __init__(self, calendar_id):
         self.calendar_id = calendar_id
-        storage = Storage(settings.GCAL_CREDENTIALS)
+        storage = Storage(settings.GOOGLE_CALENDAR_CREDENTIALS)
         credentials = storage.get()
         # Login Google API with a credentials
         if credentials is None or credentials.invalid:
             COMMAND_NAME = 'login_to_google_calendar_api'
-            warnings.warn(('No valid Google API credentials are available. '
-                           'Execute python manage.py {} and '
-                           'follow the instructions.'
-                          ).format(COMMAND_NAME),
-                          category=ImproperlyConfiguredWarning)
+            warnings.warn((
+                'No valid Google API credentials are available. '
+                'Execute python manage.py {} and '
+                'follow the instructions.'
+            ).format(COMMAND_NAME), category=ImproperlyConfiguredWarning)
             self.enabled = False
         else:
             http = credentials.authorize(http=httplib2.Http())

@@ -2,17 +2,13 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-import os
-import requests
 from django.test import TestCase
 from django.test.utils import override_settings
-from unittest import skipIf
 from unittest.mock import MagicMock, patch
-from ..conf import settings
 from ..backend import (tolerate, Backend, get_backend_class, get_backend)
 
 
-class GCalBackendTolerateTestCase(TestCase):
+class GoogleCalendarBackendTolerateTestCase(TestCase):
     @override_settings(DEBUG=True)
     def test_tolerate_disabled_v1(self):
         def fn():
@@ -35,10 +31,10 @@ class GCalBackendTolerateTestCase(TestCase):
         decorated()
 
 
-class GCalBackendTestCase(TestCase):
+class GoogleCalendarBackendTestCase(TestCase):
     def setUp(self):
-        patcher1 = patch('kawaz.core.gcal.backend.GoogleCalendarClient')
-        patcher2 = patch('kawaz.core.gcal.models.GoogleCalendarBridge')
+        patcher1 = patch('google_calendar.backend.GoogleCalendarClient')
+        patcher2 = patch('google_calendar.models.GoogleCalendarBridge')
         self.GoogleCalendarClient = patcher1.start()
         self.GoogleCalendarBridge = patcher2.start()
         self.addCleanup(patcher1.stop)
@@ -97,7 +93,7 @@ class GCalBackendTestCase(TestCase):
         self.assertFalse(self.bridge.delete.called)
 
 
-class GCalBackendFunctionsTestCase(TestCase):
+class GoogleCalendarBackendFunctionsTestCase(TestCase):
     def test_get_backend_class(self):
         cls = get_backend_class()
         self.assertIsNotNone(cls)

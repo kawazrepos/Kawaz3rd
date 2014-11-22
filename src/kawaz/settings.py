@@ -15,6 +15,7 @@ REPOSITORY_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 # Add extra PYTHON_PATH
 LIB = os.path.join(REPOSITORY_ROOT, 'src', 'lib')
 sys.path.insert(0, os.path.join(LIB, 'django-activities'))
+sys.path.insert(0, os.path.join(LIB, 'django-google-calendar'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'xd(wr812awpkuu4+7o)#ugb)*a0z!-m^an+m)%ly$l(ses8_g1'
@@ -55,6 +56,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'compressor',
     'activities',
+    'google_calendar',
     'kawaz.core.management',
     'kawaz.core.db',
     'kawaz.core.comments',
@@ -64,7 +66,6 @@ INSTALLED_APPS = (
     'kawaz.core.registrations',
     'kawaz.core.forms',
     'kawaz.core.templatetags',
-    'kawaz.core.gcal',
     'kawaz.core.activities.hatenablog',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
@@ -264,16 +265,16 @@ del TwitterActivityNotifier
 # kawaz.apps.activities.contrib.hatenablog
 ACTIVITIES_HATENABLOG_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
-# kawaz.apps.events.gcal
-GCAL_CALENDAR_ID = (
+# django-google-calendar
+GOOGLE_CALENDAR_CALENDAR_ID = (
     # DEBUG用カレンダー
     'kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.com'
 )
-GCAL_EVENT_MODEL = 'events.Event'
-GCAL_BACKEND_CLASS = 'kawaz.apps.events.gcal.KawazGoogleCalendarBackend'
-GCAL_CLIENT_SECRETS = os.path.join(
+GOOGLE_CALENDAR_EVENT_MODEL = 'events.Event'
+GOOGLE_CALENDAR_BACKEND_CLASS = 'kawaz.apps.events.gcal.KawazGoogleCalendarBackend'
+GOOGLE_CALENDAR_CLIENT_SECRETS = os.path.join(
     REPOSITORY_ROOT, 'config', 'gcal', 'client_secrets.json')
-GCAL_CREDENTIALS = os.path.join(
+GOOGLE_CALENDAR_CREDENTIALS = os.path.join(
     REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
 
 # django_comments

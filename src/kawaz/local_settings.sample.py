@@ -65,7 +65,7 @@ SECRET_KEY = 'ここに十分に長いランダムな文字列'
 
 
 # 本番用カレンダーID
-GCAL_CALENDAR_ID = (
+GOOGLE_CALENDAR_CALENDAR_ID = (
     ""
 )
 
