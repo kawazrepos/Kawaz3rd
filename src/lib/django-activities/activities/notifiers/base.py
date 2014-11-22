@@ -37,6 +37,9 @@ class ActivityNotifierBase(object):
             context = Context({
                 'site': Site.objects.get_current(),
             })
+            # TODO Test me!!!
+            # 実際にrenderのcontextとして`site`が渡されているかテストされていない
+            # (notifierのテストではMediatorのMockを使っているため)
         rendered_content = self.render(activity, context, typename)
         # send rendered content via 'send' method
         self.send(rendered_content)
