@@ -90,8 +90,11 @@ MIDDLEWARE_CLASSES = (
 
 CACHES = {
     'default': {
-        # 開発用にダミーキャッシュを指定
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        # 開発用にローカルキャッシュを使用する
+        # セッション情報の保持にキャッシュシステムを使用しているため
+        # ダミーキャッシュは使用できない
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'this value should be quite unique for Kawaz cache',
     }
 }
 # djangoのセッション情報をキャッシュおよびDBに保存
