@@ -109,7 +109,8 @@ class Persona(AbstractUser, metaclass=PersonaBase):
 
     nickname = models.CharField(_('Nickname'), max_length=30)
     quotes = models.CharField(_('Mood message'), max_length=127, blank=True)
-    avatar = ThumbnailField(_('Avatar'), upload_to=_get_upload_path, blank=True,
+    avatar = ThumbnailField(_('Avatar'),
+                            upload_to=_get_upload_path, blank=True,
                             patterns=settings.THUMBNAIL_SIZE_PATTERNS)
     gender = models.CharField(_('Gender'), max_length=10,
                               choices=GENDER_TYPES, default='unknown')
@@ -118,9 +119,8 @@ class Persona(AbstractUser, metaclass=PersonaBase):
                             help_text=_(
                                 "The role this user belongs to. "
                                 "A user will get permissions of the role thus "
-                                "the user cannot change ones role for security "
-                                "reason."
-                            ))
+                                "the user cannot change ones role for "
+                                "security reason."))
 
     objects = PersonaManager()
 
