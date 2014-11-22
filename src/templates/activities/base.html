@@ -9,20 +9,23 @@
 {% endif %}
 
 {% if typename == 'root' %}
+    <div class="row">
+        {% block thumbnail %}
+        {% endblock %}
+        <div class="activity-body col-sm-12">
+            <a href="{{ object.get_absolute_url }}" class="activity-header">
+                <h3> {% block root %} {% endblock %}</h3>
+            </a>
 
-    <div class="activity-body">
-        <a href="{{ object.get_absolute_url }}" class="activity-header">
-            <h3> {% block root %} {% endblock %}</h3>
-        </a>
-
-
-        <div class="activity-history">
-            {% block history %}
-                {% get_activities_of object as inner_activities %}
-                {% for inner_activity in inner_activities|slice:":3" %}
-                    {% render_activity inner_activity %}
-                {% endfor %}
-            {% endblock %}
+            <div class="activity-history">
+                {% block history %}
+                    {# 自分自身と過去2つの計3件を更新履歴として表示する #}
+                    {% render_activity activity %}
+                    {% for previous_activity in activity.get_previous_activities|slice:":2" %}
+                        {% render_activity previous_activity %}
+                    {% endfor %}
+                {% endblock %}
+            </div>
         </div>
     </div>
 {% else %}

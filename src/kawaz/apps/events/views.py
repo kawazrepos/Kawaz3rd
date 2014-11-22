@@ -27,7 +27,7 @@ from .utils.ical import generate_ical
 
 class EventPublishedQuerySetMixin(MultipleObjectMixin):
     def get_queryset(self):
-        return Event.objects.published(self.request.user).order_by()
+        return Event.objects.published(self.request.user)
 
 
 class EventActiveQuerySetMixin(MultipleObjectMixin):

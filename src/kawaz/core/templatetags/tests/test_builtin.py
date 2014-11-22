@@ -10,12 +10,12 @@ from django.template import Template, Context
 
 class CustomBuiltInTemplateTagTestCase(TestCase):
 
-    def test_markdown(self):
+    def test_kfm(self):
         """
-        markdownがbuilt in template-filter化されている
+        kfmがbuilt in template-filter化されている
         """
         t = Template(
-            """{{ body | markdown }}"""
+            """{{ body | kfm }}"""
         )
         c = Context({
             'body' : "Hello"

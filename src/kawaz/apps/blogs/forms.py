@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm, ModelChoiceField
 from kawaz.core.forms.fields import MarkdownField
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from kawaz.core.forms.mixins import Bootstrap3HorizontalFormHelperMixin
 from .models import Category
 
@@ -18,7 +18,7 @@ class CategoryChoiceField(ModelChoiceField):
 class EntryForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
     body = MarkdownField(label=_('Body'))
-    category = CategoryChoiceField(queryset=Category.objects.all(), required=False)
+    category = CategoryChoiceField(label=_('Category'), queryset=Category.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)

@@ -7,15 +7,15 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '__first__'),
+        ('events', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='GoogleCalendarBridge',
             fields=[
-                ('event', models.OneToOneField(serialize=False, to='events.Event', primary_key=True)),
-                ('gcal_event_id', models.CharField(blank=True, editable=False, max_length=128, default='', verbose_name='Google Calendar Event ID')),
+                ('event', models.OneToOneField(to='events.Event', primary_key=True, serialize=False)),
+                ('gcal_event_id', models.CharField(default='', editable=False, max_length=128, blank=True, verbose_name='Google Calendar Event ID')),
             ],
             options={
             },

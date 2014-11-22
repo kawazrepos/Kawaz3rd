@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+PASSWORD="$1"
+
+if [ -x $PASSWORD ]; then
+    echo "Usage: encrypt-files PASSWORD"
+    echo "! No password is given. Exit."
+    exit 1
+fi
+
+encrypt() {
+    if [ -f $1.gpg ]; then
+        rm $1.gpg
+    fi
+    gpg --passphrase $PASSWORD --batch -c $1
+}
+
+encrypt src/lib/django-activities/activities/tests/test_notifiers/test_oauth/data/credentials_twitter.json
+encrypt config/gcal/client_secrets.json
+encrypt config/gcal/credentials.json
+encrypt config/activities/notifiers/credentials_twitter_kawaz_test.json
+encrypt config/activities/notifiers/credentials_twitter_kawazinfo_test.json

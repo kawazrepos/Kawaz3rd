@@ -11,6 +11,7 @@ from django.db.models.signals import (post_save,
 from django.contrib.contenttypes.models import ContentType
 from .conf import settings
 from .models import Activity
+from .notifiers.registry import registry as notifier_registry
 
 
 class ActivityMediator(object):
@@ -25,6 +26,8 @@ class ActivityMediator(object):
     # registered in the model.
     # to prevent unwilling activity creation, default value is []
     m2m_fields = []
+
+    notifiers = []
 
     @property
     def _default_template_extension(self):
@@ -60,6 +63,21 @@ class ActivityMediator(object):
                     yield field_or_field_name
         return tuple(_field_names_to_fields(self.m2m_fields))
 
+    @lru_cache()
+    def get_notifiers(self):
+        """
+        Return notifier instance which this mediator should send notification.
+        """
+        _notifiers = []
+        for notifier in (self.notifiers or
+                         settings.ACTIVITIES_DEFAULT_NOTIFIERS):
+            if isinstance(notifier, str):
+                notifier = notifier_registry.get(notifier)
+            else:
+                notifier = notifier_registry.get_or_register(notifier)
+            _notifiers.append(notifier)
+        return _notifiers
+
     def _pre_delete_receiver(self, sender, instance, **kwargs):
         ct = ContentType.objects.get_for_model(instance)
         activity = Activity(content_type=ct,
@@ -67,12 +85,9 @@ class ActivityMediator(object):
                             status='deleted')
         # call user defined alternation code
         activity = self.alter(instance, activity, **kwargs)
-        if activity:
-            # save current instance as a snapshot
-            # the target instance might be changed thus use _content_object
-            # instead of 'instance'
-            activity.snapshot = activity._content_object
-            activity.save()
+        self._exec_post_processes_of_receivers(
+            instance, activity, **kwargs
+        )
 
     def _post_save_receiver(self, sender, instance, created, **kwargs):
         ct = ContentType.objects.get_for_model(instance)
@@ -81,23 +96,30 @@ class ActivityMediator(object):
                             status='created' if created else 'updated')
         # call user defined alternation code
         activity = self.alter(instance, activity, **kwargs)
-        if activity:
-            # save current instance as a snapshot
-            # the target instance might be changed thus use _content_object
-            # instead of 'instance'
-            activity.snapshot = activity._content_object
-            activity.save()
+        self._exec_post_processes_of_receivers(
+            instance, activity, **kwargs
+        )
 
     def _m2m_changed_receiver(self, sender, instance, **kwargs):
         # call user defined alternation code
         # user need to create activity instance
         activity = self.alter(instance, None, **kwargs)
+        self._exec_post_processes_of_receivers(
+            instance, activity, **kwargs
+        )
+
+    def _exec_post_processes_of_receivers(self, instance, activity, **kwargs):
         if activity:
-            # save current instance as a snapshot
-            # the target instance might be changed thus use _content_object
-            # instead of 'instance'
-            activity.snapshot = activity._content_object
+            # save snapshot if the activity is specified
+            activity.snapshot = self.prepare_snapshot(
+                instance, activity, **kwargs
+            )
+            # save the activity into the database
             activity.save()
+            # notify
+            if settings.ACTIVITIES_ENABLE_NOTIFICATION:
+                for notifier in self.get_notifiers():
+                    notifier.notify(activity)
 
     def connect(self, model):
         """
@@ -183,6 +205,27 @@ class ActivityMediator(object):
         """
         return activity
 
+    def prepare_snapshot(self, instance, activity, **kwargs):
+        """
+        Prepare snapshot which automatically saved to the activity instance
+
+        Note:
+            `activity.snapshot = mediator.prepare_snapshot(...)` will be called
+            in downstream thus users should not specify the snapshot to the
+            activity manually.
+            Just return the instance of a snapshot.
+
+        Args:
+            instance (instance): An instance of a target model
+            activity (instance): An instance of an Activity model
+            **kwargs (dict): keyword arguments which passed in signal handling
+
+        Returns:
+            An instance which will be saved into `snapshot` field of activity
+            instance. It will return `activity._content_object` in default.
+        """
+        return activity._content_object
+
     def prepare_context(self, activity, context, typename=None):
         """
         Prepare context which used in 'render' method.
@@ -200,6 +243,6 @@ class ActivityMediator(object):
         """
         template_names = self.get_template_names(activity, typename)
         template = select_template(template_names)
-        context = self.prepare_context(activity, context.new(),
+        context = self.prepare_context(activity, context.new(context),
                                        typename=typename)
         return template.render(context)

@@ -5,34 +5,36 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from permission.logics import PermissionLogic
 from permission.logics import AuthorPermissionLogic
 
+
 class PersonaPermissionLogic(PermissionLogic):
     """
     Permission logics which check the user's role and return corresponding
     permission
     """
     def _has_add_perm(self, user_obj, perm, obj):
-        # only staff user can add user manually (in admin page)
-        return user_obj.role in ('seele', 'nerv',)
-
-    def _has_view_perm(self, user_obj, perm, obj):
-        # owner or staff user can see the user info
-        return obj == user_obj or user_obj.role in ('seele', 'nerv',)
+        # ゼーレ権限以上のスタッフのみ手作業でユーザーを追加可能
+        # （ユーザーの手動追加はAdminページのみで可能）
+        return user_obj.role in ('adam', 'seele',)
 
     def _has_change_perm(self, user_obj, perm, obj):
-        # owner and seele can change the user info manually
-        return ((obj == user_obj and user_obj.role in ('seele', 'nerv', 'children')) or
-                user_obj.role in ('seele', 'nerv',))
+        # 自分自身のPersonaのみ編集権限を持つ
+        if obj is None:
+            # Non object permission
+            return user_obj.is_member
+        else:
+            return (obj == user_obj and user_obj.is_member)
 
     def _has_delete_perm(self, user_obj, perm, obj):
-        # nobody can delete user info except superuser
+        # スーパーユーザー以外は削除権限を持たない
         return False
 
     def _has_activate_perm(self, user_obj, perm, obj):
-        # only staff user can activate/deactivate user manually
+        # ネルフ権限以上のスタッフのみ手作業でユーザーのアクティベイト
+        # が可能（Adminページ限定）
         return user_obj.role in ('seele', 'nerv',)
 
     def _has_assign_role_perm(self, user_obj, perm, obj):
-        # admin user can change user's role
+        # ゼーレ権限以上の場合のみ役職を変更することができる
         return user_obj.role in ('seele',)
 
     def has_perm(self, user_obj, perm, obj=None):
@@ -40,7 +42,6 @@ class PersonaPermissionLogic(PermissionLogic):
             return False
         permission_methods = {
             'personas.add_persona': self._has_add_perm,
-            'personas.view_persona': self._has_view_perm,
             'personas.change_persona': self._has_change_perm,
             'personas.delete_persona': self._has_delete_perm,
             'personas.activate_persona': self._has_activate_perm,

@@ -427,7 +427,8 @@ class EntryPreviewTestCase(TestCase):
         """
         ユーザーがEntryのPreviewを見れる
         """
-        r = self.client.get('/blogs/preview/')
+        import json
+        r = self.client.post('/blogs/preview/', json.dumps({}), content_type='application/json')
         self.assertTemplateUsed(r, 'blogs/components/entry_detail.html')
 
 class EntryCategoryListView(TestCase):
@@ -467,3 +468,5 @@ class EntryCategoryListView(TestCase):
         r = self.client.get(url)
         self.assertTrue(len(r.context['object_list']), 1)
         self.assertTrue(entry2 in r.context['object_list'])
+
+        self.assertTrue('author' in r.context)

@@ -5,7 +5,9 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 
 class CommentTestArticleFactory(factory.DjangoModelFactory):
     FACTORY_FOR = CommentTestArticle
+
     text = '本文です'
+    author = factory.SubFactory(PersonaFactory)
 
 
 class CommentFactory(factory.DjangoModelFactory):

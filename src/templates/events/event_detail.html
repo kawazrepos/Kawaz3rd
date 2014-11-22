@@ -4,8 +4,6 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load events_tags %}
-{% load parser %}
-
 {% block title %}{{ object.title }}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
@@ -14,7 +12,7 @@
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="{% url 'events_event_list' %}">{% trans "Events" %}</a></li>
-    <li><a href="{{ object.title }}">{{ object.title }}</a></li>
+    <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
 {% endblock %}
 
 {% block content-header %}
@@ -140,7 +138,7 @@
 
 {% block content-main %}
     <article class="markdown">
-        {{ object.body | parser }}
+        {{ object.body | kfm }}
     </article>
     {% include "components/star_container.html" %}
     {% include "comments/components/comment_items.html" %}
@@ -154,7 +152,7 @@
             <div class="panel-heading">
                 <h2 class="panel-title">{% trans "Organizer" %}</h2>
             </div>
-            <a href="{{ object.organizer.profile.get_absolute_url }}"
+            <a href="{{ object.organizer.get_absolute_url }}"
                class="list-group-item member-list-organizer">
                 <img src="{{ object.organizer.get_middle_avatar }}"
                      alt="{{ object.organizer.nickname }} Avatar"
@@ -174,7 +172,7 @@
             <ul class="list-group">
                 {% for attendee in event.attendees.all %}
                     {% if attendee != object.organizer %}
-                        <a href="{{ attendee.profile.get_absolute_url }}"
+                        <a href="{{ attendee.get_absolute_url }}"
                            class="list-group-item ">
                             <img src="{{ attendee.get_middle_avatar }}"
                                  alt="{{ attendee.nickname }} Avatar"

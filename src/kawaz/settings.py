@@ -35,7 +35,9 @@ TESTING = False
 
 # Application definition
 INSTALLED_APPS = (
+    'suit',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -66,41 +68,45 @@ INSTALLED_APPS = (
     'kawaz.core.activities.hatenablog',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
-    'kawaz.apps.profiles',
     'kawaz.apps.projects',
     'kawaz.apps.events',
     'kawaz.apps.blogs',
     'kawaz.apps.products',
     'kawaz.apps.stars',
+    'kawaz.apps.kfm',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'roughpages.middleware.RoughpageFallbackMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 CACHES = {
     'default': {
-        # 開発用にダミーキャッシュを指定
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        # 開発用にローカルキャッシュを使用する
+        # セッション情報の保持にキャッシュシステムを使用しているため
+        # ダミーキャッシュは使用できない
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'this value should be quite unique for Kawaz cache',
     }
 }
+# djangoのセッション情報をキャッシュおよびDBに保存
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 from django.utils.translation import ugettext_lazy as _
 USE_I18N = True
-LANGUAGE_CODE = 'ja'
+LANGUAGE_CODE = 'en'
 LANGUAGES = (
-    ('en-us', _('English')),
+    ('en', _('English')),
     ('ja', _('Japanese')),
 )
 
@@ -156,6 +162,15 @@ DATABASES = {
 # validation_on_save decorator (kawaz.core.db.decorators)
 # To disable automatical validation, set this variable to False
 VALIDATE_ON_SAVE_DISABLE = False
+
+
+# kawaz.core.personas
+# 使用可能なユーザー名の正規表現
+PERSONAS_VALID_USERNAME_PATTERN = r"^[\w\-\_]+$"
+# 使用不可なユーザー名（URLルールなどにより）
+PERSONAS_INVALID_USERNAMES = (
+    'my',
+)
 
 
 # django-thumbnailfield
@@ -221,6 +236,31 @@ DEFAULT_RENDERER_CLASSES = (
     'rest_framework.renderers.JSONRenderer',
 )
 
+# django-activities
+from activities.notifiers.registry import registry
+from activities.notifiers.oauth.twitter import TwitterActivityNotifier
+ACTIVITIES_NOTIFIER_CONFIG_ROOT = os.path.join(
+    REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
+) 
+registry.register(TwitterActivityNotifier(
+    TwitterActivityNotifier.get_credentials(os.path.join(
+        ACTIVITIES_NOTIFIER_CONFIG_ROOT,
+        'credentials_twitter_kawaz_test.json'
+    ))
+), 'twitter_kawaz_official')
+registry.register(TwitterActivityNotifier(
+    TwitterActivityNotifier.get_credentials(os.path.join(
+        ACTIVITIES_NOTIFIER_CONFIG_ROOT,
+        'credentials_twitter_kawazinfo_test.json'
+    ))
+), 'twitter_kawaz_info')
+ACTIVITIES_DEFAULT_NOTIFIERS = (
+    'twitter_kawaz_official',
+    'twitter_kawaz_info',
+)
+del registry
+del TwitterActivityNotifier
+
 # kawaz.apps.activities.contrib.hatenablog
 ACTIVITIES_HATENABLOG_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
@@ -236,12 +276,19 @@ GCAL_CLIENT_SECRETS = os.path.join(
 GCAL_CREDENTIALS = os.path.join(
     REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
 
+# django_comments
 COMMENTS_APP = 'kawaz.core.comments'
+COMMENTS_HIDE_REMOVED = False
 
 # crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap3', 'crispy')
 
+# django-suit
+SUIT_CONFIG = dict(
+    ADMIN_NAME='Kawaz',
+    SEARCH_URL='/central-dogma/personas/persona/',
+)
 
 if DEBUG:
     # テスト時のRuntimeWarningをexceptionにしている

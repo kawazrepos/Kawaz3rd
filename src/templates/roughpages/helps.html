@@ -1,5 +1,5 @@
 {% extends "authenticated_base.html" %}
-{% load markdown %}
+
 {% load i18n %}
 {% block title %}{% trans "Help" %}{% endblock %}
 {% block breadcrumb %}
@@ -9,6 +9,6 @@
 
 {% block content %}
     <article class="markdown">
-        {% render_markdown "markdown/helps/index.md" %}
+        {% include_kfm "markdown/helps/index.md" %}
     </article>
 {% endblock %}

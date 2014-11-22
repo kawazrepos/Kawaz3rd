@@ -36,7 +36,7 @@
     height: 100%;
     img {
       border: solid 1px @gray-lighter;
-      background-color: @gray-lighter;
+      background-color: @body-bg;
     }
   }
   .comment-info {
@@ -56,15 +56,38 @@
     .comment-index {
       font-weight: bold;
     }
+    .comment-delete-column {
+      padding-left: 5px;
+      .comment-delete {
+        margin-left: 5px;
+        padding: 3px 5px;
+        font-size: 10px;
+        border-radius: 3px;
+        &:hover {
+          background: @brand-danger;
+        }
+      }
+    }
+    // コメントのヘッダーをhoverしたときだけ
+    // 削除ボタンが表示されるようにする
+    .comment-delete {
+      display: none;
+    }
+    &:hover {
+      .comment-delete {
+        display: inline;
+      }
+    }
+
     .nickname {
       color: @button-text-color;
       font-weight: bold;
     }
     .username {
       font-size: 12px;
-      color: @gray-light;
+      color: @gray-lighter;
       a {
-        color: @gray-light;
+        color: @gray-lighter;
       }
     }
   }
@@ -73,15 +96,9 @@
     height: 100%;
     padding: 15px 20px;
     min-height: 40px;
-    img {
-      max-width: 100%;
-    }
-    // SPWebでYouTubeプレイヤーなどのブログパーツの見栄えを整える
-    iframe {
-      max-width: 100%;
-    }
-    embed {
-      max-width: 100%;
+    // 削除済みコメント
+    .comment-deleted {
+      color: @gray;
     }
   }
   .comment-star {
@@ -90,12 +107,14 @@
     .star-container {
       padding-left: 25px;
       padding-bottom: 0;
-      .add-star-button {
-        margin-top: 7px;
-        // btn-smよりさらに小さいボタンにしてる
-        padding: 3px 5px;
-        font-size: 10px;
-        border-radius: 3px;
+      .star-add-col {
+        max-width: 30px;
+        .add-star-button {
+          // btn-smよりさらに小さいボタンにしてる
+          padding: 3px 5px;
+          font-size: 10px;
+          border-radius: 3px;
+        }
       }
       .star-body-col {
         ul {

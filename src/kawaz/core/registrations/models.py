@@ -1,7 +1,8 @@
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from registration.supplements import RegistrationSupplementBase
 from registration.models import RegistrationProfile
+from kawaz.core.personas.models import Profile
 
 
 class RegistrationSupplement(RegistrationSupplementBase):
@@ -30,6 +31,7 @@ from registration.signals import user_activated
 
 
 @receiver(user_activated)
-def add_role_to_new_user(user, password, is_generated, request, **kwargs):
+def setup_for_participation(sender, user, password, is_generated, request, **kwargs):
     user.role = 'children'      # ユーザーをChildrenにする
     user.save()
+    Profile.objects.create(user=user)

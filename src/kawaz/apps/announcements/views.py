@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from permission.decorators import permission_required
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
 

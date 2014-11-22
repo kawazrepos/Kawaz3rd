@@ -21,6 +21,7 @@
     slug: waveweaver
     thumbnail: "fixtures/products/thumbnails/featured.png"
     advertisement_image: "fixtures/products/advertisement_images/waveweaver.jpg"
+    contact_info: "Twitter: @giginet"
     description: |-
       これはどんなゲーム？
       ====================

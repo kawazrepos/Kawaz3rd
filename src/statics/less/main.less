@@ -58,14 +58,27 @@ html {
     }
     .footer-nav {
       padding-left: 15px;
-      li {
-        list-style: none;
-      }
-      a {
-        color: #aab1b7;
-        &:hover {
-          text-decoration: none;
-          color: @gray-lighter;
+      width: 100%;
+      tr {
+        border-top: 1px dotted @gray-dark;
+        &:first-child {
+          border: none;
+        }
+        th {
+          width: 115px;
+          padding: 5px 0;
+          vertical-align: top;
+        }
+        td {
+          padding: 5px 0;
+          line-height: 1.25em;
+          a {
+            color: #aab1b7;
+            &:hover {
+              text-decoration: none;
+              color: @gray-lighter;
+            }
+          }
         }
       }
     }
@@ -86,6 +99,9 @@ html {
   overflow: hidden;
   display: block;
   margin: 10px 15px 0 0;
+  .logo-header-text {
+    display: none;
+  }
 }
 
 // .navbar-brandがbootstrap-cssでネガティブマージン使ってるのでここで無理矢理上書き
@@ -132,7 +148,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   border-color: rgba(231,231,231,1);
   .navbar-nav > .active {
     background: @navbar-default-link-active-bg;
-    border-bottom:3px solid #000;
+    border-bottom: 3px solid @brand-primary;
     a {
       color: #eee;
       &:hover {
@@ -245,7 +261,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     .make-xs-column(12);
   }
   aside {
-    margin-top: 30px;
     .make-lg-column(3);
     .make-xs-column(12);
   }

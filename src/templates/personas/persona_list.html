@@ -1,0 +1,65 @@
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}{% trans "Members" %}{% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'personas_persona_list' %}">{% trans "Members" %}</a></li>
+{% endblock %}
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/persona.less" %}" media="screen">
+{% endblock %}
+{% block content-main %}
+    <div class="page-header">
+        <h1>{% trans "Members" %}({{ filter | length }})</h1>
+    </div>
+    {% if filter|length_is:"0" %}
+        <div class="alert alert-info">
+            <p>該当するメンバーは存在しません</p>
+        </div>
+    {% endif %}
+    <div class="row" id="persona-list">
+        {% for object in object_list %}
+            <div class="thumbnail persona-list-item">
+                <a href="{{ object.get_absolute_url }}">
+                    <img class="persona-avatar" alt="{{ object.nickname }}" src="{{ object.get_huge_avatar }}">
+                </a>
+                <div class="well">
+                    <div class="caption">
+                        <h3>{{ object.nickname }}</h3>
+                        <p class="username">@{{ object.username }}</p>
+                        <div class="quotes">
+                            {% if object.quotes %}
+                                {{ object.quotes }}
+                            {% else %}
+                                <span class="quotes-none">
+                                    ...
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="persona-skills">
+                            {% for skill in object.profile.skills.all %}
+                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="persona-accounts">
+                            {% for account in object.profile.accounts.all %}
+                                <span><a href="{{ account.url }}"><img data-toggle="tooltip" data-placement="top" data-title="{{ account.username }}" src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}"></a></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% include "components/paginator.html" %}
+{% endblock %}
+{% block content-aside %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{% trans "Abilities" %}</h4>
+        </div>
+        {{ filter.form.skills }}
+    </div>
+{% endblock %}

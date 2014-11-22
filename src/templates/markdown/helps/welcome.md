@@ -8,7 +8,7 @@
 
 ## プロフィールを登録しよう
 
-[こちら](http://www.kawaz.org/members/update/)から、あなたのプロフィールを登録できます。
+[こちら](http://www.kawaz.org/members/my/update/)から、あなたのプロフィールを登録できます。
 
 他のメンバーと交流するために、以下の点について必ず記入しましょう。
 

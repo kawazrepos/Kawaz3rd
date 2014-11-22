@@ -1,6 +1,7 @@
 import os
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import pgettext_lazy
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
@@ -124,12 +125,13 @@ class Product(models.Model):
                                 null=True, blank=True, related_name='product')
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
+    contact_info = models.CharField(_('Contact info'), default='', blank=True, max_length=256,
+                                    help_text=_('Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account'))
     # TODO: published
-    publish_at = models.DateField(_('Published at'))
-
-    # 編集不可
-    administrators = models.ManyToManyField(Persona, editable=False,
+    publish_at = models.DateField(_('Published at'), help_text=_('If this product have been already released, please fill the date.'))
+    administrators = models.ManyToManyField(Persona,
                                             verbose_name=_('Administrators'))
+
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     last_modifier = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -207,13 +209,12 @@ class Product(models.Model):
 
 
 class AbstractRelease(models.Model):
-
     """
     リリース形態のアブストラクトモデル
     """
-    label = models.CharField(_('Label'), max_length=32)
+    label = models.CharField(pgettext_lazy('Release name', 'Label'), max_length=32)
     platform = models.ForeignKey(Platform, verbose_name=_('Platform'))
-    version = models.CharField(_('Version'), max_length=32, default='')
+    version = models.CharField(_('Version'), max_length=32, default='', blank=True)
     product = models.ForeignKey(Product, verbose_name=_('Product'),
                                 related_name='%(class)ss', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -318,3 +319,10 @@ add_permission_logic(Product, ProductPermissionLogic())
 from .activity import ProductActivityMediator
 from activities.registry import registry
 registry.register(Product, ProductActivityMediator())
+
+from .activity import ReleaseActivityMediator
+registry.register(PackageRelease, ReleaseActivityMediator())
+registry.register(URLRelease, ReleaseActivityMediator())
+
+from .activity import ScreenshotActivityMediator
+registry.register(Screenshot, ScreenshotActivityMediator())

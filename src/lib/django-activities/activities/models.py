@@ -15,16 +15,21 @@ SNAPSHOT_CACHE_NAME = '_snapshot_cached'
 
 class ActivityManager(models.Manager):
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.prefetch_related('content_type')
+        return qs
+
     def latests(self):
         """
         Return latest activities of each particular content_objects
         """
         # find created_at list of latest activities of each particular
         # content_objects
-        qs = self.get_queryset()
+        qs = super().get_queryset()
         qs = qs.values('content_type_id', 'object_id')
         qs = qs.annotate(created_at=Max('created_at'))
-        created_ats = qs.order_by().values_list('created_at', flat=True)
+        created_ats = qs.values_list('created_at', flat=True)
         # return activities corresponding to the latests
         return self.filter(created_at__in=created_ats)
 
@@ -41,6 +46,7 @@ class ActivityManager(models.Manager):
         """
         ct = ContentType.objects.get_for_model(obj)
         return self.filter(content_type=ct, object_id=obj.pk)
+
 
 class Activity(models.Model):
     """
@@ -99,12 +105,51 @@ class Activity(models.Model):
     @property
     def previous(self):
         """
-        Get previous activity model of a particular content_object which
-        this activity target to. If there is no activity, it return None.
+        Get a previous activity instance which have same content_type and
+        object_id as this activity instance.
+        This is a shortcut property of the following code
+
+            qs = activity.get_previous_activities()
+            previous = qs.first()
+
         """
-        qs = Activity.objects.all()
+        qs = self.get_previous_activities()
+        return qs.first()
+
+    def get_related_activities(self):
+        """
+        Get a queryset of activities which have same content_type and object_id
+        as this activity instance except the activity itself.
+        Note that the queryset is cached in the instance thus you may need to
+        re-get the instance from a database to update the cache.
+        """
+        cache_name = '_related_cache'
+        if not hasattr(self, cache_name):
+            qs = Activity.objects.filter(content_type=self.content_type,
+                                         object_id=self.object_id)
+            if self.pk:
+                qs = qs.exclude(pk=self.pk)
+            setattr(self, cache_name, qs)
+        return getattr(self, cache_name)
+
+    def get_previous_activities(self):
+        """
+        Get a queryset of activities which is smilar to the queryset returned
+        by `get_related_activities` method but only older activities are
+        contained.
+        """
+        qs = self.get_related_activities()
         if self.pk:
             qs = qs.exclude(created_at__gte=self.created_at)
-        qs = qs.filter(content_type=self.content_type,
-                       object_id=self.object_id)
-        return qs.order_by().last()
+        return qs
+
+    def get_next_activities(self):
+        """
+        Get a queryset of activities which is smilar to the queryset returned
+        by `get_related_activities` method but only newer activities are
+        contained.
+        """
+        qs = self.get_related_activities()
+        if self.pk:
+            qs = qs.exclude(created_at__lte=self.created_at)
+        return qs

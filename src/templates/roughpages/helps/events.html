@@ -1,5 +1,5 @@
 {% extends "authenticated_base.html" %}
-{% load markdown %}
+
 {% load i18n %}
 {% block breadcrumb %}
     {{ block.super }}
@@ -8,6 +8,6 @@
 {% endblock %}
 {% block content %}
     <article class="markdown">
-        {% render_markdown "markdown/helps/event.md" %}
+        {% include_kfm "markdown/helps/event.md" %}
     </article>
 {% endblock %}

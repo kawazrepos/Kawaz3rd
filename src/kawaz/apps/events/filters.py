@@ -3,7 +3,7 @@
 # created by giginet on 2014/9/28
 #
 __author__ = 'giginet'
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 import django_filters
 from django_filters import filters
 from .models import Event

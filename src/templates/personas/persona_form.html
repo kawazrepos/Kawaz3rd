@@ -1,0 +1,25 @@
+{% extends "authenticated_base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load form_helper %}
+
+{% block title %}{% trans "Change your user information" %}{% endblock %}
+{% block content %}
+    <ol class="breadcrumb">
+        {% block breadcrumb %}
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url "personas_persona_update" %}">{% trans "Change user information" %}</a></li>
+        {% endblock %}
+    </ol>
+    <div class="page-header">
+        <h1>{% trans "Change your user information" %}</h1>
+    </div>
+    <p>プロフィールは<a href="{% url "personas_profile_update" %}">プロフィールの変更</a>ページから変更できます</p>
+    <form class="form-horizontal row" role="form" method="POST" action="?next={{ redirect_to }}">{% csrf_token %}
+        {% get_form_helper "bare" as helper %}
+        {% crispy form helper %}
+        <div class="form-group">
+            <input type="submit" class="btn btn-success btn-lg col-lg-offset-2 col-xs-offset-2" value="{% trans "Save" %}" />
+        </div>
+    </form>
+{% endblock %}

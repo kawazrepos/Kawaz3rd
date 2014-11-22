@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
+from activities.registry import registry
 from kawaz.core.publishments.models import PublishmentManagerMixin
 from kawaz.core.publishments.models import PUB_STATES
 
@@ -95,3 +96,6 @@ class Announcement(models.Model):
 from permission import add_permission_logic
 from .perms import AnnouncementPermissionLogic
 add_permission_logic(Announcement, AnnouncementPermissionLogic())
+
+from .activity import AnnouncementActivityMediator
+registry.register(Announcement, AnnouncementActivityMediator())

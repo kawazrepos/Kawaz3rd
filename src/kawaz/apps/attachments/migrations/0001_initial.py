@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import kawaz.apps.attachments.models
 from django.conf import settings
+import kawaz.apps.attachments.models
 
 
 class Migration(migrations.Migration):
@@ -16,17 +16,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Material',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', primary_key=True, serialize=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('content_file', models.FileField(upload_to=kawaz.apps.attachments.models.Material._get_upload_path, verbose_name='Content file')),
-                ('slug', models.SlugField(editable=False, unique=True, blank=True, verbose_name='Slug')),
+                ('slug', models.SlugField(editable=False, blank=True, unique=True, verbose_name='Material slug')),
                 ('ip_address', models.IPAddressField(editable=False, verbose_name='IP Address')),
-                ('created_at', models.DateTimeField(verbose_name='Created at', auto_now_add=True)),
-                ('author', models.ForeignKey(verbose_name='Author', to=settings.AUTH_USER_MODEL)),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
+                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, verbose_name='Author')),
             ],
             options={
-                'verbose_name': 'Material',
-                'verbose_name_plural': 'Materials',
                 'ordering': ('created_at',),
+                'verbose_name_plural': 'Materials',
+                'verbose_name': 'Material',
             },
             bases=(models.Model,),
         ),

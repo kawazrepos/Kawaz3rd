@@ -1,5 +1,4 @@
-{% load parser %}
 <h1>{{ object.title }}</h1>
 <div class="markdown">
-    {{ object.body | parser }}
+    {{ object.body | kfm }}
 </div>

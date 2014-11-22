@@ -669,7 +669,8 @@ class ProjectPreviewTestCase(TestCase):
         """
         /projects/preview/にアクセスできます
         """
-        r = self.client.get('/projects/preview/')
+        import json
+        r = self.client.post('/projects/preview/', json.dumps({}), content_type='application/json')
         self.assertTemplateUsed(r, 'projects/components/project_detail.html')
 
     def test_reverse_preview(self):

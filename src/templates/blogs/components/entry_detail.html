@@ -1,26 +1,29 @@
 {% load i18n %}
-{% load parser %}
-    <div class="entry-item entry-date">
-        <div class="date">
-            <p>{{ object.created_at|date:"d" }}<span>{{ object.created_at|date:"Y/m" }}</span></p>
-        </div>
-    </div>
-    <div class="entry-item col-xs-12 col-md-9">
-        <div class="blog-article">
-            <div class="blog-article-header">
-                <div class="page-header entry-title">
-                    <h1>
-                    {{ object.title }}
+<div class="article-wrap">
+    <div class="blog-article">
+        <div class="blog-article-header">
+            <p class="blog-article-info">
+                <small>
+                    <time class="entry-pub-date" datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time>
                     {% if object.pub_state == "protected" %}
                         <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
                     {% endif %}
-                    </h1>
-                </div>
-                <p class="badge">{{ object.category.label }}</p>
+                </small>
+            </p>
+            <div class="page-header entry-title">
+                <h1>
+                    {{ object.title }}
+                </h1>
             </div>
-            <article class="markdown blog-article-body">
-                {{ object.body | parser }}
-                <time datetime="{ object.publish_at|date:'c' } "></time>
-            </article>
+            {% if object.category %}
+                <a class="badge" href="{{ object.category.get_absolute_url }}">{{ object.category.label }}</a>
+            {% else %}
+                <p class="badge">{% trans "None" %}</p>
+            {% endif %}
         </div>
+        <article class="markdown">
+            {{ object.body | kfm }}
+            <time datetime="{ object.publish_at|date:'c' } "></time>
+        </article>
     </div>
+</div>

@@ -1,7 +1,9 @@
 {% extends "activities/base.html" %}
-{% block icon %}
-    <img src="{{ object.thumbnail.url }}">
+{% block thumbnail %}
+    <div class="col-sm-12 activity-image">
+        <img src="{{ object.thumbnail.url }}">
+    </div>
 {% endblock %}
 {% block root %}
-    {{ object.title }}
+    作品「{{ object.title }}」
 {% endblock %}

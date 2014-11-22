@@ -115,11 +115,15 @@
             <div class="text-center">
                 <h3>{% trans "Announcements" %}</h3>
                 {% get_announcements as announcements %}
-                <ul class="footer-nav text-left">
+
+                    <table class="footer-nav text-left">
                     {% for announcement in announcements|slice:":5" %}
-                        <li><strong><time datetime="{{ announcement.created_at|date:'c' }}">{{ announcement.created_at|date:'Y年m月d日' }}</time></strong> <a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a></li>
-                    {% endfor %}
-                </ul>
+                        <tr>
+                            <th><strong><time datetime="{{ announcement.created_at|date:'c' }}">{{ announcement.created_at|date:'Y年m月d日' }}</time></strong></th>
+                            <td><a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
             </div>
         </div>
         <div class="col-xs-6 col-md-4">

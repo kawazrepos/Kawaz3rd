@@ -1,15 +1,40 @@
 {% extends "twopane.html" %}
-
 {% load activities_tags %}
 {% load announcements_tags %}
 {% load i18n %}
+
 {% load staticfiles %}
+{% load profiles_tags %}
 {% block title %}{% trans "My page" %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/wall.less" %}" media="screen">
 {% endblock %}
 {% block content-main %}
+    {% get_my_profile as profile %}
+    {% if not profile.remarks %}
+        <div class="modal fade" id="tutorial-modal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">ようこそ、Kawazへ！</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-warning">
+                            <p>このウィンドウはまだプロフィールを設定していないメンバーに表示されています</p>
+                            <p>他のメンバーと交流するために、必ずプロフィールを設定してください</p>
+                            <p><a class="btn btn-lg btn-success" href="{% url "personas_profile_update" %}">今すぐ設定する</a></p>
+                        </div>
+                        {% include_kfm "markdown/helps/welcome.md" %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    {% endif %}
 
     {% get_recent_announcements as announcements %}
     {% if not announcements|length_is:"0" %}
@@ -20,14 +45,15 @@
     {% endif %}
 
     <div class="page-header">
-        <h2>Activities</h2>
+        <h2>{% trans "Activities" %}</h2>
     </div>
     {% get_latest_activities as activities %}
-    {% include "activities/components/activity_container.html" with activities=activities %}
-    <div class="text-center">
-        <a class="btn btn-default" href="{% url "activities_activity_list" %}?page=2&type=wall">{% trans "Read more" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
-    </div>
-
+    {% include "activities/components/activity_container.html" with activities=activities|slice:":10" %}
+    {% if activities|length > 10 %}
+        <div class="text-center">
+            <a class="btn btn-default" href="{% url "activities_activity_list" %}?page=2&type=wall">{% trans "Read more" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+    {% endif %}
 {% endblock %}
 {% block content-aside %}
     <section id="wall-nav">
@@ -52,10 +78,15 @@
                 <a class="list-group-item" href="http://redmine.kawaz.org/" target="_blank">Kawaz Redmine</a>
                 <a class="list-group-item" href="http://gitlab.kawaz.org/" target="_blank">Kawaz GitLab</a>
                 <a class="list-group-item" href="https://twitter.com/kawazinfo/lists/Kawaz" target="_blank">Twitter Kawazメンバーリスト</a>
-                <a class="list-group-item" href="http://twitter.com/kawazinfo" target="_blank">Twitter Kawazポータル更新情報</a>
+                <a class="list-group-item" href="http://twitter.com/kawazinfo" target="_blank">Twitter ポータル更新情報bot</a>
                 <a class="list-group-item" href="http://twitter.com/kawazpr" target="_blank">Twitter KawazPR用アカウント</a>
+                <a class="list-group-item" href="http://twitter.com/kawaz_redmine" target="_blank">Twitter Redmine通知用アカウント</a>
                 <a class="list-group-item" href="http://kawaz.hipchat.com" target="_blank">Kawaz HipChat</a>
             </div>
         </div>
     </section>
+{% endblock %}
+{% block post_javascript %}
+    {{ block.super }}
+    <script type="text/coffeescript" src="{% static "coffee/tutorial.coffee" %}"></script>
 {% endblock %}

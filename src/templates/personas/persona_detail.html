@@ -1,0 +1,196 @@
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load projects_tags %}
+{% load blogs_tags %}
+{% block title %}{% blocktrans with nickname=object.nickname %}{{ nickname }}'s Profile{% endblocktrans %}{% endblock %}
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/persona.less" %}" media="screen">
+{% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'personas_persona_list' %}">{% trans "Members" %}</a></li>
+    <li><a href="{{ object.get_absolute_url }}">{{ object.nickname }}</a></li>
+{% endblock %}
+{% block content-main %}
+{% comment %}
+TODO:
+ユーザーがProfileの公開範囲を"内部公開"にしていた場合、外部ユーザがこのページにアクセスした際'profile'コンテキストが渡されない
+したがって'profile'が存在しない場合のデザインを行う必要がある。
+
+NOTE:
+{% if user has 'personas.change_profile' of profile %} としている部分は'profile'が'None'になるため非オブジェクトパーミッションを調べることになり
+潜在的に'True'が返るようになる。これは「ミスによる'profile'の情報漏洩」と「ミスによる踏めないリンクの表示」を比較した際に明らかに情報漏洩のほうが問題があるため「仕様」として存在している。そのためパーミッションチェックを行う場合は必ず{% if profile and user has 'personas.change_profile' of profile %}のようにまず'profile'の存在確認を行うのが良い
+なお、この問題はdjango-permission側による修正が予定されている
+https://github.com/lambdalisue/django-permission/issues/29
+{% endcomment %}
+    <div class="row" id="persona-header">
+        <div class="col col-lg-5 col-xs-5" id="persona-avatar">
+            <img class="avatar avatar-huge" src="{{ object.get_huge_avatar }}" alt="{{ object.username }}">
+        </div>
+        <div class="col col-lg-7 col-xs-7">
+            <div class="page-header">
+                <span class="username">@{{ object.username }}</span>
+                <h1>{{ object.nickname }}</h1>
+            </div>
+            <div class="quotes">
+                {% if object.quotes %}
+                    {{ object.quotes }}
+                {% else %}
+                    <span class="quotes-none">...</span>
+                {% endif %}
+            </div>
+            <div class="persona-info">
+                {% if profile.pub_state == 'public' %}
+                    <div class="row">
+                        <div class="col col-lg-6 col-xs-6"><label>{% trans "Gender" %}</label></div>
+                        <div class="col col-lg-6 col-xs-6">{{ object.get_gender_display }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg-6 col-xs-6"><label>{% trans "Birthday" %}</label></div>
+                        <div class="col col-lg-6 col-xs-6">{{ profile.birthday | date:"m/d" }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg-6 col-xs-6"><label>{% trans "Address" %}</label></div>
+                        <div class="col col-lg-6 col-xs-6">{{ profile.place }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg-6 col-xs-6"><label>{% trans "Abilities" %}</label></div>
+                        <div class="col col-lg-6 col-xs-6">
+                            {% for skill in profile.skills.all %}
+                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                            {% empty %}
+                                {% if user has 'personas.change_profile' of profile %}
+                                    <span class="badge" data-toggle="tooltip" data-placement="top" data-title="「できること」が未設定です">ニート</span>
+                                {% else %}
+                                    <span class="badge" data-toggle="tooltip" data-placement="top" data-title="何の能力も持たない無能力者です">ニート</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if not profile and not user.is_authenticated %}
+        {# プロフィールが渡されていないとき、すなわち非公開の時 #}
+        <div class="alert alert-warning">
+            <p>
+                {% blocktrans with nickname=object.nickname %}{{ nickname }} may conceal own profile from non participants. Please login to see the profile.{% endblocktrans %}
+            </p>
+        </div>
+    {% endif %}
+    {% if profile and user has 'personas.change_profile' of profile %}
+        {% if profile.remarks %}
+            {# 自分のページの時 #}
+            <div class="alert alert-info">
+                <p><strong>ここはあなたのページです</strong></p>
+            </div>
+        {% else %}
+            {# 自分のページかつ、プロフィール未設定の時 #}
+            <div class="alert alert-warning">
+                <p>これはあなたのページですが、まだプロフィールが設定されていません。</p>
+                <p>他のメンバーと交流するために、必ずプロフィールを設定してください。</p>
+                <p><strong><small>長期間放置されているアカウントは削除される場合があります。</small></strong></p>
+                <p><a class="btn btn-success btn-lg" href="{% url "personas_profile_update" %}">今すぐ設定する</a></p>
+            </div>
+        {% endif %}
+        {% if profile.skills.all|length_is:"0" %}
+            {# 自分のページかつ、スキル未設定の時 #}
+            <div class="alert alert-warning">
+                <p>まだ「<strong>できること</strong>」が設定されていません。</p>
+                <p>「<strong>できること</strong>」は他のメンバーと繋がるために必要な情報です。必ず設定してください。</p>
+                <p><a class="btn btn-success btn-lg" href="{% url "personas_profile_update" %}">今すぐ設定する</a></p>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if profile %}
+        <article id="persona-main" class="markdown">
+            {{ profile.remarks | kfm }}
+        </article>
+    {% endif %}
+    {% include "components/star_container.html" %}
+    <div id="recent-entries">
+        <h2>{% trans "Recent Entries" %}</h2>
+        {% if object.blog_entries.all|length_is:0 %}
+            <div class="alert alert-info">
+                {% trans "There are no entries yet" %}
+            </div>
+        {% else %}
+            <div class="list-group">
+                {% get_published_entries_of object as entries %}
+                {% for entry in entries|slice:":5" %}
+                    <a href="{{ entry.get_absolute_url }}" class="blog-entry list-group-item">
+                        <time>{{ entry.publish_at | date:"Y/m/d" }}</time>
+                        <span class="link">{{ entry.title }}</span>
+                    </a>
+                    {% if forloop.last %}
+                        <a href="{% url "blogs_entry_author_list" author=object.username %}" class="blog-entry list-group-item">
+                            <span class="link text-center">{% trans "Read all entries" %}</span>
+                        </a>
+                    {% endif %}
+                {% empty %}
+                    <div class="list-group-item">{% trans "No entries have been written yet." %}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="comment">
+        {% include "comments/components/comment_items.html" %}
+        {% include "comments/components/comment_form.html" %}
+        {% include "components/social.html" %}
+    </div>
+{% endblock %}
+{% block content-aside %}
+    <div id="persona-aside">
+        {% if profile and user has 'profiles.change_profile' of profile %}
+            <div id="profile-administration" class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">{% trans "Administration" %}</h2>
+                </div>
+                <div class="list-group">
+                  <a class="list-group-item" href="{% url "personas_profile_update" %}" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil"></span> {% trans "Update Profile" %}
+                  </a>
+                </div>
+            </div>
+        {% endif %}
+        <div id="persona-accounts" class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Accounts" %}</h2>
+            </div>
+            <div class="list-group">
+                {% for account in profile.accounts.all %}
+                    <a class="list-group-item" href="{{ account.url }}">
+                        <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">
+                        <span class="list-group-item-text link">{{ account.username }}</span>
+                    </a>
+                {% empty %}
+                    <li class="list-group-item list-group-item-warning">{% trans "There are no accounts." %}</li>
+                {% endfor %}
+            </div>
+        </div>
+        {# 参加中のプロジェクト  #}
+        <div id="persona-joined-projects" class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Joined Projects" %}</h2>
+            </div>
+            <div class="list-group">
+                {% get_published_joined_projects_of object as projects %}
+                {% for project in projects.all %}
+                    <a class="list-group-item" href="{{ project.get_absolute_url }}">
+                        <div class="belong-project-icon">
+                            <img class="avatar avatar-small" src="{{ project.get_small_icon }}">
+                        </div>
+                        <div class="belong-project-title">
+                            <span class="link">{{ project.title }}</span>
+                        </div>
+                    </a>
+                {% empty %}
+                    <li class="list-group-item list-group-item-warning">{% trans "There are no joinned projects." %}</li>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

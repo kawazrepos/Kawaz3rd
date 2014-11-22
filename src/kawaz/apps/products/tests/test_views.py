@@ -111,6 +111,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             'publish_at': datetime.date.today(),
             'platforms': (1,),
             'categories': (1,),
+            'administrators': (1,),
             'description': '剣と魔法の物語です',
             'screenshots-TOTAL_FORMS': 0,           # No screenshots
             'screenshots-INITIAL_FORMS': 0,
@@ -154,6 +155,19 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             self.prefer_login(user)
             r = self.client.post('/products/create/', self.product_kwargs)
             self.assertRedirects(r, login_url)
+
+    def test_contact_info_initial_value(self):
+        """
+        Contact infoの初期値が
+        ニックネーム: メールアドレス
+        になっている
+        """
+        for i, user in enumerate(self.members):
+            self.prefer_login(user)
+            r = self.client.get('/products/create/')
+            form = r.context['form']
+            contact_info = "{}: {}".format(user.nickname, user.email)
+            self.assertEqual(form.fields['contact_info'].initial, contact_info)
 
     def test_members_can_create_product(self):
         """
@@ -301,6 +315,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             'publish_at': datetime.date.today(),
             'platforms': (1,),
             'categories': (1,),
+            'administrators': (1,),
             'description': '剣と魔法の物語です',
             'screenshots-TOTAL_FORMS': 0,           # No screenshots
             'screenshots-INITIAL_FORMS': 1,
@@ -479,6 +494,7 @@ class ProductPreviewTestCase(TestCase):
         """
         products_product_previewが表示できる
         """
-        r = self.client.get('/products/preview/')
+        import json
+        r = self.client.post('/products/preview/', json.dumps({}), content_type='application/json')
         self.assertTemplateUsed(r, 'products/components/product_detail.html')
         self.assertEqual(r.status_code, 200)

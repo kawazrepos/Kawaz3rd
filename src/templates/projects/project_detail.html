@@ -1,5 +1,4 @@
 {% extends "twopane.html" %}
-{% load parser %}
 {% load staticfiles %}
 {% load i18n %}
 {% load projects_tags %}
@@ -84,7 +83,7 @@
           </div>
       {% endif %}
       <article class="markdown project-article">
-          {{ project.body | parser }}
+          {{ project.body | kfm }}
     </article>
     {% include "components/star_container.html" %}
     {% include "comments/components/comment_items.html" %}
@@ -106,9 +105,13 @@
       </div>
       <div class="list-group">
       {% for member in object.members.all %}
-        <a href="{{ member.profile.get_absolute_url }}" class="list-group-item">
-          <img class="avatar avatar-middle" src="{{ member.get_middle_avatar }}" alt="{{ member.nickname }}">
-            {{ member.nickname }}さん</a>
+        <a href="{{ member.get_absolute_url }}" class="list-group-item">
+          <span class="administrator-icon">
+            <img class="avatar avatar-middle" src="{{ member.get_middle_avatar }}" alt="{{ member.nickname }}">
+              {% if object.administrator == member %}<span title="{% trans 'Administrator of this project' %}" rel="tooltip" data-toggle="tooltip" data-placement="top" class="administrator-icon-star glyphicon glyphicon-star"></span>{% endif %}
+          </span>
+          {{ member.nickname }}さん
+        </a>
       {% endfor %}
       </div>
     </div>

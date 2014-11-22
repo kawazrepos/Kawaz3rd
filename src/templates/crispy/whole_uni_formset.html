@@ -1,6 +1,7 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_utils %}
 {% load crispy_forms_field %}
+{% load i18n %}
 
 {% specialspaceless %}
     <div>
@@ -16,6 +17,7 @@
                 <div class="panel panel-default panel-formset">
                     <div class="panel-heading">
                         <a href="#" class="btn btn-danger btn-sm formset-remove"><span class="glyphicon glyphicon-minus"></span></a>
+                        <label class="formset-button-label">{% trans "Remove this form" %}</label>
                     </div>
                     {% if form_show_errors and not form.is_extra and form_error_title %}
                         <div class="panel-body">
@@ -49,8 +51,8 @@
             {% endfor %}
         </div>
         <div class="row">
-            <div class="col col-xg-1 col-sm-1">
-                <a href="#" class="btn btn-success btn-sm formset-add"><span class="glyphicon glyphicon-plus"></span></a>
+            <div class="col col-xg-6 col-sm-12">
+                <a href="#" class="btn btn-success btn-sm formset-add"><span class="glyphicon glyphicon-plus"></span></a> <label class="formset-button-label">{% trans "Add new form" %}</label>
             </div>
         </div>
     </div>

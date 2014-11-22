@@ -2,13 +2,11 @@
 #
 # created by giginet on 2014/10/14
 #
-from django_comments.models import Comment
-
 __author__ = 'giginet'
 from activities.mediator import ActivityMediator
+from django_comments.models import Comment
 
 class EntryActivityMediator(ActivityMediator):
-
 
     def alter(self, instance, activity, **kwargs):
         # 状態がdraftの場合は通知しない
@@ -58,7 +56,7 @@ class EntryActivityMediator(ActivityMediator):
             # remarks に保存された変更状態を利便のためフラグ化
             for flag in activity.remarks.split():
                 context[flag] = True
-        elif activity.status == 'add_comment':
+        elif activity.status == 'comment_added':
             # コメントが付いたとき、remarksにcommentのpkが入ってるはずなので
             # 取得してcontextに渡す
             try:

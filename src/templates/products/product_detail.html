@@ -1,5 +1,5 @@
 {% extends "twopane.html" %}
-{% load embed %}
+{% load youtube %}
 {% load products_tags %}
 {% load staticfiles %}
 {% load i18n %}
@@ -142,13 +142,30 @@
         <div class="panel-heading">
             <h2 class="panel-title">{% trans "Recommended games" %}</h2>
         </div>
-        <div id="products" class="list-group">
+        <div class="list-group products-aside-item">
             {% get_relative object as products %}
             {% for product in products|slice:":3" %}
-                <div class="item list-group-item">
+                <div class="item list-group-item recommend-item">
                     {% include "products/components/thumbnail-item.html" %}
                 </div>
             {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans "Contact Info" %}</h2>
+        </div>
+        <div class="list-group products-aside-item">
+            <address>
+            {% if product.contact_info %}
+                <a class="list-group-item">
+                    {{ product.contact_info }}
+                </a>
+            {% else %}
+                <a class="item list-group-item" href="/contact/">{% trans "Contact us about this product" %}</a>
+            {% endif %}
+            </address>
         </div>
     </div>
 

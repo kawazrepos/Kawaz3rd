@@ -1,3 +1,7 @@
+# DjangoのCSRF protectionを回避するため、Cookieのcsrfトークンを
+# リクエストヘッダーに追加している
+# このコードをCoffeeScriptに移植しただけ
+# Ref : https://docs.djangoproject.com/en/1.7/ref/contrib/csrf/#ajax
 $ ->
   csrftoken = $.cookie('csrftoken')
 
@@ -16,6 +20,7 @@ $('.star-container').each(->
 
   $starContainer = $(@).find('.star-body-col ul')
 
+  # スター追加ボタンが押されたとき
   $button.click((e) ->
     # 現在のカーソルの選択範囲をquoteにする
     quote = document.getSelection().toString()
@@ -40,7 +45,6 @@ $('.star-container').each(->
       $star = $(html)
       $starContainer.append($star)
       $star.hide().fadeIn( ->
-        refreshStars()
         $star.attr('title', data['tooltip'])
       )
     ).fail( () ->
@@ -48,38 +52,46 @@ $('.star-container').each(->
     )
   )
 
+  # スターが15個以上付いてるとき、畳む
   $readmore = $(@).find('.star-read-more')
-  console.log $readmore
   $stars = $(@).find('.star')
   starCount = $stars.size()
   $readmore.find('.text').text(starCount)
-  if starCount < 15
+  maxStarCount = 15
+  if starCount < maxStarCount
     $readmore.hide()
   else
-    $invisible = $stars[15...]
+    $invisible = $stars[maxStarCount...]
     $wrapper = $('<div>')
     $invisible.remove()
     $wrapper.append($invisible)
     $starContainer.append($wrapper)
     $wrapper.hide()
+    $readmore.show()
     $readmore.click(() ->
       $wrapper.toggle()
       $(@).hide()
     )
 
-  refreshStars = () ->
-    $('.star').on('mouseover', () ->
-      $(@).find('.star-remove').show()
-    )
-    $('.star').on('mouseout', () ->
-      $(@).find('.star-remove').hide()
-    )
-    $('.star').tooltip()
+  # スターにマウスオーバーしたときに削除ボタンをトグルする
+  # Note: 動的に追加されたスターにも適応するためにon(delegate)を利用している
+  $(@).on('mouseover', '.star', ->
+    $(@).find('.star-remove').show()
+  )
+  $(@).on('mouseout', '.star', ->
+    $(@).find('.star-remove').hide()
+  )
 
-  refreshStars()
+  # hoverしたときのtooltipを登録する
+  # Note:
+  # `selector`オプションを加えることで$.onでbindできるため
+  # あとから追加されたStarについてもtooltipが表示される
+  $(@).tooltip(
+    selector: '.star'
+  )
 
-  # スターの削除
-  $('.star-remove').click(->
+  # スターの削除ボタンを押したとき
+  $(@).on('click', '.star-remove', ->
     $star = $(@).closest('.star')
     pk = $star.attr('star-id')
     if confirm("削除します。よろしいですか？")
@@ -93,7 +105,6 @@ $('.star-container').each(->
         alert("スターの削除に失敗しました")
       )
     return false
-
   )
 
 )

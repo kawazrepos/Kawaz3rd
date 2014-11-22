@@ -23,7 +23,6 @@
     padding-top: 10px;
     padding-bottom: 20px;
     position: relative;
-    z-index: 1;
     background: @body-bg;
     border: solid 1px @gray-lighter;
     margin-bottom: 30px;
@@ -40,12 +39,25 @@
       background: @gray-lighter;
     }
 
+    .activity-image {
+      img {
+        max-width: 100%;
+      }
+    }
+
     .activity-icon {
+      flex-grow: 1;
+      // アイコン領域は縮まない
+      flex-shrink: 0;
+      max-width: @avatar-size-large + @icon-margin * 2;
       display: flex;
+      justify-content: center;
+      align-items: center;
 
       img {
         margin: auto @icon-margin;
         max-width: 500px;
+        min-width: @avatar-size-large;
       }
 
     }
@@ -53,6 +65,8 @@
     .activity-body {
       flex-flow: column wrap;
       display: flex;
+      flex-grow: 6;
+      flex-shrink: 2;
       align-items: stretch;
 
       .activity-header {
