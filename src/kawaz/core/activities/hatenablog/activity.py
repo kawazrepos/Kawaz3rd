@@ -2,13 +2,13 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-from django.contrib.contenttypes.models import ContentType
-from kawaz.core.personas.models import Persona
-from activities.models import Activity
 from activities.mediator import ActivityMediator
 
 
 class HatenablogEntryActivityMediator(ActivityMediator):
+    notifiers = (
+        'twitter_kawaz_official',
+    )
 
     def alter(self, instance, activity, **kwargs):
         if activity and activity.status == 'updated':
