@@ -160,10 +160,6 @@ DATABASES = {
         'NAME': os.path.join(REPOSITORY_ROOT, 'db.sqlite3'),
     }
 }
-# validation_on_save decorator (kawaz.core.db.decorators)
-# To disable automatical validation, set this variable to False
-VALIDATE_ON_SAVE_DISABLE = False
-
 
 # kawaz.core.personas
 # 使用可能なユーザー名の正規表現
