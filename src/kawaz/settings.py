@@ -1,40 +1,38 @@
-"""
-Django settings for Kawaz project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
+###############################################################################
+#
+#   Kawaz ポータルサイトの設定
+#
+###############################################################################
 import os
 import sys
+from django.utils.translation import ugettext_lazy as _
 
-REPOSITORY_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+# リポジトリルートのパスを変数へ格納
+REPOSITORY_ROOT = os.path.abspath(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+)
+# 設定ファイル格納ディレクトリルートのパスを格納
+CONFIG_ROOT = os.path.join(REPOSITORY_ROOT, 'config')
 
-# Add extra PYTHON_PATH
+# ライブラリ公開予定のアプリを参照するためにPYTHON_PATHに追加
 LIB = os.path.join(REPOSITORY_ROOT, 'src', 'lib')
 sys.path.insert(0, os.path.join(LIB, 'django-activities'))
 sys.path.insert(0, os.path.join(LIB, 'django-google-calendar'))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xd(wr812awpkuu4+7o)#ugb)*a0z!-m^an+m)%ly$l(ses8_g1'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# 設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# セッション暗号化用文字列の指定
+SECRET_KEY = 'ここに十分に長いランダムな文字列'
+
+# 開発モードを指定
 DEBUG = True
 TEMPLATE_DEBUG = True
 
+# アクティブなサイトIDを指定
 SITE_ID = 1
 
-ROOT_URLCONF = 'kawaz.urls'
-WSGI_APPLICATION = 'kawaz.wsgi.application'
-AUTH_USER_MODEL = 'personas.Persona'
-
-TEST_RUNNER = 'kawaz.core.tests.runner.KawazDiscoverRunner'
-TESTING = False
-
-
-# Application definition
+# 利用しているアプリ
 INSTALLED_APPS = (
     'suit',
     'django.contrib.admin',
@@ -77,6 +75,7 @@ INSTALLED_APPS = (
     'kawaz.apps.kfm',
 )
 
+# 利用しているミドルウェア
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -89,6 +88,33 @@ MIDDLEWARE_CLASSES = (
     'roughpages.middleware.RoughpageFallbackMiddleware',
 )
 
+# テンプレート保存ディレクトリの指定
+TEMPLATE_DIRS = (
+    os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
+)
+
+# テンプレートコンテキストプロセッサの指定
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.core.context_processors.request",
+    "django.contrib.auth.context_processors.auth",
+    "django.contrib.messages.context_processors.messages",
+)
+
+# データベースの設定
+DATABASES = {
+    'default': {
+        # 開発用にSQLite3を利用
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(REPOSITORY_ROOT, 'db.sqlite3'),
+    }
+}
+
+# キャッシュシステムの設定
 CACHES = {
     'default': {
         # 開発用にローカルキャッシュを使用する
@@ -98,46 +124,12 @@ CACHES = {
         'LOCATION': 'this value should be quite unique for Kawaz cache',
     }
 }
+
 # djangoのセッション情報をキャッシュおよびDBに保存
+# デフォルトはDB保存なので、これにより体感可能なレベルでの高速化が可能
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
-from django.utils.translation import ugettext_lazy as _
-USE_I18N = True
-LANGUAGE_CODE = 'en'
-LANGUAGES = (
-    ('en', _('English')),
-    ('ja', _('Japanese')),
-)
-
-USE_L10N = True
-LOCALE_PATHS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'locale'),
-)
-
-USE_TZ = True
-TIME_ZONE = 'Asia/Tokyo'
-
-
-# Template
-TEMPLATE_DIRS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
-)
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "django.core.context_processors.request"
-)
-
-MEDIA_URL = '/storage/'
-MEDIA_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'storage')
-
+# 静的ファイルの設定
 STATIC_URL = '/statics/'
 STATIC_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'statics')
 STATICFILES_DIRS = (
@@ -148,19 +140,45 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
+
+# アップロードファイルの設定
+MEDIA_URL = '/storage/'
+MEDIA_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'storage')
+
+# 初期データ・デバッグ情報の設定
 FIXTURE_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'fixtures',),
 )
 
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(REPOSITORY_ROOT, 'db.sqlite3'),
-    }
-}
+# テスト関係の設定
+TEST_RUNNER = 'kawaz.core.tests.runner.KawazDiscoverRunner'
+TESTING = False
 
+ROOT_URLCONF = 'kawaz.urls'
+WSGI_APPLICATION = 'kawaz.wsgi.application'
+
+# 認証関係の設定
+AUTH_USER_MODEL = 'personas.Persona'
+LOGIN_URL = '/registration/login/'
+LOGOUT_URL = '/registration/logout/'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_ACTIVATION_DAYS = 7
+
+# 国際化の設定
+USE_TZ = True
+USE_I18N = True
+USE_L10N = True
+TIME_ZONE = 'Asia/Tokyo'
+LANGUAGE_CODE = 'en'
+LANGUAGES = (
+    ('en', _('English')),
+    ('ja', _('Japanese')),
+)
+LOCALE_PATHS = (
+    os.path.join(REPOSITORY_ROOT, 'src', 'locale'),
+)
+
+# プラグインの設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # django-thumbnailfield
 THUMBNAIL_SIZE_PATTERNS = {
@@ -175,10 +193,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'permission.backends.PermissionBackend',
 )
-# Permission presence check in DEBUG mode
-# from django-permission 0.5.3
-PERMISSION_CHECK_PERMISSION_PRESENCE = DEBUG
-
+# 指定されたパーミッションが存在するかどうかテストを行う
+PERMISSION_CHECK_PERMISSION_PRESENCE = True
 
 # django-inspectional-registration
 REGISTRATION_SUPPLEMENT_CLASS = (
@@ -186,19 +202,11 @@ REGISTRATION_SUPPLEMENT_CLASS = (
 REGISTRATION_NOTIFICATION = True
 REGISTRATION_NOTIFICATION_ADMINS = True
 REGISTRATION_NOTIFICATION_RECIPIENTS = (
-
+    'webmaster@kawaz.org',
 )
-
-
-ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
-LOGIN_URL = '/registration/login/'
-LOGOUT_URL = '/registration/logout/'
-LOGIN_REDIRECT_URL = '/'
-
 
 # django-compressor
-COMPRESS_ENABLED = not DEBUG
 COMPRESS_OUTPUT_DIR = ''
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
@@ -215,7 +223,7 @@ from activities.notifiers.registry import registry
 from activities.notifiers.oauth.twitter import TwitterActivityNotifier
 ACTIVITIES_NOTIFIER_CONFIG_ROOT = os.path.join(
     REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
-) 
+)
 registry.register(TwitterActivityNotifier(
     TwitterActivityNotifier.get_credentials(os.path.join(
         ACTIVITIES_NOTIFIER_CONFIG_ROOT,
@@ -244,11 +252,13 @@ GOOGLE_CALENDAR_CALENDAR_ID = (
     'kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.com'
 )
 GOOGLE_CALENDAR_EVENT_MODEL = 'events.Event'
-GOOGLE_CALENDAR_BACKEND_CLASS = 'kawaz.apps.events.gcal.KawazGoogleCalendarBackend'
-GOOGLE_CALENDAR_CLIENT_SECRETS = os.path.join(
-    REPOSITORY_ROOT, 'config', 'gcal', 'client_secrets.json')
-GOOGLE_CALENDAR_CREDENTIALS = os.path.join(
-    REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
+GOOGLE_CALENDAR_BACKEND_CLASS = (
+    'kawaz.apps.events.gcal.KawazGoogleCalendarBackend'
+)
+GOOGLE_CALENDAR_CLIENT_SECRETS = os.path.join(CONFIG_ROOT,
+                                              'gcal', 'client_secrets.json')
+GOOGLE_CALENDAR_CREDENTIALS = os.path.join(CONFIG_ROOT,
+                                           'gcal', 'credentials.json')
 
 # django_comments
 COMMENTS_APP = 'kawaz.core.comments'
