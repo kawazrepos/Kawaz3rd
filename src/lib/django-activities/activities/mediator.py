@@ -99,7 +99,7 @@ class ActivityMediator(object):
         self._exec_post_processes_of_receivers(
             instance, activity, **kwargs
         )
-                            
+
     def _m2m_changed_receiver(self, sender, instance, **kwargs):
         # call user defined alternation code
         # user need to create activity instance
