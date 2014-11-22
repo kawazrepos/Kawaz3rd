@@ -11,6 +11,7 @@ SECRET_KEY = 'ここに十分に長いランダムな文字列'
 
 # 開発モードを指定
 DEBUG = True
+PRODUCT = False
 TEMPLATE_DEBUG = True
 
 # アクティブなサイトIDを指定

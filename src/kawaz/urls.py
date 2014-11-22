@@ -34,12 +34,14 @@ urlpatterns = patterns('',
     url(r'^comments/', include('django_comments.urls')),
 )
 
-if settings.DEBUG:
+if not settings.PRODUCT:
+    # 本番環境以外では開発用サーバーにて静的ファイルも提供
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += (
-        url(r'^favicon\.ico$', RedirectView.as_view(url='/statics/favicon.ico')),
+        url(r'^favicon\.ico$',
+            RedirectView.as_view(url='/statics/favicon.ico')),
     )
