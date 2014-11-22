@@ -77,7 +77,6 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,7 +86,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'roughpages.middleware.RoughpageFallbackMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 CACHES = {
