@@ -10,6 +10,10 @@ __author__ = 'giginet'
 from activities.mediator import ActivityMediator
 
 class ProductActivityMediator(ActivityMediator):
+    notifiers = (
+        'twitter_kawaz_info',
+        'twitter_kawaz_official'
+    )
 
     def alter(self, instance, activity, **kwargs):
         # 状態がdraftの場合は通知しない

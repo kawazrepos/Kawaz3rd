@@ -255,7 +255,6 @@ registry.register(TwitterActivityNotifier(
     ))
 ), 'twitter_kawaz_info')
 ACTIVITIES_DEFAULT_NOTIFIERS = (
-    'twitter_kawaz_official',
     'twitter_kawaz_info',
 )
 del registry
