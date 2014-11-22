@@ -243,6 +243,6 @@ class ActivityMediator(object):
         """
         template_names = self.get_template_names(activity, typename)
         template = select_template(template_names)
-        context = self.prepare_context(activity, context.new(),
+        context = self.prepare_context(activity, context.new(context),
                                        typename=typename)
         return template.render(context)
