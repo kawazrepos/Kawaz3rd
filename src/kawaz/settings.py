@@ -72,6 +72,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'kawaz.core.middlewares.exception.UserBasedExceptionMiddleware',
     'roughpages.middleware.RoughpageFallbackMiddleware',
 )
 
