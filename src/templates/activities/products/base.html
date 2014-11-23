@@ -1,7 +1,9 @@
 {% extends "activities/base.html" %}
 {% block thumbnail %}
     <div class="col-sm-12 activity-image">
-        <img src="{{ object.thumbnail.url }}">
+        <a href="{{ object.get_absolute_url }}">
+            <img src="{{ object.thumbnail.url }}">
+        </a>
     </div>
 {% endblock %}
 {% block root %}
