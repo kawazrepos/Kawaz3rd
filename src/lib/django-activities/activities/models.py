@@ -26,12 +26,15 @@ class ActivityManager(models.Manager):
         """
         # find created_at list of latest activities of each particular
         # content_objects
+        # it use 'pk' instead of 'created_at' to filter latest while
+        #   - more than two activities which has same 'created_at' is possible
+        #   - newer activity have grater pk
         qs = super().get_queryset()
         qs = qs.values('content_type_id', 'object_id')
-        qs = qs.annotate(created_at=Max('created_at'))
-        created_ats = qs.values_list('created_at', flat=True)
+        qs = qs.annotate(pk=Max('pk'))
+        pks = qs.values_list('pk', flat=True)
         # return activities corresponding to the latests
-        return self.filter(created_at__in=created_ats)
+        return self.filter(pk__in=pks)
 
     def get_for_model(self, model):
         """
