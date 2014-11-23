@@ -4,11 +4,19 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import os
 import json
+import warnings
 import tolerance
 from requests_oauthlib import OAuth1Session
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from ..base import ActivityNotifierBase
+
+
+class ImproperlyConfiguredWarning(UserWarning):
+    """
+    A warning class which indicate an improper configur
+    """
+    pass
 
 
 def tolerate(fn):
@@ -42,9 +50,13 @@ class OAuth1ActivityNotifier(ActivityNotifierBase):
     def __init__(self, credentials, params={}):
         if isinstance(credentials, str):
             credentials = self.__class__.get_credentials(credentials)
-        params = dict(params)
-        params.update(credentials)
-        self.oauth_session = OAuth1Session(**params)
+        if credentials is None:
+            # disable
+            self.enable = False
+        else:
+            params = dict(params)
+            params.update(credentials)
+            self.oauth_session = OAuth1Session(**params)
 
     @tolerate
     def send(self, rendered_content):
@@ -63,9 +75,11 @@ class OAuth1ActivityNotifier(ActivityNotifierBase):
         requests_oauthlib.OAuth1
         """
         if not os.path.exists(filename):
-            raise ImproperlyConfigured((
+            warnings.warn((
                 "'{}' is not found. Confirm if the file exists."
-            ).format(filename))
+            ).format(filename), ImproperlyConfiguredWarning)
+            return None
+
         with open(filename) as fi:
             credentials = json.load(fi)
         # validate json

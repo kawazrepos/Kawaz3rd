@@ -11,6 +11,7 @@ class ActivityNotifierBase(object):
     A base class of activity notifier
     """
     typename = None
+    enable = True
 
     def get_typename(self):
         """
@@ -31,6 +32,8 @@ class ActivityNotifierBase(object):
         """
         Notify the activity change via 'send' method of this instance
         """
+        if not self.enable:
+            return
         if typename is None:
             typename = self.get_typename()
         if context is None:
