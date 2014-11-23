@@ -122,4 +122,5 @@ class ScreenshotActivityMediator(ActivityMediator):
             activity.status = 'screenshot_added'
             # Screenshotのpkをremarksに入れる
             activity.remarks = str(instance.pk)
-        return activity
+            return activity
+        return None
