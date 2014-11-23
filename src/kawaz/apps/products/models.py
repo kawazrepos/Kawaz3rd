@@ -24,7 +24,7 @@ ADVERTISEMENT_IMAGE_SIZE_PATTERNS = {
     'small': (43, 24,),
 }
 SCREENSHOT_IMAGE_SIZE_PATTERNS = {
-    'huge': (1024, 768,),
+    None: None,
 }
 
 
