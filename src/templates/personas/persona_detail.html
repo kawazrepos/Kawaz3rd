@@ -122,7 +122,7 @@ https://github.com/lambdalisue/django-permission/issues/29
                 {% get_published_entries_of object as entries %}
                 {% for entry in entries|slice:":5" %}
                     <a href="{{ entry.get_absolute_url }}" class="blog-entry list-group-item">
-                        <time>{{ entry.publish_at | date:"Y/m/d" }}</time>
+                        <time>{{ entry.published_at | date:"Y/m/d" }}</time>
                         <span class="link">{{ entry.title }}</span>
                     </a>
                     {% if forloop.last %}

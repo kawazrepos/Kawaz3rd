@@ -108,7 +108,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             'title': 'かわずたんファンタジー',
             'slug': 'kawaztan-fantasy',
             'thumbnail': 'thumbnail.png',
-            'publish_at': datetime.date.today(),
+            'published_at': datetime.date.today(),
             'platforms': (1,),
             'categories': (1,),
             'administrators': (1,),
@@ -312,7 +312,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         )
         self.product_kwargs = {
             'title': 'クラッカーだよ！！！',
-            'publish_at': datetime.date.today(),
+            'published_at': datetime.date.today(),
             'platforms': (1,),
             'categories': (1,),
             'administrators': (1,),

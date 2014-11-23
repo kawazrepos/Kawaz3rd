@@ -7,7 +7,7 @@ Google Calendar 連携用 Backend
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.conf import settings
 from django.contrib.sites.models import Site
-from kawaz.core.gcal.backend import Backend
+from google_calendar.backend import Backend
 
 
 def get_base_url():

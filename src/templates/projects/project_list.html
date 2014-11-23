@@ -38,6 +38,10 @@
             <p><small>現在企画中のプロジェクトです</small></p>
         </h2>
     </div>
+    <div class="alert alert-warning">
+        ここには「企画中」のプロジェクトのうち、作成されてから90日以内のもののみが表示されています。<br /> 
+        発足してから90日以内に「活動中」に移行しない場合は「アーカイブされたプロジェクト」に移動します。
+    </div>
 
     <div class="row project-list list-group tiled-project-list">
         {% get_projects 'recently_planned' as planning %}

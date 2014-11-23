@@ -59,7 +59,7 @@ class Entry(models.Model):
                                related_name='blog_entries', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Modified at'), auto_now=True)
-    publish_at = models.DateTimeField(_('Published at'),
+    published_at = models.DateTimeField(_('Published at'),
                                       null=True, editable=False)
 
     objects = EntryManager()
@@ -76,19 +76,19 @@ class Entry(models.Model):
         return self.title
 
     @property
-    def publish_at_date(self):
+    def published_at_date(self):
         """公開日"""
-        if not self.publish_at:
+        if not self.published_at:
             return None
-        return datetime.datetime.date(self.publish_at)
+        return datetime.datetime.date(self.published_at)
 
     def save(self, *args, **kwargs):
-        if not self.publish_at:
+        if not self.published_at:
             # 記事の状態が下書き以外の場合は公開日時を自動的に指定
             # これは最初の公開時のみに行われるため 公開->下書き->公開 としても
             # 最初の公開日が変更されることはない
             if self.pub_state != 'draft':
-                self.publish_at = timezone.now()
+                self.published_at = timezone.now()
         super().save(*args, **kwargs)
 
     def clean(self):
@@ -98,14 +98,14 @@ class Entry(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        if self.publish_at:
+        if self.published_at:
             tz = get_default_timezone()
-            publish_at = self.publish_at.astimezone(tz)
+            published_at = self.published_at.astimezone(tz)
             return ('blogs_entry_detail', (), {
                 'author': self.author.username,
-                'year': publish_at.year,
-                'month': publish_at.month,
-                'day': publish_at.day,
+                'year': published_at.year,
+                'month': published_at.month,
+                'day': published_at.day,
                 'pk': self.pk
             })
         return ('blogs_entry_update', (), {

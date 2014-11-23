@@ -33,9 +33,16 @@ class ActivitiesNotifierRegistryTestCase(TestCase):
         name = repr(notifier.__class__)
         registry.register(notifier)
 
+        # duplicate registration should not raise
+        registry.register(notifier)
+
+        # duplicate registration should raise exception if
+        # overwrite=False is specified
         self.assertRaises(AttributeError,
                           registry.register,
-                          notifier)
+                          notifier,
+                          overwrite=False)
+
 
     def test_get_or_register(self):
         registry = Registry()

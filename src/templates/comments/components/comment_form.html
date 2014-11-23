@@ -9,7 +9,7 @@
             {% get_form_helper 'inline_bare' as bare %}
             {% crispy comment_form bare %}
             <input type="hidden" name="next" value="{{ request.path }}" />
-            <div class="form-group">
+            <div class="submit-button-block">
                 <input type="submit" class="comment-submit btn btn-success btn-lg" value="{% trans "Post a comment" %}" />
             </div>
         </form>

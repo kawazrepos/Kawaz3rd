@@ -3,15 +3,14 @@
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.test import TestCase
-from unittest.mock import MagicMock
 from ..utils import (get_model,
                      get_class)
 
 
-class GCalUtilsGetModelTestCase(TestCase):
+class GoogleCalendarUtilsGetModelTestCase(TestCase):
     def test_get_model_with_str(self):
         from ..models import GoogleCalendarBridge
-        path = 'gcal.GoogleCalendarBridge'
+        path = 'google_calendar.GoogleCalendarBridge'
         model = get_model(path)
         self.assertEqual(model, GoogleCalendarBridge)
 
@@ -22,15 +21,15 @@ class GCalUtilsGetModelTestCase(TestCase):
 
     def test_get_model_with_unknown(self):
         """get_model should return None if the path doesn't exists"""
-        path = 'gcal.UnknownModel'
+        path = 'google_calendar.UnknownModel'
         model = get_model(path)
         self.assertEqual(model, None)
 
 
-class GCalUtilsGetClassTestCase(TestCase):
+class GoogleCalendarUtilsGetClassTestCase(TestCase):
     def test_get_class_with_str(self):
         from ..client import GoogleCalendarClient
-        path = 'kawaz.core.gcal.client.GoogleCalendarClient'
+        path = 'google_calendar.client.GoogleCalendarClient'
         cls = get_class(path)
         self.assertEqual(cls, GoogleCalendarClient)
 
@@ -41,12 +40,12 @@ class GCalUtilsGetClassTestCase(TestCase):
 
     def test_get_class_with_unknown_module(self):
         from django.core.exceptions import ImproperlyConfigured
-        path = 'kawaz.core.gcal.unknown.GoogleCalendarClient'
+        path = 'google_calendar.unknown.GoogleCalendarClient'
         self.assertRaises(ImproperlyConfigured, get_class, path)
 
     def test_get_class_with_unknown_class(self):
         from django.core.exceptions import ImproperlyConfigured
-        path = 'kawaz.core.gcal.client.Unknown'
+        path = 'google_calendar.client.Unknown'
         self.assertRaises(ImproperlyConfigured, get_class, path)
 
 

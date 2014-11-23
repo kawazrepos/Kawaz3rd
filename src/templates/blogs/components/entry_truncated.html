@@ -4,7 +4,7 @@
 
         <p class="blog-article-info">
             <small>
-                <time class="entry-pub-date" datetime="{{ object.publish_at|date:"c" }}">{{ object.publish_at|date:"Y/m/d" }}</time>
+                <time class="entry-pub-date" datetime="{{ object.published_at|date:"c" }}">{{ object.published_at|date:"Y/m/d" }}</time>
                 {% if object.pub_state == "protected" %}
                     <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
                 {% endif %}

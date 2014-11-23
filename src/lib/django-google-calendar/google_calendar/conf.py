@@ -2,13 +2,12 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-import os
 from django.conf import settings
 from appconf import AppConf
 
 
-class GCalAppConf(AppConf):
-    """GCal configures"""
+class GoogleCalendarAppConf(AppConf):
+    """GoogleCalendar configures"""
 
     # A target event model
     EVENT_MODEL = None

@@ -11,8 +11,24 @@ from kawaz.core.personas.models import Persona
 from kawaz.apps.projects.models import Project
 
 
-class Platform(models.Model):
+PRODUCT_THUMBNAIL_SIZE_PATTERNS = {
+    'huge': (512, 288,),
+    'large': (172, 96,),
+    'middle': (86, 48,),
+    'small': (43, 24,),
+}
+ADVERTISEMENT_IMAGE_SIZE_PATTERNS = {
+    'huge': (512, 288,),
+    'large': (172, 96,),
+    'middle': (86, 48,),
+    'small': (43, 24,),
+}
+SCREENSHOT_IMAGE_SIZE_PATTERNS = {
+    None: (32, 32),
+}
 
+
+class Platform(models.Model):
     """
     プロダクトがサポートしているプラットフォームを表すモデル
 
@@ -38,7 +54,6 @@ class Platform(models.Model):
 
 
 class Category(models.Model):
-
     """
     プロダクトが所属するカテゴリーを表すモデル
 
@@ -60,7 +75,6 @@ class Category(models.Model):
 
 @validate_on_save
 class Product(models.Model):
-
     """
     完成したプロダクトを表すモデル
 
@@ -102,7 +116,7 @@ class Product(models.Model):
     thumbnail = ThumbnailField(
         _('Thumbnail'),
         upload_to=_get_thumbnail_upload_path,
-        patterns=settings.PRODUCT_THUMBNAIL_SIZE_PATTERNS,
+        patterns=PRODUCT_THUMBNAIL_SIZE_PATTERNS,
         help_text=_("This would be used as a product thumbnail image. "
                     "The aspect ratio of the image should be 16:9."
                     "We recommend the image size to be 800 * 450."))
@@ -113,7 +127,7 @@ class Product(models.Model):
         _('Advertisement Image'),
         null=True, blank=True,
         upload_to=_get_advertisement_image_upload_path,
-        patterns=settings.ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
+        patterns=ADVERTISEMENT_IMAGE_SIZE_PATTERNS,
         help_text=_("This would be used in the top page. "
                     "The aspect ratio of the image should be 16:9"
                     "We recommend the image size to be 800 * 450"))
@@ -122,13 +136,21 @@ class Product(models.Model):
         help_text=_("Enter URL of your trailer movie on the YouTube. "
                     "The movie would be embeded to the product page."))
     project = models.OneToOneField(Project, verbose_name=_('Project'),
-                                null=True, blank=True, related_name='product')
+                                   null=True, blank=True,
+                                   related_name='product')
     platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
-    categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
-    contact_info = models.CharField(_('Contact info'), default='', blank=True, max_length=256,
-                                    help_text=_('Fill your contact info for visitors, e.f. Twitter account, Email address or Facebook account'))
-    # TODO: published
-    publish_at = models.DateField(_('Published at'), help_text=_('If this product have been already released, please fill the date.'))
+    categories = models.ManyToManyField(Category,
+                                        verbose_name=_('Categories'))
+    contact_info = models.CharField(
+        _('Contact info'), default='', blank=True, max_length=256,
+        help_text=_(
+            "Fill your contact info for visitors, "
+            "e.g. Twitter account, Email address or Facebook account"))
+    published_at = models.DateField(
+        _('Published at'),
+        help_text=_(
+            "If this product have been already released, "
+            "please fill the date."))
     administrators = models.ManyToManyField(Persona,
                                             verbose_name=_('Administrators'))
 
@@ -136,8 +158,8 @@ class Product(models.Model):
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     last_modifier = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name=_('Last modified by'),
-                                      editable=False,
-                                      null=True, related_name='last_modified_products')
+                                      editable=False, null=True,
+                                      related_name='last_modified_products')
 
     #
     # Productの表示順番を制御する値です。Formsでexclude設定されるため通常
@@ -158,7 +180,7 @@ class Product(models.Model):
         ))
 
     class Meta:
-        ordering = ('display_mode', '-publish_at',)
+        ordering = ('display_mode', '-published_at',)
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
         permissions = (
@@ -212,9 +234,11 @@ class AbstractRelease(models.Model):
     """
     リリース形態のアブストラクトモデル
     """
-    label = models.CharField(pgettext_lazy('Release name', 'Label'), max_length=32)
+    label = models.CharField(pgettext_lazy('Release name', 'Label'),
+                             max_length=32)
     platform = models.ForeignKey(Platform, verbose_name=_('Platform'))
-    version = models.CharField(_('Version'), max_length=32, default='', blank=True)
+    version = models.CharField(_('Version'), max_length=32,
+                               default='', blank=True)
     product = models.ForeignKey(Product, verbose_name=_('Product'),
                                 related_name='%(class)ss', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -229,7 +253,6 @@ class AbstractRelease(models.Model):
 
 
 class PackageRelease(AbstractRelease):
-
     """
     ファイル添付形式でのリリースモデル
     """
@@ -250,7 +273,6 @@ class PackageRelease(AbstractRelease):
 
 
 class URLRelease(AbstractRelease):
-
     """
     URL指定形式でのリリースモデル。主に外部ホスティングでのリリース用
 
@@ -280,7 +302,6 @@ class URLRelease(AbstractRelease):
 
 
 class Screenshot(models.Model):
-
     """
     プロダクトのスクリーンショットモデル
 
@@ -293,9 +314,10 @@ class Screenshot(models.Model):
 
     image = ThumbnailField(
         _('Image'), upload_to=_get_upload_path,
-        patterns=settings.SCREENSHOT_IMAGE_SIZE_PATTERNS)
+        patterns=SCREENSHOT_IMAGE_SIZE_PATTERNS)
     product = models.ForeignKey(
-        Product, verbose_name=_('Product'), editable=False, related_name='screenshots')
+        Product, verbose_name=_('Product'), editable=False,
+        related_name='screenshots')
 
     class Meta:
         ordering = ('pk',)
