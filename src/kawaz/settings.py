@@ -256,10 +256,12 @@ SUIT_CONFIG = dict(
 
 # django-debug-toolbar
 def show_debug_toolbar(request):
-    user = getattr(request, 'user', None)
-    if DEBUG or (not request.is_ajax() and user and user.is_superuser):
+    from django.conf import settings
+    if settings.TESTING:
+        return False
+    if not request.is_ajax() and request.user and request.user.is_superuser:
         return True
-    return False
+    return settings.DEBUG
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = True
 DEBUG_TOOLBAR_CONFIG = {
@@ -284,13 +286,12 @@ DEBUG_TOOLBAR_PANELS = [
 
 # 雑多な設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-if DEBUG:
-    # テスト時のRuntimeWarningをexceptionにしている
-    # https://docs.djangoproject.com/en/dev/topics/i18n/timezones/#code
-    import warnings
-    warnings.filterwarnings(
-        'error', r"DateTimeField .* received a naive datetime",
-        RuntimeWarning, r'django\.db\.models\.fields')
+# Timezone関連のRuntimeWarningをexceptionにしている
+# https://docs.djangoproject.com/en/dev/topics/i18n/timezones/#code
+import warnings
+warnings.filterwarnings(
+    'error', r"DateTimeField .* received a naive datetime",
+    RuntimeWarning, r'django\.db\.models\.fields')
 
 # DjangoのMessageをBootstrap3に適応させている
 from django.contrib.messages import constants as messages
