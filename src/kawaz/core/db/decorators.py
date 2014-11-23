@@ -1,11 +1,18 @@
 from functools import wraps
+from django.conf import settings
+
+
+# デフォルトの値を設定
+setattr(settings, 'VALIDATE_ON_SAVE_DISABLE',
+        getattr(settings, 'VALIDATE_ON_SAVE_DISABLE', False))
+
 
 def validate_on_save(klass):
     """
-    A class decorator to enable auto validation on model save
+    モデル保存時にバリデーションを走らせるためのクラスデコレータ
 
-    You can stop automatical validation with setting ``True`` to
-    ``VALIDATE_ON_SAVE_DISABLE``
+    このデコレータが指定されたモデルを保存した場合、自動的に ``full_clean()``
+    が呼び出されバリデーションが走る
 
     Usage:
         >>> from django.db import models
@@ -15,19 +22,11 @@ def validate_on_save(klass):
         ...     def clean(self):
         ...         raise ValidationError
     """
-    # store origianl save method
     original_save = klass.save
 
-    # ref: https://docs.djangoproject.com/en/dev/ref/models/instances/#saving-objects
     def wrapper(self, *args, **kwargs):
-        from django.conf import settings    # this should be loaded in run time
-        if not getattr(settings, 'VALIDATE_ON_SAVE_DISABLE', False):
-            # call full_clean() method to run the validation.
-            # should be called as the way below but self.full_clean() way
+        if not settings.VALIDATE_ON_SAVE_DISABLE:
             klass.full_clean(self)
-        # call original save method and return the value
         return original_save(self, *args, **kwargs)
-
-    # overwrap original save method
     setattr(klass, 'save', wraps(original_save)(wrapper))
     return klass

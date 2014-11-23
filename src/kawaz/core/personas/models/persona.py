@@ -14,14 +14,13 @@ from thumbnailfield.fields import ThumbnailField
 from kawaz.core.db.decorators import validate_on_save
 
 
-
-# 使用可能なユーザー名パターン
-VALID_USERNAME_PATTERN = re.compile(
-    settings.PERSONAS_VALID_USERNAME_PATTERN
+# kawaz.core.personas
+# 使用可能なユーザー名の正規表現
+VALID_USERNAME_PATTERN = re.compile(r"^[\w\-\_]+$")
+# 使用不可なユーザー名（URLルールなどにより）
+INVALID_USERNAMES = (
+    'my',
 )
-
-# URLルールなどにより使用できないユーザー名
-INVALID_USERNAMES = settings.PERSONAS_INVALID_USERNAMES
 
 
 class PersonaManager(BaseUserManager):
@@ -110,7 +109,8 @@ class Persona(AbstractUser, metaclass=PersonaBase):
 
     nickname = models.CharField(_('Nickname'), max_length=30)
     quotes = models.CharField(_('Mood message'), max_length=127, blank=True)
-    avatar = ThumbnailField(_('Avatar'), upload_to=_get_upload_path, blank=True,
+    avatar = ThumbnailField(_('Avatar'),
+                            upload_to=_get_upload_path, blank=True,
                             patterns=settings.THUMBNAIL_SIZE_PATTERNS)
     gender = models.CharField(_('Gender'), max_length=10,
                               choices=GENDER_TYPES, default='unknown')
@@ -119,9 +119,8 @@ class Persona(AbstractUser, metaclass=PersonaBase):
                             help_text=_(
                                 "The role this user belongs to. "
                                 "A user will get permissions of the role thus "
-                                "the user cannot change ones role for security "
-                                "reason."
-                            ))
+                                "the user cannot change ones role for "
+                                "security reason."))
 
     objects = PersonaManager()
 

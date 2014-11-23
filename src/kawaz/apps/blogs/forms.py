@@ -31,5 +31,5 @@ class EntryForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
             'author',
             'created_at',
             'updated_at',
-            'publish_at',
+            'published_at',
         )

@@ -1,39 +1,23 @@
-"""
-Django settings for Kawaz project.
+###############################################################################
+#
+#   Kawaz ポータルサイトの設定
+#
+###############################################################################
+from .pre_settings import *
+from django.utils.translation import ugettext_lazy as _
 
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
+# セッション暗号化用文字列の指定
+SECRET_KEY = 'ここに十分に長いランダムな文字列'
 
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
-import os
-import sys
-
-REPOSITORY_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-
-# Add extra PYTHON_PATH
-LIB = os.path.join(REPOSITORY_ROOT, 'src', 'lib')
-sys.path.insert(0, os.path.join(LIB, 'django-activities'))
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xd(wr812awpkuu4+7o)#ugb)*a0z!-m^an+m)%ly$l(ses8_g1'
-
-# SECURITY WARNING: don't run with debug turned on in production!
+# 開発モードを指定
 DEBUG = True
+PRODUCT = False
 TEMPLATE_DEBUG = True
 
+# アクティブなサイトIDを指定
 SITE_ID = 1
 
-ROOT_URLCONF = 'kawaz.urls'
-WSGI_APPLICATION = 'kawaz.wsgi.application'
-AUTH_USER_MODEL = 'personas.Persona'
-
-TEST_RUNNER = 'kawaz.core.tests.runner.KawazDiscoverRunner'
-TESTING = False
-
-
-# Application definition
+# 利用しているアプリ
 INSTALLED_APPS = (
     'suit',
     'django.contrib.admin',
@@ -49,12 +33,14 @@ INSTALLED_APPS = (
     'rest_framework',
     'permission',
     'debug_toolbar',
+    'template_timings_panel',
     'thumbnailfield',
     'roughpages',
     'registration',
     'crispy_forms',
     'compressor',
     'activities',
+    'google_calendar',
     'kawaz.core.management',
     'kawaz.core.db',
     'kawaz.core.comments',
@@ -64,7 +50,6 @@ INSTALLED_APPS = (
     'kawaz.core.registrations',
     'kawaz.core.forms',
     'kawaz.core.templatetags',
-    'kawaz.core.gcal',
     'kawaz.core.activities.hatenablog',
     'kawaz.apps.announcements',
     'kawaz.apps.attachments',
@@ -76,18 +61,48 @@ INSTALLED_APPS = (
     'kawaz.apps.kfm',
 )
 
+# 利用しているミドルウェア
 MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'kawaz.core.middlewares.exception.UserBasedExceptionMiddleware',
     'roughpages.middleware.RoughpageFallbackMiddleware',
 )
 
+# テンプレート保存ディレクトリの指定
+TEMPLATE_DIRS = (
+    os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
+)
+
+# テンプレートコンテキストプロセッサの指定
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.core.context_processors.request",
+    "django.contrib.auth.context_processors.auth",
+    "django.contrib.messages.context_processors.messages",
+)
+
+# データベースの設定
+DATABASES = {
+    'default': {
+        # 開発用にSQLite3を利用
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(REPOSITORY_ROOT, 'db.sqlite3'),
+    }
+}
+
+# キャッシュシステムの設定
 CACHES = {
     'default': {
         # 開発用にローカルキャッシュを使用する
@@ -97,46 +112,12 @@ CACHES = {
         'LOCATION': 'this value should be quite unique for Kawaz cache',
     }
 }
+
 # djangoのセッション情報をキャッシュおよびDBに保存
+# デフォルトはDB保存なので、これにより体感可能なレベルでの高速化が可能
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
-from django.utils.translation import ugettext_lazy as _
-USE_I18N = True
-LANGUAGE_CODE = 'en'
-LANGUAGES = (
-    ('en', _('English')),
-    ('ja', _('Japanese')),
-)
-
-USE_L10N = True
-LOCALE_PATHS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'locale'),
-)
-
-USE_TZ = True
-TIME_ZONE = 'Asia/Tokyo'
-
-
-# Template
-TEMPLATE_DIRS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
-)
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "django.core.context_processors.request"
-)
-
-MEDIA_URL = '/storage/'
-MEDIA_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'storage')
-
+# 静的ファイルの設定
 STATIC_URL = '/statics/'
 STATIC_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'statics')
 STATICFILES_DIRS = (
@@ -147,31 +128,45 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
+
+# アップロードファイルの設定
+MEDIA_URL = '/storage/'
+MEDIA_ROOT = os.path.join(REPOSITORY_ROOT, 'public', 'storage')
+
+# 初期データ・デバッグ情報の設定
 FIXTURE_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'fixtures',),
 )
 
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(REPOSITORY_ROOT, 'db.sqlite3'),
-    }
-}
-# validation_on_save decorator (kawaz.core.db.decorators)
-# To disable automatical validation, set this variable to False
-VALIDATE_ON_SAVE_DISABLE = False
+# テスト関係の設定
+TEST_RUNNER = 'kawaz.core.tests.runner.KawazDiscoverRunner'
+TESTING = False
 
+ROOT_URLCONF = 'kawaz.urls'
+WSGI_APPLICATION = 'kawaz.wsgi.application'
 
-# kawaz.core.personas
-# 使用可能なユーザー名の正規表現
-PERSONAS_VALID_USERNAME_PATTERN = r"^[\w\-\_]+$"
-# 使用不可なユーザー名（URLルールなどにより）
-PERSONAS_INVALID_USERNAMES = (
-    'my',
+# 認証関係の設定
+AUTH_USER_MODEL = 'personas.Persona'
+LOGIN_URL = '/registration/login/'
+LOGOUT_URL = '/registration/logout/'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_ACTIVATION_DAYS = 7
+
+# 国際化の設定
+USE_TZ = True
+USE_I18N = True
+USE_L10N = True
+TIME_ZONE = 'Asia/Tokyo'
+LANGUAGE_CODE = 'en'
+LANGUAGES = (
+    ('en', _('English')),
+    ('ja', _('Japanese')),
+)
+LOCALE_PATHS = (
+    os.path.join(REPOSITORY_ROOT, 'src', 'locale'),
 )
 
+# プラグインの設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # django-thumbnailfield
 THUMBNAIL_SIZE_PATTERNS = {
@@ -180,31 +175,14 @@ THUMBNAIL_SIZE_PATTERNS = {
     'middle': (48, 48,),
     'small': (24, 24,),
 }
-PRODUCT_THUMBNAIL_SIZE_PATTERNS = {
-    'huge': (512, 288,),
-    'large': (172, 96,),
-    'middle': (86, 48,),
-    'small': (43, 24,),
-}
-ADVERTISEMENT_IMAGE_SIZE_PATTERNS = {
-    'huge': (512, 288,),
-    'large': (172, 96,),
-    'middle': (86, 48,),
-    'small': (43, 24,),
-}
-SCREENSHOT_IMAGE_SIZE_PATTERNS = {
-    None: (32, 32),
-}
 
 # django-permission
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'permission.backends.PermissionBackend',
 )
-# Permission presence check in DEBUG mode
-# from django-permission 0.5.3
-PERMISSION_CHECK_PERMISSION_PRESENCE = DEBUG
-
+# 指定されたパーミッションが存在するかどうかテストを行う
+PERMISSION_CHECK_PERMISSION_PRESENCE = True
 
 # django-inspectional-registration
 REGISTRATION_SUPPLEMENT_CLASS = (
@@ -212,19 +190,11 @@ REGISTRATION_SUPPLEMENT_CLASS = (
 REGISTRATION_NOTIFICATION = True
 REGISTRATION_NOTIFICATION_ADMINS = True
 REGISTRATION_NOTIFICATION_RECIPIENTS = (
-
+    'webmaster@kawaz.org',
 )
-
-
-ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_DJANGO_AUTH_URLS_ENABLE = False
-LOGIN_URL = '/registration/login/'
-LOGOUT_URL = '/registration/logout/'
-LOGIN_REDIRECT_URL = '/'
-
 
 # django-compressor
-COMPRESS_ENABLED = not DEBUG
 COMPRESS_OUTPUT_DIR = ''
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
@@ -237,43 +207,36 @@ DEFAULT_RENDERER_CLASSES = (
 )
 
 # django-activities
-from activities.notifiers.registry import registry
-from activities.notifiers.oauth.twitter import TwitterActivityNotifier
-ACTIVITIES_NOTIFIER_CONFIG_ROOT = os.path.join(
-    REPOSITORY_ROOT, 'config', 'activities', 'notifiers',
-) 
-registry.register(TwitterActivityNotifier(
-    TwitterActivityNotifier.get_credentials(os.path.join(
-        ACTIVITIES_NOTIFIER_CONFIG_ROOT,
-        'credentials_twitter_kawaz_test.json'
-    ))
-), 'twitter_kawaz_official')
-registry.register(TwitterActivityNotifier(
-    TwitterActivityNotifier.get_credentials(os.path.join(
-        ACTIVITIES_NOTIFIER_CONFIG_ROOT,
-        'credentials_twitter_kawazinfo_test.json'
-    ))
-), 'twitter_kawaz_info')
+ACTIVITIES_INSTALLED_NOTIFIERS = (
+    ('twitter_kawaz_official',
+     'activities.notifiers.oauth.twitter.TwitterActivityNotifier',
+     os.path.join(CONFIG_ROOT, 'activities', 'notifiers',
+                  'credentials_twitter_kawaz_test.json')),
+    ('twitter_kawaz_info',
+     'activities.notifiers.oauth.twitter.TwitterActivityNotifier',
+     os.path.join(CONFIG_ROOT, 'activities', 'notifiers',
+                  'credentials_twitter_kawazinfo_test.json')),
+)
 ACTIVITIES_DEFAULT_NOTIFIERS = (
     'twitter_kawaz_info',
 )
-del registry
-del TwitterActivityNotifier
 
 # kawaz.apps.activities.contrib.hatenablog
 ACTIVITIES_HATENABLOG_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
-# kawaz.apps.events.gcal
-GCAL_CALENDAR_ID = (
+# django-google-calendar
+GOOGLE_CALENDAR_CALENDAR_ID = (
     # DEBUG用カレンダー
     'kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.com'
 )
-GCAL_EVENT_MODEL = 'events.Event'
-GCAL_BACKEND_CLASS = 'kawaz.apps.events.gcal.KawazGoogleCalendarBackend'
-GCAL_CLIENT_SECRETS = os.path.join(
-    REPOSITORY_ROOT, 'config', 'gcal', 'client_secrets.json')
-GCAL_CREDENTIALS = os.path.join(
-    REPOSITORY_ROOT, 'config', 'gcal', 'credentials.json')
+GOOGLE_CALENDAR_EVENT_MODEL = 'events.Event'
+GOOGLE_CALENDAR_BACKEND_CLASS = (
+    'kawaz.apps.events.gcal.KawazGoogleCalendarBackend'
+)
+GOOGLE_CALENDAR_CLIENT_SECRETS = os.path.join(CONFIG_ROOT,
+                                              'gcal', 'client_secrets.json')
+GOOGLE_CALENDAR_CREDENTIALS = os.path.join(CONFIG_ROOT,
+                                           'gcal', 'credentials.json')
 
 # django_comments
 COMMENTS_APP = 'kawaz.core.comments'
@@ -289,13 +252,45 @@ SUIT_CONFIG = dict(
     SEARCH_URL='/central-dogma/personas/persona/',
 )
 
-if DEBUG:
-    # テスト時のRuntimeWarningをexceptionにしている
-    # https://docs.djangoproject.com/en/dev/topics/i18n/timezones/#code
-    import warnings
-    warnings.filterwarnings(
-        'error', r"DateTimeField .* received a naive datetime",
-        RuntimeWarning, r'django\.db\.models\.fields')
+
+# django-debug-toolbar
+def show_debug_toolbar(request):
+    from django.conf import settings
+    if settings.TESTING:
+        return False
+    if not request.is_ajax() and request.user and request.user.is_superuser:
+        return True
+    return settings.DEBUG
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = True
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': 'kawaz.settings.show_debug_toolbar',
+}
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.profiling.ProfilingPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+]
+
+# 雑多な設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Timezone関連のRuntimeWarningをexceptionにしている
+# https://docs.djangoproject.com/en/dev/topics/i18n/timezones/#code
+import warnings
+warnings.filterwarnings(
+    'error', r"DateTimeField .* received a naive datetime",
+    RuntimeWarning, r'django\.db\.models\.fields')
 
 # DjangoのMessageをBootstrap3に適応させている
 from django.contrib.messages import constants as messages

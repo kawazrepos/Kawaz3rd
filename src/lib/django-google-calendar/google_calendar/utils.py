@@ -43,16 +43,17 @@ def get_class(path):
         mod = import_module(module)
     except ImportError as e:
         raise ImproperlyConfigured(
-                'Error loading a module %s: "%s"' % (module, e))
+            'Error loading a module %s: "%s"' % (module, e))
     try:
         cls = getattr(mod, attr)
     except AttributeError:
         raise ImproperlyConfigured((
-                'Module "%s" does not define a class named "%s"'
+            'Module "%s" does not define a class named "%s"'
         ) % (module, attr))
     return cls
 
 # === from django-observer ==============================================
+
 
 def get_relation(relation):
     """

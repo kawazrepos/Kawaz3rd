@@ -92,24 +92,24 @@ class EntryDeleteView(DeleteSuccessMessageMixin, DeleteView):
 
 class EntryTodayArchiveView(TodayArchiveView, EntryMultipleObjectMixin):
     model = Entry
-    date_field = 'publish_at'
+    date_field = 'published_at'
 
 
 class EntryDayArchiveView(DayArchiveView, EntryMultipleObjectMixin):
     model = Entry
-    date_field = 'publish_at'
+    date_field = 'published_at'
     month_format = '%m'
 
 
 class EntryMonthArchiveView(MonthArchiveView, EntryMultipleObjectMixin):
     model = Entry
-    date_field = 'publish_at'
+    date_field = 'published_at'
     month_format = '%m'
 
 
 class EntryYearArchiveView(YearArchiveView, EntryMultipleObjectMixin):
     model = Entry
-    date_field = 'publish_at'
+    date_field = 'published_at'
     # paginatorを有効にするとき、allow_empty=Trueが必要
     # http://stackoverflow.com/questions/8624507/django-paginate-by-year
     allow_empty = True

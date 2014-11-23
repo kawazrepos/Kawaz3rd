@@ -11,6 +11,7 @@ django-inspectional-registration>=0.4.1
 django-crispy-forms
 django-contrib-comments
 django-debug-toolbar
+django-debug-toolbar-template-timings
 requests
 django-appconf
 honcho

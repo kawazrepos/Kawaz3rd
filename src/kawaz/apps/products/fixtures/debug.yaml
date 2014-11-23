@@ -9,7 +9,7 @@
     trailer: http://www.youtube.com/watch?v=YokP83OKMOc
     platforms: [1,]
     categories: [5, 13]
-    publish_at: 2013-11-19
+    published_at: 2013-11-19
     administrators: [1,]
     display_mode: 'featured'
     created_at: "2014-5-20 12:00:00+09:00"
@@ -30,7 +30,7 @@
     trailer: http://www.youtube.com/watch?v=6eqc5wqbgdU
     platforms: [2, 5, 6]
     categories: [2, 7]
-    publish_at: 2014-03-22
+    published_at: 2014-03-22
     administrators: [1,]
     display_mode: 'featured'
     created_at: "2014-5-20 12:00:00+09:00"
@@ -46,7 +46,7 @@
     trailer: http://www.youtube.com/watch?v=kV3tspXFhbQ
     platforms: [1, 5,]
     categories: [4, 13]
-    publish_at: 2030-12-1
+    published_at: 2030-12-1
     administrators: [1,]
     display_mode: 'featured'
     created_at: "2014-5-20 12:00:00+09:00"
@@ -60,7 +60,7 @@
     description: "けろーん！かわずたん！"
     platforms: [1, 2,]
     categories: [2,]
-    publish_at: 2015-1-1
+    published_at: 2015-1-1
     administrators: [1,]
     display_mode: 'tiled'
     created_at: "2014-5-20 12:00:00+09:00"
@@ -74,7 +74,7 @@
     description: "けろーん！かわずたん！"
     platforms: [1, 2,]
     categories: [2,]
-    publish_at: 2015-1-1
+    published_at: 2015-1-1
     administrators: [1,]
     display_mode: 'tiled'
     created_at: "2014-5-20 12:00:00+09:00"
@@ -88,7 +88,7 @@
     description: "けろーん！かわずたん！"
     platforms: [1, 2,]
     categories: [2,]
-    publish_at: 2015-1-1
+    published_at: 2015-1-1
     administrators: [1,]
     display_mode: 'tiled'
     created_at: "2014-5-20 12:00:00+09:00"
@@ -102,7 +102,7 @@
     description: "けろーん！かわずたん！"
     platforms: [1, 2,]
     categories: [2,]
-    publish_at: 2015-1-1
+    published_at: 2015-1-1
     administrators: [1,]
     display_mode: 'normal'
     created_at: "2014-5-20 12:00:00+09:00"
@@ -116,7 +116,7 @@
     description: "けろーん！かわずたん！"
     platforms: [1, 2,]
     categories: [2,]
-    publish_at: 2015-1-1
+    published_at: 2015-1-1
     administrators: [1,]
     display_mode: 'normal'
     created_at: "2014-5-20 12:00:00+09:00"
@@ -130,7 +130,7 @@
     description: "けろーん！かわずたん！"
     platforms: [1, 2,]
     categories: [2,]
-    publish_at: 2015-1-1
+    published_at: 2015-1-1
     administrators: [1,]
     display_mode: 'normal'
     created_at: "2014-5-20 12:00:00+09:00"

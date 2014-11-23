@@ -2,7 +2,6 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-from django.utils import timezone
 import tolerance
 from .conf import settings
 from .utils import get_class
@@ -14,7 +13,7 @@ RFC3339 = '%Y-%m-%dT%H:%M:%S.000%z'
 
 def tolerate(fn):
     """
-    A function decorator to make the function fail silently if 
+    A function decorator to make the function fail silently if
     settings.DEBUG is False or fail_silently=True is specified
     """
     def switch_function(*args, **kwargs):
@@ -45,7 +44,7 @@ class Backend(object):
         return GoogleCalendarBridge.objects.get_or_create(event=event)[0]
 
     def __init__(self):
-        self.calendar_id = settings.GCAL_CALENDAR_ID
+        self.calendar_id = settings.GOOGLE_CALENDAR_CALENDAR_ID
         self.client = GoogleCalendarClient(self.calendar_id)
 
     def translate(self, event):
@@ -82,7 +81,7 @@ class Backend(object):
                 bridge.delete()
         elif self.is_valid(event):
             gcal_event = self.client.insert(self.translate(event),
-                                               **kwargs)
+                                            **kwargs)
             if gcal_event is not None:
                 bridge.gcal_event_id = gcal_event['id']
                 bridge.save()
@@ -102,7 +101,7 @@ def get_backend_class():
     """
     Get a backend class
     """
-    return get_class(settings.GCAL_BACKEND_CLASS)
+    return get_class(settings.GOOGLE_CALENDAR_BACKEND_CLASS)
 
 
 def get_backend():

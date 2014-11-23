@@ -20,7 +20,7 @@ class Registry(object):
                 return repr(str_or_cls)
         return str_or_cls
 
-    def register(self, notifier, name=None):
+    def register(self, notifier, name=None, overwrite=True):
         """
         Register a notifier instance as specified name
         """
@@ -30,7 +30,7 @@ class Registry(object):
                 "of ActivityNotifierBase (sub)class."
             )
         name = self._prefer_repr(name or notifier)
-        if name in self:
+        if not overwrite and name in self:
             raise AttributeError((
                 "'{}' is already registered. "
                 "Use different name to register."

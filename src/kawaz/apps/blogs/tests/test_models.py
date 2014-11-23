@@ -93,28 +93,28 @@ class EntryModelTestCase(TestCase):
         entry = EntryFactory()
         self.assertEqual(entry.__str__(), entry.title)
 
-    def test_publish_at(self):
-        '''Tests publish_at is set correctly'''
+    def test_published_at(self):
+        '''Tests published_at is set correctly'''
         entry = EntryFactory()
-        self.assertIsNotNone(entry.publish_at)
+        self.assertIsNotNone(entry.published_at)
 
-    def test_publish_at_draft(self):
-        '''Tests publish_at is not set, when pub_state is draft'''
+    def test_published_at_draft(self):
+        '''Tests published_at is not set, when pub_state is draft'''
         entry = EntryFactory(pub_state='draft')
-        self.assertIsNone(entry.publish_at)
+        self.assertIsNone(entry.published_at)
 
-    def test_publish_at_update(self):
-        '''Tests publish_at is not modified'''
+    def test_published_at_update(self):
+        '''Tests published_at is not modified'''
         entry = EntryFactory()
-        publish_at = entry.publish_at
+        published_at = entry.published_at
 
         entry.pub_state = 'draft'
         entry.save()
-        self.assertEqual(publish_at, entry.publish_at)
+        self.assertEqual(published_at, entry.published_at)
 
         entry.pub_state = 'public'
         entry.save()
-        self.assertEqual(publish_at, entry.publish_at)
+        self.assertEqual(published_at, entry.published_at)
 
     def test_category_must_be_owned(self):
         '''Tests category must be owned by author'''
@@ -130,8 +130,8 @@ class EntryModelTestCase(TestCase):
         Tests get_absolute_url returns /<author>/<year>/<month>/<day>/<pk>/
         '''
         user = PersonaFactory(username='mecha_kawaztan')
-        publish_at = datetime.datetime(2112, 9, 21, tzinfo=timezone.utc)
-        entry = EntryFactory(publish_at=publish_at, author=user)
+        published_at = datetime.datetime(2112, 9, 21, tzinfo=timezone.utc)
+        entry = EntryFactory(published_at=published_at, author=user)
         self.assertEqual(entry.get_absolute_url(), '/blogs/mecha_kawaztan/2112/9/21/1/')
 
     def test_get_absolute_url_of_draft(self):
@@ -142,39 +142,39 @@ class EntryModelTestCase(TestCase):
         entry = EntryFactory(pub_state='draft', author=user)
         self.assertEqual(entry.get_absolute_url(), '/blogs/kawaztan_kawaztan/1/update/')
 
-    def test_publish_at_date_property(self):
+    def test_published_at_date_property(self):
         '''
-        Tests publish_at_date returns datetime
+        Tests published_at_date returns datetime
         '''
-        publish_at = datetime.datetime(2112, 9, 21, tzinfo=timezone.utc)
-        entry = EntryFactory(publish_at=publish_at)
-        self.assertEqual(entry.publish_at_date,datetime.date(2112, 9, 21))
+        published_at = datetime.datetime(2112, 9, 21, tzinfo=timezone.utc)
+        entry = EntryFactory(published_at=published_at)
+        self.assertEqual(entry.published_at_date,datetime.date(2112, 9, 21))
 
-    def test_publish_at_automatically(self):
+    def test_published_at_automatically(self):
         '''
-        Tests publish_at is set for current time automatically
+        Tests published_at is set for current time automatically
         '''
         today = timezone.now()
         entry = EntryFactory()
-        self.assertEqual(entry.publish_at_date, datetime.date(today.year, today.month, today.day))
+        self.assertEqual(entry.published_at_date, datetime.date(today.year, today.month, today.day))
 
-    def test_publish_at_is_not_set_draft(self):
+    def test_published_at_is_not_set_draft(self):
         '''
-        Tests publish_at isn't set when pub_state is draft
+        Tests published_at isn't set when pub_state is draft
         '''
         entry = EntryFactory(pub_state='draft')
-        self.assertIsNone(entry.publish_at)
-        self.assertIsNone(entry.publish_at_date)
+        self.assertIsNone(entry.published_at)
+        self.assertIsNone(entry.published_at_date)
 
-    def test_publish_at_is_not_updated(self):
+    def test_published_at_is_not_updated(self):
         '''
-        Tests publish_at isn't updated, this value never change.
+        Tests published_at isn't updated, this value never change.
         '''
         entry = EntryFactory()
-        old_publish_at = entry.publish_at
+        old_published_at = entry.published_at
         entry.pub_state = 'draft'
         entry.save()
-        self.assertEqual(entry.publish_at, old_publish_at)
+        self.assertEqual(entry.published_at, old_published_at)
         entry.pub_state = 'public'
         entry.save()
-        self.assertEqual(entry.publish_at, old_publish_at)
+        self.assertEqual(entry.published_at, old_published_at)

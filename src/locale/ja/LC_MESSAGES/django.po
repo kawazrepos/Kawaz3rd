@@ -435,7 +435,7 @@ msgstr "問い合わせ先"
 
 #: src/kawaz/apps/products/models.py:129
 msgid ""
-"Fill your contact info for visitors, e.f. Twitter account, Email address or "
+"Fill your contact info for visitors, e.g. Twitter account, Email address or "
 "Facebook account"
 msgstr ""
 "ユーザーへの連絡先を入力してください。例：Twitterアカウント、メールアドレス、"

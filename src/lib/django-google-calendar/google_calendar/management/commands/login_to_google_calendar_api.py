@@ -1,4 +1,3 @@
-import os
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from oauth2client.client import flow_from_clientsecrets
@@ -17,7 +16,7 @@ class Command(BaseCommand):
         print(" Login to Google Calendar API")
         print("=" * 50)
         flow = flow_from_clientsecrets(
-            settings.GCAL_CLIENT_SECRETS,
+            settings.GOOGLE_CALENDAR_CLIENT_SECRETS,
             scope='https://www.googleapis.com/auth/calendar',
             redirect_uri='urn:ietf:wg:oauth:2.0:oob')
 
@@ -35,8 +34,8 @@ class Command(BaseCommand):
 
         credentials = flow.step2_exchange(code)
 
-        storage = Storage(settings.GCAL_CREDENTIALS)
+        storage = Storage(settings.GOOGLE_CALENDAR_CREDENTIALS)
         storage.put(credentials)
 
         print("Credentials are saved in '{}'".format(
-            settings.GCAL_CREDENTIALS))
+            settings.GOOGLE_CALENDAR_CREDENTIALS))

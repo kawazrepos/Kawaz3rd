@@ -3,19 +3,14 @@
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import os
-import requests
-import datetime
 from django.test import TestCase
-from django.test.utils import override_settings
-from unittest import skipIf
 from unittest.mock import MagicMock
 from ..conf import settings
 from ..client import (require_enabled,
-                      GoogleCalendarClient,
-                      ImproperlyConfiguredWarning)
+                      GoogleCalendarClient)
 
 
-class GCalClientRequireEnabledDecoratorTestCase(TestCase):
+class GoogleCalendarClientRequireEnabledDecoratorTestCase(TestCase):
     def test_require_enabled_call_method(self):
         """
         decorated method should be called if `enabled` is True
@@ -39,7 +34,7 @@ class GCalClientRequireEnabledDecoratorTestCase(TestCase):
         self.assertFalse(method.called)
 
 
-class GCalClientGoogleCalendarClientTestCaseBase(TestCase):
+class GoogleCalendarClientTestCaseBase(TestCase):
     def setUp(self):
         self.event = {
             'summary': 'Appointment',
@@ -51,12 +46,13 @@ class GCalClientGoogleCalendarClientTestCaseBase(TestCase):
                 'dateTime': '2014-12-03T10:25:00.000-07:00'
             },
         }
-        self.client = GoogleCalendarClient(settings.GCAL_CALENDAR_ID)
+        self.client = GoogleCalendarClient(
+            settings.GOOGLE_CALENDAR_CALENDAR_ID
+        )
 
 
-if os.path.exists(settings.GCAL_CREDENTIALS):
-    class GCalClientGoogleCalendarClientTestCase(
-        GCalClientGoogleCalendarClientTestCaseBase):
+if os.path.exists(settings.GOOGLE_CALENDAR_CREDENTIALS):
+    class GoogleCalendarClientTestCase(GoogleCalendarClientTestCaseBase):
 
         def get_event_status(self, event):
             e = self.client.get(event['id'])
@@ -88,8 +84,7 @@ if os.path.exists(settings.GCAL_CREDENTIALS):
             # the event entry should not exists on the web
             self.assertEqual(self.get_event_status(event), 'cancelled')
 else:
-    class GCalClientGoogleCalendarClientTestCase(
-        GCalClientGoogleCalendarClientTestCaseBase):
+    class GoogleCalendarClientTestCase(GoogleCalendarClientTestCaseBase):
         def setUp(self):
             # disable warnings
             import warnings
