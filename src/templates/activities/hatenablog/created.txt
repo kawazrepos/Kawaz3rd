@@ -1,0 +1,1 @@
+「{{ object }}」が作成されました {{ object.get_absolute_url }}
