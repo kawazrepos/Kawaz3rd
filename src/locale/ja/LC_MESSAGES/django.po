@@ -1853,7 +1853,7 @@ msgstr "お問い合わせ"
 #, fuzzy
 #| msgid "@kawazinfo"
 msgid "Twitter @kawaz_official"
-msgstr "@kawazinfo"
+msgstr "@kawaz_official"
 
 #: src/templates/roughpages/index.anonymous.html:146
 #, fuzzy
