@@ -207,6 +207,8 @@ DEFAULT_RENDERER_CLASSES = (
 )
 
 # django-activities
+ACTIVITIES_ENABLE_NOTIFICATION = True
+ACTIVITIES_ENABLE_OAUTH_NOTIFICATION = True
 ACTIVITIES_INSTALLED_NOTIFIERS = (
     ('twitter_kawaz_official',
      'activities.notifiers.oauth.twitter.TwitterActivityNotifier',
