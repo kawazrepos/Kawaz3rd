@@ -11,7 +11,7 @@ from .pre_settings import *
 SECRET_KEY = 'ここに十分に長いランダムな文字列'
 
 ALLOWED_HOSTS = (
-    '127.0.0.1', 'localhost', '*.kawaz.org',
+    '127.0.0.1', 'localhost', '.kawaz.org',
 )
 
 # サイト設定
