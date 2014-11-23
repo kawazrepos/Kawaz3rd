@@ -150,6 +150,19 @@ class PersonaListViewTestCase(TestCase):
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 9)
 
+    def test_exclude_inactive_users(self):
+        """
+        is_active = Falseのユーザーは一覧に含まれない
+        """
+        inactive_user = PersonaFactory(is_active=False)
+        url = reverse('personas_persona_list')
+        r = self.client.get(url)
+        self.assertTemplateUsed('persona/persona_list.html')
+        self.assertTrue('object_list' in r.context_data)
+        object_list = r.context_data['object_list']
+        self.assertEqual(object_list.count(), 3)
+        self.assertFalse(inactive_user in object_list)
+
 
 class PersonaUpdateViewTestCase(PersonaViewTestCaseBase):
     def setUp(self):
