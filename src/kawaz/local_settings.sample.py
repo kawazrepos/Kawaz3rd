@@ -11,10 +11,14 @@ from .pre_settings import *
 SECRET_KEY = 'ここに十分に長いランダムな文字列'
 
 ALLOWED_HOSTS = (
-    '127.0.0.1', 'localhost',
+    '127.0.0.1', 'localhost', '*.kawaz.org',
 )
 
-DEBUG = True
+# サイト設定
+SITE_ID = 1
+
+# 起動モード指定
+DEBUG = False
 PRODUCT = False
 TEMPLATE_DEBUG = DEBUG
 
@@ -22,6 +26,9 @@ TEMPLATE_DEBUG = DEBUG
 # メールアドレスを記載
 ADMINS = (
     ('管理者', 'webmaster@kawaz.org'),
+    ('lambdalisue', 'lambdalisue+kawaz@hashnote.net'),
+    ('giginet', 'giginet.net+kawaz@gmail.com'),
+    ('miio', 'info@miio.info')
 )
 
 # 高速化のためのキャッシュメカニズムを指定
@@ -40,21 +47,70 @@ if PRODUCT:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'mydatabase',
+            'NAME': 'kawaz',
             'USER': 'mydatabaseuser',
             'PASSWORD': 'mypassword',
-            'HOST': '127.0.0.1',
+            'HOST': 'localhost',
             'PORT': '',
+            'OPTIONS': {
+                'connect_timeout': 60,
+            },
+        }
+    }
+
+# ログ関係の設定
+if PRODUCT:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': True,
+        'handlers': {
+            'mail_admins': {
+                'level': 'WARNING',
+                'class': 'django.utils.log.AdminEmailHandler',
+            },
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+            'django.request': {
+                'handlers': ['console'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+            'django.request': {
+                'handlers': ['mail_admins', 'console'],
+                'level': 'ERROR',
+                'propagate': True,
+            },
+            'kawaz': {
+                'handlers': ['console'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+            'kawaz': {
+                'handlers': ['mail_admins', 'console'],
+                'level': 'ERROR',
+                'propagate': True,
+            },
         }
     }
 
 # メール用の設定を記載
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
+EMAIL_HOST_USER = 'webmaster@kawaz.org'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+DEFAULT_EMAIL = 'webmaster@kawaz.org'
+DEFAULT_FROM_EMAIL = DEFAULT_EMAIL
 
 # プラグインの設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -66,7 +122,9 @@ PERMISSION_CHECK_PERMISSION_PRESENCE = False
 # 管理者用のメールアドレス
 # 新規会員登録がされたとき、このメールアドレス宛てに通知が届きます
 REGISTRATION_NOTIFICATION_RECIPIENTS = (
-    'webmaster@kawaz.org',
+    ('管理者', 'webmaster@kawaz.org'),
+    ('giginet', 'giginet.net+kawaz@gmail.com'),
+    ('AttaQ', 'attaqjp@gmail.com')
 )
 
 # django-activities
@@ -85,11 +143,21 @@ if PRODUCT:
 # django-compress
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = PRODUCT
+if PRODUCT:
+    COMPRESS_PRECOMPILERS = (
+        ('text/less',
+         os.path.join(NODE_MODULES_ROOT, 'less', 'bin',
+                      'lessc -x {infile} {outfile}')),
+        ('text/coffeescript',
+         os.path.join(NODE_MODULES_ROOT, 'coffee-script', 'bin',
+                      'coffee --compile -m --stdio')),
+    )
 
 # django-google-calendar
 if PRODUCT:
     GCAL_CALENDAR_ID = (
         # 本番用Google Calendar
+        "",
     )
 
 LOCAL_SETTINGS_LOADED = True

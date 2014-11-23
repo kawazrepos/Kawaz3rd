@@ -218,7 +218,6 @@ ACTIVITIES_INSTALLED_NOTIFIERS = (
                   'credentials_twitter_kawazinfo_test.json')),
 )
 ACTIVITIES_DEFAULT_NOTIFIERS = (
-    'twitter_kawaz_official',
     'twitter_kawaz_info',
 )
 
