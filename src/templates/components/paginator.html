@@ -4,14 +4,14 @@
     <ul class="pager">
         <li class="previous{% if not page_obj.has_previous %} disabled{% endif %}">
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">&larr; {% trans "Next" %}</a>
+                <a href="?page={{ page_obj.previous_page_number }}{{ option }}">&larr; {% trans "Next" %}</a>
             {% else %}
                 <a>&larr; {% trans "Newer" %}</a>
             {% endif %}
         </li>
         <li class="next{% if not page_obj.has_next %} disabled{% endif %}">
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">{% trans "Previous" %} &rarr;</a>
+                <a href="?page={{ page_obj.next_page_number }}{{ option }}">{% trans "Previous" %} &rarr;</a>
             {% else %}
                 <a>{% trans "Older" %} &rarr;</a>
             {% endif %}
