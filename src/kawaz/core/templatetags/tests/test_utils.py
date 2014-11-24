@@ -2,9 +2,11 @@
 #
 # created by giginet on 2014/6/28
 #
+from django.contrib.sites.models import Site
+
 __author__ = 'giginet'
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.template import Template, Context
 from unittest.mock import MagicMock
 
@@ -117,3 +119,23 @@ class GetWeekDayTemplateTagTestCase(TestCase):
         })
         render = t.render(c)
         self.assertEqual(render, 'sunday')
+
+
+class GetCurrentSiteTagTestCase(TestCase):
+
+    def test_get_current_site(self):
+        '''
+        get_current_siteで現在のSiteを返す
+        '''
+
+        t = Template(
+            """{% load utils %}"""
+            """{% get_current_site as site %}"""
+        )
+        request = MagicMock()
+        c = Context({
+            'request': request
+        })
+        render = t.render(c)
+        self.assertEqual(render, '')
+        self.assertEqual(c['site'], Site.objects.get_current())
