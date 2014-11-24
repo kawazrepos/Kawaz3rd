@@ -222,13 +222,10 @@ class URLReleaseDetailView(DetailView):
     model = URLRelease
 
     def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
+        self.object = self.get_object()
         # ページビューを加算してURLへ飛ばす
         self.object.pageview += 1
         self.object.save()
-        return response
-
-    def render_to_response(self, context, **response_kwargs):
         return HttpResponseRedirect(self.object.url)
 
 class PackageReleaseDetailView(DetailView):
