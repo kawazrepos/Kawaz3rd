@@ -1,1 +1,1 @@
-{{ object.nickname }}さんが入会しました http://{{ site.domain }}{{ object.get_absolute_url }}
+{{ object.nickname }}さんが入会しました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
