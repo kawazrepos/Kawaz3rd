@@ -1,1 +1,3 @@
-<iframe src="http://docs.google.com/viewer?url={{ material.content_file.url }}&embedded=true" style="width:640px; height:480px;" frameborder="0"></iframe>
+{% load utils %}
+{% get_current_site site %}
+<iframe src="http://docs.google.com/viewer?url={{ site.domain }}{{ material.content_file.url }}&embedded=true" style="width:640px; height:480px;" frameborder="0"></iframe>
