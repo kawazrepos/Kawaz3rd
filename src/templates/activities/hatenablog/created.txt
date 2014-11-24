@@ -1,1 +1,1 @@
-「{{ object }}」が作成されました {{ object.get_absolute_url }}
+「{{ object }}」が投稿されました {{ object.get_absolute_url }} #Kawaz
