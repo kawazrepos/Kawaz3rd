@@ -184,3 +184,9 @@
     label: 3DSフレンドコード
     url_pattern: ""
     icon: personas/services/3ds.png
+- model: personas.service
+  pk: 18
+  fields:
+    label: SlideShare
+    url_pattern: http://slideshare.net/{username}/
+    icon: personas/services/slideshare.png
