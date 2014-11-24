@@ -220,10 +220,15 @@ class ProductPreview(SingleObjectPreviewMixin, DetailView):
 
 class URLReleaseDetailView(DetailView):
     model = URLRelease
-    def render_to_response(self, context, **response_kwargs):
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
         # ページビューを加算してURLへ飛ばす
         self.object.pageview += 1
         self.object.save()
+        return response
+
+    def render_to_response(self, context, **response_kwargs):
         return HttpResponseRedirect(self.object.url)
 
 class PackageReleaseDetailView(DetailView):

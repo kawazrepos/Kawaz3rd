@@ -83,15 +83,15 @@ class ReleaseFactory(factory.DjangoModelFactory):
 class PackageReleaseFactory(ReleaseFactory):
     FACTORY_FOR = PackageRelease
 
-
+    file_content = 'products/kawaz-tan-adventure/releases/kawaz_mac.zip'
     @factory.post_generation
-    def file_content(self, create, extracted):
+    def file_content(self, create, extracted=None):
         # ファイル名を与えられたら勝手にパスを生成します
         # release = PackageReleaseFactory(file_content='icon.png', product_slug='kawaztan-game')
         # material.file_content = products/kawaztan-game/releases/icon.png
         if not extracted:
             extracted = 'icon.png' # default value
-        content_path = os.path.join('products', self.product.slug,'releases', extracted)
+        content_path = os.path.join('products', self.product.slug, 'releases', extracted)
         self.file_content = content_path
         return content_path
 

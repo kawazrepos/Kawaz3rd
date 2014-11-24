@@ -508,7 +508,8 @@ class PackageReleaseDetailViewTestCase(TestCase):
         """
         slug = "hogehoge"
         path = os.path.join(settings.MEDIA_ROOT, 'products', slug, 'releases')
-        if not os.path.exists(path): os.makedirs(path)
+        if not os.path.exists(path):
+            os.makedirs(path)
         tmp_file = tempfile.mkstemp(dir=path, suffix=ext)[1]
         name = os.path.split(tmp_file)[-1]
         release = PackageReleaseFactory(file_content=name, product__slug=slug)

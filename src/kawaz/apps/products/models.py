@@ -281,7 +281,7 @@ class PackageRelease(AbstractRelease):
         """
         ファイル名を返します
         """
-        return os.path.split(self.file_content.name)[1]
+        return os.path.basename(self.file_content.name)
 
     @property
     def mimetype(self):
