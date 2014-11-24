@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 15:02+0900\n"
+"POT-Creation-Date: 2014-11-24 20:55+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1592,8 +1592,10 @@ msgid "Recommended games"
 msgstr "おすすめのゲーム"
 
 #: src/templates/products/product_detail.html:152
-msgid "There is no corresponding game"
-msgstr "該当するゲームはありません"
+#, fuzzy
+#| msgid "There is no corresponding product"
+msgid "There are no corresponding products"
+msgstr "該当する作品はありません"
 
 #: src/templates/products/product_detail.html:159
 msgid "Contact Info"
@@ -1878,6 +1880,9 @@ msgstr "所属メンバー向けツール"
 #: src/templates/roughpages/published.html:4
 msgid "Published articles"
 msgstr "掲載情報"
+
+#~ msgid "There is no corresponding game"
+#~ msgstr "該当するゲームはありません"
 
 #, fuzzy
 #~| msgid "@kawazpr"
