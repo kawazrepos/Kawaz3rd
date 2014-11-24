@@ -23,12 +23,14 @@ admin.site.register(Product, ProductAdmin)
 
 
 class PackageReleaseAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('downloads',)
+    list_display = ('label', 'platform', 'version', 'donwloads')
 admin.site.register(PackageRelease, PackageReleaseAdmin)
 
 
 class URLReleaseAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('pageview',)
+    list_display = ('label', 'platform', 'version', 'url', 'pageview')
 admin.site.register(URLRelease, URLReleaseAdmin)
 
 
