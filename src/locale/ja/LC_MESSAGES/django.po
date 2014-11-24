@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-23 02:51+0900\n"
+"POT-Creation-Date: 2014-11-24 20:55+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgid "Publish status"
 msgstr "公開設定"
 
 #: src/kawaz/apps/announcements/models.py:63 src/kawaz/apps/blogs/models.py:52
-#: src/kawaz/apps/events/models.py:69 src/kawaz/apps/products/models.py:92
+#: src/kawaz/apps/events/models.py:69 src/kawaz/apps/products/models.py:106
 #: src/kawaz/apps/projects/models.py:97
 #: src/kawaz/core/activities/hatenablog/models.py:17
 #: src/templates/projects/project_archive.html:28
@@ -41,12 +41,11 @@ msgstr "タイトル"
 
 #: src/kawaz/apps/announcements/models.py:69
 #: src/kawaz/apps/attachments/models.py:23 src/kawaz/apps/blogs/models.py:60
-#: src/kawaz/apps/events/models.py:98 src/kawaz/apps/products/models.py:135
-#: src/kawaz/apps/products/models.py:220 src/kawaz/apps/projects/models.py:127
+#: src/kawaz/apps/events/models.py:98 src/kawaz/apps/products/models.py:157
+#: src/kawaz/apps/products/models.py:244 src/kawaz/apps/projects/models.py:127
 #: src/kawaz/apps/stars/models.py:130
 #: src/kawaz/core/activities/hatenablog/models.py:23
 #: src/kawaz/core/personas/models/profile.py:65
-#: src/templates/announcements/components/announcement_detail.html:28
 #: src/templates/projects/project_archive.html:29
 msgid "Created at"
 msgstr "作成日時"
@@ -57,7 +56,7 @@ msgid "Modified at"
 msgstr "更新日時"
 
 #: src/kawaz/apps/announcements/models.py:72
-#: src/kawaz/apps/products/models.py:138 src/kawaz/apps/projects/models.py:130
+#: src/kawaz/apps/products/models.py:160 src/kawaz/apps/projects/models.py:130
 msgid "Last modified by"
 msgstr "最終更新者"
 
@@ -69,7 +68,7 @@ msgstr "お知らせ"
 #: src/templates/announcements/announcement_detail.html:11
 #: src/templates/announcements/announcement_form.html:15
 #: src/templates/announcements/announcement_list.html:8
-#: src/templates/announcements/announcement_list.html:18
+#: src/templates/announcements/announcement_list.html:19
 #: src/templates/roughpages/drafts.authenticated.html:27
 #: src/templates/roughpages/index.anonymous.html:116
 msgid "Announcements"
@@ -111,7 +110,7 @@ msgid "Materials"
 msgstr "素材"
 
 #: src/kawaz/apps/blogs/forms.py:21 src/kawaz/apps/blogs/models.py:54
-#: src/kawaz/apps/events/models.py:96 src/kawaz/apps/products/models.py:54
+#: src/kawaz/apps/events/models.py:96 src/kawaz/apps/products/models.py:69
 #: src/kawaz/apps/projects/models.py:21 src/kawaz/apps/projects/models.py:113
 #: src/templates/projects/project_archive.html:30
 #: src/templates/projects/project_detail.html:38
@@ -123,7 +122,7 @@ msgid "Category name"
 msgstr "カテゴリ名"
 
 #: src/kawaz/apps/blogs/models.py:62 src/kawaz/apps/products/forms.py:54
-#: src/kawaz/apps/products/models.py:131
+#: src/kawaz/apps/products/models.py:150
 msgid "Published at"
 msgstr "公開日"
 
@@ -150,8 +149,8 @@ msgid "The blog entry was successfully deleted."
 msgstr "ブログ記事を削除しました"
 
 #: src/kawaz/apps/events/filters.py:16 src/kawaz/apps/products/filters.py:16
-#: src/kawaz/apps/products/forms.py:44 src/kawaz/apps/products/models.py:55
-#: src/kawaz/apps/products/models.py:127 src/kawaz/apps/projects/models.py:22
+#: src/kawaz/apps/products/forms.py:44 src/kawaz/apps/products/models.py:70
+#: src/kawaz/apps/products/models.py:143 src/kawaz/apps/projects/models.py:22
 #: src/templates/blogs/entry_list.html:61
 #: src/templates/events/event_list.html:55
 #: src/templates/products/product_detail.html:132
@@ -178,15 +177,15 @@ msgid "Attendance deadline"
 msgstr "参加締切日"
 
 #: src/kawaz/apps/events/models.py:20 src/kawaz/apps/events/models.py:28
-#: src/kawaz/apps/events/models.py:29 src/kawaz/apps/products/models.py:26
-#: src/kawaz/apps/products/models.py:47
+#: src/kawaz/apps/events/models.py:29 src/kawaz/apps/products/models.py:42
+#: src/kawaz/apps/products/models.py:62
 #: src/kawaz/core/personas/models/profile.py:98
 #: src/kawaz/core/personas/models/profile.py:116
 msgid "Label"
 msgstr "ラベル"
 
-#: src/kawaz/apps/events/models.py:21 src/kawaz/apps/products/models.py:29
-#: src/kawaz/apps/products/models.py:50
+#: src/kawaz/apps/events/models.py:21 src/kawaz/apps/products/models.py:45
+#: src/kawaz/apps/products/models.py:65
 #: src/kawaz/core/personas/models/profile.py:100
 #: src/templates/projects/project_archive.html:25
 msgid "Order"
@@ -327,64 +326,62 @@ msgid "The event is private or does not have start time."
 msgstr "このイベントは非公開状態であるか、開始日時が設定されていません"
 
 #: src/kawaz/apps/products/filters.py:11 src/kawaz/apps/products/forms.py:39
-#: src/kawaz/apps/products/models.py:34 src/kawaz/apps/products/models.py:126
+#: src/kawaz/apps/products/models.py:50 src/kawaz/apps/products/models.py:141
 #: src/templates/products/product_detail.html:115
 #: src/templates/products/product_list.html:49
 msgid "Platforms"
 msgstr "プラットフォーム"
 
-#: src/kawaz/apps/products/forms.py:31 src/kawaz/apps/products/models.py:48
-#: src/kawaz/apps/products/models.py:109 src/kawaz/apps/projects/models.py:107
+#: src/kawaz/apps/products/forms.py:31 src/kawaz/apps/products/models.py:63
+#: src/kawaz/apps/products/models.py:123 src/kawaz/apps/projects/models.py:107
 #: src/kawaz/core/personas/models/profile.py:99
 msgid "Description"
 msgstr "概要"
 
-#: src/kawaz/apps/products/forms.py:33 src/kawaz/apps/products/models.py:124
+#: src/kawaz/apps/products/forms.py:33 src/kawaz/apps/products/models.py:138
 #: src/kawaz/apps/projects/models.py:144
 #: src/templates/roughpages/drafts.authenticated.html:70
 #: src/templates/roughpages/helps/projects.html:7
 msgid "Project"
 msgstr "プロジェクト"
 
-#: src/kawaz/apps/products/forms.py:49 src/kawaz/apps/products/models.py:133
+#: src/kawaz/apps/products/forms.py:49 src/kawaz/apps/products/models.py:155
 msgid "Administrators"
 msgstr "プロジェクトの管理者"
 
 #: src/kawaz/apps/products/forms.py:53
-#, fuzzy
-#| msgid "Check the users who can manage this product."
 msgid "Check the users who can manage this product. You should use Ctrl + F."
 msgstr ""
 "この作品を管理できるユーザーにチェックを入れてください。Ctrl + Fで検索すると"
 "便利です"
 
-#: src/kawaz/apps/products/models.py:27
+#: src/kawaz/apps/products/models.py:43
 #: src/kawaz/core/personas/models/profile.py:117
 msgid "Icon"
 msgstr "アイコン"
 
-#: src/kawaz/apps/products/models.py:33 src/kawaz/apps/products/models.py:216
+#: src/kawaz/apps/products/models.py:49 src/kawaz/apps/products/models.py:239
 msgid "Platform"
 msgstr "プラットフォーム"
 
-#: src/kawaz/apps/products/models.py:80
+#: src/kawaz/apps/products/models.py:94
 msgid ""
 "Fetured: Displayed in the curled cell and the tiled cell on the top page"
 msgstr "ギミック表示: トップページのカルーセル + トップページにタイル表示"
 
-#: src/kawaz/apps/products/models.py:84
+#: src/kawaz/apps/products/models.py:98
 msgid "Tiled: Displayed in the tiled cell on the top page"
 msgstr "タイル表示: トップページにタイル表示"
 
-#: src/kawaz/apps/products/models.py:87
+#: src/kawaz/apps/products/models.py:101
 msgid "Normal: Displayed only in tiled cell on the detailed page"
 msgstr "通常表示: 詳細ページにタイル表示（トップページには表示されません）"
 
-#: src/kawaz/apps/products/models.py:93
+#: src/kawaz/apps/products/models.py:107
 msgid "Product slug"
 msgstr "作品ID"
 
-#: src/kawaz/apps/products/models.py:94
+#: src/kawaz/apps/products/models.py:108
 msgid ""
 "It will be used on the url of the product thus it only allow alphabetical or "
 "numeric characters, underbar ('_'), and hyphen ('-'). Additionally this "
@@ -395,11 +392,11 @@ msgstr ""
 "すると変更できません。'XXX'という値を設定すると'http://kawaz.org/products/"
 "XXX'のように使用されます"
 
-#: src/kawaz/apps/products/models.py:103 src/kawaz/apps/projects/models.py:110
+#: src/kawaz/apps/products/models.py:117 src/kawaz/apps/projects/models.py:110
 msgid "Thumbnail"
 msgstr "サムネイル"
 
-#: src/kawaz/apps/products/models.py:106
+#: src/kawaz/apps/products/models.py:120
 msgid ""
 "This would be used as a product thumbnail image. The aspect ratio of the "
 "image should be 16:9.We recommend the image size to be 800 * 450."
@@ -407,11 +404,11 @@ msgstr ""
 "サムネイル画像として使用されます。アスペクト比 16:9 の画像を利用すると綺麗に"
 "表示されます。画像サイズは800 * 450にすることをオススメします。"
 
-#: src/kawaz/apps/products/models.py:113
+#: src/kawaz/apps/products/models.py:127
 msgid "Advertisement Image"
 msgstr "告知用画像"
 
-#: src/kawaz/apps/products/models.py:117
+#: src/kawaz/apps/products/models.py:131
 msgid ""
 "This would be used in the top page. The aspect ratio of the image should be "
 "16:9We recommend the image size to be 800 * 450"
@@ -419,21 +416,21 @@ msgstr ""
 "トップページにて使用されます。アスペクト比 16:9 の画像を利用すると綺麗に表示"
 "されます。画像サイズは800 * 450にすることをオススメします。"
 
-#: src/kawaz/apps/products/models.py:121
+#: src/kawaz/apps/products/models.py:135
 msgid "Trailer"
 msgstr "トレイラー"
 
-#: src/kawaz/apps/products/models.py:122
+#: src/kawaz/apps/products/models.py:136
 msgid ""
 "Enter URL of your trailer movie on the YouTube. The movie would be embeded "
 "to the product page."
 msgstr "YouTubeの動画URLを入力すると、作品ページに埋め込むことができます。"
 
-#: src/kawaz/apps/products/models.py:128
+#: src/kawaz/apps/products/models.py:145
 msgid "Contact info"
 msgstr "問い合わせ先"
 
-#: src/kawaz/apps/products/models.py:129
+#: src/kawaz/apps/products/models.py:147
 msgid ""
 "Fill your contact info for visitors, e.g. Twitter account, Email address or "
 "Facebook account"
@@ -441,21 +438,21 @@ msgstr ""
 "ユーザーへの連絡先を入力してください。例：Twitterアカウント、メールアドレス、"
 "Facebook IDなど"
 
-#: src/kawaz/apps/products/models.py:131
+#: src/kawaz/apps/products/models.py:152
 msgid "If this product have been already released, please fill the date."
 msgstr "もし、この作品が過去にリリース済みの場合、その日付を入力してください"
 
-#: src/kawaz/apps/products/models.py:136 src/kawaz/apps/products/models.py:221
+#: src/kawaz/apps/products/models.py:158 src/kawaz/apps/products/models.py:245
 #: src/kawaz/apps/projects/models.py:128
 #: src/kawaz/core/personas/models/profile.py:66
 msgid "Updated at"
 msgstr "最終更新日"
 
-#: src/kawaz/apps/products/models.py:153
+#: src/kawaz/apps/products/models.py:175
 msgid "Display mode"
 msgstr "表示モード"
 
-#: src/kawaz/apps/products/models.py:156
+#: src/kawaz/apps/products/models.py:178
 msgid ""
 "How the product displayed on the top page. To use 'Featured', an "
 "'Advertisement image' is required."
@@ -463,12 +460,12 @@ msgstr ""
 "作品のトップページでの表示形態です。「ギミック表示」を利用する場合は「告知用"
 "画像」を設定する必要があります。"
 
-#: src/kawaz/apps/products/models.py:162 src/kawaz/apps/products/models.py:218
-#: src/kawaz/apps/products/models.py:298
+#: src/kawaz/apps/products/models.py:184 src/kawaz/apps/products/models.py:242
+#: src/kawaz/apps/products/models.py:319
 msgid "Product"
 msgstr "作品"
 
-#: src/kawaz/apps/products/models.py:163 src/templates/base.html:45
+#: src/kawaz/apps/products/models.py:185 src/templates/base.html:45
 #: src/templates/products/product_detail.html:13
 #: src/templates/products/product_form.html:27
 #: src/templates/products/product_list.html:12
@@ -476,79 +473,79 @@ msgstr "作品"
 msgid "Products"
 msgstr "作品"
 
-#: src/kawaz/apps/products/models.py:177
+#: src/kawaz/apps/products/models.py:199
 msgid "Display mode 'Feature' requires 'Advertisement image'"
 msgstr ""
 "表示モードを「ギミック表示」にする場合「告知用画像」を設定する必要があります"
 
-#: src/kawaz/apps/products/models.py:181
+#: src/kawaz/apps/products/models.py:203
 msgid "A product slug 'platforms' is reserved."
 msgstr "「platforms」という作品IDは利用できません"
 
-#: src/kawaz/apps/products/models.py:215
+#: src/kawaz/apps/products/models.py:237
 msgctxt "Release name"
 msgid "Label"
 msgstr "リリース名"
 
-#: src/kawaz/apps/products/models.py:217
+#: src/kawaz/apps/products/models.py:240
 msgid "Version"
 msgstr "バージョン"
 
-#: src/kawaz/apps/products/models.py:241
+#: src/kawaz/apps/products/models.py:264
 msgid "File"
 msgstr "ファイル"
 
-#: src/kawaz/apps/products/models.py:243
+#: src/kawaz/apps/products/models.py:266
 #: src/templates/products/product_detail.html:34
 msgid "Downloads"
 msgstr "ダウンロード"
 
-#: src/kawaz/apps/products/models.py:245
+#: src/kawaz/apps/products/models.py:268
 msgid "The number of downloads"
 msgstr "ダウンロード数"
 
-#: src/kawaz/apps/products/models.py:248
+#: src/kawaz/apps/products/models.py:271
 msgid "Package release"
 msgstr "パッケージ"
 
-#: src/kawaz/apps/products/models.py:249
+#: src/kawaz/apps/products/models.py:272
 #: src/templates/products/product_form.html:59
 msgid "Package releases"
 msgstr "パッケージ"
 
-#: src/kawaz/apps/products/models.py:259
+#: src/kawaz/apps/products/models.py:281
 #: src/kawaz/core/activities/hatenablog/models.py:18
 #: src/kawaz/core/personas/models/profile.py:48
 msgid "URL"
 msgstr "URL"
 
-#: src/kawaz/apps/products/models.py:261
+#: src/kawaz/apps/products/models.py:283
 msgid "Page view"
 msgstr "閲覧数"
 
-#: src/kawaz/apps/products/models.py:263
+#: src/kawaz/apps/products/models.py:285
 msgid "The number of page views"
 msgstr "閲覧数"
 
-#: src/kawaz/apps/products/models.py:266
+#: src/kawaz/apps/products/models.py:288
 msgid "URL release"
 msgstr "URL"
 
-#: src/kawaz/apps/products/models.py:267
+#: src/kawaz/apps/products/models.py:289
 #: src/templates/products/product_form.html:49
 msgid "URL releases"
 msgstr "URL"
 
-#: src/kawaz/apps/products/models.py:295
+#: src/kawaz/apps/products/models.py:316
 #: src/kawaz/core/activities/hatenablog/models.py:19
 msgid "Image"
 msgstr "画像"
 
-#: src/kawaz/apps/products/models.py:302
+#: src/kawaz/apps/products/models.py:324
 msgid "Screen shot"
 msgstr "スクリーンショット"
 
-#: src/kawaz/apps/products/models.py:303
+#: src/kawaz/apps/products/models.py:325
 msgid "Screen shots"
 msgstr "スクリーンショット"
 
@@ -710,10 +707,6 @@ msgstr "広報ブログの記事"
 msgid "Save"
 msgstr "保存する"
 
-#: src/kawaz/core/gcal/models.py:30
-msgid "Google Calendar Event ID"
-msgstr "GoogleカレンダーのイベントID"
-
 #: src/kawaz/core/personas/admin/persona.py:18
 msgid "Personal info"
 msgstr "個人情報"
@@ -775,51 +768,51 @@ msgstr "誕生日"
 msgid "Service"
 msgstr "サービス"
 
-#: src/kawaz/core/personas/models/persona.py:45
+#: src/kawaz/core/personas/models/persona.py:44
 msgid "The `username` attribute is required"
 msgstr "ユーザー名の入力は必須です"
 
-#: src/kawaz/core/personas/models/persona.py:98
+#: src/kawaz/core/personas/models/persona.py:97
 msgid "Man"
 msgstr "男性"
 
-#: src/kawaz/core/personas/models/persona.py:99
+#: src/kawaz/core/personas/models/persona.py:98
 msgid "Woman"
 msgstr "女性"
 
-#: src/kawaz/core/personas/models/persona.py:100
+#: src/kawaz/core/personas/models/persona.py:99
 msgid "Unknown"
 msgstr "ひみつ"
 
-#: src/kawaz/core/personas/models/persona.py:104
+#: src/kawaz/core/personas/models/persona.py:103
 msgid "Adam"
 msgstr "アダム"
 
-#: src/kawaz/core/personas/models/persona.py:105
+#: src/kawaz/core/personas/models/persona.py:104
 msgid "Seele"
 msgstr "ゼーレ"
 
-#: src/kawaz/core/personas/models/persona.py:106
+#: src/kawaz/core/personas/models/persona.py:105
 msgid "Nerv"
 msgstr "ネルフ"
 
-#: src/kawaz/core/personas/models/persona.py:107
+#: src/kawaz/core/personas/models/persona.py:106
 msgid "Children"
 msgstr "チルドレン"
 
-#: src/kawaz/core/personas/models/persona.py:108
+#: src/kawaz/core/personas/models/persona.py:107
 msgid "Wille"
 msgstr "ヴィレ"
 
-#: src/kawaz/core/personas/models/persona.py:111
+#: src/kawaz/core/personas/models/persona.py:110
 msgid "Nickname"
 msgstr "ニックネーム"
 
-#: src/kawaz/core/personas/models/persona.py:112
+#: src/kawaz/core/personas/models/persona.py:111
 msgid "Mood message"
 msgstr "一言メッセージ"
 
-#: src/kawaz/core/personas/models/persona.py:113
+#: src/kawaz/core/personas/models/persona.py:112
 msgid "Avatar"
 msgstr "ユーザアイコン"
 
@@ -840,15 +833,15 @@ msgstr ""
 "ユーザーが所属している役割です。この役割に応じて、ユーザーに権限が与えられま"
 "す。セキュリティ上の理由から、ユーザーは自分の役割を変更できません。"
 
-#: src/kawaz/core/personas/models/persona.py:130
+#: src/kawaz/core/personas/models/persona.py:129
 msgid "Persona"
 msgstr "ユーザー"
 
-#: src/kawaz/core/personas/models/persona.py:131
+#: src/kawaz/core/personas/models/persona.py:130
 msgid "Personas"
 msgstr "ユーザー"
 
-#: src/kawaz/core/personas/models/persona.py:181
+#: src/kawaz/core/personas/models/persona.py:180
 #, python-format
 msgid ""
 "The username '%(username)s' contains invalid characters. Letters, digits, "
@@ -857,7 +850,7 @@ msgstr ""
 "「%(username)s」というユーザー名には使えない文字列が含まれています。ユーザー"
 "名には英数字、アンダースコア、ハイフンのみが使えます"
 
-#: src/kawaz/core/personas/models/persona.py:187
+#: src/kawaz/core/personas/models/persona.py:186
 #, python-format
 msgid ""
 "The username '%(username)s' is reserved. Please chose a different username."
@@ -865,7 +858,7 @@ msgstr ""
 "ユーザー名「%(username)s」は既に使われているようです。他の名前を使ってくださ"
 "い"
 
-#: src/kawaz/core/personas/models/persona.py:203
+#: src/kawaz/core/personas/models/persona.py:202
 msgid "Required. 30 characters or fewer. Letters, digits and /-/_ only."
 msgstr ""
 "ユーザー名は30文字以下で、英数字、アンダースコア、ハイフンのみが使えます"
@@ -925,19 +918,19 @@ msgstr "ユーザ名"
 msgid "Accounts"
 msgstr "アカウント"
 
-#: src/kawaz/core/personas/views/persona.py:82
+#: src/kawaz/core/personas/views/persona.py:90
 msgid "Anonymous user does not have a persona update view"
 msgstr "非ログインユーザーはユーザー情報変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/persona.py:88
+#: src/kawaz/core/personas/views/persona.py:96
 msgid "Your user information was successfully updated."
 msgstr "プロフィールを更新しました"
 
-#: src/kawaz/core/personas/views/persona.py:102
+#: src/kawaz/core/personas/views/persona.py:113
 msgid "Anonymous user does not have an assign role view"
 msgstr "非ログインユーザーは権限変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/persona.py:122
+#: src/kawaz/core/personas/views/persona.py:133
 #, python-format
 msgid "Your role is changed to '%(role)s'"
 msgstr "権限が「%(role)s」に変更されました"
@@ -971,11 +964,11 @@ msgstr ""
 msgid "Remarks"
 msgstr "一言メッセージ"
 
-#: src/kawaz/settings.py:109
+#: src/kawaz/settings.py:164
 msgid "English"
 msgstr "英語"
 
-#: src/kawaz/settings.py:110
+#: src/kawaz/settings.py:165
 msgid "Japanese"
 msgstr "日本語"
 
@@ -984,26 +977,26 @@ msgid "Target"
 msgstr "対象オブジェクト"
 
 #: src/lib/django-activities/activities/admin.py:30
-#, fuzzy
-#| msgid "Content file"
 msgid "Content object"
 msgstr "ファイル"
 
-#: src/lib/django-activities/activities/models.py:70
+#: src/lib/django-activities/activities/models.py:73
 msgid "Activity"
 msgstr "最近の活動"
 
-#: src/lib/django-activities/activities/models.py:71
+#: src/lib/django-activities/activities/models.py:74
 #: src/templates/roughpages/index.authenticated.html:48
 msgid "Activities"
 msgstr "最近の活動"
 
+#: src/lib/django-google-calendar/google_calendar/models.py:31
+msgid "Google Calendar Event ID"
+msgstr "GoogleカレンダーのイベントID"
+
 #: src/templates/403.html:6 src/templates/403.html.py:8
 #: src/templates/500.html:10
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission denied"
-msgstr "権限"
+msgstr "権限がありません"
 
 #: src/templates/403.html:10
 msgid "You are not permitted to access this page."
@@ -1030,6 +1023,34 @@ msgstr "何かバグってます"
 msgid "Activity list"
 msgstr "最近の活動"
 
+#: src/templates/announcements/announcement_detail.html:28
+#: src/templates/blogs/entry_detail.html:30
+msgid "Blog author"
+msgstr "書いた人"
+
+#: src/templates/announcements/announcement_detail.html:45
+#: src/templates/blogs/entry_detail.html:48
+#: src/templates/events/event_detail.html:192
+#: src/templates/personas/persona_detail.html:150
+#: src/templates/products/product_detail.html:93
+#: src/templates/products/product_list.html:40
+#: src/templates/projects/project_detail.html:134
+msgid "Administration"
+msgstr "管理"
+
+#: src/templates/announcements/announcement_detail.html:49
+msgid "Edit the announcements"
+msgstr "このお知らせを編集"
+
+#: src/templates/announcements/announcement_detail.html:52
+#: src/templates/blogs/entry_detail.html:55
+msgid "Do you want to delete this entry?"
+msgstr "この記事を削除してもよろしいですか？"
+
+#: src/templates/announcements/announcement_detail.html:53
+msgid "Delete the announcements"
+msgstr "このお知らせを削除"
+
 #: src/templates/announcements/announcement_form.html:7
 #: src/templates/announcements/announcement_form.html:17
 #: src/templates/announcements/announcement_form.html:26
@@ -1053,21 +1074,27 @@ msgstr "「%(title)s」の編集"
 msgid "Create a new announcement"
 msgstr "お知らせを作成する"
 
-#: src/templates/announcements/announcement_list.html:19
+#: src/templates/announcements/announcement_list.html:21
 #, python-format
 msgid "There is only one announcement entry."
 msgid_plural "There are %(counter)s announcement entries."
 msgstr[0] "%(counter)s件のお知らせがあります"
 msgstr[1] "1件のお知らせがあります"
 
-#: src/templates/announcements/announcement_list.html:38
+#: src/templates/announcements/announcement_list.html:42
 msgid "Recent Announcements"
 msgstr "最近のお知らせ"
 
-#: src/templates/announcements/components/announcement_detail.html:12
-#: src/templates/blogs/entry_detail.html:55
-msgid "Do you want to delete this entry?"
-msgstr "この記事を削除してもよろしいですか？"
+#: src/templates/announcements/components/announcement_detail.html:22
+#: src/templates/blogs/components/entry_detail.html:21
+#: src/templates/blogs/components/entry_truncated.html:20
+#: src/templates/events/components/list-item.html:17
+#: src/templates/events/event_detail.html:25
+#: src/templates/projects/project_detail.html:43
+#: src/templates/projects/project_detail.html:53
+#: src/templates/projects/project_detail.html:63
+msgid "None"
+msgstr "未設定"
 
 #: src/templates/base.html:22
 msgid "Sapporo Game Creators' Community Kawaz"
@@ -1151,33 +1178,10 @@ msgstr "ログアウト"
 msgid "Login"
 msgstr "ログイン"
 
-#: src/templates/blogs/components/entry_detail.html:21
-#: src/templates/blogs/components/entry_truncated.html:20
-#: src/templates/events/components/list-item.html:17
-#: src/templates/events/event_detail.html:25
-#: src/templates/projects/project_detail.html:43
-#: src/templates/projects/project_detail.html:53
-#: src/templates/projects/project_detail.html:63
-msgid "None"
-msgstr "未設定"
-
 #: src/templates/blogs/entry_detail.html:14
 #: src/templates/blogs/entry_form.html:28
 msgid "'s blog entries"
 msgstr "のブログ記事"
-
-#: src/templates/blogs/entry_detail.html:30
-msgid "Blog author"
-msgstr "書いた人"
-
-#: src/templates/blogs/entry_detail.html:48
-#: src/templates/events/event_detail.html:192
-#: src/templates/personas/persona_detail.html:150
-#: src/templates/products/product_detail.html:93
-#: src/templates/products/product_list.html:40
-#: src/templates/projects/project_detail.html:134
-msgid "Administration"
-msgstr "管理"
 
 #: src/templates/blogs/entry_detail.html:52
 msgid "Edit the blog entry"
@@ -1293,8 +1297,6 @@ msgid "List"
 msgstr "リスト"
 
 #: src/templates/components/mace_header.html:21
-#, fuzzy
-#| msgid "Numeric list"
 msgid "Numeric list"
 msgstr "番号付きリスト"
 
@@ -1311,8 +1313,6 @@ msgid "Separator"
 msgstr "セパレータ（区切り線）"
 
 #: src/templates/components/mace_header.html:33
-#, fuzzy
-#| msgid "Code block"
 msgid "Code block"
 msgstr "コードブロック"
 
@@ -1591,11 +1591,17 @@ msgstr "作品を削除"
 msgid "Recommended games"
 msgstr "おすすめのゲーム"
 
-#: src/templates/products/product_detail.html:157
+#: src/templates/products/product_detail.html:152
+#, fuzzy
+#| msgid "There is no corresponding product"
+msgid "There are no corresponding products"
+msgstr "該当する作品はありません"
+
+#: src/templates/products/product_detail.html:159
 msgid "Contact Info"
 msgstr "問い合わせ先"
 
-#: src/templates/products/product_detail.html:166
+#: src/templates/products/product_detail.html:168
 msgid "Contact us about this product"
 msgstr "この作品について問い合わせる"
 
@@ -1606,6 +1612,10 @@ msgstr "すべての作品"
 #: src/templates/products/product_list.html:16
 msgid "Product list"
 msgstr "作品一覧"
+
+#: src/templates/products/product_list.html:27
+msgid "There is no corresponding product"
+msgstr "該当する作品はありません"
 
 #: src/templates/projects/project_archive.html:5
 #: src/templates/projects/project_archive.html:12
@@ -1840,16 +1850,12 @@ msgid "Contacts"
 msgstr "お問い合わせ"
 
 #: src/templates/roughpages/index.anonymous.html:145
-#, fuzzy
-#| msgid "@kawazinfo"
-msgid "Twitter @kawazinfo"
-msgstr "@kawazinfo"
+msgid "Twitter @kawaz_official"
+msgstr "@kawaz_official"
 
 #: src/templates/roughpages/index.anonymous.html:146
-#, fuzzy
-#| msgid "@kawazpr"
-msgid "Twitter @kawazpr"
-msgstr "@kawazpr"
+msgid "Twitter @kawazinfo"
+msgstr "Twitter @kawazinfo"
 
 #: src/templates/roughpages/index.authenticated.html:8
 msgid "My page"
@@ -1874,6 +1880,14 @@ msgstr "所属メンバー向けツール"
 #: src/templates/roughpages/published.html:4
 msgid "Published articles"
 msgstr "掲載情報"
+
+#~ msgid "There is no corresponding game"
+#~ msgstr "該当するゲームはありません"
+
+#, fuzzy
+#~| msgid "@kawazpr"
+#~ msgid "Twitter @kawazpr"
+#~ msgstr "@kawazpr"
 
 #, fuzzy
 #~| msgid "Upcoming events"

@@ -24,7 +24,7 @@
         </div>
     {% empty %}
         <div class="alert alert-info">
-            <p> 該当するプロダクトは見つかりませんでした</p>
+            <p>{% trans "There is no corresponding product" %}</p>
             {% if user has 'products.add_product' %}
                 <a href="{% url "products_product_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new product" %}</a>
             {% endif %}

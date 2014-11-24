@@ -39,7 +39,6 @@ class ProductActivityMediator(ActivityMediator):
                     'title',
                     'description',
                     'thumbnail',
-                    'display_mode',
                     'trailer'
                 )
                 for attribute in attributes:
@@ -106,7 +105,8 @@ class ReleaseActivityMediator(ActivityMediator):
             # <app_label>,<model>,<pk>の書式で入れている
             release_ct = ContentType.objects.get_for_model(type(instance))
             activity.remarks = ','.join((release_ct.app_label, release_ct.model, str(instance.pk)))
-        return activity
+            return activity
+        return None
 
 
 class ScreenshotActivityMediator(ActivityMediator):

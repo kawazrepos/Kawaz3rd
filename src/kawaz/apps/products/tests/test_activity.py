@@ -20,7 +20,12 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self._test_create()
 
     def test_update(self):
-        self._test_partial_update(description='本文変えました')
+        self._test_partial_update(
+            ('description_updated', 'title_updated', 'trailer_updated', 'thumbnail_updated'),
+            description='本文変えました',
+            title="タイトル変えました",
+            trailer='http://example.com',
+            thumbnail='hoge.png')
 
     def test_delete(self):
         self._test_delete()
@@ -78,6 +83,30 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         mediator = registry.get(activity)
         context = mediator.prepare_context(activity, Context())
         self.assertTrue('release' in context, """context doesn't contain 'release'""")
+
+    def test_package_release_updated(self):
+        """
+        Package Releaseがアップデートされても更新通知されない
+        """
+        release = PackageReleaseFactory(product=self.object)
+        nactivities = Activity.objects.get_for_object(self.object).count()
+
+        release.downloads += 1
+        release.save()
+        activities = Activity.objects.get_for_object(self.object)
+        self.assertEqual(nactivities, activities.count())
+
+    def test_url_release_updated(self):
+        """
+        URL Releaseがアップデートされても更新通知されない
+        """
+        release = URLReleaseFactory(product=self.object)
+        nactivities = Activity.objects.get_for_object(self.object).count()
+
+        release.pageview += 1
+        release.save()
+        activities = Activity.objects.get_for_object(self.object)
+        self.assertEqual(nactivities, activities.count())
 
     def test_screenshot_added(self):
         """

@@ -1,1 +1,1 @@
-「{{ object }}」が編集されました http://{{ site.domain }}{{ object.get_absolute_url }}
+「{{ object }}」が編集されました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz

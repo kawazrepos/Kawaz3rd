@@ -63,6 +63,9 @@ INSTALLED_APPS = (
 
 # 利用しているミドルウェア
 MIDDLEWARE_CLASSES = (
+    'kawaz.core.middlewares.exception.UserBasedExceptionMiddleware',
+    # UserBasedExceptionは例外を補足し詳細なエラーレポートを返すので先頭
+    # で定義する必要がある（例外処理は応答フェーズなので逆順実行なため）
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -72,7 +75,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'kawaz.core.middlewares.exception.UserBasedExceptionMiddleware',
     'roughpages.middleware.RoughpageFallbackMiddleware',
 )
 

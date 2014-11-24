@@ -1,1 +1,1 @@
-「{{ object.title }}」が公開されました http://{{ site.domain }}{{ object.get_absolute_url }}
+「{{ object.title }}」が公開されました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz

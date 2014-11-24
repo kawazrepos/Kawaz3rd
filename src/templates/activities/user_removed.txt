@@ -1,1 +1,1 @@
-{{ user.nickname }}さんが「{{ object }}」への参加をやめました http://{{ site.domain }}{{ object.get_absolute_url }}
+{{ user.nickname }}さんが「{{ object }}」への参加をやめました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz

@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.sites.models import Site
 
 register = template.Library()
 
@@ -56,3 +57,11 @@ def get_week_day(date):
     elif wd == 6:
         return "sunday"
     return "weekday"
+
+
+@register.assignment_tag
+def get_current_site():
+    """
+    現在のSiteオブジェクトを取得します
+    """
+    return Site.objects.get_current()

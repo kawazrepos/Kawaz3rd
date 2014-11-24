@@ -1,4 +1,1 @@
-{% extends "activities/personas/persona_base.html" %}
-{% block history-item %}
-    {% include "components/small_avatar.html" with user=object render_username=False %}プロフィールが更新されました
-{% endblock %}
+{{ object.nickname }}さんのプロフィールが更新されました #Kawaz
