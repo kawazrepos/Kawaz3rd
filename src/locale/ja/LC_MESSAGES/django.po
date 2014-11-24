@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 13:22+0900\n"
+"POT-Creation-Date: 2014-11-24 20:55+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,7 +68,7 @@ msgstr "お知らせ"
 #: src/templates/announcements/announcement_detail.html:11
 #: src/templates/announcements/announcement_form.html:15
 #: src/templates/announcements/announcement_list.html:8
-#: src/templates/announcements/announcement_list.html:18
+#: src/templates/announcements/announcement_list.html:19
 #: src/templates/roughpages/drafts.authenticated.html:27
 #: src/templates/roughpages/index.anonymous.html:116
 msgid "Announcements"
@@ -350,8 +350,6 @@ msgid "Administrators"
 msgstr "プロジェクトの管理者"
 
 #: src/kawaz/apps/products/forms.py:53
-#, fuzzy
-#| msgid "Check the users who can manage this product."
 msgid "Check the users who can manage this product. You should use Ctrl + F."
 msgstr ""
 "この作品を管理できるユーザーにチェックを入れてください。Ctrl + Fで検索すると"
@@ -920,19 +918,19 @@ msgstr "ユーザ名"
 msgid "Accounts"
 msgstr "アカウント"
 
-#: src/kawaz/core/personas/views/persona.py:83
+#: src/kawaz/core/personas/views/persona.py:90
 msgid "Anonymous user does not have a persona update view"
 msgstr "非ログインユーザーはユーザー情報変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/persona.py:89
+#: src/kawaz/core/personas/views/persona.py:96
 msgid "Your user information was successfully updated."
 msgstr "プロフィールを更新しました"
 
-#: src/kawaz/core/personas/views/persona.py:103
+#: src/kawaz/core/personas/views/persona.py:113
 msgid "Anonymous user does not have an assign role view"
 msgstr "非ログインユーザーは権限変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/persona.py:123
+#: src/kawaz/core/personas/views/persona.py:133
 #, python-format
 msgid "Your role is changed to '%(role)s'"
 msgstr "権限が「%(role)s」に変更されました"
@@ -966,11 +964,11 @@ msgstr ""
 msgid "Remarks"
 msgstr "一言メッセージ"
 
-#: src/kawaz/settings.py:162
+#: src/kawaz/settings.py:164
 msgid "English"
 msgstr "英語"
 
-#: src/kawaz/settings.py:163
+#: src/kawaz/settings.py:165
 msgid "Japanese"
 msgstr "日本語"
 
@@ -979,16 +977,14 @@ msgid "Target"
 msgstr "対象オブジェクト"
 
 #: src/lib/django-activities/activities/admin.py:30
-#, fuzzy
-#| msgid "Content file"
 msgid "Content object"
 msgstr "ファイル"
 
-#: src/lib/django-activities/activities/models.py:70
+#: src/lib/django-activities/activities/models.py:73
 msgid "Activity"
 msgstr "最近の活動"
 
-#: src/lib/django-activities/activities/models.py:71
+#: src/lib/django-activities/activities/models.py:74
 #: src/templates/roughpages/index.authenticated.html:48
 msgid "Activities"
 msgstr "最近の活動"
@@ -999,10 +995,8 @@ msgstr "GoogleカレンダーのイベントID"
 
 #: src/templates/403.html:6 src/templates/403.html.py:8
 #: src/templates/500.html:10
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission denied"
-msgstr "権限"
+msgstr "権限がありません"
 
 #: src/templates/403.html:10
 msgid "You are not permitted to access this page."
@@ -1080,14 +1074,14 @@ msgstr "「%(title)s」の編集"
 msgid "Create a new announcement"
 msgstr "お知らせを作成する"
 
-#: src/templates/announcements/announcement_list.html:19
+#: src/templates/announcements/announcement_list.html:21
 #, python-format
 msgid "There is only one announcement entry."
 msgid_plural "There are %(counter)s announcement entries."
 msgstr[0] "%(counter)s件のお知らせがあります"
 msgstr[1] "1件のお知らせがあります"
 
-#: src/templates/announcements/announcement_list.html:38
+#: src/templates/announcements/announcement_list.html:42
 msgid "Recent Announcements"
 msgstr "最近のお知らせ"
 
@@ -1303,8 +1297,6 @@ msgid "List"
 msgstr "リスト"
 
 #: src/templates/components/mace_header.html:21
-#, fuzzy
-#| msgid "Numeric list"
 msgid "Numeric list"
 msgstr "番号付きリスト"
 
@@ -1321,8 +1313,6 @@ msgid "Separator"
 msgstr "セパレータ（区切り線）"
 
 #: src/templates/components/mace_header.html:33
-#, fuzzy
-#| msgid "Code block"
 msgid "Code block"
 msgstr "コードブロック"
 
@@ -1601,11 +1591,17 @@ msgstr "作品を削除"
 msgid "Recommended games"
 msgstr "おすすめのゲーム"
 
-#: src/templates/products/product_detail.html:157
+#: src/templates/products/product_detail.html:152
+#, fuzzy
+#| msgid "There is no corresponding product"
+msgid "There are no corresponding products"
+msgstr "該当する作品はありません"
+
+#: src/templates/products/product_detail.html:159
 msgid "Contact Info"
 msgstr "問い合わせ先"
 
-#: src/templates/products/product_detail.html:166
+#: src/templates/products/product_detail.html:168
 msgid "Contact us about this product"
 msgstr "この作品について問い合わせる"
 
@@ -1616,6 +1612,10 @@ msgstr "すべての作品"
 #: src/templates/products/product_list.html:16
 msgid "Product list"
 msgstr "作品一覧"
+
+#: src/templates/products/product_list.html:27
+msgid "There is no corresponding product"
+msgstr "該当する作品はありません"
 
 #: src/templates/projects/project_archive.html:5
 #: src/templates/projects/project_archive.html:12
@@ -1850,16 +1850,12 @@ msgid "Contacts"
 msgstr "お問い合わせ"
 
 #: src/templates/roughpages/index.anonymous.html:145
-#, fuzzy
-#| msgid "@kawazinfo"
 msgid "Twitter @kawaz_official"
 msgstr "@kawaz_official"
 
 #: src/templates/roughpages/index.anonymous.html:146
-#, fuzzy
-#| msgid "@kawazinfo"
 msgid "Twitter @kawazinfo"
-msgstr "@kawazinfo"
+msgstr "Twitter @kawazinfo"
 
 #: src/templates/roughpages/index.authenticated.html:8
 msgid "My page"
@@ -1884,6 +1880,9 @@ msgstr "所属メンバー向けツール"
 #: src/templates/roughpages/published.html:4
 msgid "Published articles"
 msgstr "掲載情報"
+
+#~ msgid "There is no corresponding game"
+#~ msgstr "該当するゲームはありません"
 
 #, fuzzy
 #~| msgid "@kawazpr"

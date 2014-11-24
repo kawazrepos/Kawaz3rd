@@ -145,9 +145,11 @@
         <div class="list-group products-aside-item">
             {% get_relative object as products %}
             {% for product in products|slice:":3" %}
-                <div class="item list-group-item recommend-item">
-                    {% include "products/components/thumbnail-item.html" %}
-                </div>
+            <div class="item list-group-item recommend-item">
+                {% include "products/components/thumbnail-item.html" %}
+            </div>
+            {% empty %}
+                <p class="item list-group-item none-set">{% trans "There are no corresponding products" %}</p>
             {% endfor %}
         </div>
     </div>
