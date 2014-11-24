@@ -11,5 +11,5 @@
         <h2>Activities</h2>
     </div>
     {% include "activities/components/activity_container.html" with activities=object_list %}
-    {% include "components/paginator.html" %}
+    {% include "components/paginator.html" with option='&type=wall' %}
 {% endblock %}
