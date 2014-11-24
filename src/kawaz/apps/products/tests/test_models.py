@@ -183,7 +183,10 @@ class AbstractReleaseBaseModelTestCase(object):
         self.assertTrue(str(package), 'かわずたんアドベンチャー(Mac)')
 
 class PackageReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
-    pass
+    def test_get_absolute_url(self):
+        """
+        get_absolute_urlでアップロードしたファイルへのURLを返す
+        """
 
 
 class ScreenshotModelTestCase(TestCase):

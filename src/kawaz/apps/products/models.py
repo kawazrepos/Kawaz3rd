@@ -251,6 +251,9 @@ class AbstractRelease(models.Model):
     def __str__(self):
         return "{}({})".format(str(self.product), str(self.platform))
 
+    def get_absolute_url(self):
+        return ""
+
 
 class PackageRelease(AbstractRelease):
     """
@@ -270,6 +273,10 @@ class PackageRelease(AbstractRelease):
     class Meta(AbstractRelease.Meta):
         verbose_name = _('Package release')
         verbose_name_plural = _('Package releases')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('products_package_release_detail', (self.slug,), {})
 
 
 class URLRelease(AbstractRelease):
@@ -299,6 +306,10 @@ class URLRelease(AbstractRelease):
         """Google Play の URL か否か"""
         # ProductページにGoogle Playのバッジを置いたりするのに使います
         return self.url.startswith('https://play.google.com')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('products_url_release_detail', (self.slug,), {})
 
 
 class Screenshot(models.Model):
