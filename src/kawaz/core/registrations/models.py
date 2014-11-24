@@ -6,7 +6,6 @@ from kawaz.core.personas.models import Profile
 
 
 class RegistrationSupplement(RegistrationSupplementBase):
-
     place = models.CharField(
         _("Place"), max_length=64,
         help_text=_("Fill your address. You must be related with Sapporo or "
@@ -21,17 +20,22 @@ class RegistrationSupplement(RegistrationSupplementBase):
         user = self.registration_profile.user
         return user.username
 
-from permission import add_permission_logic
-from .perms import RegistrationProfilePermissionLogic
-add_permission_logic(RegistrationProfile, RegistrationProfilePermissionLogic())
-
 
 from django.dispatch import receiver
 from registration.signals import user_activated
 
 
 @receiver(user_activated)
-def setup_for_participation(sender, user, password, is_generated, request, **kwargs):
+def setup_for_participation(sender, user, password,
+                            is_generated, request, **kwargs):
     user.role = 'children'      # ユーザーをChildrenにする
     user.save()
     Profile.objects.create(user=user)
+
+
+# パーミッション関係を設定
+from permission import add_permission_logic
+from .perms import RegistrationProfilePermissionLogic
+add_permission_logic(RegistrationProfile, RegistrationProfilePermissionLogic())
+
+
