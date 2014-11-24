@@ -1,5 +1,6 @@
+from wsgiref.util import FileWrapper
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, StreamingHttpResponse, HttpResponse, HttpResponseNotFound
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import ListView
@@ -215,3 +216,37 @@ class ProductDeleteView(DeleteSuccessMessageMixin, DeleteView):
 class ProductPreview(SingleObjectPreviewMixin, DetailView):
     model = Product
     template_name = "products/components/product_detail.html"
+
+
+class URLReleaseDetailView(DetailView):
+    model = URLRelease
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # ページビューを加算してURLへ飛ばす
+        self.object.pageview += 1
+        self.object.save()
+        return HttpResponseRedirect(self.object.url)
+
+class PackageReleaseDetailView(DetailView):
+    model = PackageRelease
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            name = self.object.filename
+            path = self.object.file_content.path
+            mimetype = self.object.mimetype
+            # withをすると、変なタイミングでcloseされてしまって正常にアクセスできない
+            file = open(path, 'rb')
+            # ToDo normalize
+            response = HttpResponse(FileWrapper(file), content_type=mimetype)
+            response['Content-Disposition'] = 'attachment; filename={}'.format(name)
+            # ダウンロードを加算する
+            self.object.downloads += 1
+            self.object.save()
+            return response
+        except FileNotFoundError:
+            # もし、レコードには存在するが、ファイルがなかったり、読み込めなかったとき
+            self.object.delete() # DBと不整合なため、レコードを削除する
+            return HttpResponseNotFound()

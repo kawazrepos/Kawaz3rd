@@ -84,6 +84,30 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         context = mediator.prepare_context(activity, Context())
         self.assertTrue('release' in context, """context doesn't contain 'release'""")
 
+    def test_package_release_updated(self):
+        """
+        Package Releaseがアップデートされても更新通知されない
+        """
+        release = PackageReleaseFactory(product=self.object)
+        nactivities = Activity.objects.get_for_object(self.object).count()
+
+        release.downloads += 1
+        release.save()
+        activities = Activity.objects.get_for_object(self.object)
+        self.assertEqual(nactivities, activities.count())
+
+    def test_url_release_updated(self):
+        """
+        URL Releaseがアップデートされても更新通知されない
+        """
+        release = URLReleaseFactory(product=self.object)
+        nactivities = Activity.objects.get_for_object(self.object).count()
+
+        release.pageview += 1
+        release.save()
+        activities = Activity.objects.get_for_object(self.object)
+        self.assertEqual(nactivities, activities.count())
+
     def test_screenshot_added(self):
         """
         Screenshotを追加したときに、screenshot_addedが発行される

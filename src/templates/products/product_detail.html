@@ -35,19 +35,21 @@
         {% for release in product.urlreleases.all %}
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <span class="h4">{{release.label}}</span><br />
-                    バージョン: {{release.version}}
+                    <span class="h4">{{ release.label }}</span><br />
+                    {% if release.version %}
+                        バージョン: {{release.version}}
+                    {% endif %}
                     <span class="pull-right">
                     {% if release.is_appstore %}
-                    <a href="{{release.url}}" target="_blank">
-                        <img src="{% static "img/appstore.png" %}" alt="Download on the App Store" />
-                    </a>
+                        <a href="{{ release.get_absolute_url }}" target="_blank">
+                            <img src="{% static "img/appstore.png" %}" alt="Download on the App Store" />
+                        </a>
                     {% elif release.is_googleplay %}
-                    <a href="{{release.url}}" target="_blank">
-                        <img src="{% static "img/playstore.png" %}" alt="Get it on Google Play" />
-                    </a>
+                        <a href="{{ release.get_absolute_url }}" target="_blank">
+                            <img src="{% static "img/playstore.png" %}" alt="Get it on Google Play" />
+                        </a>
                     {% else %}
-                    <a href="{{release.url}}" class="btn btn-primary" target="_blank">Download ({{release.platform}})</a>
+                        <a href="{{ release.get_absolute_url }}" class="btn btn-primary" target="_blank">Download ({{ release.platform }})</a>
                     {% endif %}
                     </span>
                 </div>
@@ -57,9 +59,11 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <span class="h4">{{release.label}}</span><br />
-                    バージョン: {{release.version}}
+                    {% if release.version %}
+                        バージョン: {{ release.version }}
+                    {% endif %}
                     <span class="pull-right">
-                    <a href="{{release.url}}" class="btn btn-primary" target="_blank">Download ({{release.platform}})</a>
+                        <a href="{{ release.get_absolute_url }}" class="btn btn-primary" target="_blank">Download ({{ release.platform }})</a>
                     </span>
                 </div>
             </div>

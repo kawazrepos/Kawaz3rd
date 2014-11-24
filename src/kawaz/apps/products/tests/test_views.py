@@ -2,6 +2,7 @@ import os
 import datetime
 import itertools
 from contextlib import ExitStack
+import tempfile
 from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
@@ -11,7 +12,7 @@ from ..models import URLRelease
 from ..models import PackageRelease
 
 from ..models import Product
-from .factories import ProductFactory
+from .factories import ProductFactory, PackageReleaseFactory, URLReleaseFactory
 from .factories import PlatformFactory
 from .factories import CategoryFactory
 
@@ -498,3 +499,54 @@ class ProductPreviewTestCase(TestCase):
         r = self.client.post('/products/preview/', json.dumps({}), content_type='application/json')
         self.assertTemplateUsed(r, 'products/components/product_detail.html')
         self.assertEqual(r.status_code, 200)
+
+
+class PackageReleaseDetailViewTestCase(TestCase):
+    def _generate_package_release(self, ext=''):
+        """
+        拡張子がextの一時ファイルを持ったPackageReleaseを生成します
+        """
+        slug = "hogehoge"
+        path = os.path.join(settings.MEDIA_ROOT, 'products', slug, 'releases')
+        if not os.path.exists(path):
+            os.makedirs(path)
+        tmp_file = tempfile.mkstemp(dir=path, suffix=ext)[1]
+        name = os.path.split(tmp_file)[-1]
+        release = PackageReleaseFactory(file_content=name, product__slug=slug)
+        self.assertTrue(os.path.exists(release.file_content.path))
+        return release
+
+    def test_package_release_detail_view(self):
+        """
+        PackageDetailViewにアクセスしてファイルをダウンロードできる
+        また、downloadsカウントが+1される
+        """
+        release = self._generate_package_release()
+        # ダウンロードカウントが0
+        self.assertEqual(release.downloads, 0)
+        r = self.client.get(release.get_absolute_url())
+
+        # Content-Dispositionの値が正しい
+        self.assertEqual(r['Content-Disposition'], 'attachment; filename={}'.format(release.filename))
+
+        # ダウンロードカウントが1
+        release = PackageRelease.objects.get(pk=release.pk)
+        self.assertEqual(release.downloads, 1)
+
+class URLReleaseDetailView(TestCase):
+    def test_url_release_detail_view(self):
+        """
+        URLReleaseDetailViewにアクセスしてURLにリダイレクトできる
+        また、pageviewが+1される
+        """
+        release = URLReleaseFactory()
+        # ページビューが0
+        self.assertEqual(release.pageview, 0)
+
+        r = self.client.get(release.get_absolute_url())
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(r['Location'], release.url)
+
+        # ページビューが1
+        release = URLRelease.objects.get(pk=release.pk)
+        self.assertEqual(release.pageview, 1)
