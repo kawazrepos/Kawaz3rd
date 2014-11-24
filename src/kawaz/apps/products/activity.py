@@ -39,7 +39,6 @@ class ProductActivityMediator(ActivityMediator):
                     'title',
                     'description',
                     'thumbnail',
-                    'display_mode',
                     'trailer'
                 )
                 for attribute in attributes:
