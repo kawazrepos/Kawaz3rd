@@ -15,7 +15,7 @@
         <h1>{% trans "Change your user information" %}</h1>
     </div>
     <p>プロフィールは<a href="{% url "personas_profile_update" %}">プロフィールの変更</a>ページから変更できます</p>
-    <form class="form-horizontal row" role="form" method="POST" action="?next={{ redirect_to }}">{% csrf_token %}
+    <form class="form-horizontal row" role="form" method="POST" action="?next={{ redirect_to }}" enctype="multipart/form-data">{% csrf_token %}
         {% get_form_helper "bare" as helper %}
         {% crispy form helper %}
         <div class="form-group">
