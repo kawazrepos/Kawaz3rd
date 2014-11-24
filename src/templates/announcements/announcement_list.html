@@ -12,19 +12,23 @@
     {# BlogのCSSデザインを踏襲 #}
     <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
 {% endblock %}
+
 {% block content-header %}
-    <div class="page-header blog-list-header">
-        <div class="header-left">
+    <div class="page-header blog-list-header row">
+        <div class="col col-lg-9 col-xs-12">
             <h1>{% trans "Announcements" %}</h1>
+            {% if paginator.count > 0 %}
             <small>{% blocktrans count counter=paginator.count %}There is only one announcement entry.{% plural %}There are {{ counter }} announcement entries.{% endblocktrans %}</small>
+            {% endif %}
         </div>
-        {% if user has 'announcements.add_entry' %}
-            <div class="header-right">
-                <a href="{% url "announcements_announcement_create" %}" %}" class="btn btn-primary btn-lg" role="button">お知らせを書く</a>
-            </div>
+        <div class="col col-lg-3 col-xs-12 header-right">
+        {% if user has 'blogs.add_entry' %}
+            <a href="{% url "announcements_announcement_create" %} %}" class="btn btn-primary btn-lg" role="button">お知らせを書く</a>
         {% endif %}
+        </div>
     </div>
 {% endblock %}
+
 {% block content-main %}
     {{ block.super }}
     {% for object in object_list %}
