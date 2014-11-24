@@ -100,3 +100,8 @@
   fields:
     label: その他
     icon: products/platforms/misc.png
+- model: products.platform
+  pk: 11
+  fields:
+    label: Family Computer
+    icon: products/platforms/famicon.png
