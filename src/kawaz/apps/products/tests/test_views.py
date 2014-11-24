@@ -281,6 +281,7 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
                 r = self.client.post(url, self.product_kwargs)
             e = Product.objects.get(pk=i+1)
             self.assertRedirects(r, e.get_absolute_url())
+
             self.assertEqual(Screenshot.objects.count(), 1)
             obj = Screenshot.objects.get(pk=i+1)
             self.assertIn('messages', r.cookies, "No messages are appeared")
@@ -422,20 +423,20 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         ))
         login_url = "{}?next={}".format(settings.LOGIN_URL, url)
         # adam は全ての権限を持つため除外
-        for user in self.members[1:]:
+        for user in self.members[3:]:
             self.prefer_login(user)
             r = self.client.get(url)
             self.assertRedirects(r, login_url)
 
     def test_administrators_can_view_product_update_view(self):
         """
-        管理メンバーはプロダクト編集ページを見ることが出来る
+        nerv以上、もしくは管理メンバーはプロダクト編集ページを見ることが出来る
         """
         url = reverse('products_product_update', kwargs=dict(
             slug=self.product.slug,
         ))
         # adam はすべての権限を持つため追加
-        for user in chain([self.members[0]], self.administrators):
+        for user in chain(self.members[0:2], self.administrators):
             self.prefer_login(user)
             r = self.client.get(url)
             self.assertTemplateUsed(r, 'products/product_form.html')
@@ -465,7 +466,7 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
         ))
         login_url = "{}?next={}".format(settings.LOGIN_URL, url)
         # adam は全ての権限を持つため除外
-        for user in self.members[1:]:
+        for user in self.members[3:]:
             self.prefer_login(user)
             r = self.client.post(url, self.product_kwargs)
             self.assertRedirects(r, login_url)
@@ -473,13 +474,13 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
 
     def test_administrators_can_update_product(self):
         """
-        管理メンバーはプロダクトを編集可能
+        nerv以上、もしくは管理メンバーはプロダクトを編集可能
         """
         url = reverse('products_product_update', kwargs=dict(
             slug=self.product.slug,
         ))
         # adam はすべての権限を持つため追加
-        for user in chain([self.members[0]], self.administrators):
+        for user in chain(self.members[0:3], self.administrators):
             self.prefer_login(user)
             with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
