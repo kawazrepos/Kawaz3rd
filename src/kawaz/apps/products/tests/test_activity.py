@@ -20,7 +20,12 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self._test_create()
 
     def test_update(self):
-        self._test_partial_update(description='本文変えました')
+        self._test_partial_update(
+            ('description_updated', 'title_updated', 'trailer_updated', 'thumbnail_updated'),
+            description='本文変えました',
+            title="タイトル変えました",
+            trailer='http://example.com',
+            thumbnail='hoge.png')
 
     def test_delete(self):
         self._test_delete()

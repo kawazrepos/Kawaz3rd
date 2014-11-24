@@ -1849,7 +1849,7 @@ msgstr "お問い合わせ"
 
 #: src/templates/roughpages/index.anonymous.html:145
 msgid "Twitter @kawaz_official"
-msgstr "Twitter @kawazinfo"
+msgstr "@kawaz_official"
 
 #: src/templates/roughpages/index.anonymous.html:146
 msgid "Twitter @kawazinfo"
