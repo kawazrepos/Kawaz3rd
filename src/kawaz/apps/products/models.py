@@ -1,3 +1,4 @@
+import mimetypes
 import os
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -276,8 +277,22 @@ class PackageRelease(AbstractRelease):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('products_package_release_detail', (self.slug,), {})
+        return ('products_package_release_detail', (self.pk,), {})
 
+    @property
+    def filename(self):
+        """
+        ファイル名を返します
+        """
+        return os.path.split(self.file_content.name)[1]
+
+    @property
+    def mimetype(self):
+        """
+        Mimetypeを返します
+        """
+        mime_type_guess = mimetypes.guess_type(self.filename)
+        return mime_type_guess[0]
 
 class URLRelease(AbstractRelease):
     """
@@ -309,7 +324,7 @@ class URLRelease(AbstractRelease):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('products_url_release_detail', (self.slug,), {})
+        return ('products_url_release_detail', (self.pk,), {})
 
 
 class Screenshot(models.Model):

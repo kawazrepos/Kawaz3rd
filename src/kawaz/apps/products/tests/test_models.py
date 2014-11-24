@@ -176,6 +176,7 @@ class ProductModelTestCase(TestCase):
 
 class AbstractReleaseBaseModelTestCase(object):
     def test_str_returns_product_title_and_platform_name(self):
+
         """
         str()関数は"<product_title>(platform_name)"を返す
         """
@@ -185,31 +186,26 @@ class AbstractReleaseBaseModelTestCase(object):
 class PackageReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
     def test_get_absolute_url(self):
         """
-        get_absolute_urlでアップロードしたファイルへのURLを返す
+        get_absolute_urlでダウンロード用ビューのURLが引ける
         """
+        release = PackageReleaseFactory()
+        self.assertEqual(release.get_absolute_url(), '/products/package_releases/{}/'.format(release.pk))
 
-
-class ScreenshotModelTestCase(TestCase):
-
-    def test_screenshot_str(self):
+    def test_filename(self):
         """
-        str(Screenshot)の値が正しい
+        release.filenameがファイル名を返す
         """
-        product = ProductFactory(title="スーパーかわずたん")
-        ss = ScreenshotFactory(product=product)
-        self.assertEqual(str(ss), 'products/kawaz-tan-adventure/screenshots/cute_kawaz_tan.png(スーパーかわずたん)')
+        release = PackageReleaseFactory(file_content='path/to/release/my-fantastic-game.zip')
+        self.assertEqual(release.filename, 'my-fantastic-game.zip')
 
-    def test_screenshot_relative_name(self):
+    def test_mimetype(self):
         """
-        Product.screenshotsでスクリーンショットの一覧が取り出せる
+        release.mimetypeがMimetypeを返す
         """
-        product = ProductFactory()
-        ss = ScreenshotFactory(product=product)
-        self.assertIsNotNone(product.screenshots)
-        self.assertEqual(product.screenshots.count(), 1)
+        release = PackageReleaseFactory(file_content='path/to/release/my-fantastic-game.zip')
+        self.assertEqual(release.mimetype, 'application/zip')
 
-
-class URLReleaseModelTestCase(TestCase):
+class URLReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
     appstore_url = ('https://itunes.apple.com/jp/app/'
                     'wave-weaver/id841280819?mt=8')
     googleplay_url = ('https://play.google.com/store/'
@@ -234,3 +230,28 @@ class URLReleaseModelTestCase(TestCase):
         self.assertFalse(self.appstore_release.is_googleplay)
         self.assertTrue(self.googleplay_release.is_googleplay)
 
+    def test_get_absolute_url(self):
+        """
+        get_absolute_urlでリダイレクト用ビューのURLが引ける
+        """
+        release = URLReleaseFactory()
+        self.assertEqual(release.get_absolute_url(), '/products/url_releases/{}/'.format(release.pk))
+
+class ScreenshotModelTestCase(TestCase):
+
+    def test_screenshot_str(self):
+        """
+        str(Screenshot)の値が正しい
+        """
+        product = ProductFactory(title="スーパーかわずたん")
+        ss = ScreenshotFactory(product=product)
+        self.assertEqual(str(ss), 'products/kawaz-tan-adventure/screenshots/cute_kawaz_tan.png(スーパーかわずたん)')
+
+    def test_screenshot_relative_name(self):
+        """
+        Product.screenshotsでスクリーンショットの一覧が取り出せる
+        """
+        product = ProductFactory()
+        ss = ScreenshotFactory(product=product)
+        self.assertIsNotNone(product.screenshots)
+        self.assertEqual(product.screenshots.count(), 1)
