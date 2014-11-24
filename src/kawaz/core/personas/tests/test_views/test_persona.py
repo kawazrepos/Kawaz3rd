@@ -16,11 +16,13 @@ BASE_URL = 'members'
 
 class PersonaViewTestCaseBase(TestCase):
     def setUp(self):
+        # Profileを持たない場合はメンバーとして認められない仕様なので
+        # PersonaFactoryではなくProfileFactoryでユーザーを作成している
         self.members = (
-                PersonaFactory(role='adam'),
-                PersonaFactory(role='seele'),
-                PersonaFactory(role='nerv'),
-                PersonaFactory(role='children'),
+                ProfileFactory(user__role='adam').user,
+                ProfileFactory(user__role='seele').user,
+                ProfileFactory(user__role='nerv').user,
+                ProfileFactory(user__role='children').user,
             )
         self.non_members = (
                 PersonaFactory(role='wille'),
@@ -60,6 +62,33 @@ class PersonaDetailViewTestCase(PersonaViewTestCaseBase):
             # PersonaDetailViewは'profile'というContextを持つ
             self.assertEqual(r.context_data['profile'], profile)
 
+    def test_access_to_inactive_persona(self):
+        """無効化されたユーザーページにはアクセス不可"""
+        profile = ProfileFactory(pub_state='public',
+                                 user__is_active=False)
+        for user in chain(self.members, self.non_members, [self.anonymous]):
+            self.prefer_login(user)
+            r = self.client.get(profile.user.get_absolute_url())
+            self.assertEqual(r.status_code, 404)
+
+    def test_access_to_wille_persona(self):
+        """Willeユーザーページにはアクセス不可"""
+        # たとえ Profile を持っていたとしても（通常WilleはProfileを持たない）
+        profile = ProfileFactory(pub_state='public',
+                                 user__role='wille')
+        for user in chain(self.members, self.non_members, [self.anonymous]):
+            self.prefer_login(user)
+            r = self.client.get(profile.user.get_absolute_url())
+            self.assertEqual(r.status_code, 404)
+
+    def test_access_to_persona_without_profile(self):
+        """プロフィールを持たないユーザページにはアクセス不可"""
+        invalid_user = PersonaFactory()
+        for user in chain(self.members, self.non_members, [self.anonymous]):
+            self.prefer_login(user)
+            r = self.client.get(invalid_user.get_absolute_url())
+            self.assertEqual(r.status_code, 404)
+
     @patch('kawaz.core.publishments.perms.PublishmentPermissionLogic')
     def test_access_with_protected_profile(self, PublishmentPermissionLogic):
         """
@@ -98,6 +127,9 @@ class PersonaListViewTestCase(TestCase):
             PersonaFactory(last_login=now-timedelta(days=5),
                            role='wille'),
         )
+        # willeなどを除く有効なメンバー数
+        # self.personas を編集した場合は値を適切なものに修正すること
+        self.number_of_valid_members = 3
 
     def test_reverse_persona_list_url(self):
         """
@@ -108,60 +140,83 @@ class PersonaListViewTestCase(TestCase):
             '/{}/'.format(BASE_URL),
         )
 
+    def test_inactive_personas_are_not_listed(self):
+        """
+        無効化されたユーザーは一覧に含まれない
+        """
+        # 検証用にProfileを持つ無効化されたユーザーを追加
+        inactive_user = ProfileFactory(user__is_active=False).user
+        # 一覧ページへのアクセス
+        url = reverse('personas_persona_list')
+        r = self.client.get(url)
+        self.assertTemplateUsed('persona/persona_list.html')
+        self.assertTrue('object_list' in r.context_data)
+        object_list = r.context_data['object_list']
+        self.assertEqual(object_list.count(), self.number_of_valid_members)
+        self.assertFalse(inactive_user in object_list)
+
     def test_wille_personas_are_not_listed(self):
         """
-        Wille権限のユーザーはリストに表示されない
+        Wille権限のユーザーは一覧に含まれない
         """
+        # 検証用にProfileを持つWilleユーザーを追加
+        wille = ProfileFactory(user__role='wille').user
+        # 一覧ページへのアクセス
+        url = reverse('personas_persona_list')
+        r = self.client.get(url)
+        self.assertTemplateUsed('persona/persona_list.html')
+        self.assertTrue('object_list' in r.context_data)
+        object_list = r.context_data['object_list']
+        self.assertEqual(object_list.count(), self.number_of_valid_members)
+        self.assertFalse(wille in object_list)
+
+    def test_personas_without_profile_are_not_listed(self):
+        """
+        プロフィールを持たないユーザーは一覧に含まれない
+        """
+        # 検証用にProfileを持たないChildrenユーザーを追加
+        invalid_user = PersonaFactory(role='children')
+        # 一覧ページへのアクセス
         url = reverse('personas_persona_list')
         r = self.client.get(url)
         self.assertTemplateUsed('persona/persona_list.html')
         self.assertTrue('object_list' in r.context_data)
         object_list = r.context_data['object_list']
         self.assertEqual(object_list.count(), 3)
-        for obj in object_list:
-            self.assertNotEqual(obj.role, 'wille')
+        self.assertFalse(invalid_user in object_list)
 
     def test_personas_list_order_by_last_login(self):
-        '''
+        """
         ユーザーの一覧は最新ログイン順に並ぶ
-        '''
+        """
         r = self.client.get('/members/')
         self.assertTemplateUsed('personas/persona_list.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
-        self.assertEqual(list.count(), 3, 'object_list should have three users')
+        self.assertEqual(list.count(), 3,
+                         'object_list should have three users')
         self.assertEqual(list[0], self.personas[2], 'public')
         self.assertEqual(list[1], self.personas[1], 'public')
         self.assertEqual(list[2], self.personas[0], 'public')
 
     def test_personas_list_paginate_by(self):
-        '''
+        """
         ユーザーの一覧は24件ずつ表示される
-        '''
-        [PersonaFactory() for i in range(30)]
+        """
+        # プロフィールを持たないユーザーは一覧に表示されないため
+        # PersonaFactoryではなくProfileFactoryを使用している
+        [ProfileFactory() for i in range(30)]
         r = self.client.get('/members/')
         self.assertTemplateUsed('personas/persona_list.html')
         self.assertTrue('object_list', r.context_data)
         list = r.context_data['object_list']
-        self.assertEqual(list.count(), 24, 'object_list should have 24 users at once')
+        self.assertEqual(list.count(), 24,
+                         'object_list should have 24 users at once')
 
         # 30 + 3で33人いるはずで、2ページ目には9人いるはず
         r = self.client.get('/members/?page=2')
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 9)
-
-    def test_exclude_inactive_users(self):
-        """
-        is_active = Falseのユーザーは一覧に含まれない
-        """
-        inactive_user = PersonaFactory(is_active=False)
-        url = reverse('personas_persona_list')
-        r = self.client.get(url)
-        self.assertTemplateUsed('persona/persona_list.html')
-        self.assertTrue('object_list' in r.context_data)
-        object_list = r.context_data['object_list']
-        self.assertEqual(object_list.count(), 3)
-        self.assertFalse(inactive_user in object_list)
 
 
 class PersonaUpdateViewTestCase(PersonaViewTestCaseBase):

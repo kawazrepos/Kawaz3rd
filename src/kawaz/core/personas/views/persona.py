@@ -22,25 +22,27 @@ class PersonaDetailView(DetailView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        qs = qs.exclude(is_active=False)
+        qs = qs.exclude(_profile=None)
+        qs = qs.exclude(role='wille')
         qs = qs.prefetch_related(
             '_profile',
             '_profile__skills',
             '_profile__accounts__service',
         )
-        return qs.exclude(role='wille')
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        # アクセスユーザーが対象ユーザーのプロフィールにアクセスする権限の
-        # 有無により'profile'コンテキストを渡すか否かを決定する
-        user = self.get_object()
-        try:
-            if self.request.user.has_perm('personas.view_profile', user._profile):
-                context['profile'] = user._profile
-        except ObjectDoesNotExist:
-            # 通常ユーザーはProfileを持つはずだが依存性を下げるためにここは
-            # Fail silently で扱っている
-            pass
+        user = self.request.user
+        if user.has_perm('personas.view_profile', self.object._profile):
+            # アクセスユーザーは対象ユーザーのプロフィールを見る権限を所有
+            # しているので `profile` というコンテキストにプロフィール実体
+            # を渡す（アンダーバーから始まっているためテンプレートにて
+            # `{{ object._profile }}`というようなアクセスは出来ない）
+            # これはヒューマンエラーによるテンプレートでのプライベートな
+            # プロフィール参照を避けるための仕様である
+            context['profile'] = self.object._profile
         return context
 
 
@@ -52,14 +54,16 @@ class PersonaListView(FilterView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        qs = qs.exclude(is_active=False)
+        qs = qs.exclude(_profile=None)
+        qs = qs.exclude(role='wille')
         qs = qs.prefetch_related(
             '_profile',
             '_profile__skills',
             '_profile__accounts__service',
         )
         qs = qs.order_by('-last_login')
-        qs = qs.exclude(is_active=False)
-        return qs.exclude(role='wille')
+        return qs
 
 
 @permission_required('personas.change_persona')
@@ -70,12 +74,15 @@ class PersonaUpdateView(SuccessMessageMixin, UpdateView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        qs = qs.exclude(is_active=False)
+        qs = qs.exclude(_profile=None)
+        qs = qs.exclude(role='wille')
         qs = qs.prefetch_related(
             '_profile',
             '_profile__skills',
             '_profile__accounts__service',
         )
-        return qs.exclude(role='wille')
+        return qs
 
     def get_object(self, queryset=None):
         if not self.request.user.is_authenticated():
@@ -95,7 +102,10 @@ class AssignRoleMixin(object):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.exclude(role='wille')
+        qs = qs.exclude(is_active=False)
+        qs = qs.exclude(_profile=None)
+        qs = qs.exclude(role='wille')
+        return qs
 
     def get_object(self, queryset=None):
         if not self.request.user.is_authenticated():
