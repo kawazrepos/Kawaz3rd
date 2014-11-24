@@ -252,9 +252,6 @@ class AbstractRelease(models.Model):
     def __str__(self):
         return "{}({})".format(str(self.product), str(self.platform))
 
-    def get_absolute_url(self):
-        return ""
-
 
 class PackageRelease(AbstractRelease):
     """
