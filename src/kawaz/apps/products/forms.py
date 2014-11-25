@@ -65,14 +65,14 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 
 class ProductCreateForm(ProductBaseForm):
     class Meta(ProductBaseForm.Meta):
-        exclude = ('administrators', 'display_mode')
+        exclude = ('display_mode',)
 
 
 class ProductUpdateForm(ProductBaseForm):
     class Meta(ProductBaseForm.Meta):
         exclude = (
             'slug',
-            'administrators', 'display_mode'
+            'display_mode',
         )
 
 
