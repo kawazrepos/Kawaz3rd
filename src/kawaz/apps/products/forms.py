@@ -34,9 +34,7 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         label=_('Project'), required=False)
     # cache_choicesを有効にしないとめちゃくちゃクエリが吐かれる
     # 実測値で20倍程度遅くなっていた
-    # Ref : http://simionbaws.ro/programming/
-    #       django-checkboxselectmultiple-with
-    #       -modelmultiplechoicefield-generates-too-many-queries/
+    # Ref : http://simionbaws.ro/programming/django-checkboxselectmultiple-with-modelmultiplechoicefield-generates-too-many-queries/
     platforms = forms.ModelMultipleChoiceField(
         label=_('Platforms'),
         widget=widgets.CheckboxSelectMultiple,
