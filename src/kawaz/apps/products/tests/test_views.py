@@ -602,7 +602,7 @@ class ProductDeleteViewTestCase(ViewTestCaseBase):
             )
 
 
-class ProductPreviewTestCase(TestCase):
+class ProductPreviewViewTestCase(TestCase):
     def test_reverse_product_preview_url(self):
         """
         ProductPreviewViewの逆引き

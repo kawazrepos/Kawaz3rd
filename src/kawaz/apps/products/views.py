@@ -207,7 +207,7 @@ class ProductDeleteView(DeleteSuccessMessageMixin, DeleteView):
         return _("The product was successfully deleted.")
 
 
-class ProductPreview(SingleObjectPreviewMixin, DetailView):
+class ProductPreviewView(SingleObjectPreviewMixin, DetailView):
     model = Product
     template_name = "products/components/product_detail.html"
 

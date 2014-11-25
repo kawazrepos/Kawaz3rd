@@ -5,7 +5,7 @@ from .views import ProductUpdateView
 from .views import ProductCreateView
 from .views import ProductDeleteView
 from .views import ProductDetailView
-from .views import ProductPreview
+from .views import ProductPreviewView
 from .views import PackageReleaseDetailView
 from .views import URLReleaseDetailView
 
@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url('^$',
         ProductListView.as_view(), name='products_product_list'),
     url('^preview/$',
-        ProductPreview.as_view(), name='products_product_preview'),
+        ProductPreviewView.as_view(), name='products_product_preview'),
     url('^create/$',
         ProductCreateView.as_view(), name='products_product_create'),
     url('^package_releases/(?P<pk>\d+)/$',
