@@ -37,10 +37,7 @@ class RegistrationViewTestCase(TestCase):
         /registration/login/が表示できるか
         """
         self._test_url_name('login', '/registration/login/')
-        url = "/registration/login/"
-        template = "login.html"
-        r = self.client.get(url)
-        self.assertTemplateUsed(r, template)
+        self._test_can_display('login', 'login')
 
     def test_can_logout_via_post(self):
         """
