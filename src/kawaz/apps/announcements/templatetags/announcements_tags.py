@@ -11,7 +11,7 @@ def get_announcements(context, lookup='published'):
     """
     任意の<lookup>によりフィルタされた Announcement のクエリを取得し指定された
     <variable>に格納するテンプレートタグ
-    
+
     Syntax:
         {% get_announcements as <variable> %}
         {% get_announcements <lookup> as <variable> %}
@@ -47,12 +47,13 @@ def get_announcements(context, lookup='published'):
         qs = Announcement.objects.draft(request.user)
     return qs
 
+
 @register.assignment_tag(takes_context=True)
 def get_recent_announcements(context, lookup='published'):
     """
-      get_announcementsで得られるQSのうち、作成日が1週間以内の物のみに絞り込みます
+    get_announcementsで得られるQSのうち、作成日が1週間以内の物のみに絞り込む
     """
     qs = get_announcements(context, lookup)
     ct = timezone.now()
-    seven_days_ago = ct -  timezone.timedelta(days=7)
+    seven_days_ago = ct - timezone.timedelta(days=7)
     return qs.filter(created_at__gte=seven_days_ago)

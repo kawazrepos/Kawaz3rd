@@ -68,13 +68,11 @@ class Announcement(models.Model):
                                editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Modified at'), auto_now=True)
-    last_modifier = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name=_('Last modified by'),
-                                      editable=False,
-                                      null=True, related_name='last_modified_announcements')
-
+    last_modifier = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name=_('Last modified by'),
+        editable=False, null=True, related_name='last_modified_announcements')
     objects = AnnouncementManager()
-    
+
     class Meta:
         ordering = ('-created_at',)
         verbose_name = _('Announcement')
@@ -92,6 +90,7 @@ class Announcement(models.Model):
         if self.pub_state == 'draft':
             return ('announcements_announcement_update', (), kwargs)
         return ('announcements_announcement_detail', (), kwargs)
+
 
 from permission import add_permission_logic
 from .perms import AnnouncementPermissionLogic

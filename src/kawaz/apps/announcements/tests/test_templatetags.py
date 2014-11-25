@@ -31,7 +31,9 @@ class AnnouncementsTemplateTagTestCase(TestCase):
         return c['announcements']
 
     def test_get_announcements_published(self):
-        """get_announcements published はユーザーに対して公開された記事を返す"""
+        """
+        get_announcements published はユーザーに対して公開された記事を返す
+        """
         patterns = (
             ('adam', 2),
             ('seele', 2),
@@ -42,7 +44,8 @@ class AnnouncementsTemplateTagTestCase(TestCase):
         )
         # with lookup
         for username, nannouncements in patterns:
-            announcements = self._render_template(username, lookup='published')
+            announcements = self._render_template(username,
+                                                  lookup='published')
             self.assertEqual(announcements.count(), nannouncements)
         # without lookup
         for username, nannouncements in patterns:
@@ -87,9 +90,12 @@ class GetRecentAnnouncementsTemplateTagTestCase(TestCase):
             public=AnnouncementFactory(pub_state='public'),
             protected=AnnouncementFactory(pub_state='protected'),
             draft=AnnouncementFactory(pub_state='draft'),
-            old_public=AnnouncementFactory(pub_state='public', created_at=seven_days_ago),
-            old_protected=AnnouncementFactory(pub_state='protected', created_at=seven_days_ago),
-            old_draft=AnnouncementFactory(pub_state='draft', created_at=seven_days_ago),
+            old_public=AnnouncementFactory(pub_state='public',
+                                           created_at=seven_days_ago),
+            old_protected=AnnouncementFactory(pub_state='protected',
+                                              created_at=seven_days_ago),
+            old_draft=AnnouncementFactory(pub_state='draft',
+                                          created_at=seven_days_ago),
         )
         # ここで上書きしないとダメっぽい
         self.announcements['old_public'].created_at = seven_days_ago
@@ -117,7 +123,9 @@ class GetRecentAnnouncementsTemplateTagTestCase(TestCase):
         return c['announcements']
 
     def test_get_announcements_published(self):
-        """get_announcements published はユーザーに対して公開された記事を返す"""
+        """
+        get_announcements published はユーザーに対して公開された記事を返す
+        """
         patterns = (
             ('adam', 2),
             ('seele', 2),
@@ -128,7 +136,8 @@ class GetRecentAnnouncementsTemplateTagTestCase(TestCase):
         )
         # with lookup
         for username, nannouncements in patterns:
-            announcements = self._render_template(username, lookup='published')
+            announcements = self._render_template(username,
+                                                  lookup='published')
             self.assertEqual(announcements.count(), nannouncements)
         # without lookup
         for username, nannouncements in patterns:
