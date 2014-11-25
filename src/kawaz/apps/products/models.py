@@ -291,6 +291,7 @@ class PackageRelease(AbstractRelease):
         mime_type_guess = mimetypes.guess_type(self.filename)
         return mime_type_guess[0]
 
+
 class URLRelease(AbstractRelease):
     """
     URL指定形式でのリリースモデル。主に外部ホスティングでのリリース用
