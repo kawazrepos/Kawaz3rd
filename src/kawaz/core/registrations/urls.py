@@ -5,10 +5,10 @@ from registration.urls import urlpatterns
 
 urlpatterns += patterns('',
     url(r'^login/$', auth_views.login,
-        {'template_name': 'registration/login.html'},
+        {'template_name': 'login.html'},
         name='login'),
     url(r'^logout/$', auth_views.logout,
-        {'template_name': 'registration/logout.html',
+        {'template_name': 'logout.html',
          'next_page': '/'},
         name='logout'),
     url(r'^password_change/$', auth_views.password_change,
