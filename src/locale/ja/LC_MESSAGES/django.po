@@ -350,10 +350,9 @@ msgid "Administrators"
 msgstr "プロジェクトの管理者"
 
 #: src/kawaz/apps/products/forms.py:53
-msgid "Check the users who can manage this product. You should use Ctrl + F."
+msgid "Add administrator users of this product"
 msgstr ""
-"この作品を管理できるユーザーにチェックを入れてください。Ctrl + Fで検索すると"
-"便利です"
+"この作品を管理できるユーザーを追加してください"
 
 #: src/kawaz/apps/products/models.py:43
 #: src/kawaz/core/personas/models/profile.py:117
