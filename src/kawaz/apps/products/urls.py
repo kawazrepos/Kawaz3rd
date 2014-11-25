@@ -9,6 +9,7 @@ from .views import ProductPreview
 from .views import PackageReleaseDetailView
 from .views import URLReleaseDetailView
 
+
 urlpatterns = patterns('',
     url('^$',
         ProductListView.as_view(), name='products_product_list'),

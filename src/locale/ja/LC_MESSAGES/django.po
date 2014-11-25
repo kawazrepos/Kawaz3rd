@@ -478,8 +478,8 @@ msgstr ""
 "表示モードを「ギミック表示」にする場合「告知用画像」を設定する必要があります"
 
 #: src/kawaz/apps/products/models.py:203
-msgid "A product slug 'platforms' is reserved."
-msgstr "「platforms」という作品IDは利用できません"
+msgid "A product slug '%s' is reserved."
+msgstr "「%s」という作品IDは利用できません"
 
 #: src/kawaz/apps/products/models.py:237
 msgctxt "Release name"

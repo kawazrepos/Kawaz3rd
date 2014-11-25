@@ -9,9 +9,9 @@ from .factories import ProductFactory
 from .factories import ScreenshotFactory
 from .factories import URLReleaseFactory
 from .factories import PackageReleaseFactory
-
 from ..models import Category
 from ..models import Platform
+from ..models import INVALID_PRODUCT_SLUGS
 
 
 class PlatformModelTestCase(TestCase):
@@ -88,10 +88,12 @@ class ProductModelTestCase(TestCase):
 
     def test_reserved_slug(self):
         """
-        'platforms' という slug は予約されているので認められない
+        INVALID_PRODUCT_SLUGSに指定されている名前はslugとして認められない
         """
-        self.assertRaises(ValidationError, ProductFactory,
-                          slug='platforms')
+        for invalid_slug in INVALID_PRODUCT_SLUGS:
+            self.assertRaises(ValidationError,
+                              ProductFactory,
+                              slug=invalid_slug)
 
     def test_get_absolute_url(self):
         """
@@ -174,6 +176,7 @@ class ProductModelTestCase(TestCase):
         self.assertRaises(PermissionDenied, product.quit, user)
         self.assertEqual(product.administrators.count(), 1)
 
+
 class AbstractReleaseBaseModelTestCase(object):
     def test_str_returns_product_title_and_platform_name(self):
 
@@ -183,27 +186,32 @@ class AbstractReleaseBaseModelTestCase(object):
         package = PackageReleaseFactory()
         self.assertTrue(str(package), 'かわずたんアドベンチャー(Mac)')
 
+
 class PackageReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
     def test_get_absolute_url(self):
         """
         get_absolute_urlでダウンロード用ビューのURLが引ける
         """
         release = PackageReleaseFactory()
-        self.assertEqual(release.get_absolute_url(), '/products/package_releases/{}/'.format(release.pk))
+        self.assertEqual(release.get_absolute_url(),
+                         '/products/package_releases/{}/'.format(release.pk))
 
     def test_filename(self):
         """
         release.filenameがファイル名を返す
         """
-        release = PackageReleaseFactory(file_content='path/to/release/my-fantastic-game.zip')
+        release = PackageReleaseFactory(
+            file_content='path/to/release/my-fantastic-game.zip')
         self.assertEqual(release.filename, 'my-fantastic-game.zip')
 
     def test_mimetype(self):
         """
         release.mimetypeがMimetypeを返す
         """
-        release = PackageReleaseFactory(file_content='path/to/release/my-fantastic-game.zip')
+        release = PackageReleaseFactory(
+            file_content='path/to/release/my-fantastic-game.zip')
         self.assertEqual(release.mimetype, 'application/zip')
+
 
 class URLReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
     appstore_url = ('https://itunes.apple.com/jp/app/'
@@ -222,7 +230,7 @@ class URLReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
         self.assertTrue(self.appstore_release.is_appstore)
         self.assertFalse(self.googleplay_release.is_appstore)
 
-    def test_is_appstore_works_correctly(self):
+    def test_is_googleplay_works_correctly(self):
         """
         is_googleplay() メソッドは Google Play の URL が与えられた時に True を
         示す
@@ -235,7 +243,9 @@ class URLReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
         get_absolute_urlでリダイレクト用ビューのURLが引ける
         """
         release = URLReleaseFactory()
-        self.assertEqual(release.get_absolute_url(), '/products/url_releases/{}/'.format(release.pk))
+        self.assertEqual(release.get_absolute_url(),
+                         '/products/url_releases/{}/'.format(release.pk))
+
 
 class ScreenshotModelTestCase(TestCase):
 
@@ -245,13 +255,16 @@ class ScreenshotModelTestCase(TestCase):
         """
         product = ProductFactory(title="スーパーかわずたん")
         ss = ScreenshotFactory(product=product)
-        self.assertEqual(str(ss), 'products/kawaz-tan-adventure/screenshots/cute_kawaz_tan.png(スーパーかわずたん)')
+        self.assertEqual(str(ss), (
+            'products/kawaz-tan-adventure/screenshots/'
+            'cute_kawaz_tan.png(スーパーかわずたん)'
+        ))
 
     def test_screenshot_relative_name(self):
         """
         Product.screenshotsでスクリーンショットの一覧が取り出せる
         """
         product = ProductFactory()
-        ss = ScreenshotFactory(product=product)
+        ScreenshotFactory(product=product)
         self.assertIsNotNone(product.screenshots)
         self.assertEqual(product.screenshots.count(), 1)

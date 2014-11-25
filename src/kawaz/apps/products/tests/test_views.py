@@ -8,14 +8,16 @@ from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from django.core.urlresolvers import reverse
 from kawaz.core.personas.tests.factories import PersonaFactory
-from ..models import Screenshot
-from ..models import URLRelease
-from ..models import PackageRelease
+from ..models import (Screenshot,
+                      URLRelease,
+                      PackageRelease,
+                      Product)
+from .factories import (ProductFactory,
+                        PackageReleaseFactory,
+                        URLReleaseFactory,
+                        PlatformFactory,
+                        CategoryFactory)
 
-from ..models import Product
-from .factories import ProductFactory, PackageReleaseFactory, URLReleaseFactory
-from .factories import PlatformFactory
-from .factories import CategoryFactory
 
 TEST_FILENAME = os.path.join(os.path.dirname(__file__),
                              'data', 'kawaztan.png')
@@ -674,7 +676,7 @@ class URLReleaseDetailView(TestCase):
         """
         URLReleaseDetailViewの逆引き
         """
-        release = URLReleaseFactory() 
+        release = URLReleaseFactory()
         self.assertEqual(
             reverse('products_url_release_detail', kwargs=dict(
                 pk=release.pk,
