@@ -69,3 +69,11 @@
         </form>
     </div>
 {% endblock %}
+
+{% block post_javascript %}
+{{ block.super }}
+<script type="text/javascript">
+  $('#id_administrators').attr('data-placeholder', "ここをクリックして管理者を追加してください")
+                         .chosen({no_results_text: "指定されたユーザーが見つかりませんでした"});
+</script>
+{% endblock %}
