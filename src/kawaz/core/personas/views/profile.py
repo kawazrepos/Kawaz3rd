@@ -6,7 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 from permission.decorators.classbase import permission_required
-from kawaz.core.views.preview import SingleObjectPreviewMixin
+from kawaz.core.views.preview import SingleObjectPreviewViewMixin
 from ..forms import ProfileForm
 from ..forms import AccountFormSet
 from ..models import Profile
@@ -97,6 +97,6 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
         return _("Your profile was successfully updated.")
 
 
-class ProfilePreviewView(SingleObjectPreviewMixin, DetailView):
+class ProfilePreviewView(SingleObjectPreviewViewMixin, DetailView):
     model = Profile
     template_name = "personas/profile_preview.html"

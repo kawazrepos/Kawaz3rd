@@ -3,7 +3,6 @@ from django.template import Template, Context, TemplateSyntaxError
 from unittest.mock import MagicMock
 from kawaz.core.personas.tests.utils import create_role_users
 from ..models import Category
-from ..models import Product
 from .factories import ProductFactory
 from .factories import PlatformFactory
 from .factories import CategoryFactory
@@ -144,21 +143,21 @@ class GetProductsByCategoriesTestCase(TestCase):
         """
         c0 = CategoryFactory(label="バカゲー")
         c1 = CategoryFactory(label="クソゲー")
-        p0 = ProductFactory(categories=[c0,])
-        p1 = ProductFactory(categories=[c1,])
+        p0 = ProductFactory(categories=(c0,))
+        p1 = ProductFactory(categories=(c1,))
         p2 = ProductFactory(categories=[c0, c1])
 
-        categories0 = Category.objects.filter(pk__in=[1,])
+        categories0 = Category.objects.filter(pk__in=(1,))
         products0 = self._render_template(categories=categories0)
         self.assertEqual(len(products0), 2)
         self.assertEqual(products0[0], p0)
         self.assertEqual(products0[1], p2)
-        categories1 = Category.objects.filter(pk__in=[2,])
+        categories1 = Category.objects.filter(pk__in=(2,))
         products1 = self._render_template(categories=categories1)
         self.assertEqual(products1[0], p1)
         self.assertEqual(products1[1], p2)
         self.assertEqual(len(products1), 2)
-        categories2 = Category.objects.filter(pk__in=[1, 2])
+        categories2 = Category.objects.filter(pk__in=(1, 2))
         products2 = self._render_template(categories=categories2)
         self.assertEqual(len(products2), 3)
         self.assertEqual(products2[0], p0)
@@ -184,10 +183,10 @@ class GetRelativeTestCase(TestCase):
         """
         c0 = CategoryFactory(label="バカゲー")
         c1 = CategoryFactory(label="クソゲー")
-        p0 = ProductFactory(categories=[c0,])
-        p1 = ProductFactory(categories=[c0,])
-        p2 = ProductFactory(categories=[c1,])
-        p3 = ProductFactory(categories=[c0, c1])
+        p0 = ProductFactory(categories=(c0,))
+        p1 = ProductFactory(categories=(c0,))
+        p2 = ProductFactory(categories=(c1,))
+        p3 = ProductFactory(categories=(c0, c1))
 
         products = self._render_template(p0)
         self.assertEqual(len(products), 2)
@@ -205,6 +204,7 @@ class GetRelativeTestCase(TestCase):
         self.assertEqual(products[0], p0)
         self.assertEqual(products[1], p1)
         self.assertEqual(products[2], p2)
+
 
 class GetPlatformsTestCase(TestCase):
     def _render_template(self):
@@ -227,6 +227,7 @@ class GetPlatformsTestCase(TestCase):
         PlatformFactory(label='Fire TV')
         platforms = self._render_template()
         self.assertEqual(len(platforms), 3)
+
 
 class GetCategoriesTestCase(TestCase):
     def _render_template(self):

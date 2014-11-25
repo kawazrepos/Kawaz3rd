@@ -1,13 +1,8 @@
-# ! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/10/15
-#
 from django.contrib.contenttypes.models import ContentType
 from django_comments import Comment
 from kawaz.apps.products.models import AbstractRelease, Screenshot
-
-__author__ = 'giginet'
 from activities.mediator import ActivityMediator
+
 
 class ProductActivityMediator(ActivityMediator):
     notifiers = (
@@ -101,10 +96,11 @@ class ReleaseActivityMediator(ActivityMediator):
             activity.content_type = ct
             activity.object_id = pk
             activity.status = 'release_added'
-            # URLRelease, PackageRelease、どちらにも対応できるように付いたリリースのCTを
-            # <app_label>,<model>,<pk>の書式で入れている
+            # URLRelease, PackageRelease、どちらにも対応できるように付いた
+            # リリースのCTを <app_label>,<model>,<pk>の書式で入れている
             release_ct = ContentType.objects.get_for_model(type(instance))
-            activity.remarks = ','.join((release_ct.app_label, release_ct.model, str(instance.pk)))
+            activity.remarks = ','.join((release_ct.app_label,
+                                         release_ct.model, str(instance.pk)))
             return activity
         return None
 

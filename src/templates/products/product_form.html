@@ -26,7 +26,7 @@
     {{ block.super }}
     <li><a href="{% url 'products_product_list' %}">{% trans "Products" %}</a></li>
     {% if object %}
-        <li><a href="{% url "products_product_update" pk=object.pk %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
+        <li><a href="{% url "products_product_update" slug=object.slug %}">{% blocktrans with title=object.title %}Edit {{ title }}{% endblocktrans %}</a></li>
     {% else %}
         <li><a href="{% url "products_product_create" %}">{% trans "Create a new product" %}</a></li>
     {% endif %}

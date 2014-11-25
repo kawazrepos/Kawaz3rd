@@ -19,7 +19,7 @@ from permission.decorators import permission_required
 from .forms import ProjectCreateForm
 from .forms import ProjectUpdateForm
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
-from kawaz.core.views.preview import SingleObjectPreviewMixin
+from kawaz.core.views.preview import SingleObjectPreviewViewMixin
 from .models import Project
 
 
@@ -137,6 +137,6 @@ class ProjectQuitView(SingleObjectMixin, RedirectView):
         return self.object.get_absolute_url()
 
 
-class ProjectPreview(SingleObjectPreviewMixin, DetailView):
+class ProjectPreviewView(SingleObjectPreviewViewMixin, DetailView):
     model = Project
     template_name = "projects/components/project_detail.html"

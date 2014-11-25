@@ -164,7 +164,7 @@ class ProfileUpdateViewTestCase(ProfileViewTestCaseBase):
             self.assertEqual(a[1].pub_state, 'public')
 
 
-class ProfilePreviewTestCase(ProfileViewTestCaseBase):
+class ProfilePreviewViewTestCase(ProfileViewTestCaseBase):
 
     def test_anybody_can_access_profile_preview_view(self):
         """

@@ -14,7 +14,7 @@ def alias(name):
 
 
 @alias('Article')
-class SingleObjectPreviewMixinTestArticle(models.Model):
+class SingleObjectPreviewViewMixinTestArticle(models.Model):
     foo = models.CharField(max_length=50)
     bar = models.TextField()
 

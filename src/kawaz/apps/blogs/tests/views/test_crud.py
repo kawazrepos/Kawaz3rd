@@ -422,7 +422,7 @@ class EntryAuthorListViewTestCase(TestCase):
         self.assertEqual(r.context_data['author'], self.user)
 
 
-class EntryPreviewTestCase(TestCase):
+class EntryPreviewViewTestCase(TestCase):
     def test_preview(self):
         """
         ユーザーがEntryのPreviewを見れる

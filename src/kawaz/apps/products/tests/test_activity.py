@@ -1,16 +1,11 @@
-# ! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/10/18
-#
-from django.contrib.contenttypes.models import ContentType
 from django.template import Context
 from activities.registry import registry
 from activities.models import Activity
-from kawaz.apps.products.tests.factories import ProductFactory, PackageReleaseFactory, URLReleaseFactory, \
-    ScreenshotFactory
 from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
-
-__author__ = 'giginet'
+from .factories import (ProductFactory,
+                        PackageReleaseFactory,
+                        URLReleaseFactory,
+                        ScreenshotFactory)
 
 
 class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
@@ -21,7 +16,12 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
 
     def test_update(self):
         self._test_partial_update(
-            ('description_updated', 'title_updated', 'trailer_updated', 'thumbnail_updated'),
+            (
+                'description_updated',
+                'title_updated',
+                'trailer_updated',
+                'thumbnail_updated'
+            ),
             description='本文変えました',
             title="タイトル変えました",
             trailer='http://example.com',
@@ -49,15 +49,13 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertEqual(activity.status, 'release_added')
         self.assertEqual(activity.snapshot, self.object)
         # remarksにリリースのapp_label,model,pkが入る
-        ct = ContentType.objects.get_for_model(type(release))
-        ct = ContentType.objects.get_for_model(type(release))
         remarks = 'products,packagerelease,{}'.format(release.pk)
         self.assertEqual(activity.remarks, remarks)
 
         self._test_render(activity)
         mediator = registry.get(activity)
         context = mediator.prepare_context(activity, Context())
-        self.assertTrue('release' in context, """context doesn't contain 'release'""")
+        self.assertIn('release', context, "context doesn't contain 'release'")
 
     def test_url_release_added(self):
         """
@@ -75,14 +73,13 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertEqual(activity.status, 'release_added')
         self.assertEqual(activity.snapshot, self.object)
         # remarksにリリースのapp_label,model,pkが入る
-        ct = ContentType.objects.get_for_model(type(release))
         remarks = 'products,urlrelease,{}'.format(release.pk)
         self.assertEqual(activity.remarks, remarks)
 
         self._test_render(activity)
         mediator = registry.get(activity)
         context = mediator.prepare_context(activity, Context())
-        self.assertTrue('release' in context, """context doesn't contain 'release'""")
+        self.assertIn('release', context, "context doesn't contain 'release'")
 
     def test_package_release_updated(self):
         """
@@ -130,4 +127,5 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self._test_render(activity)
         mediator = registry.get(activity)
         context = mediator.prepare_context(activity, Context())
-        self.assertTrue('screenshot' in context, """context doesn't contain 'screenshot'""")
+        self.assertIn('screenshot', context,
+                      "context doesn't contain 'screenshot'")
