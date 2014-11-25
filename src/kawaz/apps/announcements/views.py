@@ -8,7 +8,6 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from permission.decorators import permission_required
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
-
 from .models import Announcement
 from .forms import AnnouncementForm
 
@@ -24,7 +23,7 @@ class AnnouncementCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""An announcement '%(title)s' was successfully created.""") % {
+        return _("An announcement '%(title)s' was successfully created.") % {
             'title': cleaned_data['title']
         }
 
@@ -39,7 +38,7 @@ class AnnouncementUpdateView(SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
-        return _("""The announcement '%(title)s' was successfully updated.""") % {
+        return _("The announcement '%(title)s' was successfully updated.") % {
             'title': cleaned_data['title']
         }
 

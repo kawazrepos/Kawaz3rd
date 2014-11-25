@@ -1,8 +1,6 @@
 from .factories import AnnouncementFactory
 from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
 
-__author__ = 'giginet'
-
 
 class EntryActivityMediatorTestCase(BaseActivityMediatorTestCase):
     factory_class = AnnouncementFactory

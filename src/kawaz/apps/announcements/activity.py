@@ -1,6 +1,6 @@
-__author__ = 'giginet'
 from activities.mediator import ActivityMediator
 from django_comments.models import Comment
+
 
 class AnnouncementActivityMediator(ActivityMediator):
 
@@ -42,7 +42,6 @@ class AnnouncementActivityMediator(ActivityMediator):
                     return None
                 activity.remarks = "\n".join(remarks)
         return activity
-
 
     def prepare_context(self, activity, context, typename=None):
         context = super().prepare_context(activity, context, typename)
