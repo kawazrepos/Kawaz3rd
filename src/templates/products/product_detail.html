@@ -101,11 +101,11 @@
                     <a class="list-group-item list-group-item-success" href="{% url "products_product_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new product" %}</a>
                 {% endif %}
                 {% if user has 'products.change_product' of object %}
-                    <a class="list-group-item" href="{% url "products_product_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update the product" %}</a>
+                    <a class="list-group-item" href="{% url "products_product_update" slug=object.slug %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update the product" %}</a>
                 {% endif %}
                 {% if user has 'products.delete_product' of object %}
                     <a class="list-group-item list-group-item-danger"
-                       href="{% url "products_product_delete" object.pk %}"
+                       href="{% url "products_product_delete" slug=object.slug %}"
                        confirm-message="{% trans "Do you want to delete the product?" %}">
                         <span class="glyphicon glyphicon-remove"></span> {% trans "Delete the product" %}
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
