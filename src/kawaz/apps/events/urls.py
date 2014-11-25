@@ -1,13 +1,13 @@
 from django.conf.urls import patterns, include, url
 
-from .views import EventListView, EventCreateView, EventDetailView, EventUpdateView, EventDeleteView, EventAttendView, EventQuitView, EventYearListView, EventMonthListView, EventPreview, EventCalendarView
+from .views import EventListView, EventCreateView, EventDetailView, EventUpdateView, EventDeleteView, EventAttendView, EventQuitView, EventYearListView, EventMonthListView, EventPreviewView, EventCalendarView
 
 urlpatterns = patterns('',
     url(r'^$', EventListView.as_view(), name='events_event_list'),
     url(r'^(?P<pk>\d+)/$', EventDetailView.as_view(), name='events_event_detail'),
     url(r'^(?P<pk>\d+)/calendar/$', EventCalendarView.as_view(), name='events_event_calendar'),
     url(r'^create/$', EventCreateView.as_view(), name='events_event_create'),
-    url(r'^preview/$', EventPreview.as_view(), name='events_event_preview'),
+    url(r'^preview/$', EventPreviewView.as_view(), name='events_event_preview'),
     url(r'^(?P<pk>\d+)/update/$', EventUpdateView.as_view(), name='events_event_update'),
     url(r'^(?P<pk>\d+)/delete/$', EventDeleteView.as_view(), name='events_event_delete'),
     url(r'^(?P<pk>\d+)/attend/$', EventAttendView.as_view(), name='events_event_attend'),

@@ -13,7 +13,7 @@ from django.utils.translation import ugettext as _
 from django_filters.views import FilterView
 from permission.decorators import permission_required
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
-from kawaz.core.views.preview import SingleObjectPreviewMixin
+from kawaz.core.views.preview import SingleObjectPreviewViewMixin
 from .forms import ProductCreateForm, ProductUpdateForm
 from .forms import PackageReleaseFormSet, URLReleaseFormSet, ScreenshotFormSet
 from .models import Product
@@ -207,7 +207,7 @@ class ProductDeleteView(DeleteSuccessMessageMixin, DeleteView):
         return _("The product was successfully deleted.")
 
 
-class ProductPreviewView(SingleObjectPreviewMixin, DetailView):
+class ProductPreviewView(SingleObjectPreviewViewMixin, DetailView):
     model = Product
     template_name = "products/components/product_detail.html"
 

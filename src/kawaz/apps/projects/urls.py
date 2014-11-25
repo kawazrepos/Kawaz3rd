@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import ProjectListView, ProjectPreview
+from .views import ProjectListView, ProjectPreviewView
 from .views import ProjectUpdateView
 from .views import ProjectCreateView
 from .views import ProjectDeleteView
@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url('^create/$',
         ProjectCreateView.as_view(), name='projects_project_create'),
     url('^preview/$',
-        ProjectPreview.as_view(), name='projects_project_preview'),
+        ProjectPreviewView.as_view(), name='projects_project_preview'),
     url('^archives/$',
         ProjectArchiveView.as_view(), name='projects_project_archives'),
     url('^(?P<pk>\d+)/update/$',
