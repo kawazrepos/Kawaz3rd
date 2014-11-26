@@ -75,9 +75,8 @@ class Profile(models.Model):
         return self.user.nickname
 
     def get_absolute_url(self):
-        # TODO: このメソッドは使用しないため削除
-        # テンプレートなどで間違えて使用されていた場合を考えメソッド自体は
-        # 一定期間残し、代わりに例外を投げる
+        # テンプレートなどで間違えて使用されていた場合を考え
+        # メソッド自体は残し例外を投げる
         raise Exception(
             'Profile.get_absolute_url is obsolete. '
             'Use Persona.get_absolute_url instead. '
