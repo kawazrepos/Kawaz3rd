@@ -1,8 +1,11 @@
 import os
 from django.conf import settings
+from django.dispatch import receiver
 from django.db import models
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import pgettext_lazy
+from .persona import Persona
 
 
 class ProfileManager(models.Manager):
@@ -147,6 +150,13 @@ class Account(models.Model):
     @property
     def url(self):
         return self.service.url_pattern.format(username=self.username)
+
+
+# Persona作成時に自動生成
+@receiver(post_save, sender=Persona)
+def create_connected_profile(sender, instance, created, **kwargs):
+    if created and not hasattr(instance, '_profile'):
+        Profile.objects.create(user=instance)
 
 
 # 更新情報を記録
