@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, url
-
 from .views import AnnouncementListView
 from .views import AnnouncementUpdateView
 from .views import AnnouncementCreateView

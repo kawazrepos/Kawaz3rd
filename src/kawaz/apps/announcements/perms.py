@@ -45,4 +45,3 @@ class AnnouncementPermissionLogic(PermissionLogic):
             # 下書きを閲覧できるのはスタッフユーザのみ
             return user_obj.is_staff
         return True
-

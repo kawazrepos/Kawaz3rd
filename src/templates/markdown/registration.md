@@ -2,7 +2,7 @@
 
 **Kawaz**メンバーになるためには、以下の専用のフォームからのメンバー登録申請が必要です。
 
-[/registration/register/](Kawaz - メンバー登録申請)
+[Kawaz - メンバー登録申請](/registration/register/)
 
 
 会員登録申請後、Kawazメンバーがチェックし、数日後に登録確認のメールをお送りしていますので、`webmaster@kawaz.org`からのメールを受け取れるようにして、

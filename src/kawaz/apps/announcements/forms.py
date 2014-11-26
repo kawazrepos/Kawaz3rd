@@ -4,8 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from kawaz.core.forms.fields import MarkdownField
 from kawaz.core.forms.widgets import MaceEditorWidget
 from kawaz.core.forms.mixins import Bootstrap3HorizontalFormHelperMixin
-
 from .models import Announcement
+
 
 class AnnouncementForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
 

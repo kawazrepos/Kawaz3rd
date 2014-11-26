@@ -12,7 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from permission.decorators import permission_required
-from kawaz.core.views.preview import SingleObjectPreviewMixin
+from kawaz.core.views.preview import SingleObjectPreviewViewMixin
 from kawaz.core.personas.models import Persona
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
 
@@ -154,7 +154,7 @@ class EntryAuthorYearArchiveView(EntryYearArchiveView, EntryAuthorMixin):
     pass
 
 
-class EntryPreview(SingleObjectPreviewMixin, DetailView):
+class EntryPreviewView(SingleObjectPreviewViewMixin, DetailView):
     model = Entry
     template_name = "blogs/components/entry_detail.html"
 

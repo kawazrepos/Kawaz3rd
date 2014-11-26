@@ -473,7 +473,7 @@ class EventYearListViewTestCase(TestCase):
         self.assertEqual(list[0], self.events[2], '2001/9/6 ~ 7 protected')
         self.assertEqual(list[1], self.events[5], '2001/9/4 ~ 5 public')
 
-class EventPreviewTestCase(TestCase):
+class EventPreviewViewTestCase(TestCase):
     def test_event_preview(self):
         """
         events_event_previewが表示できる

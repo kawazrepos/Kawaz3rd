@@ -69,13 +69,15 @@ def get_products_by_categories(categories):
 def get_relative(product):
     """
     任意のプロダクトの関連プロダクトを取り出します。
-    渡されたプロダクトと同じカテゴリに所属している物を全てから、自身を抜いたQuerySetを返します
+    渡されたプロダクトと同じカテゴリに所属している物全てから、自身を抜いた
+    QuerySetを返します
 
     Syntax:
         {% get_relative <product> as <variable> %}
     """
     qs = Product.objects.filter(categories__in=product.categories.all())
     return qs.exclude(pk=product.pk).distinct()
+
 
 @register.assignment_tag
 def get_platforms():
@@ -87,6 +89,7 @@ def get_platforms():
     """
     qs = Platform.objects.all()
     return qs
+
 
 @register.assignment_tag
 def get_categories():

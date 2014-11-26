@@ -3,11 +3,15 @@
 
 Kawaz作品や活動の主な掲載情報です。自分の作品の掲載情報について、ここに掲示して欲しいものがある場合や、逆に掲示を取りやめて欲しいものがある場合、運営メンバーまでお知らせください。
 
+Kawaz
+-------------------
+
+- [CEDEC常連の人気講演者が札幌に集う　アールフォース横山氏、ユニティ簗瀬氏、SQEX土田氏の講演をお届け【SAPPORO CEDEC 2014】 - ファミ通.com](http://www.famitsu.com/news/201411/24066362.html)
+- [Project Morpheusが北海道初上陸！　 KLabとバンダイナムコスタジオのセッションなど、初日の模様をお届け【SAPPORO CEDEC 2014】 - ファミ通.com](http://www.famitsu.com/news/201411/22066336.html)
+
 
 GlobalGameJam
 ----------------
-
-
 
 ### 2013
 
@@ -111,6 +115,7 @@ VOXQUARTER（仮題）
 - [【BitSummit 14】JRPGとインタラクティブサウンドが融合した『VOXQUARTER』　IGFを目指す | インサイド](http://www.inside-games.jp/article/2014/03/11/75050.html)
 - [【イベントレポート】インディーゲームの祭典“BitSummit 2014”会場レポート 第2回 現在開発中の新作インディー・同人ゲームがプレイアブルで出展 - 窓の杜](http://www.forest.impress.co.jp/docs/special/20140311_639019.html)
 - [時は、大インディーゲーム時代！「BitSummit 2014」で気になったゲームアプリを紹介！｜アプリ学園](http://www.appgaku.com/iphone-pickup/2014/03/20140314012198.html)
+- [大盛況にて終了したデジゲー博！気になるタイトル一挙紹介 | Game*Spark - 国内・海外ゲーム情報サイト](http://www.gamespark.jp/article/2014/11/19/53105.html)
 
 Wave Weaver
 =======================
@@ -134,9 +139,10 @@ multiplex
 みるみら for PS Vita
 =========================
 
-[プロジェクトページ - みるみら for PS Vita](http://www.kawaz.org/projects/mirumira/)
+[プロジェクトページ - みるみら for PS Vita](http://www.kawaz.org/products/mirumirror/)
 
-[IndieGames.com - The Weblog Freeware Pick: test your spatial skills in puzzle platformer MiruMirror](http://indiegames.com/2014/01/free_game_test_your_spatial_pu.html)
+- [IndieGames.com - The Weblog Freeware Pick: test your spatial skills in puzzle platformer MiruMirror](http://indiegames.com/2014/01/free_game_test_your_spatial_pu.html)
+- [PS Vitaで遊べる頭脳×アクションの独特パズル『みるみら』。「反射魔法」を駆使してゴールを目指そう – もぐらゲームス](http://www.moguragames.com/entry/mirumira/)
 
 
 VOXQUEST-オクスクエスト-

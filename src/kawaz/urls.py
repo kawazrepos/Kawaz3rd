@@ -10,15 +10,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^i18n/', include('django.conf.urls.i18n')),
-    url(r'^login/$', auth_views.login,
-        name='login', kwargs=dict(
-            template_name='login.html'
-        )),
-    url(r'^logout/$', auth_views.logout, 
-        name='logout', kwargs=dict(
-            template_name='logout.html',
-            next_page='/',
-        )),
     url(r'^central-dogma/', include(admin.site.urls)),
     url(r'^central-dogma/doc/', include('django.contrib.admindocs.urls')),
     url(r'^api/', include('kawaz.api.urls')),

@@ -14,7 +14,7 @@ from .views import EntryMonthArchiveView
 from .views import EntryTodayArchiveView
 from .views import EntryUpdateView
 from .views import EntryYearArchiveView
-from .views import EntryPreview
+from .views import EntryPreviewView
 from .views import EntryCategoryListView
 
 author_patterns = patterns('',
@@ -57,6 +57,6 @@ urlpatterns = patterns('',
     url(r'^today/$',
         EntryTodayArchiveView.as_view(), name='blogs_entry_archive_today'),
     url(r'^preview/$',
-       EntryPreview.as_view(), name='blogs_entry_preview'),
+       EntryPreviewView.as_view(), name='blogs_entry_preview'),
     (r'^(?P<author>[^/.+]+)/', include(author_patterns)),
 )

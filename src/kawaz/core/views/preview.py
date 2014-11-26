@@ -1,6 +1,6 @@
 import json
 
-class SingleObjectPreviewMixin(object):
+class SingleObjectPreviewViewMixin(object):
 
     """
     プレビューを行うためのViewを作るMixin

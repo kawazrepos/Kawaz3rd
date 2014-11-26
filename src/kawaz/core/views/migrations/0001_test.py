@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         # kawaz.core.tests.runner.KawazDiscoverRunner
         operations.extend([
             migrations.CreateModel(
-                name='SingleObjectPreviewMixinTestArticle',
+                name='SingleObjectPreviewViewMixinTestArticle',
                 fields=[
                     ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                     ('foo', models.CharField(max_length=50, verbose_name='foo')),

@@ -1,32 +1,25 @@
 from wsgiref.util import FileWrapper
-from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponseRedirect, StreamingHttpResponse, HttpResponse, HttpResponseNotFound
+from django.http import (HttpResponse,
+                         HttpResponseRedirect,
+                         HttpResponseNotFound)
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
-from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import DeleteView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
-
-from django.forms.models import modelformset_factory
-
 from django_filters.views import FilterView
-
 from permission.decorators import permission_required
-
-from .forms import ProductCreateForm, ProductUpdateForm
-from .forms import PackageReleaseForm, URLReleaseForm, ScreenshotForm
-from .forms import PackageReleaseFormSet, URLReleaseFormSet, ScreenshotFormSet
-from kawaz.apps.projects.models import Project
 from kawaz.core.views.delete import DeleteSuccessMessageMixin
+from kawaz.core.views.preview import SingleObjectPreviewViewMixin
+from .forms import ProductCreateForm, ProductUpdateForm
+from .forms import PackageReleaseFormSet, URLReleaseFormSet, ScreenshotFormSet
 from .models import Product
-from .models import PackageRelease, URLRelease, Screenshot
-
+from .models import PackageRelease, URLRelease
 from .filters import ProductFilter
-from kawaz.core.views.preview import SingleObjectPreviewMixin
+
 
 class ProductListView(FilterView):
     model = Product
@@ -185,6 +178,7 @@ class ProductCreateView(ProductFormMixin, CreateView):
             'title': cleaned_data['title']
         }
 
+
 @permission_required('products.change_product')
 class ProductUpdateView(ProductFormMixin, UpdateView):
     model = Product
@@ -213,7 +207,7 @@ class ProductDeleteView(DeleteSuccessMessageMixin, DeleteView):
         return _("The product was successfully deleted.")
 
 
-class ProductPreview(SingleObjectPreviewMixin, DetailView):
+class ProductPreviewView(SingleObjectPreviewViewMixin, DetailView):
     model = Product
     template_name = "products/components/product_detail.html"
 
@@ -228,6 +222,7 @@ class URLReleaseDetailView(DetailView):
         self.object.save()
         return HttpResponseRedirect(self.object.url)
 
+
 class PackageReleaseDetailView(DetailView):
     model = PackageRelease
 
@@ -237,16 +232,16 @@ class PackageReleaseDetailView(DetailView):
             name = self.object.filename
             path = self.object.file_content.path
             mimetype = self.object.mimetype
-            # withをすると、変なタイミングでcloseされてしまって正常にアクセスできない
-            file = open(path, 'rb')
-            # ToDo normalize
-            response = HttpResponse(FileWrapper(file), content_type=mimetype)
-            response['Content-Disposition'] = 'attachment; filename={}'.format(name)
+            response = HttpResponse(FileWrapper(open(path, 'rb')),
+                                    content_type=mimetype)
+            response['Content-Disposition'] = (
+                'attachment; filename={}'.format(name)
+            )
             # ダウンロードを加算する
             self.object.downloads += 1
             self.object.save()
             return response
         except FileNotFoundError:
-            # もし、レコードには存在するが、ファイルがなかったり、読み込めなかったとき
-            self.object.delete() # DBと不整合なため、レコードを削除する
+            # DBにゴミレコードが残っている場合レコードを削除
+            self.object.delete()
             return HttpResponseNotFound()

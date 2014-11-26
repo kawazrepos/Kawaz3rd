@@ -664,7 +664,7 @@ class ProjectQuitViewTestCase(TestCase):
         self.assertFalse(self.user in self.project.members.all())
 
 
-class ProjectPreviewTestCase(TestCase):
+class ProjectPreviewViewTestCase(TestCase):
     def test_project_preview(self):
         """
         /projects/preview/にアクセスできます

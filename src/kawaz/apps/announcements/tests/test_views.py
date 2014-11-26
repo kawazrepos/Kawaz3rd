@@ -1,13 +1,119 @@
-import datetime
+from itertools import chain
 from django.conf import settings
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
 from .factories import AnnouncementFactory
 from kawaz.apps.announcements.views import AnnouncementListView
 from ..models import Announcement
 from kawaz.core.personas.tests.factories import PersonaFactory
 
-class AnnouncementDetailViewTestCase(TestCase):
+
+class ViewTestCaseBase(TestCase):
+    def setUp(self):
+        self.members = (
+            PersonaFactory(role='adam'),
+            PersonaFactory(role='seele'),
+            PersonaFactory(role='nerv'),
+            PersonaFactory(role='children'),
+        )
+        self.non_members = (
+            PersonaFactory(role='wille'),
+            AnonymousUser(),
+        )
+
+    def prefer_login(self, user):
+        if user.is_authenticated():
+            self.assertTrue(self.client.login(username=user.username,
+                                              password='password'))
+
+
+class AnnouncementDetailViewTestCase(ViewTestCaseBase):
+    template_path = 'announcements/announcement_detail.html'
+
+    def test_reverse_url(self):
+        """
+        AnnouncementDetailViewの逆引き
+        """
+        announcement = AnnouncementFactory()
+        self.assertEqual(
+            reverse('announcements_announcement_detail', kwargs=dict(
+                pk=announcement.pk,
+            )),
+            '/announcements/{}/'.format(announcement.pk),
+        )
+
+    def test_everyone_can_view_public_announcement(self):
+        """全員公開お知らせを見れる"""
+        announcement = AnnouncementFactory()
+        for user in chain(self.non_members, self.members):
+            self.prefer_login(user)
+            r = self.client.get(announcement.get_absolute_url())
+            self.assertTemplateUsed(r, self.template_path)
+            self.assertEqual(r.context_data['object'], announcement)
+
+    def test_non_members_cannot_view_protected_announcement(self):
+        """非メンバーは内部公開お知らせを見れない"""
+        announcement = AnnouncementFactory(pub_state='protected')
+        url = announcement.get_absolute_url()
+        login_url = "{}?next={}".format(
+            settings.LOGIN_URL, url,
+        )
+        for user in self.non_members:
+            self.prefer_login(user)
+            r = self.client.get(url)
+            self.assertRedirects(r, login_url)
+
+    def test_members_can_view_protected_announcement(self):
+        """メンバーは内部公開お知らせを観れる"""
+        announcement = AnnouncementFactory(pub_state='protected')
+        url = announcement.get_absolute_url()
+        for user in self.members:
+            self.prefer_login(user)
+            r = self.client.get(url)
+            self.assertTemplateUsed(r, self.template_path)
+            self.assertEqual(r.context_data['object'], announcement)
+
+    def test_non_members_cannot_view_draft_announcement(self):
+        """非メンバーは下書きお知らせを見れない"""
+        announcement = AnnouncementFactory(pub_state='draft')
+        url = announcement.get_absolute_url()
+        login_url = "{}?next={}".format(
+            settings.LOGIN_URL, url,
+        )
+        for user in self.non_members:
+            self.prefer_login(user)
+            r = self.client.get(url)
+            self.assertRedirects(r, login_url)
+
+    def test_members_cannot_view_draft_announcement(self):
+        """メンバーは下書きお知らせを見れない"""
+        announcement = AnnouncementFactory(pub_state='draft')
+        url = announcement.get_absolute_url()
+        login_url = "{}?next={}".format(
+            settings.LOGIN_URL, url,
+        )
+        for user in self.members[3:]:
+            self.prefer_login(user)
+            r = self.client.get(url)
+            self.assertRedirects(r, login_url)
+
+    def test_staffs_can_view_draft_announcement(self):
+        """スタッフは下書きお知らせを見れる"""
+        announcement = AnnouncementFactory(pub_state='draft')
+        url = announcement.get_absolute_url()
+        for user in self.members[:3]:
+            self.prefer_login(user)
+            r = self.client.get(url)
+            # 直で編集画面が描画されるようになっている
+            self.assertTemplateUsed(r, 'announcements/announcement_form.html')
+            self.assertEqual(r.context_data['object'], announcement)
+
+
+# TODO: ここより下のリファクタリングはまだ行っていない
+class AnnouncementCreateViewTestCase(ViewTestCaseBase):
+    template_path = 'announcements/announcement_form.html'
+
     def setUp(self):
         self.user = PersonaFactory()
         self.user.set_password('password')
@@ -19,81 +125,14 @@ class AnnouncementDetailViewTestCase(TestCase):
         self.wille.set_password('password')
         self.wille.save()
 
-    def test_anonymous_user_can_view_public_announcement(self):
-        '''Tests anonymous user can view public announcement'''
-        announcement = AnnouncementFactory()
-        r = self.client.get(announcement.get_absolute_url())
-        self.assertTemplateUsed(r, 'announcements/announcement_detail.html')
-        self.assertEqual(r.context_data['object'], announcement)
-
-    def test_authorized_user_can_view_public_announcement(self):
-        '''Tests authorized user can view public announcement'''
-        announcement = AnnouncementFactory()
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get(announcement.get_absolute_url())
-        self.assertTemplateUsed(r, 'announcements/announcement_detail.html')
-        self.assertEqual(r.context_data['object'], announcement)
-
-    def test_anonymous_user_can_not_view_protected_announcement(self):
-        '''Tests anonymous user can not view protected announcement'''
-        announcement = AnnouncementFactory(pub_state='protected')
-        r = self.client.get(announcement.get_absolute_url())
-        self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, announcement.get_absolute_url()))
-
-    def test_authorized_user_can_view_protected_announcement(self):
-        '''Tests authorized user can view public announcement'''
-        announcement = AnnouncementFactory(pub_state='protected')
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get(announcement.get_absolute_url())
-        self.assertTemplateUsed(r, 'announcements/announcement_detail.html')
-        self.assertEqual(r.context_data['object'], announcement)
-
-    def test_wille_user_can_not_view_protected_announcement(self):
-        '''
-        Tests wille user can not view any protected announcements
-        '''
-        announcement = AnnouncementFactory(pub_state='protected')
-        self.assertTrue(self.client.login(username=self.wille, password='password'))
-        r = self.client.get(announcement.get_absolute_url())
-        self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, announcement.get_absolute_url()))
-
-
-    def test_anonymous_user_can_not_view_draft_announcement(self):
-        '''Tests anonymous user can not view draft announcement'''
-        announcement = AnnouncementFactory(pub_state='draft')
-        r = self.client.get(announcement.get_absolute_url())
-        self.assertRedirects(r, '{0}?next={1}'.format(settings.LOGIN_URL, announcement.get_absolute_url()))
-
-
-    def test_others_can_not_view_draft_announcement(self):
-        '''
-        Tests others can not view draft announcement
-        User will redirect to '/announcements/1/update/'
-        '''
-        announcement = AnnouncementFactory(pub_state='draft')
-        self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get(announcement.get_absolute_url())
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/{}/update/'.format(announcement.pk))
-
-    def test_author_can_view_draft_announcement(self):
-        '''Tests author can view draft announcement on update view'''
-        announcement = AnnouncementFactory(pub_state='draft', author=self.nerv)
-        self.assertTrue(self.client.login(username=self.nerv, password='password'))
-        r = self.client.get(announcement.get_absolute_url())
-        self.assertTemplateUsed(r, 'announcements/announcement_form.html')
-        self.assertEqual(r.context_data['object'], announcement)
-
-class AnnouncementCreateViewTestCase(TestCase):
-    def setUp(self):
-        self.user = PersonaFactory()
-        self.user.set_password('password')
-        self.user.save()
-        self.nerv = PersonaFactory(role='nerv')
-        self.nerv.set_password('password')
-        self.nerv.save()
-        self.wille = PersonaFactory(role='wille')
-        self.wille.set_password('password')
-        self.wille.save()
+    def test_reverse_url(self):
+        """
+        AnnouncementCreateViewの逆引き
+        """
+        self.assertEqual(
+            reverse('announcements_announcement_create'),
+            '/announcements/create/',
+        )
 
     def test_anonymous_user_can_not_create_view(self):
         '''Tests anonymous user can not view AnnouncementCreateView'''

@@ -28,6 +28,14 @@ SCREENSHOT_IMAGE_SIZE_PATTERNS = {
     None: None,
 }
 
+INVALID_PRODUCT_SLUGS = (
+    # 下記はURL的に問題があるので使用不可
+    'preview',
+    'create',
+    'package_releases',
+    'url_releases',
+)
+
 
 class Platform(models.Model):
     """
@@ -199,10 +207,10 @@ class Product(models.Model):
             raise ValidationError(_(
                 "Display mode 'Feature' requires 'Advertisement image'"
             ))
-        if self.slug == 'platforms':
+        if self.slug in INVALID_PRODUCT_SLUGS:
             raise ValidationError(_(
-                "A product slug 'platforms' is reserved."
-            ))
+                "A product slug '%s' is reserved."
+            ) % self.slug)
 
     def join(self, user):
         """
@@ -290,6 +298,7 @@ class PackageRelease(AbstractRelease):
         """
         mime_type_guess = mimetypes.guess_type(self.filename)
         return mime_type_guess[0]
+
 
 class URLRelease(AbstractRelease):
     """

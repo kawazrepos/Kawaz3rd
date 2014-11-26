@@ -2,11 +2,9 @@ from django import forms
 from django.forms import ModelForm
 from kawaz.apps.projects.models import Project
 from kawaz.core.forms.fields import MarkdownField
-from kawaz.core.forms.widgets import MaceEditorWidget
 from kawaz.core.forms.mixins import Bootstrap3HorizontalFormHelperMixin
 from kawaz.core.forms.mixins import Bootstrap3InlineFormHelperMixin
 from django.forms import widgets
-from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from kawaz.core.personas.models import Persona
@@ -17,21 +15,23 @@ from .models import Screenshot
 from .models import PackageRelease
 from .models import URLRelease
 
+
 class PersonaChoiceField(forms.ModelMultipleChoiceField):
     """
-    forms.ModelMultipleChoiceFieldのラベルにpersona.nicknameが使われるようにする
+    ラベルにニックネームが使われるようにする
     """
 
     def label_from_instance(self, obj):
         return obj.nickname
 
+
 class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False
 
     description = MarkdownField(label=_('Description'))
-    project = forms.ModelChoiceField(queryset=Project.objects.filter(status='done', product=None),
-                                     label=_('Project'),
-                                     required=False)
+    project = forms.ModelChoiceField(
+        queryset=Project.objects.filter(status='done'),
+        label=_('Project'), required=False)
     # cache_choicesを有効にしないとめちゃくちゃクエリが吐かれる
     # 実測値で20倍程度遅くなっていた
     # Ref : http://simionbaws.ro/programming/django-checkboxselectmultiple-with-modelmultiplechoicefield-generates-too-many-queries/
@@ -47,11 +47,12 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         queryset=Category.objects.all().order_by('pk'))
     administrators = PersonaChoiceField(
         label=_('Administrators'),
-        widget=widgets.CheckboxSelectMultiple,
         cache_choices=True,
         queryset=Persona.objects.filter(is_active=True).order_by('pk'),
-        help_text=_('Check the users who can manage this product. You should use Ctrl + F.'))
-    published_at = forms.DateField(label=_('Published at'), widget=forms.DateInput(attrs={'type': 'date'}))
+        help_text=_('Add administrator users of this product'))
+    published_at = forms.DateField(
+        label=_('Published at'),
+        widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Product
@@ -61,18 +62,17 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         # Saveボタンを描画しない
         return []
 
-class ProductCreateForm(ProductBaseForm):
 
+class ProductCreateForm(ProductBaseForm):
     class Meta(ProductBaseForm.Meta):
-        exclude = ('administrators', 'display_mode')
+        exclude = ('display_mode',)
 
 
 class ProductUpdateForm(ProductBaseForm):
-
     class Meta(ProductBaseForm.Meta):
         exclude = (
             'slug',
-            'administrators', 'display_mode'
+            'display_mode',
         )
 
 
