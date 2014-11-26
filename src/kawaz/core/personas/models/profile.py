@@ -160,7 +160,7 @@ registry.register(Account, AccountActivityMediator())
 # パーミッション関係を設定
 from permission import add_permission_logic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic
-from kawaz.core.personas.perms import KawazAuthorPermissionLogic
+from kawaz.core.personas.perms import RoleBasedAuthorPermissionLogic
 from kawaz.core.personas.perms import NervPermissionLogic
 
 add_permission_logic(Skill, NervPermissionLogic(
@@ -169,7 +169,7 @@ add_permission_logic(Skill, NervPermissionLogic(
 add_permission_logic(Service, NervPermissionLogic(
     any_permission=True
 ))
-add_permission_logic(Account, KawazAuthorPermissionLogic(
+add_permission_logic(Account, RoleBasedAuthorPermissionLogic(
     field_name='profile__user',
     any_permission=False,
     change_permission=False,
@@ -178,7 +178,7 @@ add_permission_logic(Account, KawazAuthorPermissionLogic(
 add_permission_logic(Account, PublishmentPermissionLogic(
     author_field_name='profile__user'
 ))
-add_permission_logic(Profile, KawazAuthorPermissionLogic(
+add_permission_logic(Profile, RoleBasedAuthorPermissionLogic(
     field_name='user',
     change_permission=True,
     delete_permission=False

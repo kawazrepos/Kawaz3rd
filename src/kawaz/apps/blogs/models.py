@@ -117,9 +117,9 @@ class Entry(models.Model):
 from permission import add_permission_logic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic
 from kawaz.core.personas.perms import ChildrenPermissionLogic
-from kawaz.core.personas.perms import KawazAuthorPermissionLogic
+from kawaz.core.personas.perms import RoleBasedAuthorPermissionLogic
 
-add_permission_logic(Category, KawazAuthorPermissionLogic(
+add_permission_logic(Category, RoleBasedAuthorPermissionLogic(
     field_name='author',
     any_permission=True
 ))
@@ -127,7 +127,7 @@ add_permission_logic(Category, ChildrenPermissionLogic(
     add_permission=True
 ))
 
-add_permission_logic(Entry, KawazAuthorPermissionLogic(
+add_permission_logic(Entry, RoleBasedAuthorPermissionLogic(
     field_name='author',
     any_permission=True,
 ))

@@ -3,11 +3,10 @@ from django.contrib.auth.models import AnonymousUser
 from permission import add_permission_logic
 from permission import remove_permission_logic
 from ..factories import PersonaFactory
-from ...perms import AdamPermissionLogic
-from ...perms import SeelePermissionLogic
-from ...perms import NervPermissionLogic
-from ...perms import ChildrenPermissionLogic
-from ...perms import KawazAuthorPermissionLogic
+from ...perms import (SeelePermissionLogic,
+                      NervPermissionLogic,
+                      ChildrenPermissionLogic,
+                      RoleBasedAuthorPermissionLogic)
 from ..models import PersonaTestArticle as Article
 
 
@@ -95,10 +94,162 @@ class PersonaPermissionLogicTestCase(TestCase):
         self._test_permission('anonymous', 'assign_role', neg=True)
 
 
-class ChildrenPermissionLogicTestCase(TestCase):
-    roles = ('adam', 'seele', 'nerv', 'children', 'wille', 'anonymous')
+class RoleBasedAuthorPermissionLogicTestCase(TestCase):
+    roles = ('adam', 'seele', 'nerv', 'children', 'wille',)
     interest_roles = ('adam', 'seele', 'nerv', 'children')
-    permission_logic_class = ChildrenPermissionLogic
+
+    def setUp(self):
+        self.users = dict(
+            adam=PersonaFactory(role='adam'),
+            seele=PersonaFactory(role='seele'),
+            nerv=PersonaFactory(role='nerv'),
+            children=PersonaFactory(role='children'),
+            wille=PersonaFactory(role='wille'),
+        )
+        self.user = PersonaFactory()
+        self.permission_logic_class = RoleBasedAuthorPermissionLogic
+
+    def _test_permission(self, role, perm, obj=None, author=None, neg=False):
+        user = self.users.get(role)
+        author = author or user
+        obj = None if obj is None else Article.objects.create(
+            title="public",
+            author=author,
+            pub_state='public',
+        )
+        perm = "personas.{}_personatestarticle".format(perm)
+        if neg:
+            self.assertFalse(
+                user.has_perm(perm, obj=obj),
+                "{} should not have '{}'".format(role.capitalize(), perm))
+        else:
+            self.assertTrue(
+                user.has_perm(perm, obj=obj),
+                "{} should have '{}'".format(role.capitalize(), perm))
+
+    def test_add_permission_with_any(self):
+        """
+        Adam, Seele, Nerv, Childrenは追加権限を持つ
+        Willeは追加権限を持たない
+        """
+        permission_logic = self.permission_logic_class(
+            any_permission=True
+        )
+        add_permission_logic(Article, permission_logic)
+        self._test_permission('adam', 'add')
+        self._test_permission('seele', 'add')
+        self._test_permission('nerv', 'add')
+        self._test_permission('children', 'add')
+        self._test_permission('wille', 'add', neg=True)
+        remove_permission_logic(Article, permission_logic)
+
+    def test_change_permission_with_any(self):
+        """
+        Adam, Seele, Nerv, Childrenは変更権限を持つ
+        Willeは変更権限を持たない
+        """
+        permission_logic = self.permission_logic_class(
+            any_permission=True
+        )
+        add_permission_logic(Article, permission_logic)
+        self._test_permission('adam', 'change')
+        self._test_permission('seele', 'change')
+        self._test_permission('nerv', 'change')
+        self._test_permission('children', 'change')
+        self._test_permission('wille', 'change', neg=True)
+        remove_permission_logic(Article, permission_logic)
+
+    def test_change_permission_with_own(self):
+        """
+        Adam, Seele, Nerv, Childrenは所有オブジェクトに変更権限を持つ
+        Willeは変更権限を持たない
+        """
+        permission_logic = self.permission_logic_class(
+            any_permission=True
+        )
+        add_permission_logic(Article, permission_logic)
+        self._test_permission('adam', 'change', obj=True)
+        self._test_permission('seele', 'change', obj=True)
+        self._test_permission('nerv', 'change', obj=True)
+        self._test_permission('children', 'change', obj=True)
+        self._test_permission('wille', 'change', neg=True, obj=True)
+        remove_permission_logic(Article, permission_logic)
+
+    def test_change_permission_with_others(self):
+        """
+        adam以外の全てのユーザーは非所有オブジェクトに変更権限を持たない
+        """
+        permission_logic = self.permission_logic_class(
+            any_permission=True
+        )
+        add_permission_logic(Article, permission_logic)
+        kwargs = {
+            'obj': True,
+            'author': self.user
+        }
+        self._test_permission('adam', 'change', **kwargs)
+        self._test_permission('seele', 'change', neg=True, **kwargs)
+        self._test_permission('nerv', 'change', neg=True, **kwargs)
+        self._test_permission('children', 'change', neg=True, **kwargs)
+        self._test_permission('wille', 'change', neg=True, **kwargs)
+        remove_permission_logic(Article, permission_logic)
+
+    def test_delete_permission_with_any(self):
+        """
+        Adam, Seele, Nerv, Childrenは削除権限を持つ
+        Willeは削除権限を持たない
+        """
+        permission_logic = self.permission_logic_class(
+            any_permission=True
+        )
+        add_permission_logic(Article, permission_logic)
+        self._test_permission('adam', 'delete')
+        self._test_permission('seele', 'delete')
+        self._test_permission('nerv', 'delete')
+        self._test_permission('children', 'delete')
+        self._test_permission('wille', 'delete', neg=True)
+        remove_permission_logic(Article, permission_logic)
+
+    def test_delete_permission_with_own(self):
+        """
+        Adam, Seele, Nerv, Childrenは所有オブジェクトに削除権限を持つ
+        Willeは削除権限を持たない
+        """
+        permission_logic = self.permission_logic_class(
+            any_permission=True
+        )
+        add_permission_logic(Article, permission_logic)
+        self._test_permission('adam', 'delete', obj=True)
+        self._test_permission('seele', 'delete', obj=True)
+        self._test_permission('nerv', 'delete', obj=True)
+        self._test_permission('children', 'delete', obj=True)
+        self._test_permission('wille', 'delete', neg=True, obj=True)
+        remove_permission_logic(Article, permission_logic)
+
+    def test_delete_permission_with_others(self):
+        """
+        adam以外の全てのユーザーは非所有オブジェクトに削除権限を持たない
+        """
+        permission_logic = self.permission_logic_class(
+            any_permission=True
+        )
+        add_permission_logic(Article, permission_logic)
+        kwargs = {
+            'obj': True,
+            'author': self.user
+        }
+        self._test_permission('adam', 'delete', **kwargs)
+        self._test_permission('seele', 'delete', neg=True, **kwargs)
+        self._test_permission('nerv', 'delete', neg=True, **kwargs)
+        self._test_permission('children', 'delete', neg=True, **kwargs)
+        self._test_permission('wille', 'delete', neg=True, **kwargs)
+        remove_permission_logic(Article, permission_logic)
+
+
+class Mixin(object):
+    roles = ('adam', 'seele', 'nerv', 'children', 'wille', 'anonymous')
+    roles_interested = ()
+    permission_logic_class = None
 
     def setUp(self):
         self.users = dict(
@@ -128,193 +279,131 @@ class ChildrenPermissionLogicTestCase(TestCase):
                 user.has_perm(perm, obj=obj),
                 "{} should have '{}'".format(role.capitalize(), perm))
 
-    def _auto_test_permission(self, perm, obj=None):
-        positive = set(self.interest_roles)
+    def _auto_test_permission(self, perm, obj=None, neg=False):
+        positive = set(self.roles_interested)
         negative = set(self.roles).difference(positive)
 
         for role in positive:
-            self._test_permission(role, perm, obj, neg=False)
+            if role == 'adam':
+                # adamはどんな場合でも権限を持つべき
+                self._test_permission(role, perm, obj, neg=False)
+            else:
+                self._test_permission(role, perm, obj, neg=neg)
         for role in negative:
             self._test_permission(role, perm, obj, neg=True)
 
     def test_add_permission_with_any(self):
         """
-        User who is in adam, seele, nerv, children have add permission
+        any_permissionが指定された場合指定以上のユーザーは追加権限を持つ
         """
         permission_logic = self.permission_logic_class(
-            any_permission=True
+            any_permission=True,
         )
         add_permission_logic(Article, permission_logic)
         self._auto_test_permission('add')
         remove_permission_logic(Article, permission_logic)
 
-    def test_change_permission_with_any(self):
+    def test_add_permission_with_add(self):
         """
-        User who is in adam, seele, nerv, children have add permission
+        add_permissionが指定された場合指定以上のユーザーは追加権限を持つ
         """
         permission_logic = self.permission_logic_class(
-            any_permission=True
+            add_permission=True,
+        )
+        add_permission_logic(Article, permission_logic)
+        self._auto_test_permission('add')
+        remove_permission_logic(Article, permission_logic)
+
+    def test_add_permission_without(self):
+        """
+        未指定の場合指定以上のユーザーも追加権限を持たない(except Adam)
+        """
+        permission_logic = self.permission_logic_class()
+        add_permission_logic(Article, permission_logic)
+        self._auto_test_permission('add', neg=True)
+        remove_permission_logic(Article, permission_logic)
+
+    def test_change_permission_with_any(self):
+        """
+        any_permissionが指定された場合指定以上のユーザーは変更権限を持つ
+        """
+        permission_logic = self.permission_logic_class(
+            any_permission=True,
         )
         add_permission_logic(Article, permission_logic)
         self._auto_test_permission('change')
         self._auto_test_permission('change', obj=True)
         remove_permission_logic(Article, permission_logic)
 
-
-class KawazAuthorPermissionLogicTestCase(TestCase):
-    roles = ('adam', 'seele', 'nerv', 'children', 'wille',)
-    interest_roles = ('adam', 'seele', 'nerv', 'children')
-
-    def setUp(self):
-        self.users = dict(
-            adam=PersonaFactory(role='adam'),
-            seele=PersonaFactory(role='seele'),
-            nerv=PersonaFactory(role='nerv'),
-            children=PersonaFactory(role='children'),
-            wille=PersonaFactory(role='wille'),
-        )
-        self.user = PersonaFactory()
-        self.permission_logic_class = KawazAuthorPermissionLogic
-
-    def _test_permission(self, role, perm, object_permission=False, author=None, neg=False):
-        user = self.users.get(role)
-        if not author:
-            # Authorが渡されなかったら、自分が作者になる
-            author = user
-        obj = None
-        if object_permission:
-            obj = Article.objects.create(
-                title="public",
-                author=author,
-                pub_state='public')
-        perm = "personas.{}_personatestarticle".format(perm)
-        if neg:
-            self.assertFalse(
-                user.has_perm(perm, obj=obj),
-                "{} should not have '{}'".format(role.capitalize(), perm))
-        else:
-            self.assertTrue(
-                user.has_perm(perm, obj=obj),
-                "{} should have '{}'".format(role.capitalize(), perm))
-
-    def test_add_permission_with_any(self):
+    def test_change_permission_with_change(self):
         """
-        Adam, Seele, Nerv, Childrenは追加権限を持つ
-        Willeは追加権限を持たない
+        change_permissionが指定された場合指定以上のユーザーは変更権限を持つ
         """
         permission_logic = self.permission_logic_class(
-            any_permission=True
+            change_permission=True,
         )
         add_permission_logic(Article, permission_logic)
-        self._test_permission('adam', 'add')
-        self._test_permission('seele', 'add')
-        self._test_permission('nerv', 'add')
-        self._test_permission('children', 'add')
-        self._test_permission('wille', 'add', neg=True)
+        self._auto_test_permission('change')
+        self._auto_test_permission('change', obj=True)
         remove_permission_logic(Article, permission_logic)
 
-
-    def test_change_permission_with_any(self):
+    def test_change_permission_without(self):
         """
-        Adam, Seele, Nerv, Childrenはいずれかのオブジェクトの変更権限を持つ
-        Willeは変更権限を持たない
+        未指定の場合指定以上のユーザーも変更権限を持たない(except Adam)
         """
-        permission_logic = self.permission_logic_class(
-            any_permission=True
-        )
+        permission_logic = self.permission_logic_class()
         add_permission_logic(Article, permission_logic)
-        self._test_permission('adam', 'change')
-        self._test_permission('seele', 'change')
-        self._test_permission('nerv', 'change')
-        self._test_permission('children', 'change')
-        self._test_permission('wille', 'change', neg=True)
-        remove_permission_logic(Article, permission_logic)
-
-    def test_change_permission_with_own(self):
-        """
-        Adam, Seele, Nerv, Childrenは自分の持っているオブジェクトに変更権限を持つ
-        Willeは変更権限を持たない
-        """
-        permission_logic = self.permission_logic_class(
-            any_permission=True
-        )
-        add_permission_logic(Article, permission_logic)
-        self._test_permission('adam', 'change', object_permission=True)
-        self._test_permission('seele', 'change', object_permission=True)
-        self._test_permission('nerv', 'change', object_permission=True)
-        self._test_permission('children', 'change', object_permission=True)
-        self._test_permission('wille', 'change', neg=True, object_permission=True)
-        remove_permission_logic(Article, permission_logic)
-
-    def test_change_permission_with_others(self):
-        """
-        adam以外の全てのユーザーは他人の持っているオブジェクトに変更権限を持たない
-        """
-        permission_logic = self.permission_logic_class(
-            any_permission=True
-        )
-        add_permission_logic(Article, permission_logic)
-        kwargs = {
-            'object_permission': True,
-            'author': self.user
-        }
-        self._test_permission('adam', 'change', **kwargs)
-        self._test_permission('seele', 'change', neg=True, **kwargs)
-        self._test_permission('nerv', 'change', neg=True, **kwargs)
-        self._test_permission('children', 'change', neg=True, **kwargs)
-        self._test_permission('wille', 'change', neg=True, **kwargs)
+        self._auto_test_permission('change', neg=True)
+        self._auto_test_permission('change', obj=True, neg=True)
         remove_permission_logic(Article, permission_logic)
 
     def test_delete_permission_with_any(self):
         """
-        Adam, Seele, Nerv, Childrenはいずれかのオブジェクトの削除権限を持つ
-        Willeは削除権限を持たない
+        any_permissionが指定された場合指定以上のユーザーは削除権限を持つ
         """
         permission_logic = self.permission_logic_class(
             any_permission=True
         )
         add_permission_logic(Article, permission_logic)
-        self._test_permission('adam', 'delete')
-        self._test_permission('seele', 'delete')
-        self._test_permission('nerv', 'delete')
-        self._test_permission('children', 'delete')
-        self._test_permission('wille', 'delete', neg=True)
+        self._auto_test_permission('delete')
+        self._auto_test_permission('delete', obj=True)
         remove_permission_logic(Article, permission_logic)
 
-    def test_delete_permission_with_own(self):
+    def test_delete_permission_with_delete(self):
         """
-        Adam, Seele, Nerv, Childrenは自分の持っているオブジェクトに削除権限を持つ
-        Willeは削除権限を持たない
+        delete_permissionが指定された場合指定以上のユーザーは削除権限を持つ
         """
         permission_logic = self.permission_logic_class(
-            any_permission=True
+            delete_permission=True,
         )
         add_permission_logic(Article, permission_logic)
-        self._test_permission('adam', 'delete', object_permission=True)
-        self._test_permission('seele', 'delete', object_permission=True)
-        self._test_permission('nerv', 'delete', object_permission=True)
-        self._test_permission('children', 'delete', object_permission=True)
-        self._test_permission('wille', 'delete', neg=True, object_permission=True)
+        self._auto_test_permission('delete')
+        self._auto_test_permission('delete', obj=True)
         remove_permission_logic(Article, permission_logic)
 
-    def test_delete_permission_with_others(self):
+    def test_delete_permission_without(self):
         """
-        adam以外の全てのユーザーは他人の持っているオブジェクトに削除権限を持たない
+        未指定の場合指定以上のユーザーは削除権限を持たない(except Adam)
         """
         permission_logic = self.permission_logic_class(
-            any_permission=True
+            delete_permission=True,
         )
         add_permission_logic(Article, permission_logic)
-        kwargs = {
-            'object_permission': True,
-            'author': self.user
-        }
-        self._test_permission('adam', 'delete', **kwargs)
-        self._test_permission('seele', 'delete', neg=True, **kwargs)
-        self._test_permission('nerv', 'delete', neg=True, **kwargs)
-        self._test_permission('children', 'delete', neg=True, **kwargs)
-        self._test_permission('wille', 'delete', neg=True, **kwargs)
+        self._auto_test_permission('delete')
+        self._auto_test_permission('delete', obj=True)
         remove_permission_logic(Article, permission_logic)
 
 
-# TODO: Write the permission test for other permission logics
+class ChildrenPermissionLogicTestCase(Mixin, TestCase):
+    roles_interested = ('adam', 'seele', 'nerv', 'children')
+    permission_logic_class = ChildrenPermissionLogic
+
+
+class NervPermissionLogicTestCase(Mixin, TestCase):
+    roles_interested = ('adam', 'seele', 'nerv')
+    permission_logic_class = NervPermissionLogic
+
+
+class SeelePermissionLogicTestCase(Mixin, TestCase):
+    roles_interested = ('adam', 'seele')
+    permission_logic_class = SeelePermissionLogic
