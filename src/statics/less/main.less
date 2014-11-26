@@ -25,13 +25,6 @@ html {
   height: @footer-height;
   background-color: @footer-color;
   color: @gray-lighter;
-  a {
-    color: #aab1b7;
-    &:hover {
-      text-decoration: none;
-      color: @gray-lighter;
-    }
-  }
   ul {
     list-style-type: none;
   }
@@ -69,6 +62,13 @@ html {
     .footer-nav {
       padding-left: 15px;
       width: 100%;
+      a {
+        color: #aab1b7;
+        &:hover {
+          text-decoration: none;
+          color: @gray-lighter;
+        }
+      }
       tr {
         border-top: 1px dotted @gray-dark;
         &:first-child {
