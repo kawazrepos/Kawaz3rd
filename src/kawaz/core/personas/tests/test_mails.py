@@ -11,7 +11,7 @@ class PersonaPasswordResetMailTemplateTestCase(TestCase):
         registration/password_reset_email_subject.txtを正しくparseできる
         """
         rendered = render_to_string('registration/password_reset_subject.txt')
-        self.assertTrue(rendered)
+        self.assertTrue(rendered != '')
 
     def test_email_parse(self):
         """
@@ -28,5 +28,5 @@ class PersonaPasswordResetMailTemplateTestCase(TestCase):
             'protocol': 'http',
         })
         rendered = render_to_string('registration/password_reset_email.html', c)
-        self.assertTrue(rendered)
+        self.assertTrue(rendered != '')
 
