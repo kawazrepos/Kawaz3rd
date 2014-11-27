@@ -31,8 +31,7 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     description = MarkdownField(label=_('Description'))
     project = forms.ModelChoiceField(
         queryset=Project.objects.filter(status='done'),
-        label=_('Project'),
-        required=False)
+        label=_('Project'), required=False)
     # cache_choicesを有効にしないとめちゃくちゃクエリが吐かれる
     # 実測値で20倍程度遅くなっていた
     # Ref : http://simionbaws.ro/programming/django-checkboxselectmultiple-with-modelmultiplechoicefield-generates-too-many-queries/
