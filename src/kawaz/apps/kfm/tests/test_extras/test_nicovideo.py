@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.test import TestCase
 from django.template.loader import render_to_string
 from ...extras.nicovideo import parse_nicovideo_urls
@@ -45,18 +41,6 @@ class ParseNicoVideoURLsTestCase(TestCase):
         self.assertEqual(value, original)
 
         template_str = "```\nhttp://www.nicovideo.jp/watch/{}\n```"
-        original = template_str.format(self.video_id)
-        value = parse_nicovideo_urls(original)
-        self.assertEqual(value, original)
-
-    def test_parse_nicovideo_urls_bracket(self):
-        """[]や()で囲まれたニコニコ動画URLは展開されない"""
-        template_str = "[http://www.nicovideo.jp/watch/{}]"
-        original = template_str.format(self.video_id)
-        value = parse_nicovideo_urls(original)
-        self.assertEqual(value, original)
-
-        template_str = "(http://www.nicovideo.jp/watch/{})"
         original = template_str.format(self.video_id)
         value = parse_nicovideo_urls(original)
         self.assertEqual(value, original)

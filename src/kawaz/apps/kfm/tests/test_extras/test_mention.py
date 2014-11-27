@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.test import TestCase
 from django.template.loader import render_to_string
 from kawaz.core.personas.tests.factories import PersonaFactory
@@ -61,19 +57,6 @@ class ParseMentionsTestCase(TestCase):
             value = parse_mentions(value)
             self.assertEqual(value, template_str.format(user.username))
         template_str = "```\n@{}\n```"
-        for user in self.users:
-            value = template_str.format(user.username)
-            value = parse_mentions(value)
-            self.assertEqual(value, template_str.format(user.username))
-
-    def test_parse_mentions_for_bracket(self):
-        """ブランケットで囲まれたメンションは展開されない"""
-        template_str = "[@{}]"
-        for user in self.users:
-            value = template_str.format(user.username)
-            value = parse_mentions(value)
-            self.assertEqual(value, template_str.format(user.username))
-        template_str = "(@{})"
         for user in self.users:
             value = template_str.format(user.username)
             value = parse_mentions(value)

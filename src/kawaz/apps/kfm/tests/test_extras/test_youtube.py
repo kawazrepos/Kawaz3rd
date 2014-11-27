@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.test import TestCase
 from django.template.loader import render_to_string
 from ...extras.youtube import parse_youtube_urls
@@ -79,18 +75,6 @@ class ParseYouTubeURLsTestCase(TestCase):
         self.assertEqual(value, original)
 
         template_str = "```\n{}\n```".format(self.template_str)
-        original = template_str.format(self.video_id)
-        value = parse_youtube_urls(original)
-        self.assertEqual(value, original)
-
-    def test_parse_youtube_urls_bracket(self):
-        """[]や()で囲まれたYouTubeURLは展開されない"""
-        template_str = "[{}]".format(self.template_str)
-        original = template_str.format(self.video_id)
-        value = parse_youtube_urls(original)
-        self.assertEqual(value, original)
-
-        template_str = "({})".format(self.template_str)
         original = template_str.format(self.video_id)
         value = parse_youtube_urls(original)
         self.assertEqual(value, original)
