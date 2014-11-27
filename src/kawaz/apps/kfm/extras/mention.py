@@ -4,7 +4,7 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import re
 from django.template.loader import render_to_string
-from .utils import is_quoated
+from .utils import is_quoated, is_bracketed
 
 
 PATTERN = re.compile(r'@(?P<username>[0-9a-zA-Z_\-]+)', flags=re.MULTILINE)
@@ -22,7 +22,7 @@ def parse_mentions(value):
     users = {u.username: u for u in qs}
     usernames_exists = users.keys()
     def repl(m):
-        if is_quoated(m.string, m.start(), m.end()):
+        if is_quoated(m.string, m.start(), m.end()) or is_bracketed(m.string, m.start(), m.end()):
             # クォートされているので無視
             return m.group()
         username = m.group('username')

@@ -4,7 +4,7 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import re
 from django.template.loader import render_to_string
-from .utils import is_quoated
+from .utils import is_quoated, is_bracketed
 
 
 PATTERN = re.compile(
@@ -50,8 +50,8 @@ def parse_youtube_urls(value, responsive=False, width=None, height=None):
         height = int(height)
 
     def repl(m):
-        if is_quoated(m.string, m.start(), m.end()):
-            # ', " に囲まれているため置換を行わない
+        if is_quoated(m.string, m.start(), m.end()) or is_bracketed(m.string, m.start(), m.end()):
+            # ', ", [] に囲まれているため置換を行わない
             return m.group()
         params = dict(
             video_id=m.group('id'),

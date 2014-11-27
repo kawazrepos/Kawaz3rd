@@ -49,6 +49,18 @@ class ParseNicoVideoURLsTestCase(TestCase):
         value = parse_nicovideo_urls(original)
         self.assertEqual(value, original)
 
+    def test_parse_nicovideo_urls_bracket(self):
+        """[]や()で囲まれたニコニコ動画URLは展開されない"""
+        template_str = "[http://www.nicovideo.jp/watch/{}]"
+        original = template_str.format(self.video_id)
+        value = parse_nicovideo_urls(original)
+        self.assertEqual(value, original)
+
+        template_str = "(http://www.nicovideo.jp/watch/{})"
+        original = template_str.format(self.video_id)
+        value = parse_nicovideo_urls(original)
+        self.assertEqual(value, original)
+
     def test_parse_nicovideo_urls_multiple(self):
         """複数のニコニコ動画URLも正しく展開される"""
         template_str = (

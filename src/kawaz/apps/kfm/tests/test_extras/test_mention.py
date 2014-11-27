@@ -66,6 +66,19 @@ class ParseMentionsTestCase(TestCase):
             value = parse_mentions(value)
             self.assertEqual(value, template_str.format(user.username))
 
+    def test_parse_mentions_for_bracket(self):
+        """ブランケットで囲まれたメンションは展開されない"""
+        template_str = "[@{}]"
+        for user in self.users:
+            value = template_str.format(user.username)
+            value = parse_mentions(value)
+            self.assertEqual(value, template_str.format(user.username))
+        template_str = "(@{})"
+        for user in self.users:
+            value = template_str.format(user.username)
+            value = parse_mentions(value)
+            self.assertEqual(value, template_str.format(user.username))
+
     def test_parse_mentions_multiple(self):
         """複数のメンションが適切に展開される"""
         template_str = (

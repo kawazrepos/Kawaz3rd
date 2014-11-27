@@ -51,6 +51,18 @@ def is_quoated(text, s, e, quotes=('"', "'", '`')):
             return True
     return False
 
+def is_bracketed(text, s, e, brackets=(('\[', '\]'), ('(', ')'),)):
+    """
+    指定された文字列の特定部分が[]で囲まれているか調べる
+    """
+    for start, end in brackets:
+        ppattern = re.compile("[^{}]*".format(start))
+        p = ppattern.sub('', text[:s])
+        npattern = re.compile("[^{}]]*".format(end))
+        n = npattern.sub('', text[e:])
+        if len(p) > 0 and len(n) > 0 and (len(p) * len(n)) % 2 != 0:
+            return True
+    return False
 
 if __name__ == '__main__':
     import doctest;

@@ -83,6 +83,18 @@ class ParseYouTubeURLsTestCase(TestCase):
         value = parse_youtube_urls(original)
         self.assertEqual(value, original)
 
+    def test_parse_youtube_urls_bracket(self):
+        """[]や()で囲まれたYouTubeURLは展開されない"""
+        template_str = "[{}]".format(self.template_str)
+        original = template_str.format(self.video_id)
+        value = parse_youtube_urls(original)
+        self.assertEqual(value, original)
+
+        template_str = "({})".format(self.template_str)
+        original = template_str.format(self.video_id)
+        value = parse_youtube_urls(original)
+        self.assertEqual(value, original)
+
     def test_parse_youtube_urls_multiple(self):
         """複数のYouTubeURLも正しく展開される"""
         template_str = (
