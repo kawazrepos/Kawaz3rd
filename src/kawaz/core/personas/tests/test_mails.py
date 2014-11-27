@@ -2,6 +2,7 @@ from unittest.mock import MagicMock
 from django.template import Context
 from django.test import TestCase
 from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 
@@ -22,7 +23,7 @@ class PersonaPasswordResetMailTemplateTestCase(TestCase):
             'email': 'webmaster@kawaz.org',
             'domain': 'www.kawaz.org',
             'site_name': 'Kawaz',
-            'uid': urlsafe_base64_encode(1),
+            'uid': urlsafe_base64_encode(force_bytes(1)),
             'user': user,
             'token': "hogehogehogehoge",
             'protocol': 'http',
