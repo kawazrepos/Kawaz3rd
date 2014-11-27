@@ -1,8 +1,8 @@
 from kawaz.apps.projects.tests.factories import ProjectFactory
 from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
-from .factories import ProductFactory
 from kawaz.core.tests.testcases.permissions import BasePermissionLogicTestCase
+from .factories import ProductFactory
 
 
 class ProductPermissionLogicTestCase(BasePermissionLogicTestCase):
@@ -11,14 +11,22 @@ class ProductPermissionLogicTestCase(BasePermissionLogicTestCase):
 
     def setUp(self):
         super().setUp()
-        self.users['administrator'] = PersonaFactory(username='administrator', role='children')
-        self.users['project_member'] = PersonaFactory(username='project_member', role='children')
+        self.users['administrator'] = PersonaFactory(
+            username='administrator',
+            role='children'
+        )
+        self.users['project_member'] = PersonaFactory(
+            username='project_member',
+            role='children'
+        )
         self.project = ProjectFactory()
         self.project.join(self.users['project_member'])
-
         self.product = ProductFactory(project=self.project)
+        # Note:
+        #   self.product.join で加えても良いが、内部で user.has_perm を呼ぶ
+        #   ので django-permission により結果がキャッシュされ、今後のテスト
+        #   結果に影響するため、直接 administrators.add を呼び出している
         self.product.administrators.add(self.users['administrator'])
-        self.product.save()
 
     def test_add_permission(self):
         """
@@ -33,7 +41,7 @@ class ProductPermissionLogicTestCase(BasePermissionLogicTestCase):
         self._test('administrator', 'add')
         self._test('project_member', 'add')
 
-    def test_update_permission(self):
+    def test_change_permission(self):
         """
         ログインユーザー以上にモデルの変更権限がある
         """
@@ -46,12 +54,12 @@ class ProductPermissionLogicTestCase(BasePermissionLogicTestCase):
         self._test('administrator', 'change')
         self._test('project_member', 'change')
 
-    def test_update_permission_with_obj(self):
+    def test_change_permission_with_obj(self):
         """
         以下のユーザーがオブジェクトの変更権限を持つ
+        - ネルフ以上のメンバー
         - Productの管理者
         - 関連プロジェクトのメンバー
-        - ネルフ以上のメンバー
         """
         self._test('adam', 'change', obj=self.product)
         self._test('seele', 'change', obj=self.product)
@@ -149,7 +157,9 @@ class ProductPermissionLogicTestCase(BasePermissionLogicTestCase):
 
         # django-permissionのキャッシュの問題で権限が更新されないので
         # オブジェクトを再度取得している
-        self.users['administrator'] = Persona.objects.get(pk=self.users['administrator'].pk)
+        self.users['administrator'] = Persona.objects.get(
+            pk=self.users['administrator'].pk,
+        )
 
         # 最後の一人になるので同じ人が脱退できるようになる
         self._test('administrator', 'quit', obj=self.product)
