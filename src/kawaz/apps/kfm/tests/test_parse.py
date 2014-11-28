@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.test import TestCase
 from django.template import Template, Context
 from django.template.loader import render_to_string
@@ -11,11 +7,10 @@ from kawaz.apps.attachments.tests.factories import MaterialFactory
 from ..parser import parse_kfm
 
 
+# TODO: シンタックス展開順テスト
+#   コードブロック内にMention記法を記載した場合は展開されないなどの
+#   複合テストが必要
 class ParseKFMTestCase(TestCase):
-    """
-    TODO それぞれのシンタックスの展開順のテストはしていないので、そのうちする必要がある
-    例：　コードブロック内にmention記法を記述した場合など
-    """
 
     def test_parse_kfm_multiple_underscore_in_words(self):
         """KFMは_や__によるem, strongを扱わない"""
@@ -35,12 +30,48 @@ class ParseKFMTestCase(TestCase):
             "</a></p>"
         ))
 
+    def test_parse_kfm_no_url_autolinking_in_anchor(self):
+        """KFMはリンクシンタックスにあるURLを自動展開しない"""
+        # Markdownのリンクシンタックスの場合
+        original = "[Link](http://www.kawaz.org/)"
+        value = parse_kfm(original)
+        self.assertEqual(value, (
+            "<p><a href=\"http://www.kawaz.org/\">"
+            "Link"
+            "</a></p>"
+        ))
+        # HTMLのリンクシンタックスの場合
+        original = "<a href=\"http://www.kawaz.org/\">Link</a>"
+        value = parse_kfm(original)
+        self.assertEqual(value, (
+            "<p><a href=\"http://www.kawaz.org/\">"
+            "Link"
+            "</a></p>"
+        ))
+
+    def test_parse_kfm_no_url_autolinking_in_img(self):
+        """KFMは画像シンタックスにあるURLを自動展開しない"""
+        # Markdownの画像シンタックス
+        original = "![Img](http://www.kawaz.org/)"
+        value = parse_kfm(original)
+        self.assertEqual(value, (
+            "<p><img src=\"http://www.kawaz.org/\" alt=\"Img\" />"
+            "</p>"
+        ))
+        # HTMLの画像シンタックス
+        original = "<img src=\"http://www.kawaz.org/\" alt=\"Img\" />"
+        value = parse_kfm(original)
+        self.assertEqual(value, (
+            "<p><img src=\"http://www.kawaz.org/\" alt=\"Img\" />"
+            "</p>"
+        ))
+
+    def test_parse_kfm_no_email_autolinking(self):
+        """メールアドレスの自動展開はしない"""
         original = "webmaster@kawaz.org"
         value = parse_kfm(original)
         self.assertEqual(value, (
-            "<p><a href=\"mailto:webmaster@kawaz.org\">"
-            "webmaster@kawaz.org"
-            "</a></p>"
+            "<p>webmaster@kawaz.org</p>"
         ))
 
 
@@ -135,14 +166,32 @@ class ParseKFMTestCase(TestCase):
         )
         self.assertIn(expected, value)
 
+    def test_parse_kfm_no_youtube_urls_in_anchor(self):
+        """KFMはリンクシンタックス内ではYouTube URL展開を行わない"""
+        original = "[foo](https://www.youtube.com/watch?v=LoH0dOyyGx8)"
+        value = parse_kfm(original)
+        expected = (
+            """<a href="https://www.youtube.com/watch?v=LoH0dOyyGx8">"""
+        )
+        self.assertIn(expected, value)
+
     def test_parse_kfm_nicovideo_urls(self):
-        """KFMはYouTube URL展開が行われる"""
+        """KFMはニコニコ動画展開が行われる"""
         original = "foo http://www.nicovideo.jp/watch/sm9 bar"
         value = parse_kfm(original)
         expected = (
             """<script type="text/javascript" """
             """src="http://ext.nicovideo.jp/thumb_watch/sm9">"""
             """</script>"""
+        )
+        self.assertIn(expected, value)
+
+    def test_parse_kfm_no_nicovideo_urls_in_anchor(self):
+        """KFMはリンクシンタックス内ではニコニコ動画展開を行わない"""
+        original = "[foo](http://www.nicovideo.jp/watch/sm9)"
+        value = parse_kfm(original)
+        expected = (
+            """<a href="http://www.nicovideo.jp/watch/sm9">foo</a>"""
         )
         self.assertIn(expected, value)
 
@@ -154,7 +203,8 @@ class ParseKFMTestCase(TestCase):
         expected = (
             """<span class="mention">"""
             """<a href="/members/kawaztan_mention/">"""
-            """<img class="avatar avatar-small" src="/statics/img/defaults/persona_avatar_small.png">"""
+            """<img class="avatar avatar-small" """
+            """src="/statics/img/defaults/persona_avatar_small.png">"""
             """<span class="mention-username">@kawaztan_mention</span></a>"""
             """</span>\n"""
             """@kawaztan_unknown"""
