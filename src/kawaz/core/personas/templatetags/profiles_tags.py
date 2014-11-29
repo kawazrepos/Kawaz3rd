@@ -25,3 +25,22 @@ def get_my_profile(context):
     if not user:
         return None
     return getattr(user, '_profile', None)
+
+
+@register.assignment_tag(takes_context=True)
+def get_profile(context, user):
+    """
+    特定のユーザーのプロフィールを取り出すテンプレートタグ
+    セッションに含まれる現在のログインユーザーを取得し、
+    対象プロフィールの閲覧権限がある場合のみ取得できる
+    パーミッションがない場合は`None`を返す
+
+    Example:
+        {% load profiles_tags %}
+        {% get_profile user as profile %}
+        {{ profile.remarks }}
+    """
+    current_user = context.get('user', None)
+    if current_user.has_perm('personas.view_profile', user._profile):
+        return user._profile
+    return None
