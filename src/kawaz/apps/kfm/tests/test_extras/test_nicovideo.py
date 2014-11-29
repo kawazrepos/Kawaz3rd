@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.test import TestCase
 from django.template.loader import render_to_string
 from ...extras.nicovideo import parse_nicovideo_urls

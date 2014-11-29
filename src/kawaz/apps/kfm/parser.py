@@ -1,13 +1,9 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 import markdown2
-from django.template.defaultfilters import urlize
 from .extras.youtube import parse_youtube_urls
 from .extras.nicovideo import parse_nicovideo_urls
 from .extras.mention import parse_mentions
 from .extras.strikethrough import parse_strikethroughs
+from .extras.autolink import parse_autolinks
 
 
 
@@ -43,14 +39,15 @@ def parse_kfm(value):
     from kawaz.apps.attachments.templatetags.attachments import (
         parse_attachments
     )
-    # URLのプレイヤー展開
-    value = parse_youtube_urls(value)
-    value = parse_nicovideo_urls(value)
     # Kawaz独自機能
     value = parse_mentions(value)
     value = parse_attachments(value)
     # GitHub Flavored Markdown + Alpha
-    value = urlize(value)
     value = _markdown.convert(value)
     value = parse_strikethroughs(value)
+    # Markdownが提要されていないURLのプレイヤー展開
+    value = parse_youtube_urls(value)
+    value = parse_nicovideo_urls(value)
+    # プレイヤー展開が適用されていないURLのリンク展開
+    value = parse_autolinks(value)
     return value.strip()

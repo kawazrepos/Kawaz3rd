@@ -5,7 +5,7 @@ from kawaz.core.personas.tests.factories import ProfileFactory, PersonaFactory
 
 __author__ = 'giginet'
 
-class ProfileTemplateTagTestCase(TestCase):
+class GetMyProfileTemplateTagTestCase(TestCase):
     def _test_get_my_profile(self, user):
         t = Template(
             """{% load profiles_tags %}"""
@@ -41,3 +41,52 @@ class ProfileTemplateTagTestCase(TestCase):
         user = PersonaFactory(role='wille')
         profile = self._test_get_my_profile(user)
         self.assertIsNone(profile)
+
+class GetProfileTemplateTagTestCase(TestCase):
+
+    def _test_get_my_profile(self, current_user, target_user):
+        t = Template(
+            """{% load profiles_tags %}"""
+            """{% get_profile target_user as profile %}"""
+        )
+        context = Context({
+            'user': current_user,
+            'target_user': target_user
+        })
+        # 何も描画されない
+        self.assertEqual(t.render(context), '')
+        return context['profile']
+
+    def setUp(self):
+        self.users = (
+            PersonaFactory(role='adam'),
+            PersonaFactory(role='seele'),
+            PersonaFactory(role='nerv'),
+            PersonaFactory(role='children'),
+            PersonaFactory(role='wille'),
+            AnonymousUser()
+        )
+
+    def test_get_profile_with_permitted(self):
+        """
+        対象プロフィールの閲覧権限がpublicのとき、
+        プロフィールを取得できる
+        """
+        profile = ProfileFactory(pub_state='public')
+        for user in self.users:
+            result = self._test_get_my_profile(user, profile.user)
+            self.assertEqual(result, profile)
+
+    def test_get_profile_with_forbidden(self):
+        """
+        対象プロフィールの閲覧権限がprotectedのとき、
+        権限があるユーザーのみがプロフィールを取得できる
+        """
+        profile = ProfileFactory(pub_state='protected')
+        for user in self.users[0:4]:
+            result = self._test_get_my_profile(user, profile.user)
+            self.assertEqual(result, profile)
+        for user in self.users[4:]:
+            result = self._test_get_my_profile(user, profile.user)
+            self.assertIsNone(result)
+

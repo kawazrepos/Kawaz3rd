@@ -1,1 +1,1 @@
-{{ object.nickname }}さんのプロフィールが更新されました #Kawaz
+{{ object.nickname }}さんのプロフィールが更新されました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz

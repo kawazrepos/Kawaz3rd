@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>{% trans "Login" %}</h1>
     </div>
-    <form class="form-horizontal row" role="form" method="POST" action="../">{% csrf_token %}
+    <form class="form-horizontal row" role="form" method="POST" action=".">{% csrf_token %}
         {% get_form_helper "bare" as helper %}
         {% crispy form helper %}
         <div class="form-group">

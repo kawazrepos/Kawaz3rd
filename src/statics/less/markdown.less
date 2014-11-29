@@ -61,12 +61,14 @@
     color: @gray-darker;
   }
 
-  code {
-    color: @text-color;
-    padding: 5px 15px 5px;
-    background-color: rgb(244, 244, 244);
-    .border-radius(5px)
+  pre {
+    code {
+      color: @text-color;
+      background-color: rgb(244, 244, 244);
+      .border-radius(5px)
+    }
   }
+
   img, video, iframe, embed {
     // PCではデカくなりすぎないようにしている
     @media (min-width: @screen-lg-min) {

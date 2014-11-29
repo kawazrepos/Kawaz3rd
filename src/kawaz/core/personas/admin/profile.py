@@ -3,7 +3,7 @@ from ..models import Profile, Skill, Service, Account
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ('address', 'remarks',)
 
 
 class SkillAdmin(admin.ModelAdmin):

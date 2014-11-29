@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 import re
 from django.template.loader import render_to_string
 from .utils import is_quoated
@@ -51,7 +47,7 @@ def parse_youtube_urls(value, responsive=False, width=None, height=None):
 
     def repl(m):
         if is_quoated(m.string, m.start(), m.end()):
-            # ', " に囲まれているため置換を行わない
+            # ', "に囲まれているため置換を行わない
             return m.group()
         params = dict(
             video_id=m.group('id'),
