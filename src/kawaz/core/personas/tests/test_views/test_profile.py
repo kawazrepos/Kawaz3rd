@@ -8,7 +8,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
 from django.utils.timezone import get_default_timezone
-from ..factories import PersonaFactory
+from ..factories import PersonaFactory, AccountFactory
 from ..factories import ProfileFactory
 from ..factories import ServiceFactory
 from ...models import Profile
@@ -162,6 +162,45 @@ class ProfileUpdateViewTestCase(ProfileViewTestCaseBase):
             self.assertEqual(a[1].service.pk, 2)
             self.assertEqual(a[1].username, username2)
             self.assertEqual(a[1].pub_state, 'public')
+
+    def test_members_can_delete_account(self):
+        """
+        メンバーは自身のプロフィールに既に登録されているアカウントを削除可能
+        """
+        kwargs = dict(self.profile_kwargs)
+        url = reverse('personas_profile_update')
+
+        for i, user in enumerate(self.members):
+            # 予めアカウントを作成しておく
+            p = Profile.objects.get(user=user)
+            account = AccountFactory(profile=p)
+            a = Account.objects.filter(profile=p)
+            self.assertEqual(a.count(), 1)
+            self.assertIn(account, a)
+
+            # アカウントを削除する
+            kwargs.update({
+                'accounts-0-id': account.pk,
+                'accounts-0-service': account.service,
+                'accounts-0-username': account.username,
+                'accounts-0-pub_state': account.pub_state,
+                'accounts-0-profile': p.pk,
+                'accounts-0-DELETE': True,
+                'accounts-TOTAL_FORMS': 1,
+                'accounts-INITIAL_FORMS': 1,
+                'accounts-MAX_NUM_FORMS': 1000,
+            })
+            self.prefer_login(user)
+            r = self.client.post(url, kwargs)
+            self.assertRedirects(r, user.get_absolute_url())
+            self.assertTrue('messages' in r.cookies,
+                            "No messages are appeared")
+
+            # アカウントが削除されているかチェックする
+            p = Profile.objects.get(user=user)
+            a = Account.objects.filter(profile=p)
+            self.assertEqual(a.count(), 0)
+            self.assertNotIn(account, a)
 
 
 class ProfilePreviewViewTestCase(ProfileViewTestCaseBase):

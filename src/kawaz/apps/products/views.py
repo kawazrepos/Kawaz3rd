@@ -116,6 +116,9 @@ class ProductFormMixin(SuccessMessageMixin):
             for instance in instances:
                 instance.product = self.object
                 instance.save()
+            # 削除にチェックされたオブジェクトを削除
+            for instance in formset.deleted_objects:
+                instance.delete()
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form,
