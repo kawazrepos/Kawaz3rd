@@ -1,3 +1,6 @@
+from unittest.mock import MagicMock
+from django.template import Context
+from django.template.loader import render_to_string
 from django.test import TestCase
 from kawaz.core.personas.tests.factories import PersonaFactory
 
@@ -15,6 +18,34 @@ class KawazRoughPageTestCase(TestCase):
         filename = filename or url.replace("/", "")
         r = self.client.get(url)
         self.assertTemplateUsed(r, "roughpages/{}.html".format(filename))
+        return r
+
+    def test_can_show_authenticated_index_by_authenticated_user(self):
+        """
+        ログインユーザーが/にアクセスして、マイページを見れるかどうか
+        """
+        r = self._test_template("/", 'index.authenticated', True)
+        request = MagicMock()
+        request.path = '/'
+        c = Context({
+            'request': request,
+            'user': self.authenticated_user
+        })
+        rendered = render_to_string('components/registration/index.authenticated.html', c)
+        self.assertEqual(r.content.decode('utf-8').strip(), rendered.strip())
+
+    def test_can_show_authenticated_index_by_authenticated_user_with_external(self):
+        """
+        ログインユーザーが/?external=1にアクセスして、外部ユーザー向けトップを見れるかどうか
+        """
+        r = self._test_template("/?external=1", 'index.authenticated', True)
+        request = MagicMock()
+        request.path = '/?external=1'
+        c = Context({
+            'request': request
+        })
+        rendered = render_to_string('components/registration/index.anonymous.html', c)
+        self.assertEqual(r.content.decode('utf-8').strip(), rendered.strip())
 
     def test_access_to_about(self):
         """
