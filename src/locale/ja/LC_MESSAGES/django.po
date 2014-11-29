@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-29 11:08+0900\n"
+"POT-Creation-Date: 2014-11-29 16:03+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1743,13 +1743,9 @@ msgstr ""
 "ことでパスワードをリセットできます。"
 
 #: src/templates/registration/password_reset_confirm.html:7
+#: src/templates/registration/password_reset_form.html:6
 #: src/templates/registration/password_reset_form.html:11
 msgid "Reset your password"
-msgstr "パスワードを変更する"
-
-#: src/templates/registration/password_reset_confirm.html:13
-#| msgid "Reset your password"
-msgid "Reset password"
 msgstr "パスワードを変更する"
 
 #: src/templates/registration/password_reset_done.html:5
