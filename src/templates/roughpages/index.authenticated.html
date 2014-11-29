@@ -1,4 +1,4 @@
-{% if 'anonymous=1' in request.GET.urlencode %}
+{% if request.GET.anonymous == 1 %}
     {% include "components/registration/index.anonymous.html" %}
 {% else %}
     {% include "components/registration/index.authenticated.html" %}
