@@ -16,7 +16,7 @@ from .factories import (ProductFactory,
                         PackageReleaseFactory,
                         URLReleaseFactory,
                         PlatformFactory,
-                        CategoryFactory)
+                        CategoryFactory, ScreenshotFactory)
 
 
 TEST_FILENAME = os.path.join(os.path.dirname(__file__),
@@ -531,6 +531,136 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             self.assertEqual(e.slug, previous_slug)
             self.assertNotEqual(e.slug, 'new-slug')
             self.assertIn('messages', r.cookies, "No messages are appeared")
+
+    def test_member_can_delete_screenshot(self):
+        """
+        作品編集フォームから登録済みのスクリーンショットが削除できる
+        """
+        url = reverse('products_product_update', kwargs=dict(
+            slug=self.product.slug
+        ))
+        for user in chain(self.members[0:3], self.administrators):
+            ss = ScreenshotFactory(product=self.product)
+
+            # スクリーンショットが生成済み
+            self.assertEqual(Screenshot.objects.count(), 1)
+            self.assertIn(ss, Screenshot.objects.all())
+
+            self.prefer_login(user)
+            # Note:
+            #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
+            #   再度読みこもうとした場合に seek 位置を戻す必要があるが、
+            #   そういう処理がライブラリに無い。したがって同じファイル
+            #   オブジェクトを共有できないため、二つに分けている
+            with ExitStack() as stack:
+                f1 = stack.enter_context(open(self.image_file, 'rb'))
+                f2 = stack.enter_context(open(self.image_file, 'rb'))
+                self.product_kwargs.update({
+                    'thumbnail': f1,
+                    'screenshots-0-id': ss.id,
+                    'screenshots-0-image': f2,
+                    'screenshots-0-product': self.product.pk,
+                    'screenshots-0-DELETE': True,
+                    'screenshots-TOTAL_FORMS': 1,
+                    'screenshots-INITIAL_FORMS': 1,
+                    'screenshots-MAX_NUM_FORMS': 1000,
+                })
+                r = self.client.post(url, self.product_kwargs)
+            self.assertRedirects(r, self.product.get_absolute_url())
+
+            self.assertIn('messages', r.cookies, "No messages are appeared")
+
+            # スクリーンショットが削除されている
+            self.assertEqual(Screenshot.objects.count(), 0)
+            self.assertNotIn(ss, Screenshot.objects.all())
+
+    def test_member_can_delete_package_release(self):
+        """
+        作品編集フォームから登録済みのパッケージリリースが削除できる
+        """
+        url = reverse('products_product_update', kwargs=dict(
+            slug=self.product.slug
+        ))
+        for user in chain(self.members[0:3], self.administrators):
+            release = PackageReleaseFactory(product=self.product)
+
+            # パッケージリリースが生成済み
+            self.assertEqual(PackageRelease.objects.count(), 1)
+            self.assertIn(release, PackageRelease.objects.all())
+
+            self.prefer_login(user)
+            # Note:
+            #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
+            #   再度読みこもうとした場合に seek 位置を戻す必要があるが、
+            #   そういう処理がライブラリに無い。したがって同じファイル
+            #   オブジェクトを共有できないため、二つに分けている
+            with ExitStack() as stack:
+                f1 = stack.enter_context(open(self.image_file, 'rb'))
+                f2 = stack.enter_context(open(self.image_file, 'rb'))
+                self.product_kwargs.update({
+                    'thumbnail': f1,
+                    'package_releases-0-id': release.id,
+                    'package_releases-0-file_content': f2,
+                    'package_releases-0-version': release.version,
+                    'package_releases-0-platform': release.platform,
+                    'package_releases-0-product': self.product.pk,
+                    'package_releases-0-DELETE': True,
+                    'package_releases-TOTAL_FORMS': 1,
+                    'package_releases-INITIAL_FORMS': 1,
+                    'package_releases-MAX_NUM_FORMS': 1000,
+                })
+                r = self.client.post(url, self.product_kwargs)
+            self.assertRedirects(r, self.product.get_absolute_url())
+
+            self.assertIn('messages', r.cookies, "No messages are appeared")
+
+            # パッケージリリースが削除されている
+            self.assertEqual(PackageRelease.objects.count(), 0)
+            self.assertNotIn(release, PackageRelease.objects.all())
+
+    def test_member_can_delete_url_release(self):
+        """
+        作品編集フォームから登録済みのURLリリースが削除できる
+        """
+        url = reverse('products_product_update', kwargs=dict(
+            slug=self.product.slug
+        ))
+        for user in chain(self.members[0:3], self.administrators):
+            release = URLReleaseFactory(product=self.product)
+
+            # URLリリースが生成済み
+            self.assertEqual(URLRelease.objects.count(), 1)
+            self.assertIn(release, URLRelease.objects.all())
+
+            self.prefer_login(user)
+            # Note:
+            #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
+            #   再度読みこもうとした場合に seek 位置を戻す必要があるが、
+            #   そういう処理がライブラリに無い。したがって同じファイル
+            #   オブジェクトを共有できないため、二つに分けている
+            with ExitStack() as stack:
+                f1 = stack.enter_context(open(self.image_file, 'rb'))
+                f2 = stack.enter_context(open(self.image_file, 'rb'))
+                self.product_kwargs.update({
+                    'thumbnail': f1,
+                    'url_releases-0-id': release.id,
+                    'url_releases-0-url': "http://www.kawaz.org/",
+                    'url_releases-0-version': release.version,
+                    'url_releases-0-platform': release.platform,
+                    'url_releases-0-product': self.product.pk,
+                    'url_releases-0-DELETE': True,
+                    'url_releases-TOTAL_FORMS': 1,
+                    'url_releases-INITIAL_FORMS': 1,
+                    'url_releases-MAX_NUM_FORMS': 1000,
+                })
+                r = self.client.post(url, self.product_kwargs)
+            self.assertRedirects(r, self.product.get_absolute_url())
+
+            self.assertIn('messages', r.cookies, "No messages are appeared")
+
+            # URLリリースが削除されている
+            self.assertEqual(URLRelease.objects.count(), 0)
+            self.assertNotIn(release, URLRelease.objects.all())
 
 
 class ProductDeleteViewTestCase(ViewTestCaseBase):
