@@ -1,4 +1,4 @@
-from wsgiref.util import FileWrapper
+import os
 from django.http import (HttpResponse,
                          HttpResponseRedirect,
                          HttpResponseNotFound)
@@ -235,8 +235,9 @@ class PackageReleaseDetailView(DetailView):
             name = self.object.filename
             path = self.object.file_content.path
             mimetype = self.object.mimetype
-            response = HttpResponse(FileWrapper(open(path, 'rb')),
-                                    content_type=mimetype)
+            f = open(path, 'rb')
+            response = HttpResponse(f.read(), content_type=mimetype)
+            response['Content-Length'] = os.fstat(f.fileno()).st_size
             response['Content-Disposition'] = (
                 'attachment; filename={}'.format(name)
             )

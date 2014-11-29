@@ -1,6 +1,6 @@
+import os
 from django.views.generic.detail import BaseDetailView
 from django.http.response import HttpResponse, HttpResponseNotFound
-from django.core.servers.basehttp import FileWrapper
 
 from .models import Material
 
@@ -15,10 +15,12 @@ class MaterialDetailView(BaseDetailView):
             path = self.object.content_file.path
             mimetype = self.object.mimetype
             # withをすると、変なタイミングでcloseされてしまって正常にアクセスできない
-            file = open(path, 'rb')
-            # ToDo normalize
-            response = HttpResponse(FileWrapper(file), content_type=mimetype)
-            response['Content-Disposition'] = 'attachment; filename={}'.format(name)
+            f = open(path, 'rb')
+            response = HttpResponse(f.read(), content_type=mimetype)
+            response['Content-Length'] = os.fstat(f.fileno()).st_size
+            response['Content-Disposition'] = (
+                'attachment; filename={}'.format(name)
+            )
             return response
         except FileNotFoundError:
             # もし、レコードには存在するが、ファイルがなかったり、読み込めなかったとき
