@@ -12,28 +12,42 @@
 {% endblock %}
 
 
-{% block content-main %}
-<div class="event-list-wrap">
-    <div class="page-header event-list-header">
-      <h2>{% trans "Event archives" %}</h2>
+
+{% block content-header %}
+    <div class="page-header event-list-header row">
+        <div class="col col-lg-9 col-xs-12">
+            <h1>{% trans "Event archives" %}</h1>
+        </div>
+        <div class="col col-lg-3 col-xs-12 header-right">
+        {% if user has 'events.add_event' %}
+            <a href="{% url "events_event_create" %}"
+               class="btn btn-success btn-primary btn-lg">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span>{% trans "Create a new event" %}</span>
+            </a>
+        {% endif %}
+        </div>
     </div>
-    {% for event in object_list %}
-      {% include "events/components/list-item.html" %}
-    {% endfor %}
-</div>
+{% endblock %}
+
+{% block content-main %}
+    <div class="event-list-wrap">
+        {% for event in filter %}
+            {% include "events/components/list-item.html" %}
+        {% empty %}
+            <div class="alert alert-info">
+                <p>{% trans "Matching events can not be found" %}</p>
+                {% if user has 'events.add_event' %}
+                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new event" %}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <iframe src="https://www.google.com/calendar/embed?src=kawaz.org_knp8k16jovqbodorkrkt45un0o%40group.calendar.google.com&ctz=Asia/Tokyo" style="border: 0" width="845" height="730" frameborder="0" scrolling="no"></iframe>
 {% endblock %}
 
 {% block content-aside %}
-  <div class="event-create-button event-detail-aside-item">
-    {# 参加できる状態 #}
-    {% if user has 'events.add_event' %}
-    <a href="{% url "events_event_create" %}"
-       class="btn btn-success event-join-btn btn-large">
-        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Create a new event" %}</span>
-    </a>
-    {% endif %}
-  </div>
-
   <div class="event-archive-list event-detail-aside-item">
     {# 過去のイベントリスト #}
     <div class="panel panel-default">
