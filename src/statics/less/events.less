@@ -8,11 +8,6 @@
   color: @footer-color;
 }
 
-// event-listでの作成ボタン
-.header-right {
-  margin-top: 20px;
-}
-
 .event-list-item {
   .event-list-panel {
     display: block;
@@ -85,13 +80,12 @@
       }
     }
   }
+}
+.event-archive-list {
   .back-event-list {
-    a {
-      text-align: right;
-    }
+    text-align: right;
   }
 }
-
 
 
 
@@ -120,17 +114,17 @@
   }
 
   .event-info-header {
-    margin: 20px 0 10px;
+    margin: 30px 0 20px;
     .page-header-left {
       .event-info-wrap {
         &.event-info-wrap-low {
           margin-top: 20px;
         }
         &.event-info-wrap-middle {
-          margin-top: 5px;
+          margin-top: 0px;
         }
         &.event-info-wrap-high {
-          margin-top: 30px;
+          margin-top: 10px;
         }
         .event-info {
           .event-info-detail {
@@ -153,7 +147,8 @@
       text-align: center;
       padding: 0;
       .event-join-utility {
-        margin-top: 10px;
+        width: 220px;
+        margin: 10px auto 0;
         .btn {
           margin-bottom: 5px;
         }
