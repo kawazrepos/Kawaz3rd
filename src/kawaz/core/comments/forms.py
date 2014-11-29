@@ -9,7 +9,7 @@ from kawaz.core.forms.fields import MarkdownField
 __author__ = 'giginet'
 
 class KawazCommentForm(CommentForm):
-    comment = MarkdownField(required=True)
+    comment = MarkdownField()
 
     def __init__(self, *args, **kwargs):
         super(KawazCommentForm, self).__init__(*args, **kwargs)

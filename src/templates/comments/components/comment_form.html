@@ -5,7 +5,7 @@
 {% get_comment_form for object as comment_form %}
 {% if request.user.is_authenticated %}
     <div class="comment-form authenticated-form">
-        <form class="form-inline" action="{% comment_form_target %}" method="POST">
+        <form class="form-inline" action="{% comment_form_target %}" method="POST">{% csrf_token %}
             {% get_form_helper 'inline_bare' as bare %}
             {% crispy comment_form bare %}
             <input type="hidden" name="next" value="{{ request.path }}" />
