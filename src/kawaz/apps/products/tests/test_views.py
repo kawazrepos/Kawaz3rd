@@ -16,7 +16,8 @@ from .factories import (ProductFactory,
                         PackageReleaseFactory,
                         URLReleaseFactory,
                         PlatformFactory,
-                        CategoryFactory, ScreenshotFactory)
+                        CategoryFactory,
+                        ScreenshotFactory)
 
 
 TEST_FILENAME = os.path.join(os.path.dirname(__file__),
@@ -633,16 +634,10 @@ class ProductUpdateViewTestCase(ViewTestCaseBase):
             self.assertIn(release, URLRelease.objects.all())
 
             self.prefer_login(user)
-            # Note:
-            #   f1, f2 と分けているのは 読み込み後に seek 位置が変更され
-            #   再度読みこもうとした場合に seek 位置を戻す必要があるが、
-            #   そういう処理がライブラリに無い。したがって同じファイル
-            #   オブジェクトを共有できないため、二つに分けている
             with ExitStack() as stack:
-                f1 = stack.enter_context(open(self.image_file, 'rb'))
-                f2 = stack.enter_context(open(self.image_file, 'rb'))
+                f = stack.enter_context(open(self.image_file, 'rb'))
                 self.product_kwargs.update({
-                    'thumbnail': f1,
+                    'thumbnail': f,
                     'url_releases-0-id': release.id,
                     'url_releases-0-url': "http://www.kawaz.org/",
                     'url_releases-0-version': release.version,
