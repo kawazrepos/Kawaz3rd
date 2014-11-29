@@ -123,7 +123,7 @@
                 {% if event.attendance_deadline %}
                     <dl>
                         <dt class="attendance-deadline">{% trans "Participation deadline" %}</dt>
-                        <dd>
+                        <dd class="attendance-deadline">
                             <span>{{ event.attendance_deadline | date:"Y年m月d日" }}{% trans "utill" %}</span>
                         </dd>
                     </dl>
