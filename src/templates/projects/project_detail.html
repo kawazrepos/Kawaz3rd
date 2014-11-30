@@ -92,7 +92,7 @@
   {% endblock %}
   {% block content-aside %}
     {% if user has 'projects.join_project' of project %}
-    <a href="{% url 'projects_project_join' pk=project.pk %}" class="btn btn-success btn-primary btn-lg">
+    <a href="{% url 'projects_project_join' pk=project.pk %}" class="btn btn-success btn-primary project-join-btn btn-lg">
       <span class="glyphicon glyphicon-plus"></span>
       <span>{% trans "Join the project" %}</span>
         <form method="POST" style="display: none;">{% csrf_token %}</form>
