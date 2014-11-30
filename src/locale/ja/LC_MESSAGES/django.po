@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-29 16:03+0900\n"
+"POT-Creation-Date: 2014-11-30 16:46+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,8 +69,8 @@ msgstr "お知らせ"
 #: src/templates/announcements/announcement_form.html:15
 #: src/templates/announcements/announcement_list.html:8
 #: src/templates/announcements/announcement_list.html:19
+#: src/templates/components/registration/index.anonymous.html:116
 #: src/templates/roughpages/drafts.authenticated.html:27
-#: src/templates/roughpages/index.anonymous.html:116
 msgid "Announcements"
 msgstr "お知らせ"
 
@@ -151,10 +151,10 @@ msgstr "ブログ記事を削除しました"
 #: src/kawaz/apps/events/filters.py:16 src/kawaz/apps/products/filters.py:16
 #: src/kawaz/apps/products/forms.py:45 src/kawaz/apps/products/models.py:79
 #: src/kawaz/apps/products/models.py:152 src/kawaz/apps/projects/models.py:22
-#: src/templates/blogs/entry_list.html:61
-#: src/templates/events/event_list.html:55
+#: src/templates/blogs/entry_list.html:62
+#: src/templates/events/event_list.html:58
 #: src/templates/products/product_detail.html:136
-#: src/templates/products/product_list.html:55
+#: src/templates/products/product_list.html:59
 msgid "Categories"
 msgstr "カテゴリ"
 
@@ -211,12 +211,12 @@ msgid "Use this to limit the number of attendees."
 msgstr "参加人数に上限を設けたい場合に設定してください"
 
 #: src/kawaz/apps/events/models.py:88
-#: src/templates/events/event_detail.html:153
+#: src/templates/events/event_detail.html:154
 msgid "Organizer"
 msgstr "主催者"
 
 #: src/kawaz/apps/events/models.py:93
-#: src/templates/events/event_detail.html:166
+#: src/templates/events/event_detail.html:167
 msgid "Attendees"
 msgstr "参加者"
 
@@ -328,7 +328,7 @@ msgstr "このイベントは非公開状態であるか、開始日時が設定
 #: src/kawaz/apps/products/filters.py:11 src/kawaz/apps/products/forms.py:40
 #: src/kawaz/apps/products/models.py:59 src/kawaz/apps/products/models.py:150
 #: src/templates/products/product_detail.html:119
-#: src/templates/products/product_list.html:49
+#: src/templates/products/product_list.html:53
 msgid "Platforms"
 msgstr "プラットフォーム"
 
@@ -466,7 +466,7 @@ msgstr "作品"
 #: src/kawaz/apps/products/models.py:194 src/templates/base.html:46
 #: src/templates/products/product_detail.html:13
 #: src/templates/products/product_form.html:27
-#: src/templates/products/product_list.html:12
+#: src/templates/products/product_list.html:13
 #: src/templates/roughpages/helps/products.html:7
 msgid "Products"
 msgstr "作品"
@@ -548,17 +548,17 @@ msgstr "スクリーンショット"
 msgid "Screen shots"
 msgstr "スクリーンショット"
 
-#: src/kawaz/apps/products/views.py:177
+#: src/kawaz/apps/products/views.py:180
 #, python-format
 msgid "A product '%(title)s' was successfully created."
 msgstr "作品「%(title)s」を作成しました"
 
-#: src/kawaz/apps/products/views.py:196
+#: src/kawaz/apps/products/views.py:199
 #, python-format
 msgid "The product '%(title)s' was successfully updated."
 msgstr "作品「%(title)s」を更新しました"
 
-#: src/kawaz/apps/products/views.py:207
+#: src/kawaz/apps/products/views.py:210
 msgid "The product was successfully deleted."
 msgstr "作品を削除しました"
 
@@ -617,9 +617,9 @@ msgstr "管理者"
 
 #: src/kawaz/apps/projects/models.py:124 src/templates/base.html:50
 #: src/templates/personas/persona_detail.html:13
-#: src/templates/personas/persona_list.html:4
-#: src/templates/personas/persona_list.html:7
-#: src/templates/personas/persona_list.html:15
+#: src/templates/personas/persona_list.html:5
+#: src/templates/personas/persona_list.html:8
+#: src/templates/personas/persona_list.html:16
 msgid "Members"
 msgstr "所属メンバー"
 
@@ -938,7 +938,7 @@ msgstr "権限が「%(role)s」に変更されました"
 msgid "Anonymous user does not have a profile update view"
 msgstr "非ログインユーザーはプロフィール変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/profile.py:97
+#: src/kawaz/core/personas/views/profile.py:100
 msgid "Your profile was successfully updated."
 msgstr "プロフィールを更新しました"
 
@@ -984,7 +984,7 @@ msgid "Activity"
 msgstr "最近の活動"
 
 #: src/lib/django-activities/activities/models.py:74
-#: src/templates/roughpages/index.authenticated.html:48
+#: src/templates/components/registration/index.authenticated.html:48
 msgid "Activities"
 msgstr "最近の活動"
 
@@ -1029,10 +1029,9 @@ msgstr "書いた人"
 
 #: src/templates/announcements/announcement_detail.html:45
 #: src/templates/blogs/entry_detail.html:48
-#: src/templates/events/event_detail.html:192
+#: src/templates/events/event_detail.html:193
 #: src/templates/personas/persona_detail.html:150
 #: src/templates/products/product_detail.html:97
-#: src/templates/products/product_list.html:40
 #: src/templates/projects/project_detail.html:134
 msgid "Administration"
 msgstr "管理"
@@ -1194,7 +1193,7 @@ msgstr "記事を削除"
 #: src/templates/blogs/entry_form.html:10
 #: src/templates/blogs/entry_form.html:19
 #: src/templates/blogs/entry_form.html:31
-#: src/templates/blogs/entry_list.html:29
+#: src/templates/blogs/entry_list.html:30
 msgid "Create a new blog entry"
 msgstr "ブログ記事を作成する"
 
@@ -1214,15 +1213,15 @@ msgid_plural "There are %(counter)s blog entries."
 msgstr[0] "%(counter)s件のブログ記事"
 msgstr[1] "1件のブログ記事"
 
-#: src/templates/blogs/entry_list.html:35
+#: src/templates/blogs/entry_list.html:36
 msgid "There are no blog entries."
 msgstr "ブログの下書きはありません"
 
-#: src/templates/blogs/entry_list.html:50
+#: src/templates/blogs/entry_list.html:51
 msgid "Hot entries"
 msgstr "ホットエントリー"
 
-#: src/templates/blogs/entry_list.html:68
+#: src/templates/blogs/entry_list.html:69
 msgid "There is no category"
 msgstr "カテゴリはありません"
 
@@ -1360,6 +1359,84 @@ msgstr "前のページへ"
 msgid "Older"
 msgstr "戻る"
 
+#: src/templates/components/registration/index.anonymous.html:47
+msgid "Recent activities"
+msgstr "最近の活動"
+
+#: src/templates/components/registration/index.anonymous.html:60
+#: src/templates/components/registration/index.anonymous.html:88
+#: src/templates/projects/project_list.html:78
+msgid "See more"
+msgstr "もっと見る"
+
+#: src/templates/components/registration/index.anonymous.html:68
+msgid "Recent games"
+msgstr "最近のゲーム"
+
+#: src/templates/components/registration/index.anonymous.html:77
+msgid "Featured games"
+msgstr "Kawazの代表作"
+
+#: src/templates/components/registration/index.anonymous.html:131
+msgid "Information"
+msgstr "インフォメーション"
+
+#: src/templates/components/registration/index.anonymous.html:133
+#: src/templates/roughpages/about.html:4
+msgid "About us"
+msgstr "Kawazとは"
+
+#: src/templates/components/registration/index.anonymous.html:134
+#: src/templates/roughpages/rules.html:4
+msgid "Agreements"
+msgstr "Kawazを利用するにあたって"
+
+#: src/templates/components/registration/index.anonymous.html:135
+msgid "Published information"
+msgstr "掲載情報"
+
+#: src/templates/components/registration/index.anonymous.html:136
+#: src/templates/roughpages/registration.html:5
+msgid "How to participate"
+msgstr "メンバー登録について"
+
+#: src/templates/components/registration/index.anonymous.html:142
+msgid "Contacts"
+msgstr "お問い合わせ"
+
+#: src/templates/components/registration/index.anonymous.html:144
+#: src/templates/roughpages/contact.html:4
+msgid "Contact us"
+msgstr "お問い合わせ"
+
+#: src/templates/components/registration/index.anonymous.html:145
+msgid "Twitter @kawaz_official"
+msgstr "@kawaz_official"
+
+#: src/templates/components/registration/index.anonymous.html:146
+msgid "Twitter @kawazinfo"
+msgstr "Twitter @kawazinfo"
+
+#: src/templates/components/registration/index.authenticated.html:8
+msgid "My page"
+msgstr "マイページ"
+
+#: src/templates/components/registration/index.authenticated.html:41
+msgid "Recent announcements"
+msgstr "最近のお知らせ"
+
+#: src/templates/components/registration/index.authenticated.html:54
+msgid "Read more"
+msgstr "もっと見る"
+
+#: src/templates/components/registration/index.authenticated.html:62
+msgid "Create new contents"
+msgstr "新しく作成する"
+
+#: src/templates/components/registration/index.authenticated.html:75
+msgid "Member tools"
+msgstr "所属メンバー向けツール"
+
 #: src/templates/crispy/whole_uni_formset.html:20
 msgid "Remove this form"
 msgstr "この項目を削除"
@@ -1378,25 +1455,35 @@ msgstr "開催場所未定"
 msgid "Events on %(month)s"
 msgstr "%(month)s月のイベント"
 
-#: src/templates/events/event_archive_month.html:18
-#: src/templates/events/event_archive_month.html:41
-#: src/templates/events/event_archive_year.html:17
-#: src/templates/events/event_archive_year.html:40
+#: src/templates/events/event_archive_month.html:16
+#: src/templates/events/event_archive_month.html:22
+#: src/templates/events/event_archive_month.html:58
+#: src/templates/events/event_archive_year.html:15
+#: src/templates/events/event_archive_year.html:21
+#: src/templates/events/event_archive_year.html:51
 msgid "Event archives"
 msgstr "過去のイベント"
 
-#: src/templates/events/event_archive_month.html:32
-#: src/templates/events/event_archive_year.html:31
+#: src/templates/events/event_archive_month.html:29
+#: src/templates/events/event_archive_month.html:44
+#: src/templates/events/event_archive_year.html:29
+#: src/templates/events/event_archive_year.html:42
 #: src/templates/events/event_form.html:9
 #: src/templates/events/event_form.html:20
 #: src/templates/events/event_form.html:31
-#: src/templates/events/event_list.html:30
-#: src/templates/events/event_list.html:47
+#: src/templates/events/event_list.html:29
+#: src/templates/events/event_list.html:44
 msgid "Create a new event"
 msgstr "イベントを作成する"
 
-#: src/templates/events/event_archive_month.html:52
-#: src/templates/events/event_archive_year.html:51
+#: src/templates/events/event_archive_month.html:42
+#: src/templates/events/event_archive_year.html:27
+#: src/templates/events/event_list.html:42
+msgid "Matching events can not be found"
+msgstr "該当するイベントは見つかりませんでした"
+
+#: src/templates/events/event_archive_month.html:69
+#: src/templates/events/event_archive_year.html:62
 msgid "Back to upcoming events"
 msgstr "開催予定イベント一覧に戻る"
 
@@ -1412,63 +1499,63 @@ msgstr "iCal形式でダウンロード"
 msgid "See this place in Google Maps"
 msgstr "Googleマップでこの場所を見る"
 
-#: src/templates/events/event_detail.html:82
+#: src/templates/events/event_detail.html:83
 msgid "Attend this event"
 msgstr "このイベントに参加"
 
-#: src/templates/events/event_detail.html:88
-#: src/templates/events/event_detail.html:101
+#: src/templates/events/event_detail.html:89
+#: src/templates/events/event_detail.html:102
 #, python-format
 msgid "Only one more person can join this event"
 msgid_plural "%(counter)s more people can join this event"
 msgstr[0] "あと%(counter)s人だけ参加できます"
 msgstr[1] "あと1人だけ参加できます"
 
-#: src/templates/events/event_detail.html:95
-#: src/templates/events/event_detail.html:116
+#: src/templates/events/event_detail.html:96
+#: src/templates/events/event_detail.html:117
 msgid "The participation has been closed"
 msgstr "参加者締め切りました"
 
-#: src/templates/events/event_detail.html:97
+#: src/templates/events/event_detail.html:98
 msgid "Call for participats"
 msgstr "参加者募集中"
 
-#: src/templates/events/event_detail.html:110
+#: src/templates/events/event_detail.html:111
 msgid "Withdraw from the event"
 msgstr "参加をやめる"
 
-#: src/templates/events/event_detail.html:119
+#: src/templates/events/event_detail.html:120
 msgid "You need to login to join the event."
 msgstr "イベントに参加するにはログインする必要があります"
 
-#: src/templates/events/event_detail.html:124
+#: src/templates/events/event_detail.html:125
 msgid "Participation deadline"
 msgstr "参加締切日"
 
-#: src/templates/events/event_detail.html:126
+#: src/templates/events/event_detail.html:127
 msgid "utill"
 msgstr "まで"
 
-#: src/templates/events/event_detail.html:130
+#: src/templates/events/event_detail.html:131
 msgid "No participation deadline"
 msgstr "参加締切はありません"
 
-#: src/templates/events/event_detail.html:169
+#: src/templates/events/event_detail.html:170
 #, python-format
 msgid "There is one attendee."
 msgid_plural "There are %(counter)s attendees."
 msgstr[0] "%(counter)s人の参加者が居ます"
 msgstr[1] "1人の参加者が居ます"
 
-#: src/templates/events/event_detail.html:198
+#: src/templates/events/event_detail.html:199
 msgid "Update the event"
 msgstr "イベントを編集"
 
-#: src/templates/events/event_detail.html:204
+#: src/templates/events/event_detail.html:205
 msgid "Do you want to delete the event?"
 msgstr "このイベントを削除してもよろしいですか？"
 
-#: src/templates/events/event_detail.html:205
+#: src/templates/events/event_detail.html:206
 msgid "Delete the event"
 msgstr "イベントを削除"
 
@@ -1488,11 +1575,7 @@ msgstr "イベント「%(title)s」の編集"
 msgid "Upcoming events"
 msgstr "開催予定のイベント"
 
-#: src/templates/events/event_list.html:28
-msgid "Matching events can not be found"
-msgstr "該当するイベントは見つかりませんでした"
-
-#: src/templates/events/event_list.html:65
+#: src/templates/events/event_list.html:68
 msgid "Archived events"
 msgstr "アーカイブされたイベント"
 
@@ -1502,7 +1585,7 @@ msgid "%(nickname)s's Profile"
 msgstr "%(nickname)sのプロフィール"
 
 #: src/templates/personas/persona_detail.html:59
-#: src/templates/personas/persona_list.html:61
+#: src/templates/personas/persona_list.html:65
 msgid "Abilities"
 msgstr "できること"
 
@@ -1570,8 +1653,8 @@ msgstr "スクリーンショット"
 #: src/templates/products/product_form.html:9
 #: src/templates/products/product_form.html:18
 #: src/templates/products/product_form.html:31
-#: src/templates/products/product_list.html:29
-#: src/templates/products/product_list.html:43
+#: src/templates/products/product_list.html:24
+#: src/templates/products/product_list.html:42
 msgid "Create a new product"
 msgstr "新規作品を公開する"
 
@@ -1609,17 +1692,17 @@ msgstr "この作品について問い合わせる"
 msgid "All products"
 msgstr "すべての作品"
 
-#: src/templates/products/product_list.html:16
+#: src/templates/products/product_list.html:20
 msgid "Product list"
 msgstr "作品一覧"
 
-#: src/templates/products/product_list.html:27
+#: src/templates/products/product_list.html:40
 msgid "There is no corresponding product"
 msgstr "該当する作品はありません"
 
 #: src/templates/projects/project_archive.html:5
 #: src/templates/projects/project_archive.html:12
-#: src/templates/projects/project_list.html:63
+#: src/templates/projects/project_list.html:68
 msgid "Archived projects"
 msgstr "アーカイブされたプロジェクト"
 
@@ -1704,15 +1787,9 @@ msgstr "プロジェクトを削除"
 msgid "Active projects"
 msgstr "活動中のプロジェクト"
 
-#: src/templates/projects/project_list.html:37
+#: src/templates/projects/project_list.html:42
 msgid "Planning projects"
 msgstr "企画中のプロジェクト"
-
-#: src/templates/projects/project_list.html:73
-#: src/templates/roughpages/index.anonymous.html:60
-#: src/templates/roughpages/index.anonymous.html:88
-msgid "See more"
-msgstr "もっと見る"
 
 #: src/templates/registration/activation_complete.html:6
 msgid "The registration was successfully completed"
@@ -1748,6 +1825,12 @@ msgstr ""
 msgid "Reset your password"
 msgstr "パスワードを変更する"
 
+#: src/templates/registration/password_reset_confirm.html:13
+#, fuzzy
+#| msgid "Reset your password"
+msgid "Reset password"
+msgstr "パスワードを変更する"
+
 #: src/templates/registration/password_reset_done.html:5
 msgid "Your password was successfully reset"
 msgstr "パスワードリセットが完了しました"
@@ -1779,16 +1862,6 @@ msgstr "Kawazに参加する"
 msgid "Register"
 msgstr "Kawazへ登録"
 
-#: src/templates/roughpages/about.html:4
-#: src/templates/roughpages/index.anonymous.html:133
-msgid "About us"
-msgstr "Kawazとは"
-
-#: src/templates/roughpages/contact.html:4
-#: src/templates/roughpages/index.anonymous.html:144
-msgid "Contact us"
-msgstr "お問い合わせ"
-
 #: src/templates/roughpages/drafts.authenticated.html:36
 msgid "There are no announcements in draft."
 msgstr "お知らせの下書きはありません"
@@ -1817,71 +1890,14 @@ msgstr "Markdown"
 msgid "Welcome"
 msgstr "ようこそKawazへ！"
 
-#: src/templates/roughpages/index.anonymous.html:47
-msgid "Recent activities"
-msgstr "最近の活動"
-
-#: src/templates/roughpages/index.anonymous.html:68
-msgid "Recent games"
-msgstr "最近のゲーム"
-
-#: src/templates/roughpages/index.anonymous.html:77
-msgid "Featured games"
-msgstr "Kawazの代表作"
-
-#: src/templates/roughpages/index.anonymous.html:131
-msgid "Information"
-msgstr "インフォメーション"
-
-#: src/templates/roughpages/index.anonymous.html:134
-#: src/templates/roughpages/rules.html:4
-msgid "Agreements"
-msgstr "Kawazを利用するにあたって"
-
-#: src/templates/roughpages/index.anonymous.html:135
-msgid "Published information"
-msgstr "掲載情報"
-
-#: src/templates/roughpages/index.anonymous.html:136
-#: src/templates/roughpages/registration.html:5
-msgid "How to participate"
-msgstr "メンバー登録について"
-
-#: src/templates/roughpages/index.anonymous.html:142
-msgid "Contacts"
-msgstr "お問い合わせ"
-
-#: src/templates/roughpages/index.anonymous.html:145
-msgid "Twitter @kawaz_official"
-msgstr "@kawaz_official"
-
-#: src/templates/roughpages/index.anonymous.html:146
-msgid "Twitter @kawazinfo"
-msgstr "Twitter @kawazinfo"
-
-#: src/templates/roughpages/index.authenticated.html:8
-msgid "My page"
-msgstr "マイページ"
-
-#: src/templates/roughpages/index.authenticated.html:41
-msgid "Recent announcements"
-msgstr "最近のお知らせ"
-
-#: src/templates/roughpages/index.authenticated.html:54
-msgid "Read more"
-msgstr "もっと見る"
-
-#: src/templates/roughpages/index.authenticated.html:62
-msgid "Create new contents"
-msgstr "新しく作成する"
-
-#: src/templates/roughpages/index.authenticated.html:75
-msgid "Member tools"
-msgstr "所属メンバー向けツール"
-
 #: src/templates/roughpages/published.html:4
 msgid "Published articles"
 msgstr "掲載情報"
+
+#, fuzzy
+#~| msgid "Archived events"
+#~ msgid "Archive events"
+#~ msgstr "アーカイブされたイベント"
 
 #~ msgid "There is no corresponding game"
 #~ msgstr "該当するゲームはありません"
