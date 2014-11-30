@@ -14,14 +14,14 @@
             <li><a href="{% url "projects_project_list" %}">{% trans "Projects" %}</a></li>
         {% endblock %}
     </ol>
-    <div class="page-header project-list-header">
-        <h2 class="header-left">
+    <div class="page-header project-list-header row">
+        <h2 class="header-left col col-lg-8 col-xs-12">
             {% trans "Active projects" %}
             <p><small>現在活動中のプロジェクトです</small></p>
         </h2>
 
         {% if user has 'projects.add_project' %}
-        <div class="header-right">
+        <div class="col col-lg-4 col-xs-12 header-right">
             <a href="{% url "projects_project_create" %}" class="btn btn-success btn-primary btn-lg" role="button">
             <span class="glyphicon glyphicon-plus"></span>
             プロジェクトを発足する</a>
