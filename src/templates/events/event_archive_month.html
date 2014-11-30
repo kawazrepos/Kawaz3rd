@@ -11,7 +11,10 @@
     <link type="text/less" rel="stylesheet" href="{% static "less/events.less" %}" media="screen">
 {% endblock %}
 
-
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'events_event_list' %}">{% trans "Event archives" %}</a></li>
+{% endblock %}
 
 {% block content-header %}
     <div class="page-header event-list-header row">
@@ -32,7 +35,7 @@
 
 {% block content-main %}
     <div class="event-list-wrap">
-        {% for event in filter %}
+        {% for event in object_list %}
             {% include "events/components/list-item.html" %}
         {% empty %}
             <div class="alert alert-info">
