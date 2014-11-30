@@ -8,14 +8,12 @@
     float: left;
     text-align: left;
     margin: 0;
+    p {
+      margin-bottom: 0;
+    }
   }
   .header-right {
-    text-align: right;
-    padding-top: 15px;
-    a {
-      margin-right: auto;
-      display: inline-block;
-    }
+    padding-top: 0;
   }
 }
 
@@ -202,22 +200,8 @@
   }
   aside {
     margin-top: 15px;
-    .join-btn {
-      margin-bottom: 20px;
-      background: @button-bg-color;
-      border: 1px solid @button-border-color;
-      color: @button-text-color;
-      font-size: 16px;
-      padding: 15px;
-      display: block;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
-    .join-btn:hover {
-      background: @button-bg-color-hover;
-      border: 1px solid @button-border-color-hover;
+    .project-join-btn {
+      width: 100%;
     }
     .member-list {
       margin: 10px 0 0;

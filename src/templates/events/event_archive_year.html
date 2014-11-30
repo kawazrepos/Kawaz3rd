@@ -10,14 +10,25 @@
     <link type="text/less" rel="stylesheet" href="{% static "less/events.less" %}" media="screen">
 {% endblock %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'events_event_list' %}">{% blocktrans with year=year|date:"Y年" %}Events on {{ year }}{% endblocktrans %}</a></li>
+{% endblock %}
 
 {% block content-main %}
 <div class="event-list-wrap">
     <div class="page-header event-list-header">
-      <h2>{% trans "Event archives" %}</h2>
+      <h2>{% blocktrans with yaer=year|date:"Y年" %}Events on {{ year }}{% endblocktrans %}</h2>
     </div>
     {% for event in object_list %}
       {% include "events/components/list-item.html" %}
+    {% empty %}
+      <div class="alert alert-info">
+          <p>{% trans "Matching events can not be found" %}</p>
+          {% if user has 'events.add_event' %}
+              <a href="{% url "events_event_create" %}" class="btn btn-success btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new event" %}</a>
+          {% endif %}
+      </div>
     {% endfor %}
 </div>
 {% endblock %}
