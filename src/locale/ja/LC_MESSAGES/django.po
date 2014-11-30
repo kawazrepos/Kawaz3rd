@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-30 17:52+0900\n"
+"POT-Creation-Date: 2014-11-30 19:16+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1455,7 +1455,7 @@ msgstr "開催場所未定"
 #: src/templates/events/event_archive_month.html:22
 #, python-format
 msgid "Events on %(month)s"
-msgstr "%(month)s月のイベント"
+msgstr "%(month)sのイベント"
 
 #: src/templates/events/event_archive_month.html:29
 #: src/templates/events/event_archive_month.html:44
@@ -1489,6 +1489,7 @@ msgstr "開催予定イベント一覧に戻る"
 #: src/templates/events/event_archive_year.html:8
 #: src/templates/events/event_archive_year.html:16
 #: src/templates/events/event_archive_year.html:22
+#, python-format
 msgid "Events on %(year)s"
 msgstr "%(year)s年のイベント"
 
@@ -1676,8 +1677,6 @@ msgid "Recommended games"
 msgstr "おすすめのゲーム"
 
 #: src/templates/products/product_detail.html:156
-#, fuzzy
-#| msgid "There is no corresponding product"
 msgid "There are no corresponding products"
 msgstr "該当する作品はありません"
 
@@ -1824,13 +1823,11 @@ msgstr ""
 #: src/templates/registration/password_reset_form.html:6
 #: src/templates/registration/password_reset_form.html:11
 msgid "Reset your password"
-msgstr "パスワードを変更する"
+msgstr "パスワードをリセットする"
 
 #: src/templates/registration/password_reset_confirm.html:13
-#, fuzzy
-#| msgid "Reset your password"
 msgid "Reset password"
-msgstr "パスワードを変更する"
+msgstr "パスワードをリセットする"
 
 #: src/templates/registration/password_reset_done.html:5
 msgid "Your password was successfully reset"
