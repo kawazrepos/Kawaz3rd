@@ -26,7 +26,8 @@
 
         <div class="col col-lg-3 col-xs-12 header-right">
         {% if user has 'blogs.add_entry' %}
-            <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-primary btn-lg" role="button">{% trans "Create a new blog entry" %}</a>
+            <a href="{% url 'blogs_entry_create' author=user.username %}" class="btn btn-success btn-primary btn-lg" role="button">
+            <span class="glyphicon glyphicon-plus"></span> {% trans "Create a new blog entry" %}</a>
         {% endif %}
         </div>
 
