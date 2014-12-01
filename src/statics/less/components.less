@@ -34,6 +34,19 @@ ul.platform-list {
 .item {
   .thumbnail {
     position: relative;
+    &:after {
+      padding-top: 56.25%; // 16:9の比率。16を1とすると、9は0.5625の割合となる。
+      display: block;
+      content: "";
+    }
+    > .thumbnail-inner {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      bottom: 0px;
+      right: 0px;
+      overflow: hidden;
+    }
   }
   .caption {
     background-color: rgba(0,0,0,0.5);
