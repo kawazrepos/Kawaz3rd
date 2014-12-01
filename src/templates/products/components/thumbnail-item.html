@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="thumbnail">
     <div class="thumbnail-inner">
         <a class="product-caption" href="{{ product.get_absolute_url }}">
@@ -10,7 +11,7 @@
                     {% endfor %}
                 </ul>
                 <div class="caption-inner">
-                    <span class="btn btn-default">詳細ページ &raquo;</span>
+                    <span class="btn btn-default">{% trans "More Details" %} &raquo;</span>
                 </div>
             </div>
         </a>
