@@ -152,6 +152,13 @@ class Account(models.Model):
         return self.service.url_pattern.format(username=self.username)
 
 
+# Persona作成時に自動生成
+@receiver(post_save, sender=Persona)
+def create_connected_profile(sender, instance, created, **kwargs):
+    if created and not hasattr(instance, '_profile'):
+        Profile.objects.create(user=instance)
+
+
 # 更新情報を記録
 from activities.registry import registry
 from ..activities.profile import ProfileActivityMediator

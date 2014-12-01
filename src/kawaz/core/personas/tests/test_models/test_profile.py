@@ -88,6 +88,13 @@ class ProfileModelTestCase(TestCase):
         profile = ProfileFactory()
         self.assertRaises(Exception, profile.get_absolute_url)
 
+    def test_automatically_created_when_persona_created(self):
+        """Persona作成時に自動作成される"""
+        previous_count = Profile.objects.count()
+        persona = PersonaFactory()
+        self.assertEqual(previous_count+1, Profile.objects.count())
+        self.assertEqual(persona._profile, Profile.objects.last())
+
 
 class SkillTestCase(TestCase):
     def test_str(self):
