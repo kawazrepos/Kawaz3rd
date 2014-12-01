@@ -1,8 +1,11 @@
 import os
 from django.conf import settings
+from django.dispatch import receiver
 from django.db import models
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import pgettext_lazy
+from .persona import Persona
 
 
 class ProfileManager(models.Manager):

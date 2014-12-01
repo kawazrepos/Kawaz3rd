@@ -28,10 +28,11 @@ class RegistrationSupplement(RegistrationSupplementBase):
 @receiver(user_activated)
 def setup_for_participation(sender, user, **kwargs):
     """
-    会員登録からアクティベートされたユーザーをChildrenに変更
+    会員登録からアクティベートされたユーザーをChildrenに変更しProfileを作成
     """
     user.role = 'children'
     user.save()
+    Profile.objects.create(user=user)
 
 
 # パーミッション関係を設定
