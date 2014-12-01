@@ -69,18 +69,18 @@
     <div id="recent_products" class="row list-group">
     {% get_products 'normal' as recent_products %}
     {% for product in recent_products|slice:":6" %}
-    <div class="item col-xs-12 col-md-4">
-        {% include "products/components/thumbnail-item.html" %}
-    </div>
+        <div class="item col-xs-12 col-md-4">
+            {% include "products/components/thumbnail-item.html" %}
+        </div>
     {% endfor %}
     </div>
     <h2>{% trans "Featured games" %}</h2>
     <div id="products" class="row list-group">
     {% get_products as products %}
     {% for product in products %}
-    <div class="item col-xs-12 col-md-4">
-        {% include "products/components/thumbnail-item.html" %}
-    </div>
+        <div class="item col-xs-12 col-md-4">
+            {% include "products/components/thumbnail-item.html" %}
+        </div>
     {% endfor %}
     </div>
     <div class="see-more">
