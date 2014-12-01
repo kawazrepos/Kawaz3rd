@@ -22,10 +22,10 @@ class RadioWithHelpTextFieldRenderer(RadioFieldRenderer):
 
     def render(self):
         listitems = []
-        basehtml = "<li>{}<br><small>{}</small></li>"
+        basehtml = "<li style='list-style: none'>{}<small>{}</small></li>"
         for ori, help_text in zip(self, self.help_texts):
             listitems.append(basehtml.format(ori, help_text))
-        return mark_safe("<ul>\n{}\n</ul>".format("\n".join(listitems)))
+        return mark_safe("<ul style='padding: 0; margin: 0'>\n{}\n</ul>".format("\n".join(listitems)))
 
 
 class RadioSelectWithHelpText(RadioSelect):

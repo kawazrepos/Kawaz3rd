@@ -1,48 +1,47 @@
 import os
-import warnings
 from django.conf import settings
+from django.dispatch import receiver
 from django.db import models
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import pgettext_lazy
+from .persona import Persona
 
 
 class ProfileManager(models.Manager):
-
     def active(self):
-        '''
-        Returns the QuerySet which contains all active profiles
-        '''
+        """
+        アクティブなユーザーのみを含むプロフィールのQuerySetを返す
+        """
         return self.filter(user__is_active=True)
 
     def published(self, user):
-        '''
-        Return the QuerySet which contains all active viewable profiles by
-        passed user.
-        '''
+        """
+        指定されたユーザーが閲覧可能なProfileを含むQuerySetを返す
+        """
         qs = self.active()
         if user.is_authenticated() and user.role not in 'wille':
-            # authorized user and whose role isn't wille. returns all profiles
+            # ログインユーザーかつWilleではない場合はすべて閲覧可能
             return qs
-        # return public profiles
+        # 公開プロフィールのみを返す
         return qs.filter(pub_state='public')
 
 
 class Profile(models.Model):
     """
-    It is the model which indicates profiles of each users
+    ユーザーのプロフィール（補完情報）モデル
     """
 
-    # Profiles don't have 'draft' status.
-    # So PUB_STATES is defined redundantly.
+    # Profileは下書き状態がないため重複しているが独自に定義している
     PUB_STATES = (
         ('public',      _("Public")),
         ('protected',   _("Internal")),
     )
 
-    # Required
+    # 必須設定
     pub_state = models.CharField(_("Publish status"), max_length=10,
                                  choices=PUB_STATES, default="public")
-    # Non required
+    # オプション設定
     birthday = models.DateField(_('Birthday'), null=True, blank=True)
     place = models.CharField(_('Address'), max_length=255, blank=True)
     url = models.URLField(_("URL"), max_length=255, blank=True)
@@ -79,9 +78,8 @@ class Profile(models.Model):
         return self.user.nickname
 
     def get_absolute_url(self):
-        # TODO: このメソッドは使用しないため削除
-        # テンプレートなどで間違えて使用されていた場合を考えメソッド自体は
-        # 一定期間残し、代わりに例外を投げる
+        # テンプレートなどで間違えて使用されていた場合を考え
+        # メソッド自体は残し例外を投げる
         raise Exception(
             'Profile.get_absolute_url is obsolete. '
             'Use Persona.get_absolute_url instead. '
@@ -89,12 +87,9 @@ class Profile(models.Model):
             'user.get_absolute_url'
         )
 
-from ..activities.profile import ProfileActivityMediator
-from activities.registry import registry
-registry.register(Profile, ProfileActivityMediator())
 
 class Skill(models.Model):
-    """It is the model which indicates what users can"""
+    """ユーザーが「何ができるか？」を表すモデル"""
     label = models.CharField(_('Label'), unique=True, max_length=32)
     description = models.CharField(_('Description'), max_length=128)
     order = models.IntegerField(_("Order"), default=0)
@@ -109,6 +104,7 @@ class Skill(models.Model):
 
 
 class Service(models.Model):
+    """外部サービスを表すモデル"""
 
     def _get_upload_path(self, filename):
         return os.path.join('personas', 'services', filename)
@@ -128,6 +124,7 @@ class Service(models.Model):
 
 
 class Account(models.Model):
+    """ユーザーが使用しているサービスのアカウントを表すモデル"""
     profile = models.ForeignKey(
         Profile, verbose_name=_('Account'), editable=False,
         related_name='accounts')
@@ -154,12 +151,26 @@ class Account(models.Model):
     def url(self):
         return self.service.url_pattern.format(username=self.username)
 
+
+# Persona作成時に自動生成
+@receiver(post_save, sender=Persona)
+def create_connected_profile(sender, instance, created, **kwargs):
+    if created and not hasattr(instance, '_profile'):
+        Profile.objects.create(user=instance)
+
+
+# 更新情報を記録
+from activities.registry import registry
+from ..activities.profile import ProfileActivityMediator
 from ..activities.profile import AccountActivityMediator
+registry.register(Profile, ProfileActivityMediator())
 registry.register(Account, AccountActivityMediator())
 
+
+# パーミッション関係を設定
 from permission import add_permission_logic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic
-from kawaz.core.personas.perms import KawazAuthorPermissionLogic
+from kawaz.core.personas.perms import RoleBasedAuthorPermissionLogic
 from kawaz.core.personas.perms import NervPermissionLogic
 
 add_permission_logic(Skill, NervPermissionLogic(
@@ -168,7 +179,7 @@ add_permission_logic(Skill, NervPermissionLogic(
 add_permission_logic(Service, NervPermissionLogic(
     any_permission=True
 ))
-add_permission_logic(Account, KawazAuthorPermissionLogic(
+add_permission_logic(Account, RoleBasedAuthorPermissionLogic(
     field_name='profile__user',
     any_permission=False,
     change_permission=False,
@@ -177,7 +188,7 @@ add_permission_logic(Account, KawazAuthorPermissionLogic(
 add_permission_logic(Account, PublishmentPermissionLogic(
     author_field_name='profile__user'
 ))
-add_permission_logic(Profile, KawazAuthorPermissionLogic(
+add_permission_logic(Profile, RoleBasedAuthorPermissionLogic(
     field_name='user',
     change_permission=True,
     delete_permission=False

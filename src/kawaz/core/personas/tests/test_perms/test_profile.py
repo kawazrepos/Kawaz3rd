@@ -45,6 +45,43 @@ class ProfileViewPermissionTestCase(TestCase):
         self.assertTrue(user.has_perm('personas.view_profile', profile))
 
 
+class ProfileAuthorPermissionTestCase(TestCase):
+
+    def test_owner_can_edit(self):
+        '''Tests owner can edit an profile'''
+        profile = ProfileFactory()
+        self.assertTrue(profile.user.has_perm('personas.change_profile', profile))
+
+    def test_others_can_not_edit(self):
+        '''Tests others can no edit an profile'''
+        user = PersonaFactory()
+        profile = ProfileFactory()
+        self.assertFalse(user.has_perm('personas.change_profile', profile))
+
+    def test_anonymous_can_not_edit(self):
+        '''Tests anonymous user can no edit an profile'''
+        user = AnonymousUser()
+        profile = ProfileFactory()
+        self.assertFalse(user.has_perm('personas.change_profile', profile))
+
+    def test_owner_can_not_delete(self):
+        '''Tests owner can not delete an profile'''
+        profile = ProfileFactory()
+        self.assertFalse(profile.user.has_perm('personas.delete_profile', profile))
+
+    def test_others_can_not_delete(self):
+        '''Tests others can not delete an profile'''
+        user = PersonaFactory()
+        profile = ProfileFactory()
+        self.assertFalse(user.has_perm('personas.delete_profile', profile))
+
+    def test_anonymous_can_not_delete(self):
+        '''Tests anonymous users can not delete an profile'''
+        user = AnonymousUser()
+        profile = ProfileFactory()
+        self.assertFalse(user.has_perm('personas.delete_profile', profile))
+
+
 class ProfileEditPermissionTestCase(TestCase):
 
     def setUp(self):

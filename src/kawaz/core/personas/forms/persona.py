@@ -37,21 +37,9 @@ class PersonaAdminUpdateForm(UserChangeForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    class Meta:
-        model = Persona
-        fields = (
-            'last_name',
-            'first_name',
-            'email',
-            'nickname',
-            'avatar',
-            'quotes',
-            'gender',
-        )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         if 'role' in self.fields:
             choices = Persona.ROLE_TYPES
             choices_help_texts = (

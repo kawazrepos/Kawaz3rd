@@ -33,41 +33,79 @@ class PersonaModelTestCase(TestCase):
 
     def test_automatical_nickname_assign(self):
         """
-        The nickname field should automatically assigned from the username
-        when the user is created
+        新規ユーザー作成時にニックネームが指定されていない場合は自動的に
+        ユーザー名がアサインされる
         """
         user = PersonaFactory.build(nickname='')
         user.save()
         self.assertEqual(user.nickname, user.username)
 
-    def test_is_staff_return_corresponding_value(self):
+    def test_is_staff_return_true_for_adam(self):
         """
-        `is_staff` property should return True for adam, seele, nerv and False
-        for children and wille
+        adamに対して`is_staff`が`True`を返す
         """
         user = PersonaFactory(role='adam')
         self.assertTrue(user.is_staff)
+
+    def test_is_staff_return_true_for_seele(self):
+        """
+        seeleに対して`is_staff`が`True`を返す
+        """
         user = PersonaFactory(role='seele')
         self.assertTrue(user.is_staff)
+
+    def test_is_staff_return_true_for_nerv(self):
+        """
+        nervに対して`is_staff`が`True`を返す
+        """
         user = PersonaFactory(role='nerv')
         self.assertTrue(user.is_staff)
+
+    def test_is_staff_return_false_for_children(self):
+        """
+        childrenに対して`is_staff`が`False`を返す
+        """
         user = PersonaFactory(role='children')
         self.assertFalse(user.is_staff)
+
+    def test_is_staff_return_false_for_wille(self):
+        """
+        willeに対して`is_staff`が`False`を返す
+        """
         user = PersonaFactory(role='wille')
         self.assertFalse(user.is_staff)
 
-    def test_is_superuser_return_corresponding_value(self):
+    def test_is_superuser_return_true_for_adam(self):
         """
-        `is_superuser` property should return True for adam and False for seele,
-        nerv, children, and wille
+        adamに対して`is_superuser`が`True`を返す
         """
         user = PersonaFactory(role='adam')
         self.assertTrue(user.is_superuser)
+
+    def test_is_superuser_return_false_for_seele(self):
+        """
+        seeleに対して`is_superuser`が`False`を返す
+        """
         user = PersonaFactory(role='seele')
         self.assertFalse(user.is_superuser)
+
+    def test_is_superuser_return_false_for_nerv(self):
+        """
+        nervに対して`is_superuser`が`False`を返す
+        """
         user = PersonaFactory(role='nerv')
         self.assertFalse(user.is_superuser)
+
+    def test_is_superuser_return_false_for_children(self):
+        """
+        childrenに対して`is_superuser`が`False`を返す
+        """
         user = PersonaFactory(role='children')
         self.assertFalse(user.is_superuser)
+
+    def test_is_superuser_return_false_for_wille(self):
+        """
+        willeに対して`is_superuser`が`False`を返す
+        """
         user = PersonaFactory(role='wille')
         self.assertFalse(user.is_superuser)

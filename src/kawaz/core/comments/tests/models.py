@@ -15,5 +15,5 @@ class CommentTestArticle(models.Model):
         app_label = 'comments'
 
 from permission import add_permission_logic
-from kawaz.core.personas.perms import KawazAuthorPermissionLogic
-add_permission_logic(CommentTestArticle, KawazAuthorPermissionLogic())
+from kawaz.core.personas.perms import RoleBasedAuthorPermissionLogic
+add_permission_logic(CommentTestArticle, RoleBasedAuthorPermissionLogic())

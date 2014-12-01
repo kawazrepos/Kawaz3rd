@@ -1,64 +1,59 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 from permission.logics import PermissionLogic
 from permission.logics import AuthorPermissionLogic
 
 
 class PersonaPermissionLogic(PermissionLogic):
     """
-    Permission logics which check the user's role and return corresponding
-    permission
+    Persona操作に関係するパーミッションロジック
+
+    add_persona:
+        ゼーレ権限以上のみ権限を持つ
+    change_persona:
+        自分自身以外には権限を持たない
+    delete_persona:
+        スーパーユーザー以外は権限を持たない
+    activate_persona:
+        ネルフ権限以上のみ持つ
+    assign_role_persona:
+        ゼーレ権限以上のみ権限を持つ
     """
-    def _has_add_perm(self, user_obj, perm, obj):
-        # ゼーレ権限以上のスタッフのみ手作業でユーザーを追加可能
-        # （ユーザーの手動追加はAdminページのみで可能）
-        return user_obj.role in ('adam', 'seele',)
-
-    def _has_change_perm(self, user_obj, perm, obj):
-        # 自分自身のPersonaのみ編集権限を持つ
-        if obj is None:
-            # Non object permission
-            return user_obj.is_member
-        else:
-            return (obj == user_obj and user_obj.is_member)
-
-    def _has_delete_perm(self, user_obj, perm, obj):
-        # スーパーユーザー以外は削除権限を持たない
+    def has_perm(self, user_obj, perm, obj=None):
+        if not user_obj.is_active or not user_obj.is_authenticated():
+            return False
+        if perm == 'personas.add_persona':
+            # ゼーレ以上の場合は追加権限を持つ
+            return user_obj.role in ('adam', 'seele')
+        elif perm == 'personas.change_persona':
+            # 自分自身の場合は編集権限を持つ
+            return obj is None or (obj == user_obj and user_obj.is_member)
+        elif perm == 'personas.activate_persona':
+            # スタッフ以上の場合はアクティベート権限を持つ
+            return user_obj.is_staff
+        elif perm == 'personas.assign_role_persona':
+            # ゼーレ以上の場合は役職変更権限を持つ
+            return user_obj.role in ('adam', 'seele')
         return False
 
-    def _has_activate_perm(self, user_obj, perm, obj):
-        # ネルフ権限以上のスタッフのみ手作業でユーザーのアクティベイト
-        # が可能（Adminページ限定）
-        return user_obj.role in ('seele', 'nerv',)
 
-    def _has_assign_role_perm(self, user_obj, perm, obj):
-        # ゼーレ権限以上の場合のみ役職を変更することができる
-        return user_obj.role in ('seele',)
+class RoleBasedAuthorPermissionLogic(AuthorPermissionLogic):
+    """
+    特定の役職に含まれていた場合のみ機能する AuthorPermissionLogic
+    """
+    accepted_roles = ('adam', 'seele', 'nerv', 'children')
 
     def has_perm(self, user_obj, perm, obj=None):
-        if not user_obj.is_authenticated():
+        if not user_obj.is_active or not user_obj.is_authenticated():
             return False
-        permission_methods = {
-            'personas.add_persona': self._has_add_perm,
-            'personas.change_persona': self._has_change_perm,
-            'personas.delete_persona': self._has_delete_perm,
-            'personas.activate_persona': self._has_activate_perm,
-            'personas.assign_role_persona': self._has_assign_role_perm,
-        }
-        if perm in permission_methods:
-            return permission_methods[perm](user_obj, perm, obj)
-        return False
+        if user_obj.role not in self.accepted_roles:
+            return False
+        return super().has_perm(user_obj, perm, obj)
 
 
-class BaseRolePermissionLogic(PermissionLogic):
+class RoleBasedPermissionLogic(PermissionLogic):
     """
-    Permission logic class for role based permission system
-    It is checked by user_obj.role
+    特定の役職に含まれているかどうかで判断を行うパーミッションロジック
     """
-
-    role_names = []
+    accepted_roles = ()
 
     def __init__(self,
                  any_permission=False,
@@ -66,22 +61,18 @@ class BaseRolePermissionLogic(PermissionLogic):
                  change_permission=False,
                  delete_permission=False):
         """
-        Constructor
+        コンストラクタ
 
         Parameters
         ----------
         any_permission : boolean
-            True for give any permission of the specified object or model to
-            the role. Default value will be `False`
+            これがTrueの場合はあらゆる権限を持つとして扱われる
         add_permission : boolean
-            True for give add permission of the specified model to the role.
-            Default value will be 'False'
+            追加権限を持つか否か
         change_permission : boolean
-            True for give change permission of the specified object to the
-            role.  Default value will be 'False'
+            更新権限を持つか否か
         delete_permission : boolean
-            True for give delete permission of the specified object to the
-            role. Default value will be 'False'
+            削除権限を持つか否か
         """
         self.any_permission = any_permission
         self.add_permission = add_permission
@@ -90,47 +81,42 @@ class BaseRolePermissionLogic(PermissionLogic):
 
     def has_perm(self, user_obj, perm, obj=None):
         """
-        Check if user have permission (of object)
-        It is determined from the `user_obj.role`.
+        user_obj.role を基準に与えられた権限を持つか調べる
 
-        If no object is specified, if any_permission is True it returns
-        ``True``.  if else returns ``False``.
-
-        If an object is specified, it will return ``True`` if the user's role
-        is contained in ``role_names``.
+        モデル権限（オブジェクト指定なし）の場合は指定された権限を持つ可能性
+        がある場合はTrueを返す（従って any_permission が指定されている場合は
+        あらゆる権限に対し True を返す）
 
         Parameters
         ----------
         user_obj : django user model instance
-            A django user model instance which be checked
+            Djangoのユーザーモデルインスタンス
         perm : string
-            `app_label.codename` formatted permission string
+            'app_label.codename'というフォーマットの権限文字列
         obj : None or django model instance
-            None or django model instance for object permission
+            オブジェクトパーミッションの対象となるオブジェクト
 
         Returns
         -------
         boolean
-            Wheter the specified user have specified permission (of specified
-            object).
+            指定された権限をユーザーが持つか否か
         """
+        if not user_obj.is_active or not user_obj.is_authenticated():
+            return False
         add_name = self.get_full_permission_string('add')
         change_name = self.get_full_permission_string('change')
         delete_name = self.get_full_permission_string('delete')
-        if not user_obj.is_active:
-            return False
-        role = getattr(user_obj, 'role', None)
         if obj is None:
-            if self.any_permission and role in self.role_names:
+            if self.any_permission and user_obj.role in self.accepted_roles:
                 return True
-            if self.add_permission and perm == add_name:
-                if role and role in self.role_names:
-                    return True
+            if ((self.add_permission and perm == add_name) or
+                    (self.change_permission and perm == change_name) or
+                    (self.delete_permission and perm == delete_name)):
+                return user_obj.role in self.accepted_roles
             return False
         else:
-            if role and role in self.role_names:
+            if user_obj.role in self.accepted_roles:
                 if self.any_permission:
-                    # have any kind of permissions to the obj
                     return True
                 if self.change_permission and perm == change_name:
                     return True
@@ -139,49 +125,22 @@ class BaseRolePermissionLogic(PermissionLogic):
         return False
 
 
-class ChildrenPermissionLogic(BaseRolePermissionLogic):
+class ChildrenPermissionLogic(RoleBasedPermissionLogic):
     """
-    Permission logic class to allow permissions to over `Children` role user.
+    Children以上のユーザーに対して権限を与えるパーミッションロジック
     """
-    role_names = ['adam', 'seele', 'nerv', 'children']
+    accepted_roles = ('adam', 'seele', 'nerv', 'children')
 
 
-class NervPermissionLogic(BaseRolePermissionLogic):
+class NervPermissionLogic(RoleBasedPermissionLogic):
     """
-    Permission logic class to allow permissions to over `Nerv`(staff) role user
+    Nerv以上のユーザーに対して権限を与えるパーミッションロジック
     """
-    role_names = ['adam', 'seele', 'nerv']
+    accepted_roles = ('adam', 'seele', 'nerv')
 
 
-class SeelePermissionLogic(BaseRolePermissionLogic):
+class SeelePermissionLogic(RoleBasedPermissionLogic):
     """
-    Permission logic class to allow permissions to over `Seele` role user.
+    Seele以上のユーザーに対して権限を与えるパーミッションロジック
     """
-    role_names = ['adam', 'seele']
-
-
-class AdamPermissionLogic(BaseRolePermissionLogic):
-    """
-    Permission logic class to allow permissions to over `Adam`(superuser) role
-    user
-    """
-    role_names = ['adam']
-
-
-class KawazAuthorPermissionLogic(AuthorPermissionLogic):
-    """
-    Kawaz用AuthorPermissionLogic
-
-    Kawazの仕様では、willeがauthorになることは現段階ではない。
-    通常のAuthorPermissionLogicを利用すると、willeであっても
-    ログインユーザーであればモデルパーミッションがTrueになり
-    使い勝手が悪い
-    そのため、wille以下の場合はFalseが返るようにした
-    """
-    role_names = ['adam', 'seele', 'nerv', 'children']
-
-    def has_perm(self, user_obj, perm, obj=None):
-        if (user_obj.is_authenticated() and
-            user_obj.role not in self.role_names):
-            return False
-        return super().has_perm(user_obj, perm, obj)
+    accepted_roles = ('adam', 'seele')
