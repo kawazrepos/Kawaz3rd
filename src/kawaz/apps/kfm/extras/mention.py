@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
 import re
 from django.template.loader import render_to_string
 from .utils import is_quoated

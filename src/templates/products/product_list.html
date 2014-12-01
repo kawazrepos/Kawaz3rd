@@ -7,15 +7,28 @@
 {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/products.less" %}" media="screen">
 {% endblock %}
+
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="{% url 'products_product_list' %}">{% trans "Products" %}</a></li>
 {% endblock %}
+
+
 {% block content-header %}
-    <div class="page-header">
-        <h1>{% trans "Product list" %}</h1>
+    <div class="page-header row">
+        <div class="col col-lg-9 col-xs-12">
+            <h1>{% trans "Product list" %}</h1>
+        </div>
+        <div class="col col-lg-3 col-xs-12 header-right">
+        {% if user has 'products.add_product' %}
+        <a href="{% url "products_product_create" %}" class="btn btn-success btn-large btn-lg"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new product" %}</a>
+
+        {% endif %}
+        </div>
     </div>
 {% endblock %}
+
+
 {% block content-main %}
     <div class="row">
     {% for product in object_list %}
@@ -26,24 +39,15 @@
         <div class="alert alert-info">
             <p>{% trans "There is no corresponding product" %}</p>
             {% if user has 'products.add_product' %}
-                <a href="{% url "products_product_create" %}" class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new product" %}</a>
+                <a href="{% url "products_product_create" %}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new product" %}</a>
             {% endif %}
         </div>
     {% endfor %}
     </div>
     {% include "components/paginator.html" %}
 {% endblock %}
+
 {% block content-aside %}
-    {% if user has 'products.add_product' %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title">{% trans "Administration" %}</h2>
-            </div>
-            <div class="list-group">
-                <a href="{% url "products_product_create" %}" class="list-group-item list-group-item-success"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new product" %}</a>
-            </div>
-        </div>
-    {% endif %}
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">{% trans "Platforms" %}</h2>

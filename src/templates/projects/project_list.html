@@ -14,14 +14,19 @@
             <li><a href="{% url "projects_project_list" %}">{% trans "Projects" %}</a></li>
         {% endblock %}
     </ol>
-    <div class="page-header project-list-header">
-        <h2 class="header-left">
+    <div class="page-header project-list-header row">
+        <h2 class="header-left col col-lg-8 col-xs-12">
             {% trans "Active projects" %}
             <p><small>現在活動中のプロジェクトです</small></p>
         </h2>
-        <div class="header-right">
-            <a href="{% url "projects_project_create" %}" class="btn btn-primary btn-lg" role="button">プロジェクトを発足する</a>
+
+        {% if user has 'projects.add_project' %}
+        <div class="col col-lg-4 col-xs-12 header-right">
+            <a href="{% url "projects_project_create" %}" class="btn btn-success btn-primary btn-lg" role="button">
+            <span class="glyphicon glyphicon-plus"></span>
+            プロジェクトを発足する</a>
         </div>
+        {% endif %}
     </div>
 
     <div class="row list-group tiled-project-list">
@@ -39,7 +44,7 @@
         </h2>
     </div>
     <div class="alert alert-warning">
-        ここには「企画中」のプロジェクトのうち、作成されてから90日以内のもののみが表示されています。<br /> 
+        ここには「企画中」のプロジェクトのうち、作成されてから90日以内のもののみが表示されています。<br />
         発足してから90日以内に「活動中」に移行しない場合は「アーカイブされたプロジェクト」に移動します。
     </div>
 

@@ -78,8 +78,9 @@
                 {% if user has 'events.attend_event' of event %}
                     {# 参加できる状態 #}
                     <a href="{% url "events_event_attend" event.pk %}"
-                       class="btn btn-success event-attend-btn btn-large post-link">
-                        <span class="glyphicon glyphicon-plus"></span><span>{% trans "Attend this event" %}</span>
+                       class="btn btn-success btn-large btn-lg btn-primary post-link">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span>{% trans "Attend this event" %}</span>
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                     {% if event.number_restriction %}
@@ -106,7 +107,7 @@
                 {% elif user has 'events.quit_event' of event %}
                     {# イベント参加者 #}
                     <a href="{% url "events_event_quit" event.pk %}"
-                       class="btn event-leave-btn btn-large post-link">
+                       class="btn btn-danger btn-large post-link">
                         <span class="glyphicon glyphicon-log-out"></span><span>{% trans "Withdraw from the event" %}</span>
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
@@ -122,7 +123,7 @@
                 {% if event.attendance_deadline %}
                     <dl>
                         <dt class="attendance-deadline">{% trans "Participation deadline" %}</dt>
-                        <dd>
+                        <dd class="attendance-deadline">
                             <span>{{ event.attendance_deadline | date:"Y年m月d日" }}{% trans "utill" %}</span>
                         </dd>
                     </dl>

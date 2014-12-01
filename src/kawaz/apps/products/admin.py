@@ -24,6 +24,7 @@ admin.site.register(Product, ProductAdmin)
 
 class PackageReleaseAdmin(admin.ModelAdmin):
     readonly_fields = ('downloads',)
+    search_fields = ('title', 'description',)
     list_display = ('label', 'platform', 'version', 'downloads')
 admin.site.register(PackageRelease, PackageReleaseAdmin)
 

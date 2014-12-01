@@ -175,17 +175,32 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding-top: 2px;
     padding-bottom: 2px;
   }
+
   // ログインフォーム
-  .dropdown-menu.anonymous-menu {
-    background: @body-bg;
-    width: @login-form-width;
-    border: @gray-light solid 1px;
-    border-radius: 5px;
-  }
-  // メンバー向けメニュー
-  .authenticated-menu {
-    span {
-      margin-right: 5px;
+  .dropdown-menu {
+    li {
+      a {
+        &:hover {
+          color: @text-color;
+          span {
+            // hover時にアイコンを傾ける
+            transform: rotateZ(-20deg);
+          }
+        }
+      }
+    }
+    // 非ログイン時向けメニュー
+    &.anonymous-menu {
+      background: @body-bg;
+      width: @login-form-width;
+      border: @gray-light solid 1px;
+      border-radius: 5px;
+    }
+    // メンバー向けメニュー
+    &.authenticated-menu {
+      span {
+        margin-right: 5px;
+      }
     }
   }
 }
@@ -268,6 +283,13 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     .make-xs-column(12);
   }
 }
+
+// header部分の右側にあるボタン（必要に応じてここを各所でオーバーライド）
+.header-right {
+  text-align: right;
+  margin-top: 13px;
+}
+
 .list-group {
   .link {
     color: @link-color;

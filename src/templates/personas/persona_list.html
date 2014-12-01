@@ -1,6 +1,7 @@
 {% extends "twopane.html" %}
 {% load staticfiles %}
 {% load i18n %}
+{% load profiles_tags %}
 {% block title %}{% trans "Members" %}{% endblock %}
 {% block breadcrumb %}
     {{ block.super }}
@@ -38,16 +39,19 @@
                                 </span>
                             {% endif %}
                         </div>
-                        <div class="persona-skills">
-                            {% for skill in object.profile.skills.all %}
-                                <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="persona-accounts">
-                            {% for account in object.profile.accounts.all %}
-                                <span><a href="{{ account.url }}"><img data-toggle="tooltip" data-placement="top" data-title="{{ account.username }}" src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}"></a></span>
-                            {% endfor %}
-                        </div>
+                        {% get_profile object as profile %}
+                        {% if profile %}
+                            <div class="persona-skills">
+                                {% for skill in profile.skills.all %}
+                                    <span class="badge" data-toggle="tooltip" data-placement="top" data-title="{{ skill.description }}">{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="persona-accounts">
+                                {% for account in profile.accounts.all %}
+                                    <span><a href="{{ account.url }}"><img data-toggle="tooltip" data-placement="top" data-title="{{ account.username }}" src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}"></a></span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

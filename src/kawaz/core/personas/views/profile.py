@@ -84,6 +84,9 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
         for instance in instances:
             instance._profile = self.request.user._profile
             instance.save()
+        # 消されたアカウントを削除する
+        for obj in formset.deleted_objects:
+            obj.delete()
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, formset):

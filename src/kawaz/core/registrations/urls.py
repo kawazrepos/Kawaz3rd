@@ -18,7 +18,7 @@ urlpatterns += patterns('',
     url(r'^password_reset/$', auth_views.password_reset,
         name='password_reset', kwargs=dict(
             post_reset_redirect='password_reset_done')),
-    url(r'^password_reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+    url(r'^password_reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         auth_views.password_reset_confirm,
         name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete,
