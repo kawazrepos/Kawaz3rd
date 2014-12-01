@@ -1,8 +1,8 @@
 <div class="thumbnail">
     <div class="thumbnail-inner">
         <a class="product-caption" href="{{ product.get_absolute_url }}">
-        <img class="group list-group-image" src="{{ MEDIA_URL }}{{ product.thumbnail }}" style="max-width: 100%;" />
-        <div class="caption">
+            <img class="group list-group-image" src="{{ MEDIA_URL }}{{ product.thumbnail }}" style="max-width: 100%;" />
+            <div class="caption">
                 <h4 class="group inner list-group-item-heading">{{ product.title }}</h4>
                 <ul class="platform-list">
                     {% for platform in product.platforms.all %}
@@ -12,7 +12,7 @@
                 <div class="caption-inner">
                     <span class="btn btn-default">詳細ページ &raquo;</span>
                 </div>
-        </div>
+            </div>
         </a>
     </div>
 </div>
