@@ -15,6 +15,8 @@ class MaterialViewSet(mixins.CreateModelMixin,
     author_field_name = 'author'
     parser_classes = (FileUploadParser,)
 
-    def pre_save(self, obj):
-        super().pre_save(obj)
-        obj.ip_address = self.request.META.get('REMOTE_ADDR', '0.0.0.0')
+    def get_extra_fields(self):
+        extras = super().get_extra_fields()
+        ip_address = self.request.META.get('REMOTE_ADDR', '0.0.0.0')
+        extras.update({'ip_address': ip_address})
+        return extras
