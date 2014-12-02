@@ -12,7 +12,9 @@ class CategorySerializer(serializers.ModelSerializer):
     """
     ブログカテゴリ用のAPIシリアライザ
     """
-    author = PersonaSerializer(required=False, read_only=True)
+    author = PersonaSerializer(required=False,
+                               read_only=True,
+                               default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Category
