@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 from django.template.loader import render_to_string
 from kawaz.core.personas.api.serializers import PersonaSerializer
@@ -6,8 +7,8 @@ from ..models import Star
 
 class StarSerializer(serializers.ModelSerializer):
     author = PersonaSerializer(required=False, read_only=True)
-    content_type = serializers.PrimaryKeyRelatedField()
-    html = serializers.SerializerMethodField('get_html')
+    content_type = serializers.PrimaryKeyRelatedField(queryset=ContentType.objects.all())
+    html = serializers.SerializerMethodField()
     tooltip = serializers.CharField(source='tooltip_text', read_only=True)
 
     def get_html(self, obj):
