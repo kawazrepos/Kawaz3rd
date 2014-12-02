@@ -20,4 +20,3 @@ class CategoryViewSet(mixins.CreateModelMixin,
     model = Category
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    author_field_name = 'author'
