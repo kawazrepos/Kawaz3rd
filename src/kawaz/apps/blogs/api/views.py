@@ -23,6 +23,7 @@ class CategoryViewSet(mixins.CreateModelMixin,
     author_field_name = 'author'
 
     def create(self, request, *args, **kwargs):
+        # FIX ME!!!
         label = request.data['label']
         author = request.user
         try:
