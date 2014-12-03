@@ -1,4 +1,4 @@
-from django.db.models import BLANK_CHOICE_DASH
+from django.db.models import BLANK_CHOICE_DASH, Count
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _
@@ -15,8 +15,9 @@ class PlatformListGroupLinkWidget(ListGroupLinkWidget):
     """
     def __init__(self, attrs=None, choices=()):
         super().__init__(attrs, choices)
-        platforms = Platform.objects.all()
-        self.urls = {str(platform.pk): platform.icon.url for platform in platforms}
+        platforms = Platform.objects.all().annotate(products_count=Count('products'))
+        self.info = {str(platform.pk): {'url': platform.icon.url, 'count': platform.products_count} for platform in platforms}
+        self.all_count = Product.objects.count()
 
     def render_option(self, name, selected_choices,
                           option_value, option_label):
@@ -28,8 +29,10 @@ class PlatformListGroupLinkWidget(ListGroupLinkWidget):
         selected = data == self.data or option_value in selected_choices
 
         icon = ''
-        if option_value in self.urls:
-            icon = self.urls[option_value]
+        count = self.all_count
+        if option_value in self.info:
+            icon = self.info[option_value]['url']
+            count = self.info[option_value]['count']
         try:
             url = data.urlencode()
         except AttributeError:
@@ -38,11 +41,12 @@ class PlatformListGroupLinkWidget(ListGroupLinkWidget):
             'attrs': selected and ' class="list-group-item active"' or '',
             'query_string': url,
             'label': force_text(option_label),
-            'icon': icon
+            'icon': icon,
+            'count': count
         }
 
     def option_string(self):
-        return '<a%(attrs)s href="?%(query_string)s" class="list-group-item"><img class="platform-icon" src="%(icon)s">%(label)s</a>'
+        return '<a%(attrs)s href="?%(query_string)s" class="list-group-item"><img class="platform-icon" src="%(icon)s">%(label)s (%(count)s)</a>'
 
 
 class ProductFilter(django_filters.FilterSet):

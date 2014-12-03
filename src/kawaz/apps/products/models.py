@@ -147,7 +147,7 @@ class Product(models.Model):
     project = models.OneToOneField(Project, verbose_name=_('Project'),
                                    null=True, blank=True,
                                    related_name='product')
-    platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'))
+    platforms = models.ManyToManyField(Platform, verbose_name=_('Platforms'), related_name='products')
     categories = models.ManyToManyField(Category,
                                         verbose_name=_('Categories'))
     contact_info = models.CharField(
