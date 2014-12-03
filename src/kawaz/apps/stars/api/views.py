@@ -11,4 +11,5 @@ class StarViewSet(mixins.CreateModelMixin,
     model = Star
     queryset = Star.objects.all().prefetch_related('author')
     serializer_class = StarSerializer
+    author_field_name = 'author'
     filter_fields = ('content_type', 'object_id',)
