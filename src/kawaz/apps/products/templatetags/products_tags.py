@@ -105,6 +105,23 @@ def get_categories():
 
 @register.simple_tag
 def render_twitter_card(product):
+    """
+    プロダクト用のTwitterカードを埋め込むテンプレートタグ
+    通常はhead内に書く
+
+    Syntax:
+        {% render_twitter_card product %}
+
+    Template:
+        products/components/twitter_card.htmlが使用される。
+        このテンプレートは以下のコンテキストを受け取れる
+
+        product: 描画対象のProductオブジェクト
+        apps: Productの所属するURLReleaseのうち、iOSアプリ、Androidアプリのもののみが含まれたリスト
+
+        このような仕様になっているのは、appsがある場合のみTwitterカードのApp Cardを利用することが想定されているためである
+
+    """
     url_releases = URLRelease.objects.filter(product=product)
     apps = [release for release in url_releases if release.is_appstore or release.is_googleplay]
     c = Context({
