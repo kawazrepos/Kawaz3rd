@@ -109,9 +109,9 @@
                 {% elif user has 'events.quit_event' of event %}
                     {# イベント参加者 #}
                     <a href="{% url "events_event_quit" event.pk %}"
-                       class="btn btn-danger btn-large post-link">
-                        <span class="glyphicon glyphicon-log-out"></span><span>{% trans "Withdraw from the event" %}</span>
-                        <form method="POST" style="display: none;">{% csrf_token %}</form>
+                       class="btn btn-danger btn-large btn-lg btn-primary post-link">
+                       <span>{% trans "Withdraw from the event" %}</span>
+                       <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% else %}
                     {% if event.is_over_restriction or event.is_over_deadline %}
