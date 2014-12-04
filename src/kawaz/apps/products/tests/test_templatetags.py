@@ -277,7 +277,7 @@ class RenderTwitterCardTestCase(TestCase):
         apps = [ios_app, google_app]
         c = Context({
             'apps': apps,
-            'products': product,
+            'product': product,
             'MEDIA_URL': settings.MEDIA_URL
         })
         expect = render_to_string('products/components/twitter_card.html', c)
