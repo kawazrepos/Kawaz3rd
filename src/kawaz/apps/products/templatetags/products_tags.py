@@ -1,6 +1,7 @@
 from django import template
-from django.template import TemplateSyntaxError
-from ..models import Product
+from django.template import TemplateSyntaxError, Context
+from django.template.loader import render_to_string
+from ..models import Product, URLRelease
 from ..models import Platform
 from ..models import Category
 
@@ -101,3 +102,14 @@ def get_categories():
     """
     qs = Category.objects.all()
     return qs
+
+@register.simple_tag
+def render_twitter_card(product):
+    url_releases = URLRelease.objects.filter(product=product)
+    apps = [release for release in url_releases if release.is_appstore or release.is_googleplay]
+    c = Context({
+        'product': product,
+        'apps': apps
+    })
+    rendered = render_to_string("products/components/twitter_card.html", c)
+    return rendered

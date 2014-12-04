@@ -1,9 +1,10 @@
+from django.template.loader import render_to_string
 from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
 from unittest.mock import MagicMock
 from kawaz.core.personas.tests.utils import create_role_users
 from ..models import Category
-from .factories import ProductFactory
+from .factories import ProductFactory, URLReleaseFactory
 from .factories import PlatformFactory
 from .factories import CategoryFactory
 
@@ -250,3 +251,33 @@ class GetCategoriesTestCase(TestCase):
         CategoryFactory(label="スルメゲー")
         categories = self._render_template()
         self.assertEqual(len(categories), 3)
+
+class RenderTwitterCardTestCase(TestCase):
+    def _render_template(self, product):
+        t = Template(
+            "{% load products_tags %}"
+            "{% render_twitter_card product %}"
+        )
+        c = Context({
+            'product': product
+        })
+        r = t.render(c)
+        return r
+
+    def test_render_twitter_card(self):
+        """
+        {% render_twitter_card product %}でproducts/components/twitter_card.htmlが描画できる
+        """
+        product = ProductFactory()
+        ios_app = URLReleaseFactory(product=product, url="https://itunes.apple.com/ja/app/kawazutanjetto!/id922471335?mt=8")
+        google_app = URLReleaseFactory(product=product, url="https://play.google.com/store/apps/details?id=org.kawaz.KawazJet")
+        other_app = URLReleaseFactory(product=product, url="http://www.google.com/")
+
+        apps = [ios_app, google_app]
+        c = Context({
+            'apps': apps,
+            'products': product
+        })
+        expect = render_to_string('products/components/twitter_card.html', c)
+        rendered = self._render_template(product)
+        self.assertEqual(rendered, expect)

@@ -1,0 +1,8 @@
+{% if apps|length_is:0 %}
+    {% if product.trailer %}
+    {% else %}
+    {% endif %}
+{% else %}
+    {% for release in apps %}
+    {% endfor %}
+{% endif %}
