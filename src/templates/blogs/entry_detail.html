@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load staticfiles %}
 {% load strip_newlines %}
-{% block twittercard_title %}{{ object.title | truncatechars:62 }}{% endblock %}{# 70文字制限から'Kawaz - 'の8文字を除くと62文字 #}
+{% block twittercard_title %}{{ object.title | truncatechars:70 }}{% endblock %}
 {% block twittercard_description %}{{ object.body | kfm | striptags | strip_newlines:" " | truncatechars:200 }}{% endblock %}
 {% block title %}{{ object.title }}{% endblock %}
 
