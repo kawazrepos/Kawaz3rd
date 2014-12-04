@@ -25,11 +25,11 @@
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@kawazinfo" />
         {# twitter:title は70文字まで #}
-        <meta name="twitter:title" content="Kawaz - {% block twittercard_title %}{% trans "Sapporo Game Creators' Community Kawaz" %}札幌ゲーム製作者コミュニティ{% endblock %}" />
+        <meta name="twitter:title" content="Kawaz - {% block twittercard_title %}{% trans "Sapporo Game Creators' Community Kawaz" %}{% endblock %}" />
         {# twitter:description は200文字まで #}
         <meta name="twitter:description" content="{% block twittercard_description %}{% trans "View the contents on Web." %}{% endblock %}" />
         {% get_current_site as site %}
-        <meta name="twitter:url" content="{% block twittercard_url %}http://{{ site.domain }}{{ object.get_absolute_url }}{% endblock %}" />
+        <meta name="twitter:url" content="{% block twittercard_url %}http://{{ site.domain }}{{ request.path }}{% endblock %}" />
     {% endblock %}
 </head>
 {% include "components/fb-header.html" %}
