@@ -1,6 +1,7 @@
 from django.template.loader import render_to_string
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.template import Template, Context, TemplateSyntaxError
+from django.conf import settings
 from unittest.mock import MagicMock
 from kawaz.core.personas.tests.utils import create_role_users
 from ..models import Category
@@ -276,8 +277,10 @@ class RenderTwitterCardTestCase(TestCase):
         apps = [ios_app, google_app]
         c = Context({
             'apps': apps,
-            'products': product
+            'products': product,
+            'MEDIA_URL': settings.MEDIA_URL
         })
         expect = render_to_string('products/components/twitter_card.html', c)
         rendered = self._render_template(product)
         self.assertEqual(rendered, expect)
+
