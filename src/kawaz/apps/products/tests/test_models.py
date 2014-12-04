@@ -246,6 +246,30 @@ class URLReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
         self.assertEqual(release.get_absolute_url(),
                          '/products/url_releases/{}/'.format(release.pk))
 
+    def test_app_id_with_ios(self):
+        """
+        iOSアプリのAppIDが取り出せる
+        """
+        release = URLReleaseFactory(url='https://itunes.apple.com/ja/app/kawazutanjetto!/id922471335?mt=8')
+        app_id = release.app_id
+        self.assertEqual(app_id, '922471335')
+
+    def test_app_id_with_android(self):
+        """
+        AndroidアプリのAppIDが取り出せる
+        """
+        release = URLReleaseFactory(url='https://play.google.com/store/apps/details?id=org.kawaz.KawazJet')
+        app_id = release.app_id
+        self.assertEqual(app_id, 'org.kawaz.KawazJet')
+
+    def test_app_id_with_other(self):
+        """
+        その他のアプリのAppIDは空白文字が返ってくる
+        """
+        release = URLReleaseFactory(url="http://www.google.com")
+        app_id = release.app_id
+        self.assertEqual(app_id, '')
+
 
 class ScreenshotModelTestCase(TestCase):
 
