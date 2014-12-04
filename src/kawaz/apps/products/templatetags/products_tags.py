@@ -1,6 +1,7 @@
 from django import template
 from django.template import TemplateSyntaxError, Context
 from django.template.loader import render_to_string
+from django.conf import settings
 from ..models import Product, URLRelease
 from ..models import Platform
 from ..models import Category
@@ -103,8 +104,8 @@ def get_categories():
     qs = Category.objects.all()
     return qs
 
-@register.simple_tag
-def render_twitter_card(product):
+@register.simple_tag(takes_context=True)
+def render_twitter_card(context, product):
     """
     プロダクト用のTwitterカードを埋め込むテンプレートタグ
     通常はhead内に書く
@@ -122,11 +123,14 @@ def render_twitter_card(product):
         このような仕様になっているのは、appsがある場合のみTwitterカードのApp Cardを利用することが想定されているためである
 
     """
+    request = context.get('request')
     url_releases = URLRelease.objects.filter(product=product)
     apps = [release for release in url_releases if release.is_appstore or release.is_googleplay]
     c = Context({
         'product': product,
-        'apps': apps
+        'apps': apps,
+        'MEDIA_URL': settings.MEDIA_URL,
+        'request': request
     })
     rendered = render_to_string("products/components/twitter_card.html", c)
     return rendered
