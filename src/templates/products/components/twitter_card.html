@@ -4,7 +4,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@kawazinfo" />
     {# twitter:title は70文字まで #}
-    <meta name="twitter:title" content="Kawaz - {{ product.title | truncatechars:62 }}" />
+    <meta name="twitter:title" content="{{ product.title | truncatechars:70 }}" />
     {# twitter:description は200文字まで #}
     <meta name="twitter:description" content="{{ product.description | kfm | striptags | strip_newlines:" " | truncatechars:200 }}" />
     {% get_current_site as site %}
