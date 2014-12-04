@@ -21,7 +21,7 @@
     {% endcompress %}
     <link rel="shortcut icon" href="{% static "favicon.ico" %}" />
     <title>Kawaz - {% block title %}{% trans "Sapporo Game Creators' Community Kawaz" %}{% endblock %}</title>
-    {% block meta %}
+    {% block twittercard %}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@kawazinfo" />
         {# twitter:title は70文字まで #}
