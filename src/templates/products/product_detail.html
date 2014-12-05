@@ -7,6 +7,9 @@
 {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/products.less" %}" media="screen">
 {% endblock %}
+{% block twittercard %}
+    {% render_twitter_card product %}
+{% endblock %}
 {% block title %}{{ object.title }}{% endblock %}
 {% block breadcrumb %}
     {{ block.super }}

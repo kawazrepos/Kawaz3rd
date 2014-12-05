@@ -1,5 +1,6 @@
 import mimetypes
 import os
+import re
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import pgettext_lazy
@@ -331,6 +332,26 @@ class URLRelease(AbstractRelease):
     @models.permalink
     def get_absolute_url(self):
         return ('products_url_release_detail', (self.pk,), {})
+
+    @property
+    def app_id(self):
+        """
+        そのリリースがiOSアプリかAndroidアプリだった場合は、そのアプリのAppIDを取得して返します
+        そうではない場合、空白文字を返します
+        """
+        if self.is_appstore:
+            pattern = re.compile(r'id(?P<id>[0-9]+)')
+            m = pattern.search(self.url)
+            if m:
+                return m.group('id')
+        elif self.is_googleplay:
+            pattern = re.compile(r'details\?id=(?P<id>[a-zA-Z0-9.]+)')
+            m = pattern.search(self.url)
+            if m:
+                return m.group('id')
+        return ""
+
+
 
 
 class Screenshot(models.Model):

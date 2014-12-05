@@ -2,7 +2,9 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load projects_tags %}
-
+{% load strip_newlines %}
+{% block twittercard_title %}{{ object.title | truncatechars:70 }}{% endblock %}
+{% block twittercard_description %}{{ object.body | kfm | striptags | strip_newlines:" " | truncatechars:200 }}{% endblock %}
 {% block title %}{{ object.title }}{% endblock %}
 {% block pre_css %}
     {{ block.super }}

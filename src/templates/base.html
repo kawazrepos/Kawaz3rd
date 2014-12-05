@@ -21,6 +21,16 @@
     {% endcompress %}
     <link rel="shortcut icon" href="{% static "favicon.ico" %}" />
     <title>Kawaz - {% block title %}{% trans "Sapporo Game Creators' Community Kawaz" %}{% endblock %}</title>
+    {% block twittercard %}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@kawazinfo" />
+        {# twitter:title は70文字まで #}
+        <meta name="twitter:title" content="{% block twittercard_title %}{% trans "Sapporo Game Creators' Community Kawaz" %}{% endblock %}" />
+        {# twitter:description は200文字まで #}
+        <meta name="twitter:description" content="{% block twittercard_description %}{% trans "View the contents on Web." %}{% endblock %}" />
+        {% get_current_site as site %}
+        <meta name="twitter:url" content="{% block twittercard_url %}http://{{ site.domain }}{{ request.path }}{% endblock %}" />
+    {% endblock %}
 </head>
 {% include "components/fb-header.html" %}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
