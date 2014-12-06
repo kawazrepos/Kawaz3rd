@@ -31,6 +31,16 @@
         {% get_current_site as site %}
         <meta name="twitter:url" content="{% block twittercard_url %}http://{{ site.domain }}{{ request.path }}{% endblock %}" />
     {% endblock %}
+    {% get_current_site as site %}
+    {% block ogp %}
+        <meta property="og:title" content="札幌ゲーム製作者コミュニティKawaz" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="札幌を中心に活動するゲーム開発コミュニティです" />
+        <meta property="og:url" content="{{ site.domain }}" />
+    {% endblock %}
+    <meta property="og:url" content="{{ site.domain }}{{ request.path }}" />
+    <meta property="og:site_name" content="札幌ゲーム製作者コミュニティKawaz" />
+    <meta property="og:locale" content="ja_JP" />
 </head>
 {% include "components/fb-header.html" %}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">

@@ -11,7 +11,13 @@
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/events.less" %}" media="screen">
 {% endblock %}
-{% block breadcrumb %}
+{% block ogp %}
+    {% get_current_site as site %}
+    <meta property="og:title" content="{{ object.title | truncatechars:70 }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="{{ object.body | kfm | striptags | strip_newlines:" " | truncatechars:200 }}" />
+    <meta property="og:image" content="{{ site.domain }}{{ object.administrator.get_large_avatar }} />
+{% endblock %}{% block breadcrumb %}
     {{ block.super }}
     <li><a href="{% url 'events_event_list' %}">{% trans "Events" %}</a></li>
     <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
