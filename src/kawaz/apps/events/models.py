@@ -239,6 +239,9 @@ class Event(models.Model):
                 'end': humanize(self.period_end, sameday)
             }
 
+    @property
+    def active_attendees(self):
+        return self.attendees.filter(is_active=True)
 
 from django.db.models.signals import post_save
 from django.db.models.signals import post_delete
