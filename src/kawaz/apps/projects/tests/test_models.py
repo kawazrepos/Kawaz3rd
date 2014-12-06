@@ -271,3 +271,16 @@ class ProjectModelTestCase(TestCase):
         project = ProjectFactory(slug="my-awesome-game")
         self.assertEqual(project.get_absolute_url(), '/projects/my-awesome-game/')
 
+    def test_members_contains_active_user_only(self):
+        '''project.membersはアクティブユーザーのみを含む'''
+        project = ProjectFactory()
+        user0 = PersonaFactory(is_active=True)
+        user1 = PersonaFactory(is_active=False)
+        project.join(user0)
+        project.join(user1)
+
+        # 管理者含め3人
+        self.assertEqual(project.members.count(), 3)
+        self.assertIn(project.administrator, project.members.all())
+        self.assertIn(user0, project.members.all())
+        self.assertNotIn(user1, project.members.all())

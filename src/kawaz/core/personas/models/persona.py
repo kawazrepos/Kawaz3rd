@@ -59,6 +59,17 @@ class PersonaManager(BaseUserManager):
                                  **extra_fields)
 
 
+class ActivePersonaManager(PersonaManager):
+    """
+    アクティブユーザーのみを取り出すManager
+    """
+    use_for_related_fields = True
+
+    def get_queryset(self):
+        # 常に無効なユーザーは含まない
+        return super().get_query_set().filter(is_active=True)
+
+
 class PersonaBase(ModelBase):
     """
     `AbstractUser`から継承されたために自動作成される`is_staff`や`is_superuser`
@@ -123,6 +134,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
                                 "security reason."))
 
     objects = PersonaManager()
+    actives = ActivePersonaManager()
 
     class Meta:
         ordering = ('username',)
