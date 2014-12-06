@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="col col-lg-3 col-xs-12 page-header-right">
-            <div class="event-join-utility">
+            <div class="event-status-control">
                 {# event.number_restriction が設定されている場合は「あと何人」参加可能かを計算し変数に代入 #}
                 {% if even.number_restriction %}
                   {% expr event.number_restriction - event.attendees.count() as remaining_attendees_restriction %}
@@ -80,7 +80,7 @@
                 {% if user has 'events.attend_event' of event %}
                     {# 参加できる状態 #}
                     <a href="{% url "events_event_attend" event.pk %}"
-                       class="btn btn-success btn-large btn-lg btn-primary post-link">
+                       class="btn btn-success btn-large btn-lg post-link">
                         <span class="glyphicon glyphicon-plus"></span>
                         <span>{% trans "Attend this event" %}</span>
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
@@ -109,8 +109,8 @@
                 {% elif user has 'events.quit_event' of event %}
                     {# イベント参加者 #}
                     <a href="{% url "events_event_quit" event.pk %}"
-                       class="btn btn-danger btn-large post-link">
-                        <span class="glyphicon glyphicon-log-out"></span><span>{% trans "Withdraw from the event" %}</span>
+                       class="btn btn-danger btn-large btn-lg post-link">
+                        <span class="glyphicon glyphicon-log-out event-attend-icon"></span><span>{% trans "Withdraw from the event" %}</span>
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% else %}

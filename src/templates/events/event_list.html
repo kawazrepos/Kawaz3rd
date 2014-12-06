@@ -24,7 +24,7 @@
         <div class="col col-lg-3 col-xs-12 header-right">
         {% if user has 'events.add_event' %}
             <a href="{% url "events_event_create" %}"
-               class="btn btn-success btn-primary btn-lg">
+               class="btn btn-success btn-lg">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span>{% trans "Create a new event" %}</span>
             </a>
@@ -41,7 +41,7 @@
             <div class="alert alert-info">
                 <p>{% trans "Matching events can not be found" %}</p>
                 {% if user has 'events.add_event' %}
-                    <a href="{% url "events_event_create" %}" class="btn btn-success btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new event" %}</a>
+                    <a href="{% url "events_event_create" %}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new event" %}</a>
                 {% endif %}
             </div>
         {% endfor %}
