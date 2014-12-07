@@ -5,7 +5,7 @@
 {% load i18n %}
 {% load events_tags %}
 
-{% block title %}{% blocktrans with month=month|date:"Y年m月" %}Events on {{ month }}{% endblocktrans %}{% endblock %}
+{% block title %}{% blocktrans with month=month|date:"Y年n月" %}Events on {{ month }}{% endblocktrans %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/events.less" %}" media="screen">
@@ -19,7 +19,7 @@
 {% block content-header %}
     <div class="page-header event-list-header row">
         <div class="col col-lg-9 col-xs-12">
-            <h1>{% blocktrans with month=month|date:"Y年m月" %}Events on {{ month }}{% endblocktrans %}</h1>
+            <h1>{% blocktrans with month=month|date:"Y年n月" %}Events on {{ month }}{% endblocktrans %}</h1>
         </div>
         <div class="col col-lg-3 col-xs-12 header-right">
         {% if user has 'events.add_event' %}
@@ -60,7 +60,7 @@
       <div class="list-group">
       {% get_monthly_archives as archives %}
       {% for archive in archives %}
-        <a class="list-group-item{% if archive.url = request.path %} active{% endif %}" href="{{ archive.url }}">{{ archive.date | date:"Y年m月" }}（{{ archive.count }}）</a>
+        <a class="list-group-item{% if archive.url = request.path %} active{% endif %}" href="{{ archive.url }}">{{ archive.date | date:"Y年n月" }}（{{ archive.count }}）</a>
       {% endfor %}
       </div>
     </div>
