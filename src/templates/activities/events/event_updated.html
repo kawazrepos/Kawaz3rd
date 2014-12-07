@@ -2,9 +2,9 @@
 {% block history-item %}
     {% include "components/small_avatar.html" with user=object.organizer render_username=False %}
     {% if period_start_created or period_start_updated %}
-        開始日時が<strong>{{ object.period_start|date:"%m/%d %H:%M" }}</strong>に設定されました
+        開始日時が<strong>{{ object.period_start|date:"m/d H:i" }}</strong>に設定されました
     {% elif period_end_created or period_end_updated %}
-        終了日時が<strong>{{ object.period_start|date:"%m/%d %H:%M" }}</strong>に設定されました
+        終了日時が<strong>{{ object.period_start|date:"m/d H:i" }}</strong>に設定されました
     {% elif place_created or place_updated %}
         開催場所が<strong>{{ object.place }}</strong>に設定されました
     {% elif category_created or category_updated %}
@@ -12,7 +12,7 @@
     {% elif number_restriction_created or number_restriction_updated %}
         参加上限が「<strong>{{ object.number_restriction }}</strong>」人に設定されました
     {% elif attendance_deadline_created or attendance_deadline_updated %}
-        募集締め切りが<strong>{{ object.attendance_deadline|date:"%m/%d %H:%M" }}</strong>に設定されました
+        募集締め切りが<strong>{{ object.attendance_deadline|date:"m/d H:i" }}</strong>に設定されました
     {% elif period_start_deleted %}
         開始日時が<strong>未定</strong>に設定されました
     {% elif period_end_deleted %}
