@@ -5,7 +5,7 @@
 {% load i18n %}
 {% load events_tags %}
 
-{% block title %}{% blocktrans with year=year|date:"Y年m" %}Events on {{ year }}{% endblocktrans %}{% endblock %}
+{% block title %}{% blocktrans with year=year|date:"Y年m月" %}Events on {{ year }}{% endblocktrans %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/events.less" %}" media="screen">
