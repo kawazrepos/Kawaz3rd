@@ -3,12 +3,21 @@
 {% load products_tags %}
 {% load staticfiles %}
 {% load i18n %}
+{% load utils %}
+{% load strip_newlines %}
 {% block pre_css %}
 {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/products.less" %}" media="screen">
 {% endblock %}
 {% block twittercard %}
     {% render_twitter_card product %}
+{% endblock %}
+{% block ogp %}
+    {% get_current_site as site %}
+    <meta property="og:title" content="{{ object.title | truncatechars:70 }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="{{ object.description | kfm | striptags | strip_newlines:" " | truncatechars:200 }}" />
+    <meta property="og:image" content="{{ site.domain }}{{ MEDIA_URL }}{{ object.thumbnail }}" />
 {% endblock %}
 {% block title %}{{ object.title }}{% endblock %}
 {% block breadcrumb %}
