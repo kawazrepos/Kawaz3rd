@@ -1,7 +1,19 @@
 {% extends "twopane.html" %}
 {% load i18n %}
 {% load staticfiles %}
+{% load strip_newlines %}
+{% load utils %}
+{% block twittercard_title %}{{ object.title | truncatechars:70 }}{% endblock %}
+{% block twittercard_description %}{{ object.body | kfm | striptags | strip_newlines:" " | truncatechars:200 }}{% endblock %}
 {% block title %}{{ object.title }}{% endblock %}
+
+{% block ogp %}
+    {% get_current_site as site %}
+    <meta property="og:title" content="{{ object.title | truncatechars:70 }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="{{ object.body | kfm | striptags | strip_newlines:" " | truncatechars:200 }}" />
+    <meta property="og:image" content="{{ site.domain }}{{ object.author.get_large_avatar }} />
+{% endblock %}
 
 {% block pre_css %}
 {{ block.super }}

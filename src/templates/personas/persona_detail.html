@@ -1,8 +1,13 @@
 {% extends "twopane.html" %}
+{% load utils %}
 {% load staticfiles %}
 {% load i18n %}
 {% load projects_tags %}
 {% load blogs_tags %}
+{% load strip_newlines %}
+{% block twittercard_title %}{% blocktrans with nickname=object.nickname %}{{ nickname }}'s Profile{% endblocktrans %}{% endblock %}
+{# 以下の行をインデント処理していないのはtwitter:descriptionのcontentに無用な改行が入るのを防ぐため #}
+{% block twittercard_description %}{% if not profile and not user.is_authenticated %}{% blocktrans with nickname=object.nickname %}{{ nickname }} may conceal own profile from non participants. Please login to see the profile.{% endblocktrans %}{% else %}{{ profile.remarks | kfm | striptags | strip_newlines:" " | truncatechars:200 }}{% endif %}{% endblock %}
 {% block title %}{% blocktrans with nickname=object.nickname %}{{ nickname }}'s Profile{% endblocktrans %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
@@ -12,6 +17,13 @@
     {{ block.super }}
     <li><a href="{% url 'personas_persona_list' %}">{% trans "Members" %}</a></li>
     <li><a href="{{ object.get_absolute_url }}">{{ object.nickname }}</a></li>
+{% endblock %}
+{% block ogp %}
+    {% get_current_site as site %}
+    <meta property="og:title" content="{{ object.nickname | truncatechars:70 }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="{% if not profile and not user.is_authenticated %}{% blocktrans with nickname=object.nickname %}{{ nickname }} may conceal own profile from non participants. Please login to see the profile.{% endblocktrans %}{% else %}{{ profile.remarks | kfm | striptags | strip_newlines:" " | truncatechars:200 }}{% endif %}">
+    <meta property="og:image" content="{{ site.domain }}{{ object.get_large_avatar }} />
 {% endblock %}
 {% block content-main %}
 {% comment %}
