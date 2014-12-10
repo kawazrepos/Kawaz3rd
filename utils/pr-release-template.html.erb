@@ -2,6 +2,14 @@
 
 作成日：<%= Time.now %>
 
+## ステージにデプロイする
+
+Slackで以下のコマンドを入力
+
+```
+kawaztan portal staging auto_deploy
+```
+
 ## ステージで確認する
 
 <% pull_requests.each do |pr| -%>
@@ -17,5 +25,5 @@
 良さそうなら以下のコマンドをSlackで実行
 
 ```
-kawaztan portal staging auto_deploy
+kawaztan portal production auto_deploy
 ```
