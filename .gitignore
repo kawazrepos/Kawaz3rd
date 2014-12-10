@@ -24,6 +24,7 @@ config/activities/notifiers/credentials_twitter_kawazinfo_test.json
 !.travis.yml
 !.gitignore
 !.gitmodules
+!.git-pr-release
 
 # Ignore files which automatically generated
 db.sqlite3
@@ -38,5 +39,4 @@ __pycache__/
 # Ignore files automatically generated in Mac OS X
 Network Trash Folder
 Temporary Items
-
 

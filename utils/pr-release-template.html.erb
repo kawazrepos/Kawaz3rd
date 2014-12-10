@@ -1,0 +1,29 @@
+<%= DateTime.now.strftime("%Y年%m月%d日") %>のリリース
+
+作成日：<%= Time.now %>
+
+## ステージにデプロイする
+
+Slackで以下のコマンドを入力
+
+```
+kawaztan portal staging auto_deploy
+```
+
+## ステージで確認する
+
+<% pull_requests.each do |pr| -%>
+  <%=  pr.to_checklist_item %>
+<% end -%>
+
+## 良さそうならマージボタンを押す
+
+![](http://gyazo.com/e7ae6bdb915a5e18309597f1acbfacd4.png)
+
+## @miioにリリースして良いか聞く
+
+良さそうなら以下のコマンドをSlackで実行
+
+```
+kawaztan portal production auto_deploy
+```
