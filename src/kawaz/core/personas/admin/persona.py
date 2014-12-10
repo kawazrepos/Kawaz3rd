@@ -29,7 +29,7 @@ class PersonaAdmin(UserAdmin):
     )
     form = PersonaAdminUpdateForm
     add_form = PersonaCreationForm
-    list_display = ('nickname', 'username', 'email')
+    list_display = ('nickname', 'username', 'email', 'date_joined', 'last_login')
     list_filter = ('role', 'is_active', 'groups')
     search_fields = ('nickname', 'username', 'email', 'first_name', 'last_name', 'role')
     ordering = ('nickname', 'username', 'email',)
