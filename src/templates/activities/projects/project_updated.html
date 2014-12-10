@@ -2,7 +2,7 @@
 {% block history-item %}
     {% include "components/small_avatar.html" with user=object.last_modifier render_username=False %}
     {% if title_updated %}
-        「{{ activity.previous.snapshot.title }}」から「{{ object.title }}」へタイトルを変更しました
+        「<strong>{{ activity.previous.snapshot.title }}</strong>」から「<strong>{{ object.title }}</strong>」へタイトルを変更しました
     {% elif status_updated %}
         状態を「<strong>{{ object.get_status_display }}</strong>」へ変更しました
     {% elif body_updated %}
