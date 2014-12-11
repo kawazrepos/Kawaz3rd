@@ -52,26 +52,27 @@ $('.star-container').each(->
     )
   )
 
-  # スターが15個以上付いてるとき、畳む
-  $readmore = $(@).find('.star-read-more')
+  noncomments = {}
+  # 同じユーザーのスターについてはまとめる
   $stars = $(@).find('.star')
-  starCount = $stars.size()
-  $readmore.find('.text').text(starCount)
-  maxStarCount = 15
-  if starCount < maxStarCount
-    $readmore.hide()
-  else
-    $invisible = $stars[maxStarCount...]
-    $wrapper = $('<div>')
-    $invisible.remove()
-    $wrapper.append($invisible)
-    $starContainer.append($wrapper)
-    $wrapper.hide()
-    $readmore.show()
-    $readmore.click(() ->
-      $wrapper.toggle()
-      $(@).hide()
-    )
+  # コメントを持っていないスター
+  $stars.each(() ->
+    authorId = $(@).attr("star-author-id")
+    quote = $(@).attr("star-quote")
+    if not noncomments[authorId]
+      noncomments[authorId] = {$star: $(@), count: 1}
+    else
+      ++noncomments[authorId]['count']
+  )
+  $container = $(@).find('.star-list')
+  $container.empty()
+  console.log noncomments
+  for authorId, dict of noncomments
+    $wrapper = $("<li>").addClass("star-wrapper")
+    $wrapper.append(dict['$star'])
+    $wrapper.append($("<span>").addClass("star-count").text(dict['count']))
+    $container.append($wrapper)
+
 
   # スターにマウスオーバーしたときに削除ボタンをトグルする
   # Note: 動的に追加されたスターにも適応するためにon(delegate)を利用している
