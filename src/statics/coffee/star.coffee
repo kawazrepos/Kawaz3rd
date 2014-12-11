@@ -15,6 +15,7 @@ $ ->
   )
 
 $('.star-container').each(->
+  $(@).hide()
   $button = $(@).find('.add-star-button')
   endpoint = $(@).attr('star-endpoint')
 
@@ -52,25 +53,34 @@ $('.star-container').each(->
     )
   )
 
-  noncomments = {}
+  stars = {}
   # 同じユーザーのスターについてはまとめる
   $stars = $(@).find('.star')
   # コメントを持っていないスター
   $stars.each(() ->
     authorId = $(@).attr("star-author-id")
     quote = $(@).attr("star-quote")
-    if not noncomments[authorId]
-      noncomments[authorId] = {$star: $(@), count: 1}
+    # そのユーザーIDに関する辞書がなければ初期化
+    stars[authorId] ?= {count: 0, comments: []}
+    if quote
+      stars[authorId]['comments'].push($(@))
     else
-      ++noncomments[authorId]['count']
+      # quoteが付いてないスターの数だけカウント
+      ++stars[authorId]['count']
+      stars[authorId]['$star'] ?= $(@)
   )
   $container = $(@).find('.star-list')
   $container.empty()
-  console.log noncomments
-  for authorId, dict of noncomments
+  for authorId, dict of stars
     $wrapper = $("<li>").addClass("star-wrapper")
-    $wrapper.append(dict['$star'])
-    $wrapper.append($("<span>").addClass("star-count").text(dict['count']))
+    # コメント付きのスター追加
+    for $comment in dict['comments']
+      $wrapper.append($comment)
+    # コメント無しのスター+カウント追加
+    if dict['$star']
+      $wrapper.append(dict['$star'])
+    if dict['count'] > 1
+      $wrapper.append($("<span>").addClass("star-count").text(dict['count']))
     $container.append($wrapper)
 
 
@@ -107,5 +117,6 @@ $('.star-container').each(->
       )
     return false
   )
+  $(@).show()
 
 )
