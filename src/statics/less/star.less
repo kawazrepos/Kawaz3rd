@@ -28,18 +28,19 @@
     flex: 11;
     display: inline-block;
   }
-  .star-read-more {
-    span {
-      margin-top: 2px;
-      margin-right: 2px;
+  .star-wrapper {
+    display: inline;
+    float: left;
+    margin-right: 3px;
+    .star-count {
+      display: inline;
+      float: left;
+      padding-top: 2px;
+      margin-left: 3px;
+      vertical-align: middle;
+      color: @brand-warning;
+      font-weight: bold;
     }
-    color: @brand-warning;
-    padding: 1px 3px;
-    font-weight: bold;
-    text-align: center;
-    display: inline-block;
-    min-width: 16px;
-    cursor: pointer;
   }
   .star {
     display: inline;
