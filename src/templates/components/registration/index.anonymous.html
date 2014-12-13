@@ -19,9 +19,7 @@
     </ol>
     <div class="carousel-inner">
     {% for product in featured_products %}
-        {% if forloop.first %}
-        <div class="item active">
-    {% else %}
+        <div class="item{% if forloop.first %} active{% endif %}">
             <div class="item">
     {% endif %}
                 <img class="product-advertisement-img" src="{{ product.advertisement_image.url }}" alt="{{ product.title }}">
@@ -33,7 +31,7 @@
                 </div>
                 <ul class="product-platform">
                     {% for platform in product.platforms.all %}
-                        <li class="product-platforms-listitem"><img data-toggle="tooltip" data-placement="top" data-title="{{ platform.label }}" src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+                        <li class="product-platforms-list-item"><img data-toggle="tooltip" data-placement="top" data-title="{{ platform.label }}" src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
                     {% endfor %}
                 </ul>
             </div>
