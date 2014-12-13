@@ -11,28 +11,33 @@
         {% get_products 'featured' as featured_products %}
         {% for product in featured_products %}
             {% if forloop.first %}
-                <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+            <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
             {% else %}
-                <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}"></li>
+            <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}"></li>
             {% endif %}
         {% endfor %}
     </ol>
     <div class="carousel-inner">
-        {% for product in featured_products %}
-            {% if forloop.first %}
-                <div class="item active">
-            {% else %}
-                <div class="item">
-            {% endif %}
-        <img src="{{ product.advertisement_image.url }}" alt="{{ product.title }}">
-        <div class="container">
-            <div class="carousel-caption">
-                <h3>{{ product.title }}</h3>
-                <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
+    {% for product in featured_products %}
+        {% if forloop.first %}
+        <div class="item active">
+    {% else %}
+        <div class="item">
+    {% endif %}
+            <img class="product-advertisement-img" src="{{ product.advertisement_image.url }}" alt="{{ product.title }}">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h3>{{ product.title }}</h3>
+                    <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
+                </div>
             </div>
+            <ul class="product-platform">
+                {% for platform in product.platforms.all %}
+                    <li class="product-platforms-listitem"><img data-toggle="tooltip" data-placement="top" data-title="{{ platform.label }}" src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+                {% endfor %}
+            </ul>
         </div>
-        </div>
-        {% endfor %}
+    {% endfor %}
         </div>
         <a class="left carousel-control" href="#featured-products" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left"></span>
