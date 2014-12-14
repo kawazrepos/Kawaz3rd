@@ -76,8 +76,7 @@ def get_relation(relation):
     except AttributeError:
         app_label = relation._meta.app_label
         model_name = relation._meta.model_name
-    model = _get_model(app_label, model_name)
-    return model, app_label, model_name
+    return app_label, model_name
 
 
 _pending_lookups = {}
@@ -96,9 +95,9 @@ def resolve_relation_lazy(relation, operation, **kwargs):
         operation (fn): A callback function which will called with resolved
             relation (class) and the specified kwargs.
     """
-    model, app_label, model_name = (None, None, None)
+    app_label, model_name = get_relation(relation)
     try:
-        model, app_label, model_name = get_relation(relation)
+        model = _get_model(app_label, model_name)
         operation(model, **kwargs)
     except AppRegistryNotReady:
         key = (app_label, model_name)
