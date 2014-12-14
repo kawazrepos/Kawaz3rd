@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 
 from ..factories import PersonaFactory
+from kawaz.core.personas.models import Persona
 
 
 class PersonaModelTestCase(TestCase):
@@ -10,6 +11,20 @@ class PersonaModelTestCase(TestCase):
         user = PersonaFactory()
         self.assertEqual(user.first_name, 'Kawaz')
         self.assertEqual(user.last_name, 'Inonaka')
+
+    def test_actives_contains_active_user_only(self):
+        """
+        Persona.activesのQuerySetは有効なユーザーしか含まない
+        """
+        user0 = PersonaFactory(username='active')
+        user1 = PersonaFactory(is_active=False, username='inactive')
+        self.assertEqual(Persona.objects.count(), 2)
+        self.assertEqual(Persona.actives.count(), 1)
+
+        self.assertIn(user0, Persona.objects.all())
+        self.assertIn(user1, Persona.objects.all())
+        self.assertIn(user0, Persona.actives.all())
+        self.assertNotIn(user1, Persona.actives.all())
 
     def test_valid_username_pattern_validation(self):
         """

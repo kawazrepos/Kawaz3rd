@@ -208,6 +208,10 @@ class Project(models.Model):
                 return self.get_default_icon(size)
         return self.get_default_icon(size)
 
+    @property
+    def active_members(self):
+        return self.members.filter(is_active=True)
+
     get_small_icon = lambda self: self.get_icon('small')
     get_middle_icon = lambda self: self.get_icon('middle')
     get_large_icon = lambda self: self.get_icon('large')
