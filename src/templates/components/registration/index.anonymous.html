@@ -21,7 +21,6 @@
     {% for product in featured_products %}
         <div class="item{% if forloop.first %} active{% endif %}">
             <div class="item">
-    {% endif %}
                 <img class="product-advertisement-img" src="{{ product.advertisement_image.url }}" alt="{{ product.title }}">
                 <div class="container">
                     <div class="carousel-caption">
