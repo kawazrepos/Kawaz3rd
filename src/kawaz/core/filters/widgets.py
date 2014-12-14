@@ -46,10 +46,10 @@ class ListGroupLinkWidget(LinkWidget):
         except AttributeError:
             url = urlencode(data)
         return self.option_string() % {
-             'attrs': selected and ' class="list-group-item active"' or '',
+             'attrs': selected and ' class="list-group-item active"' or ' class="list-group-item"',
              'query_string': url,
              'label': force_text(option_label)
         }
 
     def option_string(self):
-        return '<a%(attrs)s href="?%(query_string)s" class="list-group-item">%(label)s</a>'
+        return '<a%(attrs)s href="?%(query_string)s">%(label)s</a>'

@@ -15,12 +15,19 @@ class PlatformListGroupLinkWidget(ListGroupLinkWidget):
     """
     def __init__(self, attrs=None, choices=()):
         super().__init__(attrs, choices)
+        # 1度のSQLで全てのプラットフォームが取得できるようにここで予め取得している
         platforms = Platform.objects.all().annotate(products_count=Count('products'))
         self.info = {str(platform.pk): {'url': platform.icon.url, 'count': platform.products_count} for platform in platforms}
         self.all_count = Product.objects.count()
 
     def render_option(self, name, selected_choices,
                           option_value, option_label):
+        """
+        各要素のタグを描画している
+        BootstrapのListGroupを使用するために以下のようなタグを吐く
+
+        <a class="list-group-item" href="?platform=1"><img class="platform-icon" src="/icon/windows.png">Windows(10)</a>
+        """
         option_value = force_text(option_value)
         if option_label == BLANK_CHOICE_DASH[0][1]:
             option_label = _("All")
@@ -38,7 +45,7 @@ class PlatformListGroupLinkWidget(ListGroupLinkWidget):
         except AttributeError:
             url = urlencode(data)
         return self.option_string() % {
-            'attrs': selected and ' class="list-group-item active"' or '',
+            'attrs': selected and ' class="list-group-item active"' or ' class="list-group-item"',
             'query_string': url,
             'label': force_text(option_label),
             'icon': icon,
@@ -46,7 +53,7 @@ class PlatformListGroupLinkWidget(ListGroupLinkWidget):
         }
 
     def option_string(self):
-        return '<a%(attrs)s href="?%(query_string)s" class="list-group-item"><img class="platform-icon" src="%(icon)s">%(label)s (%(count)s)</a>'
+        return '<a%(attrs)s href="?%(query_string)s"><img class="platform-icon" src="%(icon)s">%(label)s (%(count)s)</a>'
 
 
 class ProductFilter(django_filters.FilterSet):
