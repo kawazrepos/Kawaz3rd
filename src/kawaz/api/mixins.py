@@ -74,7 +74,9 @@ class CreateModelMixin(_CreateModelMixin):
     """
     Create model instance and automatically save author
     """
-    def pre_save(self, obj):
+
+    def get_extra_fields(self):
+        # serializer.saveに渡す引数を取り出します
         # validation check
         if not hasattr(self, 'author_field_name'):
             raise AttributeError(
@@ -83,8 +85,14 @@ class CreateModelMixin(_CreateModelMixin):
                 "If there is no author field, simply specify 'None'.".format(
                     self.__class__.__name__)
             )
+        extra_fields = {}
         if self.author_field_name and self.request.user.is_authenticated():
-            setattr(obj, self.author_field_name, self.request.user)
+            extra_fields.update({self.author_field_name: self.request.user})
+        return extra_fields
+
+    def perform_create(self, serializer):
+        extras = self.get_extra_fields()
+        serializer.save(**extras)
 
 # Make it easy to understand, just make alias of rest_framework builtins
 from rest_framework.mixins import ListModelMixin

@@ -49,9 +49,3 @@ class KawazModelViewSet(mixins.CreateModelMixin,
     KawazGenericViewSet をベースとした読み書き用APIのViewSet
     retrieve, list に加え create, destroy, update, partial_update を提供
     """
-    def pre_save(self, obj):
-        # 新規作成か否かにより自動的に呼び出す必要のあるMixinを決定し実行
-        if obj.pk is None:
-            mixins.CreateModelMixin.pre_save(self, obj)
-        else:
-            mixins.UpdateModelMixin.pre_save(self, obj)
