@@ -14,8 +14,8 @@ class PlatformListGroupLinkWidget(ListGroupLinkWidget):
     プラットフォームアイコンを一覧に出すWidget
     """
     def render_options(self, choices, selected_choices, name):
-        # 1度のSQLで全てのプラットフォームが取得できるようにここで予め取得し、
-        # インスタンスにキャッシュしている
+        # 1度のSQLで全てのプラットフォームが取得できるようにここで予め取得している
+        # render_optionsはおそらく1度しか呼ばれないので、1度だけしか取得されない
         # __init__内で行うと実行タイミングが不定のため、ここで初期化している
         platforms = Platform.objects.all().annotate(products_count=Count('products'))
         self.info = {str(platform.pk): {'url': platform.icon.url, 'count': platform.products_count} for platform in platforms}
