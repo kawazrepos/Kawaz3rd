@@ -6,32 +6,33 @@
 {% load activities_hatenablog_tag %}
 {% block carousel %}
 <div id="featured-products-container">
-<div id="featured-products" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        {% get_products 'featured' as featured_products %}
-        {% for product in featured_products %}
-            {% if forloop.first %}
+    <div id="featured-products" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            {% get_products 'featured' as featured_products %}
+            {% for product in featured_products %}
+                {% if forloop.first %}
                 <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
-            {% else %}
+                {% else %}
                 <li data-target="#featured_products" data-slide-to="{{ forloop.counter0 }}"></li>
-            {% endif %}
-        {% endfor %}
-    </ol>
-    <div class="carousel-inner">
+                {% endif %}
+            {% endfor %}
+        </ol>
+        <div class="carousel-inner">
         {% for product in featured_products %}
-            {% if forloop.first %}
-                <div class="item active">
-            {% else %}
-                <div class="item">
-            {% endif %}
-        <img src="{{ product.advertisement_image.url }}" alt="{{ product.title }}">
-        <div class="container">
-            <div class="carousel-caption">
-                <h3>{{ product.title }}</h3>
-                <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
+            <div class="item{% if forloop.first %} active{% endif %}">
+                <img class="product-advertisement-img" src="{{ product.advertisement_image.url }}" alt="{{ product.title }}">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h3>{{ product.title }}</h3>
+                        <p><a class="btn btn-primary btn-lg" href="{{ product.get_absolute_url }}">詳細を見る！</a></p>
+                    </div>
+                </div>
+                <ul class="product-platform">
+                    {% for platform in product.platforms.all %}
+                        <li class="product-platforms-list-item"><img src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+                    {% endfor %}
+                </ul>
             </div>
-        </div>
-        </div>
         {% endfor %}
         </div>
         <a class="left carousel-control" href="#featured-products" data-slide="prev">
@@ -48,12 +49,12 @@
         <div class="row">
             {% get_hatenablog_entries as hatenablog_entries %}
             {% for hatenablog_entry in hatenablog_entries|slice:"3" %}
-                <div class="col-md-4">
-                    <a href="{{ hatenablog_entry.url }}" target="_blank">
-                        <div class="activity-thumbnail" style="background-image: url({{ hatenablog_entry.thumbnail.url }});"></div>
-                    </a>
-                    <h5><time>{{ hatenablog_entry.created_at|date:"m/d" }}</time> {{ hatenablog_entry.title }}</h5>
-                </div>
+            <div class="col-md-4">
+                <a href="{{ hatenablog_entry.url }}" target="_blank">
+                    <div class="activity-thumbnail" style="background-image: url({{ hatenablog_entry.thumbnail.url }});"></div>
+                </a>
+                <h5><time>{{ hatenablog_entry.created_at|date:"m/d" }}</time> {{ hatenablog_entry.title }}</h5>
+            </div>
             {% endfor %}
         </div>
         <div class="see-more">
@@ -69,18 +70,18 @@
     <div id="recent_products" class="row list-group">
         {% get_products 'normal' as recent_products %}
         {% for product in recent_products|slice:":6" %}
-            <div class="item col-xs-12 col-md-4">
-                {% include "products/components/thumbnail-item.html" %}
-            </div>
+        <div class="item col-xs-12 col-md-4">
+            {% include "products/components/thumbnail-item.html" %}
+        </div>
         {% endfor %}
     </div>
     <h2>{% trans "Featured games" %}</h2>
     <div id="products" class="row list-group">
         {% get_products as products %}
         {% for product in products %}
-            <div class="item col-xs-12 col-md-4">
-                {% include "products/components/thumbnail-item.html" %}
-            </div>
+        <div class="item col-xs-12 col-md-4">
+            {% include "products/components/thumbnail-item.html" %}
+        </div>
         {% endfor %}
     </div>
     <div class="see-more">
