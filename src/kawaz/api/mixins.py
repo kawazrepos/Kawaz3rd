@@ -85,10 +85,10 @@ class CreateModelMixin(_CreateModelMixin):
                 "If there is no author field, simply specify 'None'.".format(
                     self.__class__.__name__)
             )
-        dict = {}
+        extra_fields = {}
         if self.author_field_name and self.request.user.is_authenticated():
-            dict.update({self.author_field_name: self.request.user})
-        return dict
+            extra_fields.update({self.author_field_name: self.request.user})
+        return extra_fields
 
     def perform_create(self, serializer):
         extras = self.get_extra_fields()
