@@ -2,7 +2,7 @@ pyyaml
 pytz
 pillow
 markdown2==2.3.0
-djangorestframework==3.0.0
+djangorestframework>=3.0.1
 django-permission==0.8.3
 django-filter
 django-roughpages>=0.1.2
