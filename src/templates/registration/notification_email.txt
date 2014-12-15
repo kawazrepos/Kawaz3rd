@@ -10,14 +10,14 @@ http://{{ site.domain }}/central-dogma/registration/registrationprofile/{{ profi
 ========================================
 
 スキル
-{{ profile.supplement_class.skill }}
+{{ profile.supplement.skill }}
 
 居住地
-{{ profile.supplement_class.place }}
+{{ profile.supplement.place }}
 
 
 自由記入欄:
-{{ profile.supplement_class.remarks }}
+{{ profile.supplement.remarks }}
 
 
 このメールが身に覚えのない方はお手数ですが webmaster@kawaz.org までご連絡をお願いいたします。
