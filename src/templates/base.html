@@ -77,7 +77,7 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             <img class="avatar small" src="{{ user.get_small_avatar }}">
-                            {{ user.nickname }} <b class="caret"></b>
+                            <span class="header-user-nickname">{{ user.nickname }}</span><b class="caret"></b>
                         </button>
                         <ul class="dropdown-menu authenticated-menu" role="menu">
                             <li><a href="{{ user.get_absolute_url }}"><span class="glyphicon glyphicon-home"></span> {% trans "View profile" %}</a></li>
