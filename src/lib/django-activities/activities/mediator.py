@@ -5,13 +5,25 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from functools import lru_cache
 from django.template import Context
 from django.template.loader import select_template
-from django.db.models.signals import (post_save,
+from django.db.models.signals import (pre_save,
+                                      post_save,
                                       pre_delete,
                                       m2m_changed)
 from django.contrib.contenttypes.models import ContentType
 from .conf import settings
 from .models import Activity
 from .notifiers.registry import registry as notifier_registry
+
+
+def field_names_to_fields(model, field_names):
+    """
+    Convert field names into field instance list
+    """
+    for field_or_field_name in field_names:
+        if isinstance(field_or_field_name, str):
+            yield model._meta.get_field(field_or_field_name)
+        else:
+            yield field_or_field_name
 
 
 class ActivityMediator(object):
@@ -21,6 +33,9 @@ class ActivityMediator(object):
     """
     default_template_extension = None
     template_extensions = None
+
+    # fields which will be observed
+    fields = []
 
     # if m2m_fields is None, get_m2m_fields return all many to many fields
     # registered in the model.
@@ -42,6 +57,7 @@ class ActivityMediator(object):
             return self.template_extensions
         else:
             return settings.ACTIVITIES_TEMPLATE_EXTENSIONS
+
 
     @lru_cache()
     def get_m2m_fields(self):
@@ -83,6 +99,17 @@ class ActivityMediator(object):
         activity = Activity(content_type=ct,
                             object_id=instance.pk,
                             status='deleted')
+        # call user defined alternation code
+        activity = self.alter(instance, activity, **kwargs)
+        self._exec_post_processes_of_receivers(
+            instance, activity, **kwargs
+        )
+
+    def _pre_save_receiver(self, sender, instance, created, **kwargs):
+        ct = ContentType.objects.get_for_model(instance)
+        activity = Activity(content_type=ct,
+                            object_id=instance.pk,
+                            status='created' if created else 'updated')
         # call user defined alternation code
         activity = self.alter(instance, activity, **kwargs)
         self._exec_post_processes_of_receivers(
