@@ -40,7 +40,7 @@
         <h2>{{ event.title }}</h2>
     </div>
     <div class="row event-info-header">
-        <div class="col col-lg-9 col-xs-12 page-header-left">
+        <div class="col col-lg-9 col-xs-8 page-header-left">
             <div class="event-info-wrap event-info-wrap-{% if event.is_over_restriction or event.is_over_deadline or user has 'events.quit_event' of event %}high{% elif event.organizer == user %}low{% else %}middle{% endif %}">
                 <div class="event-info">
                     <div class="event-datetime-wrap event-info-detail">
@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-lg-3 col-xs-12 page-header-right">
+        <div class="col col-lg-3 col-xs-4 page-header-right">
             <div class="event-status-control">
                 {# event.number_restriction が設定されている場合は「あと何人」参加可能かを計算し変数に代入 #}
                 {% if even.number_restriction %}
