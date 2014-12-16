@@ -4,9 +4,21 @@
 @footer-muted-color: #777777;
 
 #featured-products>.carousel-inner>.item {
-  img{
+  .product-advertisement-img {
     min-width: 100%;
     .carousel-container {
+    }
+  }
+  .product-platform {
+    list-style-type: none;
+    text-align: right;
+    margin-bottom: 0;
+    margin-top: -35px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    .product-platforms-list-item {
+      display: inline-block;
+      vertical-align: middle;
     }
   }
 }
@@ -113,7 +125,7 @@ html {
     margin-left: 0;
 }
 
-//PC logo
+//PC style
 @media (min-width: @screen-lg-min){
   .logo-header {
     width: 125px;
@@ -122,12 +134,17 @@ html {
   }
 }
 
-//SP logo
+//SP style
 @media (max-width: @screen-md-max) {
   .logo-header {
     width: 30px;
     height: 30px;
     background :url(../img/kawaz-logo-header-sp.png) no-repeat;
+  }
+  .header-button {
+    .header-user-nickname {
+      display: none;
+    }
   }
 }
 
@@ -175,6 +192,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding-top: 2px;
     padding-bottom: 2px;
   }
+  .header-user-nickname {
+    margin-right: 5px;
+  }
+
 
   // ログインフォーム
   .dropdown-menu {

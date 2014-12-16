@@ -407,6 +407,20 @@ class EventTestCase(TestCase):
         )
         self.assertEqual(event.humanized_period, '09/04(Mon) 10:00 ~ 09/06(Wed) 13:00')
 
+    def test_active_members_contains_active_user_only(self):
+        '''event.active_attendeesはアクティブユーザーのみを含む'''
+        event = EventFactory()
+        user0 = PersonaFactory(is_active=True)
+        user1 = PersonaFactory(is_active=False)
+        event.attend(user0)
+        event.attend(user1)
+
+        # 管理者含め3人
+        self.assertEqual(len(event.active_attendees), 2)
+        self.assertIn(event.organizer, event.active_attendees)
+        self.assertIn(user0, event.active_attendees)
+        self.assertNotIn(user1, event.active_attendees)
+
 @mock.patch('django.utils.timezone.now', static_now)
 class EventValidationTestCase(TestCase):
     def test_organizer_cannot_quit(self):

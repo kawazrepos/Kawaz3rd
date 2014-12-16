@@ -32,6 +32,7 @@ INSTALLED_APPS = (
     'django_comments',
     'rest_framework',
     'permission',
+    'registration.contrib.notification',
     'debug_toolbar',
     'template_timings_panel',
     'thumbnailfield',

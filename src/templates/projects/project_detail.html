@@ -114,7 +114,7 @@
         <h2 class="panel-title">{% trans "Joined members" %}</h2>
       </div>
       <div class="list-group">
-      {% for member in object.members.all %}
+      {% for member in object.active_members %}
         <a href="{{ member.get_absolute_url }}" class="list-group-item">
           <span class="administrator-icon">
             <img class="avatar avatar-middle" src="{{ member.get_middle_avatar }}" alt="{{ member.nickname }}">

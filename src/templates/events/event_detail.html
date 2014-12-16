@@ -169,17 +169,17 @@
             </a>
         </div>
 
-        {% if event.attendees.count > 1 %}
+        {% if event.active_attendees.count > 1 %}
         <div class="panel panel-default">
             <div class="panel-heading event-member-head">
                 <h2 class="panel-title">{% trans "Attendees" %}</h2>
                 <p>
                     {# 参加者全員の人数から主催者を引いている #}
-                    {% blocktrans count counter=event.attendees.count|add:"-1" %}There is one attendee.{% plural %}There are {{ counter }} attendees.{% endblocktrans %}
+                    {% blocktrans count counter=event.active_attendees.count|add:"-1" %}There is one attendee.{% plural %}There are {{ counter }} attendees.{% endblocktrans %}
                 </p>
             </div>
             <ul class="list-group">
-                {% for attendee in event.attendees.all %}
+                {% for attendee in event.active_attendees %}
                     {% if attendee != object.organizer %}
                         <a href="{{ attendee.get_absolute_url }}"
                            class="list-group-item ">

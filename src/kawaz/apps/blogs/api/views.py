@@ -2,7 +2,10 @@
 #
 # created by giginet on 2014/7/19
 #
+
 __author__ = 'giginet'
+from rest_framework import status
+from rest_framework.response import Response
 from kawaz.api import mixins
 from kawaz.api.views import KawazGenericViewSet
 from .serializers import CategorySerializer

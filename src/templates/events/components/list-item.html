@@ -35,7 +35,7 @@
             </div>
 
             <ul class="event-attendees-list">
-                {% for attendee in event.attendees.all %}
+                {% for attendee in event.active_attendees %}
                     <img src="{{ attendee.get_middle_avatar }}" alt="{{ attendee.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ attendee.nickname }}" class="avatar avatar-small" />
                 {% endfor %}
             </ul>
