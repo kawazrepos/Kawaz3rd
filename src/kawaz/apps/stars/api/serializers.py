@@ -7,9 +7,9 @@ from ..models import Star
 
 
 class StarSerializer(serializers.ModelSerializer):
-    author = PersonaSerializer(required=False)
+    author = PersonaSerializer(required=False, read_only=True)
     content_type = serializers.PrimaryKeyRelatedField(queryset=ContentType.objects.all())
-    html = serializers.SerializerMethodField()
+    html = serializers.SerializerMethodField(read_only=True)
     tooltip = serializers.CharField(source='tooltip_text', read_only=True)
 
     def get_html(self, obj):
