@@ -78,7 +78,7 @@
         <div class="col col-lg-3 col-xs-4 page-header-right">
             <div class="event-status-control">
                 {# event.number_restriction が設定されている場合は「あと何人」参加可能かを計算し変数に代入 #}
-                {% if even.number_restriction %}
+                {% if event.number_restriction %}
                   {% expr event.number_restriction - event.attendees.count() as remaining_attendees_restriction %}
                 {% else %}
                   {% expr 0 as remaining_attendees_restriction %}
