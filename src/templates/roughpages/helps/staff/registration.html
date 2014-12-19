@@ -1,0 +1,17 @@
+{% extends "authenticated_base.html" %}
+
+{% load i18n %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="/helps">{% trans "Help" %}</a></li>
+    <li><a href="/helps/staff/registration/">{% trans "Registration" %}</a></li>
+{% endblock %}
+{% block content %}
+    {% if user.is_staff %}
+    <article class="markdown">
+        {% include_kfm "markdown/helps/staff/registration.md" %}
+    </article>
+    {% else %}
+        この記事はスタッフ以外は見ることができません
+    {% endif %}
+{% endblock %}
