@@ -25,7 +25,7 @@ class ParseKFMTestCase(TestCase):
         original = "http://www.kawaz.org/"
         value = parse_kfm(original)
         self.assertEqual(value, (
-            "<p><a href=\"http://www.kawaz.org/\" rel=\"nofollow\">"
+            "<p><a href=\"http://www.kawaz.org/\" rel=\"nofollow\" target=\"_blank\">"
             "http://www.kawaz.org/"
             "</a></p>"
         ))
