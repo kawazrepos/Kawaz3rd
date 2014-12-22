@@ -30,7 +30,7 @@ class PersonaModelTestCase(TestCase):
         """
         VALID_USERNAME_PATTERN に指定された文字列以外は指定できない
         """
-        INVALIDS = ('@', '.', '+')
+        INVALIDS = ('@', '.', '+', 'かわずたん', '蛙', 'ぎぎにゃん', 'السلام عليكم', '안녕하세요', '🍺')
         for invalid in INVALIDS:
             user = PersonaFactory.build(username='foo' + invalid)
             self.assertRaises(ValidationError, user.full_clean)
