@@ -16,7 +16,7 @@ from kawaz.core.db.decorators import validate_on_save
 
 # kawaz.core.personas
 # 使用可能なユーザー名の正規表現
-VALID_USERNAME_PATTERN = re.compile(r"^[\w\-\_]+$")
+VALID_USERNAME_PATTERN = re.compile(r"^[A-Za-z0-9\^\_]+$")
 # 使用不可なユーザー名（URLルールなどにより）
 INVALID_USERNAMES = (
     'my',
