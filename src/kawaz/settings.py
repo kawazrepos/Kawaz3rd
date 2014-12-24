@@ -154,6 +154,7 @@ LOGIN_URL = '/registration/login/'
 LOGOUT_URL = '/registration/logout/'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_BACKEND_CLASS = 'kawaz.core.registrations.backends.KawazRegistrationBackend'
 
 # 国際化の設定
 USE_TZ = True
