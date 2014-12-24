@@ -89,7 +89,8 @@ class RegistrationViewTestCase(TestCase):
             'email1' : 'webmaster@kawaz.org',
             'email2' : 'webmaster@kawaz.org',
             'place' : '安息の地',
-            'skill' : 'マスコットできます！'
+            'skill' : 'マスコットできます！',
+            'tos' : True,
         })
         self.assertRedirects(r, '/registration/register/complete/')
 
@@ -186,7 +187,8 @@ class ParticipantsApplicationViewTestCase(TestCase):
             'email1' : 'webmaster@kawaz.org',
             'email2' : 'webmaster@kawaz.org',
             'place' : '安息の地',
-            'skill' : 'マスコットできます！'
+            'skill' : 'マスコットできます！',
+            'tos' : True,
         })
         self.assertEqual(Persona.objects.count(), before_count + 1)
         self.assertRedirects(r, '/registration/register/complete/')
@@ -202,7 +204,8 @@ class ParticipantsApplicationViewTestCase(TestCase):
             'email1' : 'webmaster@kawaz.org',
             'email2' : 'webmaster@kawaz.org',
             'place' : '安息の地',
-            'skill' : 'マスコットできます！'
+            'skill' : 'マスコットできます！',
+            'tos' : True,
         })
         new_user = Persona.objects.get(username='kawaztan')
         self.assertEqual(new_user.role, 'wille')
