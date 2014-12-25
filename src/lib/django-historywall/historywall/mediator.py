@@ -27,15 +27,15 @@ def ignore_batch_processed(fn):
 
 
 class Mediator(object):
-    fields_include = None
-    fields_exclude = None
+    include_fields = None
+    exclude_fields = None
     m2m_fields = None
 
-    def get_fields_include(self):
-        return self.fields_include
+    def get_include_fields(self):
+        return self.include_fields
 
-    def get_fields_exclude(self):
-        return self.fields_exclude
+    def get_exclude_fields(self):
+        return self.exclude_fields
 
     @lru_cache()
     def get_m2m_fields(self):
@@ -67,8 +67,8 @@ class Mediator(object):
         self.model = model
         self.app_label = model._meta.app_label
         self.investigator = Investigator(self.model,
-                                         self.get_fields_include(),
-                                         self.get_fields_exclude())
+                                         self.get_include_fields(),
+                                         self.get_exclude_fields())
         # connect pre_save/post_save
         pre_save.connect(self._pre_save_receiver, sender=model,
                          weak=False)

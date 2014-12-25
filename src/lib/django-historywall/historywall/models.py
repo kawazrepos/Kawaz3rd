@@ -19,8 +19,8 @@ class Wall(models.Model):
     content_object = GenericForeignKey()
     is_deleted = models.BooleanField(_('Is deleted'), default=False)
     _index = models.PositiveIntegerField(
-        _('Index'), db_column='index', db_index=True,
-        help=_(
+        _('Index'), db_column='index', db_index=True, default=0,
+        help_text=_(
             "An index of appearant ordering of walls. "
             "This value will automatically be updated when new "
             "history instance of the wall is created."
@@ -28,8 +28,11 @@ class Wall(models.Model):
     )
 
     class Meta:
-        order_by = ('-_index',)
+        ordering = ('_index',)
         index_together = (
+            ('content_type', 'object_id'),
+        )
+        unique_together = (
             ('content_type', 'object_id'),
         )
         verbose_name = _('Wall')
@@ -37,15 +40,17 @@ class Wall(models.Model):
 
     @classmethod
     def _get_max_index(cls):
+        return Wall.objects.aggregate(Max('_index'))['_index__max'] or 0
+
+    @classmethod
+    def _get_max_index_cache(cls):
         cache_name = '_max_index_cached'
         if not hasattr(cls, cache_name):
-            cls._set_max_index(
-                Wall.objects.aggregate(Max('_index'))['_index__max']
-            )
+            cls._set_max_index_cache(cls._get_max_index())
         return getattr(cls, cache_name)
 
     @classmethod
-    def _set_max_index(cls, index):
+    def _set_max_index_cache(cls, index):
         cache_name = '_max_index_cached'
         setattr(cls, cache_name, index)
 
@@ -53,14 +58,14 @@ class Wall(models.Model):
         update_fields = kwargs.get('update_fields', None)
         if update_fields is None or '_index' in update_fields:
             # automatically increase maximum value + 1 of index
-            m = self.__class__._get_max_index()
-            if self._index == m and update_fields:
-                # index is not required to be updated
-                kwargs['update_fields'].remove('_index')
-            elif self._index < m:
+            m = self.__class__._get_max_index_cache()
+            if self.pk is None or self._index < m:
                 self._index = m + 1
                 # save max index in cache to accelerate code
-                self.__class__._set_max_index(self._index)
+                self.__class__._set_max_index_cache(self._index)
+            elif self._index == m and update_fields:
+                # index is not required to be updated
+                kwargs['update_fields'].remove('_index')
         super().save(*args, **kwargs)
 
 
@@ -70,13 +75,13 @@ class History(models.Model):
     """
     wall = models.ForeignKey(
         Wall, db_index=True, editable=False, related_name='histories',
-        help=_(
+        help_text=_(
             "A wall of this history belongs."
         )
     )
     status = models.SlugField(
         _('Status'), max_length=30,
-        help=_(
+        help_text=_(
             "A status of this history. "
             "User should give a short summury of the history example "
             "'created' or 'updated'. "
@@ -87,7 +92,8 @@ class History(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     extra = JSONField(
         _('Extra informations'),
-        help=_(
+        default='',
+        help_text=_(
             "Extra informations of this history in JSON format. "
             "User is allowed to save any informations in this field to "
             "use in template for rendering extra informations, such as "
@@ -99,7 +105,7 @@ class History(models.Model):
     )
 
     class Meta:
-        order_by = ('-pk',)
+        ordering = ('-pk',)
         verbose_name = _('History')
         verbose_name_plural = _('Histories')
 
