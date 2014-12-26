@@ -80,6 +80,22 @@ class RegistrationViewTestCase(TestCase):
         self.assertTrue('place' in form.fields)
         self.assertTrue('remarks' in form.fields)
 
+    def test_cannot_create_user_with_invalid_username(self):
+        """
+        登録フォームからユーザー登録をしたとき、不正なユーザー名は弾かれる
+        """
+        INVALIDS = ['ほげ', 'かわずたん！', '@@@@', '~~~~', '123かわずたん', '蛙']
+        for username in INVALIDS:
+            data = {
+                'email1' : 'webmaster@kawaz.org',
+                'email2' : 'webmaster@kawaz.org',
+                'place' : '安息の地',
+                'skill' : 'マスコットできます！'
+            }
+            data['username'] = username
+            r = self.client.post('/registration/register/', data)
+            self.assertEqual(r.status_code, 200)
+
     def test_redirect_to_registration_complete(self):
         """
         registration完了後に/registration/register/complete/に遷移するかどうか
