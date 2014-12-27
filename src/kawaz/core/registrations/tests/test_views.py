@@ -84,6 +84,7 @@ class RegistrationViewTestCase(TestCase):
         """
         登録フォームからユーザー登録をしたとき、不正なユーザー名は弾かれる
         """
+        before_count = Persona.objects.count()
         INVALIDS = ['ほげ', 'かわずたん！', '@@@@', '~~~~', '123かわずたん', '蛙']
         for username in INVALIDS:
             data = {
@@ -95,6 +96,7 @@ class RegistrationViewTestCase(TestCase):
             data['username'] = username
             r = self.client.post('/registration/register/', data)
             self.assertEqual(r.status_code, 200)
+            self.assertEqual(Persona.objects.count(), before_count)
 
     def test_redirect_to_registration_complete(self):
         """
