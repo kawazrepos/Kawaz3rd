@@ -96,6 +96,10 @@ class RegistrationViewTestCase(TestCase):
             data['username'] = username
             r = self.client.post('/registration/register/', data)
             self.assertEqual(r.status_code, 200)
+            # FIX ME
+            # 本来はassertFormErrorsを使いたいが
+            # The form 'form' does not contain the field 'username'
+            # というエラーが出るのでとりあえずこれで対処している
             self.assertEqual(Persona.objects.count(), before_count)
 
     def test_redirect_to_registration_complete(self):
