@@ -35,11 +35,13 @@ class EventManager(models.Manager, PublishmentManagerMixin):
     def active(self, user):
         """
         指定されたユーザーに公開されたイベントの中で、まだ終わっていない
-        or イベントの終了時期が指定されていないイベントを含むクエリを返す
+        or イベントの終了時期が指定されていないかつ、作成日から30日日以内のイベントを含むクエリを返す
         """
+        thirty_days_ago = timezone.now() - datetime.timedelta(days=30)
         qs = self.published(user)
-        qs = qs.filter(Q(period_end__gte=timezone.now()) |
-                       Q(period_end=None))
+        condition0 = Q(period_end__gte=timezone.now())
+        condition1 =  Q(period_end=None) and Q(created_at__gte=thirty_days_ago)
+        qs = qs.filter(condition0 or condition1)
         return qs
 
     def attendable(self, user):
