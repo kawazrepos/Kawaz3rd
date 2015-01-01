@@ -9,8 +9,9 @@ from django.db.models.signals import (pre_save,
                                       pre_delete,
                                       m2m_changed)
 from django.contrib.contenttypes.models import ContentType
-from models import Wall, History
-from investigator import Investigator
+from .utils import get_field
+from .models import Wall, History
+from .investigator import Investigator
 
 
 def ignore_batch_processed(fn):
@@ -47,12 +48,17 @@ class Mediator(object):
         is `None`.
         """
         if self.m2m_fields is None:
-            return tuple(self.model._meta.local_many_to_many)
+            # forward relations
+            m2mfs = self.model._meta.local_many_to_many
+            # reverse relations
+            robjs = self.model._meta.get_all_related_many_to_many_objects()
+            m2mrs = list(robj.field for robj in robjs)
+            return tuple(m2mfs + m2mrs)
 
         def _field_names_to_fields(field_names):
             for field_or_field_name in field_names:
                 if isinstance(field_or_field_name, str):
-                    yield self.model._meta.get_field(field_or_field_name)
+                    yield get_field(self.model, field_or_field_name)
                 else:
                     yield field_or_field_name
         return tuple(_field_names_to_fields(self.m2m_fields))
@@ -88,10 +94,11 @@ class Mediator(object):
 
     @ignore_batch_processed
     def _post_save_receiver(self, sender, instance, created, **kwargs):
-        wall = self.alter_wall(Wall(content_object=instance), instance)
+        wall = self.alter_wall(Wall(content_object=instance), instance,
+                               'post_save')
         wall.save()
-        histories = []
         if not created:
+            histories = []
             for field, old, new in self.investigator.investigate(instance):
                 if not old:
                     status = 'created'
@@ -108,9 +115,10 @@ class Mediator(object):
                         'new': new,
                     },
                 ))
-        histories = self.alter_histories(histories, wall, instance)
-        for history in histories:
-            history.save()
+            histories = self.alter_histories(histories, wall, instance,
+                                             'post_save')
+            for history in histories:
+                history.save()
 
     @ignore_batch_processed
     def _pre_delete_receiver(self, sender, instance, **kwargs):
@@ -118,7 +126,7 @@ class Mediator(object):
             wall = Wall.objects.get(content_object=instance)
         except ObjectDoesNotExist:
             return
-        wall = self.alter_wall(wall, instance)
+        wall = self.alter_wall(wall, instance, 'pre_delete')
         wall.is_deleted = True
         wall.save()
 
@@ -127,7 +135,8 @@ class Mediator(object):
                               action, reverse, model,
                               pk_set, **kwargs):
         if reverse or action in ('pre_add', 'pre_remove'):
-            # reverse m2m signal should not be treated
+            # NOTE:
+            # should I ignore reverse m2m signal or not?
             return
 
         # find field name of sender
@@ -135,7 +144,7 @@ class Mediator(object):
             for field in self.get_m2m_fields():
                 if field.through == sender:
                     return field.name
-                return None
+            return None
         field_name = _find_field_name(sender)
         if field_name is None:
             return
@@ -146,8 +155,12 @@ class Mediator(object):
             self._pk_set_cached = [x.pk for x in getattr(instance, field_name)]
             return
         pk_set = pk_set or getattr(self, '_pk_set_cached', [])
+        # remove cache
+        if hasattr(self, '_pk_set_cached'):
+            delattr(self, '_pk_set_cached')
 
-        wall = self.alter_wall(Wall(content_object=instance), instance)
+        wall = self.alter_wall(Wall(content_object=instance), instance,
+                               'm2m_changed')
         wall.save()
         histories = []
         for related in model._default_manager.filter(pk__in=pk_set):
@@ -165,17 +178,19 @@ class Mediator(object):
                 wall=wall,
                 status=status,
                 extra={
-                    'model': natural_key,
+                    'field': field_name,
                     'old': old,
                     'new': new,
+                    'model': natural_key,
                 }
             ))
-        histories = self.alter_histories(histories, wall, instance)
+        histories = self.alter_histories(histories, wall, instance,
+                                         'm2m_changed')
         for history in histories:
             history.save()
 
-    def alter_wall(self, wall, instance):
+    def alter_wall(self, wall, instance, caller):
         return wall
 
-    def alter_histories(self, histories, wall, instance):
+    def alter_histories(self, histories, wall, instance, caller):
         return histories

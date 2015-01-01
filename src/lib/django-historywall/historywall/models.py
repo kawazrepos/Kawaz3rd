@@ -92,7 +92,7 @@ class History(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     extra = JSONField(
         _('Extra informations'),
-        default='',
+        default=None, null=True,
         help_text=_(
             "Extra informations of this history in JSON format. "
             "User is allowed to save any informations in this field to "
