@@ -94,10 +94,13 @@ class Mediator(object):
 
     @ignore_batch_processed
     def _post_save_receiver(self, sender, instance, created, **kwargs):
-        wall = self.alter_wall(Wall(content_object=instance), instance,
-                               'post_save')
-        wall.save()
-        if not created:
+        if created:
+            wall = self.alter_wall(
+                Wall(content_object=instance), instance, 'post_save'
+            )
+            wall.save()
+        else:
+            wall = Wall.objects.get_or_create(content_object=instance)[0]
             histories = []
             for field, old, new in self.investigator.investigate(instance):
                 if not old:

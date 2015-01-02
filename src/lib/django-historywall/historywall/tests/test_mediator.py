@@ -174,7 +174,7 @@ class HistoryWallMediatorTestCase(TestCase):
     @patch('historywall.mediator.Wall')
     @patch('historywall.mediator.History')
     def test__post_save_receiver_modified(self, History, Wall):
-        """_post_save_receiver should create wall and history on modified"""
+        """_post_save_receiver should create history but wall on modified"""
         mediator = Mediator()
         mediator.investigator = MagicMock()
         mediator.investigator.investigate.return_value = (
@@ -183,7 +183,8 @@ class HistoryWallMediatorTestCase(TestCase):
             ('hoge', 'old', 'new'),
         )
 
-        Wall.return_value = MagicMock()
+        wall = MagicMock()
+        Wall.objects.get_or_create.return_value = (wall, False)
         History.return_value = MagicMock()
 
         sender = MagicMock()
@@ -191,26 +192,25 @@ class HistoryWallMediatorTestCase(TestCase):
         mediator._post_save_receiver(sender, instance, created=False)
 
         # Wall should be created
-        Wall.assert_called_with(content_object=instance)
-        Wall.return_value.save.assert_called_with()
+        self.assertFalse(Wall.called)
 
         # And History
         calls = (
-            call(wall=Wall.return_value,
+            call(wall=wall,
                  status='created',
                  extra={
                      'field': 'foo',
                      'old': None,
                      'new': 'new',
                  }),
-            call(wall=Wall.return_value,
+            call(wall=wall,
                  status='deleted',
                  extra={
                      'field': 'bar',
                      'old': 'old',
                      'new': None,
                  }),
-            call(wall=Wall.return_value,
+            call(wall=wall,
                  status='updated',
                  extra={
                      'field': 'hoge',
@@ -224,8 +224,29 @@ class HistoryWallMediatorTestCase(TestCase):
 
     @patch('historywall.mediator.Wall')
     @patch('historywall.mediator.History')
-    def test__post_save_receiver_call_alter(self, History, Wall):
-        """_post_save_receiver should call user defined alternation code"""
+    def test__post_save_receiver_call_alter_wall(self, History, Wall):
+        """_post_save_receiver should call user defined alter_wall"""
+        mediator = Mediator()
+        mediator.investigator = MagicMock()
+        mediator.alter_wall = MagicMock()
+        mediator.alter_histories = MagicMock()
+
+        wall = MagicMock()
+        Wall.return_value = wall
+        History.return_value = MagicMock()
+
+        sender = MagicMock()
+        instance = MagicMock()
+        mediator._post_save_receiver(sender, instance, created=True)
+
+        mediator.alter_wall.assert_called_with(wall, instance,
+                                               'post_save')
+        self.assertFalse(mediator.alter_histories.called)
+
+    @patch('historywall.mediator.Wall')
+    @patch('historywall.mediator.History')
+    def test__post_save_receiver_call_alter_histories(self, History, Wall):
+        """_post_save_receiver should call user defined alter_histories"""
         mediator = Mediator()
         mediator.investigator = MagicMock()
         mediator.investigator.investigate.return_value = (
@@ -236,18 +257,18 @@ class HistoryWallMediatorTestCase(TestCase):
         mediator.alter_wall = MagicMock()
         mediator.alter_histories = MagicMock()
 
-        Wall.return_value = MagicMock()
+        wall = MagicMock()
+        Wall.objects.get_or_create.return_value = (wall, False)
         History.return_value = MagicMock()
 
         sender = MagicMock()
         instance = MagicMock()
         mediator._post_save_receiver(sender, instance, created=False)
 
-        mediator.alter_wall.assert_called_with(Wall.return_value, instance,
-                                               'post_save')
+        self.assertFalse(mediator.alter_wall.called)
         mediator.alter_histories.assert_called_with(
             [History.return_value]*3,
-            mediator.alter_wall.return_value,
+            wall,
             instance,
             'post_save',
         )
