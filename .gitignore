@@ -40,3 +40,5 @@ __pycache__/
 Network Trash Folder
 Temporary Items
 
+# Sphinx
+docs/_build
