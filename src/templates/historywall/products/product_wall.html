@@ -1,0 +1,25 @@
+{% load historywall_tags %}
+{% load humanize %}
+
+{% if wall.content_object.get_absolute_url %}
+<a class="activity-icon" href="{{ wall.content_object.get_absolute_url }}">
+    {% block icon %}
+    {% endblock %}
+</a>
+{% endif %}
+
+<div class="row">
+    {% block thumbnail %}
+    {% endblock %}
+    <div class="activity-body col-sm-12">
+        <a href="{{ wall.content_object.get_absolute_url }}" class="activity-header">
+            <h3> {% block root %} {% endblock %}</h3>
+        </a>
+
+        <div class="activity-history">
+          {% for history in wall.histories|slice:":3" %}
+            {% render_history history %}
+          {% endfor %}
+        </div>
+    </div>
+</div>
