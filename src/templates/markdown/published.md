@@ -97,7 +97,7 @@ VOXCHRONICLE-オクスクロニクル-
 ぎゃるちぇん
 ===============
 
-[プロジェクトページ - ぎゃるちぇん](http://www.kawaz.org/projects/after-another-gal_novel/)
+[作品ページ - ぎゃるちぇん](http://www.kawaz.org/products/gal-change/)
 
 雑誌掲載
 ----------------
@@ -120,7 +120,7 @@ VOXQUARTER（仮題）
 Wave Weaver
 =======================
 
-[Wave Weaver](http://www.kawaz.org/projects/weaver/)
+[Wave Weaver](http://www.kawaz.org/products/weaver/)
 
 - [超絶ムズなWave Weaverハッキリいって、イラつくゲーム！ | omo69BLOG(オモロク）](http://omo69.com/archives/1088)
 - [波をかわして曲を紡ぐ！スマホゲーム Wave Weaver レビュー – もぐらゲームス](http://www.moguragames.com/entry/waveweaver/)
@@ -132,14 +132,27 @@ Wave Weaver
 multiplex
 ========================
 
-[プロジェクトページ - multiplex](http://www.kawaz.org/projects/multiplex/)
+[作品ページ - multiplex](http://www.kawaz.org/products/multiplex/)
 
 [【週末ゲーム】第566回：フリーのシューティングゲーム4作品をピックアップ - 窓の杜](http://www.forest.impress.co.jp/docs/serial/shumatsu/20140718_658529.html)
 
 みるみら for PS Vita
 =========================
 
-[プロジェクトページ - みるみら for PS Vita](http://www.kawaz.org/products/mirumirror/)
+[作品ページ - みるみら for PS Vita](http://www.kawaz.org/products/mirumirror/)
+
+雑誌掲載
+----------------
+
+- [電撃PlayStation 2014年 12/25号](http://www.amazon.co.jp/%E9%9B%BB%E6%92%83PlayStation-%E3%83%97%E3%83%AC%E3%82%A4%E3%82%B9%E3%83%86%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3-2014%E5%B9%B4-12-25%E5%8F%B7/dp/B00PWPLBME/ref=pd_sim_b_2)
+
+![](/statics/img/published/mirumirror1.png)
+
+![](/statics/img/published/mirumirror2.png)
+
+
+記事掲載
+----------------
 
 - [IndieGames.com - The Weblog Freeware Pick: test your spatial skills in puzzle platformer MiruMirror](http://indiegames.com/2014/01/free_game_test_your_spatial_pu.html)
 - [PS Vitaで遊べる頭脳×アクションの独特パズル『みるみら』。「反射魔法」を駆使してゴールを目指そう – もぐらゲームス](http://www.moguragames.com/entry/mirumira/)
@@ -148,7 +161,7 @@ multiplex
 VOXQUEST-オクスクエスト-
 ===============
 
-[プロジェクトページ - VOXQUEST-オクスクエスト-](http://www.kawaz.org/projects/voxquest/)
+[作品ページ - VOXQUEST-オクスクエスト-](http://www.kawaz.org/products/vox1/)
 
 記事掲載
 ----------------
@@ -157,7 +170,7 @@ VOXQUEST-オクスクエスト-
 音楽ファンタジー
 ===============
 
-[プロジェクトページ - 音楽ファンタジー](http://www.kawaz.org/projects/music_fantasy/)
+[作品ページ - 音楽ファンタジー](http://www.kawaz.org/products/music_fantasy/)
 
 記事掲載
 ----------------
@@ -167,7 +180,7 @@ VOXQUEST-オクスクエスト-
 かわずたんたたき！
 ===============
 
-[プロジェクトページ - かわずたんたたき！](http://www.kawaz.org/projects/kawaz_buster/)
+[作品ページ - かわずたんたたき！](http://www.kawaz.org/products/kawaz-buster/)
 
 記事掲載
 ----------------
@@ -177,9 +190,10 @@ VOXQUEST-オクスクエスト-
 音楽ブロック崩し
 ===============
 
-[プロジェクトページ - 音楽ブロック崩し](http://www.kawaz.org/projects/music_breakout/)
+[作品ページ - 音楽ブロック崩し](http://www.kawaz.org/products/music_pong/)
 
 記事掲載
 ----------------
 
 - [【レビュー】ブロック崩しの反射音がなぜかメロディーになる「音楽ブロックくずし」 - 窓の杜](http://www.forest.impress.co.jp/docs/review/20130704_606432.html)
+
