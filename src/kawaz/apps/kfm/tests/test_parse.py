@@ -220,7 +220,7 @@ class ParseKFMTestCase(TestCase):
         value = parse_kfm(original)
         expected = (
             '<p><a href="/storage/attachments/kawaztan-material/kawaztan.png" '
-            'rel="lightbox" data-lightbox="screenshots">\n    '
+            'data-lightbox="article">\n    '
             '<img src="/storage/attachments/kawaztan-material/kawaztan.png" '
             'alt="kawaztan.png" style="max-width: 500px;" />\n'
             '</a></p>'
