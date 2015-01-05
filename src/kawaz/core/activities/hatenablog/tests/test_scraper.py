@@ -54,8 +54,10 @@ class HatenablogFeedScraperTestCase(TestCase):
         self.scraper.fetch()
         qs = HatenablogEntry.objects.all()
         self.assertEqual(len(qs), 1)
+        thumbnail = qs[0].thumbnail
 
         # 2回目実行しても1のまま
         self.scraper.fetch()
         qs = HatenablogEntry.objects.all()
         self.assertEqual(len(qs), 1)
+        self.assertEqual(qs[0].thumbnail, thumbnail)

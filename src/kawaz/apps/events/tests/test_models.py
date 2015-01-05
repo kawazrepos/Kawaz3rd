@@ -31,6 +31,27 @@ class EventManagerTestCase(TestCase):
         self.event_list = [event_factory_with_relative(*args)
                            for args in arguments_list]
 
+    def test_active_with_unfixed_period_end(self):
+        """
+        終了日時が未定のイベントは、作成日から30日で終了扱いになる
+        """
+        standard_time = static_now()
+        _month_ago = lambda: static_now() - datetime.timedelta(days=31)
+        with mock.patch('django.utils.timezone.now', _month_ago):
+            event = EventFactory(period_start=standard_time + datetime.timedelta(days=0), period_end=None)
+        # create authenticated user for getting protected events as well
+        user = PersonaFactory()
+        # specify authenticated user
+        qs = Event.objects.active(user)
+
+        self.assertEqual(Event.objects.count(), 6)
+        self.assertEqual(qs.count(), 3)
+        # event has finished (2000/9/2-3) and draft event is not appeared.
+        self.assertEqual(qs[0], self.event_list[0], '2000/9/1-4')
+        self.assertEqual(qs[1], self.event_list[4], '2000/9/4-7 (protected)')
+        self.assertEqual(qs[2], self.event_list[2], '2000/9/8-9')
+        self.assertNotIn(event, qs)
+
     def test_active_with_authenticated_user(self):
         """
         active(authenticated_user) should return event queryset which only

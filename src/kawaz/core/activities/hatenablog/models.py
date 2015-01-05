@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from kawaz.core.files.storages import OverwriteStorage
 
 
 class HatenablogEntry(models.Model):
@@ -17,6 +18,7 @@ class HatenablogEntry(models.Model):
     title = models.CharField(_('Title'), max_length=128)
     url = models.URLField(_('URL'), unique=True)
     thumbnail = models.ImageField(_('Image'),
+                                  storage=OverwriteStorage(),
                                   upload_to=_get_upload_path,
                                   default='')
     md5 = models.CharField(max_length=32)

@@ -1,6 +1,7 @@
 {% extends "authenticated_base.html" %}
 
 {% load i18n %}
+{% load kfm %}
 {% block title %}{% trans "Help" %}{% endblock %}
 {% block breadcrumb %}
     {{ block.super }}
@@ -10,5 +11,12 @@
 {% block content %}
     <article class="markdown">
         {% include_kfm "markdown/helps/index.md" %}
+    {% if user.is_staff %}
+        {% kfm %}
+## 運営メンバー向け
+
+- [新規会員登録の承認](/helps/staff/registration/)
+        {% endkfm %}
+    {% endif %}
     </article>
 {% endblock %}

@@ -25,7 +25,7 @@ class ParseKFMTestCase(TestCase):
         original = "http://www.kawaz.org/"
         value = parse_kfm(original)
         self.assertEqual(value, (
-            "<p><a href=\"http://www.kawaz.org/\" rel=\"nofollow\">"
+            "<p><a href=\"http://www.kawaz.org/\" rel=\"nofollow\" target=\"_blank\">"
             "http://www.kawaz.org/"
             "</a></p>"
         ))
@@ -220,7 +220,7 @@ class ParseKFMTestCase(TestCase):
         value = parse_kfm(original)
         expected = (
             '<p><a href="/storage/attachments/kawaztan-material/kawaztan.png" '
-            'rel="lightbox" data-lightbox="screenshots">\n    '
+            'data-lightbox="article">\n    '
             '<img src="/storage/attachments/kawaztan-material/kawaztan.png" '
             'alt="kawaztan.png" style="max-width: 500px;" />\n'
             '</a></p>'

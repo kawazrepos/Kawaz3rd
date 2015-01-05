@@ -1,4 +1,4 @@
-Kawaz3rd
+Kawaz
 ===============================================================
 .. image:: https://secure.travis-ci.org/kawazrepos/Kawaz3rd.svg?branch=develop
     :target: http://travis-ci.org/kawazrepos/Kawaz3rd
@@ -10,120 +10,173 @@ Kawaz3rd
      :target: https://requires.io/github/kawazrepos/Kawaz3rd/requirements/?branch=develop
      :alt: Requirements Status
 
-Author
-    - Alisue <lambdalisue@hashnote.net>  
-    - giginet <giginet.net@gmail.com>
-Supported python versions
-    Python 3.4
-Supported django versions
-    Django 1.7
+**All your games are belong to us.**
 
-This is a new web site for game creator's community Kawaz_.
-It is developed with Python_ 3.4 + Django_ 1.7.
-
-All your games are belong to us.
+札幌ゲーム製作者コミュニティ Kawaz_ のポータルサイトの開発ドキュメントです。
+開発・実行は Python_ 3.4 と Django_ 1.7 で行われています。
 
 .. _Kawaz: http://www.kawaz.org/
 .. _Python: https://www.python.org/
 .. _Django: https://www.djangoproject.com/
 
 
-Install Kawaz 3rd
+Kawaz をローカルにインストールする
 ---------------------------------------------------------------
-Kawaz 3rd is developed in
-`github repository <https://github.com/kawazrepos/Kawaz3rd>`_.
-Thus you can checkout the repository and install required package with
+Kawaz は `GitHub <https://github.com/kawazrepos/Kawaz3rd>`_ 上で開発されているので
+下記のようにローカルにチェックアウトしてください。
 
 .. code-block:: sh
-    
-    $ git clone --recursive https://github.com/kawazrepos/Kawaz3rd
-    $ pip install tox
-    $ pip install -r config/requirements.txt
-    $ pip install -r config/requirements-test.txt
 
-Remember that if you will need to push the changes to the repository_,
-You need to use git@github.com:kawazrepos/Kawaz3rd instead.
+    $ git clone https://github.com/kawazrepos/Kawaz3rd
+
+また、上記URLではコミット権限を得られないため、開発メンバーに了承を得たコミット権のある方は
+下記のように git アドレスを用いてください。
 
 .. code-block:: sh
-    
-    $ git clone --recursive git@github.com:kawazrepos/Kawaz3rd
-    $ pip install tox
+
+    $ git clone git@github.com:kawazrepos/Kawaz3rd
+
+次に開発に必要なサブモジュールとパッケージをインストールします。
+この作業は依存するサブモジュールやパッケージの更新・追加などが発生した場合に毎回行う必要があります。
+**過去に動いていたのに動かなくなった場合は大抵下記の作業を行うと動くようになります**
+
+.. code-block:: sh
+
+    $ git submodule update --init --recursive
     $ pip install -r config/requirements.txt
     $ pip install -r config/requirements-test.txt
+    $ pip install -r config/requirements-docs.txt
 
-.. _repository: https://github.com/kawazrepos/Kawaz3rd 
 
-
-Run tests
+テストを実行する
 ---------------------------------------------------------------
 
-With clean environment
-~~~~~~~~~~~~~~~~~~~~~~
-Use tox_ to test Kawaz in clean environment.
-You need to run the test in this before pushing the changes to repository.
+Kawaz はテスト駆動開発により開発が進められています。
+変更を加えた場合は下記の手順に従って必ずテストが通ることを確認してください。
+
+
+クリーンな環境でテストを実行する場合
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+どの環境においてもテストが成功することを保証するためにクリーンな環境でテストを実行することを強くおすすめします。
+その際は tox_ を用いて下記のように行えば自動的にクリーンな環境でのテストが実行できます（事前に ``pip install tox`` で _tox を開発環境にインストールしておいてください）。
 
 .. code-block:: sh
 
     $ tox -c config/tox.ini
 
-It will create newly flesh environment and run the test.
-
 .. _tox: https://tox.readthedocs.org/en/latest/
 
-While development
-~~~~~~~~~~~~~~~~~~
-You might need to be patient with using tox_ while it will rebuild the environment just before running the test.
-To accelerate your development, the following command can be used to run all/specified tests quickly
+開発中に簡易的にテストを実行する場合
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+開発時は多くの変更を加えるため上記 tox_ を利用したテストは時間がかかり面倒なことが多いと思います。
+その場合は下記のように現在の環境でテストを行うと比較的高速にテストを実行することができます。
 
 .. code-block:: sh
 
-    $ python manage.py test kawaz                   # it will test all tests
-    $ python manage.py test kawaz.core.personas     # it will test only Personas app
+    $ python manage.py test kawaz                   # この場合すべての kawaz テストを実行します
+    $ python manage.py test kawaz.core.personas     # この場合 kawaz.core.personas のテストのみを実行します
 
-But **please run `tox` at least once before pushing the changes** to prevent local exceptions.
+ただし開発環境によりインストールされているパッケージ等に差異があるため **リモートにプッシュする前に tox を利用したクリーンなテストを最低一度は実行することを強くおすすめします**
 
 
-Run development server 
+開発サーバーを実行する
 ---------------------------------------------------------------
-To check the design or client-side codds, you need to run Kawaz in development server.
-To do that, type commands below
+
+デザインやクライアントサイドコードの動作確認などを行う場合は開発用サーバーにて Kawaz を起動する必要があります。
+このサーバーを起動するためには
+
+1. データベースの初期化
+2. 翻訳メッセージの初期化
+
+の手順を事前に行う必要があるので、下記のようにこれらの初期化を行なってください。
 
 .. code-block:: sh
 
-    $ python manage.py init_database
-    $ python manage.py compilemessages
+    $ python manage.py init_database        # データベースの初期化
+    $ python manage.py compilemessages      # 翻訳メッセージの初期化
+
+なおこの初期化は対象部分（データベース・翻訳メッセージ）に変更を加えた際はその都度実行する必要があります。
+
+これらの初期化が終わっている場合は下記のように honcho_ を利用してサーバーを起動することができます。
+
+
+.. code-block:: sh
+
     $ honcho start -f config/Procfile.dev
 
-It will start development server at localhost:8000 and livereload server at localhost:35729
-You can access it with http://localhost:8000/ and if you turn on LiveReload extension of Google Chrome, the changes automatically trigger browser update.
+上記コマンドにより http://localhost:8000/ に開発用サーバーが http://localhost:35729/ に LiveReload_ 用サーバーが実行されます。
+なお LiveReload_ 拡張が入った Google Chrome を利用するとファイル更新時に自動でブラウザの更新が呼ばれるためオススメです。
 
+.. _honcho: https://github.com/nickstenning/honcho
 .. _LiveReload: https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
 
 
-Run production server
+本番用サーバーを実行する
 --------------------------------------------------------------
 
-**Note: `memcached` is required in production server to keep session**
+**WIP**
 
-If you are ready to run Kawaz in production server, follow the instruction below.
+開発用サーバーを実行する際は下記の手順を踏んでください
 
-1.  Write ``src/kawaz/local_settings.py`` to specify the followings
+1.  ``src/kawaz/local_settings.py`` を作成して下記の項目に関して設定を行う
 
-    -   Email addresses of administrators
-    -   Cache configurations
-    -   Database configurations
-    -   Email configurations
-    -   SECRET_KEY
-    -   Google Calendar ID
+    -   管理者のメールアドレス
+    -   キャッシュ関係の設定
+    -   データベースの設定
+    -   メール（送信用）の設定
+    -   ``SECRET_KEY`` の設定
+    -   Google Calendar ID の設定
+    -   その他（加筆求む）
 
-    See ``src/kawaz/local_settings.sample.py``
+2.  データが存在していない場合は ``python manage.py init_database`` にてデータベースの初期化を行う。
+    **データが存在している場合は全データのロストにつながるため実行禁止**
 
-2.  Create a new flesh database or drop all tables in the database
-3.  Run ``python manage.py init_database``. You may required to use
-    the command with ``--force`` option
-4.  Run ``python manage.py compilemessages``
-5.  Run ``python manage.py collectstatic``
-6.  Configure sever (e.g. apatch) to serve files under 'public'
-    directory
-7.  Configure server to deploy Kawaz via ``wsgi.py``
+3.  ``python manage.py compilemessages`` にて翻訳メッセージのコンパイルを行う。
+    この作業は翻訳メッセージに変更が合った場合に毎度行う必要がある
 
+4.  ``python manage.py collectstatic`` にて静的ファイルを ``public/static`` 以下に集める。
+    この作業は静的ファイルに変更が合った場合に毎度行う必要がある
+
+5.  ``python manage.py compress`` にて CoffeeScript/JavaScript/CSS/Less の圧縮を行う。
+    この作業は上記ファイルに変更が合った場合に毎度行う必要がある
+
+
+ドキュメントファイルを更新する
+---------------------------------------------------------------
+全てのドキュメントは ``docs`` フォルダ内に reStructuredText_ で書かれ Sphinx_ によりドキュメント化が行われている。
+このドキュメントには
+
+1.  上記のような手順書
+2.  ディレクトリ構成の説明や思想説明
+3.  APIドキュメント
+
+が含まれ、``develop`` ブランチにプッシュすると自動的に KawazDevelopmentDocumentation_ に公開されます。
+
+APIドキュメント以外の更新は適当にディレクトリ分割を行なって各自追加してください。
+APIドキュメントの追加を行う場合は下記コマンドにて差分を追加できるので利用して下さい。
+なおAPIドキュメントファイルを直接更新することは禁止します（変更したい場合はソースコードのコメントを修正してください）。
+
+.. code-block:: sh
+
+    $ sphinx-apidoc -o docs/api src -f
+
+.. _KawazDevelopmentDocumentation: https://kawaz3rd.readthedocs.org/en/latest/
+
+ローカルでドキュメントをコンパイルする
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ローカルでドキュメントをコンパイルする場合は下記コマンドにより ``docs/_build/html/index.html`` （ほか多数）が作成されます。
+
+.. code-block:: sh
+
+    $ (cd docs; make html)
+
+また Windows の場合は
+
+.. code-block:: sh
+
+    $ (cd docs; make.bat html)
+
+でコンパイルできる（はずです）
+
+.. _Sphinx: http://docs.sphinx-users.jp/index.html
+.. _reStructuredText: http://docs.sphinx-users.jp/rest.html

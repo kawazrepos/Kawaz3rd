@@ -80,6 +80,28 @@ class RegistrationViewTestCase(TestCase):
         self.assertTrue('place' in form.fields)
         self.assertTrue('remarks' in form.fields)
 
+    def test_cannot_create_user_with_invalid_username(self):
+        """
+        登録フォームからユーザー登録をしたとき、不正なユーザー名は弾かれる
+        """
+        before_count = Persona.objects.count()
+        INVALIDS = ['ほげ', 'かわずたん！', '@@@@', '~~~~', '123かわずたん', '蛙']
+        for username in INVALIDS:
+            data = {
+                'email1' : 'webmaster@kawaz.org',
+                'email2' : 'webmaster@kawaz.org',
+                'place' : '安息の地',
+                'skill' : 'マスコットできます！'
+            }
+            data['username'] = username
+            r = self.client.post('/registration/register/', data)
+            self.assertEqual(r.status_code, 200)
+            # FIX ME
+            # 本来はassertFormErrorsを使いたいが
+            # The form 'form' does not contain the field 'username'
+            # というエラーが出るのでとりあえずこれで対処している
+            self.assertEqual(Persona.objects.count(), before_count)
+
     def test_redirect_to_registration_complete(self):
         """
         registration完了後に/registration/register/complete/に遷移するかどうか
@@ -89,7 +111,8 @@ class RegistrationViewTestCase(TestCase):
             'email1' : 'webmaster@kawaz.org',
             'email2' : 'webmaster@kawaz.org',
             'place' : '安息の地',
-            'skill' : 'マスコットできます！'
+            'skill' : 'マスコットできます！',
+            'tos' : True,
         })
         self.assertRedirects(r, '/registration/register/complete/')
 
@@ -186,7 +209,8 @@ class ParticipantsApplicationViewTestCase(TestCase):
             'email1' : 'webmaster@kawaz.org',
             'email2' : 'webmaster@kawaz.org',
             'place' : '安息の地',
-            'skill' : 'マスコットできます！'
+            'skill' : 'マスコットできます！',
+            'tos' : True,
         })
         self.assertEqual(Persona.objects.count(), before_count + 1)
         self.assertRedirects(r, '/registration/register/complete/')
@@ -202,7 +226,8 @@ class ParticipantsApplicationViewTestCase(TestCase):
             'email1' : 'webmaster@kawaz.org',
             'email2' : 'webmaster@kawaz.org',
             'place' : '安息の地',
-            'skill' : 'マスコットできます！'
+            'skill' : 'マスコットできます！',
+            'tos' : True,
         })
         new_user = Persona.objects.get(username='kawaztan')
         self.assertEqual(new_user.role, 'wille')
