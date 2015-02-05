@@ -3,8 +3,6 @@ from registration.models import RegistrationProfile
 __author__ = 'giginet'
 
 from django import template
-from django.template import TemplateSyntaxError
-from ..models import Profile
 
 register = template.Library()
 
@@ -33,7 +31,7 @@ def get_registration_profiles(context, status=None):
     if status in ['untreated', 'accepted', 'rejected']:
         # ステータスが正常なとき、フィルターする
         profiles = profiles.filter(_status=status)
-    elif not status:
+    elif status:
         # ステータスが設定されていて、不正なとき、Noneを返す
         return None
     return profiles
