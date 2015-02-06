@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
-from django.template import Template, Context
+from django.template import Template, Context, TemplateSyntaxError
 from django.test import TestCase
-from kawaz.core.personas.tests.factories import ProfileFactory, PersonaFactory
+from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.registrations.tests.factories import RegistrationProfileFactory
 
 __author__ = 'giginet'
@@ -70,8 +70,12 @@ class GetRegistrationProfilesTestCase(TestCase):
 
     def test_staff_cannot_get_profiles_with_invalid_status(self):
         """
-        正しくないステータスを渡したとき、Noneが返る
+        正しくないステータスを渡したとき、TemplateSyntaxErrorが投げられる
         """
-        for user in self.users:
-            self.assertIsNone(self._test_get_registration_profiles(user, 'hogehoge'))
+        self.assertRaises(TemplateSyntaxError, self._test_get_registration_profiles, self.users[0], 'hogehoge')
+        self.assertRaises(TemplateSyntaxError, self._test_get_registration_profiles, self.users[1], 'hogehoge')
+        self.assertRaises(TemplateSyntaxError, self._test_get_registration_profiles, self.users[2], 'hogehoge')
+        self.assertRaises(TemplateSyntaxError, self._test_get_registration_profiles, self.users[3], 'hogehoge')
+        self.assertRaises(TemplateSyntaxError, self._test_get_registration_profiles, self.users[4], 'hogehoge')
+        self.assertRaises(TemplateSyntaxError, self._test_get_registration_profiles, self.users[5], 'hogehoge')
 
