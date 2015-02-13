@@ -45,6 +45,7 @@ class GetRegistrationProfilesTestCase(TestCase):
     def test_not_staff_cannot_get_any_profiles(self):
         """
         Children, Wille, 非ログインユーザーはNoneが返る
+        厳密にはregistrations.activate_userを持たないユーザーは取得できない
         """
         self.assertIsNone(self._test_get_registration_profiles(self.users[3]))
         self.assertIsNone(self._test_get_registration_profiles(self.users[4]))
@@ -53,6 +54,8 @@ class GetRegistrationProfilesTestCase(TestCase):
     def test_staff_can_get_all_profiles(self):
         """
         Adam, Seele, Nervは全てのプロフィールを取れる
+
+        厳密にはregistrations.activate_userを持っているユーザーのみが取得できる
         """
         self.assertEqual(len(self._test_get_registration_profiles(self.users[0])), 3)
         self.assertEqual(len(self._test_get_registration_profiles(self.users[1])), 3)
@@ -61,6 +64,8 @@ class GetRegistrationProfilesTestCase(TestCase):
     def test_staff_can_get_specific_profiles(self):
         """
         Adam, Seele, Nervは特定のプロフィールを取れる
+
+        厳密にはregistrations.activate_userを持っているユーザーのみが取得できる
         """
         for user in self.users[:3]:
             for i, status in enumerate(['untreated', 'accepted', 'rejected']):
