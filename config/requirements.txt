@@ -26,3 +26,4 @@ docutils
 django-suit
 # django-activities
 requests-oauthlib
+django-observer

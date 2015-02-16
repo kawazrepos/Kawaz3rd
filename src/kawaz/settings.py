@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'compressor',
     'activities',
+    'historywall',
     'google_calendar',
     'kawaz.core.management',
     'kawaz.core.db',

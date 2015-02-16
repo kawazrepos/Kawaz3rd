@@ -3,6 +3,7 @@
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import pickle
+import warnings
 from django.db import models
 from django.db.models import Max
 from django.contrib.contenttypes.models import ContentType
@@ -89,6 +90,11 @@ class Activity(models.Model):
             else:
                 snapshot = None
             setattr(self, SNAPSHOT_CACHE_NAME, snapshot)
+        warnings.warn((
+            "Activity.snapshot is obsolute. "
+            "You SHOULT NOT refer this attribute and any code which "
+            "refer this attribute SHOULD be removed."
+        ), DeprecationWarning)
         return getattr(self, SNAPSHOT_CACHE_NAME)
 
     @snapshot.setter
