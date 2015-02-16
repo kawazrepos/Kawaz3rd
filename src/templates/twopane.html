@@ -1,10 +1,22 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load registrations_tags %}
 {% block content %}
     <ol class="breadcrumb">
         {% block breadcrumb %}
             <li><a href="/">Home</a></li>
         {% endblock %}
     </ol>
+    {% if user has 'registration.activate_user' %}
+        {% get_registration_profiles 'untreated' as registration_profiles %}
+        {% if registration_profiles %}
+            <div class="alert alert-info">
+                <a href="/central-dogma/registration/registrationprofile/">
+                    {% blocktrans count counter=registration_profiles|length %}There is an untreated registration{% plural %}There are {{ counter }} untreated registrations{% endblocktrans %}
+                </a>
+            </div>
+        {% endif %}
+    {% endif %}
     {% block content-header %}
     {% endblock %}
     <article class="two-pane">

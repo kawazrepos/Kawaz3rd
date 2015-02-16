@@ -11,7 +11,7 @@
             <h4>{{ product.title }}</h4>
             <ul class="platform-list">
                 {% for platform in product.platforms.all %}
-                <li><img src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
+                <li><img data-toggle="tooltip" data-placement="top" rel="tooltip" data-title="{{ platform.label }}" src="{{ MEDIA_URL }}{{ platform.icon }}" alt="{{ platform.label }}" /></li>
                 {% endfor %}
             </ul>
         </div>

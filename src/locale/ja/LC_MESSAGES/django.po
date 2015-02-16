@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-17 20:49+0900\n"
+"POT-Creation-Date: 2015-02-05 19:04+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,38 +20,38 @@ msgstr ""
 #: src/kawaz/apps/announcements/forms.py:12
 #: src/kawaz/apps/announcements/models.py:64 src/kawaz/apps/blogs/forms.py:20
 #: src/kawaz/apps/blogs/models.py:53 src/kawaz/apps/events/forms.py:14
-#: src/kawaz/apps/events/models.py:70
+#: src/kawaz/apps/events/models.py:72
 msgid "Body"
 msgstr "本文"
 
 #: src/kawaz/apps/announcements/models.py:60 src/kawaz/apps/blogs/models.py:49
-#: src/kawaz/apps/events/models.py:66 src/kawaz/apps/projects/models.py:92
+#: src/kawaz/apps/events/models.py:68 src/kawaz/apps/projects/models.py:92
 #: src/kawaz/core/personas/models/profile.py:43
 #: src/kawaz/core/personas/models/profile.py:135
 msgid "Publish status"
 msgstr "公開設定"
 
 #: src/kawaz/apps/announcements/models.py:63 src/kawaz/apps/blogs/models.py:52
-#: src/kawaz/apps/events/models.py:69 src/kawaz/apps/products/models.py:116
+#: src/kawaz/apps/events/models.py:71 src/kawaz/apps/products/models.py:116
 #: src/kawaz/apps/projects/models.py:97
-#: src/kawaz/core/activities/hatenablog/models.py:17
+#: src/kawaz/core/activities/hatenablog/models.py:18
 #: src/templates/projects/project_archive.html:28
 msgid "Title"
 msgstr "タイトル"
 
 #: src/kawaz/apps/announcements/models.py:69
 #: src/kawaz/apps/attachments/models.py:23 src/kawaz/apps/blogs/models.py:60
-#: src/kawaz/apps/events/models.py:98 src/kawaz/apps/products/models.py:167
+#: src/kawaz/apps/events/models.py:100 src/kawaz/apps/products/models.py:167
 #: src/kawaz/apps/products/models.py:254 src/kawaz/apps/projects/models.py:127
 #: src/kawaz/apps/stars/models.py:130
-#: src/kawaz/core/activities/hatenablog/models.py:23
+#: src/kawaz/core/activities/hatenablog/models.py:25
 #: src/kawaz/core/personas/models/profile.py:65
 #: src/templates/projects/project_archive.html:29
 msgid "Created at"
 msgstr "作成日時"
 
 #: src/kawaz/apps/announcements/models.py:70 src/kawaz/apps/blogs/models.py:61
-#: src/kawaz/apps/events/models.py:99
+#: src/kawaz/apps/events/models.py:101
 msgid "Modified at"
 msgstr "更新日時"
 
@@ -110,7 +110,7 @@ msgid "Materials"
 msgstr "素材"
 
 #: src/kawaz/apps/blogs/forms.py:21 src/kawaz/apps/blogs/models.py:54
-#: src/kawaz/apps/events/models.py:96 src/kawaz/apps/products/models.py:79
+#: src/kawaz/apps/events/models.py:98 src/kawaz/apps/products/models.py:79
 #: src/kawaz/apps/projects/models.py:21 src/kawaz/apps/projects/models.py:113
 #: src/templates/projects/project_archive.html:30
 #: src/templates/projects/project_detail.html:48
@@ -164,15 +164,15 @@ msgstr "カテゴリ"
 msgid "All"
 msgstr "すべて"
 
-#: src/kawaz/apps/events/forms.py:15 src/kawaz/apps/events/models.py:73
+#: src/kawaz/apps/events/forms.py:15 src/kawaz/apps/events/models.py:75
 msgid "Start time"
 msgstr "開始日時"
 
-#: src/kawaz/apps/events/forms.py:16 src/kawaz/apps/events/models.py:75
+#: src/kawaz/apps/events/forms.py:16 src/kawaz/apps/events/models.py:77
 msgid "End time"
 msgstr "終了日時"
 
-#: src/kawaz/apps/events/forms.py:17 src/kawaz/apps/events/models.py:83
+#: src/kawaz/apps/events/forms.py:17 src/kawaz/apps/events/models.py:85
 msgid "Attendance deadline"
 msgstr "参加締切日"
 
@@ -191,110 +191,110 @@ msgstr "ラベル"
 msgid "Order"
 msgstr "並び順"
 
-#: src/kawaz/apps/events/models.py:60
+#: src/kawaz/apps/events/models.py:62
 msgid ""
 "A deadline of the attendance. No member can attend the event after this "
 "deadline."
 msgstr "参加締切日。この日時を過ぎた場合、参加することはできません"
 
-#: src/kawaz/apps/events/models.py:77
+#: src/kawaz/apps/events/models.py:79
 #: src/kawaz/core/registrations/models.py:11
 msgid "Place"
 msgstr "場所"
 
-#: src/kawaz/apps/events/models.py:79
+#: src/kawaz/apps/events/models.py:81
 msgid "Number restriction"
 msgstr "参加可能人数"
 
-#: src/kawaz/apps/events/models.py:81
+#: src/kawaz/apps/events/models.py:83
 msgid "Use this to limit the number of attendees."
 msgstr "参加人数に上限を設けたい場合に設定してください"
 
-#: src/kawaz/apps/events/models.py:88
+#: src/kawaz/apps/events/models.py:90
 #: src/templates/events/event_detail.html:162
 msgid "Organizer"
 msgstr "主催者"
 
-#: src/kawaz/apps/events/models.py:93
+#: src/kawaz/apps/events/models.py:95
 #: src/templates/events/event_detail.html:175
 msgid "Attendees"
 msgstr "参加者"
 
-#: src/kawaz/apps/events/models.py:108
+#: src/kawaz/apps/events/models.py:110
 #: src/templates/roughpages/drafts.authenticated.html:56
 #: src/templates/roughpages/helps/events.html:7
 msgid "Event"
 msgstr "イベント"
 
-#: src/kawaz/apps/events/models.py:109 src/templates/base.html:67
+#: src/kawaz/apps/events/models.py:111 src/templates/base.html:67
 #: src/templates/events/event_detail.html:22
 #: src/templates/events/event_form.html:27
 msgid "Events"
 msgstr "イベント"
 
-#: src/kawaz/apps/events/models.py:133
+#: src/kawaz/apps/events/models.py:135
 msgid "End time must be later than start time."
 msgstr "イベント終了日時は必ず開始日時よりも後である必要があります"
 
-#: src/kawaz/apps/events/models.py:137
+#: src/kawaz/apps/events/models.py:139
 msgid "Start time must be future."
 msgstr "イベント開始日は未来の日付である必要があります"
 
-#: src/kawaz/apps/events/models.py:140
+#: src/kawaz/apps/events/models.py:142
 msgid ""
 "The period of event is too long. The period must be shorter than 7 days."
 msgstr "イベント終了までが長すぎます。7日未満で設定してください"
 
-#: src/kawaz/apps/events/models.py:144
+#: src/kawaz/apps/events/models.py:146
 msgid "You must set end time too"
 msgstr "終了時間を設定する必要があります"
 
-#: src/kawaz/apps/events/models.py:147
+#: src/kawaz/apps/events/models.py:149
 msgid "Number restriction should be grater than 0"
 msgstr "参加可能人数は一人から設定可能です"
 
-#: src/kawaz/apps/events/models.py:152
+#: src/kawaz/apps/events/models.py:154
 msgid "Attendance deadline must be future."
 msgstr "参加締切日は必ず未来の日付である必要があります"
 
-#: src/kawaz/apps/events/models.py:206
+#: src/kawaz/apps/events/models.py:208
 msgid "Mon"
 msgstr "月"
 
-#: src/kawaz/apps/events/models.py:206
+#: src/kawaz/apps/events/models.py:208
 msgid "Tue"
 msgstr "火"
 
-#: src/kawaz/apps/events/models.py:206
+#: src/kawaz/apps/events/models.py:208
 msgid "Wed"
 msgstr "水"
 
-#: src/kawaz/apps/events/models.py:206
+#: src/kawaz/apps/events/models.py:208
 msgid "Thu"
 msgstr "木"
 
-#: src/kawaz/apps/events/models.py:206
+#: src/kawaz/apps/events/models.py:208
 msgid "Fri"
 msgstr "金"
 
-#: src/kawaz/apps/events/models.py:206
+#: src/kawaz/apps/events/models.py:208
 msgid "Sat"
 msgstr "土"
 
-#: src/kawaz/apps/events/models.py:206
+#: src/kawaz/apps/events/models.py:208
 msgid "Sun"
 msgstr "日"
 
-#: src/kawaz/apps/events/models.py:230
+#: src/kawaz/apps/events/models.py:232
 msgid "Start time is unfixed"
 msgstr "開催日時未定"
 
-#: src/kawaz/apps/events/models.py:232
+#: src/kawaz/apps/events/models.py:234
 #, python-format
 msgid "%(start)s ~ End time is unfixed"
 msgstr "%(start)s 〜 終了日時未定"
 
-#: src/kawaz/apps/events/models.py:237
+#: src/kawaz/apps/events/models.py:239
 #, python-format
 msgid "%(start)s ~ %(end)s"
 msgstr "%(start)s 〜 %(end)s"
@@ -513,7 +513,7 @@ msgid "Package releases"
 msgstr "パッケージ"
 
 #: src/kawaz/apps/products/models.py:310
-#: src/kawaz/core/activities/hatenablog/models.py:18
+#: src/kawaz/core/activities/hatenablog/models.py:19
 #: src/kawaz/core/personas/models/profile.py:48
 msgid "URL"
 msgstr "URL"
@@ -536,7 +536,7 @@ msgid "URL releases"
 msgstr "URL"
 
 #: src/kawaz/apps/products/models.py:369
-#: src/kawaz/core/activities/hatenablog/models.py:19
+#: src/kawaz/core/activities/hatenablog/models.py:20
 msgid "Image"
 msgstr "画像"
 
@@ -691,11 +691,11 @@ msgstr "スター"
 msgid "%(nickname)s '%(quote)s'"
 msgstr "%(nickname)s「%(quote)s」"
 
-#: src/kawaz/core/activities/hatenablog/models.py:30
+#: src/kawaz/core/activities/hatenablog/models.py:32
 msgid "Hatenablog entry"
 msgstr "広報ブログの記事"
 
-#: src/kawaz/core/activities/hatenablog/models.py:31
+#: src/kawaz/core/activities/hatenablog/models.py:33
 msgid "Hatenablog entries"
 msgstr "広報ブログの記事"
 
@@ -909,6 +909,7 @@ msgid "Account"
 msgstr "アカウント"
 
 #: src/kawaz/core/personas/models/profile.py:138
+#: src/kawaz/core/registrations/forms.py:12
 msgid "Username"
 msgstr "ユーザ名"
 
@@ -946,6 +947,11 @@ msgstr "プロフィールを更新しました"
 msgid "Draft"
 msgstr "下書き"
 
+#: src/kawaz/core/registrations/forms.py:13
+#: src/kawaz/core/registrations/forms.py:17
+msgid "This value must contain only letters, numbers and underscores."
+msgstr ""
+
 #: src/kawaz/core/registrations/models.py:12
 msgid "Fill your address. You must be related with Sapporo or neighbor cities."
 msgstr ""
@@ -963,11 +969,11 @@ msgstr ""
 msgid "Remarks"
 msgstr "一言メッセージ"
 
-#: src/kawaz/settings.py:165
+#: src/kawaz/settings.py:166
 msgid "English"
 msgstr "英語"
 
-#: src/kawaz/settings.py:166
+#: src/kawaz/settings.py:167
 msgid "Japanese"
 msgstr "日本語"
 
@@ -1332,12 +1338,13 @@ msgid "Upload file"
 msgstr "ファイルアップロード"
 
 #: src/templates/components/mace_header.html:48
-#: src/templates/roughpages/helps.html:4 src/templates/roughpages/helps.html:7
+#: src/templates/roughpages/helps.html:5 src/templates/roughpages/helps.html:8
 #: src/templates/roughpages/helps/events.html:6
 #: src/templates/roughpages/helps/markdown.html:6
 #: src/templates/roughpages/helps/products.html:6
 #: src/templates/roughpages/helps/profiles.html:6
 #: src/templates/roughpages/helps/projects.html:6
+#: src/templates/roughpages/helps/staff/registration.html:6
 #: src/templates/roughpages/helps/welcome.html:6
 msgid "Help"
 msgstr "ヘルプ"
@@ -1889,6 +1896,12 @@ msgstr "クレジット表示のガイドライン"
 msgid "Markdown"
 msgstr "Markdown"
 
+#: src/templates/roughpages/helps/staff/registration.html:7
+#, fuzzy
+#| msgid "Register"
+msgid "Registration"
+msgstr "Kawazへ登録"
+
 #: src/templates/roughpages/helps/welcome.html:7
 msgid "Welcome"
 msgstr "ようこそKawazへ！"
@@ -1896,6 +1909,13 @@ msgstr "ようこそKawazへ！"
 #: src/templates/roughpages/published.html:4
 msgid "Published articles"
 msgstr "掲載情報"
+
+#: src/templates/twopane.html:16
+#, python-format
+msgid "There is an untreated registration"
+msgid_plural "There are %(counter)s untreated registrations"
+msgstr[0] "%(counter)s 件の未処理の会員登録申請があります"
+msgstr[1] "1件の未処理の会員登録申請があります"
 
 #~ msgid "Older"
 #~ msgstr "戻る"
