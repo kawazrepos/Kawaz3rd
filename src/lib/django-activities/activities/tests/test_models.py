@@ -8,6 +8,7 @@ from .models import ActivitiesTestModelA as ModelA
 from .models import ActivitiesTestModelB as ModelB
 from .models import ActivitiesTestModelC as ModelC
 from ..models import Activity
+from ..registry import registry
 
 
 class ActivitiesModelsActivityManagerTestCase(TestCase):
@@ -57,6 +58,7 @@ class ActivitiesModelsActivityManagerTestCase(TestCase):
         ex = map(repr, reversed(self.activities[0:3]))
         self.assertQuerysetEqual(qs, ex)
 
+
 class ActivitiesModelsActivityTestCase(TestCase):
     def setUp(self):
         self.models = (
@@ -78,6 +80,9 @@ class ActivitiesModelsActivityTestCase(TestCase):
         self.assertTrue(hasattr(activity, 'snapshot'))
 
     def test_snapshot(self):
+        registry.register(ModelA)
+        registry.register(ModelB)
+        registry.register(ModelC)
         model = self.models[0]
         ct = ContentType.objects.get_for_model(model)
         pk = model.pk

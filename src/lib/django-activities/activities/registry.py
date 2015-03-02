@@ -2,6 +2,7 @@
 from django.db.models import Model
 from django.contrib.contenttypes.models import ContentType
 from .mediator import ActivityMediator
+from .models import Activity
 
 
 class Registry(object):
@@ -51,7 +52,6 @@ class Registry(object):
         Get connected activity mediator of a model which the model connected
         or the activity has
         """
-        from .models import Activity
         if isinstance(model_or_activity, Activity):
             model_or_activity = model_or_activity.content_type.model_class()
         elif isinstance(model_or_activity, Model):
