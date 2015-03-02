@@ -1,11 +1,5 @@
-# ! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/10/18
-#
 from .factories import ProjectFactory
 from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
-
-__author__ = 'giginet'
 
 
 class ProjectActivityMediatorTestCase(BaseActivityMediatorTestCase):

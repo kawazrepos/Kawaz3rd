@@ -5,6 +5,7 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import pickle
 from django.db import models
 from django.db.models import Max
+from django.core import serializers
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.utils.translation import ugettext as _
@@ -79,15 +80,22 @@ class Activity(models.Model):
                                              self.status)
 
     @property
+    def mediator(self):
+        from .registry import registry
+        return registry.get(self)
+
+    @property
     def snapshot(self):
         """
         Get a pickled object from database
         """
         if not hasattr(self, SNAPSHOT_CACHE_NAME):
             if self._snapshot:
-                snapshot = pickle.loads(self._snapshot)
+                serialized_obj = pickle.loads(self._snapshot)
+                snapshot = self.mediator.deserialize_snapshot(serialized_obj)
             else:
                 snapshot = None
+
             setattr(self, SNAPSHOT_CACHE_NAME, snapshot)
         return getattr(self, SNAPSHOT_CACHE_NAME)
 

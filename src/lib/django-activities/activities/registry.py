@@ -1,7 +1,5 @@
 # coding=utf-8
-"""
-"""
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+from django.db.models import Model
 from django.contrib.contenttypes.models import ContentType
 from .mediator import ActivityMediator
 
@@ -35,12 +33,17 @@ class Registry(object):
         mediator.connect(model)
         self._registry[model] = mediator
 
-    def get(self, activity):
+    def get(self, model_or_activity):
         """
-        Get connected activity mediator of a model which the activity has.
+        Get connected activity mediator of a model which the model connected
+        or the activity has
         """
-        model = activity.content_type.model_class()
-        return self._registry[model]
+        from .models import Activity
+        if isinstance(model_or_activity, Activity):
+            model_or_activity = model_or_activity.content_type.model_class()
+        elif isinstance(model_or_activity, Model):
+            model_or_activity = model_or_activity.__class__
+        return self._registry[model_or_activity]
 
 
 # Create a global instance of registry

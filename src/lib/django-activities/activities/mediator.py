@@ -3,6 +3,7 @@
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from functools import lru_cache
+from django.core import serializers
 from django.template import Context
 from django.template.loader import select_template
 from django.db.models.signals import (post_save,
@@ -21,6 +22,9 @@ class ActivityMediator(object):
     """
     default_template_extension = None
     template_extensions = None
+
+    snapshot_fields = None
+    snapshot_version = 1
 
     # if m2m_fields is None, get_m2m_fields return all many to many fields
     # registered in the model.
@@ -111,9 +115,10 @@ class ActivityMediator(object):
     def _exec_post_processes_of_receivers(self, instance, activity, **kwargs):
         if activity:
             # save snapshot if the activity is specified
-            activity.snapshot = self.prepare_snapshot(
+            snapshot = self.prepare_snapshot(
                 instance, activity, **kwargs
             )
+            activity.snapshot = self.serialize_snapshot(snapshot)
             # save the activity into the database
             activity.save()
             # notify
@@ -225,6 +230,32 @@ class ActivityMediator(object):
             instance. It will return `activity._content_object` in default.
         """
         return activity._content_object
+
+    def serialize_snapshot(self, snapshot, fields=None, version=None):
+        """
+        Serialize a snapshot instance (a model instance)
+        """
+        fields = fields or self.snapshot_fields
+        version = version or self.snapshot_version
+        serialized_snapshot = serializers.serialize(
+            'python', [snapshot], fields=fields
+        )[0]
+        serialized_snapshot['version'] = version
+        serialized_snapshot['extra_fields'] = {}
+        return serialized_snapshot
+
+    def deserialize_snapshot(self, serialized_snapshot):
+        """
+        Deserialize a serialized snapshot instance
+        """
+        snapshot = list(serializers.deserialize(
+            'python', [serialized_snapshot]
+        ))[0].object
+        snapshot.__version__ = serialized_snapshot['version']
+        if 'extra_fields' in serialized_snapshot:
+            for name, value in serialized_snapshot['extra_fields'].items():
+                setattr(snapshot, name, self.deserialize_snapshot(value))
+        return snapshot
 
     def prepare_context(self, activity, context, typename=None):
         """
