@@ -8,18 +8,14 @@ def convert_snapshots(apps, schema_editor):
     Activity = apps.get_model('activities', 'Activity')
     ContentType = apps.get_model('contenttypes', 'ContentType')
     for activity in Activity.objects.all():
-        content_type = ContentType.objects.get(pk=activity.content_type_id)
-        activity._content_object = content_type.get_object_fot_this_type(
-            pk=activity.object_id
-        )
-        mediator = registry.get(activity)
+        ct = ContentType.objects.get(pk=activity.content_type_id)
+        natural_key = "{}.{}".format(ct.app_label, ct.model)
+        mediator = registry._registry[natural_key]
         snapshot = pickle.loads(activity._snapshot)
         if isinstance(snapshot, dict):
-            # Model instalce => dictionary instance convertion was already
-            # applied. Skip.
             continue
-        snapshot_dict = mediator.serialize_snapshot(snapshot)
-        activity._snapshot = pickle.dumps(snapshot_dict)
+        serialized_snapshot = mediator.serialize_snapshot(snapshot)
+        activity._snapshot = pickle.dumps(serialized_snapshot)
         activity.save()
 
 

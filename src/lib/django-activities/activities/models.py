@@ -90,12 +90,15 @@ class Activity(models.Model):
         Get a pickled object from database
         """
         if not hasattr(self, SNAPSHOT_CACHE_NAME):
+            snapshot = None
             if self._snapshot:
                 serialized_obj = pickle.loads(self._snapshot)
-                snapshot = self.mediator.deserialize_snapshot(serialized_obj)
-            else:
-                snapshot = None
-
+                if serialized_obj and isinstance(serialized_obj, dict):
+                    snapshot = self.mediator.deserialize_snapshot(
+                        serialized_obj
+                    )
+                else:
+                    snapshot = serialized_obj
             setattr(self, SNAPSHOT_CACHE_NAME, snapshot)
         return getattr(self, SNAPSHOT_CACHE_NAME)
 
@@ -105,7 +108,8 @@ class Activity(models.Model):
         Set object to database as pickled object
         """
         if value:
-            snapshot = pickle.dumps(value)
+            serialized_obj = self.mediator.serialize_snapshot(value)
+            snapshot = pickle.dumps(serialized_obj)
         else:
             snapshot = None
         self._snapshot = snapshot

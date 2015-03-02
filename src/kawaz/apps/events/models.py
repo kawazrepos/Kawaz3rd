@@ -248,9 +248,11 @@ class Event(models.Model):
 from django.db.models.signals import post_save
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from kawaz.core.utils.signals import disable_for_loaddata
 
 
 @receiver(post_save, sender=Event)
+@disable_for_loaddata
 def join_organizer(**kwargs):
     """
     作成者を自動的に参加させるシグナルレシーバ

@@ -83,6 +83,8 @@ class ActivityMediator(object):
         return _notifiers
 
     def _pre_delete_receiver(self, sender, instance, **kwargs):
+        if kwargs.get('raw', False):
+            return
         ct = ContentType.objects.get_for_model(instance)
         activity = Activity(content_type=ct,
                             object_id=instance.pk,
@@ -94,6 +96,8 @@ class ActivityMediator(object):
         )
 
     def _post_save_receiver(self, sender, instance, created, **kwargs):
+        if kwargs.get('raw', False):
+            return
         ct = ContentType.objects.get_for_model(instance)
         activity = Activity(content_type=ct,
                             object_id=instance.pk,
@@ -105,6 +109,8 @@ class ActivityMediator(object):
         )
 
     def _m2m_changed_receiver(self, sender, instance, **kwargs):
+        if kwargs.get('raw', False):
+            return
         # call user defined alternation code
         # user need to create activity instance
         activity = self.alter(instance, None, **kwargs)
@@ -115,10 +121,9 @@ class ActivityMediator(object):
     def _exec_post_processes_of_receivers(self, instance, activity, **kwargs):
         if activity:
             # save snapshot if the activity is specified
-            snapshot = self.prepare_snapshot(
+            activity.snapshot = self.prepare_snapshot(
                 instance, activity, **kwargs
             )
-            activity.snapshot = self.serialize_snapshot(snapshot)
             # save the activity into the database
             activity.save()
             # notify
@@ -233,7 +238,33 @@ class ActivityMediator(object):
 
     def serialize_snapshot(self, snapshot, fields=None, version=None):
         """
-        Serialize a snapshot instance (a model instance)
+        Serialize a snapshot instance (a model instance) to a python dictionary
+        via Django's model serializer.
+
+        The following special fields will be inserted
+
+        version (int):
+            indicate a version of the snapshot. 'snapshot_version' value of the
+            mediator will be stored. mainly for data migration
+        extra_fields (dict):
+            a dictionary which will be applied after deserialization. used for
+            storing snapshots of related models of the snapshot.
+            the default value is {}. override this method to modify this value
+
+        Return value will be looked like:
+
+            {
+                'pk': 1,
+                'model': 'personas.persona',
+                'version': 1,
+                'fields': {
+                    'first_name': 'foo',
+                    'last_name': 'bar',
+                    ...
+                },
+                'extra_fields': {}
+            }
+
         """
         fields = fields or self.snapshot_fields
         version = version or self.snapshot_version
@@ -246,15 +277,31 @@ class ActivityMediator(object):
 
     def deserialize_snapshot(self, serialized_snapshot):
         """
-        Deserialize a serialized snapshot instance
+        Deserialize a serialized python dictionary to a snapshot instance (a
+        model instance) via Django's model serializer
+
+        The following special fields will be inserted
+
+        __version__ (int):
+            indicate a version of the snapshot. 'snapshot_version' value of the
+            mediator will be stored. mainly for data migration
+        __extra_fields__ (dict):
+            a dictionary which will be applied to the instance after
+            deserialization. used for storing snapshots of related models of
+            the snapshot.
+
         """
         snapshot = list(serializers.deserialize(
             'python', [serialized_snapshot]
         ))[0].object
         snapshot.__version__ = serialized_snapshot['version']
-        if 'extra_fields' in serialized_snapshot:
-            for name, value in serialized_snapshot['extra_fields'].items():
-                setattr(snapshot, name, self.deserialize_snapshot(value))
+        snapshot.__extra_fields__ = serialized_snapshot['extra_fields']
+        # override extra fields
+        for name, value in serialized_snapshot['extra_fields'].items():
+            if value:
+                if isinstance(value, dict):
+                    value = self.deserialize_snapshot(value)
+                setattr(snapshot, name, value)
         return snapshot
 
     def prepare_context(self, activity, context, typename=None):
