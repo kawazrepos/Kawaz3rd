@@ -8,7 +8,7 @@ from ...models import Profile, Skill, Service, Account
 class ProfileFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Profile
 
-    birthday = datetime.datetime(2009, 10, 15, tzinfo=timezone.utc)
+    birthday = datetime.date(2009, 10, 15)
     place = 'グランエターナ'
     url = 'http://www.kawaz.org/'
     user = factory.SubFactory(PersonaFactory)

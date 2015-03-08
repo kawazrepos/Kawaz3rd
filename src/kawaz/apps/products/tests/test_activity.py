@@ -47,7 +47,8 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
 
         activity = activities[0]
         self.assertEqual(activity.status, 'release_added')
-        self.assertEqual(activity.snapshot, self.object)
+        self.assertEqual(activity.snapshot,
+                         self.object)
         # remarksにリリースのapp_label,model,pkが入る
         remarks = 'products,packagerelease,{}'.format(release.pk)
         self.assertEqual(activity.remarks, remarks)
@@ -71,7 +72,8 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
 
         activity = activities[0]
         self.assertEqual(activity.status, 'release_added')
-        self.assertEqual(activity.snapshot, self.object)
+        self.assertEqual(activity.snapshot,
+                         self.object)
         # remarksにリリースのapp_label,model,pkが入る
         remarks = 'products,urlrelease,{}'.format(release.pk)
         self.assertEqual(activity.remarks, remarks)
@@ -119,7 +121,8 @@ class ProductActivityMediatorTestCase(BaseActivityMediatorTestCase):
 
         activity = activities[0]
         self.assertEqual(activity.status, 'screenshot_added')
-        self.assertEqual(activity.snapshot, self.object)
+        self.assertEqual(activity.snapshot,
+                         self.object)
         # remarksにスクリーンショットのpkが入る
         remarks = str(ss.pk)
         self.assertEqual(activity.remarks, remarks)

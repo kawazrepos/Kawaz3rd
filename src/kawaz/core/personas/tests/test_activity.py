@@ -1,15 +1,10 @@
-# ! -*- coding: utf-8 -*-
-#
-# created by giginet on 2014/10/18
-#
 import datetime
 from django.template import Context
 from activities.models import Activity
 from activities.registry import registry
+from ..models.profile import Profile
 from .factories import PersonaFactory, ProfileFactory, AccountFactory
 from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
-
-__author__ = 'giginet'
 
 
 class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
@@ -54,16 +49,22 @@ class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
         self.assertEqual(Activity.objects.count(), nactivity + 1)
         activity = Activity.objects.first()
         self.assertEqual(activity.status, 'activated')
-        self.assertEqual(activity.snapshot, profile.user)
+        self.assertEqual(activity.snapshot,
+                         profile.user)
 
     def test_update_profile(self):
         """
-        あるユーザーのProfileを更新したとき、profile_updated Activityが発行される
+        ユーザーのProfileを更新したとき、profile_updated Activityが発行される
         """
         profile = ProfileFactory()
 
         # Profileを更新する
-        fields = {'place': 'ネルフ本部', 'birthday': datetime.datetime(2112, 9, 21), 'url': 'http://nerv.com/', 'remarks': 'ねむい'}
+        fields = {
+            'place': 'ネルフ本部',
+            'birthday': datetime.date(2112, 9, 21),
+            'url': 'http://nerv.com/',
+            'remarks': 'ねむい',
+        }
         activities = Activity.objects.get_for_object(profile.user)
         self.assertEqual(len(activities), 1)
         for field, value in fields.items():
@@ -96,7 +97,8 @@ class PersonaActivityMediatorTestCase(BaseActivityMediatorTestCase):
 
     def test_account_added(self):
         """
-        アカウントを作成したとき、ユーザーに対してaccount_added Activityが発行される
+        アカウントを作成したとき、ユーザーに対してaccount_added Activityが
+        発行される
         """
 
         # アカウントを作る
