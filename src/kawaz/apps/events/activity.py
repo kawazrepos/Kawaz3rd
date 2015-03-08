@@ -76,8 +76,6 @@ class EventActivityMediator(ActivityMediator):
             activity = Activity(content_type=ct,
                                 object_id=instance.pk,
                                 status=status)
-            # snapshot を保存
-            activity.snapshot = instance
             # 追加・削除されたユーザーのIDを保存
             activity.remarks = " ".join(map(str, kwargs.get('pk_set')))
         return activity

@@ -6,7 +6,6 @@ from activities.models import Activity
 from .factories import EventFactory, PersonaFactory, CategoryFactory
 from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
 from ..models import Event
-from ..activity import EventActivityMediator
 
 
 class EventActivityMediatorTestCase(BaseActivityMediatorTestCase):

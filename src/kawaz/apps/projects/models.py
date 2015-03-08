@@ -220,9 +220,11 @@ class Project(models.Model):
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from kawaz.core.utils.signals import disable_for_loaddata
 
 
 @receiver(post_save, sender=Project)
+@disable_for_loaddata
 def join_administrator(**kwargs):
     """
     プロジェクト作成時に自動的に管理者をプロジェクトに参加させるシグナル処理

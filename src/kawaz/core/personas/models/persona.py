@@ -67,7 +67,7 @@ class ActivePersonaManager(PersonaManager):
 
     def get_queryset(self):
         # 常に無効なユーザーは含まない
-        return super().get_query_set().filter(is_active=True)
+        return super().get_queryset().filter(is_active=True)
 
 
 class PersonaBase(ModelBase):

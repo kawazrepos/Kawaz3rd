@@ -28,9 +28,11 @@ add_permission_logic(RegistrationProfile, RegistrationProfilePermissionLogic())
 
 from django.dispatch import receiver
 from registration.signals import user_activated
+from kawaz.core.utils.signals import disable_for_loaddata
 
 
 @receiver(user_activated)
+@disable_for_loaddata
 def setup_for_participation(sender, user, password, is_generated, request, **kwargs):
     user.role = 'children'      # ユーザーをChildrenにする
     user.save()
