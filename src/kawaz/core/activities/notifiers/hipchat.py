@@ -41,6 +41,7 @@ class HipChatActivityNotifier(ActivityNotifierBase):
         >>>    {'from': 'Kawazポータル', 'color': 'green', 'notify': True})
         >>> )
     """
+    typename = 'hipchat'
 
     def __init__(self, auth_token, room_id, params):
         self.auth_token = auth_token
