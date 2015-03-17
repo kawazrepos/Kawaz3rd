@@ -33,5 +33,7 @@ class ShortenURLNode(template.Node):
 
     def render(self, context):
         value = self.nodelist.render(context)
-        replaced_value = PATTERN.sub(shorten, value)
+        def repl(m):
+            return shorten(m.group())
+        replaced_value = PATTERN.sub(repl, value)
         return mark_safe(replaced_value)
