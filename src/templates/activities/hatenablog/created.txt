@@ -1,1 +1,4 @@
+{% load shortenurl %}
+{% shortenurl %}
 「{{ object }}」が投稿されました {{ object.get_absolute_url }} #Kawaz
+{% endshortenurl %}
