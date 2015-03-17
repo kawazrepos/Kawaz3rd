@@ -37,3 +37,10 @@
         {% crispy form %}
     </div>
 {% endblock %}
+{% block post_javascript %}
+{{ block.super }}
+<script type="text/javascript">
+  $('#id_attendees').attr('data-placeholder', "ここをクリックしてイベント参加者を追加してください")
+                         .chosen({no_results_text: "指定されたユーザーが見つかりませんでした"});
+</script>
+{% endblock %}

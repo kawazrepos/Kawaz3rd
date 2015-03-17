@@ -93,8 +93,7 @@ class Event(models.Model):
                                   editable=False)
     attendees = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                        verbose_name=_("Attendees"),
-                                       related_name="events_attend",
-                                       editable=False)
+                                       related_name="events_attend")
     category = models.ForeignKey(Category, verbose_name=_('Category'),
                                  null=True, blank=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
