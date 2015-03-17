@@ -1,0 +1,2 @@
+<strong>{{ object.organizer.nickname }}さんが「{{ object.title }}」を企画しました <a href="http://{{ site.domain }}{{ object.get_absolute_url }}">http://{{ site.domain }}{{ object.get_absolute_url }}</a></strong>
+<pre>{{  object.body | truncatechars_html:150 }}</pre>
