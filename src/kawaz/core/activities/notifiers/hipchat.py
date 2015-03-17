@@ -43,7 +43,7 @@ class HipChatActivityNotifier(ActivityNotifierBase):
     """
     typename = 'hipchat'
 
-    def __init__(self, auth_token, room_id, params):
+    def __init__(self, auth_token, room_id, params={}):
         self.auth_token = auth_token
         self.room_id = room_id
         self.color = params.get('color', DEFAULT_COLOR)
