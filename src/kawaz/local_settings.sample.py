@@ -144,8 +144,6 @@ if PRODUCT:
          'roomid',
          {'from': 'Kawazポータル', 'color': 'green', 'notify': True}
         )
-    )
-    
 )
 ACTIVITIES_DEFAULT_NOTIFIERS = (
     'twitter_kawaz_info',

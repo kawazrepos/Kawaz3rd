@@ -27,7 +27,7 @@ class HipChatActivityNotifierTestCase(TestCase):
             self.assertEqual(query['auth_token'][0], auth_token)
             self.assertEqual(query['room_id'][0], room_id)
             self.assertEqual(query['color'][0], 'random')
-            self.assertEqual(query['notify'][0], 'True')
+            self.assertEqual(query['notify'][0], '1')
             self.assertEqual(query['from'][0], 'Kawaz')
             self.assertEqual(query['message'][0], randomstr)
 

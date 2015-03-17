@@ -57,7 +57,9 @@ class HipChatActivityNotifier(ActivityNotifierBase):
             'format': 'json',
             'color': self.color,
             'message': rendered_content,
-            'notify': self.is_notify,
+            # HipChat API v1.0では1か0で指定する
+            # https://www.hipchat.com/docs/api/method/rooms/message
+            'notify': 1 if self.is_notify else 0,
             'message_format': 'html',
             'from': self.name,
             'room_id': self.room_id,
