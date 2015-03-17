@@ -1,7 +1,7 @@
 import re
 from django import template
 from django.utils.safestring import mark_safe
-from kawaz.core.utils.shorten import shorten
+from kawaz.core.utils.shortenurl import shorten
 
 __author__ = 'giginet'
 
