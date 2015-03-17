@@ -138,7 +138,19 @@ if PRODUCT:
          'activities.notifiers.oauth.twitter.TwitterActivityNotifier',
          os.path.join(CONFIG_ROOT, 'activities', 'notifiers',
                       'credentials_twitter_kawazinfo.json')),
+        ('hipchat_kawaz_all',
+         'kawaz.core.activities.notifiers.hipchat.HipChatActivityNotifier',
+         'mytoken',
+         'roomid',
+         {'from': 'Kawazポータル', 'color': 'green', 'notify': True}
+        )
     )
+    
+)
+ACTIVITIES_DEFAULT_NOTIFIERS = (
+    'twitter_kawaz_info',
+    'hipchat_kawaz_all',
+)
 
 # django-compress
 COMPRESS_ENABLED = True
@@ -161,3 +173,4 @@ if PRODUCT:
     )
 
 LOCAL_SETTINGS_LOADED = True
+
