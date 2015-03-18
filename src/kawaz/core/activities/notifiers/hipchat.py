@@ -7,7 +7,7 @@ __author__ = 'giginet'
 HIPCHAT_API_BASE = 'https://api.hipchat.com/'
 MESSAGE_END_POINT = 'v1/rooms/message'
 DEFAULT_COLOR = 'random'
-DEFAULT_FROM = 'Kawaz'
+DEFAULT_FROM_NAME = 'Kawaz'
 
 class HipChatActivityNotifier(ActivityNotifierBase):
     """
@@ -47,7 +47,7 @@ class HipChatActivityNotifier(ActivityNotifierBase):
         self.auth_token = auth_token
         self.room_id = room_id
         self.color = params.get('color', DEFAULT_COLOR)
-        self.name = params.get('from', DEFAULT_FROM)
+        self.from_name = params.get('from', DEFAULT_FROM_NAME)
         self.is_notify = params.get('notify', True)
 
     def send(self, rendered_content):
@@ -61,7 +61,7 @@ class HipChatActivityNotifier(ActivityNotifierBase):
             # https://www.hipchat.com/docs/api/method/rooms/message
             'notify': 1 if self.is_notify else 0,
             'message_format': 'html',
-            'from': self.name,
+            'from': self.from_name,
             'room_id': self.room_id,
             'auth_token': self.auth_token
         }

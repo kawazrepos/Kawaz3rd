@@ -9,14 +9,14 @@ from kawaz.core.activities.notifiers.hipchat import HipChatActivityNotifier
 
 __author__ = 'giginet'
 
+@override_settings(ACTIVITIES_ENABLE_HIPCHAT_NOTIFICATION=True)
 class HipChatActivityNotifierTestCase(TestCase):
-    @override_settings(ACTIVITIES_ENABLE_HIPCHAT_NOTIFICATION=True)
     def test_send(self):
         """
         HipChatActivityNotifierで正しいクエリーが正しいURLにPOSTされるかをテストします
         """
         randomstr = "".join([random.choice(string.ascii_letters)
-                             for _ in range(100)])
+                             for x in range(100)])
         auth_token = 'dummyauthtoken'
         room_id = '9999999'
 

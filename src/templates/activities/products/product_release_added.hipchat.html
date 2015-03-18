@@ -1,2 +1,2 @@
-<strong>「{{ object.title }}にスクリーンショットが追加されました <a href="http://{{ site.domain }}{{ object.get_absolute_url }}">http://{{ site.domain }}{{ object.get_absolute_url }}</a></strong>
+<strong>{{ object.last_modifier.nickname }}さんが「{{ release.product.title }}」に「<a href="http://{{ site.domain }}{{ object.get_absolute_url }}">{{ release.label }}</a>」を追加しました</strong>
 <pre>{{  object.description | truncatechars_html:150 }}</pre>
