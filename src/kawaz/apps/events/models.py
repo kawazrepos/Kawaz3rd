@@ -85,16 +85,15 @@ class Event(models.Model):
         _('Attendance deadline'),
         default=None, blank=True, null=True,
         help_text=ATTENDANCE_DEADLINE_HELP_TEXT)
+    attendees = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                       verbose_name=_("Attendees"),
+                                       related_name="events_attend")
     # 編集不可フィールド
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   verbose_name=_("Organizer"),
                                   related_name="events_owned",
                                   null=True,
                                   editable=False)
-    attendees = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                       verbose_name=_("Attendees"),
-                                       related_name="events_attend",
-                                       editable=False)
     category = models.ForeignKey(Category, verbose_name=_('Category'),
                                  null=True, blank=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)

@@ -7,6 +7,13 @@ from django.contrib.auth.forms import UserChangeForm
 from kawaz.core.forms.widgets import RadioSelectWithHelpText
 from ..models import Persona
 
+class PersonaChoiceField(forms.ModelMultipleChoiceField):
+    """
+    ラベルにニックネームが使われるようにする
+    """
+
+    def label_from_instance(self, obj):
+        return obj.nickname
 
 
 class PersonaCreationForm(UserCreationForm):
