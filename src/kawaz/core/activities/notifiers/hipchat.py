@@ -24,12 +24,12 @@ class HipChatActivityNotifier(ActivityNotifierBase):
             第4引数 [String]
                 HipChat上で通知を有効にする部屋IDです
             第5引数 [Dict]
-                from
+                from_name
                     HipChat上の通知名です。設定しない場合はデフォルト値が利用されます。
                 color
                     HipChat上の表示色です。設定しない場合はランダム値が設定されます。
                     設定値はHipChat APIに準拠します。
-                notify
+                is_notify
                     通知があったとき、ルームメンバーに通知するかを設定します。
                     デフォルトでは常に通知します。
 
