@@ -1,0 +1,2 @@
+<strong>{{ object.author.nickname }}さんが「<a href="http://{{ site.domain }}{{ object.get_absolute_url }}">{{ object.title }}</a>」を書きました</strong>
+<pre>{{  object.body | truncatechars_html:150 }}</pre>
