@@ -1,5 +1,6 @@
 import json
 import urllib
+from django.conf import settings
 __author__ = 'giginet'
 
 def shorten(url):
@@ -15,5 +16,9 @@ def shorten(url):
         r = urllib.request.urlopen(request)
         json_string = r.read().decode("utf-8")
         return json.loads(json_string)['id']
-    except:
+    except Exception as e:
+        if settings.DEBUG:
+            # デバッグ環境においては例外を発生させる
+            raise e
+        # 本番環境に置いてはfail silently
         return url

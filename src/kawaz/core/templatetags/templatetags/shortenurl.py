@@ -6,7 +6,7 @@ from kawaz.core.utils.shortenurl import shorten
 __author__ = 'giginet'
 
 PATTERN = re.compile(
-    r'(https?|ftp)(:\/\/[-_.!~*()a-zA-Z0-9;\/?:\@&=+\$,%#]+)',
+    r'(?:https?|ftp)://[\.\-\+\?\(\)\{\}\^\$\w\d/:;@&=,%#]+',
     flags=re.MULTILINE,
 )
 
