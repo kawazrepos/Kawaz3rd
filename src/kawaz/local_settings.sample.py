@@ -142,7 +142,7 @@ if PRODUCT:
          'kawaz.core.activities.notifiers.hipchat.HipChatActivityNotifier',
          'mytoken',
          'roomid',
-         {'from': 'Kawazポータル', 'color': 'green', 'notify': True}
+         {'from_name': 'Kawazポータル', 'color': 'green', 'is_notify': True}
         )
 )
 ACTIVITIES_DEFAULT_NOTIFIERS = (

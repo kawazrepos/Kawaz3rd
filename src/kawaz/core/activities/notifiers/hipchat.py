@@ -38,7 +38,7 @@ class HipChatActivityNotifier(ActivityNotifierBase):
         >>>    'kawaz.core.activities.notifiers.hipchat.HipChatActivityNotifier',
         >>>    'mytoken',
         >>>    'roomid',
-        >>>    {'from': 'Kawazポータル', 'color': 'green', 'notify': True})
+        >>>    {'from_name': 'Kawazポータル', 'color': 'green', 'is_notify': True})
         >>> )
     """
     typename = 'hipchat'
@@ -47,8 +47,8 @@ class HipChatActivityNotifier(ActivityNotifierBase):
         self.auth_token = auth_token
         self.room_id = room_id
         self.color = params.get('color', DEFAULT_COLOR)
-        self.from_name = params.get('from', DEFAULT_FROM_NAME)
-        self.is_notify = params.get('notify', True)
+        self.from_name = params.get('from_name', DEFAULT_FROM_NAME)
+        self.is_notify = params.get('is_notify', True)
 
     def send(self, rendered_content):
         if not settings.ACTIVITIES_ENABLE_HIPCHAT_NOTIFICATION:
