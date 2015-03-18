@@ -190,6 +190,7 @@ class EventUpdateViewTestCase(TestCase):
             'pub_state': 'public',
             'title': '変更後のイベントです',
             'body': 'うえーい',
+            'attendees': [self.user.pk,],
             'period_start': datetime.datetime.now()+datetime.timedelta(hours=1),
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3),
         })
@@ -207,6 +208,7 @@ class EventUpdateViewTestCase(TestCase):
             'pub_state': 'public',
             'title': '変更後のイベントです',
             'body': 'うえーい',
+            'attendees': [self.user.pk,],
             'period_start': datetime.datetime.now()+datetime.timedelta(hours=1),
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3)
         })
@@ -221,6 +223,7 @@ class EventUpdateViewTestCase(TestCase):
             'pub_state': 'public',
             'title': '変更後のイベントです',
             'body': 'うえーい',
+            'attendees': [self.user.pk,],
             'period_start': datetime.datetime.now()+datetime.timedelta(hours=1),
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3)
         })
@@ -244,6 +247,7 @@ class EventUpdateViewTestCase(TestCase):
             'pub_state': 'public',
             'title': '変更後のイベントです',
             'body': 'うえーい',
+            'attendees': [self.user.pk],
             'period_start': datetime.datetime.now()+datetime.timedelta(hours=1),
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3),
             'organizer': other.pk # crackers attempt to masquerade
