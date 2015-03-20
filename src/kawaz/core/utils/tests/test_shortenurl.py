@@ -1,3 +1,5 @@
+import json
+from unittest.mock import MagicMock
 from django.test import TestCase
 from kawaz.core.utils import shortenurl
 
@@ -10,7 +12,16 @@ class ShortenURLTestCase(TestCase):
         """
         GoogleのURL短縮APIを使ってURLが短縮できる
         """
+        def dummy_urlopen(request):
+            mock = MagicMock()
+            json_string = json.dumps({'id': 'http://goo.gl/hogehoge'})
+            mock.read.return_value = json_string.encode('utf-8')
+            return mock
+
+        shortenurl.urllib.request.urlopen = dummy_urlopen
+
         url = shortenurl.shorten(URL)
+
         self.assertRegex(url, r'^http:\/\/goo.\gl\/.+$')
 
     def test_shortenurl_failed(self):

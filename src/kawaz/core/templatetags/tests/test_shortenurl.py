@@ -1,3 +1,6 @@
+from ..templatetags import shortenurl
+import json
+from unittest.mock import MagicMock
 from django.test import TestCase
 from django.template import Template, Context
 
@@ -13,5 +16,11 @@ class ShortenURLTestCase(TestCase):
             "かわずたんが「けろ〜ん」を書きました http://www.kawaz.org/blogs/hoge/"
             "{% endshortenurl %}"
         ))
+
+        mock = MagicMock()
+        mock.return_value = 'http://goo.gl/testurl'
+        shortenurl.shorten = mock
+
         rendered = t.render(Context())
+
         self.assertRegex(rendered, r'http:\/\/goo.\gl\/.+')
