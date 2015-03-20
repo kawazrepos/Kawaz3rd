@@ -1,8 +1,7 @@
-from ..templatetags import shortenurl
-import json
 from unittest.mock import MagicMock
 from django.test import TestCase
 from django.template import Template, Context
+from ..templatetags import shortenurl
 
 __author__ = 'giginet'
 
