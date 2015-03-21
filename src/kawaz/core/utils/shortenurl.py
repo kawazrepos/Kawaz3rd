@@ -26,8 +26,5 @@ def shorten(url):
         json_string = r.read().decode("utf-8")
         return json.loads(json_string)['id']
     except Exception as e:
-        if settings.DEBUG:
-            # デバッグ環境においては例外を発生させる
-            raise e
-        # 本番環境に置いてはfail silently
+        # fail silently
         return url
