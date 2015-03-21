@@ -1,4 +1,5 @@
 import json
+import logging
 from urllib.request import urlopen, Request
 from django.conf import settings
 __author__ = 'giginet'
@@ -27,4 +28,5 @@ def shorten(url):
         return json.loads(json_string)['id']
     except Exception as e:
         # fail silently
+        logging.warning("Failed to shorten `{}`".format(url))
         return url
