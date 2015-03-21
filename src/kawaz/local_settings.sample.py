@@ -150,6 +150,10 @@ ACTIVITIES_DEFAULT_NOTIFIERS = (
     'hipchat_kawaz_all',
 )
 
+# utils
+if PRODUCT:
+    GOOGLE_URL_SHORTENER_API_KEY = ''
+
 # django-compress
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = PRODUCT

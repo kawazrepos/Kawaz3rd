@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.template import Template, Context
 from ..templatetags import shortenurl
 
@@ -7,6 +7,7 @@ __author__ = 'giginet'
 
 URL = "http://www.kawaz.org"
 
+@override_settings(GOOGLE_URL_SHORTENER_API_KEY='key')
 class ShortenURLTestCase(TestCase):
     def test_shortenurl_templatetag(self):
         t = Template((
