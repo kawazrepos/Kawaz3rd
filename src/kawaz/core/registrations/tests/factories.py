@@ -3,7 +3,9 @@ from registration.models import RegistrationProfile
 from kawaz.core.personas.tests.factories import PersonaFactory
 
 class RegistrationProfileFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = RegistrationProfile
+
+    class Meta:
+        model = RegistrationProfile
 
     user = factory.SubFactory(PersonaFactory, is_active=False)
     _status = 'untreated'

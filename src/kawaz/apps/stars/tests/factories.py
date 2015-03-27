@@ -5,7 +5,9 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 
 
 class ArticleFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = StarTestArticle
+
+    class Meta:
+        model = StarTestArticle
 
     pub_state = 'public'
     author = factory.SubFactory(PersonaFactory)
@@ -13,7 +15,9 @@ class ArticleFactory(factory.DjangoModelFactory):
 
 
 class StarFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Star
+
+    class Meta:
+        model = Star
 
     author = factory.SubFactory(PersonaFactory)
     content_object = factory.SubFactory(ArticleFactory)

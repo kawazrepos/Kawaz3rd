@@ -12,4 +12,6 @@ from activities.models import Activity
 __author__ = 'giginet'
 
 class ActivityFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Activity
+
+    class Meta:
+        model = Activity
