@@ -4,8 +4,10 @@ from ...models import Persona
 
 
 class PersonaFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = Persona
-    FACTORY_DJANGO_GET_OR_CREATE = ('username',)
+
+    class Meta:
+        model = Persona
+        django_get_or_create = ('username',)
 
     last_name = 'Inonaka'
     first_name = 'Kawaz'

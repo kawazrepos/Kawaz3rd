@@ -4,14 +4,18 @@ from kawaz.core.personas.tests.factories import PersonaFactory
 from ..models import Category, Project
 
 class CategoryFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Category
-    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
+
+    class Meta:
+        model = Category
+        django_get_or_create = ('label',)
 
     label = 'RPG'
 
 class ProjectFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Project
-    FACTORY_DJANGO_GET_OR_CREATE = ('slug',)
+
+    class Meta:
+        model = Project
+        django_get_or_create = ('slug',)
 
     pub_state = 'public'
     status = 'active'

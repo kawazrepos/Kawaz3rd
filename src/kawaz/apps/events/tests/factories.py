@@ -7,14 +7,18 @@ from ..models import Event
 from ..models import Category
 
 class CategoryFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Category
+
+    class Meta:
+        model = Category
 
     label = 'ゲームオフ'
     order = 1
 
 
 class EventFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Event
+
+    class Meta:
+        model = Event
 
     pub_state = 'public'
     title = '焼肉食べまくる会'

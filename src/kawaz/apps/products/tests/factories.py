@@ -12,21 +12,27 @@ from ..models import Screenshot
 
 
 class PlatformFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Platform
+
+    class Meta:
+        model = Platform
 
     label = factory.Sequence(lambda n: 'OUYA{}'.format(n))
     icon = "icons/platforms/ouya.png"
 
 
 class CategoryFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Category
+
+    class Meta:
+        model = Category
 
     label = factory.Sequence(lambda n: 'クソゲー{}'.format(n))
     description = 'クソゲーです'
 
 
 class ProductFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Product
+
+    class Meta:
+        model = Product
 
     title = factory.sequence(lambda n: 'かわずたんアドベンチャー{}'.format(n))
     slug = factory.sequence(lambda n: 'kawaz-tan-adventure-{}'.format(n))
@@ -81,7 +87,9 @@ class ReleaseFactory(factory.DjangoModelFactory):
 
 
 class PackageReleaseFactory(ReleaseFactory):
-    FACTORY_FOR = PackageRelease
+
+    class Meta:
+        model = PackageRelease
 
     file_content = 'products/kawaz-tan-adventure/releases/kawaz_mac.zip'
 
@@ -101,13 +109,17 @@ class PackageReleaseFactory(ReleaseFactory):
 
 
 class URLReleaseFactory(ReleaseFactory):
-    FACTORY_FOR = URLRelease
+
+    class Meta:
+        model = URLRelease
 
     url = 'https://itunes.apple.com/jp/app/kawazutantataki!/id447763556?mt=8'
 
 
 class ScreenshotFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Screenshot
+
+    class Meta:
+        model = Screenshot
 
     image = 'products/kawaz-tan-adventure/screenshots/cute_kawaz_tan.png'
     product = factory.SubFactory(ProductFactory)

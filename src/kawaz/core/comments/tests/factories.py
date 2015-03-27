@@ -4,14 +4,18 @@ from .models import CommentTestArticle
 from kawaz.core.personas.tests.factories import PersonaFactory
 
 class CommentTestArticleFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = CommentTestArticle
+
+    class Meta:
+        model = CommentTestArticle
 
     text = '本文です'
     author = factory.SubFactory(PersonaFactory)
 
 
 class CommentFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Comment
+
+    class Meta:
+        model = Comment
 
     comment = "コメントだよー"
     user = factory.SubFactory(PersonaFactory)

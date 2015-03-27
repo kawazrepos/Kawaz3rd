@@ -4,7 +4,9 @@ from ..models import Announcement
 
 
 class AnnouncementFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Announcement
+
+    class Meta:
+        model = Announcement
 
     pub_state = 'public'
     title = '【悲報】データ消失のお知らせ'
