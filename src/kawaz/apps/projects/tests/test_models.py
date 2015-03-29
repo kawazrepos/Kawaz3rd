@@ -286,16 +286,27 @@ class ProjectModelTestCase(TestCase):
 
     def test_is_legacy(self):
         """
-         365日以上更新されていないプロジェクトでは、is_legacyがTrueを返す
+         企画中か活動中、かつ365日以上更新されていないプロジェクトでは、is_legacyがTrueを返す
         """
+        STATUS = (
+            ('planning', True),
+            ('active', True),
+            ('paused', False),
+            ('eternal', False),
+            ('done', False),
+        )
 
-        new_project = ProjectFactory()
-        self.assertFalse(new_project.is_legacy, new_project)
+        for status, is_legasy in STATUS:
+            new_project = ProjectFactory(status=status)
+            self.assertFalse(new_project.is_legacy, new_project)
 
-        import datetime
-        from django.utils import timezone
-        past = timezone.now() - datetime.timedelta(days=365)
-        old_project = ProjectFactory(status='planning')
-        old_project.updated_at = past
+            import datetime
+            from django.utils import timezone
+            past = timezone.now() - datetime.timedelta(days=365)
+            old_project = ProjectFactory(status=status)
+            old_project.updated_at = past
 
-        self.assertTrue(old_project.is_legacy)
+            if is_legasy:
+                self.assertTrue(old_project.is_legacy)
+            else:
+                self.assertFalse(old_project.is_legacy)
