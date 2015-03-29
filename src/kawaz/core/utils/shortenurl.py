@@ -29,5 +29,5 @@ def shorten(url):
     except Exception as e:
         # fail silently
         logger = logging.getLogger('kawaz.core.utils')
-        logger.error("Failed to shorten `{}`".format(url))
+        logger.exception("Failed to shorten `{}`".format(url))
         return url
