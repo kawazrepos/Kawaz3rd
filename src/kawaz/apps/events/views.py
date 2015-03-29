@@ -22,7 +22,7 @@ from kawaz.core.views.delete import DeleteSuccessMessageMixin
 from kawaz.core.views.preview import SingleObjectPreviewViewMixin
 
 from .models import Event
-from .forms import EventForm
+from .forms import EventForm, EventUpdateForm, EventCreationForm
 from .utils.ical import generate_ical
 
 class EventPublishedQuerySetMixin(MultipleObjectMixin):
@@ -59,7 +59,7 @@ class EventDetailView(DetailView):
 @permission_required('events.add_event')
 class EventCreateView(SuccessMessageMixin, CreateView):
     model = Event
-    form_class = EventForm
+    form_class = EventCreationForm
 
     def get_success_message(self, cleaned_data):
         return _("""A event '%(title)s' was successfully created.""") % {
@@ -74,7 +74,7 @@ class EventCreateView(SuccessMessageMixin, CreateView):
 @permission_required('events.change_event')
 class EventUpdateView(SuccessMessageMixin, UpdateView):
     model = Event
-    form_class = EventForm
+    form_class = EventUpdateForm
 
     def get_success_message(self, cleaned_data):
         return _("""The event '%(title)s' was successfully updated.""") % {

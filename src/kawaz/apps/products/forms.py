@@ -7,6 +7,7 @@ from kawaz.core.forms.mixins import Bootstrap3InlineFormHelperMixin
 from django.forms import widgets
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
+from kawaz.core.personas.forms.persona import PersonaChoiceField
 from kawaz.core.personas.models import Persona
 from .models import Product
 from .models import Platform
@@ -14,16 +15,6 @@ from .models import Category
 from .models import Screenshot
 from .models import PackageRelease
 from .models import URLRelease
-
-
-class PersonaChoiceField(forms.ModelMultipleChoiceField):
-    """
-    ラベルにニックネームが使われるようにする
-    """
-
-    def label_from_instance(self, obj):
-        return obj.nickname
-
 
 class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False

@@ -5,7 +5,9 @@ from ..models import Material
 from kawaz.core.personas.tests.factories import PersonaFactory
 
 class MaterialFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Material
+
+    class Meta:
+        model = Material
 
     @factory.post_generation
     def content_file(self, create, extracted):

@@ -7,8 +7,10 @@ BASE_URL = 'http://blog.kawaz.org/20150701/vox-won-iga{}'
 
 
 class HatenablogEntryFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = HatenablogEntry
-    FACTORY_DJANGO_GET_OR_CREATE = ('url',)
+
+    class Meta:
+        model = HatenablogEntry
+        django_get_or_create = ('url',)
 
     title = "VOXQUARTERがIndie Game Awardを獲得しました"
     thumbnail = "thumbnails/activities/contrib/hatenablog/filename.png"

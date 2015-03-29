@@ -6,7 +6,9 @@ from ...models import Profile, Skill, Service, Account
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = Profile
+
+    class Meta:
+        model = Profile
 
     birthday = datetime.date(2009, 10, 15)
     place = 'グランエターナ'
@@ -15,8 +17,10 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
 
 class SkillFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = Skill
-    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
+
+    class Meta:
+        model = Skill
+        django_get_or_create = ('label',)
 
     label = 'プログラミング'
     description = '闇の力です'
@@ -24,15 +28,19 @@ class SkillFactory(factory.django.DjangoModelFactory):
 
 
 class ServiceFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = Service
-    FACTORY_DJANGO_GET_OR_CREATE = ('label',)
+
+    class Meta:
+        model = Service
+        django_get_or_create = ('label',)
 
     label = 'Twitter'
     url_pattern = 'http://twitter.com/{username}/'
 
 
 class AccountFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = Account
+
+    class Meta:
+        model = Account
 
     service = factory.SubFactory(ServiceFactory)
     profile = factory.SubFactory(ProfileFactory)
