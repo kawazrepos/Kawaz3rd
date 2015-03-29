@@ -204,13 +204,13 @@ if PRODUCT:
         },
         'loggers': {
             'django.request': {
-                'handlers': ['mail_admins'],
+                'handlers': ['mail_admins',],
                 'level': 'ERROR',
                 'propagate': False,
             },
             'kawaz.core.utils': {
-                'handlers': ['file'],
-                'level': 'WARNING',
+                'handlers': ['file',],
+                'level': 'ERROR',
             }
         }
     }
