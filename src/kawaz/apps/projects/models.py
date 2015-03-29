@@ -212,6 +212,17 @@ class Project(models.Model):
     def active_members(self):
         return self.members.filter(is_active=True)
 
+    @property
+    def is_legacy(self):
+        """
+        365日以上更新されていない場合、Trueが返ります
+        """
+        import datetime
+        from django.utils import timezone
+        now = timezone.now()
+        one_year_ago = now - datetime.timedelta(days=365)
+        return self.updated_at < one_year_ago
+
     get_small_icon = lambda self: self.get_icon('small')
     get_middle_icon = lambda self: self.get_icon('middle')
     get_large_icon = lambda self: self.get_icon('large')
