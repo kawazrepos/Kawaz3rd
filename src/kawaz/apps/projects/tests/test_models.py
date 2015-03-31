@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
-
 from .factories import ProjectFactory, CategoryFactory
 from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
@@ -284,3 +283,30 @@ class ProjectModelTestCase(TestCase):
         self.assertIn(project.administrator, project.active_members)
         self.assertIn(user0, project.active_members)
         self.assertNotIn(user1, project.active_members)
+
+    def test_is_legacy(self):
+        """
+         企画中か活動中、かつ365日以上更新されていないプロジェクトでは、is_legacyがTrueを返す
+        """
+        STATUS = (
+            ('planning', True),
+            ('active', True),
+            ('paused', False),
+            ('eternal', False),
+            ('done', False),
+        )
+
+        for status, is_legasy in STATUS:
+            new_project = ProjectFactory(status=status)
+            self.assertFalse(new_project.is_legacy, new_project)
+
+            import datetime
+            from django.utils import timezone
+            past = timezone.now() - datetime.timedelta(days=365)
+            old_project = ProjectFactory(status=status)
+            old_project.updated_at = past
+
+            if is_legasy:
+                self.assertTrue(old_project.is_legacy)
+            else:
+                self.assertFalse(old_project.is_legacy)

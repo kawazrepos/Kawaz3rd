@@ -1,1 +1,4 @@
+{% load shortenurl %}
+{% shortenurl %}
 {{ object.nickname }}さんが{{ service.label }}アカウントの情報を追加しました http://{{ site.domain }}{{ object.get_absolute_url }}
+{% endshortenurl %}

@@ -4,7 +4,7 @@ from .utils import is_quoated
 
 
 PATTERN = re.compile(
-    r'(https?|ftp)(:\/\/[-_.!~*()a-zA-Z0-9;\/?:\@&=+\$,%#]+)',
+    r'(?:https?|ftp)://[\.\-\+\?\(\)\{\}\^\$\w\d/:;@&=,%#]+',
     flags=re.MULTILINE,
 )
 TEMPLATE_NAME = 'kfm/extras/autolink.html'

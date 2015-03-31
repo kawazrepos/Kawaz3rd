@@ -1,1 +1,5 @@
+{% load shortenurl %}
+{% shortenurl %}
 「{{ object }}」が編集されました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
+{% endshortenurl %}
+

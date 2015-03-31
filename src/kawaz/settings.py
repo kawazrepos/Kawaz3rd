@@ -170,6 +170,51 @@ LOCALE_PATHS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'locale'),
 )
 
+# loggerの設定
+LOG_BASE_DIR = '/var/log'
+
+if PRODUCT:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            },
+            'simple': {
+                'format': '%(levelname)s %(message)s'
+            },
+        },
+        'handlers': {
+            'file': {
+                'level': 'WARNING',
+                'class': 'logging.FileHandler',
+                'filename': os.path.join(LOG_BASE_DIR, 'org.kawaz.warning.log'),
+                'formatter': 'verbose'
+            },
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple'
+            },
+            'mail_admins': {
+                'level': 'ERROR',
+                'class': 'django.utils.log.AdminEmailHandler',
+            }
+        },
+        'loggers': {
+            'django.request': {
+                'handlers': ['mail_admins',],
+                'level': 'ERROR',
+                'propagate': False,
+            },
+            'kawaz.core.utils': {
+                'handlers': ['file',],
+                'level': 'ERROR',
+            }
+        }
+    }
+
 # プラグインの設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # django-thumbnailfield
