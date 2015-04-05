@@ -1,14 +1,12 @@
 from django.contrib.contenttypes.models import ContentType
 from django_comments import Comment
+from django.conf import settings
 from kawaz.apps.products.models import AbstractRelease, Screenshot
 from activities.mediator import ActivityMediator
 
 
 class ProductActivityMediator(ActivityMediator):
-    notifiers = (
-        'twitter_kawaz_info',
-        'twitter_kawaz_official'
-    )
+    notifiers = settings.ACTIVITIES_DEFAULT_NOTIFIERS + ('twitter_kawaz_official',)
 
     def alter(self, instance, activity, **kwargs):
         # 状態がdraftの場合は通知しない
