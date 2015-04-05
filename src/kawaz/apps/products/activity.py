@@ -7,7 +7,8 @@ from activities.mediator import ActivityMediator
 class ProductActivityMediator(ActivityMediator):
     notifiers = (
         'twitter_kawaz_info',
-        'twitter_kawaz_official'
+        'twitter_kawaz_official',
+        'hipchat_kawaz_all',
     )
 
     def alter(self, instance, activity, **kwargs):
