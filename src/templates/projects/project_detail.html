@@ -151,7 +151,7 @@
                   <a class="list-group-item" href="{% url "projects_project_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update the project" %}</a>
               {% endif %}
               {% if user has 'projects.delete_project' of object %}
-                  <a class="list-group-item list-group-item-danger"
+                  <a class="list-group-item list-group-item-danger post-link"
                      href="{% url "projects_project_delete" object.pk %}"
                      confirm-message="{% trans "Do you want to delete the project?" %}">
                       <span class="glyphicon glyphicon-remove"></span> {% trans "Delete the project" %}
