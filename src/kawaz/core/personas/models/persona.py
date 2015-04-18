@@ -92,6 +92,8 @@ class PersonaBase(ModelBase):
             fields.remove(field)
         cls._meta.local_fields = ImmutableList(local_fields)
         cls._meta.fields = ImmutableList(fields)
+        #del cls._meta._field_cache
+        #del cls._meta._field_name_cache
 
 
 @validate_on_save

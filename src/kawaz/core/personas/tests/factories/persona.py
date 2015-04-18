@@ -1,4 +1,5 @@
 import factory
+from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 from ...models import Persona
 
@@ -15,6 +16,7 @@ class PersonaFactory(factory.django.DjangoModelFactory):
     email = 'webmaster@kawaz.org'
     # using PostGenerationMethodCall is not working
     password = make_password('password')
+    last_login = timezone.now()
 
     nickname = 'かわずたん'
     quotes = 'けろーん'
