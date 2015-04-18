@@ -1,2 +1,2 @@
 <strong>「<a href="http://{{ site.domain }}{{ object.get_absolute_url }}">{{ object.title }}</a>」が公開されました</strong>
-<pre>{{ object.description | truncatechars_html:150 }}</pre>
+<pre>{{ object.description | kfm | striptags | truncatechars_html:150 }}</pre>

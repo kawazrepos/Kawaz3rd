@@ -1,4 +1,2 @@
 <strong>{{ comment.user.nickname }}さんが「{{ comment.content_object }}」にコメントしました <a href="http://{{ site.domain }}{{ comment.get_absolute_url }}">http://{{ site.domain }}{{ comment.get_absolute_url }}</a></strong>
-<pre>
-{{ comment.comment }}
-</pre>
+<pre>{{ comment.comment | kfm | striptags | truncatechars_html:150 }}</pre>
