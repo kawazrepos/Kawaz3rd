@@ -1,0 +1,13 @@
+{% extends "authenticated_base.html" %}
+
+{% load i18n %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="/helps">{% trans "Help" %}</a></li>
+    <li><a href="/helps/instruction/">Kawaz入会者の手引き</a></li>
+{% endblock %}
+{% block content %}
+    <article class="markdown">
+        {% include_kfm "markdown/helps/instruction.md" %}
+    </article>
+{% endblock %}
