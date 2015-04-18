@@ -7,6 +7,7 @@ from django.db.models.base import ModelBase
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
+from django.utils.datastructures import ImmutableList
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from thumbnailfield.fields import ThumbnailField
@@ -80,15 +81,17 @@ class PersonaBase(ModelBase):
     """
     def __init__(cls, class_name, bases, namespace):
         disused_field_names = ('is_staff', 'is_superuser')
+        print(cls._meta.fields)
         disused_fields = [f for f in cls._meta.fields if f.name in
                           disused_field_names]
+        local_fields = list(cls._meta.local_fields)
+        fields = list(cls._meta.fields)
         for field in disused_fields:
             # remove disused fields from `local_fields` and `fields`
-            cls._meta.local_fields.remove(field)
-            cls._meta.fields.remove(field)
-        # clear cache
-        del cls._meta._field_cache
-        del cls._meta._field_name_cache
+            local_fields.remove(field)
+            fields.remove(field)
+        cls._meta.local_fields = ImmutableList(local_fields)
+        cls._meta.fields = ImmutableList(fields)
 
 
 @validate_on_save
