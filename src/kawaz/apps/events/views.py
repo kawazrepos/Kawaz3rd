@@ -113,7 +113,7 @@ class EventAttendView(UpdateView):
             return HttpResponseForbidden
 
     def get(self, request, *args, **kwargs):
-        return HttpResponseNotAllowed()
+        return HttpResponseNotAllowed(['POST',])
 
     def post(self, request, *args, **kwargs):
         return self.attend(request, *args, **kwargs)
@@ -142,7 +142,7 @@ class EventQuitView(UpdateView):
             return HttpResponseForbidden
 
     def get(self, request, *args, **kwargs):
-        return HttpResponseNotAllowed()
+        return HttpResponseNotAllowed(['POST',])
 
     def post(self, request, *args, **kwargs):
         return self.quit(request, *args, **kwargs)
