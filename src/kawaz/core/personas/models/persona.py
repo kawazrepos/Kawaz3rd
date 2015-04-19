@@ -81,7 +81,6 @@ class PersonaBase(ModelBase):
     """
     def __init__(cls, class_name, bases, namespace):
         disused_field_names = ('is_staff', 'is_superuser')
-        print(cls._meta.fields)
         disused_fields = [f for f in cls._meta.fields if f.name in
                           disused_field_names]
         local_fields = list(cls._meta.local_fields)
