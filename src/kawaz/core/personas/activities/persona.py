@@ -1,4 +1,4 @@
-from django_comments import Comment
+from django_comments.models import Comment
 from activities.mediator import ActivityMediator
 from ..models.persona import Persona
 
