@@ -242,7 +242,7 @@ def join_administrator(**kwargs):
     """
     created = kwargs.get('created')
     instance = kwargs.get('instance')
-    if created:
+    if instance.pub_state != 'draft' and not instance.administrator in instance.members.all():
         instance.join(instance.administrator)
 
 from permission import add_permission_logic
