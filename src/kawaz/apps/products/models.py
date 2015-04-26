@@ -12,6 +12,13 @@ from kawaz.core.db.decorators import validate_on_save
 from kawaz.core.personas.models import Persona
 from kawaz.apps.projects.models import Project
 
+class UnsavedForeignKey(models.ForeignKey):
+    # Django1.8からの仕様変更により、デフォルトでは、保存されていないオブジェクトに対するリレーションを貼れなくなった
+    # Productの投稿時に、スクリーンショットとリリースを同時に投稿させるために保存されていないオブジェクトの割り当てを有効にしている
+    # A ForeignKey which can point to an unsaved object
+    #ref https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.ForeignKey.allow_unsaved_instance_assignment
+    allow_unsaved_instance_assignment = True
+
 
 PRODUCT_THUMBNAIL_SIZE_PATTERNS = {
     'huge': (512, 288,),
@@ -249,7 +256,7 @@ class AbstractRelease(models.Model):
     platform = models.ForeignKey(Platform, verbose_name=_('Platform'))
     version = models.CharField(_('Version'), max_length=32,
                                default='', blank=True)
-    product = models.ForeignKey(Product, verbose_name=_('Product'),
+    product = UnsavedForeignKey(Product, verbose_name=_('Product'),
                                 related_name='%(class)ss', editable=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
@@ -368,7 +375,7 @@ class Screenshot(models.Model):
     image = ThumbnailField(
         _('Image'), upload_to=_get_upload_path,
         patterns=SCREENSHOT_IMAGE_SIZE_PATTERNS)
-    product = models.ForeignKey(
+    product = UnsavedForeignKey(
         Product, verbose_name=_('Product'), editable=False,
         related_name='screenshots')
 
