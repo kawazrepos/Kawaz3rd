@@ -9,7 +9,7 @@ django-roughpages>=0.1.2
 django-thumbnailfield>=0.2.3
 django-inspectional-registration==0.4.6
 django-crispy-forms
--e git+https://github.com/giginet/django-contrib-comments#egg=django_comments
+django-contrib-comments>=1.5
 django-debug-toolbar
 django-debug-toolbar-template-timings
 requests
