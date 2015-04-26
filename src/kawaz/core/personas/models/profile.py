@@ -49,7 +49,7 @@ class Profile(models.Model):
     remarks = models.TextField(pgettext_lazy("Profile", "Remarks"))
     skills = models.ManyToManyField('Skill', verbose_name=_('Skills'),
                                     related_name='users',
-                                    null=True, blank=True)
+                                    blank=True)
     # Note:
     #   ProfileにはView権限が存在しているため{{ user.profile.birthday }}など
     #   テンプレート側から間違えてアクセスし秘密情報を露呈してしまうのを防ぐ
