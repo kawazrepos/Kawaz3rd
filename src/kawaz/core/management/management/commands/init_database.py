@@ -41,6 +41,7 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         verbosity = int(options.get('verbosity'))
+        options['verbosity'] = verbosity
         database = options.get('database')
         interactive = options.get('interactive')
         force = options.get('force')
@@ -104,7 +105,7 @@ class Command(NoArgsCommand):
                 if confirm in ('y', 'yes', 'Yes', 'YES'):
                     os.remove(filename)
 
-        # call migrate command
+        # call migrate commanod
         call_command('migrate', **options)
 
         # load fixtures
