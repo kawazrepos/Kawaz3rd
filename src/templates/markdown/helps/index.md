@@ -13,6 +13,7 @@
 - [利用規約](/rules/)
 - [掲載情報](/published/)
 - [ライセンス表示のガイドライン](/guideline/credits/)
+- [Kawaz入会者向けガイドライン](/helps/instruction/)
 
 
 <!--
