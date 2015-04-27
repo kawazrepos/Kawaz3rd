@@ -166,6 +166,11 @@
 
 
 {% block content-main %}
+    {% if not object.is_active %}
+        <div class="alert alert-warning">
+            {% trans "This event already has been closed." %}
+        </div>
+    {% endif %}
     <article class="markdown">
         {{ object.body | kfm }}
     </article>
