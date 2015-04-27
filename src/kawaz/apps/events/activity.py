@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-from django_comments import Comment
+from django_comments.models import Comment
 
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.contrib.contenttypes.models import ContentType

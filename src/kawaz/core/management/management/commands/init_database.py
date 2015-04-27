@@ -41,6 +41,7 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         verbosity = int(options.get('verbosity'))
+        options['verbosity'] = verbosity
         database = options.get('database')
         interactive = options.get('interactive')
         force = options.get('force')

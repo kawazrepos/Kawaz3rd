@@ -5,6 +5,7 @@
   fields:
     username: system
     password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    last_login: "2014-5-20 12:00:00+09:00"
     email: webmaster@kawaz.org
     is_active: true
     nickname: 井ノ中かわず
@@ -17,6 +18,7 @@
   fields:
     username: markdown
     password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    last_login: "2014-5-20 12:00:00+09:00"
     email: markdown@kawaz.org
     is_active: true
     nickname: Markdown
@@ -29,6 +31,7 @@
   fields:
     username: seele-01
     password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    last_login: "2014-5-20 12:00:00+09:00"
     email: seele-01@seele.int
     is_active: true
     nickname: 議長
@@ -43,6 +46,7 @@
   fields:
     username: 33-10
     password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    last_login: "2014-5-20 12:00:00+09:00"
     email: 33-10@will-e.org
     is_active: true
     nickname: 葛城大佐
@@ -57,6 +61,7 @@
   fields:
     username: s-dat2004
     password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    last_login: "2014-5-20 12:00:00+09:00"
     email: s-dat2004@nerv.go.jp
     is_active: true
     nickname: 司令
@@ -72,6 +77,7 @@
   fields:
     username: code777
     password: pbkdf2_sha256$12000$efYa8odgjerT$7iPdKJDDeUHRNH5HJeErBoGC63ItyKErwSj5TKJeg/A=
+    last_login: "2014-5-20 12:00:00+09:00"
     email: code777@will-e.org
     is_active: true
     nickname: ASUKA
