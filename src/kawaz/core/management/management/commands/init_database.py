@@ -105,7 +105,7 @@ class Command(NoArgsCommand):
                 if confirm in ('y', 'yes', 'Yes', 'YES'):
                     os.remove(filename)
 
-        # call migrate commanod
+        # call migrate command
         call_command('migrate', **options)
 
         # load fixtures
