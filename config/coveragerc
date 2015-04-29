@@ -20,3 +20,4 @@ omit =
     __init__.py
     src/kawaz/local_settings.sample.py
     src/kawaz/wsgi.py
+    src/kawaz/core/management/*
