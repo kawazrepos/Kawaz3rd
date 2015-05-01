@@ -10,6 +10,9 @@ class RegistrationViewTestCase(TestCase):
     def setUp(self):
         self.user = PersonaFactory(username='user')
 
+    def tearDown(self):
+        self.client.session.flush()
+
     def _test_can_display(self, relative_url, template_name):
         url = "/registration/{}/".format(relative_url)
         template = "registration/{}.html".format(template_name)
@@ -47,6 +50,7 @@ class RegistrationViewTestCase(TestCase):
                                           password='password'))
         self._assert_authenticated()
         r = self.client.post('/registration/logout/')
+        self.client.session.flush()
         self._assert_authenticated(neg=True)
         self.assertRedirects(r, '/')
 

@@ -234,6 +234,14 @@ class ProjectModelTestCase(TestCase):
         project = ProjectFactory(administrator=user)
         self.assertTrue(project.is_member(user))
 
+    def test_administrator_can_join_automatically_draft(self):
+        """
+        下書き状態のイベントでも作成時に自動的に管理者がプロジェクトメンバーになる
+        """
+        user = PersonaFactory()
+        project = ProjectFactory(administrator=user, status='draft')
+        self.assertTrue(project.is_member(user))
+
     def test_quit(self):
         '''Tests can remove member correctly'''
         project = ProjectFactory()

@@ -1,5 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
-from django_comments import Comment
+from django_comments.models import Comment
 from django.conf import settings
 from kawaz.apps.products.models import AbstractRelease, Screenshot
 from activities.mediator import ActivityMediator
