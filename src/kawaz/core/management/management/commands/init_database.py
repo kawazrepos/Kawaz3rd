@@ -37,6 +37,8 @@ class Command(NoArgsCommand):
                     action='store_false', default=True,
                     help=("Tells Django to NOT load debug data which is "
                           "only used in development.")),
+        make_option('--no-fetch-entries', dest='fetch_entries', default=True, action='store_false',
+                    help=('Tells Django to NOT fetch blog entries from Hatena blog'))
     )
 
     def handle_noargs(self, **options):
@@ -45,6 +47,8 @@ class Command(NoArgsCommand):
         database = options.get('database')
         interactive = options.get('interactive')
         force = options.get('force')
+        fetch_entries = options.get('fetch_entries')
+        
 
         # The command required to be run in development mode
         if not force and not settings.DEBUG:
@@ -115,7 +119,8 @@ class Command(NoArgsCommand):
             call_command('loaddata', 'debug', **options)
 
         # fetch Hatenablog updates
-        call_command('fetch_hatenablog_entries', **options)
+        if fetch_entries:
+            call_command('fetch_hatenablog_entries', **options)
 
         if verbosity > 0:
             print("*" * 80 + "\n")

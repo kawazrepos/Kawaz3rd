@@ -23,7 +23,7 @@
     <meta property="og:title" content="{{ object.nickname | truncatechars:70 }}" />
     <meta property="og:type" content="article" />
     <meta property="og:description" content="{% if not profile and not user.is_authenticated %}{% blocktrans with nickname=object.nickname %}{{ nickname }} may conceal own profile from non participants. Please login to see the profile.{% endblocktrans %}{% else %}{{ profile.remarks | kfm | striptags | strip_newlines:" " | truncatechars:200 }}{% endif %}">
-    <meta property="og:image" content="{{ site.domain }}{{ object.get_large_avatar }} />
+    <meta property="og:image" content="http://{{ site.domain }}{{ object.get_large_avatar }} />
 {% endblock %}
 {% block content-main %}
 {% comment %}
