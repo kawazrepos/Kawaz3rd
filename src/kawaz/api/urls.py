@@ -1,5 +1,6 @@
 from django.conf.urls import url, patterns, include
 from rest_framework import routers
+from kawaz.core.personas.api.views import PersonaViewSet
 from kawaz.apps.stars.api.views import StarViewSet
 from kawaz.apps.blogs.api.views import CategoryViewSet
 from kawaz.apps.attachments.api.views import MaterialViewSet
@@ -9,6 +10,7 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'stars', StarViewSet)
 router.register(r'materials', MaterialViewSet)
 router.register(r'blogs', CategoryViewSet)
+router.register(r'users', PersonaViewSet)
 
 
 # Wire up our API using automatic URL routing.
