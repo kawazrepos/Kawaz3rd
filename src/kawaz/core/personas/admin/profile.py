@@ -3,6 +3,11 @@ from ..models import Profile, Skill, Service, Account
 
 
 class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('nickname', 'birthday', 'place')
+
+    def nickname(self, obj):
+        return obj.user.nickname
+
     search_fields = ('address', 'remarks',)
 
 

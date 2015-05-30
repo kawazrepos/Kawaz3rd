@@ -18,7 +18,13 @@ admin.site.register(Platform, PlatformAdmin)
 
 
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', 'last_modifier_nickname', 'get_display_mode_display', 'published_at', 'created_at', 'updated_at')
+
+    def last_modifier_nickname(self, obj):
+        if not obj.last_modifier:
+            return '(未編集)'
+        return obj.last_modifier.nickname
+
 admin.site.register(Product, ProductAdmin)
 
 
