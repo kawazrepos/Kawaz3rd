@@ -95,6 +95,7 @@ class Event(models.Model):
                                   null=True,
                                   editable=False)
     category = models.ForeignKey(Category, verbose_name=_('Category'),
+                                 related_name='events',
                                  null=True, blank=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Modified at"), auto_now=True)
@@ -263,12 +264,15 @@ def join_organizer(**kwargs):
 
 
 from permission import add_permission_logic
+from permission.logics.staff import StaffPermissionLogic
 from .perms import EventPermissionLogic
 from kawaz.core.publishments.perms import PublishmentPermissionLogic
 add_permission_logic(Event, EventPermissionLogic()),
 add_permission_logic(Event, PublishmentPermissionLogic(
     author_field_name='organizer')),
+add_permission_logic(Category, StaffPermissionLogic(any_permission=True))
 
 from .activity import EventActivityMediator
 from activities.registry import registry
 registry.register(Event, EventActivityMediator())
+

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Event
+from .models import Category
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'organizer_name', 'get_pub_state_display', 'period_start', 'number_of_attendees', 'created_at', 'updated_at')
@@ -17,3 +18,12 @@ class EventAdmin(admin.ModelAdmin):
         obj.save()
 
 admin.site.register(Event, EventAdmin)
+
+
+class EventCategoryAdmin(admin.ModelAdmin):
+    list_display = ('label', 'number_of_events',)
+
+    def number_of_events(self, obj):
+        return obj.events.count()
+
+admin.site.register(Category, EventCategoryAdmin)
