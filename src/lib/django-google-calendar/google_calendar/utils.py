@@ -4,7 +4,7 @@
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from functools import lru_cache
 from importlib import import_module
-from django.db.models import get_model as _get_model
+from django.db.models.loading import get_model as _get_model
 from django.core.exceptions import (ImproperlyConfigured,
                                     AppRegistryNotReady)
 
