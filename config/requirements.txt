@@ -3,11 +3,11 @@ pytz
 pillow
 markdown2==2.3.0
 djangorestframework>=3.0.1
-django-permission
+django-permission==0.8.8
 django-filter
 django-roughpages>=0.1.2
 django-thumbnailfield>=0.2.3
-git+https://github.com/giginet/django-inspectional-registration@support/django18#egg=django-inspectional-registration
+django-inspectional-registration==0.4.8
 django-crispy-forms
 git+https://github.com/kawazrepos/django-contrib-comments.git#egg=django_comments
 django-debug-toolbar
