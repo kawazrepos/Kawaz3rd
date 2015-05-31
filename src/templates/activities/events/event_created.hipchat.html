@@ -1,2 +1,6 @@
 <strong>{{ object.organizer.nickname }}さんが「<a href="http://{{ site.domain }}{{ object.get_absolute_url }}">{{ object.title }}</a>」を企画しました</strong>
-<pre>{{  object.body | kfm | striptags | truncatechars_html:150 }}</pre>
+<pre>
+<strong>日時</strong>：{{ object.humanized_period }}<br>
+<strong>場所</strong>：{{ object.place }}<br>
+{{  object.body | kfm | striptags | truncatechars_html:150 }}
+</pre>

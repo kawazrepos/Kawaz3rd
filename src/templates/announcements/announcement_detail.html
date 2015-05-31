@@ -19,7 +19,7 @@
     <meta property="og:title" content="{{ object.title | truncatechars:70 }}" />
     <meta property="og:type" content="article" />
     <meta property="og:description" content="{{ object.body | kfm | striptags | strip_newlines:" " | truncatechars:200 }}" />
-    <meta property="og:image" content="http://{{ site.domain }}{{ object.author.get_large_avatar }} />
+    <meta property="og:image" content="http://{{ site.domain }}{{ object.author.get_large_avatar }}" />
 {% endblock %}
 
 {% block content-main %}

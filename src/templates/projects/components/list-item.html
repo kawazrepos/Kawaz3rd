@@ -1,5 +1,5 @@
 <a href="{{ project.get_absolute_url }}">
-    <div class="panel-body project-panel{% if project.is_legacy %} legacy-project{% endif %}">
+    <div class="panel-body project-panel{% if project.is_legacy %} legacy-project{% endif %}"{% if project.is_legacy %} data-toggle="popover" data-trigger=""{% endif %}>
         <div class="project-thumbnail">
             <img class="group list-group-image" src="{{ project.get_large_icon }}" height="90px" alt="{{ project.title }} Thumbnail" />
         </div>

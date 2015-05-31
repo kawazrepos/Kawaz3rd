@@ -294,7 +294,7 @@ class ProjectModelTestCase(TestCase):
 
     def test_is_legacy(self):
         """
-         企画中か活動中、かつ365日以上更新されていないプロジェクトでは、is_legacyがTrueを返す
+         企画中か活動中、かつ180日以上更新されていないプロジェクトでは、is_legacyがTrueを返す
         """
         STATUS = (
             ('planning', True),
@@ -310,7 +310,7 @@ class ProjectModelTestCase(TestCase):
 
             import datetime
             from django.utils import timezone
-            past = timezone.now() - datetime.timedelta(days=365)
+            past = timezone.now() - datetime.timedelta(days=180)
             old_project = ProjectFactory(status=status)
             old_project.updated_at = past
 

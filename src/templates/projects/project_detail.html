@@ -16,7 +16,7 @@
     <meta property="og:title" content="{{ object.title | truncatechars:70 }}" />
     <meta property="og:type" content="article" />
     <meta property="og:description" content="{{ object.body | kfm | striptags | strip_newlines:" " | truncatechars:200 }}" />
-    <meta property="og:image" content="http://{{ site.domain }}{{ object.get_large_icon }} />
+    <meta property="og:image" content="http://{{ site.domain }}{{ object.get_large_icon }}" />
 {% endblock %}
 {% block breadcrumb %}
     {{ block.super }}
@@ -65,15 +65,21 @@
           </dd>
         </dl>
         <dl class="row">
-          <dt class="col col-lg-3 col-xs-4">{% trans "Repository" %}</dt>
-          <dd class="col col-lg-9 col-xs-8">
-          {% if project.repository %}
-            <a href="{{ project.repository }}">{{ project.repository }}</a>
-          {% else %}
-            <span class="none-set">{% trans "None" %}</span>
-          {% endif %}
-          </dd>
+            <dt class="col col-lg-3 col-xs-4">{% trans "Repository" %}</dt>
+            <dd class="col col-lg-9 col-xs-8">
+                {% if project.repository %}
+                    <a href="{{ project.repository }}">{{ project.repository }}</a>
+                {% else %}
+                    <span class="none-set">{% trans "None" %}</span>
+                {% endif %}
+            </dd>
         </dl>
+          <dl class="row">
+              <dt class="col col-lg-3 col-xs-4">{% trans "Last modified at" %}</dt>
+              <dd class="col col-lg-9 col-xs-8">
+                  {{ project.updated_at | date:'Y/m/d' }}
+              </dd>
+          </dl>
       </div>
     </div>
   {% endblock %}
