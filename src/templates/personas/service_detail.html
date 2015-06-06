@@ -24,10 +24,13 @@
                 <th>{% trans "Account" %}</th>
             </tr>
             {% for account in service.accounts.all %}
+                {# TODO 非公開のアカウントを非ログインユーザーには見れなくする。本当はパーミッションレベルでやりたい #}
+                {% if account.pub_state == 'public' or user.is_authenticated %}
                 <tr>
                     <td><img class="avatar-small" src="{{ account.profile.user.get_small_avatar }}">{{ account.profile.user.nickname }}</td>
                     <td><a href="{{ account.url }}" target="_blank">{{ account.username }}</a></td>
                 </tr>
+                {% endif %}
             {% endfor %}
         </table>
     {% endif %}

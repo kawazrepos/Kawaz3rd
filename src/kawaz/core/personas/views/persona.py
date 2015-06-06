@@ -13,6 +13,7 @@ from django_filters.views import FilterView
 from permission.decorators import permission_required
 from ..forms import PersonaUpdateForm, PersonaRoleForm
 from ..models import Persona
+from ..models import Service
 from ..filters import PersonaFilter
 
 
@@ -64,6 +65,11 @@ class PersonaListView(FilterView):
         )
         qs = qs.order_by('-last_login')
         return qs
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['all_services'] = Service.objects.all()
+        return data
 
 
 @permission_required('personas.change_persona')

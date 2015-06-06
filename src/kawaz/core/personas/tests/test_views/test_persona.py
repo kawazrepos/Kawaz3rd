@@ -9,6 +9,7 @@ from django.utils import timezone
 from ...models import Persona
 from ..factories import PersonaFactory
 from ..factories import ProfileFactory
+from ..factories import ServiceFactory
 
 
 BASE_URL = 'members'
@@ -217,6 +218,12 @@ class PersonaListViewTestCase(TestCase):
         r = self.client.get('/members/?page=2')
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 9)
+
+    def test_personas_list_contains_all_services(self):
+        service = ServiceFactory()
+        r = self.client.get('/members/')
+        self.assertIn('all_services', r.context)
+        self.assertIn(service, r.context['all_services'])
 
 
 class PersonaUpdateViewTestCase(PersonaViewTestCaseBase):
