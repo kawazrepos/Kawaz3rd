@@ -5,5 +5,4 @@ from .persona import (PersonaDetailView,
                       PersonaAssignSeeleView)
 from .profile import (ProfileUpdateView,
                       ProfilePreviewView)
-
-
+from .service import ServiceDetailView

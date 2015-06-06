@@ -5,8 +5,8 @@ from .views import (PersonaDetailView,
                     PersonaAssignAdamView,
                     PersonaAssignSeeleView,
                     ProfileUpdateView,
-                    ProfilePreviewView)
-
+                    ProfilePreviewView,
+                    ServiceDetailView)
 urlpatterns = patterns('',
     url(r'^$',
         PersonaListView.as_view(), name='personas_persona_list'),
@@ -20,6 +20,8 @@ urlpatterns = patterns('',
         ProfileUpdateView.as_view(), name='personas_profile_update'),
     url(r'^my/profile/preview/$',
         ProfilePreviewView.as_view(), name='personas_profile_preview'),
+    url(r'services/(?P<pk>\d+)/$',
+        ServiceDetailView.as_view(), name='personas_service_detail'),
     # Note:
     #   PersonaDetailViewはユーザー名がURLに含まれるため上記のURLルールが先に
     #   適用されるために最後に指定される必要がある
