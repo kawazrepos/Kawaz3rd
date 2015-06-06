@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-06 16:56+0900\n"
+"POT-Creation-Date: 2015-06-06 19:39+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1791,14 +1791,8 @@ msgid "Learn about product"
 msgstr "作品って何？"
 
 #: src/templates/projects/project_detail.html:102
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                  <p>This project is already available! Let's play it now."
-#| "</p>\n"
-#| "              "
 msgid "This project is already available! Let's play it now."
-msgstr "このプロジェクトは既に公開されています"
+msgstr "このプロジェクトは完成しています"
 
 #: src/templates/projects/project_detail.html:104
 #, python-format
