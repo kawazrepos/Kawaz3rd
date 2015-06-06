@@ -15,14 +15,18 @@
     <div class="page-header">
         <h1>{% blocktrans with label=object.label %}{{ label }} accounts{% endblocktrans %}</h1>
     </div>
-    {% if object.accounts|length == 0 %}
+    {% if object.accounts.all|length == 0 %}
         <div class="alert alert-info">{% trans "There are no accounts." %}</div>
     {% else %}
-        <table>
-            {% for account in service.accounts %}
+        <table class="table">
+            <tr>
+                <th>{% trans "Nickname" %}</th>
+                <th>{% trans "Account" %}</th>
+            </tr>
+            {% for account in service.accounts.all %}
                 <tr>
-                    <td><img class="avatar-middle" src="{{ account.profile.user.get_middle_avatar }}">{{ account.profile.user.nickname }}</td>
-                    <td><a href="{{ account.url }}">{{ account.username }}</a></td>
+                    <td><img class="avatar-small" src="{{ account.profile.user.get_small_avatar }}">{{ account.profile.user.nickname }}</td>
+                    <td><a href="{{ account.url }}" target="_blank">{{ account.username }}</a></td>
                 </tr>
             {% endfor %}
         </table>

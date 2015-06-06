@@ -34,6 +34,7 @@ class ServiceFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('label',)
 
     label = factory.Sequence(lambda n: 'Twitter{}'.format(n))
+    icon = 'test.png'
     url_pattern = 'http://twitter.com/{username}/'
 
 
