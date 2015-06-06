@@ -97,6 +97,13 @@
                   <a href="/helps/products/" class="learn-product">{% trans "Learn about product" %}</a>
               </div>
           </div>
+      {% elif project.product %}
+          <div class="alert alert-warning release-alert">
+              <p>{% trans "This project is already available! Let's play it now." %}</p>
+              <div>
+                  <a class="btn btn-success btn-lg" href="{{ project.product.get_absolute_url }}">{% blocktrans with title=project.product.title %}Play {{ title }} now{% endblocktrans %}</a>
+              </div>
+          </div>
       {% endif %}
       <article class="markdown project-article">
           {{ project.body | kfm }}

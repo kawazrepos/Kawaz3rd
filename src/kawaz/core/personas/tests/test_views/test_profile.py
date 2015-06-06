@@ -223,3 +223,12 @@ class ProfilePreviewViewTestCase(ProfileViewTestCaseBase):
             self.assertTemplateUsed(r, 'personas/profile_preview.html')
             self.assertTrue('object' in r.context_data)
 
+class ServiceDetailViewTestCase(TestCase):
+
+    def test_can_access(self):
+        service = ServiceFactory()
+        r = self.client.get(service.get_absolute_url())
+        self.assertTemplateUsed(r, 'personas/service_detail.html')
+
+        self.assertIn('all_services', r.context)
+        self.assertIn(service, r.context['all_services'])

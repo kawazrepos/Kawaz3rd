@@ -33,7 +33,8 @@ class ServiceFactory(factory.django.DjangoModelFactory):
         model = Service
         django_get_or_create = ('label',)
 
-    label = 'Twitter'
+    label = factory.Sequence(lambda n: 'Twitter{}'.format(n))
+    icon = 'test.png'
     url_pattern = 'http://twitter.com/{username}/'
 
 
@@ -44,5 +45,5 @@ class AccountFactory(factory.django.DjangoModelFactory):
 
     service = factory.SubFactory(ServiceFactory)
     profile = factory.SubFactory(ProfileFactory)
-    username = 'kawaz_tan'
+    username = factory.Sequence(lambda n: 'kawaz_tan{}'.format(n))
 

@@ -1,0 +1,47 @@
+{% extends "twopane.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load profiles_tags %}
+{% block title %}{% trans "Accounts" %}{% endblock %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'personas_persona_list' %}">{% trans "Members" %}</a></li>
+    <li><a href="{{ object.get_absolute_url }}">{% blocktrans with label=object.label %}{{ label }} accounts{% endblocktrans %}</a></li>
+{% endblock %}
+{% block pre_css %}
+    {{ block.super }}
+{% endblock %}
+{% block content-main %}
+    <div class="page-header">
+        <h1>{% blocktrans with label=object.label %}{{ label }} accounts{% endblocktrans %}</h1>
+    </div>
+    {% if object.accounts.all|length == 0 %}
+        <div class="alert alert-info">{% trans "There are no accounts." %}</div>
+    {% else %}
+        <table class="table">
+            <tr>
+                <th>{% trans "Nickname" %}</th>
+                <th>{% trans "Account" %}</th>
+            </tr>
+            {% for account in service.accounts.all %}
+                {# TODO 非公開のアカウントを非ログインユーザーには見れなくする。本当はパーミッションレベルでやりたい #}
+                {% if account.pub_state == 'public' or user.is_authenticated %}
+                <tr>
+                    <td><img class="avatar-small" src="{{ account.profile.user.get_small_avatar }}">{{ account.profile.user.nickname }}</td>
+                    <td><a href="{{ account.url }}" target="_blank">{{ account.username }}</a></td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
+{% block content-aside %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{% trans "Services" %}</h4>
+        </div>
+            {% for service in all_services %}
+                <a href="{{ service.get_absolute_url }}" class="list-group-item{% if object.pk == service.pk %} active{% endif %}"><img class="list-group-item-icon" src="{{ service.icon.url }}">{{ service.label }}</a>
+            {% endfor %}
+    </div>
+{% endblock %}
