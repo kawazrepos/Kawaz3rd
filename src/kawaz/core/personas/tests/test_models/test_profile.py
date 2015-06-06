@@ -126,6 +126,25 @@ class ServiceTestCase(TestCase):
         service = ServiceFactory()
         self.assertEqual(str(service), service.label)
 
+    def test_get_absolute_url(self):
+        """get_absolute_urlで/members/services/<pk>/を返す"""
+        service = ServiceFactory()
+        self.assertEqual(service.get_absolute_url(), '/members/services/{}/'.format(service.pk))
+
+    def test_accounts_related_name(self):
+        """service.accountsで紐付いてるアカウントの一覧が取得できる"""
+        service = ServiceFactory()
+        account0 = AccountFactory(service=service)
+        account1 = AccountFactory(service=service)
+        other_account = AccountFactory()
+
+        accounts = service.accounts.all()
+        self.assertEqual(len(accounts), 2)
+        self.assertIn(account0, accounts)
+        self.assertIn(account1, accounts)
+        self.assertNotIn(other_account, accounts)
+
+
 class AccountTestCase(TestCase):
     def test_get_url(self):
         """Tests can get URL from property"""
