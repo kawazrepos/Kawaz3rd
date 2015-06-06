@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-31 16:18+0900\n"
+"POT-Creation-Date: 2015-06-06 16:56+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "本文"
 #: src/kawaz/apps/announcements/models.py:60 src/kawaz/apps/blogs/models.py:49
 #: src/kawaz/apps/events/models.py:68 src/kawaz/apps/projects/models.py:92
 #: src/kawaz/core/personas/models/profile.py:43
-#: src/kawaz/core/personas/models/profile.py:135
+#: src/kawaz/core/personas/models/profile.py:139
 msgid "Publish status"
 msgstr "公開設定"
 
@@ -626,6 +626,7 @@ msgstr "管理者"
 #: src/templates/personas/persona_list.html:5
 #: src/templates/personas/persona_list.html:8
 #: src/templates/personas/persona_list.html:16
+#: src/templates/personas/service_detail.html:8
 msgid "Members"
 msgstr "所属メンバー"
 
@@ -768,8 +769,8 @@ msgid "Birthday"
 msgstr "誕生日"
 
 #: src/kawaz/core/personas/forms/profile.py:78
-#: src/kawaz/core/personas/models/profile.py:126
-#: src/kawaz/core/personas/models/profile.py:134
+#: src/kawaz/core/personas/models/profile.py:130
+#: src/kawaz/core/personas/models/profile.py:138
 msgid "Service"
 msgstr "サービス"
 
@@ -810,6 +811,7 @@ msgid "Wille"
 msgstr "ヴィレ"
 
 #: src/kawaz/core/personas/models/persona.py:125
+#: src/templates/personas/service_detail.html:23
 msgid "Nickname"
 msgstr "ニックネーム"
 
@@ -905,38 +907,41 @@ msgstr "できること"
 msgid "URL pattern"
 msgstr "URLパターン"
 
-#: src/kawaz/core/personas/models/profile.py:127
+#: src/kawaz/core/personas/models/profile.py:131
+#: src/templates/personas/service_detail.html:41
 msgid "Services"
 msgstr "サービス"
 
-#: src/kawaz/core/personas/models/profile.py:132
-#: src/kawaz/core/personas/models/profile.py:141
+#: src/kawaz/core/personas/models/profile.py:136
+#: src/kawaz/core/personas/models/profile.py:145
+#: src/templates/personas/service_detail.html:24
 msgid "Account"
 msgstr "アカウント"
 
-#: src/kawaz/core/personas/models/profile.py:138
+#: src/kawaz/core/personas/models/profile.py:142
 #: src/kawaz/core/registrations/forms.py:12
 msgid "Username"
 msgstr "ユーザ名"
 
-#: src/kawaz/core/personas/models/profile.py:142
+#: src/kawaz/core/personas/models/profile.py:146
 #: src/templates/personas/persona_detail.html:173
+#: src/templates/personas/service_detail.html:5
 msgid "Accounts"
 msgstr "アカウント"
 
-#: src/kawaz/core/personas/views/persona.py:90
+#: src/kawaz/core/personas/views/persona.py:96
 msgid "Anonymous user does not have a persona update view"
 msgstr "非ログインユーザーはユーザー情報変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/persona.py:96
+#: src/kawaz/core/personas/views/persona.py:102
 msgid "Your user information was successfully updated."
 msgstr "プロフィールを更新しました"
 
-#: src/kawaz/core/personas/views/persona.py:113
+#: src/kawaz/core/personas/views/persona.py:119
 msgid "Anonymous user does not have an assign role view"
 msgstr "非ログインユーザーは権限変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/persona.py:133
+#: src/kawaz/core/personas/views/persona.py:139
 #, python-format
 msgid "Your role is changed to '%(role)s'"
 msgstr "権限が「%(role)s」に変更されました"
@@ -956,7 +961,7 @@ msgstr "下書き"
 #: src/kawaz/core/registrations/forms.py:13
 #: src/kawaz/core/registrations/forms.py:17
 msgid "This value must contain only letters, numbers and underscores."
-msgstr ""
+msgstr "この値には、英数字か_しか使えません"
 
 #: src/kawaz/core/registrations/models.py:12
 msgid "Fill your address. You must be related with Sapporo or neighbor cities."
@@ -1112,7 +1117,7 @@ msgstr "札幌ゲーム製作者コミュニティ Kawaz"
 
 #: src/templates/base.html:30
 msgid "View the contents on Web."
-msgstr ""
+msgstr "ページを開く"
 
 #: src/templates/base.html:65
 msgid "Home"
@@ -1616,7 +1621,7 @@ msgstr ""
 "めにはログインが必要です"
 
 #: src/templates/personas/persona_detail.html:71
-#: src/templates/personas/persona_list.html:65
+#: src/templates/personas/persona_list.html:73
 msgid "Abilities"
 msgstr "できること"
 
@@ -1641,6 +1646,7 @@ msgid "Update Profile"
 msgstr "プロフィール"
 
 #: src/templates/personas/persona_detail.html:182
+#: src/templates/personas/service_detail.html:19
 msgid "There are no accounts."
 msgstr "利用サービスが設定されていません"
 
@@ -1657,6 +1663,12 @@ msgstr "参加しているプロジェクトはありません"
 msgid "Change your user information"
 msgstr "ユーザー情報の変更"
 
+#: src/templates/personas/persona_list.html:65
+#, fuzzy
+#| msgid "Accounts"
+msgid "List of Accounts"
+msgstr "アカウントの一覧"
+
 #: src/templates/personas/profile_form.html:6
 #: src/templates/personas/profile_form.html:12
 msgid "Edit your profile"
@@ -1665,6 +1677,12 @@ msgstr "プロフィールを編集"
 #: src/templates/personas/profile_form.html:22
 msgid "Using services"
 msgstr "使用中のサービス"
+
+#: src/templates/personas/service_detail.html:9
+#: src/templates/personas/service_detail.html:16
+#, python-format
+msgid "%(label)s accounts"
+msgstr "%(label)sアカウント"
 
 #: src/templates/products/components/thumbnail-item.html:14
 msgid "More Details"

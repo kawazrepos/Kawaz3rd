@@ -121,6 +121,10 @@ class Service(models.Model):
     def __str__(self):
         return self.label
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('personas_service_detail', (), {'pk': self.pk})
+
     class Meta:
         ordering = ('pk',)
         verbose_name = _('Service')
@@ -131,7 +135,7 @@ class Account(models.Model):
     profile = models.ForeignKey(
         Profile, verbose_name=_('Account'), editable=False,
         related_name='accounts')
-    service = models.ForeignKey(Service, verbose_name=_('Service'))
+    service = models.ForeignKey(Service, verbose_name=_('Service'), related_name='accounts')
     pub_state = models.CharField(_('Publish status'),
                                  choices=Profile.PUB_STATES,
                                  max_length=10, default='public')

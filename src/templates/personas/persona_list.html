@@ -62,6 +62,14 @@
 {% block content-aside %}
     <div class="panel panel-default">
         <div class="panel-heading">
+            <h4 class="panel-title">{% trans "List of Accounts" %}</h4>
+        </div>
+            {% for service in all_services %}
+                <a class="list-group-item" href="{{ service.get_absolute_url }}"><img class="list-group-item-icon" data-toggle="tooltip" data-title="{{ service.label }}" src="{{ MEDIA_URL }}{{ service.icon }}">{{ service.label }}</a>
+            {% endfor %}
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
             <h4 class="panel-title">{% trans "Abilities" %}</h4>
         </div>
         {{ filter.form.skills }}
