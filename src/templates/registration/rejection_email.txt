@@ -13,6 +13,6 @@
 札幌ゲーム製作者コミュニティ - Kawaz
 
 ホームページ: http://www.kawaz.org/
-責任者: AttaQ
+責任者: {{ GEEKDRUMS }}
 連絡先: webmaster@kawaz.org
 -------------------------------------------------------
