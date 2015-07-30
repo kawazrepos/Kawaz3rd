@@ -6,7 +6,7 @@ from kawaz.apps.blogs.forms import EntryForm
 from kawaz.apps.blogs.tests.factories import CategoryFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
 
-__author__ = 'giginet'
+
 from django.test.testcases import TestCase
 
 class EntryFormTestCase(TestCase):

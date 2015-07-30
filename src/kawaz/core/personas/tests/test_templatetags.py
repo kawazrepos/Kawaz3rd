@@ -3,7 +3,7 @@ from django.template import Template, Context
 from django.test import TestCase
 from kawaz.core.personas.tests.factories import ProfileFactory, PersonaFactory
 
-__author__ = 'giginet'
+
 
 class GetMyProfileTemplateTagTestCase(TestCase):
     def _test_get_my_profile(self, user):

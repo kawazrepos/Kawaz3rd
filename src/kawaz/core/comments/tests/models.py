@@ -3,7 +3,7 @@
 """
 from kawaz.core.personas.models import Persona
 
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from django.db import models
 
 

@@ -2,7 +2,7 @@ import os
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
-__author__ = 'giginet'
+
 
 # http://stackoverflow.com/questions/4394194/replacing-a-django-image-doesnt-delete-original
 class OverwriteStorage(FileSystemStorage):

@@ -2,7 +2,7 @@
 #
 # created by giginet on 2014/8/17
 #
-__author__ = 'giginet'
+
 from crispy_forms.helper import FormHelper
 
 

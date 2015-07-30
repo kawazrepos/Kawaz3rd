@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 import os
 from optparse import make_option
 from django.core.management.base import BaseCommand, CommandError

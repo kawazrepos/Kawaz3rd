@@ -1,7 +1,7 @@
 from django.forms import CharField
 from kawaz.core.forms.widgets import MaceEditorWidget
 
-__author__ = 'giginet'
+
 
 class MarkdownField(CharField):
     def __init__(self, *args, **kwargs):

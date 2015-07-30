@@ -1,4 +1,4 @@
-__author__ = 'giginet'
+
 
 from django.conf.urls import patterns, url
 

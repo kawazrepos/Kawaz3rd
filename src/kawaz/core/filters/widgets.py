@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
-__author__ = 'giginet'
+
 
 
 class ListGroupLinkWidget(LinkWidget):

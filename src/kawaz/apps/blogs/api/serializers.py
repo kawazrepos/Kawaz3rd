@@ -4,7 +4,7 @@
 #
 from kawaz.core.personas.models import Persona
 
-__author__ = 'giginet'
+
 from rest_framework import serializers
 from kawaz.core.personas.api.serializers import PersonaSerializer
 from ..models import Category

@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from django.db import models
 from kawaz.core.personas.models import Persona
 from kawaz.core.publishments.models import PUB_STATES

@@ -1,4 +1,4 @@
-__author__ = 'giginet'
+
 from unittest.mock import patch
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.tests.testcases.permissions import BasePermissionLogicTestCase

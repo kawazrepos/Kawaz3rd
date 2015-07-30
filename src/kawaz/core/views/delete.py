@@ -4,7 +4,7 @@
 #
 from django.contrib import messages
 
-__author__ = 'giginet'
+
 
 from django.views.generic.edit import DeleteView
 

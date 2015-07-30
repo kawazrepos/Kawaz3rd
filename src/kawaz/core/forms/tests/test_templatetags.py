@@ -2,7 +2,7 @@
 #
 # created by giginet on 2014/8/17
 #
-__author__ = 'giginet'
+
 from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
 from ..helpers import Bootstrap3HorizontalFormHelper, HorizontalBareFormHelper, InlineBareFormHelper

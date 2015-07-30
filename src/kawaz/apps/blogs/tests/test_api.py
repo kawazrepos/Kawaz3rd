@@ -2,7 +2,7 @@
 #
 # created by giginet on 2014/7/19
 #
-__author__ = 'giginet'
+
 import json
 from django.test import TestCase
 from django.core.urlresolvers import reverse

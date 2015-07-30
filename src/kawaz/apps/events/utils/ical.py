@@ -1,4 +1,4 @@
-__author__ = 'giginet'
+
 
 from icalendar import Calendar
 from icalendar import Event as CalEvent

@@ -2,7 +2,7 @@
 #
 # created by giginet on 2014/9/23
 #
-__author__ = 'giginet'
+
 
 import os
 from django.template.loader import render_to_string

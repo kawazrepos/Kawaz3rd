@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from django import template
 from django.template import TemplateSyntaxError
 from django.utils.safestring import mark_safe

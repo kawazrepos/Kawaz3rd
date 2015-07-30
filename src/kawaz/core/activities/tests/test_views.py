@@ -9,7 +9,7 @@ from kawaz.core.personas.models import Persona
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.activities.tests.factories import ActivityFactory
 
-__author__ = 'giginet'
+
 
 registry.register(ActivitiesTestModelA, ActivityMediator())
 

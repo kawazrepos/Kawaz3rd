@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from functools import lru_cache
 from importlib import import_module
 from django.apps import AppConfig

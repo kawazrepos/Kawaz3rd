@@ -8,7 +8,7 @@ from kawaz.core.personas.models import Persona
 from activities.models import Activity
 from activities.mediator import ActivityMediator
 
-__author__ = 'giginet'
+
 
 class ProjectActivityMediator(ActivityMediator):
 

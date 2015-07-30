@@ -20,4 +20,4 @@ class KawazRegistrationForm(RegistrationFormTermsOfService):
                                     })
 
 
-__author__ = 'giginet'
+

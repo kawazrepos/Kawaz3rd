@@ -1,4 +1,4 @@
-__author__ = 'giginet'
+
 
 from django import template
 from django.template import TemplateSyntaxError

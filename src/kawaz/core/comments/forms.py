@@ -6,7 +6,7 @@ from django_comments.forms import CommentForm
 from django.utils.translation import ugettext_lazy as _
 from kawaz.core.forms.fields import MarkdownField
 
-__author__ = 'giginet'
+
 
 class KawazCommentForm(CommentForm):
     comment = MarkdownField()

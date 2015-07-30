@@ -2,7 +2,7 @@
 #
 # created by giginet on 2014/8/16
 #
-__author__ = 'giginet'
+
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.layout import Submit
