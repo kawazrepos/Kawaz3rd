@@ -1,6 +1,6 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/8/19
+#
 #
 from django.contrib.auth.models import AnonymousUser
 from kawaz.core.personas.tests.factories import PersonaFactory

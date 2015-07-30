@@ -1,6 +1,6 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/10/20
+#
 #
 from django_comments.forms import CommentForm
 from django.utils.translation import ugettext_lazy as _

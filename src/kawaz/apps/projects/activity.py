@@ -1,6 +1,6 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/10/15
+#
 #
 from django.contrib.contenttypes.models import ContentType
 from django_comments.models import Comment

@@ -1,6 +1,6 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/9/28
+#
 #
 
 from django.utils.translation import ugettext_lazy as _

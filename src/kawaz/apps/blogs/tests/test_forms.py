@@ -1,6 +1,6 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/10/9
+#
 #
 from kawaz.apps.blogs.forms import EntryForm
 from kawaz.apps.blogs.tests.factories import CategoryFactory
