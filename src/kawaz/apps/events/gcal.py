@@ -4,7 +4,7 @@ Google Calendar 連携用 Backend
 `kawaz.core.google.calendar` に依存し settings.GOOGLE_CALENDAR_BACKEND で指定
 されている
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from django.conf import settings
 from django.contrib.sites.models import Site
 from google_calendar.backend import Backend

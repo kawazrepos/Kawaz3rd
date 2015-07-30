@@ -2,4 +2,4 @@
 """
 Google Calendar Synchronize django app
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+

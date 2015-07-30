@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from rest_framework import filters
 from kawaz.core.utils.permission import filter_with_perm
 

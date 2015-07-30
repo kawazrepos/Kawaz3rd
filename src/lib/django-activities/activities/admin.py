@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from .models import Activity

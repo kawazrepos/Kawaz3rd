@@ -3,7 +3,7 @@ from django.test import TestCase, override_settings
 from django.template import Template, Context
 from ..templatetags import shortenurl
 
-__author__ = 'giginet'
+
 
 URL = "http://www.kawaz.org"
 

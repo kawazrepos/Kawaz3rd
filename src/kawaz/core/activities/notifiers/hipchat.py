@@ -2,7 +2,7 @@ import urllib
 from django.conf import settings
 from activities.notifiers.base import ActivityNotifierBase
 
-__author__ = 'giginet'
+
 
 HIPCHAT_API_BASE = 'https://api.hipchat.com/'
 MESSAGE_END_POINT = 'v1/rooms/message'

@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from functools import lru_cache
 from django.core import serializers
 from django.template import Context

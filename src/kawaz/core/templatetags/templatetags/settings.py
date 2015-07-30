@@ -1,8 +1,6 @@
 from django import template
 from django.conf import settings as _settings
 
-__author__ = 'giginet'
-
 register = template.Library()
 
 

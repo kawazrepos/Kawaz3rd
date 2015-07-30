@@ -1,6 +1,6 @@
 from django.test import TestCase, override_settings
 
-__author__ = 'giginet'
+
 
 class ErrorPageTestCase(TestCase):
 

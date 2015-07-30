@@ -1,6 +1,6 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/10/15
+#
 #
 from django.contrib.contenttypes.models import ContentType
 from django_comments.models import Comment
@@ -8,7 +8,7 @@ from kawaz.core.personas.models import Persona
 from activities.models import Activity
 from activities.mediator import ActivityMediator
 
-__author__ = 'giginet'
+
 
 class ProjectActivityMediator(ActivityMediator):
 

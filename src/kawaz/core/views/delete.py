@@ -1,10 +1,10 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/10/9
+#
 #
 from django.contrib import messages
 
-__author__ = 'giginet'
+
 
 from django.views.generic.edit import DeleteView
 

@@ -2,7 +2,7 @@
 """
 Kawaz開発用にデータベースの初期化等を行うコマンド
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 import os
 import sys
 from optparse import make_option

@@ -1,13 +1,13 @@
 from kawaz.core.activities.hatenablog.tests.factories import HatenablogEntryFactory
 
-__author__ = 'giginet'
+
 import datetime
 from django.template import Context
 from activities.models import Activity
 from activities.registry import registry
 from kawaz.core.activities.tests.testcases import BaseActivityMediatorTestCase
 
-__author__ = 'giginet'
+
 
 
 class HatenaBlogEntryActivityMediatorTestCase(BaseActivityMediatorTestCase):

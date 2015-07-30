@@ -1,8 +1,8 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/9/23
 #
-__author__ = 'giginet'
+#
+
 
 from django import template
 from django.utils.safestring import mark_safe

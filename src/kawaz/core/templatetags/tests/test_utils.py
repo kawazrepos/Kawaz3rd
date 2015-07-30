@@ -1,10 +1,10 @@
 #! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/6/28
+#
 #
 from django.contrib.sites.models import Site
 
-__author__ = 'giginet'
+
 
 from django.test import TestCase, override_settings
 from django.template import Template, Context

@@ -1,6 +1,6 @@
 from permission.decorators import permission_required
 
-__author__ = 'giginet'
+
 
 from django.views.generic.list import ListView
 from activities.models import Activity

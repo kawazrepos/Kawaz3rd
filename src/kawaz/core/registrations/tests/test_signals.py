@@ -4,7 +4,7 @@ from registration.models import RegistrationProfile
 from registration.tests.mock import mock_request
 from kawaz.core.personas.models import Persona, Profile
 
-__author__ = 'giginet'
+
 
 class RegistrationActivatedTestCase(TestCase):
     def setUp(self):

@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from unittest.mock import MagicMock, patch
 from django.test import TestCase
 from django.test.utils import override_settings

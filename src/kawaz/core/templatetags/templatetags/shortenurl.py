@@ -3,7 +3,7 @@ from django import template
 from django.utils.safestring import mark_safe
 from kawaz.core.utils.shortenurl import shorten
 
-__author__ = 'giginet'
+
 
 PATTERN = re.compile(
     r'(?:https?|ftp)://[\.\-\+\?\(\)\{\}\^\$\w\d/:;@&=,%#]+',
