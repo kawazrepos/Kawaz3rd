@@ -1,3 +1,5 @@
+{% load settings %}
+
 {{ user.username }}さま
 
 申し訳ありませんが新規会員登録申請が管理者によって拒否されました。
@@ -13,6 +15,6 @@
 札幌ゲーム製作者コミュニティ - Kawaz
 
 ホームページ: http://www.kawaz.org/
-責任者: {{ GEEKDRUMS }}
+責任者: {{ settings.GEEKDRUMS_NAME }}
 連絡先: webmaster@kawaz.org
 -------------------------------------------------------
