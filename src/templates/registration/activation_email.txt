@@ -20,6 +20,6 @@ http://{{ site.domain }}{% url 'password_reset' %}
 札幌ゲーム製作者コミュニティ - Kawaz
 
 ホームページ: http://{{ site.domain }}
-責任者: {{ settings.GEEKDRUMS_NAME }}
+責任者: {% settings 'GEEKDRUMS_NAME' %}
 連絡先:	 webmaster@kawaz.org
 -------------------------------------------------------
