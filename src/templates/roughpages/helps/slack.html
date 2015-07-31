@@ -1,6 +1,14 @@
 {% extends "authenticated_base.html" %}
 
 {% load i18n %}
+{% block pre_css %}
+    {{ block.super }}
+    <style>
+        img {
+            max-height: 300px;
+        }
+    </style>
+{% endblock %}
 {% block breadcrumb %}
     {{ block.super }}
     <li><a href="/helps">{% trans "Help" %}</a></li>

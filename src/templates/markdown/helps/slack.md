@@ -12,7 +12,7 @@ Kawazでは、ゲーム開発を進めるためにオンラインで会話をす
 
 ## Slackって何？
 
-![](/statics/img/help/slack/logo.png)
+![](/statics/img/help/slack/logo.jpg)
 
 Slackはチーム用のビジネスチャットツールです。
 チャットツールとしてSkypeなどを利用している人も多いと思いますが、チーム制作にはSkypeは不向きです。
@@ -129,7 +129,7 @@ Slackのアプリが、PCの起動時に自動的に立ち上がるようにし�
 
 興味のあるチャンネルを探して参加しましょう。チャンネルに参加してる間は、発言がされると通知を受け取ることができます。
 
-![](/statics/img/help/slack/channel-settings.png)
+![](/statics/img/help/slack/channel-setting.png)
 
 逆に、もうチャンネルを追いたくなくなったら、上のメニューから「Leave Channel」を選んで会話から抜けましょう。
 
@@ -137,17 +137,17 @@ Slackのアプリが、PCの起動時に自動的に立ち上がるようにし�
 
 チャンネルは自由に作ることができますが、代表的なチャンネルとして以下のものがあります。
 
-[freetalk | Kawaz Slack](https://kawaz.slack.com/messages/freetalk/)
-
 ##### #freetalk
 
-#freetalkは雑談用の会話です。カジュアルに好きなことを話しましょう。
+[freetalk | Kawaz Slack](https://kawaz.slack.com/messages/freetalk/)
 
-[general | Kawaz Slack](https://kawaz.slack.com/messages/general/)
+\#freetalkは雑談用の会話です。カジュアルに好きなことを話しましょう。
 
 ##### #general
 
-#generalは全員が参加している連絡用の会話です。Kawazの更新通知などが流れます。
+[general | Kawaz Slack](https://kawaz.slack.com/messages/general/)
+
+\#generalは全員が参加している連絡用の会話です。Kawazの更新通知などが流れます。
 
 #### チャンネルをお気に入りする
 
@@ -233,13 +233,6 @@ Gyazoなどのツールを利用することで、簡単に画像を共有でき
 Slackにソースコードを貼るときは、```で囲むことで綺麗にソースコードを貼ることができます。
 
 ソースコード以外にも、何か文章を貼るときなど、見やすくするために使ってみましょう。
-
-
-```
-int main() {
-    std::cout << "hello" << std::endl;
-}
-```
 
 
 ![](/statics/img/help/slack/code.png)
