@@ -29,11 +29,13 @@
 
 ゲーム制作では連絡を取れるかどうかが大事。
 
-Kawazではチャットツールとして「Hipchat（ヒップチャット）」を採用し、ここで面白かったゲームの話や話題になっていることなんかを話しています。
+Kawazではチャットツールとして「[Slack（スラック）](https://www.slack.com/)」を採用し、ここで面白かったゲームの話や話題になっていることなんかを話しています。
 
-<iframe src="//www.slideshare.net/slideshow/embed_code/35594813" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/giginet/kawaz-hipchat" title="Kawaz Hipchat超入門" target="_blank">Kawaz Hipchat超入門</a> </strong></div>
+Slackについては以下を参照のこと
 
-Hipchatに登録していない方は運営に連絡ください！
+[Slackについて](http://kawaz.org/helps/slack/)
+
+Slackに登録していない方は運営に連絡ください！
 
 # もっとKawaz
 
