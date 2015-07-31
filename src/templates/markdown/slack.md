@@ -1,5 +1,7 @@
 # Slackを使ってみよう
 
+![](/statics/img/help/slack/slack.png)
+
 Kawazでは、ゲーム開発を進めるためにオンラインで会話をするチャットツールとして「**Slack**（スラック）」を導入しています。
 
 ゲーム開発はもちろん、雑談や打ち合わせなど、メンバーとコミュニケーションを取るために、
@@ -9,6 +11,8 @@ Kawazでは、ゲーム開発を進めるためにオンラインで会話をす
 すでにアカウントを持っている方は、[設定しておいて欲しいこと](#how-to-use) の章をお読みください
 
 ## Slackって何？
+
+![](/statics/img/help/slack/logo.png)
 
 Slackばチーム用のビジネスチャットツールです。
 チャットツールとしてSkypeなどを利用している人も多いと思いますが、チーム制作にはSkypeは不向きです。
@@ -30,14 +34,17 @@ Slackのアカウントを持っていない方は、
 [webmaster@kawaz.org](mailto:webmaster@kawaz.org)宛てにメールアドレスをお伝えください
 また、通知などが来るため、**必ず普段使うメールアドレスを設定してください。**
 
-招待用のメールが送られてくるので、「Join Kawaz」をクリックしましょう。
+![](/statics/img/help/slack/registration0.png)
 
+招待を受けるとメールが送られてくるので、「Join Kawaz」をクリックしましょう。
+
+![](/statics/img/help/slack/registration1.png)
 
 リンク先でユーザー名とパスワードを聞かれるので、設定しましょう。
 
+![](/statics/img/help/slack/registration2.png)
 
 この画面になったら参加完了です。下の入力ボックスに何か適当に書き込むとチュートリアルが始まります。
-
 
 ### アプリをダウンロードする
 
@@ -60,13 +67,17 @@ Slackにはスマートフォン向けのアプリケーションもあります
 
 Slackを導入したら、使い始める前に必ず以下の設定をするようにしましょう。
 
-また、設定ページには入れず、以下の画面が表示される場合はチーム名に「kawaz」と入力してログインしてください。
+また、設定ページに入れず、以下の画面が表示される場合はチーム名に「kawaz」と入力してログインしてください。
+
+![](/statics/img/help/slack/login.png)
 
 ### アイコンの設定
 
 Slackではアイコンを設定することができます。最初から設定されているアイコンのままだと、誰が喋っているか判別しづらいため、**必ずアイコンを設定するようにしましょう。**
 
 [アイコンの設定 | Kawaz Slack](https://kawaz.slack.com/account/photo)
+
+![](/statics/img/help/slack/icon.png)
 
 ### 名前の設定
 
@@ -76,13 +87,23 @@ Slackではアイコンを設定することができます。最初から設定
 
 [プロフィールの設定 | Kawaz Slack](https://kawaz.slack.com/account/profile)
 
+![](/statics/img/help/slack/profile.png)
+
 ### 通知の設定
 
-最後に通知の設定をしましょう。PC用とスマートフォン向けに別々の設定をすることができます。
+通知の設定をしましょう。PC用とスマートフォン向けに別々の設定をすることができます。
 
 「Desktop」は「Activity of Any Kind(全ての更新を通知する)」、Mobileは「Only Direct messages & highlighting（個人チャットと呼び出しのみ）」にすることをオススメします。
 
 [通知設定 | Kawaz Slack](https://kawaz.slack.com/account/notifications)
+
+![](/statics/img/help/slack/notification.png)
+
+### 自動起動の設定
+
+Slackのアプリが、PCの起動時に自動的に立ち上がるようにしておくと便利です。
+
+例えばWindows版では設定画面の「」をチェックすることで自動起動を設定できます。
 
 ## 基本的な使い方
 
@@ -90,17 +111,37 @@ Slackではアイコンを設定することができます。最初から設定
 
 会話の窓を「チャンネル」と呼びます。テーマごとの話題や、プロジェクト単位などで自由に会話を作ることができます。
 
+![](/statics/img/help/slack/channel-list.png)
+
 また、初期設定では全ての会話は全メンバーに公開されるので、プロジェクトに関係の無いメンバーでも簡単に他の会話を覗くことができます。
 
 一方で、招待された人しか見られないPrivate Channelを作ることもできます。
 
 #### チャンネルの探し方
 
+![](/statics/img/help/slack/new-channel0.png)
+
+チーム内にあるチャンネルは、左側のサイドバーの「More」ボタンから探すことができます。
+
+![](/statics/img/help/slack/new-channel1.png)
+
+興味のあるチャンネルを探して参加しましょう。チャンネルに参加してる間は、発言がされると通知を受け取ることができます。
+
+![](/statics/img/help/slack/channel-settings.png)
+
+逆に、もうチャンネルを追いたくなくなったら、上のメニューから「Leave Channel」を選んで会話から抜けましょう。
+
 #### 主なチャンネル
+
+チャンネルは自由に作ることができますが、代表的なチャンネルとして以下のものがあります。
+
+[freetalk | Kawaz Slack](https://kawaz.slack.com/messages/freetalk/)
 
 ##### #freetalk
 
 #freetalkは雑談用の会話です。カジュアルに好きなことを話しましょう。
+
+[general | Kawaz Slack](https://kawaz.slack.com/messages/general/)
 
 ##### #general
 
@@ -110,15 +151,23 @@ Slackではアイコンを設定することができます。最初から設定
 
 よく使うチャンネルは、上方の☆ボタンを押すとお気に入りに追加でき、見やすい位置に表示されるため、便利です。
 
+![](/statics/img/help/slack/star.png)
+
 ### メンション
+
+![](/statics/img/help/slack/mention.png)
 
 Slackの大きな特徴として、Twitterのリプライのように、特定のユーザーに通知を送ることができます。
 
 プロジェクトの運営で他のメンバーと連絡を取りたいとき、その人がオフラインでも簡単にその人に連絡をすることができます。
 
+![](/statics/img/help/slack/mention-list.png)
+
 また、画面右上の「@」ボタンから呼び出しの履歴も見れるため、自分が見ておく必要がある発言が確認しやすいです。
 
 @キーを入力すると、他のメンバーのIDを補完できるので、重要な要件はメンションを送りましょう。
+
+![](/statics/img/help/slack/mention-comp.png)
 
 また、@ユーザー名の他に、以下のような特殊な通知を使うこともできます。
 
@@ -138,15 +187,23 @@ Slackの大きな特徴として、Twitterのリプライのように、特定�
 
 ### チャンネルにリンクを貼る
 
+![](/statics/img/help/slack/channel-link.png)
+
 会話中で「#freetalk」などと書くと、他のチャンネルにリンクを貼ることができます。
 
 新しく作ったチャンネルを告知したり、話が脱線したときに誘導したりするときに使いましょう。
 
 ### 絵文字を使う
 
-Slackでは絵文字を使うことができます。絵文字を使って会話を華やかにしましょう。
+![](/statics/img/help/slack/emoji0.png)
 
-また、新しい絵文字が欲しいときは、以下のページから絵文字を自由に登録することができます。ネタ的な絵文字をどんどん登録していきましょう。
+Slackでは右側のボタンから絵文字を使うことができます。絵文字を使って会話を華やかにしましょう。
+
+![](/statics/img/help/slack/emoji1.png)
+
+新しい絵文字が欲しいときは、以下のページから絵文字を自由に登録することができます。ネタ的な絵文字をどんどん登録していきましょう。
+
+[絵文字の追加 | Kawaz Slack](https://kawaz.slack.com/customize/emoji)
 
 ### 発言をお気に入りする
 
@@ -154,14 +211,18 @@ Twitterのふぁぼのように、発言をお気に入りに登録して、あ�
 
 おもしろい発言やあとで見直したい重要な発言があったら、会話横の☆ボタンを押してお気に入りに追加しましょう。
 
+![](/statics/img/help/slack/favorite.png)
+
 ### 画像を添付する
 
 Slackに画像をドラッグすると、ファイルアップロードすることができますが、**容量の制限があるので利用しないでください。**
 
+![](/statics/img/help/slack/image.png)
 
 Gyazoなどのツールを利用することで、簡単に画像を共有できるので、是非ご利用ください。
 
 [Gyazoへようこそ : スクリーンショットの瞬間共有](https://gyazo.com/ja)
+
 
 ### ソースコードを貼る
 
@@ -177,3 +238,8 @@ int main() {
 ```
 
 
+![](/statics/img/help/slack/code.png)
+
+# その他の使い方
+
+Slackには様々な機能があります。もし使っていてわからなかった場合は気軽に質問してください。
