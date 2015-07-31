@@ -138,6 +138,12 @@ class KawazRoughPageTestCase(TestCase):
         """
         self._test_template("/helps/projects/", "helps/projects")
 
+    def test_access_to_helps_slack(self):
+        """
+        /helps/slack/にアクセスして、roughpages/helps/slack.htmlが表示できるかどうか
+        """
+        self._test_template("/helps/slack/", "helps/slack")
+
     def test_access_to_helps_welcome(self):
         """
         /helps/welcome/にアクセスして、roughpages/helps/welcome.htmlが表示できるかどうか
