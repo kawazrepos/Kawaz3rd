@@ -4,7 +4,7 @@ from django.test import TestCase
 from kawaz.core.personas.tests.factories import PersonaFactory
 from kawaz.core.registrations.tests.factories import RegistrationProfileFactory
 
-__author__ = 'giginet'
+
 
 class GetRegistrationProfilesTestCase(TestCase):
 

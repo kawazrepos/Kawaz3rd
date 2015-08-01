@@ -1,4 +1,4 @@
-__author__ = 'giginet'
+
 
 from django_comments.models import Comment
 

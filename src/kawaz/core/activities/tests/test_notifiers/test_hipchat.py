@@ -7,7 +7,7 @@ from django.test import TestCase
 from kawaz.core.activities.notifiers import hipchat
 from kawaz.core.activities.notifiers.hipchat import HipChatActivityNotifier
 
-__author__ = 'giginet'
+
 
 @override_settings(ACTIVITIES_ENABLE_HIPCHAT_NOTIFICATION=True)
 class HipChatActivityNotifierTestCase(TestCase):

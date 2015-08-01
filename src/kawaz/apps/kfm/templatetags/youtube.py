@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from django import template
 from django.utils.safestring import mark_safe
 from ..extras.youtube import parse_youtube_urls

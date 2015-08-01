@@ -1,4 +1,5 @@
 {% load url from future %}
+{% load settings %}
 
 {{ site.name }}:
 
@@ -27,6 +28,6 @@ Skypeのアカウントを設定していただいたのち、運営メンバー
 札幌ゲーム製作者コミュニティ - Kawaz
 
 ホームページ: http://{{ site.domain }}
-責任者: AttaQ
+責任者: {% settings 'GEEKDRUMS_NAME' %}
 連絡先: webmaster@kawaz.org
 -------------------------------------------------------

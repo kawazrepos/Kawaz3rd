@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from django.test import TestCase, override_settings
 from kawaz.core.utils import shortenurl
 
-__author__ = 'giginet'
+
 
 URL = "http://www.kawaz.org"
 

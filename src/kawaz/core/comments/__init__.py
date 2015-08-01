@@ -1,11 +1,11 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/10/20
+#
 #
 from django_comments.models import Comment
 from kawaz.core.comments.forms import KawazCommentForm
 
-__author__ = 'giginet'
+
 
 def get_form():
     return KawazCommentForm

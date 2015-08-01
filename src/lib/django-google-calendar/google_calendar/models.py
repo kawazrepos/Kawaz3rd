@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save

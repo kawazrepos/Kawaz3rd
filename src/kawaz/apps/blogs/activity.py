@@ -1,8 +1,8 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/10/14
 #
-__author__ = 'giginet'
+#
+
 from activities.mediator import ActivityMediator
 from django_comments.models import Comment
 

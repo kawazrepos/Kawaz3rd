@@ -2,7 +2,7 @@ import json
 import logging
 from urllib.request import urlopen, Request
 from django.conf import settings
-__author__ = 'giginet'
+
 
 API_URL = 'https://www.googleapis.com/urlshortener/v1/url'
 

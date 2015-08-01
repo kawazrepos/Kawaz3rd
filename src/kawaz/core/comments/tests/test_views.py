@@ -6,7 +6,7 @@ from kawaz.core.comments import KawazCommentForm
 from kawaz.core.comments.tests.factories import CommentFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
 
-__author__ = 'giginet'
+
 
 class CommentViewTestCase(TestCase):
 

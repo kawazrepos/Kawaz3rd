@@ -2,7 +2,7 @@
 """
 Google Calendar manipulation library (Raw level)
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 import warnings
 import httplib2
 

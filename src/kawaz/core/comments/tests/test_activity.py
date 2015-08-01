@@ -10,7 +10,7 @@ from .factories import CommentFactory
 from kawaz.core.activities.tests.factories import ActivityFactory
 from kawaz.core.comments.tests.models import CommentTestArticle
 
-__author__ = 'giginet'
+
 
 
 class CommentActivityMediatorTestCase(TestCase):

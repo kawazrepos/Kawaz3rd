@@ -1,12 +1,12 @@
 # ! -*- coding: utf-8 -*-
 #
-# created by giginet on 2014/10/9
+#
 #
 from kawaz.apps.blogs.forms import EntryForm
 from kawaz.apps.blogs.tests.factories import CategoryFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
 
-__author__ = 'giginet'
+
 from django.test.testcases import TestCase
 
 class EntryFormTestCase(TestCase):

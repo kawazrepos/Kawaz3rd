@@ -1,3 +1,5 @@
+{% load settings %}
+
 {{ user.username }}さま
 
 アカウント名{{ user.username }}で札幌ゲーム製作者コミュニティ - Kawazへの新規会員登録申請が登録されました。
@@ -18,6 +20,6 @@
 札幌ゲーム製作者コミュニティ - Kawaz
 
 ホームページ: http://www.kawaz.org/
-責任者: AttaQ
+責任者: {% settings 'GEEKDRUMS_NAME' %}
 連絡先:	 webmaster@kawaz.org
 -------------------------------------------------------

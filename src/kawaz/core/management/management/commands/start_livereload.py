@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 """
-__author__ = 'Alisue <lambdalisue@hashnote.net>'
+
 import os
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
