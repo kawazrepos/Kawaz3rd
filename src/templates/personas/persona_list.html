@@ -11,16 +11,18 @@
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/persona.less" %}" media="screen">
 {% endblock %}
-{% block content-main %}
+{% block content-header %}
     <div class="page-header">
         <h1>{% trans "Members" %}({{ filter | length }})</h1>
     </div>
+{% endblock %}
+{% block content-main %}
     {% if filter|length_is:"0" %}
         <div class="alert alert-info">
             <p>該当するメンバーは存在しません</p>
         </div>
     {% endif %}
-    <div class="row" id="persona-list">
+    <div id="persona-list">
         {% for object in object_list %}
             <div class="thumbnail persona-list-item">
                 <a href="{{ object.get_absolute_url }}">
