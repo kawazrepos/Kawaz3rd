@@ -26,3 +26,24 @@
   text-overflow: @ellipsis;
   -o-text-overflow: @ellipsis; /* Opera9,10対応 */
 }
+
+// column-width
+.column-width(@width) {
+  -moz-column-width: @width;
+  -webkit-column-width: @width;
+  column-width: @width;
+}
+
+// column-gap
+.column-gap(@gap) {
+  -moz-column-gap: @gap;
+  -webkit-column-gap: @gap;
+  column-gap: @gap;
+}
+
+// column-count
+.column-count(@count) {
+  -moz-column-count: @count;
+  -webkit-column-count: @count;
+  column-count: @count;
+}

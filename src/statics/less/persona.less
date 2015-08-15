@@ -12,8 +12,8 @@
 .quotes {
   margin-top: 10px;
   padding: 10px;
-  border: solid 2px @gray-lighter;
-  border-radius: 8px;
+  border: solid 1px @gray-lighter;
+  border-radius: 2px;
   .quotes-none {
     color: @gray-light;
   }
@@ -80,40 +80,40 @@
 #persona-list {
   // がんばってPinterestっぽいの作った
   // http://stackoverflow.com/questions/22148063/making-a-pinterest-like-grid-with-bootstrap-the-boxes-are-not-displayed-right-b
+  @item-count: 3;
   @item-width: 200px;
-  @column-gap: 10px;
+  @column-gap: 20px;
+  margin-top: 0;
   min-width: @item-width;
-  -moz-column-width: @item-width;
-  -webkit-column-width: @item-width;
-  -moz-column-gap: @column-gap;
-  -webkit-column-gap: @column-gap;
-  margin-top: 30px;
-  h3 {
-    margin-top: 3px;
-    margin-bottom: 2px;
-  }
-  .persona-accounts {
-    span {
-      display: inline-block;
-    }
-    img {
-      padding: 0;
-    }
-  }
-  .persona-avatar {
-    width: 100%;
-  }
+  width: 100%;
+  .column-gap(@column-gap);
+  .column-count(@item-count);
   .persona-list-item {
     display: inline-block;
-    width:  100%;
-  }
-  .persona-skills, .persona-accounts {
-    margin-top: 10px;
-  }
-  .well {
-    padding-top: 0;
-    background-color: lighten(@gray-lighter, 5%);
-    margin-bottom: 0;
-    border: none;
+    h3 {
+      margin-top: 3px;
+      margin-bottom: 2px;
+    }
+    .persona-accounts {
+      span {
+        display: inline-block;
+      }
+      img {
+        padding: 0;
+      }
+    }
+    .persona-avatar {
+      width: 100%;
+    }
+    .persona-skills, .persona-accounts {
+      margin-top: 10px;
+    }
+    .well {
+      padding-top: 0;
+      background-color: lighten(@gray-lighter, 5%);
+      margin-bottom: 0;
+      border: none;
+      border-radius: 0 0 4px 4px;
+    }
   }
 }
