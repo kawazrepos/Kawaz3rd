@@ -13,49 +13,6 @@ from django.utils.translation import ugettext as _
 
 SNAPSHOT_CACHE_NAME = '_snapshot_cached'
 
-class ActivityLatestsQuerySet(models.QuerySet):
-    def get_base_population(self):
-        """
-        Return pks of the latest activities of each particular content_objects
-        """
-        # find created_at list of latest activities of each particular
-        # content_objects
-        # it use 'pk' instead of 'created_at' to filter latest while
-        #   - more than two activities which has same 'created_at' is possible
-        #   - newer activity have grater pk
-        if not hasattr(self, '_base_population'):
-            qs = self.values('content_type_id', 'object_id', 'id')
-            qs = qs.annotate(pk=Max('id'))
-            self._base_population = qs.values_list('pk', flat=True)
-        return self._base_population
-
-    def _fetch_all(self):
-        # filter internal query with the base population
-        # the base population use 'self' thus LIMIT/OFFSET will be applied
-        # to the base population query as well
-        self.query.add_q(Q(pk__in=self.get_base_population()))
-        super()._fetch_all()
-
-    def __getitem__(self, k):
-        # OFFSET/LIMIT should only be applied into the subquery
-        if isinstance(k, slice):
-            qs = self._clone()
-            if k.start is not None:
-                start = int(k.start)
-            else:
-                start = None
-            if k.stop is not None:
-                stop = int(k.stop)
-            else:
-                stop = None
-            qs.get_base_population().query.set_limits(start, stop)
-            # Note:
-            #   _fetch_all is called in __iter__
-            return list(qs)[::k.step] if k.step else qs
-        else:
-            return super().__getitem__(k)
-
-
 class ActivityManager(models.Manager):
 
     def get_queryset(self):
@@ -68,12 +25,11 @@ class ActivityManager(models.Manager):
         Return latest activities of each particular content_objects
         """
         qs = super().get_queryset()
-        qs = ActivityLatestsQuerySet(
-            model=qs.model,
-            query=qs.query,
-            using=qs._db,
-            hints=qs._hints,
+        qs = qs.raw(
+            'SELECT *, MAX(id) AS id FROM activities_activity GROUP BY '
+            'content_type_id, object_id ORDER BY id DESC'
         )
+        qs.count = lambda: len(list(qs))
         return qs
 
     def get_for_model(self, model):
