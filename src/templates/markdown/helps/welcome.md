@@ -37,6 +37,8 @@ Slackについては以下を参照のこと
 
 [Slackについて](http://kawaz.org/helps/slack/)
 
+http://www.kawaz.org/announcements/32/
+
 Slackに登録していない方は運営に連絡ください！
 
 # もっとKawaz
@@ -47,7 +49,7 @@ Kawazでは大小さまざまなイベントが開催されています！
 
 まずは毎月行われている全体ミーティングに顔を出してみませんか？
 
-[イベントについて](http://kawaz.org/helps/event/)
+[イベントについて](http://kawaz.org/helps/events/)
 
 
 ## ブログを書いてみよう
