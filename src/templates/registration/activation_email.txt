@@ -13,8 +13,6 @@ http://{{ site.domain }}{% url 'password_reset' %}
 
 より再設定を行ってください。今後とも宜しくお願いいたします。
 
-{{ message }}
-
 Kawazでは登録いただいたこのポータルサイトやチャットツールを使って、メンバー間の交流をしています。
 詳しくはこのページをどうぞ！
 http://www.kawaz.org/helps/welcome/
