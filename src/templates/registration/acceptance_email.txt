@@ -13,13 +13,18 @@ http://{{ site.domain }}{% url 'registration_activate' activation_key=activation
 
 なお{{ expiration_days }}日以内にアカウントが有効化されない場合は自動的にアカウント情報が削除されるので注意してください。
 
+{{ message }}
+
 承認完了後はプロフィールの設定ページが現れるので、必ず以下の点について設定してください
 
 - プロフィール
 - Kawazでやりたいこと
 - Skype/Twitterなどの連絡先
 
-Skypeのアカウントを設定していただいたのち、運営メンバーから連絡させていただきます。
+また、KawazではSlackというチャットツールの設定を使って交流やゲーム開発を行っています。
+以下の設定を参考に必ず登録作業をお願いします。
+
+http://www.kawaz.org/helps/slack/
 
 
 このメールが身に覚えのない方はお手数ですが webmaster@kawaz.org までご連絡をお願いいたします。
