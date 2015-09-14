@@ -18,6 +18,7 @@ class RegistrationMailTemplateTestCase(TestCase):
         """
         context = Context(dict(
             activation_key='thisisanactivationkey',
+            message='Slack見ましょう'
         ))
         rendered = render_to_string(
             'registration/acceptance_email.txt',
@@ -25,6 +26,7 @@ class RegistrationMailTemplateTestCase(TestCase):
         )
         self.assertIsNotNone(rendered)
         self.assertIn('geekdrums', rendered)
+        self.assertIn('Slack見ましょう', rendered)
 
     def test_rejection_subject_parse(self):
         """
@@ -37,9 +39,10 @@ class RegistrationMailTemplateTestCase(TestCase):
         """
         registration/rejection_email.txtを正しくparseできる
         """
-        rendered = render_to_string('registration/rejection_email.txt')
+        rendered = render_to_string('registration/rejection_email.txt', {'message': 'やりたいこと書きましょう'})
         self.assertIsNotNone(rendered)
         self.assertIn('geekdrums', rendered)
+        self.assertIn('やりたいこと書きましょう', rendered)
 
     def test_registration_subject_parse(self):
         """
