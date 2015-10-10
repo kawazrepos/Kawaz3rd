@@ -56,10 +56,10 @@
           </div>
           <div class="list-group">
               {% if user has 'announcements.change_announcement' of object %}
-            <a class="list-group-item" href="{% url 'announcements_announcement_update' author=user.username pk=object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Edit the announcements" %}</a>
+            <a class="list-group-item" href="{% url 'announcements_announcement_update' pk=object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Edit the announcements" %}</a>
                 {% endif %}
                 {% if user has 'announcements.delete_announcement' of object %}
-                <a class="list-group-item list-group-item-danger post-link" href="{% url 'announcements_announcement_delete' author=user.username pk=object.pk %}" confirm-message="{% trans "Do you want to delete this announcement?" %}"><span class="glyphicon glyphicon-remove"></span>
+                <a class="list-group-item list-group-item-danger post-link" href="{% url 'announcements_announcement_delete' pk=object.pk %}" confirm-message="{% trans "Do you want to delete this announcement?" %}"><span class="glyphicon glyphicon-remove"></span>
                     {% trans "Delete the announcements" %}
                     <form method="POST" style="display: none;">{% csrf_token %}</form>
                 </a>
