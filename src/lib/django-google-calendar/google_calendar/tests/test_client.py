@@ -17,9 +17,9 @@ class GoogleCalendarClientRequireEnabledDecoratorTestCase(TestCase):
         """
         method = MagicMock(return_value=True)
         decorated = require_enabled(method)
-        self = MagicMock()
-        self.enabled = True
-        self.assertTrue(decorated(self))
+        this = MagicMock()
+        this.enabled = True
+        self.assertTrue(decorated(this))
         self.assertTrue(method.called)
 
     def test_require_enabled_do_not_call_method(self):
@@ -28,9 +28,9 @@ class GoogleCalendarClientRequireEnabledDecoratorTestCase(TestCase):
         """
         method = MagicMock(return_value=True)
         decorated = require_enabled(method)
-        self = MagicMock()
-        self.enabled = False
-        self.assertIsNone(decorated(self))
+        this = MagicMock()
+        this.enabled = False
+        self.assertIsNone(decorated(this))
         self.assertFalse(method.called)
 
 
