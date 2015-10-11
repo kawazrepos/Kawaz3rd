@@ -65,7 +65,7 @@ class ActivityNotifierBaseTestCase(TestCase):
         notifier.send.assert_called_with(rendered_content)
 
         notifier.notify(activity, context)
-        notifier.get_typename.assert_not_called()
+        notifier.get_typename.assert_called_once_with()
         notifier.render.assert_called_with(activity,
                                            context,
                                            typename)
