@@ -58,7 +58,7 @@ class ActivityNotifierBaseTestCase(TestCase):
         context = MagicMock()
 
         notifier.notify(activity, context, typename)
-        notifier.get_typename.assert_not_called()
+        self.assertFalse(notifier.get_typename.called)
         notifier.render.assert_called_with(activity,
                                            context,
                                            typename)
