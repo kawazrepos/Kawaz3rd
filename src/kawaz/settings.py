@@ -289,6 +289,7 @@ GOOGLE_CALENDAR_CLIENT_SECRETS = os.path.join(CONFIG_ROOT,
                                               'gcal', 'client_secrets.json')
 GOOGLE_CALENDAR_CREDENTIALS = os.path.join(CONFIG_ROOT,
                                            'gcal', 'credentials.json')
+GOOGLE_CALENDAR_ENABLE_NOTIFICATIONS = True
 
 # django_comments
 COMMENTS_APP = 'kawaz.core.comments'
