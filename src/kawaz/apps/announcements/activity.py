@@ -1,8 +1,10 @@
-from activities.mediator import ActivityMediator
+from django.conf import settings
 from django_comments.models import Comment
+from activities.mediator import ActivityMediator
 
 
 class AnnouncementActivityMediator(ActivityMediator):
+    notifiers = settings.ACTIVITIES_DEFAULT_NOTIFIERS + ('twitter_kawaz_official',)
 
     def alter(self, instance, activity, **kwargs):
         # 状態がdraftの場合は通知しない
