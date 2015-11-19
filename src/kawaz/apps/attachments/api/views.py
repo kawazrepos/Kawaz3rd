@@ -1,5 +1,5 @@
 from .serializers import MaterialSerializer
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import FormParser, MultiPartParser
 from kawaz.api import mixins
 from kawaz.api.views import KawazGenericViewSet
 from ..models import Material
@@ -13,7 +13,7 @@ class MaterialViewSet(mixins.CreateModelMixin,
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
     author_field_name = 'author'
-    parser_classes = (FileUploadParser,)
+    parser_classes = (FormParser, MultiPartParser, )
 
     def get_extra_fields(self):
         extras = super().get_extra_fields()
