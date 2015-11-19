@@ -7,9 +7,9 @@ django-permission==0.8.8
 django-filter
 django-roughpages>=0.1.2
 django-thumbnailfield>=0.2.3
-django-inspectional-registration==0.4.8
+django-inspectional-registration>=0.4.8
 django-crispy-forms
-git+https://github.com/kawazrepos/django-contrib-comments.git#egg=django_comments
+django-contrib-comments
 django-debug-toolbar
 django-debug-toolbar-template-timings
 requests
