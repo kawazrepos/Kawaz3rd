@@ -23,7 +23,7 @@
                 <th>{% trans "Nickname" %}</th>
                 <th>{% trans "Account" %}</th>
             </tr>
-            {% for account in service.accounts.all %}
+            {% for account in service.active_accounts.all %}
                 {# TODO 非公開のアカウントを非ログインユーザーには見れなくする。本当はパーミッションレベルでやりたい #}
                 {% if account.pub_state == 'public' or user.is_authenticated %}
                 <tr>
