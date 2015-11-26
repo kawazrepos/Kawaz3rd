@@ -1,3 +1,5 @@
+from datetime import datetime
+from django.utils import timezone
 from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 from ...models import Profile
@@ -143,6 +145,22 @@ class ServiceTestCase(TestCase):
         self.assertIn(account0, accounts)
         self.assertIn(account1, accounts)
         self.assertNotIn(other_account, accounts)
+
+    def test_active_accounts(self):
+        """active_accountsが有効なアカウントのみを返す"""
+        user0 = PersonaFactory(is_active=False)
+        user1 = PersonaFactory(last_login=datetime(2015, 10, 1, tzinfo=timezone.utc))
+        user2 = PersonaFactory(last_login=datetime(2015, 11, 1, tzinfo=timezone.utc))
+
+        service = ServiceFactory()
+        account0 = AccountFactory(service=service, profile__user=user0)
+        account1 = AccountFactory(service=service, profile__user=user1)
+        account2 = AccountFactory(service=service, profile__user=user2)
+
+        accounts = service.active_accounts.all()
+        self.assertEqual(accounts.count(), 2)
+        self.assertEqual(accounts[0], account2)
+        self.assertEqual(accounts[1], account1)
 
 
 class AccountTestCase(TestCase):
