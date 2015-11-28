@@ -10,7 +10,7 @@
 {% block pre_css %}
 {{ block.super }}
     {# BlogのCSSデザインを踏襲 #}
-    <link type="text/less" rel="stylesheet" href="{% static "less/announcements.less" %}" media="screen">
+    <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
 {% endblock %}
 
 {% block content-header %}
@@ -23,7 +23,7 @@
         </div>
         <div class="col col-lg-3 col-xs-12 header-right">
         {% if user has 'announcements.add_announcement' %}
-            <a href="{% url "announcements_announcement_create" %} %}" class="btn btn-primary btn-lg" role="button">お知らせを書く</a>
+            <a href="{% url "announcements_announcement_create" %}" class="btn btn-primary btn-lg" role="button">お知らせを書く</a>
         {% endif %}
         </div>
     </div>
