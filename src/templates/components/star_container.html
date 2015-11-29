@@ -2,11 +2,11 @@
 {% load staticfiles %}
 {% get_star_endpoint object as endpoint %}
 <section class="star-container" star-endpoint="{{ endpoint }}">
+    {% if user has 'stars.add_star' of object %}
     <div class="star-add-col">
-        {% if user has 'stars.add_star' of object %}
             <button class="btn btn-primary btm-sm add-star-button"><span class="glyphicon glyphicon-star"></span></button>
-        {% endif %}
     </div>
+    {% endif %}
     <div class="star-body-col">
         {% get_stars object as stars %}
         <ul class="star-list">
@@ -18,7 +18,7 @@
             {% for star in stars %}
                 {% include "components/star.html" with allowed_to_delete_star=False %}
             {% endfor %}
-          {% endif %} 
+          {% endif %}
         </ul>
     </div>
 </section>
