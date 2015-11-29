@@ -3,7 +3,8 @@
 @container-min-height: 40px;
 
 .star-container {
-  padding: 10px 10px 15px;
+  padding: 0 0 5px;
+  margin-bottom: 5px;
   min-height: @container-min-height;
   position: relative;
   display: flex;
@@ -15,12 +16,13 @@
   }
   .add-star-button {
     margin: 0;
+    padding: 5px 7px 2px;
     span {
       margin-left: 3px;
     }
   }
   .star-add-col {
-    flex: 1 1 40px;
+    flex: 0 1 40px;
     max-width: 50px;
     padding: 0;
   }
@@ -31,21 +33,22 @@
   .star-wrapper {
     display: inline;
     float: left;
-    margin-right: 3px;
     .star-count {
       display: inline;
       float: left;
       padding-top: 2px;
-      margin-left: 3px;
+      max-width: 3px 0 0 3px;
       vertical-align: middle;
       color: @brand-warning;
       font-weight: bold;
+      margin-right: 5px;
     }
   }
   .star {
     display: inline;
     width: @avatar-size-small;
     float: left;
+    margin: 3px 3px 0 0;
     list-style-type: none;
     .star-user {
       // absolute指定されている 子要素の.star-removeの
