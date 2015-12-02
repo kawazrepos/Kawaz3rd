@@ -1,4 +1,4 @@
-import requests
+import urllib
 import json
 
 from django.conf import settings
@@ -64,12 +64,8 @@ class SlackAcitivityNotifier(ActivityNotifierBase):
             'icon_emoji': self.icon_emoji,
             'icon_url': self.icon_url
         }
-        try:
-            response = requests.post(self.url, data={
-                "payload": json.dumps(params)
-            })
-            if response.status_code != requests.codes.ok:
-                raise SlackPostExcetion(response.status_code, response.text)
-        except:
-            # fail silently
-            pass
+        payload = {'payload': json.dumps(params)}
+        data = urllib.parse.urlencode(payload)
+        data = data.encode('utf-8')
+        request = urllib.request.Request(self.url, data)
+        urllib.request.urlopen(request)
