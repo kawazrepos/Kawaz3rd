@@ -1,0 +1,4 @@
+**{{ comment.user.nickname }}さんが「{{ comment.content_object }}」にコメントしました <http://{{ site.domain }}{{ comment.get_absolute_url }}>**
+```
+{{ comment.comment | kfm | striptags | truncatechars_html:150 }}
+```

@@ -1,0 +1,5 @@
+**{{ object.administrator.nickname }}さんが「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.title }}>」を発足しました**
+
+```
+{{ object.body | kfm | striptags | truncatechars_html:150 }}
+```
