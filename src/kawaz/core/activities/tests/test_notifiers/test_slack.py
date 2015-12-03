@@ -5,7 +5,7 @@ import urllib
 from unittest.mock import patch
 from django.test import override_settings
 from django.test import TestCase
-from kawaz.core.activities.notifiers.slack import SlackAcitivityNotifier
+from kawaz.core.activities.notifiers.slack import SlackActivityNotifier
 
 
 @override_settings(ACTIVITIES_ENABLE_SLACK_NOTIFICATION=True)
@@ -42,5 +42,5 @@ class SlackActivityNotifierTestCase(TestCase):
                 'icon_emoji': icon_emoji,
                 'icon_url': icon_url
             }
-            notifier = SlackAcitivityNotifier(endpoint_url, channel, options)
+            notifier = SlackActivityNotifier(endpoint_url, channel, options)
             notifier.send(randomstr)
