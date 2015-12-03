@@ -2,10 +2,9 @@ import random
 import string
 import json
 import urllib
-from unittest.mock import MagicMock
+from unittest.mock import patch
 from django.test import override_settings
 from django.test import TestCase
-from kawaz.core.activities.notifiers import slack
 from kawaz.core.activities.notifiers.slack import SlackAcitivityNotifier
 
 
@@ -34,13 +33,14 @@ class SlackActivityNotifierTestCase(TestCase):
             self.assertEqual(payload['username'], username)
             self.assertEqual(payload['text'], randomstr)
 
-        slack.urllib.request.Request = dummy_request
-        slack.urllib.request.urlopen = MagicMock(return_value=None)
+        with patch('urllib.request') as request:
+            request.Request = dummy_request
+            request.urlopen.return_value = None
 
-        options = {
-            'username': username,
-            'icon_emoji': icon_emoji,
-            'icon_url': icon_url
-        }
-        notifier = SlackAcitivityNotifier(endpoint_url, channel, options)
-        notifier.send(randomstr)
+            options = {
+                'username': username,
+                'icon_emoji': icon_emoji,
+                'icon_url': icon_url
+            }
+            notifier = SlackAcitivityNotifier(endpoint_url, channel, options)
+            notifier.send(randomstr)

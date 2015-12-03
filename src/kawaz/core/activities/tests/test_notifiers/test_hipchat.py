@@ -1,13 +1,10 @@
 import random
 import string
 import urllib
-from unittest.mock import MagicMock
+from unittest.mock import patch
 from django.test import override_settings
 from django.test import TestCase
-from kawaz.core.activities.notifiers import hipchat
 from kawaz.core.activities.notifiers.hipchat import HipChatActivityNotifier
-
-
 
 @override_settings(ACTIVITIES_ENABLE_HIPCHAT_NOTIFICATION=True)
 class HipChatActivityNotifierTestCase(TestCase):
@@ -31,8 +28,9 @@ class HipChatActivityNotifierTestCase(TestCase):
             self.assertEqual(query['from'][0], 'Kawaz')
             self.assertEqual(query['message'][0], randomstr)
 
-        hipchat.urllib.request.Request = dummy_request
-        hipchat.urllib.request.urlopen = MagicMock(return_value=None)
+        with patch('urllib.request') as request:
+            request.Request = dummy_request
+            request.urlopen.return_value = None
 
-        notifier = HipChatActivityNotifier(auth_token, room_id)
-        notifier.send(randomstr)
+            notifier = HipChatActivityNotifier(auth_token, room_id)
+            notifier.send(randomstr)
