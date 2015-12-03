@@ -1,7 +1,7 @@
-**{{ object.organizer.nickname }}さんが「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.title }}>」を企画しました**
+*{{ object.organizer.nickname }}さんが「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.title }}>」を企画しました*
 
-**日時**：{{ object.humanized_period }}
-**場所**：{{ object.place }}
+*日時* ：{{ object.humanized_period }}
+*場所* ：{{ object.place }}
 
 ```
 {{ object.body | kfm | striptags | truncatechars_html:150 }}

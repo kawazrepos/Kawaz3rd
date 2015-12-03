@@ -1,4 +1,4 @@
-**{{ object.last_modifier.nickname }}さんが「{{ release.product.title }}」に「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ release.label }}>」を追加しました**
+*{{ object.last_modifier.nickname }}さんが「{{ release.product.title }}」に「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ release.label }}>」を追加しました*
 
 ```
 {{ object.description | kfm | striptags | truncatechars_html:150 }}
