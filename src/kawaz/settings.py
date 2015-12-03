@@ -274,6 +274,11 @@ ACTIVITIES_DEFAULT_NOTIFIERS = (
     'twitter_kawaz_info',
 )
 
+ACTIVITIES_TEMPLATE_EXTENSIONS = {
+    'twitter': '.txt',
+    'slack': '.txt',
+}
+
 # kawaz.apps.activities.contrib.hatenablog
 ACTIVITIES_HATENABLOG_FEED_URL = 'http://kawazinfo.hateblo.jp/rss'
 
