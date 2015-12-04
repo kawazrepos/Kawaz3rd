@@ -1,0 +1,1 @@
+*「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.title }}>」が作成されました*

@@ -1,0 +1,1 @@
+*{{ object.nickname }}さんが<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ service.label }}アカウント>の情報を追加しました*
