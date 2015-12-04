@@ -8,10 +8,6 @@ DEFAULT_USERNAME = 'Kawaz'
 DEFAULT_ICON_EMOJI = ':frog:'
 
 
-class SlackPostExcetion(Exception):
-    pass
-
-
 class SlackActivityNotifier(ActivityNotifierBase):
     """
     ActivityをSlackの特定のチャンネルに通知します。settings.pyに以下の項目を追加する必要があります。
