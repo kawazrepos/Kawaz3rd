@@ -1,0 +1,5 @@
+*{{ object.last_modifier.nickname }}さんが「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.title }}>」にスクリーンショットを追加しました*
+
+```
+{{ object.description | kfm | striptags | truncatechars_html:150 }}
+```

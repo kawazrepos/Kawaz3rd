@@ -1,5 +1,4 @@
 import os
-import warnings
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -129,6 +128,10 @@ class Service(models.Model):
         ordering = ('pk',)
         verbose_name = _('Service')
         verbose_name_plural = _('Services')
+
+    @property
+    def active_accounts(self):
+        return self.accounts.filter(profile__user__is_active=True).order_by('-profile__user__last_login')
 
 
 class Account(models.Model):

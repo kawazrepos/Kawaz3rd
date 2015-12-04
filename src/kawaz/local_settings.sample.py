@@ -143,6 +143,12 @@ if PRODUCT:
          'mytoken',
          'roomid',
          {'from_name': 'Kawazポータル', 'color': 'green', 'is_notify': True}
+        ),
+        ('slack_kawaz_general',
+         'kawaz.core.activities.notifiers.slack.SlackActivityNotifier',
+         'https://kawaz.slack.com/token',
+         '#general',
+         {'username': 'Kawazポータル', 'icon_emoji': ':frog:'}
         )
 )
 ACTIVITIES_DEFAULT_NOTIFIERS = (

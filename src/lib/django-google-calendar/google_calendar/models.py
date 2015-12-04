@@ -3,6 +3,7 @@
 """
 
 from django.db import models
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
@@ -35,7 +36,8 @@ class GoogleCalendarBridge(models.Model):
 
 def update_google_calendar(sender, instance, created, **kwargs):
     backend = get_backend()
-    backend.update(instance)
+    send_notifications = getattr(settings, 'GOOGLE_CALENDER_ENABLE_NOTIFICATIONS', False)
+    backend.update(instance, sendNotifications=send_notifications)
 
 
 def delete_google_calendar(sender, instance, **kwargs):

@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from registration.backends.default import DefaultRegistrationBackend
 from registration.models import RegistrationProfile
@@ -14,7 +15,7 @@ class RegistrationActivatedTestCase(TestCase):
     def test_activated_user_should_be_children(self):
         """
         新規会員登録が承認されたユーザーのactivationが行われたとき、
-        signalを受けて権限をwilleからchildrenに変更するsuru
+        signalを受けて権限をwilleからchildrenに変更する
         """
         self.backend.register(username='kawaztan', email='kawaztan@kawaz.org', request=self.mock_request)
         profile = RegistrationProfile.objects.get(user__username='kawaztan')
@@ -39,7 +40,7 @@ class RegistrationActivatedTestCase(TestCase):
 
         # Activateする直前まではProfileが存在しない
         profile_count = Profile.objects.count()
-        self.assertRaises(Profile.objects.get, user=user)
+        self.assertRaises(ObjectDoesNotExist, Profile.objects.get, user=user)
         self.backend.activate(registration_profile.activation_key, request=self.mock_request, password='swordfish')
 
         # ActivateしたらProfileが生成される
