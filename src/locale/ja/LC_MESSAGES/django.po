@@ -711,7 +711,7 @@ msgstr "広報ブログの記事"
 #: src/templates/personas/profile_form.html:27
 #: src/templates/products/product_form.html:68
 msgid "Save"
-msgstr "保存する"
+msgstr "公開する"
 
 #: src/kawaz/core/personas/admin/persona.py:18
 msgid "Personal info"
