@@ -42,3 +42,5 @@ Temporary Items
 
 # Sphinx
 docs/_build
+
+config/requirements-deploy.txt
