@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'registration.contrib.notification',
     'debug_toolbar',
     'template_timings_panel',
+    'vcs_info_panel',
     'thumbnailfield',
     'roughpages',
     'registration',
@@ -340,6 +341,7 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.profiling.ProfilingPanel',
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
+    'vcs_info_panel.panels.GitInfoPanel'
 ]
 
 # 雑多な設定 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
