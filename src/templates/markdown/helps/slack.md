@@ -1,5 +1,10 @@
 # Slackを使ってみよう
 
+<div class="alert alert-warning">
+    <p>この記事はKawazメンバー向けのSlackの入門記事です</p>
+    <p><strong>Kawazメンバー外からの誤申請が増えておりますのでご注意ください</strong></p>
+</div>
+
 ![](/statics/img/help/slack/slack.png)
 
 Kawazでは、ゲーム開発を進めるためにオンラインで会話をするチャットツールとして「[**Slack**（スラック）](https://www.slack.com/)」を導入しています。
@@ -28,10 +33,16 @@ Slackは会社やKawazのようなグループ向けに作られているため�
 
 ### アカウントを取得する
 
-Slackのアカウントを取得するには、**Kawaz Teamのメンバーから招待を受ける必要があります**。
+Kawaz Slackのアカウントを取得するには、**Kawaz Teamのメンバーから招待を受ける必要があります**。
 
 Slackのアカウントを持っていない方は、
-[webmaster@kawaz.org](mailto:webmaster@kawaz.org)宛てにメールアドレスをお伝えください
+[webmaster@kawaz.org](mailto:webmaster@kawaz.org)宛てに以下の情報をお伝えください
+
+- Kawazでのユーザー名、ニックネーム
+- メールアドレス
+
+このSlackグループはKawazメンバー向けの物となっておりますので、メンバー以外からの申請はお断りしています。
+
 また、通知などが来るため、**必ず普段使うメールアドレスを設定してください。**
 
 ![](/statics/img/help/slack/registration0.png)
