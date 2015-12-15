@@ -1,4 +1,6 @@
-*{{ comment.user.nickname }}さんが「{{ comment.content_object }}」にコメントしました <http://{{ site.domain }}{{ comment.get_absolute_url }}>*
+<username={{ comment.user.nickname }}>
+<icon_url=http://{{ site.domain }}{{ comment.user.get_large_avatar }}>
+*「{{ comment.content_object }}」にコメントしました <http://{{ site.domain }}{{ comment.get_absolute_url }}>*
 ```
 {{ comment.comment | kfm | striptags | truncatechars_html:150 }}
 ```
