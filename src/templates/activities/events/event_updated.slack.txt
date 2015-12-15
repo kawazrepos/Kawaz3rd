@@ -1,0 +1,10 @@
+<username={{ object.organizer.nickname }}>
+<icon_url=http://{{ site.domain }}{{ object.organizer.get_large_avatar }}>
+*「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.title }}>」を更新しました*
+
+*日時* ：{{ object.humanized_period }}
+*場所* ：{{ object.place }}
+
+```
+{{ object.body | kfm | striptags | truncatechars_html:150 }}
+```

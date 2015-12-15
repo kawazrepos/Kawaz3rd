@@ -1,0 +1,7 @@
+<username={{ object.author.nickname }}>
+<icon_url=http://{{ site.domain }}{{ object.author.get_large_avatar }}>
+*「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.title }}>」を更新しました*
+
+```
+{{  object.body | kfm | striptags | truncatechars_html:150 }}
+```
