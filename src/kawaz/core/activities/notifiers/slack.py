@@ -1,6 +1,7 @@
 import urllib
 import json
-
+import re
+import itertools
 from django.conf import settings
 from activities.notifiers.base import ActivityNotifierBase
 
@@ -42,26 +43,47 @@ class SlackActivityNotifier(ActivityNotifierBase):
         >>> )
     """
     typename = 'slack'
+    TAG_PATTERN = re.compile(r'<(?P<key>[a-z_]+)=(?P<value>.+)>')
 
     def __init__(self, url, channel, params={}):
         self.url = url
         self.channel = channel
-        self.username = params.get('username', DEFAULT_USERNAME)
         self.icon_emoji = params.get('icon_emoji', DEFAULT_ICON_EMOJI)
-        self.icon_url = params.get('icon_url', '')
+        self.default_username = params.get('username', DEFAULT_USERNAME)
+        self.default_icon_url = params.get('icon_url', '')
 
     def send(self, rendered_content):
         if not settings.ACTIVITIES_ENABLE_SLACK_NOTIFICATION:
             return
+        message, params = self._parse_content(rendered_content)
+        username = params.get('username', self.default_username)
+        icon_url = params.get('icon_url', self.default_icon_url)
         params = {
-            'text': rendered_content,
+            'text': message,
             'channel': self.channel,
-            'username': self.username,
+            'username': username,
             'icon_emoji': self.icon_emoji,
-            'icon_url': self.icon_url
+            'icon_url': icon_url
         }
         payload = {'payload': json.dumps(params)}
         data = urllib.parse.urlencode(payload)
         data = data.encode('utf-8')
         request = urllib.request.Request(self.url, data)
         urllib.request.urlopen(request)
+
+    def _parse_content(self, rendered_content):
+        valid_tags = ('username', 'icon_url')
+        params = {}
+        lines = rendered_content.split('\n')
+        for line in lines:
+            match = self.TAG_PATTERN.match(line)
+            if not match:
+                break
+            key = match.group('key')
+            value = match.group('value')
+            if key in valid_tags:
+                params.update({key: value})
+
+        bodies = itertools.dropwhile(lambda text: self.TAG_PATTERN.match(text), lines)
+        message = '\n'.join(bodies)
+        return message, params

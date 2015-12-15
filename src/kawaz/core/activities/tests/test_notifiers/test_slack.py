@@ -46,39 +46,39 @@ class SlackActivityNotifierTestCase(TestCase):
         """
         SlackActivityNotifierで正しいクエリーが正しいURLにPOSTされる
         """
-        self.assertEqual(self.randomstr, self.randomstr)
+        self.assert_send(self.randomstr, self.randomstr)
 
     def test_send_with_username_tag(self):
         """
         usernameタグが冒頭に含まれてたとき、ユーザー名が変わる
         """
         message = '\n'.join(('<username=井の中かわず>', self.randomstr))
-        self.assertEqual(self.assert_send(message, self.randomstr, username='井の中かわず'))
+        self.assert_send(message, self.randomstr, username='井の中かわず')
 
     def test_send_with_icon_url_tag(self):
         """
         icon_urlタグが冒頭に含まれてたとき、アイコンが変わる
         """
         message = '\n'.join(('<icon_url=http://example.kawaz.org/icon.jpg>', self.randomstr))
-        self.assertEqual(self.assert_send(message, self.randomstr, icon_url='http://example.kawaz.org/icon.jpg'))
+        self.assert_send(message, self.randomstr, icon_url='http://example.kawaz.org/icon.jpg')
 
     def test_send_with_invalid_tag(self):
         """
         無効なタグが冒頭に含まれてたとき無視する
         """
         message = '\n'.join(('<invalid_key=invalid_key>', self.randomstr))
-        self.assertEqual(self.assert_send(message, self.randomstr))
+        self.assert_send(message, self.randomstr)
 
     def test_send_with_username_and_icon_url_tags(self):
         """
         正しいタグが冒頭に複数個含まれてたとき、ユーザー名とアイコンが変わる
         """
         message = '\n'.join(('<username=井の中かわず>', '<icon_url=http://example.kawaz.org/icon.jpg>', self.randomstr))
-        self.assertEqual(self.assert_send(message, self.randomstr, '井の中かわず', 'http://example.kawaz.org/icon.jpg'))
+        self.assert_send(message, self.randomstr, '井の中かわず', 'http://example.kawaz.org/icon.jpg')
 
     def test_valid_tag_with_invalid_position(self):
         """
         正しいタグが冒頭以外に含まれてたとき、無視してそのまま出力する
         """
         message = '\n'.join((self.randomstr, '<username=井の中かわず>'))
-        self.assertEqual(self.assert_send(message, message))
+        self.assert_send(message, message)
