@@ -1,0 +1,3 @@
+<username={{ object.author.nickname }}>
+<icon_url=http://{{ site.domain }}{{ object.author.get_large_avatar }}>
+*「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.title }}>」を削除しました*
