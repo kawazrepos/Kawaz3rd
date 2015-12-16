@@ -1,1 +1,3 @@
-*<http://{{ site.domain }}{{ user.get_absolute_url }}|{{ user.nickname }}>さんが「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object }}>」に参加しました*
+<username={{ user.nickname }}>
+<icon_url=http://{{ site.domain }}{{ user.get_large_avatar }}>
+*「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object }}>」に参加しました*

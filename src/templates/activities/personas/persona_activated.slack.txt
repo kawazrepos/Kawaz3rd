@@ -1,5 +1,3 @@
+<username={{ object.nickname }}>
+<icon_url=http://{{ site.domain }}{{ object.get_large_avatar }}>
 *<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.nickname }}>さんが入会しました*
-
-```
-{{  object.body | kfm | striptags | truncatechars_html:150 }}
-```
