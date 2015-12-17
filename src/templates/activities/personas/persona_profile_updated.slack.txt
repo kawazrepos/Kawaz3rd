@@ -1,1 +1,3 @@
+<username={{ object.nickname }}>
+<icon_url=http://{{ site.domain }}{{ object.get_large_avatar }}>
 *「<http://{{ site.domain }}{{ object.get_absolute_url }}|{{ object.nickname }}>」さんがプロフィールを更新しました*
