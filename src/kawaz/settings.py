@@ -80,6 +80,15 @@ MIDDLEWARE_CLASSES = (
     'roughpages.middleware.RoughpageFallbackMiddleware',
 )
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS': {
+            'builtins': ['permission.templatetags.permissionif'],
+        },
+    },
+]
+
 # テンプレート保存ディレクトリの指定
 TEMPLATE_DIRS = (
     os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
