@@ -14,7 +14,7 @@ class SlackActivityNotifierTestCase(TestCase):
         self.randomstr = "".join([random.choice(string.ascii_letters)
                                   for _ in range(100)])
 
-    def assert_send(self, rendered_str, message, username='かわずたん', icon_url='http://dummy.kawaz.com/'):
+    def assert_send(self, rendered_str, message, username='かわずたん', icon_url=None, has_icon_url=False):
         endpoint_url = 'https://kawaz.slack.com/dummyauthtoken'
         channel = '#notification'
         icon_emoji = ':frog:'
@@ -25,8 +25,10 @@ class SlackActivityNotifierTestCase(TestCase):
             payload = json.loads(query['payload'][0])
             self.assertEqual(url, endpoint_url)
             self.assertEqual(payload['channel'], channel)
-            self.assertEqual(payload['icon_emoji'], icon_emoji)
-            self.assertEqual(payload['icon_url'], icon_url)
+            if has_icon_url:
+                self.assertEqual(payload['icon_url'], icon_url)
+            else:
+                self.assertEqual(payload['icon_emoji'], icon_emoji)
             self.assertEqual(payload['username'], username)
             self.assertEqual(payload['text'], message)
 
@@ -60,7 +62,7 @@ class SlackActivityNotifierTestCase(TestCase):
         icon_urlタグが冒頭に含まれてたとき、アイコンが変わる
         """
         message = '\n'.join(('<icon_url=http://example.kawaz.org/icon.jpg>', self.randomstr))
-        self.assert_send(message, self.randomstr, icon_url='http://example.kawaz.org/icon.jpg')
+        self.assert_send(message, self.randomstr, icon_url='http://example.kawaz.org/icon.jpg', has_icon_url=True)
 
     def test_send_with_invalid_tag(self):
         """
@@ -74,7 +76,7 @@ class SlackActivityNotifierTestCase(TestCase):
         正しいタグが冒頭に複数個含まれてたとき、ユーザー名とアイコンが変わる
         """
         message = '\n'.join(('<username=井の中かわず>', '<icon_url=http://example.kawaz.org/icon.jpg>', self.randomstr))
-        self.assert_send(message, self.randomstr, '井の中かわず', 'http://example.kawaz.org/icon.jpg')
+        self.assert_send(message, self.randomstr, '井の中かわず', 'http://example.kawaz.org/icon.jpg', has_icon_url=True)
 
     def test_valid_tag_with_invalid_position(self):
         """
