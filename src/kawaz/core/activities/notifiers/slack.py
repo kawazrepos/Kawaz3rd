@@ -50,7 +50,7 @@ class SlackActivityNotifier(ActivityNotifierBase):
         self.channel = channel
         self.icon_emoji = params.get('icon_emoji', DEFAULT_ICON_EMOJI)
         self.default_username = params.get('username', DEFAULT_USERNAME)
-        self.default_icon_url = params.get('icon_url', '')
+        self.default_icon_url = params.get('icon_url', None)
 
     def send(self, rendered_content):
         if not settings.ACTIVITIES_ENABLE_SLACK_NOTIFICATION:
@@ -62,9 +62,13 @@ class SlackActivityNotifier(ActivityNotifierBase):
             'text': message,
             'channel': self.channel,
             'username': username,
-            'icon_emoji': self.icon_emoji,
-            'icon_url': icon_url
         }
+        # icon_urlがある場合はそちらを優先する
+        if icon_url:
+            params.update({'icon_url': icon_url})
+        else:
+            params.update({'icon_emoji': self.icon_emoji})
+
         payload = {'payload': json.dumps(params)}
         data = urllib.parse.urlencode(payload)
         data = data.encode('utf-8')
