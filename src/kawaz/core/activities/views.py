@@ -5,6 +5,7 @@ from permission.decorators import permission_required
 from django.views.generic.list import ListView
 from activities.models import Activity
 
+
 class ActivityListView(ListView):
     paginate_by = 10
     model = Activity
