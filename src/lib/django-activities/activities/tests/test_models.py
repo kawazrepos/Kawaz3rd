@@ -44,6 +44,7 @@ class ActivitiesModelsActivityManagerTestCase(TestCase):
 
     def test_latests(self):
         latests = Activity.objects.latests()
+        self.assertEqual(latests.count(), 6)
         # the status of latest activity should be 'deleted'
         for latest in latests:
             self.assertEqual(latest.status, 'deleted')
