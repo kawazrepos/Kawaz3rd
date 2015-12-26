@@ -59,6 +59,9 @@ class PersonaManager(BaseUserManager):
         return self._create_user(username, email, password, 'adam',
                                  **extra_fields)
 
+    def ghosts(self):
+        return self.filter(is_active=False)
+
 
 class ActivePersonaManager(PersonaManager):
     """
