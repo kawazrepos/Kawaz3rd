@@ -187,6 +187,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
     get_middle_avatar = lambda self: self.get_avatar('middle')
     get_large_avatar = lambda self: self.get_avatar('large')
     get_huge_avatar = lambda self: self.get_avatar('huge')
+    get_grayscale_avatar = lambda self: self.get_avatar('grayscale')
 
     def clean_fields(self, exclude=None, **kwargs):
         # 使用不可な文字列が指定されていた場合はエラー

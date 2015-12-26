@@ -1,24 +1,30 @@
-{% extends "twopane.html" %}
+{% extends "authenticated_base.html" %}
 {% load staticfiles %}
 {% load i18n %}
 {% load profiles_tags %}
 {% block title %}{% trans "Members" %}{% endblock %}
-{% block breadcrumb %}
-    {{ block.super }}
-    <li><a href="{% url 'personas_persona_list' %}">{% trans "Members" %}</a></li>
-    <li><a href="{% url 'personas_persona_grave' %}">{% trans "Graves" %}</a></li>
-{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/persona.less" %}" media="screen">
 {% endblock %}
-{% block content-header %}
+{% block content %}
+    <ol class="breadcrumb">
+        {% block breadcrumb %}
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url "personas_persona_list" %}">{% trans "Members" %}</a></li>
+            <li><a href="{% url 'personas_persona_grave' %}">{% trans "Grave" %}</a></li>
+        {% endblock %}
+    </ol>
     <div class="page-header">
-        <h1>{% trans "Ghost Members" %}({{ object_list | length }})</h1>
+        <h1>
+            <img src="{% static "img/projects/rip.png" %}" alt="Ghost Member" />
+            {% trans "Ghost Members" %}({{ object_list | length }})
+        </h1>
     </div>
-{% endblock %}
-{% block content-main %}
     {% for persona in object_list %}
-        <p>{{ persona.nickname }}</p>
+        <div class="col col-md-2">
+            <img src="{{ persona.get_grayscale_avatar }}" alt="{{ persona.nickname }}">
+            <p>{{ persona.nickname }}</p>
+        </div>
     {% endfor %}
 {% endblock %}
