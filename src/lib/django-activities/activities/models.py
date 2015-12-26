@@ -26,7 +26,7 @@ class ActivityManager(models.Manager):
         qs = super().get_queryset()
         qs = qs.raw(
             'SELECT * FROM '
-            '(SELECT * FROM activities_activity ORDER BY id DESC) AS A '
+            '(SELECT * FROM activities_activity ORDER BY id, created_at DESC) AS A '
             'GROUP BY content_type_id, object_id ORDER BY id DESC'
         )
         qs.count = lambda: len(list(qs))
