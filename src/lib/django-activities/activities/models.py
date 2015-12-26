@@ -25,9 +25,9 @@ class ActivityManager(models.Manager):
         """
         qs = super().get_queryset()
         qs = qs.raw(
-            'SELECT *, MAX(id) AS max_id FROM activities_activity GROUP BY '
-            'content_type_id, object_id HAVING id = max_id '
-            'ORDER BY id DESC'
+            'SELECT * FROM '
+            '(SELECT id, MAX(id) as max_id FROM activities_activity GROUP BY content_type_id, object_id) '
+            'WHERE id = max_id ORDER BY id DESC'
         )
         qs.count = lambda: len(list(qs))
         return qs
