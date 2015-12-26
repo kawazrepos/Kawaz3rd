@@ -4,8 +4,6 @@
 
 import pickle
 from django.db import models
-from django.db.models import Max
-from django.core import serializers
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.utils.translation import ugettext as _
@@ -25,17 +23,14 @@ class ActivityManager(models.Manager):
         """
         Return latest activities of each particular content_objects
         """
-        # find created_at list of latest activities of each particular
-        # content_objects
-        # it use 'pk' instead of 'created_at' to filter latest while
-        #   - more than two activities which has same 'created_at' is possible
-        #   - newer activity have grater pk
         qs = super().get_queryset()
-        qs = qs.values('content_type_id', 'object_id')
-        qs = qs.annotate(pk=Max('pk'))
-        pks = qs.values_list('pk', flat=True)
-        # return activities corresponding to the latests
-        return self.filter(pk__in=pks)
+        qs = qs.raw(
+            'SELECT * FROM '
+            '(SELECT * FROM activities_activity ORDER BY id DESC) AS A '
+            'GROUP BY content_type_id, object_id ORDER BY id DESC'
+        )
+        qs.count = lambda: len(list(qs))
+        return qs
 
     def get_for_model(self, model):
         """
@@ -70,7 +65,7 @@ class Activity(models.Model):
     objects = ActivityManager()
 
     class Meta:
-        ordering = ('-created_at',)
+        ordering = ('-pk',)
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
 
@@ -155,7 +150,7 @@ class Activity(models.Model):
         """
         qs = self.get_related_activities()
         if self.pk:
-            qs = qs.exclude(created_at__gte=self.created_at)
+            qs = qs.exclude(pk__gte=self.pk)
         return qs
 
     def get_next_activities(self):
@@ -166,5 +161,5 @@ class Activity(models.Model):
         """
         qs = self.get_related_activities()
         if self.pk:
-            qs = qs.exclude(created_at__lte=self.created_at)
+            qs = qs.exclude(pk__lte=self.pk)
         return qs
