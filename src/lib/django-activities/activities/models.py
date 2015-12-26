@@ -150,7 +150,7 @@ class Activity(models.Model):
         """
         qs = self.get_related_activities()
         if self.pk:
-            qs = qs.exclude(created_at__gte=self.created_at)
+            qs = qs.exclude(pk__gte=self.pk)
         return qs
 
     def get_next_activities(self):
@@ -161,5 +161,5 @@ class Activity(models.Model):
         """
         qs = self.get_related_activities()
         if self.pk:
-            qs = qs.exclude(created_at__lte=self.created_at)
+            qs = qs.exclude(pk__lte=self.pk)
         return qs
