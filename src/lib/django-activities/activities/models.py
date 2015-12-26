@@ -6,6 +6,7 @@ import pickle
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
+from django.db.models import Max
 from django.utils.translation import ugettext as _
 
 
@@ -24,13 +25,11 @@ class ActivityManager(models.Manager):
         Return latest activities of each particular content_objects
         """
         qs = super().get_queryset()
-        qs = qs.raw(
-            'SELECT * FROM '
-            '(SELECT id, MAX(id) as max_id FROM activities_activity GROUP BY content_type_id, object_id) '
-            'WHERE id = max_id ORDER BY id DESC'
-        )
-        qs.count = lambda: len(list(qs))
-        return qs
+        qs = qs.values('content_type_id', 'object_id')
+        qs = qs.annotate(pk=Max('pk'))
+        pks = qs.values_list('pk', flat=True)
+        # return activities corresponding to the latests
+        return self.filter(pk__in=pks)
 
     def get_for_model(self, model):
         """
