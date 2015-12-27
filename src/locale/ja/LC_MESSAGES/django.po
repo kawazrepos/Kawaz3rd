@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-27 16:27+0900\n"
+"POT-Creation-Date: 2015-12-27 19:48+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -622,7 +622,6 @@ msgstr "管理者"
 
 #: src/kawaz/apps/projects/models.py:124 src/templates/base.html:70
 #: src/templates/personas/persona_detail.html:18
-#: src/templates/personas/persona_grave.html:5
 #: src/templates/personas/persona_grave.html:14
 #: src/templates/personas/persona_list.html:5
 #: src/templates/personas/persona_list.html:8
@@ -849,7 +848,7 @@ msgstr "ユーザー"
 msgid "Personas"
 msgstr "ユーザー"
 
-#: src/kawaz/core/personas/models/persona.py:200
+#: src/kawaz/core/personas/models/persona.py:201
 #, python-format
 msgid ""
 "The username '%(username)s' contains invalid characters. Letters, digits, "
@@ -858,7 +857,7 @@ msgstr ""
 "「%(username)s」というユーザー名には使えない文字列が含まれています。ユーザー"
 "名には英数字、アンダースコア、ハイフンのみが使えます"
 
-#: src/kawaz/core/personas/models/persona.py:206
+#: src/kawaz/core/personas/models/persona.py:207
 #, python-format
 msgid ""
 "The username '%(username)s' is reserved. Please chose a different username."
@@ -866,7 +865,7 @@ msgstr ""
 "ユーザー名「%(username)s」は既に使われているようです。他の名前を使ってくださ"
 "い"
 
-#: src/kawaz/core/personas/models/persona.py:222
+#: src/kawaz/core/personas/models/persona.py:223
 msgid "Required. 30 characters or fewer. Letters, digits and /-/_ only."
 msgstr ""
 "ユーザー名は30文字以下で、英数字、アンダースコア、ハイフンのみが使えます"
@@ -930,19 +929,19 @@ msgstr "ユーザ名"
 msgid "Accounts"
 msgstr "アカウント"
 
-#: src/kawaz/core/personas/views/persona.py:102
+#: src/kawaz/core/personas/views/persona.py:103
 msgid "Anonymous user does not have a persona update view"
 msgstr "非ログインユーザーはユーザー情報変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/persona.py:108
+#: src/kawaz/core/personas/views/persona.py:109
 msgid "Your user information was successfully updated."
 msgstr "プロフィールを更新しました"
 
-#: src/kawaz/core/personas/views/persona.py:125
+#: src/kawaz/core/personas/views/persona.py:126
 msgid "Anonymous user does not have an assign role view"
 msgstr "非ログインユーザーは権限変更ページにアクセスできません"
 
-#: src/kawaz/core/personas/views/persona.py:145
+#: src/kawaz/core/personas/views/persona.py:146
 #, python-format
 msgid "Your role is changed to '%(role)s'"
 msgstr "権限が「%(role)s」に変更されました"
@@ -1390,7 +1389,7 @@ msgstr "最近の活動"
 
 #: src/templates/components/registration/index.anonymous.html:61
 #: src/templates/components/registration/index.anonymous.html:89
-#: src/templates/personas/persona_list.html:83
+#: src/templates/personas/persona_list.html:84
 #: src/templates/projects/project_list.html:79
 msgid "See more"
 msgstr "もっと見る"
@@ -1672,19 +1671,17 @@ msgstr "参加しているプロジェクトはありません"
 msgid "Change your user information"
 msgstr "ユーザー情報の変更"
 
+#: src/templates/personas/persona_grave.html:5
 #: src/templates/personas/persona_grave.html:15
-msgid "Grave"
-msgstr "墓地"
-
 #: src/templates/personas/persona_grave.html:21
-msgid "Ghost Members"
-msgstr "幽霊会員"
+msgid "Chamber of Guf"
+msgstr "ガフの部屋"
 
 #: src/templates/personas/persona_list.html:67
 msgid "List of Accounts"
 msgstr "アカウントの一覧"
 
-#: src/templates/personas/persona_list.html:81
+#: src/templates/personas/persona_list.html:82
 msgid "Retired Members"
 msgstr "退会済みメンバー"
 
@@ -1982,6 +1979,12 @@ msgid "There is an untreated registration"
 msgid_plural "There are %(counter)s untreated registrations"
 msgstr[0] "%(counter)s 件の未処理の会員登録申請があります"
 msgstr[1] "1件の未処理の会員登録申請があります"
+
+#~ msgid "Grave"
+#~ msgstr "墓地"
+
+#~ msgid "Ghost Members"
+#~ msgstr "幽霊会員"
 
 #~ msgid "Older"
 #~ msgstr "戻る"

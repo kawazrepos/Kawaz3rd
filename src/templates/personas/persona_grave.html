@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load profiles_tags %}
-{% block title %}{% trans "Retired Members" %}{% endblock %}
+{% block title %}{% trans "Chamber of Guf" %}{% endblock %}
 {% block pre_css %}
     {{ block.super }}
     <link type="text/less" rel="stylesheet" href="{% static "less/persona.less" %}" media="screen">
@@ -12,13 +12,13 @@
         {% block breadcrumb %}
             <li><a href="/">Home</a></li>
             <li><a href="{% url "personas_persona_list" %}">{% trans "Members" %}</a></li>
-            <li><a href="{% url 'personas_persona_grave' %}">{% trans "Grave" %}</a></li>
+            <li><a href="{% url 'personas_persona_grave' %}">{% trans "Chamber of Guf" %}</a></li>
         {% endblock %}
     </ol>
     <div class="page-header">
         <h1>
             <img src="{% static "img/projects/rip.png" %}" alt="Ghost Member" />
-            {% trans "Ghost Members" %}({{ object_list | length }})
+            {% trans "Chamber of Guf" %}({{ object_list | length }})
         </h1>
     </div>
     {% for persona in object_list %}
