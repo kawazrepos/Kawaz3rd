@@ -148,6 +148,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
         verbose_name = _('Persona')
         verbose_name_plural = _('Personas')
         permissions = (
+            ('view_grave', 'Can view grave'),
             ('activate_persona', 'Can activate/deactivate the persona'),
             ('assign_role_persona', 'Can assign the role to the persona'),
         )

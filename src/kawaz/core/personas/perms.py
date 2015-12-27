@@ -33,6 +33,9 @@ class PersonaPermissionLogic(PermissionLogic):
         # が可能（Adminページ限定）
         return user_obj.role in ('seele', 'nerv',)
 
+    def _has_view_grave_perm(self, user_obj, perm, obj):
+        return user_obj.role in ('children', 'seele', 'nerv')
+
     def _has_assign_role_perm(self, user_obj, perm, obj):
         # ゼーレ権限以上の場合のみ役職を変更することができる
         return user_obj.role in ('seele',)
@@ -46,6 +49,7 @@ class PersonaPermissionLogic(PermissionLogic):
             'personas.delete_persona': self._has_delete_perm,
             'personas.activate_persona': self._has_activate_perm,
             'personas.assign_role_persona': self._has_assign_role_perm,
+            'personas.view_grave': self._has_view_grave_perm,
         }
         if perm in permission_methods:
             return permission_methods[perm](user_obj, perm, obj)

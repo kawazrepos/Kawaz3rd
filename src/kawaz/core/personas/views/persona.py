@@ -71,6 +71,7 @@ class PersonaListView(FilterView):
         return data
 
 
+@permission_required('personas.view_grave')
 class PersonaGraveView(ListView):
     template_name = 'personas/persona_grave.html'
 
