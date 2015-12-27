@@ -1960,7 +1960,7 @@ msgstr "Markdown"
 
 #: src/templates/roughpages/helps/slack.html:15
 msgid "Slack"
-msgstr ""
+msgstr "Slack"
 
 #: src/templates/roughpages/helps/staff/registration.html:7
 #, fuzzy
