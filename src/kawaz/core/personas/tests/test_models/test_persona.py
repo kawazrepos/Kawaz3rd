@@ -2,7 +2,22 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 
 from ..factories import PersonaFactory
-from kawaz.core.personas.models import Persona
+from kawaz.core.personas.models import Persona, PersonaManager
+
+
+class PersonaManagerTestCase(TestCase):
+    def test_manager_is_assigned(self):
+        """Persona.objectsでPersonaManagerが返る"""
+        self.assertTrue(isinstance(Persona.objects, PersonaManager))
+
+    def test_ghosts(self):
+        """PersonaManager.ghostsで退会済みのユーザーのみが返る"""
+        active_user = PersonaFactory(is_active=True)
+        ghost_user = PersonaFactory(is_active=False)
+        ghosts = Persona.objects.ghosts()
+        self.assertEqual(len(ghosts), 1)
+        self.assertEqual(ghosts[0], ghost_user)
+        self.assertNotIn(active_user, ghosts)
 
 
 class PersonaModelTestCase(TestCase):
