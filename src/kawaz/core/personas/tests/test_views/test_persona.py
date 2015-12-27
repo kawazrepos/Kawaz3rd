@@ -415,3 +415,21 @@ class PersonaAssignSeeleViewTestCase(PersonaViewTestCaseBase):
             user = Persona.objects.get(pk=user.pk)
             self.assertEqual(user.role, 'seele')
 
+
+class PersonaGraveViewTestCase(TestCase):
+    def setUp(self):
+        self.active_user = PersonaFactory(is_active=True)
+        self.ghost_user = PersonaFactory(is_active=False)
+
+    def test_grave_url(self):
+        """PersonaGraveViewの逆引きができる"""
+        self.assertEqual(reverse('personas_persona_grave'), '/members/grave/')
+
+    def test_grave_view(self):
+        """墓地にアクセスして遺影を表示できる"""
+        r = self.client.get('/members/grave/')
+        self.assertEqual(r.status_code, 200)
+        ghost_users = r.context['object_list']
+        self.assertEqual(len(ghost_users), 1)
+        self.assertEqual(ghost_users[0], self.ghost_user)
+
