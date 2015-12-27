@@ -22,9 +22,10 @@
         </h1>
     </div>
     {% for persona in object_list %}
-        <div class="col col-md-2">
-            <img src="{{ persona.get_grayscale_avatar }}" alt="{{ persona.nickname }}">
-            <p>{{ persona.nickname }}</p>
+        <div class="col col-md-2 text-center">
+            <p><strong>{{ persona.nickname }}</strong></p>
+            <img class="text-center" src="{{ persona.get_grayscale_avatar }}" alt="{{ persona.nickname }}">
+            <p>{{ persona.date_joined|date:'Y/m/d' }} ~ {{ persona.last_login|date:'Y/m/d' }}</p>
         </div>
     {% endfor %}
 {% endblock %}
