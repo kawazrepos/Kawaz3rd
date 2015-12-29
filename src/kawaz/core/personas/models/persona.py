@@ -59,6 +59,9 @@ class PersonaManager(BaseUserManager):
         return self._create_user(username, email, password, 'adam',
                                  **extra_fields)
 
+    def retired(self):
+        return self.filter(is_active=False)
+
 
 class ActivePersonaManager(PersonaManager):
     """
@@ -145,6 +148,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
         verbose_name = _('Persona')
         verbose_name_plural = _('Personas')
         permissions = (
+            ('view_retired_persona', 'Can view retired'),
             ('activate_persona', 'Can activate/deactivate the persona'),
             ('assign_role_persona', 'Can assign the role to the persona'),
         )
@@ -184,6 +188,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
     get_middle_avatar = lambda self: self.get_avatar('middle')
     get_large_avatar = lambda self: self.get_avatar('large')
     get_huge_avatar = lambda self: self.get_avatar('huge')
+    get_grayscale_avatar = lambda self: self.get_avatar('grayscale')
 
     def clean_fields(self, exclude=None, **kwargs):
         # 使用不可な文字列が指定されていた場合はエラー

@@ -1,0 +1,31 @@
+{% extends "authenticated_base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load profiles_tags %}
+{% block title %}{% trans "Chamber of Guf" %}{% endblock %}
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/persona.less" %}" media="screen">
+{% endblock %}
+{% block content %}
+    <ol class="breadcrumb">
+        {% block breadcrumb %}
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url "personas_persona_list" %}">{% trans "Members" %}</a></li>
+            <li><a href="{% url 'personas_persona_retired' %}">{% trans "Chamber of Guf" %}</a></li>
+        {% endblock %}
+    </ol>
+    <div class="page-header">
+        <h1>
+            <img src="{% static "img/projects/rip.png" %}" alt="Ghost Member" />
+            {% trans "Chamber of Guf" %}({{ object_list | length }})
+        </h1>
+    </div>
+    {% for persona in object_list %}
+        <div class="col col-md-2 text-center">
+            <p><strong>{{ persona.nickname }}</strong></p>
+            <img class="text-center" src="{{ persona.get_grayscale_avatar }}" alt="{{ persona.nickname }}">
+            <p>{{ persona.date_joined|date:'Y/m/d' }} ~ {{ persona.last_login|date:'Y/m/d' }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

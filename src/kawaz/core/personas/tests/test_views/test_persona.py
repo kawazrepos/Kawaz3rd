@@ -403,7 +403,6 @@ class PersonaAssignSeeleViewTestCase(PersonaViewTestCaseBase):
             r = self.client.post(url)
             self.assertEqual(r.status_code, 404)
 
-
     def test_seele_can_promote_to_seele(self):
         """ゼーレ以上はゼーレへの降格が可能"""
         url = reverse('personas_persona_assign_seele')
@@ -415,3 +414,29 @@ class PersonaAssignSeeleViewTestCase(PersonaViewTestCaseBase):
             user = Persona.objects.get(pk=user.pk)
             self.assertEqual(user.role, 'seele')
 
+
+class PersonaRetiredViewTestCase(PersonaViewTestCaseBase):
+    def setUp(self):
+        super().setUp()
+        self.active_user = PersonaFactory(is_active=True)
+        self.retired_user = PersonaFactory(is_active=False)
+
+    def test_retired_url(self):
+        """PersonaRetiredViewの逆引きができる"""
+        self.assertEqual(reverse('personas_persona_retired'), '/members/retired/')
+
+    def test_retired_view(self):
+        """チルドレン以上はガフの部屋にアクセスして遺影を表示できる"""
+        for user in self.members:
+            self.prefer_login(user)
+            r = self.client.get('/members/retired/')
+            self.assertEqual(r.status_code, 200)
+            retired_users = r.context['object_list']
+            self.assertEqual(len(retired_users), 1)
+            self.assertEqual(retired_users[0], self.retired_user)
+
+    def test_retired_cannot_view_anonymous(self):
+        """非ログインユーザーはガフの部屋を見れない"""
+        self.prefer_login(self.anonymous)
+        r = self.client.get('/members/retired/')
+        self.assertEqual(r.status_code, 302)
