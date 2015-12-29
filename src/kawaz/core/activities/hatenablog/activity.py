@@ -8,6 +8,8 @@ from activities.mediator import ActivityMediator
 class HatenablogEntryActivityMediator(ActivityMediator):
     notifiers = (
         'twitter_kawaz_official',
+        'twitter_kawaz_info',
+        'slack_kawaz_general'
     )
 
     def alter(self, instance, activity, **kwargs):
