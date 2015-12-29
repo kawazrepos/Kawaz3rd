@@ -59,7 +59,7 @@ class PersonaManager(BaseUserManager):
         return self._create_user(username, email, password, 'adam',
                                  **extra_fields)
 
-    def ghosts(self):
+    def retired(self):
         return self.filter(is_active=False)
 
 
@@ -148,7 +148,7 @@ class Persona(AbstractUser, metaclass=PersonaBase):
         verbose_name = _('Persona')
         verbose_name_plural = _('Personas')
         permissions = (
-            ('view_retired_persona', 'Can view grave'),
+            ('view_retired_persona', 'Can view retired'),
             ('activate_persona', 'Can activate/deactivate the persona'),
             ('assign_role_persona', 'Can assign the role to the persona'),
         )

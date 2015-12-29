@@ -10,14 +10,14 @@ class PersonaManagerTestCase(TestCase):
         """Persona.objectsでPersonaManagerが返る"""
         self.assertTrue(isinstance(Persona.objects, PersonaManager))
 
-    def test_ghosts(self):
-        """PersonaManager.ghostsで退会済みのユーザーのみが返る"""
+    def test_retired(self):
+        """PersonaManager.retiredで退会済みのユーザーのみが返る"""
         active_user = PersonaFactory(is_active=True)
-        ghost_user = PersonaFactory(is_active=False)
-        ghosts = Persona.objects.ghosts()
-        self.assertEqual(len(ghosts), 1)
-        self.assertEqual(ghosts[0], ghost_user)
-        self.assertNotIn(active_user, ghosts)
+        retired_user = PersonaFactory(is_active=False)
+        retired = Persona.objects.retireds()
+        self.assertEqual(len(retired), 1)
+        self.assertEqual(retired[0], retired_user)
+        self.assertNotIn(active_user, retired)
 
 
 class PersonaModelTestCase(TestCase):

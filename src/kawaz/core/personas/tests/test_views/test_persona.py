@@ -415,28 +415,28 @@ class PersonaAssignSeeleViewTestCase(PersonaViewTestCaseBase):
             self.assertEqual(user.role, 'seele')
 
 
-class PersonaGraveViewTestCase(PersonaViewTestCaseBase):
+class PersonaRetiredViewTestCase(PersonaViewTestCaseBase):
     def setUp(self):
         super().setUp()
         self.active_user = PersonaFactory(is_active=True)
-        self.ghost_user = PersonaFactory(is_active=False)
+        self.retired_user = PersonaFactory(is_active=False)
 
-    def test_grave_url(self):
-        """PersonaGraveViewの逆引きができる"""
-        self.assertEqual(reverse('personas_persona_grave'), '/members/grave/')
+    def test_retired_url(self):
+        """PersonaRetiredViewの逆引きができる"""
+        self.assertEqual(reverse('personas_persona_retired'), '/members/retired/')
 
-    def test_grave_view(self):
+    def test_retired_view(self):
         """チルドレン以上はガフの部屋にアクセスして遺影を表示できる"""
         for user in self.members:
             self.prefer_login(user)
-            r = self.client.get('/members/grave/')
+            r = self.client.get('/members/retired/')
             self.assertEqual(r.status_code, 200)
-            ghost_users = r.context['object_list']
-            self.assertEqual(len(ghost_users), 1)
-            self.assertEqual(ghost_users[0], self.ghost_user)
+            retired_users = r.context['object_list']
+            self.assertEqual(len(retired_users), 1)
+            self.assertEqual(retired_users[0], self.retired_user)
 
-    def test_grave_cannot_view_anonymous(self):
+    def test_retired_cannot_view_anonymous(self):
         """非ログインユーザーはガフの部屋を見れない"""
         self.prefer_login(self.anonymous)
-        r = self.client.get('/members/grave/')
+        r = self.client.get('/members/retired/')
         self.assertEqual(r.status_code, 302)

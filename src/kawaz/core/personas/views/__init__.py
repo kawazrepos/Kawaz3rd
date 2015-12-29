@@ -1,6 +1,6 @@
 from .persona import (PersonaDetailView,
                       PersonaListView,
-                      PersonaGraveView,
+                      PersonaRetiredView,
                       PersonaUpdateView,
                       PersonaAssignAdamView,
                       PersonaAssignSeeleView)

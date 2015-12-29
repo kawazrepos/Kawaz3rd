@@ -72,11 +72,11 @@ class PersonaListView(FilterView):
 
 
 @permission_required('personas.view_retired_persona')
-class PersonaGraveView(ListView):
-    template_name = 'personas/persona_grave.html'
+class PersonaRetiredView(ListView):
+    template_name = 'personas/persona_retired.html'
 
     def get_queryset(self):
-        return Persona.objects.ghosts()
+        return Persona.objects.retired()
 
 
 @permission_required('personas.change_persona')
