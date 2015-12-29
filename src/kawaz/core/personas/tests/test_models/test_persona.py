@@ -14,7 +14,7 @@ class PersonaManagerTestCase(TestCase):
         """PersonaManager.retiredで退会済みのユーザーのみが返る"""
         active_user = PersonaFactory(is_active=True)
         retired_user = PersonaFactory(is_active=False)
-        retired = Persona.objects.retireds()
+        retired = Persona.objects.retired()
         self.assertEqual(len(retired), 1)
         self.assertEqual(retired[0], retired_user)
         self.assertNotIn(active_user, retired)
