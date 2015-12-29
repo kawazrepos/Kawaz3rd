@@ -224,7 +224,7 @@ THUMBNAIL_SIZE_PATTERNS = {
     'large': (96, 96,),
     'middle': (48, 48,),
     'small': (24, 24,),
-    'grayscale': (96, 96, 'grayscale'),
+    'grayscale': ((96, 96, 'thumbnail'), (None, None, 'grayscale')),
 }
 
 # django-permission
