@@ -6,11 +6,7 @@ from activities.mediator import ActivityMediator
 
 
 class HatenablogEntryActivityMediator(ActivityMediator):
-    notifiers = (
-        'twitter_kawaz_official',
-        'twitter_kawaz_info',
-        'slack_kawaz_general'
-    )
+    notifiers = settings.ACTIVITIES_DEFAULT_NOTIFIERS + ('twitter_kawaz_official',)
 
     def alter(self, instance, activity, **kwargs):
         if activity and activity.status == 'created':
