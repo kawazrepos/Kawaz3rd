@@ -1,14 +1,10 @@
 # coding=utf-8
-"""
-"""
-
+from django.conf import settings
 from activities.mediator import ActivityMediator
 
 
 class HatenablogEntryActivityMediator(ActivityMediator):
-    notifiers = (
-        'twitter_kawaz_official',
-    )
+    notifiers = settings.ACTIVITIES_DEFAULT_NOTIFIERS + ('twitter_kawaz_official',)
 
     def alter(self, instance, activity, **kwargs):
         if activity and activity.status == 'created':

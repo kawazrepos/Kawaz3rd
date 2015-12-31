@@ -3,9 +3,6 @@ from django.contrib.auth.models import AnonymousUser
 from permission import add_permission_logic
 from permission import remove_permission_logic
 from ..factories import PersonaFactory
-from ...perms import AdamPermissionLogic
-from ...perms import SeelePermissionLogic
-from ...perms import NervPermissionLogic
 from ...perms import ChildrenPermissionLogic
 from ...perms import KawazAuthorPermissionLogic
 from ..models import PersonaTestArticle as Article
@@ -93,6 +90,15 @@ class PersonaPermissionLogicTestCase(TestCase):
         self._test_permission('children', 'assign_role', neg=True)
         self._test_permission('wille', 'assign_role', neg=True)
         self._test_permission('anonymous', 'assign_role', neg=True)
+
+    def test_view_retired_permission(self):
+        """チルドレン以上のみガフの部屋閲覧権限を持つ"""
+        self._test_permission('adam', 'view_retired')
+        self._test_permission('seele', 'view_retired')
+        self._test_permission('nerv', 'view_retired')
+        self._test_permission('children', 'view_retired')
+        self._test_permission('wille', 'view_retired', neg=True)
+        self._test_permission('anonymous', 'view_retired', neg=True)
 
 
 class ChildrenPermissionLogicTestCase(TestCase):

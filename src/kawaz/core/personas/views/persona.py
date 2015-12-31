@@ -1,17 +1,16 @@
 from django.contrib import messages
 from django.http import (HttpResponseNotAllowed,
                          HttpResponseRedirect,
-                         HttpResponseForbidden,
                          Http404)
 from django.utils.translation import ugettext as _
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
 from permission.decorators import permission_required
-from ..forms import PersonaUpdateForm, PersonaRoleForm
+from ..forms import PersonaUpdateForm
 from ..models import Persona
 from ..models import Service
 from ..filters import PersonaFilter
@@ -70,6 +69,14 @@ class PersonaListView(FilterView):
         data = super().get_context_data(**kwargs)
         data['all_services'] = Service.objects.all()
         return data
+
+
+@permission_required('personas.view_retired_persona')
+class PersonaRetiredView(ListView):
+    template_name = 'personas/persona_retired.html'
+
+    def get_queryset(self):
+        return Persona.objects.retired()
 
 
 @permission_required('personas.change_persona')
