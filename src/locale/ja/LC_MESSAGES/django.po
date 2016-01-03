@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-27 19:48+0900\n"
+"POT-Creation-Date: 2016-01-02 18:13+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -567,6 +567,16 @@ msgstr "作品「%(title)s」を更新しました"
 msgid "The product was successfully deleted."
 msgstr "作品を削除しました"
 
+#: src/kawaz/apps/projects/admin.py:17
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator's nickname"
+msgstr "プロジェクトの管理者"
+
+#: src/kawaz/apps/projects/admin.py:22
+msgid "Burned"
+msgstr "炎上中"
+
 #: src/kawaz/apps/projects/forms.py:12
 msgid "body"
 msgstr "本文"
@@ -622,10 +632,10 @@ msgstr "管理者"
 
 #: src/kawaz/apps/projects/models.py:124 src/templates/base.html:70
 #: src/templates/personas/persona_detail.html:18
-#: src/templates/personas/persona_grave.html:14
 #: src/templates/personas/persona_list.html:5
 #: src/templates/personas/persona_list.html:8
 #: src/templates/personas/persona_list.html:16
+#: src/templates/personas/persona_retired.html:14
 #: src/templates/personas/service_detail.html:8
 msgid "Members"
 msgstr "所属メンバー"
@@ -1671,12 +1681,6 @@ msgstr "参加しているプロジェクトはありません"
 msgid "Change your user information"
 msgstr "ユーザー情報の変更"
 
-#: src/templates/personas/persona_grave.html:5
-#: src/templates/personas/persona_grave.html:15
-#: src/templates/personas/persona_grave.html:21
-msgid "Chamber of Guf"
-msgstr "ガフの部屋"
-
 #: src/templates/personas/persona_list.html:67
 msgid "List of Accounts"
 msgstr "アカウントの一覧"
@@ -1684,6 +1688,12 @@ msgstr "アカウントの一覧"
 #: src/templates/personas/persona_list.html:82
 msgid "Retired Members"
 msgstr "退会済みメンバー"
+
+#: src/templates/personas/persona_retired.html:5
+#: src/templates/personas/persona_retired.html:15
+#: src/templates/personas/persona_retired.html:21
+msgid "Chamber of Guf"
+msgstr "ガフの部屋"
 
 #: src/templates/personas/profile_form.html:6
 #: src/templates/personas/profile_form.html:12
