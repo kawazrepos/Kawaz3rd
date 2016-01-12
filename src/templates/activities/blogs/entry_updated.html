@@ -1,8 +1,7 @@
 {% extends "activities/blogs/base.html" %}
 {% block history-item %}
     {% include "components/small_avatar.html" with user=object.author render_username=False %}
-    {% if not activity.previous %}
-        {# 下書き状態から公開状態に変えて公開したときにこの表示になるはず #}
+    {% if not activity.previous or published %}
         公開されました
     {% elif title_updated %}
         タイトルを「<strong>{{ activity.previous.snapshot.title }}</strong>」から「<strong>{{ object.title }}</strong>」に変えました

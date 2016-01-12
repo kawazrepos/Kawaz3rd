@@ -35,6 +35,9 @@ class EntryActivityMediator(ActivityMediator):
                     'body',
                     'category',
                 )
+                if (getattr(previous, 'pub_state') == 'draft' and
+                            getattr(instance, 'pub_state') == 'public'):
+                    remarks.append('published')
                 for attribute in attributes:
                     if is_created(attribute):
                         remarks.append(attribute + '_created')
