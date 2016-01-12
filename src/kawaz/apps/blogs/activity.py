@@ -1,13 +1,8 @@
-# ! -*- coding: utf-8 -*-
-#
-#
-#
-
 from activities.mediator import ActivityMediator
 from django_comments.models import Comment
 
-class EntryActivityMediator(ActivityMediator):
 
+class EntryActivityMediator(ActivityMediator):
     def alter(self, instance, activity, **kwargs):
         # 状態がdraftの場合は通知しない
         if activity and instance.pub_state == 'draft':
@@ -30,14 +25,15 @@ class EntryActivityMediator(ActivityMediator):
                     not getattr(instance, x)
                 )
                 remarks = []
+                if (getattr(previous, 'pub_state') == 'draft' and
+                    getattr(instance, 'pub_state') != 'draft'):
+                    # 前回下書きで今回は下書きじゃない
+                    remarks.append('published')
                 attributes = (
                     'title',
                     'body',
                     'category',
                 )
-                if (getattr(previous, 'pub_state') == 'draft' and
-                            getattr(instance, 'pub_state') == 'public'):
-                    remarks.append('published')
                 for attribute in attributes:
                     if is_created(attribute):
                         remarks.append(attribute + '_created')
@@ -49,6 +45,9 @@ class EntryActivityMediator(ActivityMediator):
                     # 通知が必要な変更ではないため通知しない
                     return None
                 activity.remarks = "\n".join(remarks)
+            else:
+                # 前回存在してなくて、いきなりupdateのとき
+                activity.remarks = 'published'
         return activity
 
 
