@@ -174,10 +174,12 @@ https://github.com/lambdalisue/django-permission/issues/29
             </div>
             <div class="list-group">
                 {% for account in profile.accounts.all %}
-                    <a class="list-group-item" href="{{ account.url }}">
-                        <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">
-                        <span class="list-group-item-text link">{{ account.username }}</span>
-                    </a>
+                    {% if user has 'profiles.view_account' of account %}
+                        <a class="list-group-item" href="{{ account.url }}">
+                            <img src="{{ MEDIA_URL }}{{ account.service.icon }}" alt="{{ account.service.label }}">
+                            <span class="list-group-item-text link">{{ account.username }}</span>
+                        </a>
+                    {% endif %}
                 {% empty %}
                     <li class="list-group-item list-group-item-warning">{% trans "There are no accounts." %}</li>
                 {% endfor %}
