@@ -210,7 +210,7 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
   </tr>
   <tr>
     <th>オーガナイザー</th>
-    <td>@lyrica09</td>
+    <td>@lyrica</td>
   </tr>
 </table>
 
@@ -253,7 +253,7 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
   </tr>
   <tr>
     <th>オーガナイザー（札幌会場 / 定山渓会場）</th>
-    <td>@miio / @AttaQ</td>
+    <td>@miiojp / @AttaQ</td>
   </tr>
 </table>
 
