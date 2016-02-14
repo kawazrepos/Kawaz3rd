@@ -11,9 +11,28 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 
 ## 2011年
 
-オーガナイザ：@geekdrums
-
-北海道大学大学院情報科学研究科で行われました。
+<table>
+  <tr>
+    <th>会場</th>
+    <td><a href="http://www.ist.hokudai.ac.jp/" target="_blank">北海道大学大学院情報科学研究科</a></td>
+  </tr>
+  <tr>
+    <th>開催日時</th>
+    <td>2011年1月28日〜30日</td>
+  </tr>
+  <tr>
+    <th>参加人数</th>
+    <td>26</td>
+  </tr>
+  <tr>
+    <th>チーム数</th>
+    <td>5</td>
+  </tr>
+  <tr>
+    <th>オーガナイザー</th>
+    <td>@geekdrums</td>
+  </tr>
+</table>
 
 [Kawaz - GlobalGameJam2011 in Sapporo](http://www.kawaz.org/projects/ggj11sap/)
 
@@ -36,11 +55,30 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 
 ## 2012年
 
-オーガナイザ：@geekdrums
-
-会場は引き続き北海道大学大学院情報科学研究科。
-
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2012.png)
+
+<table>
+  <tr>
+    <th>会場</th>
+    <td><a href="http://www.ist.hokudai.ac.jp/" target="_blank">北海道大学大学院情報科学研究科</a></td>
+  </tr>
+  <tr>
+    <th>開催日時</th>
+    <td>2012年1月27日〜29日</td>
+  </tr>
+  <tr>
+    <th>参加人数</th>
+    <td>61</td>
+  </tr>
+  <tr>
+    <th>チーム数</th>
+    <td>9</td>
+  </tr>
+  <tr>
+    <th>オーガナイザー</th>
+    <td>@geekdrums</td>
+  </tr>
+</table>
 
 [Kawaz - GlobalGameJam2012 in Sapporo](http://www.kawaz.org/events/110/)
 
@@ -58,12 +96,32 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 
 
 ## 2013年
-
-オーガナイザ：@giginet
-
-この年から、会場は池上学院グローバルアカデミー専門学校さんを借り切っての開催になりました。
+この年から、会場は<a href="http://www.iga.ac.jp/">池上学院グローバルアカデミー専門学校</a>さんを借り切っての開催になりました。
 
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2013.png)
+
+<table>
+  <tr>
+    <th>会場</th>
+    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a></td>
+  </tr>
+  <tr>
+    <th>開催日時</th>
+    <td>2013年1月25日〜27日</td>
+  </tr>
+  <tr>
+    <th>参加人数</th>
+    <td>59</td>
+  </tr>
+  <tr>
+    <th>チーム数</th>
+    <td>11</td>
+  </tr>
+  <tr>
+    <th>オーガナイザー</th>
+    <td>@giginet</td>
+  </tr>
+</table>
 
 [Sapporo6h -  Global Game Jam 2013 in 札幌](http://www.sapporo6h.com/wordpress/contents/2013/01/26/global-game-jam-2013-in-%E6%9C%AD%E5%B9%8C/)
 
@@ -86,11 +144,30 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 
 ## 2014年
 
-オーガナイザ：@attaq
-
-会場は池上学院グローバルアカデミー専門学校
-
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2014.jpg)
+
+<table>
+  <tr>
+    <th>会場</th>
+    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a></td>
+  </tr>
+  <tr>
+    <th>開催日時</th>
+    <td>2014年1月24日〜26日</td>
+  </tr>
+  <tr>
+    <th>参加人数</th>
+    <td>95</td>
+  </tr>
+  <tr>
+    <th>チーム数</th>
+    <td>11</td>
+  </tr>
+  <tr>
+    <th>オーガナイザー</th>
+    <td>@AttaQ</td>
+  </tr>
+</table>
 
 [Doorkeeper - GlobalGameJamSapporo2014](https://kawaz.doorkeeper.jp/events/7291)
 
@@ -99,6 +176,7 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 [札幌会場で製作されたゲームの一覧](http://globalgamejam.org/2014/games?title=&country=JP&city=Sapporo&tools=All&diversifier=All&platforms=All&field_game_tools_value_1=All)
 
 ### 発表会の映像
+
 <div>
 <iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/43104809?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
 </div>
@@ -111,11 +189,30 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 
 ## 2015年
 
-オーガナイザ：@miio
-
-会場は池上学院グローバルアカデミー専門学校
-
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2015.png)
+
+<table>
+  <tr>
+    <th>会場</th>
+    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a></td>
+  </tr>
+  <tr>
+    <th>開催日時</th>
+    <td>2015年1月23日〜25日</td>
+  </tr>
+  <tr>
+    <th>参加人数</th>
+    <td>120</td>
+  </tr>
+  <tr>
+    <th>チーム数</th>
+    <td>15</td>
+  </tr>
+  <tr>
+    <th>オーガナイザー</th>
+    <td>@lyrica09</td>
+  </tr>
+</table>
 
 [Doorkeeper - GlobalGameJamSapporo2015](https://kawaz.doorkeeper.jp/events/17993)
 
@@ -124,19 +221,41 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 [札幌会場で製作されたゲームの一覧](http://globalgamejam.org/2015/games?title=&country=JP&city=Sapporo&tools=All&diversifier=All&platforms=All&field_game_tools_value_1=All)
 
 ### 発表会の映像
+
 <div>
 <iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/58042775?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
 </div>
 
 ## 2016年
 
-オーガナイザ：@miio（札幌会場） / @giginet（定山渓会場）
-
-会場は池上学院グローバルアカデミー専門学校（札幌会場）と、定山渓ホテル（定山渓会場）
+会場は<a href="http://www.iga.ac.jp/">池上学院グローバルアカデミー専門学校</a>（札幌会場）と、定山渓ホテル（定山渓会場）
 
 「温泉行きたいしどうせなら定山渓でGGJやろうぜ！！」と、この年から定山渓会場がスタート。
 
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2016.png)
+
+<table>
+  <tr>
+    <th>会場（札幌会場 / 定山渓会場）</th>
+    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a> / <a href="http://www.johzankei-hotel.com/" target="_blank">定山渓ホテル</a></td>
+  </tr>
+  <tr>
+    <th>開催日時</th>
+    <td>2016年1月29日〜31日</td>
+  </tr>
+  <tr>
+    <th>参加人数（札幌会場 / 定山渓会場）</th>
+    <td>109 / 13</td>
+  </tr>
+  <tr>
+    <th>チーム数（札幌会場 / 定山渓会場）</th>
+    <td>11 / 4</td>
+  </tr>
+  <tr>
+    <th>オーガナイザー（札幌会場 / 定山渓会場）</th>
+    <td>@miio / @AttaQ</td>
+  </tr>
+</table>
 
 [GlobalGameJam2016札幌会場公式サイト](http://ggjsap.juegos/2016/)
 
@@ -156,6 +275,7 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 [定山渓会場のページ](http://globalgamejam.org/2016/jam-sites/global-game-jam-2016-sapporo-jozankei)
 
 ### 発表会の映像
+
 <div>
 <iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/82288691?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
 </div>
