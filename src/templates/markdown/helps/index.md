@@ -12,6 +12,7 @@
 - [Kawazについて](/about/)
 - [利用規約](/rules/)
 - [掲載情報](/published/)
+- [Global Game Jam in Sapporoについて](/ggj/)
 - [ライセンス表示のガイドライン](/guideline/credits/)
 - [Kawaz入会者向けガイドライン](/helps/instruction/)
 - [チャットツールSlackの使い方](/helps/slack/)
