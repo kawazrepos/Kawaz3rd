@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Global Game Jam" %}{% endblock %}
+
+{% block content %}
+    <article class="markdown">
+        {% include_kfm "markdown/kawaz-pr-blog.md" %}
+    </article>
+{% endblock %}
