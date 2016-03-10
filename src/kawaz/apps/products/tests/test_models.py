@@ -270,6 +270,15 @@ class URLReleaseModelTestCase(TestCase, AbstractReleaseBaseModelTestCase):
         app_id = release.app_id
         self.assertEqual(app_id, '')
 
+    def test_is_play_now(self):
+        """
+        ブラウザゲームはis_play_nowがTrueになる
+        """
+        release0 = URLReleaseFactory(platform__label='ブラウザ')
+        self.assertTrue(release0.is_play_now())
+        release1 = URLReleaseFactory(platform__label='iOS')
+        self.assertFalse(release1.is_play_now())
+
 
 class ScreenshotModelTestCase(TestCase):
 
