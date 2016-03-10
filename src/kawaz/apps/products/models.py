@@ -314,6 +314,8 @@ class URLRelease(AbstractRelease):
 
     e.g. iTunes App Store, Google Play, Vector など
     """
+    PLAY_NOW_PLATFORM_LABELS = ['ブラウザ',]
+
     url = models.URLField(_('URL'))
     pageview = models.PositiveIntegerField(
         _('Page view'), default=0,
@@ -358,7 +360,8 @@ class URLRelease(AbstractRelease):
                 return m.group('id')
         return ""
 
-
+    def is_play_now(self):
+        return self.platform.label in self.PLAY_NOW_PLATFORM_LABELS
 
 
 class Screenshot(models.Model):
