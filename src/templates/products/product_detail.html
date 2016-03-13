@@ -61,7 +61,11 @@
                             <img src="{% static "img/playstore.png" %}" alt="Get it on Google Play" />
                         </a>
                     {% else %}
-                        <a href="{{ release.get_absolute_url }}" class="btn btn-primary" target="_blank">Download ({{ release.platform }})</a>
+                        {% if release.is_play_now %}
+                            <a href="{{ release.get_absolute_url }}" class="btn btn-primary" target="_blank">{% trans 'Play Now' %} ({{ release.platform }})</a>
+                        {% else %}
+                            <a href="{{ release.get_absolute_url }}" class="btn btn-primary" target="_blank">Download ({{ release.platform }})</a>
+                        {% endif %}
                     {% endif %}
                     </span>
                 </div>

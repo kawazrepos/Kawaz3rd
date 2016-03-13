@@ -97,7 +97,7 @@ class ParseKFMTestCase(TestCase):
         original = "```python\nimport os\n```"
         value = parse_kfm(original)
         self.assertEqual(value, (
-            "<div class=\"codehilite\"><pre><code>"
+            "<div class=\"codehilite\"><pre><span></span><code>"
             "<span class=\"kn\">import</span> "
             "<span class=\"nn\">os</span>\n"
             "</code></pre></div>"

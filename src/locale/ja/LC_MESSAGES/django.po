@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-02 18:13+0900\n"
+"POT-Creation-Date: 2016-03-10 22:48+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -153,7 +153,7 @@ msgstr "ブログ記事を削除しました"
 #: src/kawaz/apps/products/models.py:160 src/kawaz/apps/projects/models.py:22
 #: src/templates/blogs/entry_list.html:62
 #: src/templates/events/event_list.html:58
-#: src/templates/products/product_detail.html:148
+#: src/templates/products/product_detail.html:152
 #: src/templates/products/product_list.html:59
 msgid "Categories"
 msgstr "カテゴリ"
@@ -332,7 +332,7 @@ msgstr "このイベントは非公開状態であるか、開始日時が設定
 
 #: src/kawaz/apps/products/filters.py:63 src/kawaz/apps/products/forms.py:31
 #: src/kawaz/apps/products/models.py:67 src/kawaz/apps/products/models.py:158
-#: src/templates/products/product_detail.html:131
+#: src/templates/products/product_detail.html:135
 #: src/templates/products/product_list.html:53
 msgid "Platforms"
 msgstr "プラットフォーム"
@@ -464,7 +464,7 @@ msgstr ""
 "画像」を設定する必要があります。"
 
 #: src/kawaz/apps/products/models.py:201 src/kawaz/apps/products/models.py:259
-#: src/kawaz/apps/products/models.py:379
+#: src/kawaz/apps/products/models.py:382
 msgid "Product"
 msgstr "作品"
 
@@ -517,39 +517,39 @@ msgstr "パッケージ"
 msgid "Package releases"
 msgstr "パッケージ"
 
-#: src/kawaz/apps/products/models.py:317
+#: src/kawaz/apps/products/models.py:319
 #: src/kawaz/core/activities/hatenablog/models.py:19
 #: src/kawaz/core/personas/models/profile.py:47
 msgid "URL"
 msgstr "URL"
 
-#: src/kawaz/apps/products/models.py:319
+#: src/kawaz/apps/products/models.py:321
 msgid "Page view"
 msgstr "閲覧数"
 
-#: src/kawaz/apps/products/models.py:321
+#: src/kawaz/apps/products/models.py:323
 msgid "The number of page views"
 msgstr "閲覧数"
 
-#: src/kawaz/apps/products/models.py:324
+#: src/kawaz/apps/products/models.py:326
 msgid "URL release"
 msgstr "URL"
 
-#: src/kawaz/apps/products/models.py:325
+#: src/kawaz/apps/products/models.py:327
 #: src/templates/products/product_form.html:49
 msgid "URL releases"
 msgstr "URL"
 
-#: src/kawaz/apps/products/models.py:376
+#: src/kawaz/apps/products/models.py:379
 #: src/kawaz/core/activities/hatenablog/models.py:20
 msgid "Image"
 msgstr "画像"
 
-#: src/kawaz/apps/products/models.py:384
+#: src/kawaz/apps/products/models.py:387
 msgid "Screen shot"
 msgstr "スクリーンショット"
 
-#: src/kawaz/apps/products/models.py:385
+#: src/kawaz/apps/products/models.py:388
 msgid "Screen shots"
 msgstr "スクリーンショット"
 
@@ -1058,7 +1058,7 @@ msgstr "書いた人"
 #: src/templates/blogs/entry_detail.html:60
 #: src/templates/events/event_detail.html:226
 #: src/templates/personas/persona_detail.html:162
-#: src/templates/products/product_detail.html:109
+#: src/templates/products/product_detail.html:113
 #: src/templates/projects/project_detail.html:157
 msgid "Administration"
 msgstr "管理"
@@ -1714,12 +1714,16 @@ msgstr "%(label)sアカウント"
 msgid "More Details"
 msgstr "詳細ページ"
 
-#: src/templates/products/product_detail.html:85
+#: src/templates/products/product_detail.html:65
+msgid "Play Now"
+msgstr "今すぐ遊ぶ！"
+
+#: src/templates/products/product_detail.html:89
 #: src/templates/products/product_form.html:39
 msgid "Screenshots"
 msgstr "スクリーンショット"
 
-#: src/templates/products/product_detail.html:113
+#: src/templates/products/product_detail.html:117
 #: src/templates/products/product_form.html:9
 #: src/templates/products/product_form.html:18
 #: src/templates/products/product_form.html:31
@@ -1728,31 +1732,31 @@ msgstr "スクリーンショット"
 msgid "Create a new product"
 msgstr "新規作品を公開する"
 
-#: src/templates/products/product_detail.html:116
+#: src/templates/products/product_detail.html:120
 msgid "Update the product"
 msgstr "作品を編集"
 
-#: src/templates/products/product_detail.html:121
+#: src/templates/products/product_detail.html:125
 msgid "Do you want to delete the product?"
 msgstr "この作品を削除してもよろしいですか？"
 
-#: src/templates/products/product_detail.html:122
+#: src/templates/products/product_detail.html:126
 msgid "Delete the product"
 msgstr "作品を削除"
 
-#: src/templates/products/product_detail.html:159
+#: src/templates/products/product_detail.html:163
 msgid "Recommended games"
 msgstr "おすすめのゲーム"
 
-#: src/templates/products/product_detail.html:168
+#: src/templates/products/product_detail.html:172
 msgid "There are no corresponding products"
 msgstr "該当する作品はありません"
 
-#: src/templates/products/product_detail.html:175
+#: src/templates/products/product_detail.html:179
 msgid "Contact Info"
 msgstr "問い合わせ先"
 
-#: src/templates/products/product_detail.html:184
+#: src/templates/products/product_detail.html:188
 msgid "Contact us about this product"
 msgstr "この作品について問い合わせる"
 
@@ -1956,6 +1960,10 @@ msgstr "イベントの下書きはありません"
 #: src/templates/roughpages/drafts.authenticated.html:79
 msgid "There are no projects in draft."
 msgstr "プロジェクトの下書きはありません"
+
+#: src/templates/roughpages/ggj.html:4
+msgid "Global Game Jam"
+msgstr ""
 
 #: src/templates/roughpages/guideline/credits.html:4
 msgid "Guideline of credits"
