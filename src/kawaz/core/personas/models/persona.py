@@ -2,6 +2,7 @@ import re
 import os
 
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.db.models.base import ModelBase
 from django.contrib.auth.models import AbstractUser
@@ -238,8 +239,6 @@ from registration.signals import user_accepted
 
 @receiver(user_accepted)
 def invite_to_slack(user, profile, request, **kwargs):
-    from django.conf import settings
-    from django.core.exceptions import ImproperlyConfigured
     try:
         team = getattr(settings, 'DJANGO_SLACK_INVITATION_TEAM', None)
         token = getattr(settings, 'DJANGO_SLACK_INVITATION_TOKEN', None)
