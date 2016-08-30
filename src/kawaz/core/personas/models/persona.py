@@ -1,5 +1,6 @@
 import re
 import os
+import logging
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -243,10 +244,10 @@ def invite_to_slack(user, profile, request, **kwargs):
         team = getattr(settings, 'DJANGO_SLACK_INVITATION_TEAM', None)
         token = getattr(settings, 'DJANGO_SLACK_INVITATION_TOKEN', None)
         if not team or not token:
-            raise ImproperlyConfigured('Both DJANGO_SLACK_INVITATION_TEAM and DJANGO_SLACK_INVITATION_TOKEN must be set')
+            raise ImproperlyConfigured('Both DJANGO_SLACK_INVITATION_TEAM and '
+                                       'DJANGO_SLACK_INVITATION_TOKEN must be set')
         client = SlackInvitationClient(team, token)
         client.invite(user.email)
-    except ImproperlyConfigured:
-        pass
-    except SlackInvitationException:
-        pass
+    except (ImproperlyConfigured, SlackInvitationException) as e:
+        logger = logging.getLogger(__name__)
+        logger.error(e)

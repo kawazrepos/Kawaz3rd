@@ -106,7 +106,10 @@ class PersonaModelTestCase(TestCase):
         user = PersonaFactory(role='wille')
         self.assertFalse(user.is_superuser)
 
-    @override_settings(DJANGO_SLACK_INVITATION_TEAM='teamname', DJANGO_SLACK_INVITATION_TOKEN='token')
+    @override_settings(
+        DJANGO_SLACK_INVITATION_TEAM='teamname',
+        DJANGO_SLACK_INVITATION_TOKEN='token'
+    )
     def test_invite_to_slack(self):
         """
         Personaがacceptされたとき、Slackに自動的に招待する
