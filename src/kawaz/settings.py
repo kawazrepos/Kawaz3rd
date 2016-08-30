@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'compressor',
     'activities',
+    'slack_invitation',
     'google_calendar',
     'kawaz.core.management',
     'kawaz.core.db',

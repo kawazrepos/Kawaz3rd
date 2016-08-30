@@ -230,3 +230,24 @@ add_permission_logic(Persona, PersonaPermissionLogic())
 from ..activities.persona import PersonaActivityMediator
 from activities.registry import registry
 registry.register(Persona, PersonaActivityMediator())
+
+from django.dispatch import receiver
+from slack_invitation.slack import SlackInvitationClient, SlackInvitationException
+from registration.signals import user_accepted
+
+
+@receiver(user_accepted)
+def invite_to_slack(user, profile, request, **kwargs):
+    from django.conf import settings
+    from django.core.exceptions import ImproperlyConfigured
+    try:
+        team = getattr(settings, 'DJANGO_SLACK_INVITATION_TEAM', None)
+        token = getattr(settings, 'DJANGO_SLACK_INVITATION_TOKEN', None)
+        if not team or not token:
+            raise ImproperlyConfigured('Both DJANGO_SLACK_INVITATION_TEAM and DJANGO_SLACK_INVITATION_TOKEN must be set')
+        client = SlackInvitationClient(team, token)
+        client.invite(user.email)
+    except ImproperlyConfigured:
+        pass
+    except SlackInvitationException:
+        pass
