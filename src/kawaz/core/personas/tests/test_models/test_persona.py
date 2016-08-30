@@ -109,7 +109,7 @@ class PersonaModelTestCase(TestCase):
     @override_settings(DJANGO_SLACK_INVITATION_TEAM='teamname', DJANGO_SLACK_INVITATION_TOKEN='token')
     def test_invite_to_slack(self):
         """
-        Userがactivateされたとき、Slackに自動的に招待する
+        Personaがacceptされたとき、Slackに自動的に招待する
         """
         request = mock_request()
         backend = DefaultRegistrationBackend()
