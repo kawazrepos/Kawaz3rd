@@ -46,10 +46,17 @@
   pk: 12
   fields:
     label: その他ゲーム
+    order: 99
 - model: products.category
   pk: 13
   fields:
     label: その他企画
+    order: 100
+- model: products.category
+  pk: 14
+  fields:
+    label: Kawaz Compilation
+    order: 10
 - model: products.platform
   pk: 1
   fields:
