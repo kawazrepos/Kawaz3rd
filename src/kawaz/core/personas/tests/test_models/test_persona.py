@@ -1,5 +1,9 @@
-from django.test import TestCase
+from unittest.mock import patch
+from django.test import TestCase, override_settings
 from django.core.exceptions import ValidationError
+from registration.backends.default import DefaultRegistrationBackend
+from registration.tests.mock import mock_request
+from slack_invitation.slack import SlackInvitationClient
 
 from ..factories import PersonaFactory
 from kawaz.core.personas.models import Persona, PersonaManager
@@ -101,3 +105,24 @@ class PersonaModelTestCase(TestCase):
         self.assertFalse(user.is_superuser)
         user = PersonaFactory(role='wille')
         self.assertFalse(user.is_superuser)
+
+    @override_settings(
+        DJANGO_SLACK_INVITATION_TEAM='teamname',
+        DJANGO_SLACK_INVITATION_TOKEN='token'
+    )
+    def test_invite_to_slack(self):
+        """
+        Personaがacceptされたとき、Slackに自動的に招待する
+        """
+        request = mock_request()
+        backend = DefaultRegistrationBackend()
+
+        with patch.object(SlackInvitationClient, 'invite') as invite:
+            new_user = backend.register(
+                username='bob', email='bob@example.com',
+                request=request)
+
+            profile = new_user.registration_profile
+            backend.accept(profile, request=request)
+
+            invite.assert_called_with('bob@example.com')

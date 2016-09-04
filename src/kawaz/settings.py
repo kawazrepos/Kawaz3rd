@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'compressor',
     'activities',
+    'slack_invitation',
     'google_calendar',
     'kawaz.core.management',
     'kawaz.core.db',
@@ -361,7 +362,7 @@ MESSAGE_TAGS = {
 }
 
 # 神、いわゆるゴッド
-GEEKDRUMS_NAME = 'CollapsedPlug, lyrica09, miio'
+GEEKDRUMS_NAME = 'miio'
 
 # 環境依存の設定（デプロイサーバー固有の設定など）を読み込む
 LOCAL_SETTINGS_LOADED = False
