@@ -16,13 +16,13 @@ class RegistrationMailTemplateTestCase(TestCase):
         """
         registration/acceptance_email.txtを正しくparseできる
         """
-        context = Context(dict(
-            activation_key='thisisanactivationkey',
-            message='Slack見ましょう'
-        ))
+        context = {
+            'activation_key': 'thisisanactivationkey',
+            'message': 'Slack見ましょう'
+        }
         rendered = render_to_string(
             'registration/acceptance_email.txt',
-            context_instance=context,
+            context=context,
         )
         self.assertIsNotNone(rendered)
         self.assertIn('geekdrums', rendered)
