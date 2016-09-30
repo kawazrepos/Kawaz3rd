@@ -16,10 +16,10 @@ class RegistrationMailTemplateTestCase(TestCase):
         """
         registration/acceptance_email.txtを正しくparseできる
         """
-        context = {
+        context = Context({
             'activation_key': 'thisisanactivationkey',
             'message': 'Slack見ましょう'
-        }
+        })
         rendered = render_to_string(
             'registration/acceptance_email.txt',
             context=context,
