@@ -82,4 +82,4 @@ class BaseActivityMediatorTestCase(TestCase):
 
     def _test_render(self, activity):
         mediator = registry.get(activity)
-        self.assertTrue(mediator.render(activity, Context()))
+        self.assertTrue(mediator.render(activity, {}))

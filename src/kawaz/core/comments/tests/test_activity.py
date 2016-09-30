@@ -47,7 +47,7 @@ class CommentActivityMediatorTestCase(TestCase):
         activity = ActivityFactory(content_type=ct, object_id=pk, status='comment_added')
         mediator = registry.get(activity)
 
-        self.assertTrue(mediator.render(activity, Context()))
+        self.assertTrue(mediator.render(activity, {}))
 
     def test_comment_delete(self):
         """
