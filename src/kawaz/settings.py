@@ -34,7 +34,6 @@ INSTALLED_APPS = (
     'permission',
     'registration.contrib.notification',
     'debug_toolbar',
-    'template_timings_panel',
     'vcs_info_panel',
     'thumbnailfield',
     'roughpages',
