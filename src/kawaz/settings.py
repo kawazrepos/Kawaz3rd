@@ -91,28 +91,18 @@ TEMPLATES = [
                 'kawaz.apps.kfm.templatetags.kfm',
             ],
             'context_processors': [
-                "django.contrib.auth.context_processors.auth",
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
+        'APP_DIRS': True,
+        'DIRS': [
+            os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
+        ]
     },
 ]
-
-# テンプレート保存ディレクトリの指定
-TEMPLATE_DIRS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
-)
-
-# テンプレートコンテキストプロセッサの指定
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.core.context_processors.request",
-    "django.contrib.auth.context_processors.auth",
-    "django.contrib.messages.context_processors.messages",
-)
 
 # データベースの設定
 DATABASES = {
