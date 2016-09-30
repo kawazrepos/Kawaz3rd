@@ -45,5 +45,5 @@ class EntryActivityMediatorTestCase(BaseActivityMediatorTestCase):
             'context variable published is not contained'
         )
         mediator = registry.get(activity)
-        rendered = mediator.render(activity, {})
+        rendered = mediator.render(activity, Context())
         self.assertTrue('公開されました' in rendered)
