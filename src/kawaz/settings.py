@@ -85,7 +85,14 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'OPTIONS': {
-            'builtins': ['permission.templatetags.permissionif'],
+            'builtins': [
+                'permission.templatetags.permissionif',
+                'kawaz.core.templatetags.templatetags.expr',
+                'kawaz.apps.kfm.templatetags.kfm',
+            ],
+            'context_processors': [
+                "django.contrib.auth.context_processors.auth",
+            ],
         },
     },
 ]
@@ -346,7 +353,6 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.sql.SQLPanel',
     'debug_toolbar.panels.staticfiles.StaticFilesPanel',
     'debug_toolbar.panels.templates.TemplatesPanel',
-    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
     'debug_toolbar.panels.cache.CachePanel',
     'debug_toolbar.panels.signals.SignalsPanel',
     'debug_toolbar.panels.profiling.ProfilingPanel',

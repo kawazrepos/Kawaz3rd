@@ -3,7 +3,6 @@
 """
 
 from django.template import Context
-from django.contrib.sites.models import Site
 
 
 class ActivityNotifierBase(object):
@@ -32,6 +31,8 @@ class ActivityNotifierBase(object):
         """
         Notify the activity change via 'send' method of this instance
         """
+
+        from django.contrib.sites.models import Site
         if not self.enable:
             return
         if typename is None:

@@ -4,7 +4,7 @@
 
 from functools import lru_cache
 from importlib import import_module
-from django.db.models.loading import get_model as _get_model
+from django.apps import apps
 from django.core.exceptions import (ImproperlyConfigured,
                                     AppRegistryNotReady)
 
@@ -17,7 +17,7 @@ def get_model(model):
     if isinstance(model, str):
         app_label, model_name = model.rsplit('.', 1)
         try:
-            model = _get_model(app_label, model_name)
+            model = apps.get_model(app_label, model_name)
         except (LookupError, AppRegistryNotReady):
             return None
     return model
@@ -97,7 +97,7 @@ def resolve_relation_lazy(relation, operation, **kwargs):
     """
     app_label, model_name = get_relation(relation)
     try:
-        model = _get_model(app_label, model_name)
+        model = apps.get_model(app_label, model_name)
         operation(model, **kwargs)
     except AppRegistryNotReady:
         key = (app_label, model_name)
