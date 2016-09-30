@@ -26,7 +26,7 @@ class SingleObjectPreviewViewMixin(object):
         queryset = queryset or self.get_queryset()
         # Use 'model' of queryset or 'model' attribute
         model = getattr(queryset, 'model', self.model)
-        fields = model.get_fields()
+        fields = model._meta.get_fields()
         # Ref https://docs.djangoproject.com/en/dev/releases/1.5/#non-form-data-in-http-requests
         # http://stackoverflow.com/questions/1208067/wheres-my-json-data-in-my-incoming-django-request
         # Django1.5からAjaxではrequest.POSTでQueryDictを取れなくなったので、JSONに変換している

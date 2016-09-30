@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 
 from .views import EventListView, EventCreateView, EventDetailView, EventUpdateView, EventDeleteView, EventAttendView, EventQuitView, EventYearListView, EventMonthListView, EventPreviewView, EventCalendarView
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', EventListView.as_view(), name='events_event_list'),
     url(r'^(?P<pk>\d+)/$', EventDetailView.as_view(), name='events_event_detail'),
     url(r'^(?P<pk>\d+)/calendar/$', EventCalendarView.as_view(), name='events_event_calendar'),
@@ -15,4 +15,4 @@ urlpatterns = patterns('',
     url(r'^archive/(?P<year>\d+)/$', EventYearListView.as_view(), name='events_event_archive-year'),
     url(r'^archive/(?P<year>\d+)/(?P<month>\d+)/$',
         EventMonthListView.as_view(), name='events_event_archive_month'),
-)
+]

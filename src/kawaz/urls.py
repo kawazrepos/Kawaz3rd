@@ -8,7 +8,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^central-dogma/', include(admin.site.urls)),
     url(r'^central-dogma/doc/', include('django.contrib.admindocs.urls')),
@@ -23,7 +23,7 @@ urlpatterns = patterns('',
     url(r'^members/', include('kawaz.core.personas.urls')),
     url(r'^registration/', include('kawaz.core.registrations.urls')),
     url(r'^comments/', include('django_comments.urls')),
-)
+]
 
 if not settings.PRODUCT:
     # 本番環境以外では開発用サーバーにて静的ファイルも提供

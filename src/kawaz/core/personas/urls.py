@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url
 from .views import (PersonaDetailView,
                     PersonaListView,
                     PersonaRetiredView,
@@ -8,7 +8,7 @@ from .views import (PersonaDetailView,
                     ProfileUpdateView,
                     ProfilePreviewView,
                     ServiceDetailView)
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$',
         PersonaListView.as_view(), name='personas_persona_list'),
    url(r'^retired/$',
@@ -32,4 +32,4 @@ urlpatterns = patterns('',
     #   によりアクセス出来ないユーザーが発生することはない
     url(r'^(?P<slug>[^/.+]+)/$',
         PersonaDetailView.as_view(), name='personas_persona_detail'),
-)
+]

@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from .views import AnnouncementListView
 from .views import AnnouncementUpdateView
 from .views import AnnouncementCreateView
@@ -6,7 +6,7 @@ from .views import AnnouncementDeleteView
 from .views import AnnouncementDetailView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', AnnouncementListView.as_view(),
         name='announcements_announcement_list'),
     url(r'^create/$', AnnouncementCreateView.as_view(),
@@ -17,4 +17,4 @@ urlpatterns = patterns('',
         name='announcements_announcement_delete'),
     url(r'^(?P<pk>\d+)/$', AnnouncementDetailView.as_view(),
         name='announcements_announcement_detail'),
-)
+]
