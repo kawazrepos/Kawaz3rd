@@ -38,9 +38,9 @@ class ActivityNotifierBase(object):
         if typename is None:
             typename = self.get_typename()
         if context is None:
-            context = Context({
+            context = {
                 'site': Site.objects.get_current(),
-            })
+            }
             # TODO Test me!!!
             # 実際にrenderのcontextとして`site`が渡されているかテストされていない
             # (notifierのテストではMediatorのMockを使っているため)
