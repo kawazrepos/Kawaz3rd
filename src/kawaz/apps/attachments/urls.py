@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from .views import MaterialDetailView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^(?P<slug>[^/]+)/$',
         MaterialDetailView.as_view(),
         name='attachments_material_detail'),
-)
+]

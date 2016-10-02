@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import ProductListView
 from .views import ProductUpdateView
@@ -10,7 +10,7 @@ from .views import PackageReleaseDetailView
 from .views import URLReleaseDetailView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url('^$',
         ProductListView.as_view(), name='products_product_list'),
     url('^preview/$',
@@ -29,4 +29,4 @@ urlpatterns = patterns('',
         ProductUpdateView.as_view(), name='products_product_update'),
     url('^(?P<slug>[\w_-]+)/delete/$',
         ProductDeleteView.as_view(), name='products_product_delete'),
-)
+]

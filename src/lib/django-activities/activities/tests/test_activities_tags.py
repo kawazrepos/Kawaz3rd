@@ -115,7 +115,7 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         r = t.render(c)
 
         registry.get.assert_called_with(activity)
-        mediator.render.assert_called_with(activity, c, typename=None)
+        mediator.render.assert_called_with(activity, c.flatten(), typename=None)
         self.assertEqual(r.strip(), '<strong>Hello</strong>')
 
     @patch('activities.templatetags.activities_tags.registry')
@@ -132,7 +132,7 @@ class ActivitiesTemplateTagsActivitiesTagsTestCase(TestCase):
         r = t.render(c)
 
         registry.get.assert_called_with(activity)
-        mediator.render.assert_called_with(activity, c, typename='test')
+        mediator.render.assert_called_with(activity, c.flatten(), typename='test')
         self.assertEqual(r.strip(), '<strong>Hello</strong>')
 
     @patch('activities.templatetags.activities_tags.registry')

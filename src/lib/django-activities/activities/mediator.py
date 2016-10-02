@@ -4,7 +4,6 @@
 
 from functools import lru_cache
 from django.core import serializers
-from django.template import Context
 from django.template.loader import select_template
 from django.db.models.signals import (post_save,
                                       pre_delete,
@@ -13,6 +12,10 @@ from django.contrib.contenttypes.models import ContentType
 from .conf import settings
 from .models import Activity
 from .notifiers.registry import registry as notifier_registry
+
+
+class ContextTypeException(Exception):
+    pass
 
 
 class ActivityMediator(object):
@@ -319,8 +322,10 @@ class ActivityMediator(object):
         """
         Return rendered string of the specified activity
         """
+        if not isinstance(context, dict):
+            raise ContextTypeException('context must be dict. it should not Context or RequestContext')
         template_names = self.get_template_names(activity, typename)
         template = select_template(template_names)
-        context = self.prepare_context(activity, context.new(context),
+        context = self.prepare_context(activity, context,
                                        typename=typename)
         return template.render(context)

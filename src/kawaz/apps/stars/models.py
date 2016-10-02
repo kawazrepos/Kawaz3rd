@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
 from kawaz.core.db.decorators import validate_on_save

@@ -18,3 +18,5 @@ class SingleObjectPreviewViewMixinTestArticle(models.Model):
     foo = models.CharField(max_length=50)
     bar = models.TextField()
 
+    class Meta:
+        app_label = 'comments'

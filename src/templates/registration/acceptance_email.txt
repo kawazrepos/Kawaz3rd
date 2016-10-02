@@ -1,4 +1,3 @@
-{% load url from future %}
 {% load settings %}
 
 {{ site.name }}:

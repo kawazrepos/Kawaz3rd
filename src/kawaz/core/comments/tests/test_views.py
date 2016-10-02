@@ -2,10 +2,9 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 import django_comments
 from django_comments.models import Comment
-from kawaz.core.comments import KawazCommentForm
+from kawaz.core.comments.forms import KawazCommentForm
 from kawaz.core.comments.tests.factories import CommentFactory
 from kawaz.core.personas.tests.factories import PersonaFactory
-
 
 
 class CommentViewTestCase(TestCase):

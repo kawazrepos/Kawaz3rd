@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
 from .views import EntryAuthorDayArchiveView
 from .views import EntryAuthorListView
@@ -17,7 +17,7 @@ from .views import EntryYearArchiveView
 from .views import EntryPreviewView
 from .views import EntryCategoryListView
 
-author_patterns = patterns('',
+author_patterns = [
    url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<pk>\d+)/$',
        EntryDetailView.as_view(), name='blogs_entry_detail'),
    url(r'^create/$',
@@ -42,10 +42,10 @@ author_patterns = patterns('',
        EntryCategoryListView.as_view(), name='blogs_entry_category_list'),
    url(r'^$',
        EntryAuthorListView.as_view(), name='blogs_entry_author_list'),
-)
+]
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$',
         EntryDayArchiveView.as_view(), name='blogs_entry_archive_day'),
     url(r'^(?P<year>\d+)/(?P<month>\d+)/$',
@@ -58,5 +58,5 @@ urlpatterns = patterns('',
         EntryTodayArchiveView.as_view(), name='blogs_entry_archive_today'),
     url(r'^preview/$',
        EntryPreviewView.as_view(), name='blogs_entry_preview'),
-    (r'^(?P<author>[^/.+]+)/', include(author_patterns)),
-)
+    url(r'^(?P<author>[^/.+]+)/', include(author_patterns)),
+]

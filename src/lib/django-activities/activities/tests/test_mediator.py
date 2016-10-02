@@ -196,32 +196,30 @@ class ActivitiesActivityMediatorTestCase(TestCase):
 
     def test_prepare_context(self):
         activity = MagicMock()
-        context = MagicMock()
+        context = {}
 
         mediator = ActivityMediator()
         c = mediator.prepare_context(activity, context, typename=None)
 
-        context.update.assert_called_with({
+        self.assertEqual(c, {
             'activity': activity,
             'object': activity.snapshot,
-            'typename': None,
+            'typename': None
         })
-        self.assertEqual(c, context)
 
     def test_prepare_context_with_typename(self):
         activity = MagicMock()
-        context = MagicMock()
+        context = {}
         typename = MagicMock()
 
         mediator = ActivityMediator()
         c = mediator.prepare_context(activity, context, typename=typename)
 
-        context.update.assert_called_with({
+        self.assertEqual(c, {
             'activity': activity,
             'object': activity.snapshot,
-            'typename': typename,
+            'typename': typename
         })
-        self.assertEqual(c, context)
 
     def test_prepare_snapshot(self):
         instance = MagicMock()
@@ -239,7 +237,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         model._meta.app_label = 'app_label'
         activity = MagicMock()
         activity.status = 'status'
-        context = MagicMock()
+        context = {}
         rendered = MagicMock()
         template = MagicMock()
         template.render.return_value = rendered
@@ -247,16 +245,16 @@ class ActivitiesActivityMediatorTestCase(TestCase):
 
         mediator = ActivityMediator()
         mediator.connect(model)
-        mediator.prepare_context = MagicMock(return_value=context.new())
+        mediator.prepare_context = MagicMock(return_value={})
 
         r = mediator.render(activity, context)
 
         select_template.assert_called_with(
             mediator.get_template_names(activity))
         mediator.prepare_context.assert_called_with(activity,
-                                                    context.new(),
+                                                    context,
                                                     typename=None)
-        template.render.assert_called_with(context.new())
+        template.render.assert_called_with({})
         self.assertEqual(r, rendered)
 
     @patch('activities.mediator.select_template')
@@ -267,7 +265,7 @@ class ActivitiesActivityMediatorTestCase(TestCase):
         model._meta.app_label = 'app_label'
         activity = MagicMock()
         activity.status = 'status'
-        context = MagicMock()
+        context = {}
         rendered = MagicMock()
         template = MagicMock()
         template.render.return_value = rendered
@@ -276,15 +274,15 @@ class ActivitiesActivityMediatorTestCase(TestCase):
 
         mediator = ActivityMediator()
         mediator.connect(model)
-        mediator.prepare_context = MagicMock(return_value=context.new())
+        mediator.prepare_context = MagicMock(return_value={})
 
         r = mediator.render(activity, context, typename=typename)
 
         select_template.assert_called_with(
             mediator.get_template_names(activity, typename=typename))
         mediator.prepare_context.assert_called_with(activity,
-                                                    context.new(),
+                                                    context,
                                                     typename=typename)
-        template.render.assert_called_with(context.new())
+        template.render.assert_called_with({})
         self.assertEqual(r, rendered)
 
