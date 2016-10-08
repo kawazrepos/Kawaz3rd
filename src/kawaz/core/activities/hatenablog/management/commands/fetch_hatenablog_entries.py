@@ -1,5 +1,5 @@
 from optparse import make_option
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 from ...conf import settings
 from ...models import HatenablogEntry
 from ...scraper import HatenablogFeedScraper
@@ -7,21 +7,20 @@ from ...scraper import HatenablogFeedScraper
 URL = settings.ACTIVITIES_HATENABLOG_FEED_URL
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
     help = ("Command to fetch entries in Hatenablog. "
             "It will ignore duplicated entries.")
 
-    option_list = NoArgsCommand.option_list + (
-        make_option('--clear', action='store_true', default=False,
-                    help=("Clear entries in database to synchronize "
-                          "entries in database and actual.")),
-        make_option('--url',
-                    default=settings.ACTIVITIES_HATENABLOG_FEED_URL,
-                    help=("Specify a url of hatenablog which will be parsed. "
-                          "The default url is '{}'.").format(URL)),
-    )
+    def add_arguments(self, parser):
+        parser.add_argument('--clear', action='store_true', default=False,
+                help=("Clear entries in database to synchronize "
+                    "entries in database and actual."))
+        parser.add_argument('--url',
+                default=settings.ACTIVITIES_HATENABLOG_FEED_URL,
+                help=("Specify a url of hatenablog which will be parsed. "
+                    "The default url is '{}'.").format(URL))
 
-    def handle_noargs(self, **options):
+    def handle(self, *args, **options):
         verbosity = int(options.get('verbosity'))
         if options.get('clear'):
             if verbosity > 0:
