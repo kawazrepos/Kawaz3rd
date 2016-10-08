@@ -111,6 +111,10 @@ class StarManagerTestCase(TestCase):
 
     def test_published(self):
         """ユーザーが閲覧可能なスターの一覧を返す"""
+        from kawaz.apps.stars.tests.models import StarTestArticle
+        from kawaz.core.tests.factories import PermissionFactory
+        PermissionFactory(model=StarTestArticle, name='view')
+
         article1 = self.articles['public']
         article2 = self.articles['protected']
         article3 = self.articles['draft']
