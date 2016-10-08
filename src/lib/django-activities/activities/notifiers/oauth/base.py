@@ -74,7 +74,7 @@ class OAuth1ActivityNotifier(ActivityNotifierBase):
         The return value is a dictionary to initialize a
         requests_oauthlib.OAuth1
         """
-        if not os.path.exists(filename):
+        if not os.path.exists(filename) and not settings.TESTING:
             warnings.warn((
                 "'{}' is not found. Confirm if the file exists."
             ).format(filename), ImproperlyConfiguredWarning)
