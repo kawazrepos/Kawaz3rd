@@ -8,6 +8,8 @@ class PublishmentPermissionLogicTestCase(TestCase):
         from django.contrib.auth.models import AnonymousUser
         from kawaz.core.personas.tests.factories import PersonaFactory
         from .models import PublishmentTestArticle as Article
+        from kawaz.core.tests.factories import PermissionFactory
+        self.permission = PermissionFactory(model=Article, name='view')
         self.users = dict(
             adam=PersonaFactory(role='adam'),
             seele=PersonaFactory(role='seele'),
