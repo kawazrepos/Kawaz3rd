@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Kawaz Advent Calendar{% endblock %}
+
+{% block content %}
+    <article class="markdown">
+        {% include_kfm "markdown/advent.md" %}
+    </article>
+{% endblock %}
+
