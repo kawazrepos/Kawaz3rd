@@ -18,10 +18,6 @@ def response_to_dict(response):
 
 class BaseTestCase(TestCase):
     def setUp(self):
-        from kawaz.core.tests.factories import PermissionFactory
-        from .models import StarTestArticle
-        self.permission = PermissionFactory(model=StarTestArticle, name='view')
-
         persona_factory = lambda x: PersonaFactory(username=x, role=x)
         article_factory = lambda **kwargs: ArticleFactory(
             author=self.users['article_author'], **kwargs)
@@ -47,9 +43,6 @@ class BaseTestCase(TestCase):
         self.star1 = star_factory(content_object=self.article)
         self.star2 = star_factory(content_object=self.protected_article)
         self.star3 = star_factory(content_object=self.protected_article)
-
-    def tearDown(self):
-        self.permission.delete()
 
 
 class StarListAPITestCase(BaseTestCase):

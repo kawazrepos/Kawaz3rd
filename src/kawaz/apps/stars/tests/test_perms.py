@@ -12,9 +12,6 @@ class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
     def setUp(self):
         super().setUp()
 
-        from kawaz.core.tests.factories import PermissionFactory
-        from .models import StarTestArticle
-        self.permission = PermissionFactory(model=StarTestArticle, name='view')
         self.article_author = PersonaFactory(username='article_author',
                                              role='children')
         self.star_author = PersonaFactory(username='star_author',

@@ -41,4 +41,8 @@ class Migration(migrations.Migration):
                 },
                 bases=(models.Model,),
             ),
+            migrations.AlterModelOptions(
+                name='StarTestArticle',
+                options={'permissions': (('view_startestarticle', 'Can view the articles'),)},
+            ),
         ])
