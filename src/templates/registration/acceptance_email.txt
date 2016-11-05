@@ -26,8 +26,8 @@ http://www.kawaz.org/helps/slack/
 
 このメールと同時に、KawazのSlackから招待メールが届きます。
 メールの差出人は「Slack」もしくはfeedback@slack.com、
-メールのタイトルには「invited you to join Kawaz on Slack」が含まれているはずです。
-そのメールの中の「Join Kawaz」のボタンから登録を始めることができます。
+メールのタイトルは「Kawaz Inonaka invited you to join Kawaz on Slack」のはずです。
+そのメールの中の「Join Kawaz」のボタンから登録することができます。
 
 
 このメールが身に覚えのない方はお手数ですが webmaster@kawaz.org までご連絡をお願いいたします。
