@@ -1,5 +1,6 @@
 import shutil
 import tempfile
+import warnings
 
 from django.conf import settings
 
@@ -66,3 +67,5 @@ class KawazDiscoverRunner(MediaRootTestSuiteRunner):
         # に引っかかる可能性が高いためOAuthのポスト部分を無効化する
         #
         settings.ACTIVITIES_ENABLE_OAUTH_NOTIFICATION = False
+        # 警告を無視
+        warnings.simplefilter("ignore")

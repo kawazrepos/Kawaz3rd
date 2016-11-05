@@ -42,14 +42,13 @@ class GoogleCalendarClient(object):
         credentials = storage.get()
         # Login Google API with a credentials
         if credentials is None or credentials.invalid:
-            if not settings.TESTING:
-                COMMAND_NAME = 'login_to_google_calendar_api'
-                warnings.warn((
-                    'No valid Google API credentials are available. '
-                    'Execute python manage.py {} and '
-                    'follow the instructions.'
-                ).format(COMMAND_NAME), category=ImproperlyConfiguredWarning)
-                self.enabled = False
+            COMMAND_NAME = 'login_to_google_calendar_api'
+            warnings.warn((
+                'No valid Google API credentials are available. '
+                'Execute python manage.py {} and '
+                'follow the instructions.'
+            ).format(COMMAND_NAME), category=ImproperlyConfiguredWarning)
+            self.enabled = False
         else:
             http = credentials.authorize(http=httplib2.Http())
             self.service = discovery.build('calendar', 'v3', http=http)
