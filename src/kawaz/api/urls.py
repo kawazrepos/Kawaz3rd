@@ -1,4 +1,4 @@
-from django.conf.urls import url, patterns, include
+from django.conf.urls import url, include
 from rest_framework import routers
 from kawaz.apps.stars.api.views import StarViewSet
 from kawaz.apps.blogs.api.views import CategoryViewSet

@@ -5,43 +5,41 @@ Kawaz開発用にデータベースの初期化等を行うコマンド
 
 import os
 import sys
-from optparse import make_option
 from django.conf import settings
 from django.db import DEFAULT_DB_ALIAS
 from django.core.management import call_command
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
     help = ("Command to initialize database. "
             "It will overwrite the existing data in database thus "
             "Run this command WITH CLOSE ATTENTION.")
 
-    option_list = NoArgsCommand.option_list + (
-        make_option('--database', default=DEFAULT_DB_ALIAS,
-                    help=("Nominates a database to initialize. "
-                          "Defaults to the '{}' database.").format(
-                              DEFAULT_DB_ALIAS)),
-        make_option('--noinput', dest='interactive',
-                    action='store_false', default=True,
-                    help=("Tells Django to NOT prompt the user "
-                          "for input of any kind.")),
-        make_option('--force', action='store_true', default=False,
-                    help=("Tells Django to run the command even if "
-                          "'settings.DEBUG = False'.")),
-        make_option('--no-production-data', dest='load_production_data',
-                    action='store_false', default=True,
-                    help=("Tells Django to NOT load production data which is "
-                          "also used in production.")),
-        make_option('--no-debug-data', dest='load_debug_data',
-                    action='store_false', default=True,
-                    help=("Tells Django to NOT load debug data which is "
-                          "only used in development.")),
-        make_option('--no-fetch-entries', dest='fetch_entries', default=True, action='store_false',
-                    help=('Tells Django to NOT fetch blog entries from Hatena blog'))
-    )
+    def add_arguments(self, parser):
+        parser.add_argument('--database', default=DEFAULT_DB_ALIAS,
+                            help=("Nominates a database to initialize. "
+                                  "Defaults to the '{}' database.").format(
+                                    DEFAULT_DB_ALIAS))
+        parser.add_argument('--noinput', dest='interactive',
+                            action='store_false', default=True,
+                            help=("Tells Django to NOT prompt the user "
+                                  "for input of any kind."))
+        parser.add_argument('--force', action='store_true', default=False,
+                            help=("Tells Django to run the command even if "
+                                  "'settings.DEBUG = False'."))
+        parser.add_argument('--no-production-data', dest='load_production_data',
+                            action='store_false', default=True,
+                            help=("Tells Django to NOT load production data which is "
+                                  "also used in production."))
+        parser.add_argument('--no-debug-data', dest='load_debug_data',
+                            action='store_false', default=True,
+                            help=("Tells Django to NOT load debug data which is "
+                                  "only used in development."))
+        parser.add_argument('--no-fetch-entries', dest='fetch_entries', default=True, action='store_false',
+                            help='Tells Django to NOT fetch blog entries from Hatena blog')
 
-    def handle_noargs(self, **options):
+    def handle(self, *args, **options):
         verbosity = int(options.get('verbosity'))
         options['verbosity'] = verbosity
         database = options.get('database')
@@ -49,7 +47,6 @@ class Command(NoArgsCommand):
         force = options.get('force')
         fetch_entries = options.get('fetch_entries')
         
-
         # The command required to be run in development mode
         if not force and not settings.DEBUG:
             print(("Running this command with 'settings.DEBUG = False' is "
@@ -124,7 +121,7 @@ class Command(NoArgsCommand):
 
         if verbosity > 0:
             print("*" * 80 + "\n")
-            print(("The database get ready."))
+            print("The database get ready.")
             print(("Start the development server with honcho as\n\n"
                    "    honcho start -f config/Profile.dev\n\n"
                    "And access to 'http://localhost:8000'"))

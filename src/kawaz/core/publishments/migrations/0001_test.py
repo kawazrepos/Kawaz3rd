@@ -38,4 +38,8 @@ class Migration(migrations.Migration):
                 },
                 bases=(models.Model,),
             ),
+            migrations.AlterModelOptions(
+                name='PublishmentTestArticle',
+                options={'permissions': (('view_publishmenttestarticle', 'Can view the articles'),)},
+            ),
         ])

@@ -4,13 +4,13 @@
 
 import os
 from django.conf import settings
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 from importlib import import_module
 from livereload import Server
 
 
-class Command(NoArgsCommand):
-    def handle_noargs(self, **options):
+class Command(BaseCommand):
+    def handle(self, *args, **options):
         server = Server()
         pathlist = []
         # Find statics/templates directories of all installed apps
@@ -30,8 +30,8 @@ class Command(NoArgsCommand):
         # STATICFILES_DIRS, TEMPLATE_DIRS
         for path in settings.STATICFILES_DIRS:
             pathlist.append("{}".format(path))
-        for path in settings.TEMPLATE_DIRS:
-            pathlist.append("{}".format(path))
+        for template in settings.TEMPLATES:
+            pathlist += ["{}".format(path) for path in template['DIRS']]
         print('Start livereloading with followings...')
         for path in pathlist:
             print('- {}'.format(path))
