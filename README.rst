@@ -13,7 +13,7 @@ Kawaz
 **All your games are belong to us.**
 
 札幌ゲーム製作者コミュニティ Kawaz_ のポータルサイトの開発ドキュメントです。
-開発・実行は Python_ 3.5 と Django_ 1.8.7 で行われています。
+開発・実行は Python_ 3.5 と Django_ 1.10 で行われています。
 
 .. _Kawaz: http://www.kawaz.org/
 .. _Python: https://www.python.org/
@@ -160,7 +160,7 @@ APIドキュメントの追加を行う場合は下記コマンドにて差分�
 
     $ sphinx-apidoc -o docs/api src -f
 
-.. _KawazDevelopmentDocumentation: http://kawaz3rd.readthedocs.io/ja/latest/
+.. _KawazDevelopmentDocumentation: https://kawaz3rd.readthedocs.io/ja/latest/
 
 ローカルでドキュメントをコンパイルする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
