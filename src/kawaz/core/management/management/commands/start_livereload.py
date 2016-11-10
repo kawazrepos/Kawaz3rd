@@ -30,8 +30,8 @@ class Command(BaseCommand):
         # STATICFILES_DIRS, TEMPLATE_DIRS
         for path in settings.STATICFILES_DIRS:
             pathlist.append("{}".format(path))
-        for path in settings.TEMPLATES[0]['DIRS']:
-            pathlist.append("{}".format(path))
+        for template in settings.TEMPLATES:
+            pathlist += ["{}".format(path) for path in template['DIRS']]
         print('Start livereloading with followings...')
         for path in pathlist:
             print('- {}'.format(path))
