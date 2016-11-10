@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
 from django.conf import settings
-
+import debug_toolbar
 
 from django.contrib import admin
 admin.autodiscover()
@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^members/', include('kawaz.core.personas.urls')),
     url(r'^registration/', include('kawaz.core.registrations.urls')),
     url(r'^comments/', include('django_comments.urls')),
+    url(r'^__debug__/', include(debug_toolbar.urls)),
 ]
 
 if not settings.PRODUCT:
