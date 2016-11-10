@@ -160,7 +160,7 @@ APIドキュメントの追加を行う場合は下記コマンドにて差分�
 
     $ sphinx-apidoc -o docs/api src -f
 
-.. _KawazDevelopmentDocumentation: https://kawaz3rd.readthedocs.org/en/latest/
+.. _KawazDevelopmentDocumentation: http://kawaz3rd.readthedocs.io/ja/latest/
 
 ローカルでドキュメントをコンパイルする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
