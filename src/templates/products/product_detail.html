@@ -62,7 +62,7 @@
                         </a>
                     {% else %}
                         {% if release.is_play_now %}
-                            <a href="{{ release.get_absolute_url }}" class="btn btn-primary" target="_blank">{% trans 'Play Now' %} ({{ release.platform }})</a>
+                            <a href="{{ release.get_absolute_url }}" class="btn btn-primary" target="_blank">{% trans 'Play Now!' %} ({{ release.platform }})</a>
                         {% else %}
                             <a href="{{ release.get_absolute_url }}" class="btn btn-primary" target="_blank">Download ({{ release.platform }})</a>
                         {% endif %}
@@ -117,13 +117,13 @@
                     <a class="list-group-item list-group-item-success" href="{% url "products_product_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new product" %}</a>
                 {% endif %}
                 {% if user has 'products.change_product' of object %}
-                    <a class="list-group-item" href="{% url "products_product_update" slug=object.slug %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update the product" %}</a>
+                    <a class="list-group-item" href="{% url "products_product_update" slug=object.slug %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Edit this product" %}</a>
                 {% endif %}
                 {% if user has 'products.delete_product' of object %}
                     <a class="list-group-item list-group-item-danger"
                        href="{% url "products_product_delete" slug=object.slug %}"
-                       confirm-message="{% trans "Do you want to delete the product?" %}">
-                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete the product" %}
+                       confirm-message="{% trans "Do you want to delete this product?" %}">
+                        <span class="glyphicon glyphicon-remove"></span> {% trans "Delete this product" %}
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
                 {% endif %}

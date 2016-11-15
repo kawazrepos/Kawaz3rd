@@ -113,10 +113,10 @@
                     {# イベント管理者向け #}
                     {% if event.is_over_restriction or event.is_over_deadline %}
                         {# 参加者を締め切った #}
-                        <p class="event-closed event-status">{% trans "The participation has been closed" %}</p>
+                        <p class="event-closed event-status">{% trans "Application has been closed" %}</p>
                     {% else %}
                         {# 参加者募集中 #}
-                        <p class="event-recruit event-status">{% trans "Call for participats" %}</p>
+                        <p class="event-recruit event-status">{% trans "Application is open" %}</p>
                         {% if event.number_restriction %}
                         {% spaceless %}
                           <p class="event-join-count">
@@ -132,14 +132,14 @@
                     {# イベントから抜ける #}
                     <a href="{% url "events_event_quit" event.pk %}"
                        class="btn btn-danger btn-large btn-lg post-link">
-                        <span class="glyphicon glyphicon-log-out event-attend-icon"></span><span>{% trans "Withdraw from the event" %}</span>
+                        <span class="glyphicon glyphicon-log-out event-attend-icon"></span><span>{% trans "Cancel participation" %}</span>
                         <form method="POST" style="display: none;">{% csrf_token %}</form>
                     </a>
 
                 {% else %}
                     {% if event.is_over_restriction or event.is_over_deadline %}
                         {# 参加を締め切った #}
-                        <p class="event-closed event-status">{% trans "The participation has been closed" %}</p>
+                        <p class="event-closed event-status">{% trans "Application has been closed" %}</p>
                     {% else %}
                         {# 外部ユーザ向け #}
                         {# イベントへの参加にはログインする必要がある #}
@@ -150,13 +150,13 @@
 
                 {% if event.attendance_deadline %}
                     <dl>
-                        <dt class="attendance-deadline">{% trans "Participation deadline" %}</dt>
+                        <dt class="attendance-deadline">{% trans "Application deadline" %}</dt>
                         <dd class="attendance-deadline">
                             <span>{{ event.attendance_deadline | date:"Y年m月d日" }}{% trans "utill" %}</span>
                         </dd>
                     </dl>
                 {% else %}
-                    <p class="attendance-deadline">{% trans "No participation deadline" %}</p>
+                    <p class="attendance-deadline">{% trans "No deadline for application" %}</p>
                 {% endif %}
             </div>
         </div>
@@ -229,7 +229,7 @@
                 {% if user has 'events.change_event' of object %}
                     <a class="list-group-item"
                        href="{% url "events_event_update" object.pk %}"><span
-                            class="glyphicon glyphicon-pencil"></span> {% trans "Update the event" %}
+                            class="glyphicon glyphicon-pencil"></span> {% trans "Edit the event" %}
                     </a>
                 {% endif %}
                 {% if user has 'events.delete_event' of object %}

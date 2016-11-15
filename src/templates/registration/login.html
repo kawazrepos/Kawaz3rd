@@ -4,13 +4,13 @@
 {% load form_helper %}
 {% block content %}
     <div class="page-header">
-        <h1>{% trans "Login" %}</h1>
+        <h1>{% trans "Log in" %}</h1>
     </div>
     <form class="form-horizontal row" role="form" method="POST" action=".">{% csrf_token %}
         {% get_form_helper "bare" as helper %}
         {% crispy form helper %}
         <div class="form-group">
-            <input type="submit" class="btn btn-success btn-lg col-lg-offset-1 col-xs-offset-1" value="{% trans "Login" %}" />
+            <input type="submit" class="btn btn-success btn-lg col-lg-offset-1 col-xs-offset-1" value="{% trans "Log in" %}" />
         </div>
     </form>
 {% endblock %}
