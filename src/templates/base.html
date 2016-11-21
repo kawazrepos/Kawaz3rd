@@ -84,29 +84,29 @@
                             <li><a href="{% url "blogs_entry_author_list" author=user.username %}"><span class="glyphicon glyphicon-file"></span>{% trans "My entries" %}</a></li>
                             <li><a href="/drafts"><span class="glyphicon glyphicon-inbox"></span>{% trans "Manage drafts" %}</a></li>
                             <li role="presentation" class="divider"></li>
-                            <li><a href="{% url "personas_profile_update" %}"><span class="glyphicon glyphicon-pencil"></span>{% trans "Change profile" %}</a></li>
-                            <li><a href="{% url "personas_persona_update" %}"><span class="glyphicon glyphicon-user"></span>{% trans "Change user information" %}</a></li>
+                            <li><a href="{% url "personas_profile_update" %}"><span class="glyphicon glyphicon-pencil"></span>{% trans "Edit profile" %}</a></li>
+                            <li><a href="{% url "personas_persona_update" %}"><span class="glyphicon glyphicon-user"></span>{% trans "Edit user information" %}</a></li>
                             <li><a href="{% url "password_change" %}"><span class="glyphicon glyphicon-wrench"></span>{% trans "Change password" %}</a></li>
                             {% if user.is_staff or user.is_superuser %}
                                 <li role="presentation" class="divider"></li>
                             {% endif %}
                             {% if user.is_staff %}
                                 <li><a href="/central-dogma/" target="_blank"><span class="glyphicon glyphicon-cog"></span>{% trans "Central Dogma" %}</a></li>
-                                <li><a href=https://www.google.com/analytics/reporting/?reset=1&amp;id=38943028" target="_blank"><span class="glyphicon glyphicon-stats"></span>{% trans "Marduk institute" %}</a></li>
+                                <li><a href=https://www.google.com/analytics/reporting/?reset=1&amp;id=38943028" target="_blank"><span class="glyphicon glyphicon-stats"></span>{% trans "Marduk Institute" %}</a></li>
                             {% endif %}
                             {% if user has 'personas.assign_role_persona' %}
                                 {% if user.is_superuser %}
                                     <li>
                                         <a class="post-link"
                                            href="{% url "personas_persona_assign_seele" %}">
-                                            <span class="glyphicon glyphicon-tower"></span>{% trans "Demote to 'seele'" %}
+                                            <span class="glyphicon glyphicon-tower"></span>{% trans "Demote to 'Seele'" %}
                                             <form method="POST" style="display: none;">{% csrf_token %}</form>
                                         </a>
                                     </li>
                                 {% else %}
                                     <li>
                                         <a class="post-link"
-                                           confirm-message="{% trans "!CAUTION! Promoting to 'Adam' is strongly not recommended while you will have any permissions to any objects in this system. It means that you potentially cause critical damages on the system. Are you sure to promote?" %}"
+                                           confirm-message="{% trans "!CAUTION! Promoting to 'Adam' is strongly not recommended, for you will have ANY permissions to ANY objects in this system, which means you potentially cause critical damages on the system. Are you sure you want to promote?" %}"
                                            href="{% url "personas_persona_assign_adam" %}">
                                             <span class="glyphicon glyphicon-tower"></span>{% trans "Promote to 'Adam'" %}
                                             <form method="POST" style="display: none;">{% csrf_token %}</form>
@@ -115,13 +115,13 @@
                                 {% endif %}
                             {% endif %}
                             <li role="presentation" class="divider"></li>
-                            <li><a class="logout-link" href="{% url "logout" %}?next={{ request.path }}"><span class="glyphicon glyphicon-log-out"></span>{% trans "Logout" %}</a></li>
+                            <li><a class="logout-link" href="{% url "logout" %}?next={{ request.path }}"><span class="glyphicon glyphicon-log-out"></span>{% trans "Log out" %}</a></li>
                         </ul>
                     </div>
                 {% else %}
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            {% trans "Login" %} <b class="caret"></b>
+                            {% trans "Log in" %} <b class="caret"></b>
                         </button>
                         <ul class="dropdown-menu anonymous-menu" role="menu">
                             {% include "components/login_form.html" %}

@@ -5,17 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-10 22:48+0900\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2016-11-21 21:55+0900\n"
+"PO-Revision-Date: 2016-11-21 21:56+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: src/kawaz/apps/announcements/forms.py:12
 #: src/kawaz/apps/announcements/models.py:64 src/kawaz/apps/blogs/forms.py:20
@@ -121,7 +122,7 @@ msgstr "カテゴリ"
 msgid "Category name"
 msgstr "カテゴリ名"
 
-#: src/kawaz/apps/blogs/models.py:62 src/kawaz/apps/products/forms.py:46
+#: src/kawaz/apps/blogs/models.py:62 src/kawaz/apps/products/forms.py:41
 #: src/kawaz/apps/products/models.py:167
 msgid "Published at"
 msgstr "公開日"
@@ -149,7 +150,7 @@ msgid "The blog entry was successfully deleted."
 msgstr "ブログ記事を削除しました"
 
 #: src/kawaz/apps/events/filters.py:16 src/kawaz/apps/products/filters.py:68
-#: src/kawaz/apps/products/forms.py:36 src/kawaz/apps/products/models.py:87
+#: src/kawaz/apps/products/forms.py:33 src/kawaz/apps/products/models.py:87
 #: src/kawaz/apps/products/models.py:160 src/kawaz/apps/projects/models.py:22
 #: src/templates/blogs/entry_list.html:62
 #: src/templates/events/event_list.html:58
@@ -168,20 +169,20 @@ msgstr "すべて"
 msgid "Start time"
 msgstr "開始日時"
 
-#: src/kawaz/apps/events/forms.py:17 src/kawaz/apps/events/models.py:77
+#: src/kawaz/apps/events/forms.py:19 src/kawaz/apps/events/models.py:77
 msgid "End time"
 msgstr "終了日時"
 
-#: src/kawaz/apps/events/forms.py:18 src/kawaz/apps/events/models.py:85
+#: src/kawaz/apps/events/forms.py:22 src/kawaz/apps/events/models.py:85
 msgid "Attendance deadline"
 msgstr "参加締切日"
 
-#: src/kawaz/apps/events/forms.py:43 src/kawaz/apps/events/models.py:89
+#: src/kawaz/apps/events/forms.py:48 src/kawaz/apps/events/models.py:89
 #: src/templates/events/event_detail.html:200
 msgid "Attendees"
 msgstr "参加者"
 
-#: src/kawaz/apps/events/forms.py:46
+#: src/kawaz/apps/events/forms.py:50
 #, fuzzy
 #| msgid "Attend this event"
 msgid "Add attendees of this event"
@@ -330,31 +331,31 @@ msgstr "イベントの参加をやめました"
 msgid "The event is private or does not have start time."
 msgstr "このイベントは非公開状態であるか、開始日時が設定されていません"
 
-#: src/kawaz/apps/products/filters.py:63 src/kawaz/apps/products/forms.py:31
+#: src/kawaz/apps/products/filters.py:63 src/kawaz/apps/products/forms.py:29
 #: src/kawaz/apps/products/models.py:67 src/kawaz/apps/products/models.py:158
 #: src/templates/products/product_detail.html:135
 #: src/templates/products/product_list.html:53
 msgid "Platforms"
 msgstr "プラットフォーム"
 
-#: src/kawaz/apps/products/forms.py:22 src/kawaz/apps/products/models.py:80
+#: src/kawaz/apps/products/forms.py:23 src/kawaz/apps/products/models.py:80
 #: src/kawaz/apps/products/models.py:140 src/kawaz/apps/projects/models.py:107
 #: src/kawaz/core/personas/models/profile.py:98
 msgid "Description"
 msgstr "概要"
 
-#: src/kawaz/apps/products/forms.py:25 src/kawaz/apps/products/models.py:155
+#: src/kawaz/apps/products/forms.py:26 src/kawaz/apps/products/models.py:155
 #: src/kawaz/apps/projects/models.py:144
 #: src/templates/roughpages/drafts.authenticated.html:70
 #: src/templates/roughpages/helps/projects.html:7
 msgid "Project"
 msgstr "プロジェクト"
 
-#: src/kawaz/apps/products/forms.py:41 src/kawaz/apps/products/models.py:172
+#: src/kawaz/apps/products/forms.py:37 src/kawaz/apps/products/models.py:172
 msgid "Administrators"
 msgstr "プロジェクトの管理者"
 
-#: src/kawaz/apps/products/forms.py:44
+#: src/kawaz/apps/products/forms.py:39
 msgid "Add administrator users of this product"
 msgstr "この作品を管理できるユーザーを追加してください"
 
@@ -784,65 +785,65 @@ msgstr "誕生日"
 msgid "Service"
 msgstr "サービス"
 
-#: src/kawaz/core/personas/models/persona.py:45
+#: src/kawaz/core/personas/models/persona.py:47
 msgid "The `username` attribute is required"
 msgstr "ユーザー名の入力は必須です"
 
-#: src/kawaz/core/personas/models/persona.py:115
+#: src/kawaz/core/personas/models/persona.py:117
 msgid "Man"
 msgstr "男性"
 
-#: src/kawaz/core/personas/models/persona.py:116
+#: src/kawaz/core/personas/models/persona.py:118
 msgid "Woman"
 msgstr "女性"
 
-#: src/kawaz/core/personas/models/persona.py:117
+#: src/kawaz/core/personas/models/persona.py:119
 msgid "Unknown"
 msgstr "ひみつ"
 
-#: src/kawaz/core/personas/models/persona.py:121
+#: src/kawaz/core/personas/models/persona.py:123
 msgid "Adam"
 msgstr "アダム"
 
-#: src/kawaz/core/personas/models/persona.py:122
+#: src/kawaz/core/personas/models/persona.py:124
 msgid "Seele"
 msgstr "ゼーレ"
 
-#: src/kawaz/core/personas/models/persona.py:123
+#: src/kawaz/core/personas/models/persona.py:125
 msgid "Nerv"
 msgstr "ネルフ"
 
-#: src/kawaz/core/personas/models/persona.py:124
+#: src/kawaz/core/personas/models/persona.py:126
 msgid "Children"
 msgstr "チルドレン"
 
-#: src/kawaz/core/personas/models/persona.py:125
+#: src/kawaz/core/personas/models/persona.py:127
 msgid "Wille"
 msgstr "ヴィレ"
 
-#: src/kawaz/core/personas/models/persona.py:128
+#: src/kawaz/core/personas/models/persona.py:130
 #: src/templates/personas/service_detail.html:23
 msgid "Nickname"
 msgstr "ニックネーム"
 
-#: src/kawaz/core/personas/models/persona.py:129
+#: src/kawaz/core/personas/models/persona.py:131
 msgid "Mood message"
 msgstr "一言メッセージ"
 
-#: src/kawaz/core/personas/models/persona.py:130
+#: src/kawaz/core/personas/models/persona.py:132
 msgid "Avatar"
 msgstr "ユーザアイコン"
 
-#: src/kawaz/core/personas/models/persona.py:133
+#: src/kawaz/core/personas/models/persona.py:135
 #: src/templates/personas/persona_detail.html:59
 msgid "Gender"
 msgstr "性別"
 
-#: src/kawaz/core/personas/models/persona.py:135
+#: src/kawaz/core/personas/models/persona.py:137
 msgid "Role"
 msgstr "役職"
 
-#: src/kawaz/core/personas/models/persona.py:138
+#: src/kawaz/core/personas/models/persona.py:140
 msgid ""
 "The role this user belongs to. A user will get permissions of the role thus "
 "the user cannot change ones role for security reason."
@@ -850,15 +851,15 @@ msgstr ""
 "ユーザーが所属している役割です。この役割に応じて、ユーザーに権限が与えられま"
 "す。セキュリティ上の理由から、ユーザーは自分の役割を変更できません。"
 
-#: src/kawaz/core/personas/models/persona.py:148
+#: src/kawaz/core/personas/models/persona.py:150
 msgid "Persona"
 msgstr "ユーザー"
 
-#: src/kawaz/core/personas/models/persona.py:149
+#: src/kawaz/core/personas/models/persona.py:151
 msgid "Personas"
 msgstr "ユーザー"
 
-#: src/kawaz/core/personas/models/persona.py:201
+#: src/kawaz/core/personas/models/persona.py:203
 #, python-format
 msgid ""
 "The username '%(username)s' contains invalid characters. Letters, digits, "
@@ -867,7 +868,7 @@ msgstr ""
 "「%(username)s」というユーザー名には使えない文字列が含まれています。ユーザー"
 "名には英数字、アンダースコア、ハイフンのみが使えます"
 
-#: src/kawaz/core/personas/models/persona.py:207
+#: src/kawaz/core/personas/models/persona.py:209
 #, python-format
 msgid ""
 "The username '%(username)s' is reserved. Please chose a different username."
@@ -875,7 +876,7 @@ msgstr ""
 "ユーザー名「%(username)s」は既に使われているようです。他の名前を使ってくださ"
 "い"
 
-#: src/kawaz/core/personas/models/persona.py:223
+#: src/kawaz/core/personas/models/persona.py:225
 msgid "Required. 30 characters or fewer. Letters, digits and /-/_ only."
 msgstr ""
 "ユーザー名は30文字以下で、英数字、アンダースコア、ハイフンのみが使えます"
@@ -990,11 +991,11 @@ msgstr ""
 msgid "Remarks"
 msgstr "一言メッセージ"
 
-#: src/kawaz/settings.py:167
+#: src/kawaz/settings.py:175
 msgid "English"
 msgstr "英語"
 
-#: src/kawaz/settings.py:168
+#: src/kawaz/settings.py:176
 msgid "Japanese"
 msgstr "日本語"
 
@@ -1019,8 +1020,7 @@ msgstr "最近の活動"
 msgid "Google Calendar Event ID"
 msgstr "GoogleカレンダーのイベントID"
 
-#: src/templates/403.html:6 src/templates/403.html.py:8
-#: src/templates/500.html:10
+#: src/templates/403.html:6 src/templates/403.html:8 src/templates/500.html:10
 msgid "Permission denied"
 msgstr "権限がありません"
 
@@ -1033,7 +1033,7 @@ msgstr "このページにアクセスする権限がありません"
 msgid "Back to top"
 msgstr "トップへ戻る"
 
-#: src/templates/404.html:6 src/templates/404.html.py:8
+#: src/templates/404.html:6 src/templates/404.html:8
 msgid "Page not found"
 msgstr "ページが見つかりませんでした"
 
@@ -1106,7 +1106,6 @@ msgstr "お知らせを作成する"
 msgid "There is only one announcement announcement."
 msgid_plural "There are %(counter)s announcement entries."
 msgstr[0] "%(counter)s件のお知らせがあります"
-msgstr[1] "1件のお知らせがあります"
 
 #: src/templates/announcements/announcement_list.html:42
 msgid "Recent Announcements"
@@ -1123,7 +1122,7 @@ msgstr "最近のお知らせ"
 msgid "None"
 msgstr "未設定"
 
-#: src/templates/base.html:23 src/templates/base.html.py:28
+#: src/templates/base.html:23 src/templates/base.html:28
 msgid "Sapporo Game Creators' Community Kawaz"
 msgstr "札幌ゲーム製作者コミュニティ Kawaz"
 
@@ -1162,11 +1161,15 @@ msgid "Manage drafts"
 msgstr "下書きの管理"
 
 #: src/templates/base.html:87
-msgid "Change profile"
+#, fuzzy
+#| msgid "Edit your profile"
+msgid "Edit profile"
 msgstr "プロフィールを編集"
 
 #: src/templates/base.html:88 src/templates/personas/persona_form.html:11
-msgid "Change user information"
+#, fuzzy
+#| msgid "Change user information"
+msgid "Edit user information"
 msgstr "ユーザー情報の変更"
 
 #: src/templates/base.html:89
@@ -1178,18 +1181,27 @@ msgid "Central Dogma"
 msgstr "セントラルドグマ"
 
 #: src/templates/base.html:95
-msgid "Marduk institute"
+#, fuzzy
+#| msgid "Marduk institute"
+msgid "Marduk Institute"
 msgstr "マルドゥック機関"
 
 #: src/templates/base.html:102
-msgid "Demote to 'seele'"
+#, fuzzy
+#| msgid "Demote to 'seele'"
+msgid "Demote to 'Seele'"
 msgstr "「ゼーレ」に降格"
 
 #: src/templates/base.html:109
+#, fuzzy
+#| msgid ""
+#| "!CAUTION! Promoting to 'Adam' is strongly not recommended while you will "
+#| "have any permissions to any objects in this system. It means that you "
+#| "potentially cause critical damages on the system. Are you sure to promote?"
 msgid ""
-"!CAUTION! Promoting to 'Adam' is strongly not recommended while you will "
-"have any permissions to any objects in this system. It means that you "
-"potentially cause critical damages on the system. Are you sure to promote?"
+"!CAUTION! Promoting to 'Adam' is strongly not recommended, for you will have "
+"ANY permissions to ANY objects in this system, which means you potentially "
+"cause critical damages on the system. Are you sure you want to promote?"
 msgstr ""
 "！警告！「アダム」への昇格によりあらゆるオブジェクトに対するあらゆる権限を所"
 "有します。そのため貴方が操作を誤ることによりシステムに深刻なダメージを与える"
@@ -1201,14 +1213,14 @@ msgid "Promote to 'Adam'"
 msgstr "「アダム」に昇格"
 
 #: src/templates/base.html:118 src/templates/registration/logout.html:6
-msgid "Logout"
-msgstr "ログアウト"
+msgid "Log out"
+msgstr ""
 
 #: src/templates/base.html:124 src/templates/components/login_form.html:18
 #: src/templates/registration/login.html:7
 #: src/templates/registration/login.html:13
-msgid "Login"
-msgstr "ログイン"
+msgid "Log in"
+msgstr ""
 
 #: src/templates/blogs/entry_detail.html:26
 #: src/templates/blogs/entry_form.html:28
@@ -1216,7 +1228,9 @@ msgid "'s blog entries"
 msgstr "のブログ記事"
 
 #: src/templates/blogs/entry_detail.html:64
-msgid "Edit the blog entry"
+#, fuzzy
+#| msgid "Edit the blog entry"
+msgid "Edit this blog entry"
 msgstr "記事を編集"
 
 #: src/templates/blogs/entry_detail.html:67
@@ -1224,7 +1238,9 @@ msgid "Do you want to delete this entry?"
 msgstr "この記事を削除してもよろしいですか？"
 
 #: src/templates/blogs/entry_detail.html:68
-msgid "Delete the blog entry"
+#, fuzzy
+#| msgid "Delete the blog entry"
+msgid "Delete this blog entry"
 msgstr "記事を削除"
 
 #: src/templates/blogs/entry_form.html:10
@@ -1248,10 +1264,11 @@ msgstr "ブログ記事"
 msgid "There is one blog entry."
 msgid_plural "There are %(counter)s blog entries."
 msgstr[0] "%(counter)s件のブログ記事"
-msgstr[1] "1件のブログ記事"
 
 #: src/templates/blogs/entry_list.html:36
-msgid "There are no blog entries."
+#, fuzzy
+#| msgid "There are no blog entries."
+msgid "There are no drafts of blog entries."
 msgstr "ブログの下書きはありません"
 
 #: src/templates/blogs/entry_list.html:51
@@ -1267,8 +1284,12 @@ msgid "Post a comment"
 msgstr "コメントする"
 
 #: src/templates/comments/components/comment_form.html:19
+#, fuzzy
+#| msgid ""
+#| "Participants are only allowed to comment on the entry. Please login to "
+#| "comment."
 msgid ""
-"Participants are only allowed to comment on the entry. Please login to "
+"Only registered users are allowed to comment on the entry. Please log in to "
 "comment."
 msgstr ""
 "このエントリにはKawazメンバーのみコメントできます。コメントするにはログインし"
@@ -1279,7 +1300,9 @@ msgid "Do you want to delete this comment?"
 msgstr "この記事を削除してもよろしいですか？"
 
 #: src/templates/comments/components/comment_items.html:42
-msgid "This comment have been deleted."
+#, fuzzy
+#| msgid "This comment have been deleted."
+msgid "This comment has been deleted."
 msgstr "このコメントは削除されています"
 
 #: src/templates/comments/deleted.html:6
@@ -1431,7 +1454,6 @@ msgid "Published information"
 msgstr "掲載情報"
 
 #: src/templates/components/registration/index.anonymous.html:137
-#: src/templates/roughpages/registration.html:5
 msgid "How to participate"
 msgstr "メンバー登録について"
 
@@ -1507,7 +1529,7 @@ msgstr "イベントを作成する"
 #: src/templates/events/event_archive_month.html:42
 #: src/templates/events/event_archive_year.html:42
 #: src/templates/events/event_list.html:42
-msgid "Matching events can not be found"
+msgid "No events found"
 msgstr "該当するイベントは見つかりませんでした"
 
 #: src/templates/events/event_archive_month.html:58
@@ -1542,12 +1564,12 @@ msgstr "Googleマップでこの場所を見る"
 
 #: src/templates/events/event_detail.html:91
 #: src/templates/events/event_detail.html:171
-msgid "This event already has been closed."
-msgstr "このイベントはすでに終了しています"
+msgid "Event Ended"
+msgstr "イベントは終了しました"
 
 #: src/templates/events/event_detail.html:101
-msgid "Attend this event"
-msgstr "このイベントに参加"
+msgid "Join Event"
+msgstr "イベントに参加"
 
 #: src/templates/events/event_detail.html:107
 #: src/templates/events/event_detail.html:123
@@ -1555,27 +1577,32 @@ msgstr "このイベントに参加"
 msgid "Only one more person can join this event"
 msgid_plural "%(counter)s more people can join this event"
 msgstr[0] "あと%(counter)s人だけ参加できます"
-msgstr[1] "あと1人だけ参加できます"
 
 #: src/templates/events/event_detail.html:116
 #: src/templates/events/event_detail.html:142
-msgid "The participation has been closed"
+msgid "Application Closed"
 msgstr "参加者締め切りました"
 
 #: src/templates/events/event_detail.html:119
-msgid "Call for participats"
+#, fuzzy
+#| msgid "Application is open"
+msgid "Application Open"
 msgstr "参加者募集中"
 
 #: src/templates/events/event_detail.html:135
-msgid "Withdraw from the event"
-msgstr "参加をやめる"
+#, fuzzy
+#| msgid "Cancel participation"
+msgid "Cancel Participation"
+msgstr "イベントから抜ける"
 
 #: src/templates/events/event_detail.html:146
-msgid "You need to login to join the event."
-msgstr "イベントに参加するにはログインする必要があります"
+msgid "Log in to Join"
+msgstr "ログインして参加"
 
 #: src/templates/events/event_detail.html:153
-msgid "Participation deadline"
+#, fuzzy
+#| msgid "Participation deadline"
+msgid "Application deadline"
 msgstr "参加締切日"
 
 #: src/templates/events/event_detail.html:155
@@ -1583,18 +1610,19 @@ msgid "utill"
 msgstr "まで"
 
 #: src/templates/events/event_detail.html:159
-msgid "No participation deadline"
-msgstr "参加締切はありません"
+msgid "No deadline for application"
+msgstr ""
 
 #: src/templates/events/event_detail.html:203
 #, python-format
 msgid "There is one attendee."
 msgid_plural "There are %(counter)s attendees."
 msgstr[0] "%(counter)s人の参加者が居ます"
-msgstr[1] "1人の参加者が居ます"
 
 #: src/templates/events/event_detail.html:232
-msgid "Update the event"
+#, fuzzy
+#| msgid "Update the event"
+msgid "Edit the event"
 msgstr "イベントを編集"
 
 #: src/templates/events/event_detail.html:238
@@ -1630,10 +1658,13 @@ msgstr "%(nickname)sのプロフィール"
 #: src/templates/personas/persona_detail.html:10
 #: src/templates/personas/persona_detail.html:25
 #: src/templates/personas/persona_detail.html:92
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "%(nickname)s may conceal own profile from non participants. Please login "
+#| "to see the profile."
 msgid ""
-"%(nickname)s may conceal own profile from non participants. Please login to "
-"see the profile."
+"%(nickname)s is keeping the profile secret from non participants. Please "
+"login to see the profile."
 msgstr ""
 "%(nickname)sさんはプロフィールを非公開設定にしています。プロフィールを見るた"
 "めにはログインが必要です"
@@ -1673,12 +1704,16 @@ msgid "Joined Projects"
 msgstr "参加しているプロジェクト"
 
 #: src/templates/personas/persona_detail.html:203
-msgid "There are no joinned projects."
+#, fuzzy
+#| msgid "There are no joinned projects."
+msgid "There are no joined projects."
 msgstr "参加しているプロジェクトはありません"
 
 #: src/templates/personas/persona_form.html:6
 #: src/templates/personas/persona_form.html:15
-msgid "Change your user information"
+#, fuzzy
+#| msgid "Change your user information"
+msgid "Edit your user information"
 msgstr "ユーザー情報の変更"
 
 #: src/templates/personas/persona_list.html:67
@@ -1715,7 +1750,9 @@ msgid "More Details"
 msgstr "詳細ページ"
 
 #: src/templates/products/product_detail.html:65
-msgid "Play Now"
+#, fuzzy
+#| msgid "Play Now"
+msgid "Play Now!"
 msgstr "今すぐ遊ぶ！"
 
 #: src/templates/products/product_detail.html:89
@@ -1733,15 +1770,21 @@ msgid "Create a new product"
 msgstr "新規作品を公開する"
 
 #: src/templates/products/product_detail.html:120
-msgid "Update the product"
+#, fuzzy
+#| msgid "Update the product"
+msgid "Edit this product"
 msgstr "作品を編集"
 
 #: src/templates/products/product_detail.html:125
-msgid "Do you want to delete the product?"
+#, fuzzy
+#| msgid "Do you want to delete the product?"
+msgid "Do you want to delete this product?"
 msgstr "この作品を削除してもよろしいですか？"
 
 #: src/templates/products/product_detail.html:126
-msgid "Delete the product"
+#, fuzzy
+#| msgid "Delete the product"
+msgid "Delete this product"
 msgstr "作品を削除"
 
 #: src/templates/products/product_detail.html:163
@@ -1783,7 +1826,6 @@ msgstr "アーカイブされたプロジェクト"
 msgid "There is one archived project."
 msgid_plural "There are %(counter)s archived projects."
 msgstr[0] "%(counter)s件のアーカイブされたプロジェクトがあります"
-msgstr[1] "1件のアーカイブされたプロジェクトがあります"
 
 #: src/templates/projects/project_detail.html:58
 msgid "Tracker"
@@ -1798,10 +1840,18 @@ msgid "Last modified at"
 msgstr "最終更新日"
 
 #: src/templates/projects/project_detail.html:91
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                  <p>The status of this project is specified as 'done' "
+#| "but no product of this project exists.</p>\n"
+#| "                  <p>Please make a new product of this project to share "
+#| "the product release to external users.</p>\n"
+#| "              "
 msgid ""
 "\n"
-"                  <p>The status of this project is specified as 'done' but "
-"no product of this project exists.</p>\n"
+"                  <p>The status of this project is specified as 'complete' "
+"but no product of this project exists.</p>\n"
 "                  <p>Please make a new product of this project to share the "
 "product release to external users.</p>\n"
 "              "
@@ -1817,11 +1867,15 @@ msgid "Release product now"
 msgstr "いますぐ作品を公開する"
 
 #: src/templates/projects/project_detail.html:97
-msgid "Learn about product"
+#, fuzzy
+#| msgid "Learn about product"
+msgid "Learn more about product"
 msgstr "作品って何？"
 
 #: src/templates/projects/project_detail.html:102
-msgid "This project is already available! Let's play it now."
+#, fuzzy
+#| msgid "This project is already available! Let's play it now."
+msgid "This project is already complete and available! Let's play it now."
 msgstr "このプロジェクトは完成しています"
 
 #: src/templates/projects/project_detail.html:104
@@ -1857,15 +1911,21 @@ msgid "Create a new project"
 msgstr "新しいプロジェクトを作成する"
 
 #: src/templates/projects/project_detail.html:164
-msgid "Update the project"
+#, fuzzy
+#| msgid "Update the project"
+msgid "Edit this project"
 msgstr "プロジェクトを編集"
 
 #: src/templates/projects/project_detail.html:169
-msgid "Do you want to delete the project?"
+#, fuzzy
+#| msgid "Do you want to delete the project?"
+msgid "Do you want to delete this project?"
 msgstr "このプロジェクトを削除してよろしいですか？"
 
 #: src/templates/projects/project_detail.html:170
-msgid "Delete the project"
+#, fuzzy
+#| msgid "Delete the project"
+msgid "Delete this project"
 msgstr "プロジェクトを削除"
 
 #: src/templates/projects/project_list.html:19
@@ -1882,7 +1942,11 @@ msgstr "登録が完了しました！"
 
 #: src/templates/registration/logged_out.html:5
 msgid "Logged out from the account"
-msgstr "ログアウト"
+msgstr "ログアウトしました"
+
+#: src/templates/registration/logout.html:8
+msgid "Logged out!"
+msgstr "ログアウトしました。"
 
 #: src/templates/registration/password_change_done.html:5
 msgid "Your password has been updated."
@@ -1932,14 +1996,17 @@ msgid "Your application have been sent"
 msgstr "登録申請が送信されました"
 
 #: src/templates/registration/registration_complete.html:8
+#, fuzzy
+#| msgid ""
+#| "Your application was sent to administrators. We'll send back to you soon. "
+#| "Just a moment."
 msgid ""
-"Your application was sent to administrators. We'll send back to you soon. "
-"Just a moment."
+"Your application was sent to administrators. We'll reach back to you soon."
 msgstr "登録申請が送信されました！管理者から返信があるので少しお待ちください。"
 
 #: src/templates/registration/registration_form.html:8
-msgid "Application for join us"
-msgstr "Kawazに参加する"
+msgid "Join Kawaz!"
+msgstr "Kawazへ登録"
 
 #: src/templates/registration/registration_form.html:23
 msgid "Register"
@@ -1963,7 +2030,7 @@ msgstr "プロジェクトの下書きはありません"
 
 #: src/templates/roughpages/ggj.html:4
 msgid "Global Game Jam"
-msgstr ""
+msgstr "Global Game Jam"
 
 #: src/templates/roughpages/guideline/credits.html:4
 msgid "Guideline of credits"
@@ -1991,12 +2058,49 @@ msgstr "ようこそKawazへ！"
 msgid "Published articles"
 msgstr "掲載情報"
 
+#: src/templates/roughpages/registration.html:5
+#, fuzzy
+#| msgid "How to participate"
+msgid "How to register"
+msgstr "メンバー登録について"
+
 #: src/templates/twopane.html:15
 #, python-format
 msgid "There is an untreated registration"
 msgid_plural "There are %(counter)s untreated registrations"
 msgstr[0] "%(counter)s 件の未処理の会員登録申請があります"
-msgstr[1] "1件の未処理の会員登録申請があります"
+
+#~ msgid "This event already has been closed."
+#~ msgstr "このイベントはすでに終了しています"
+
+#~ msgid "Attend this event"
+#~ msgstr "このイベントに参加"
+
+#, fuzzy
+#~| msgid "The participation has been closed"
+#~ msgid "Application has been closed"
+#~ msgstr "参加者締め切りました"
+
+#~ msgid "You need to login to join the event."
+#~ msgstr "イベントに参加するにはログインする必要があります"
+
+#~ msgid "Change profile"
+#~ msgstr "プロフィールを編集"
+
+#~ msgid "Logout"
+#~ msgstr "ログアウト"
+
+#~ msgid "Login"
+#~ msgstr "ログイン"
+
+#~ msgid "Matching events can not be found"
+#~ msgstr "該当するイベントは見つかりませんでした"
+
+#~ msgid "Withdraw from the event"
+#~ msgstr "参加をやめる"
+
+#~ msgid "No participation deadline"
+#~ msgstr "参加締切はありません"
 
 #~ msgid "Grave"
 #~ msgstr "墓地"
