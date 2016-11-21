@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-15 18:32+0900\n"
-"PO-Revision-Date: 2016-11-15 18:36+0900\n"
+"POT-Creation-Date: 2016-11-21 21:55+0900\n"
+"PO-Revision-Date: 2016-11-21 21:56+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Last-Translator: \n"
-"Language-Team: \n"
 "X-Generator: Poedit 1.8.11\n"
 
 #: src/kawaz/apps/announcements/forms.py:12
@@ -1564,12 +1564,12 @@ msgstr "Googleマップでこの場所を見る"
 
 #: src/templates/events/event_detail.html:91
 #: src/templates/events/event_detail.html:171
-msgid "This event already has been closed."
-msgstr "このイベントはすでに終了しています"
+msgid "Event Ended"
+msgstr "イベントは終了しました"
 
 #: src/templates/events/event_detail.html:101
-msgid "Attend this event"
-msgstr "このイベントに参加"
+msgid "Join Event"
+msgstr "イベントに参加"
 
 #: src/templates/events/event_detail.html:107
 #: src/templates/events/event_detail.html:123
@@ -1580,22 +1580,24 @@ msgstr[0] "あと%(counter)s人だけ参加できます"
 
 #: src/templates/events/event_detail.html:116
 #: src/templates/events/event_detail.html:142
-#, fuzzy
-#| msgid "The participation has been closed"
-msgid "Application has been closed"
+msgid "Application Closed"
 msgstr "参加者締め切りました"
 
 #: src/templates/events/event_detail.html:119
-msgid "Application is open"
+#, fuzzy
+#| msgid "Application is open"
+msgid "Application Open"
 msgstr "参加者募集中"
 
 #: src/templates/events/event_detail.html:135
-msgid "Cancel participation"
+#, fuzzy
+#| msgid "Cancel participation"
+msgid "Cancel Participation"
 msgstr "イベントから抜ける"
 
 #: src/templates/events/event_detail.html:146
-msgid "You need to login to join the event."
-msgstr "イベントに参加するにはログインする必要があります"
+msgid "Log in to Join"
+msgstr "ログインして参加"
 
 #: src/templates/events/event_detail.html:153
 #, fuzzy
@@ -2067,6 +2069,20 @@ msgstr "メンバー登録について"
 msgid "There is an untreated registration"
 msgid_plural "There are %(counter)s untreated registrations"
 msgstr[0] "%(counter)s 件の未処理の会員登録申請があります"
+
+#~ msgid "This event already has been closed."
+#~ msgstr "このイベントはすでに終了しています"
+
+#~ msgid "Attend this event"
+#~ msgstr "このイベントに参加"
+
+#, fuzzy
+#~| msgid "The participation has been closed"
+#~ msgid "Application has been closed"
+#~ msgstr "参加者締め切りました"
+
+#~ msgid "You need to login to join the event."
+#~ msgstr "イベントに参加するにはログインする必要があります"
 
 #~ msgid "Change profile"
 #~ msgstr "プロフィールを編集"
