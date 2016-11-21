@@ -14,3 +14,4 @@ class PersonaFilter(FilterSet):
 
     class Meta:
         model = Persona
+        exclude = ('avatar',)
