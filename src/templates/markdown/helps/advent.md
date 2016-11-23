@@ -10,6 +10,7 @@
 
 ## 過去のKawaz Advent Calendar
 
+- [2016](http://www.adventar.org/calendars/1728)
 - [2015](http://www.adventar.org/calendars/824)
 - [2014](http://www.kawaz.org/blogs/giginet/2014/12/1/644/)
 - [2013](http://www.kawaz.org/blogs/giginet/2013/11/29/540/)
