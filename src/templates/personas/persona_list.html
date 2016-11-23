@@ -13,11 +13,11 @@
 {% endblock %}
 {% block content-header %}
     <div class="page-header">
-        <h1>{% trans "Members" %}({{ filter | length }})</h1>
+        <h1>{% trans "Members" %}({{ filter.qs | length }})</h1>
     </div>
 {% endblock %}
 {% block content-main %}
-    {% if filter|length_is:"0" %}
+    {% if filter.qs|length_is:"0" %}
         <div class="alert alert-info">
             <p>該当するメンバーは存在しません</p>
         </div>
