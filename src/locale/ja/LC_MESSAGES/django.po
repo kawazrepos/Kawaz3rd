@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-21 21:55+0900\n"
-"PO-Revision-Date: 2016-11-23 17:43+0900\n"
+"PO-Revision-Date: 2016-11-23 18:14+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -1154,7 +1154,7 @@ msgstr "下書きの管理"
 
 #: src/templates/base.html:87
 msgid "Edit profile"
-msgstr "プロフィールを\b編集"
+msgstr "プロフィールを編集"
 
 #: src/templates/base.html:88 src/templates/personas/persona_form.html:11
 msgid "Edit user information"
