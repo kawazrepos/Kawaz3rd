@@ -4,7 +4,7 @@ from .utils import is_quoated
 
 
 PATTERN = re.compile(
-    r"https?://(www\.youtube\.com/watch\?v=|youtu\.be\/)(?P<id>[a-zA-Z0-9_\-]+)"
+    r"https?://(:?www\.youtube\.com/watch\?v=|youtu\.be\/)(?P<id>[a-zA-Z0-9_\-]+)"
 )
 TEMPLATE_NAME = r"kfm/extras/youtube.html"
 
