@@ -316,7 +316,7 @@ class EventListViewTestCase(TestCase):
                                           password='password'))
         r = self.client.get('/events/?category={}'.format(category.pk))
         self.assertTemplateUsed(r, 'events/event_list.html')
-        self.assertEqual(len(r.context['filter'].qs), 1)
+        self.assertEqual(r.context['filter'].qs.count(), 1)
         self.assertTrue(event1 in r.context['filter'].qs)
 
 

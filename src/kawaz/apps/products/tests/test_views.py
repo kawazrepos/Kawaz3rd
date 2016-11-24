@@ -110,7 +110,7 @@ class ProductListViewTestCase(ViewTestCaseBase):
             self.prefer_login(user)
             r = self.client.get('/products/?platforms={}'.format(self.p0.pk))
             self.assertTemplateUsed(r, 'products/product_list.html')
-            self.assertEqual(len(r.context['filter'].qs), 1)
+            self.assertEqual(r.context['filter'].qs.count(), 1)
             self.assertIn(product1, r.context['filter'].qs)
             self.assertNotIn(product2, r.context['filter'].qs)
 
@@ -123,7 +123,7 @@ class ProductListViewTestCase(ViewTestCaseBase):
         self.prefer_login(self.members[0])
         r = self.client.get('/products/?categories={}'.format(self.c0.pk))
         self.assertTemplateUsed(r, 'products/product_list.html')
-        self.assertEqual(len(r.context['filter'].qs), 1)
+        self.assertEqual(r.context['filter'].qs.count(), 1)
         self.assertIn(product1, r.context['filter'].qs)
         self.assertNotIn(product2, r.context['filter'].qs)
 
