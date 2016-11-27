@@ -35,7 +35,7 @@
 
 {% block content-main %}
     <div class="event-list-wrap">
-        {% for event in filter %}
+        {% for event in filter.qs %}
             {% include "events/components/list-item.html" %}
         {% empty %}
             <div class="alert alert-info">
