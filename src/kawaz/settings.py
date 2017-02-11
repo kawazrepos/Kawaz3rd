@@ -324,6 +324,7 @@ SUIT_CONFIG = dict(
 
 # django-debug-toolbar
 def show_debug_toolbar(request):
+    return False
     from django.conf import settings
     if settings.TESTING:
         return False
