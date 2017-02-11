@@ -1,3 +1,3 @@
-PyMySQL<0.7.0
+mysqlclient
 gunicorn
-git+https://github.com/kawazrepos/pylibmc.git@master#egg=pylibmc
+pylibmc
