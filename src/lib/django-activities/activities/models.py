@@ -70,7 +70,7 @@ class Activity(models.Model):
     objects = ActivityManager()
 
     class Meta:
-        ordering = ('-created_at',)
+        ordering = ('-pk',)
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
 
