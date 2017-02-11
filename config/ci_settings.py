@@ -9,6 +9,8 @@ DATABASES = {
         'PORT': '',
         'OPTIONS': {
             'connect_timeout': 60,
+            'init_command' : 'SET foreign_key_checks = 0;SET time_zone = "+00:00"',
         },
+        'STORAGE_ENGINE': 'INNODB',
     },
 }
