@@ -12,7 +12,6 @@ SECRET_KEY = 'ここに十分に長いランダムな文字列'
 # 開発モードを指定
 DEBUG = True
 PRODUCT = False
-TEMPLATE_DEBUG = True
 
 # アクティブなサイトIDを指定
 SITE_ID = 1
@@ -34,7 +33,6 @@ INSTALLED_APPS = (
     'permission',
     'registration.contrib.notification',
     'debug_toolbar',
-    'template_timings_panel',
     'vcs_info_panel',
     'thumbnailfield',
     'roughpages',
@@ -81,22 +79,31 @@ MIDDLEWARE_CLASSES = (
     'roughpages.middleware.RoughpageFallbackMiddleware',
 )
 
-# テンプレート保存ディレクトリの指定
-TEMPLATE_DIRS = (
-    os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
-)
-
-# テンプレートコンテキストプロセッサの指定
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.core.context_processors.request",
-    "django.contrib.auth.context_processors.auth",
-    "django.contrib.messages.context_processors.messages",
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS': {
+            'builtins': [
+                'permission.templatetags.permissionif',
+                'kawaz.core.templatetags.templatetags.expr',
+                'kawaz.apps.kfm.templatetags.kfm',
+            ],
+            'context_processors': [
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+        'APP_DIRS': True,
+        'DIRS': [
+            os.path.join(REPOSITORY_ROOT, 'src', 'templates'),
+        ]
+    },
+]
 
 # データベースの設定
 DATABASES = {
@@ -337,7 +344,6 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.sql.SQLPanel',
     'debug_toolbar.panels.staticfiles.StaticFilesPanel',
     'debug_toolbar.panels.templates.TemplatesPanel',
-    'template_timings_panel.panels.TemplateTimings.TemplateTimings',
     'debug_toolbar.panels.cache.CachePanel',
     'debug_toolbar.panels.signals.SignalsPanel',
     'debug_toolbar.panels.profiling.ProfilingPanel',

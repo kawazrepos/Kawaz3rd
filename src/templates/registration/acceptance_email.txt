@@ -1,4 +1,3 @@
-{% load url from future %}
 {% load settings %}
 
 {{ site.name }}:
@@ -22,9 +21,13 @@ http://{{ site.domain }}{% url 'registration_activate' activation_key=activation
 - Skype/Twitterなどの連絡先
 
 また、KawazではSlackというチャットツールの設定を使って交流やゲーム開発を行っています。
-以下の設定を参考に必ず登録作業をお願いします。
-
+詳しい登録作業については、以下のページを参照してください。
 http://www.kawaz.org/helps/slack/
+
+このメールと同時に、KawazのSlackから招待メールが届きます。
+メールの差出人は「Slack」もしくはfeedback@slack.com、
+メールのタイトルは「Kawaz Inonaka invited you to join Kawaz on Slack」のはずです。
+そのメールの中の「Join Kawaz」のボタンから登録することができます。
 
 
 このメールが身に覚えのない方はお手数ですが webmaster@kawaz.org までご連絡をお願いいたします。

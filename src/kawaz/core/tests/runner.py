@@ -1,5 +1,6 @@
 import shutil
 import tempfile
+import warnings
 
 from django.conf import settings
 

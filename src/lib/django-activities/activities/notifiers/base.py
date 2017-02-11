@@ -3,7 +3,6 @@
 """
 
 from django.template import Context
-from django.contrib.sites.models import Site
 
 
 class ActivityNotifierBase(object):
@@ -32,14 +31,16 @@ class ActivityNotifierBase(object):
         """
         Notify the activity change via 'send' method of this instance
         """
+
+        from django.contrib.sites.models import Site
         if not self.enable:
             return
         if typename is None:
             typename = self.get_typename()
         if context is None:
-            context = Context({
+            context = {
                 'site': Site.objects.get_current(),
-            })
+            }
             # TODO Test me!!!
             # 実際にrenderのcontextとして`site`が渡されているかテストされていない
             # (notifierのテストではMediatorのMockを使っているため)

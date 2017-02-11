@@ -6,7 +6,7 @@ from .factories import Comment, CommentTestArticle, CommentFactory
 from ..perms import CommentPermissionLogic
 
 
-class StarPermissionLogicTestCase(BasePermissionLogicTestCase):
+class CommentPermissionLogicTestCase(BasePermissionLogicTestCase):
     app_label = 'django_comments'
     model_name = 'comment'
 

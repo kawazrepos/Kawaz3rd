@@ -39,7 +39,7 @@
             </header>
             <div class="comment-body comment-body">
                 {% if comment.is_removed %}
-                    <span class="comment-deleted">{% trans "This comment have been deleted." %}</span>
+                    <span class="comment-deleted">{% trans "This comment has been deleted." %}</span>
                 {% else %}
                     {% if comment.user.is_authenticated %}
                         {# ログインユーザーはmarkdownを使える #}

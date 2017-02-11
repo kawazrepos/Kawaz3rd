@@ -25,6 +25,12 @@ class ParseYouTubeURLsTestCase(TestCase):
         value = parse_youtube_urls(value)
         self.assertEqual(value, self._render_template(self.video_id))
 
+    def test_parse_shorten_youtube_urls(self):
+        """短縮されたYouTubeのURLは展開される"""
+        value = "https://youtu.be/{}".format(self.video_id)
+        value = parse_youtube_urls(value)
+        self.assertEqual(value, self._render_template(self.video_id))
+
     def test_parse_youtube_urls_responsive(self):
         """YouTubeのURLはレスポンシブ展開される"""
         value = self.template_str.format(self.video_id)

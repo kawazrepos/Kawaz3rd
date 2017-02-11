@@ -89,17 +89,17 @@
       {% if user has 'projects.change_project' of project and project.product == None and project.status == 'done' %}
           <div class="alert alert-warning release-alert">
               {% blocktrans %}
-                  <p>The status of this project is specified as 'done' but no product of this project exists.</p>
+                  <p>The status of this project is specified as 'complete' but no product of this project exists.</p>
                   <p>Please make a new product of this project to share the product release to external users.</p>
               {% endblocktrans %}
               <div>
                   <a class="btn btn-success btn-lg" href="{% url "products_product_create" %}?project={{ project.pk }}">{% trans "Release product now" %}</a>
-                  <a href="/helps/products/" class="learn-product">{% trans "Learn about product" %}</a>
+                  <a href="/helps/products/" class="learn-product">{% trans "Learn more about product" %}</a>
               </div>
           </div>
       {% elif project.product %}
           <div class="alert alert-warning release-alert">
-              <p>{% trans "This project is already available! Let's play it now." %}</p>
+              <p>{% trans "This project is already complete and available! Let's play it now." %}</p>
               <div>
                   <a class="btn btn-success btn-lg" href="{{ project.product.get_absolute_url }}">{% blocktrans with title=project.product.title %}Play {{ title }} now{% endblocktrans %}</a>
               </div>
@@ -161,13 +161,13 @@
                   <a class="list-group-item list-group-item-success" href="{% url "projects_project_create" %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new project" %}</a>
               {% endif %}
               {% if user has 'projects.change_project' of object %}
-                  <a class="list-group-item" href="{% url "projects_project_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Update the project" %}</a>
+                  <a class="list-group-item" href="{% url "projects_project_update" object.pk %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Edit this project" %}</a>
               {% endif %}
               {% if user has 'projects.delete_project' of object %}
                   <a class="list-group-item list-group-item-danger post-link"
                      href="{% url "projects_project_delete" object.pk %}"
-                     confirm-message="{% trans "Do you want to delete the project?" %}">
-                      <span class="glyphicon glyphicon-remove"></span> {% trans "Delete the project" %}
+                     confirm-message="{% trans "Do you want to delete this project?" %}">
+                      <span class="glyphicon glyphicon-remove"></span> {% trans "Delete this project" %}
                       <form method="POST" style="display: none;">{% csrf_token %}</form>
                   </a>
               {% endif %}

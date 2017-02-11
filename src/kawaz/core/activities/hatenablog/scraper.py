@@ -24,7 +24,7 @@ class HatenablogFeedScraper(object):
         r = requests.get(self.url)
         r.raise_for_status()
 
-        s = BeautifulSoup(r.text)
+        s = BeautifulSoup(r.text, 'html.parser')
         entries = s.find_all('item')
         n = len(entries)
         ncreated = 0
@@ -58,7 +58,7 @@ class HatenablogFeedScraper(object):
     def _fetch_entry_thumbnail(self, entry):
         r = requests.get(entry.link.string)
         r.raise_for_status()
-        s = BeautifulSoup(r.text)
+        s = BeautifulSoup(r.text, 'html.parser')
         thumbnail_url = None
         for meta in s.find_all('meta'):
             if meta.get('property', None) == 'og:image':

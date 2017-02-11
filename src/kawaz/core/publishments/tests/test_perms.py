@@ -1,13 +1,13 @@
 from django.test import TestCase
-from django.contrib.auth.models import AnonymousUser
 from permission import add_permission_logic
-from kawaz.core.personas.tests.factories import PersonaFactory
 from ..perms import PublishmentPermissionLogic
-from .models import PublishmentTestArticle as Article
 
 
 class PublishmentPermissionLogicTestCase(TestCase):
     def setUp(self):
+        from django.contrib.auth.models import AnonymousUser
+        from kawaz.core.personas.tests.factories import PersonaFactory
+        from .models import PublishmentTestArticle as Article
         self.users = dict(
             adam=PersonaFactory(role='adam'),
             seele=PersonaFactory(role='seele'),
@@ -46,6 +46,7 @@ class PublishmentPermissionLogicTestCase(TestCase):
         """
         Anyone have a potential to see the model
         """
+        from .models import PublishmentTestArticle as Article
         permission_logic = PublishmentPermissionLogic()
         add_permission_logic(Article, permission_logic)
         self._test_permission('adam')
@@ -59,6 +60,7 @@ class PublishmentPermissionLogicTestCase(TestCase):
         """
         Anyone can see the public model
         """
+        from .models import PublishmentTestArticle as Article
         permission_logic = PublishmentPermissionLogic()
         add_permission_logic(Article, permission_logic)
         self._test_permission('adam', 'public')
@@ -72,6 +74,7 @@ class PublishmentPermissionLogicTestCase(TestCase):
         """
         Authenticated user except wille can see the protected model
         """
+        from .models import PublishmentTestArticle as Article
         permission_logic = PublishmentPermissionLogic()
         add_permission_logic(Article, permission_logic)
         self._test_permission('adam', 'protected')
@@ -85,6 +88,7 @@ class PublishmentPermissionLogicTestCase(TestCase):
         """
         Nobody except the author and adam can see the draft model
         """
+        from .models import PublishmentTestArticle as Article
         permission_logic = PublishmentPermissionLogic()
         add_permission_logic(Article, permission_logic)
         self._test_permission('adam', 'draft')

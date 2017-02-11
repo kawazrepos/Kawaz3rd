@@ -16,6 +16,7 @@ from .models import Screenshot
 from .models import PackageRelease
 from .models import URLRelease
 
+
 class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
     form_tag = False
 
@@ -24,22 +25,16 @@ class ProductBaseForm(Bootstrap3HorizontalFormHelperMixin, ModelForm):
         queryset=Project.objects.filter(status='done'),
         label=_('Project'),
         required=False)
-    # cache_choicesを有効にしないとめちゃくちゃクエリが吐かれる
-    # 実測値で20倍程度遅くなっていた
-    # Ref : http://simionbaws.ro/programming/django-checkboxselectmultiple-with-modelmultiplechoicefield-generates-too-many-queries/
     platforms = forms.ModelMultipleChoiceField(
         label=_('Platforms'),
         widget=widgets.CheckboxSelectMultiple,
-        cache_choices=True,
         queryset=Platform.objects.all().order_by('pk'))
     categories = forms.ModelMultipleChoiceField(
         label=_('Categories'),
         widget=widgets.CheckboxSelectMultiple,
-        cache_choices=True,
         queryset=Category.objects.all().order_by('pk'))
     administrators = PersonaChoiceField(
         label=_('Administrators'),
-        cache_choices=True,
         queryset=Persona.objects.filter(is_active=True).order_by('pk'),
         help_text=_('Add administrator users of this product'))
     published_at = forms.DateField(

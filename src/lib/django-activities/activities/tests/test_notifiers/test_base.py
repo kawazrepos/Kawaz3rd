@@ -35,7 +35,7 @@ class ActivityNotifierBaseTestCase(TestCase):
         registry.get = MagicMock(return_value=mediator)
 
         activity = MagicMock()
-        context = MagicMock()
+        context = {}
         typename = MagicMock()
 
         notifier = ActivityNotifierBase()
@@ -55,7 +55,7 @@ class ActivityNotifierBaseTestCase(TestCase):
         notifier.send = MagicMock()
 
         activity = MagicMock()
-        context = MagicMock()
+        context = {}
 
         notifier.notify(activity, context, typename)
         self.assertFalse(notifier.get_typename.called)

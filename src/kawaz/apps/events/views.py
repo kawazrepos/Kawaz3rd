@@ -12,9 +12,9 @@ from django.http.response import HttpResponseRedirect, HttpResponseForbidden, Ht
 from django_filters.views import FilterView
 from django.utils.translation import ugettext as _
 from .filters import EventFilter
-from django.http.response import HttpResponse
 from django.http.response import StreamingHttpResponse
-from django.core.servers.basehttp import FileWrapper
+
+from wsgiref.util import FileWrapper
 
 from permission.decorators import permission_required
 from kawaz.core.views.delete import DeleteSuccessMessageMixin

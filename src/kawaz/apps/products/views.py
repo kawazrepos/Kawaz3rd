@@ -147,7 +147,7 @@ class ProductCreateView(ProductFormMixin, CreateView):
     model = Product
     form_class = ProductCreateForm
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=ProductCreateForm):
         form = super().get_form(form_class)
         # Contact Infoの初期値としてニックネームとメールアドレスを入れている
         user = getattr(self.request, 'user')

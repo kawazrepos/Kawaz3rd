@@ -45,7 +45,7 @@ class EntryCreateView(SuccessMessageMixin, CreateView):
     model = Entry
     form_class = EntryForm
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=EntryForm):
         # Model.cleanでValidationを行うために
         # ここで作者を設定している
         # 議論参照

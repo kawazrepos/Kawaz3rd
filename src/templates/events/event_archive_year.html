@@ -39,7 +39,7 @@
             {% include "events/components/list-item.html" %}
         {% empty %}
             <div class="alert alert-info">
-                <p>{% trans "Matching events can not be found" %}</p>
+                <p>{% trans "No events found" %}</p>
                 {% if user has 'events.add_event' %}
                     <a href="{% url "events_event_create" %}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new event" %}</a>
                 {% endif %}
@@ -60,7 +60,7 @@
       <div class="list-group">
       {% get_monthly_archives as archives %}
       {% for archive in archives %}
-        <a class="list-group-item{% if archive.url = request.path %} active{% endif %}" href="{{ archive.url }}">{{ archive.date | date:"Y年月" }}（{{ archive.count }}）</a>
+        <a class="list-group-item{% if archive.url == request.path %} active{% endif %}" href="{{ archive.url }}">{{ archive.date | date:"Y年月" }}（{{ archive.count }}）</a>
       {% endfor %}
       </div>
     </div>

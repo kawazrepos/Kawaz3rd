@@ -30,7 +30,7 @@ class RenderActivityNode(template.Node):
         else:
             typename = None
         context.push()
-        rendered = mediator.render(activity, context, typename=typename)
+        rendered = mediator.render(activity, context.flatten(), typename=typename)
         context.pop()
         return mark_safe(rendered)
 

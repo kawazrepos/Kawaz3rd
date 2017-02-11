@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import ProjectListView, ProjectPreviewView
 from .views import ProjectUpdateView
@@ -10,7 +10,7 @@ from .views import ProjectQuitView
 from .views import ProjectArchiveView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url('^$',
         ProjectListView.as_view(), name='projects_project_list'),
     url('^create/$',
@@ -29,4 +29,4 @@ urlpatterns = patterns('',
         ProjectDeleteView.as_view(), name='projects_project_delete'),
     url('^(?P<slug>[\w_-]+)/$', 
         ProjectDetailView.as_view(), name='projects_project_detail'),
-)
+]

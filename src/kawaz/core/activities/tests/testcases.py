@@ -32,7 +32,7 @@ class BaseActivityMediatorTestCase(TestCase):
         activity = activities[0]
         self.assertEqual(activity.status, 'updated')
         mediator = registry.get(activity)
-        context = Context()
+        context = {}
         context = mediator.prepare_context(activity, context)
         for name in context_names:
             self.assertTrue(
@@ -75,11 +75,11 @@ class BaseActivityMediatorTestCase(TestCase):
 
         self._test_render(activity)
         mediator = registry.get(activity)
-        context = mediator.prepare_context(activity, Context())
+        context = mediator.prepare_context(activity, {})
         self.assertTrue('comment' in context,
                         "context doesn't contain 'comment'")
 
 
     def _test_render(self, activity):
         mediator = registry.get(activity)
-        self.assertTrue(mediator.render(activity, Context()))
+        self.assertTrue(mediator.render(activity, {}))
