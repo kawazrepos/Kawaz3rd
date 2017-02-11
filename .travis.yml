@@ -8,7 +8,7 @@ before_install:
   - ./utils/decrypt-files $password_for_secret_files
   - git submodule update --init --recursive
   - mv config/ci_settings.py src/kawaz/local_settings.py
-  - mysql -uroot -e "create database test_kawaz_travis"
+  - mysql -uroot -e "create database kawaz_travis"
 install:
 - pip install tox
 - pip install coverage coveralls

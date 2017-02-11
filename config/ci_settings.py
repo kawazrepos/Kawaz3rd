@@ -1,8 +1,8 @@
 # テスト用データーベースの設定
 DATABASES = {
-    'TEST': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test_kawaz_travis',
+        'NAME': 'kawaz_travis',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -10,5 +10,5 @@ DATABASES = {
         'OPTIONS': {
             'connect_timeout': 60,
         },
-    }
+    },
 }
