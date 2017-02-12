@@ -470,3 +470,33 @@ class EntryCategoryListView(TestCase):
         self.assertTrue(entry2 in r.context['object_list'])
 
         self.assertTrue('author' in r.context)
+
+
+class EntryDeleteViewTestCase(TestCase):
+    def setUp(self):
+        self.user = PersonaFactory(username='author_kawaztan')
+        self.user.set_password('password')
+        self.other = PersonaFactory(username='black_kawaztan')
+        self.user.save()
+        self.other.save()
+        self.entry = EntryFactory(title='かわずたんだよ☆', author=self.user)
+
+    def test_anonymous_user_can_not_delete_via_delete_view(self):
+        '''非ログインユーザーは記事の削除ができない'''
+        r = self.client.post('/blogs/author_kawaztan/1/delete/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/delete/')
+        self.assertEqual(self.entry.title, 'かわずたんだよ☆')
+
+    def test_other_user_cannot_delete_via_delete_view(self):
+        '''作者以外のユーザーは記事の削除ができない'''
+        self.assertTrue(self.client.login(username=self.other, password='password'))
+        r = self.client.post('/blogs/author_kawaztan/1/delete/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/delete/')
+        self.assertEqual(self.entry.title, 'かわずたんだよ☆')
+
+    def test_author_can_delete_via_delete_view(self):
+        '''作者は記事を削除できる'''
+        self.assertTrue(self.client.login(username=self.user, password='password'))
+        r = self.client.post('/blogs/author_kawaztan/1/delete/')
+        self.assertRedirects(r, '/blogs/')
+        self.assertEqual(Entry.objects.count(), 0)
