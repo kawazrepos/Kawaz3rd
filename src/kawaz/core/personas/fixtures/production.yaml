@@ -164,7 +164,7 @@
   pk: 15
   fields:
     label: Steam
-    url_pattern: http://steamcommunity.com/personas/{username}/
+    url_pattern: http://steamcommunity.com/id/{username}/
     icon: personas/services/steam.png
 - model: personas.service
   pk: 16
