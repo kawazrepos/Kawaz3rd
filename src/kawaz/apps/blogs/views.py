@@ -8,6 +8,7 @@ from django.views.generic import DayArchiveView
 from django.views.generic import MonthArchiveView
 from django.views.generic import YearArchiveView
 from django.views.generic.dates import MultipleObjectMixin
+from django.core.urlresolvers import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
@@ -85,6 +86,7 @@ class EntryUpdateView(SuccessMessageMixin, UpdateView):
 @permission_required('blogs.delete_entry')
 class EntryDeleteView(DeleteSuccessMessageMixin, DeleteView):
     model = Entry
+    success_url = reverse_lazy('blogs_entry_list')
 
     def get_success_message(self):
         return _("The blog entry was successfully deleted.")
