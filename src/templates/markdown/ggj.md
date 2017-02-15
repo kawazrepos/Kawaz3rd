@@ -8,8 +8,16 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 
 札幌会場は@geekdrumsの提案により、2011年から開催しています。
 
+- [2017](#2017)
+- [2016](#2016)
+- [2015](#2015)
+- [2014](#2014)
+- [2013](#2013)
+- [2012](#2012)
+- [2011](#2011)
 
-## 2017年
+
+## <a name="2017"></a>2017年
 
 この年から札幌会場の場所が変わり、<a href="http://www.yoshida-jobi.jp/">吉田学園情報ビジネス専門学校</a>に。
 
@@ -67,7 +75,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
 
 
 
-## 2016年
+## <a name="2016"></a>2016年
 
 会場は<a href="http://www.iga.ac.jp/">池上学院グローバルアカデミー専門学校</a>（札幌会場）と、定山渓ホテル（定山渓会場）
 
@@ -122,7 +130,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
 </div>
 
 
-## 2015年
+## <a name="2015"></a>2015年
 
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2015.png)
 
@@ -164,7 +172,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
 
 
 
-## 2014年
+## <a name="2014"></a>2014年
 
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2014.jpg)
 
@@ -211,7 +219,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
 
 
 
-## 2013年
+## <a name="2013"></a>2013年
 この年から、会場は<a href="http://www.iga.ac.jp/">池上学院グローバルアカデミー専門学校</a>さんを借り切っての開催になりました。
 
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2013.png)
@@ -260,7 +268,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
 
 
 
-## 2012年
+## <a name="2012"></a>2012年
 
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2012.png)
 
@@ -304,7 +312,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
 
 
 
-## 2011年
+## <a name="2011"></a>2011年
 
 <table>
   <tr>
