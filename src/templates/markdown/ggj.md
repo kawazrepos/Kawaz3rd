@@ -34,7 +34,7 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
   </tr>
   <tr>
     <th>参加人数（札幌会場 / 定山渓会場）</th>
-    <td>138 / 12</td>
+    <td>118 / 12</td>
   </tr>
   <tr>
     <th>チーム数（札幌会場 / 定山渓会場）</th>
@@ -42,7 +42,7 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
   </tr>
   <tr>
     <th>オーガナイザー（札幌会場 / 定山渓会場）</th>
-    <td>@miiojp / @giginet</td>
+    <td>@miiojp @Tosh / @giginet</td>
   </tr>
 </table>
 
@@ -81,6 +81,8 @@ https://www.youtube.com/watch?v=PycGYySbL1A
 
 「温泉行きたいしどうせなら定山渓でGGJやろうぜ！！」と、この年から定山渓会場がスタート。
 
+札幌会場はGlobal Game Jam Sapporo実行委員会に運営を移管。
+
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2016.png)
 
 <table>
@@ -94,7 +96,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
   </tr>
   <tr>
     <th>参加人数（札幌会場 / 定山渓会場）</th>
-    <td>109 / 13</td>
+    <td>84 / 13</td>
   </tr>
   <tr>
     <th>チーム数（札幌会場 / 定山渓会場）</th>
@@ -102,7 +104,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
   </tr>
   <tr>
     <th>オーガナイザー（札幌会場 / 定山渓会場）</th>
-    <td>@miiojp / @AttaQ</td>
+    <td>@miiojp @Tosh / @AttaQ</td>
   </tr>
 </table>
 
@@ -145,7 +147,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
   </tr>
   <tr>
     <th>参加人数</th>
-    <td>120</td>
+    <td>82</td>
   </tr>
   <tr>
     <th>チーム数</th>
@@ -187,7 +189,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
   </tr>
   <tr>
     <th>参加人数</th>
-    <td>95</td>
+    <td>81</td>
   </tr>
   <tr>
     <th>チーム数</th>
