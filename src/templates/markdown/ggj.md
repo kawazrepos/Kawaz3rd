@@ -8,94 +8,220 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 
 札幌会場は@geekdrumsの提案により、2011年から開催しています。
 
+- [2017](#2017)
+- [2016](#2016)
+- [2015](#2015)
+- [2014](#2014)
+- [2013](#2013)
+- [2012](#2012)
+- [2011](#2011)
 
-## 2011年
+
+## <a name="2017"></a>2017年
+
+この年から札幌会場の場所が変わり、<a href="http://www.yoshida-jobi.jp/">吉田学園情報ビジネス専門学校</a>に。
+
+![](/statics/img/roughpages/global_game_jam_reports/GGJ2017.png)
 
 <table>
   <tr>
-    <th>会場</th>
-    <td><a href="http://www.ist.hokudai.ac.jp/" target="_blank">北海道大学大学院情報科学研究科</a></td>
+    <th>会場（札幌会場 / 定山渓会場）</th>
+    <td><a href="http://www.yoshida-jobi.jp/" target="_blank">吉田学園情報ビジネス専門学校</a> / <a href="http://www.johzankei-hotel.com/" target="_blank">定山渓ホテル</a></td>
   </tr>
   <tr>
     <th>開催日時</th>
-    <td>2011年1月28日〜30日</td>
+    <td>2017年1月20日〜22日</td>
   </tr>
   <tr>
-    <th>参加人数</th>
-    <td>26</td>
+    <th>参加人数（札幌会場 / 定山渓会場）</th>
+    <td>118 / 12</td>
   </tr>
   <tr>
-    <th>チーム数</th>
-    <td>5</td>
+    <th>チーム数（札幌会場 / 定山渓会場）</th>
+    <td>14 / 4</td>
   </tr>
   <tr>
-    <th>オーガナイザー</th>
-    <td>@geekdrums</td>
+    <th>オーガナイザー（札幌会場 / 定山渓会場）</th>
+    <td>@miiojp @Tosh / @giginet</td>
   </tr>
 </table>
 
-[Kawaz - GlobalGameJam2011 in Sapporo](http://www.kawaz.org/projects/ggj11sap/)
+[GlobalGameJam2017札幌会場公式サイト](http://ggjsap.juegos/2017/)
 
-[togetter - Global Game Jam 2011 ～北海道大学（札幌会場）の様子～](http://togetter.com/li/95407)
+[Doorkeeper - GlobalGameJamSapporo2017 札幌会場](https://ggjsap.doorkeeper.jp/events/54461)
 
-### 札幌会場で製作されたゲーム
+[Doorkeeper - GlobalGameJamSapporo2017 定山渓会場](https://ggjsap.doorkeeper.jp/events/53952)
 
-[札幌会場で製作されたゲームの一覧](http://archive.globalgamejam.org/games/2011?tid[]=3843)
+[togetter - Global Game Jam Sapporo 2017 まとめ](https://togetter.com/li/1072340)
 
-[札幌会場のページ](http://archive.globalgamejam.org/sites/2011/hokkaido-university)
+
+### 札幌会場・定山渓会場で製作されたゲーム
+
+[札幌会場で製作されたゲームの一覧](http://globalgamejam.org/2017/jam-sites/sapporo/games)
+
+[定山渓会場で製作されたゲームの一覧](http://globalgamejam.org/2017/jam-sites/global-game-jam-2017-sapporo-jozankei/games)
+
+[札幌会場のページ](http://globalgamejam.org/2017/jam-sites/sapporo)
+
+[定山渓会場のページ](http://globalgamejam.org/2017/jam-sites/global-game-jam-2017-sapporo-jozankei)
+
+### 発表会の映像
+
+https://www.youtube.com/watch?v=pEW_CA6Ezzw
+
+https://www.youtube.com/watch?v=PycGYySbL1A
+
+
+
+
+
+## <a name="2016"></a>2016年
+
+会場は<a href="http://www.iga.ac.jp/">池上学院グローバルアカデミー専門学校</a>（札幌会場）と、定山渓ホテル（定山渓会場）
+
+「温泉行きたいしどうせなら定山渓でGGJやろうぜ！！」と、この年から定山渓会場がスタート。
+
+札幌会場はGlobal Game Jam Sapporo実行委員会に運営を移管。
+
+![](/statics/img/roughpages/global_game_jam_reports/GGJ2016.png)
+
+<table>
+  <tr>
+    <th>会場（札幌会場 / 定山渓会場）</th>
+    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a> / <a href="http://www.johzankei-hotel.com/" target="_blank">定山渓ホテル</a></td>
+  </tr>
+  <tr>
+    <th>開催日時</th>
+    <td>2016年1月29日〜31日</td>
+  </tr>
+  <tr>
+    <th>参加人数（札幌会場 / 定山渓会場）</th>
+    <td>84 / 13</td>
+  </tr>
+  <tr>
+    <th>チーム数（札幌会場 / 定山渓会場）</th>
+    <td>11 / 4</td>
+  </tr>
+  <tr>
+    <th>オーガナイザー（札幌会場 / 定山渓会場）</th>
+    <td>@miiojp @Tosh / @AttaQ</td>
+  </tr>
+</table>
+
+[GlobalGameJam2016札幌会場公式サイト](http://ggjsap.juegos/2016/)
+
+[Doorkeeper - GlobalGameJamSapporo2016 札幌会場](https://ggjsap.doorkeeper.jp/events/34147)
+
+[Doorkeeper - GlobalGameJamSapporo2016 定山渓会場](https://kawaz.doorkeeper.jp/events/35191)
+
+[togetter - Global Game Jam Sapporo 2016 まとめ](http://togetter.com/li/931979)
+
+
+### 札幌会場・定山渓会場で製作されたゲーム
+
+[札幌会場と定山渓会場で製作されたゲームの一覧](http://globalgamejam.org/2016/games?title=&country=JP&city=Sapporo&tools=All&diversifier=All&platforms=All&field_game_tools_value_1=All)
+
+[札幌会場のページ](http://globalgamejam.org/2016/jam-sites/sapporo)
+
+[定山渓会場のページ](http://globalgamejam.org/2016/jam-sites/global-game-jam-2016-sapporo-jozankei)
 
 ### 発表会の映像
 
 <div>
-<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/12296940?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
-</div>
-<div>
-<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/12344302?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
+<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/82288691?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
 </div>
 
-## 2012年
 
-![](/statics/img/roughpages/global_game_jam_reports/GGJ2012.png)
+## <a name="2015"></a>2015年
+
+![](/statics/img/roughpages/global_game_jam_reports/GGJ2015.png)
 
 <table>
   <tr>
     <th>会場</th>
-    <td><a href="http://www.ist.hokudai.ac.jp/" target="_blank">北海道大学大学院情報科学研究科</a></td>
+    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a></td>
   </tr>
   <tr>
     <th>開催日時</th>
-    <td>2012年1月27日〜29日</td>
+    <td>2015年1月23日〜25日</td>
   </tr>
   <tr>
     <th>参加人数</th>
-    <td>61</td>
+    <td>82</td>
   </tr>
   <tr>
     <th>チーム数</th>
-    <td>9</td>
+    <td>15</td>
   </tr>
   <tr>
     <th>オーガナイザー</th>
-    <td>@geekdrums</td>
+    <td>@lyrica</td>
   </tr>
 </table>
 
-[Kawaz - GlobalGameJam2012 in Sapporo](http://www.kawaz.org/events/110/)
+[Doorkeeper - GlobalGameJamSapporo2015](https://kawaz.doorkeeper.jp/events/17993)
 
-[ATND - GlobalGameJam2012 in 札幌](https://atnd.org/events/23583)
+[togetter - Global Game Jam Sapporo 2015 まとめ](http://togetter.com/li/770960)
 
-[togetter - Global Game Jam 2012 ～札幌会場の様子～](http://togetter.com/li/252373)
+[札幌会場で製作されたゲームの一覧](http://globalgamejam.org/2015/games?title=&country=JP&city=Sapporo&tools=All&diversifier=All&platforms=All&field_game_tools_value_1=All)
 
-※手違いで発表会の映像が残ってません！　ごめんなさい＞＜
+### 発表会の映像
 
-### 札幌会場で製作されたゲーム
-
-[札幌会場で製作されたゲームの一覧](http://archive.globalgamejam.org/og/games/17304/list)
-
-[札幌会場のページ](http://archive.globalgamejam.org/sites/2012/hokkaido-university)
+<div>
+<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/58042775?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
+</div>
 
 
-## 2013年
+
+
+## <a name="2014"></a>2014年
+
+![](/statics/img/roughpages/global_game_jam_reports/GGJ2014.jpg)
+
+<table>
+  <tr>
+    <th>会場</th>
+    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a></td>
+  </tr>
+  <tr>
+    <th>開催日時</th>
+    <td>2014年1月24日〜26日</td>
+  </tr>
+  <tr>
+    <th>参加人数</th>
+    <td>81</td>
+  </tr>
+  <tr>
+    <th>チーム数</th>
+    <td>11</td>
+  </tr>
+  <tr>
+    <th>オーガナイザー</th>
+    <td>@AttaQ</td>
+  </tr>
+</table>
+
+[Doorkeeper - GlobalGameJamSapporo2014](https://kawaz.doorkeeper.jp/events/7291)
+
+[togetter - Global Game Jam Sapporo 2014 まとめ](http://togetter.com/li/620203)
+
+[札幌会場で製作されたゲームの一覧](http://globalgamejam.org/2014/games?title=&country=JP&city=Sapporo&tools=All&diversifier=All&platforms=All&field_game_tools_value_1=All)
+
+### 発表会の映像
+
+<div>
+<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/43104809?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
+</div>
+<div>
+<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/43107548?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
+</div>
+<div>
+<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/43107805?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
+</div>
+
+
+
+## <a name="2013"></a>2013年
 この年から、会場は<a href="http://www.iga.ac.jp/">池上学院グローバルアカデミー専門学校</a>さんを借り切っての開催になりました。
 
 ![](/statics/img/roughpages/global_game_jam_reports/GGJ2013.png)
@@ -142,140 +268,92 @@ GlobalGameJamとは、48時間でゲームを開発するイベントです。
 <iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/28845904?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
 </div>
 
-## 2014年
 
-![](/statics/img/roughpages/global_game_jam_reports/GGJ2014.jpg)
 
-<table>
-  <tr>
-    <th>会場</th>
-    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a></td>
-  </tr>
-  <tr>
-    <th>開催日時</th>
-    <td>2014年1月24日〜26日</td>
-  </tr>
-  <tr>
-    <th>参加人数</th>
-    <td>95</td>
-  </tr>
-  <tr>
-    <th>チーム数</th>
-    <td>11</td>
-  </tr>
-  <tr>
-    <th>オーガナイザー</th>
-    <td>@AttaQ</td>
-  </tr>
-</table>
+## <a name="2012"></a>2012年
 
-[Doorkeeper - GlobalGameJamSapporo2014](https://kawaz.doorkeeper.jp/events/7291)
-
-[togetter - Global Game Jam Sapporo 2014 まとめ](http://togetter.com/li/620203)
-
-[札幌会場で製作されたゲームの一覧](http://globalgamejam.org/2014/games?title=&country=JP&city=Sapporo&tools=All&diversifier=All&platforms=All&field_game_tools_value_1=All)
-
-### 発表会の映像
-
-<div>
-<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/43104809?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
-</div>
-<div>
-<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/43107548?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
-</div>
-<div>
-<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/43107805?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
-</div>
-
-## 2015年
-
-![](/statics/img/roughpages/global_game_jam_reports/GGJ2015.png)
+![](/statics/img/roughpages/global_game_jam_reports/GGJ2012.png)
 
 <table>
   <tr>
     <th>会場</th>
-    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a></td>
+    <td><a href="http://www.ist.hokudai.ac.jp/" target="_blank">北海道大学大学院情報科学研究科</a></td>
   </tr>
   <tr>
     <th>開催日時</th>
-    <td>2015年1月23日〜25日</td>
+    <td>2012年1月27日〜29日</td>
   </tr>
   <tr>
     <th>参加人数</th>
-    <td>120</td>
+    <td>61</td>
   </tr>
   <tr>
     <th>チーム数</th>
-    <td>15</td>
+    <td>9</td>
   </tr>
   <tr>
     <th>オーガナイザー</th>
-    <td>@lyrica</td>
+    <td>@geekdrums</td>
   </tr>
 </table>
 
-[Doorkeeper - GlobalGameJamSapporo2015](https://kawaz.doorkeeper.jp/events/17993)
+[Kawaz - GlobalGameJam2012 in Sapporo](http://www.kawaz.org/events/110/)
 
-[togetter - Global Game Jam Sapporo 2015 まとめ](http://togetter.com/li/770960)
+[ATND - GlobalGameJam2012 in 札幌](https://atnd.org/events/23583)
 
-[札幌会場で製作されたゲームの一覧](http://globalgamejam.org/2015/games?title=&country=JP&city=Sapporo&tools=All&diversifier=All&platforms=All&field_game_tools_value_1=All)
+[togetter - Global Game Jam 2012 ～札幌会場の様子～](http://togetter.com/li/252373)
 
-### 発表会の映像
+※手違いで発表会の映像が残ってません！　ごめんなさい＞＜
 
-<div>
-<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/58042775?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
-</div>
+### 札幌会場で製作されたゲーム
 
-## 2016年
+[札幌会場で製作されたゲームの一覧](http://archive.globalgamejam.org/og/games/17304/list)
 
-会場は<a href="http://www.iga.ac.jp/">池上学院グローバルアカデミー専門学校</a>（札幌会場）と、定山渓ホテル（定山渓会場）
+[札幌会場のページ](http://archive.globalgamejam.org/sites/2012/hokkaido-university)
 
-「温泉行きたいしどうせなら定山渓でGGJやろうぜ！！」と、この年から定山渓会場がスタート。
 
-![](/statics/img/roughpages/global_game_jam_reports/GGJ2016.png)
+
+
+## <a name="2011"></a>2011年
 
 <table>
   <tr>
-    <th>会場（札幌会場 / 定山渓会場）</th>
-    <td><a href="http://www.iga.ac.jp/" target="_blank">池上学院グローバルアカデミー専門学校</a> / <a href="http://www.johzankei-hotel.com/" target="_blank">定山渓ホテル</a></td>
+    <th>会場</th>
+    <td><a href="http://www.ist.hokudai.ac.jp/" target="_blank">北海道大学大学院情報科学研究科</a></td>
   </tr>
   <tr>
     <th>開催日時</th>
-    <td>2016年1月29日〜31日</td>
+    <td>2011年1月28日〜30日</td>
   </tr>
   <tr>
-    <th>参加人数（札幌会場 / 定山渓会場）</th>
-    <td>109 / 13</td>
+    <th>参加人数</th>
+    <td>26</td>
   </tr>
   <tr>
-    <th>チーム数（札幌会場 / 定山渓会場）</th>
-    <td>11 / 4</td>
+    <th>チーム数</th>
+    <td>5</td>
   </tr>
   <tr>
-    <th>オーガナイザー（札幌会場 / 定山渓会場）</th>
-    <td>@miiojp / @AttaQ</td>
+    <th>オーガナイザー</th>
+    <td>@geekdrums</td>
   </tr>
 </table>
 
-[GlobalGameJam2016札幌会場公式サイト](http://ggjsap.juegos/2016/)
+[Kawaz - GlobalGameJam2011 in Sapporo](http://www.kawaz.org/projects/ggj11sap/)
 
-[Doorkeeper - GlobalGameJamSapporo2016 札幌会場](https://ggjsap.doorkeeper.jp/events/34147)
+[togetter - Global Game Jam 2011 ～北海道大学（札幌会場）の様子～](http://togetter.com/li/95407)
 
-[Doorkeeper - GlobalGameJamSapporo2016 定山渓会場](https://kawaz.doorkeeper.jp/events/35191)
+### 札幌会場で製作されたゲーム
 
-[togetter - Global Game Jam Sapporo 2016 まとめ](http://togetter.com/li/931979)
+[札幌会場で製作されたゲームの一覧](http://archive.globalgamejam.org/games/2011?tid[]=3843)
 
-
-### 札幌会場・定山渓会場で製作されたゲーム
-
-[札幌会場と定山渓会場で製作されたゲームの一覧](http://globalgamejam.org/2016/games?title=&country=JP&city=Sapporo&tools=All&diversifier=All&platforms=All&field_game_tools_value_1=All)
-
-[札幌会場のページ](http://globalgamejam.org/2016/jam-sites/sapporo)
-
-[定山渓会場のページ](http://globalgamejam.org/2016/jam-sites/global-game-jam-2016-sapporo-jozankei)
+[札幌会場のページ](http://archive.globalgamejam.org/sites/2011/hokkaido-university)
 
 ### 発表会の映像
 
 <div>
-<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/82288691?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
+<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/12296940?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
+</div>
+<div>
+<iframe width="600" height="400" src="http://www.ustream.tv/embed/recorded/12344302?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>
 </div>
