@@ -7,7 +7,7 @@ django-permission>=0.8.8
 django-filter>=1.0.0
 django-roughpages>=0.1.2
 django-thumbnailfield>=0.2.3
-django-inspectional-registration
+django-inspectional-registration>=0.6.2
 django-crispy-forms
 django-contrib-comments
 django-debug-toolbar
