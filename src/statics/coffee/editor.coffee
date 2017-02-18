@@ -22,7 +22,6 @@ $ ->
   # 添付素材用のポップアップを表示する
   showAttachmentPopup = ->
     $targetEditor = $(@).closest('.controls').find('textarea')
-    console.log($targetEditor)
     $dialog = $('#attachment-dialog').on('show.bs.modal', ->
       $input = $(@).find("input[type='text']")
       .hide()

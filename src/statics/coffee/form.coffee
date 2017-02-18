@@ -21,7 +21,6 @@ $ ->
       $deleteField = $row.find("[id$='DELETE']")
       # 削除フィールドが存在しているrowはすでに登録済みの奴
       isRegistered = $deleteField.size() > 0
-      console.log isRegistered
       $row.fadeOut ->
         if isRegistered
           # 登録済みの場合、削除フィールドにcheckを入れて非表示にするだけ
@@ -99,7 +98,6 @@ $ ->
   updateIcon = (target) ->
     $option = $(target).find('option:selected')
     url = $option.attr('icon-url')
-    console.log(url)
     $(target).css('background-image', "url(#{url})")
   $('.serviceselectwidget').change(->
     updateIcon(@)
