@@ -23,4 +23,4 @@ class ShortenURLTestCase(TestCase):
 
         rendered = t.render(Context())
 
-        self.assertRegex(rendered, r'http:\/\/goo.\gl\/.+')
+        self.assertRegex(rendered, r'http:\/\/goo\.gl\/.+')
