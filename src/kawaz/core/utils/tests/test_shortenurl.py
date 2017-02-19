@@ -22,7 +22,7 @@ class ShortenURLTestCase(TestCase):
 
         url = shortenurl.shorten(URL)
 
-        self.assertRegex(url, r'^http:\/\/goo.\gl\/.+$')
+        self.assertRegex(url, r'^http:\/\/goo\.gl\/.+$')
 
     def test_shortenurl_failed(self):
         """

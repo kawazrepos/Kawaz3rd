@@ -45,3 +45,19 @@ Temporary Items
 docs/_build
 
 config/requirements-deploy.txt
+### https://raw.github.com/github/gitignore/d1caffed352607b5415e9e0e827f4770eb39e316/Global/VirtualEnv.gitignore
+
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+
+!.python-version
