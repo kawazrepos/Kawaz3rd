@@ -16,6 +16,12 @@ class EventPermissionLogic(PermissionLogic):
     - `events.quit_event`
 
     """
+    def _change_event_perm(self, user_obj, perm, obj):
+        # non attendee cannot change the event
+        if not obj.attendees.filter(pk=user_obj.pk):
+            return False
+        return True
+
     def _has_attend_perm(self, user_obj, perm, obj):
         # duplicated attendance is not permitted
         if obj.attendees.filter(pk=user_obj.pk):
@@ -73,7 +79,7 @@ class EventPermissionLogic(PermissionLogic):
             return obj.organizer == user_obj
         # object permission
         permission_methods = {
-            'events.change_event': author_required,
+            'events.change_event': self._change_event_perm,
             'events.delete_event': author_required,
             'events.attend_event': self._has_attend_perm,
             'events.quit_event': self._has_quit_perm,
