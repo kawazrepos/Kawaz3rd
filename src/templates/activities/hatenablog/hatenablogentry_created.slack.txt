@@ -1,1 +1,1 @@
-*広報ブログに「{{ object.get_absolute_url }}|{{ object }}>」が投稿されました*
+*広報ブログに「<{{ object.get_absolute_url }}|{{ object }}>」が投稿されました*
