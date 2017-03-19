@@ -93,6 +93,7 @@ class EventPermissionLogicTestCase(BasePermissionLogicTestCase):
         self._test('wille', 'delete', obj=self.event, neg=True)
         self._test('anonymous', 'delete', obj=self.event, neg=True)
         self._test('organizer', 'delete', obj=self.event)
+        self._test('attendee', 'delete', obj=self.event, neg=True)
 
     def test_attend_permission_without_obj(self):
         """
