@@ -1,8 +1,6 @@
 import re
 from django import template
 from django.utils.safestring import mark_safe
-from kawaz.core.utils.shortenurl import shorten
-
 
 
 PATTERN = re.compile(
@@ -11,6 +9,7 @@ PATTERN = re.compile(
 )
 
 register = template.Library()
+
 
 @register.tag('shortenurl')
 def do_shortenurl(parser, token):
@@ -27,6 +26,7 @@ def do_shortenurl(parser, token):
     parser.delete_first_token()
     return ShortenURLNode(nodelist)
 
+
 class ShortenURLNode(template.Node):
     def __init__(self, nodelist):
         self.nodelist = nodelist
@@ -34,6 +34,7 @@ class ShortenURLNode(template.Node):
     def render(self, context):
         value = self.nodelist.render(context)
         def repl(m):
+            from kawaz.core.utils.shortenurl import shorten
             return shorten(m.group())
         replaced_value = PATTERN.sub(repl, value)
         return mark_safe(replaced_value)
