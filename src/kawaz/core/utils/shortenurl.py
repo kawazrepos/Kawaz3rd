@@ -1,10 +1,9 @@
 import json
 import logging
-from urllib.request import urlopen, Request
 from django.conf import settings
 
-
 API_URL = 'https://www.googleapis.com/urlshortener/v1/url'
+
 
 def shorten(url):
     """
@@ -14,6 +13,8 @@ def shorten(url):
     詳細は以下を参照してください
     https://developers.google.com/url-shortener/v1/getting_started#auth
     """
+    from urllib.request import urlopen, Request
+
     api_key = getattr(settings, 'GOOGLE_URL_SHORTENER_API_KEY', None)
     try:
         api_url = API_URL
