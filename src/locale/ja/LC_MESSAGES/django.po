@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 16:35+0900\n"
+"POT-Creation-Date: 2017-03-25 19:27+0900\n"
 "PO-Revision-Date: 2016-11-23 18:14+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -152,7 +152,8 @@ msgstr "ブログ記事を削除しました"
 #: src/kawaz/apps/events/filters.py:16 src/kawaz/apps/products/filters.py:68
 #: src/kawaz/apps/products/forms.py:33 src/kawaz/apps/products/models.py:87
 #: src/kawaz/apps/products/models.py:160 src/kawaz/apps/projects/models.py:22
-#: src/templates/blogs/entry_list.html:62
+#: src/templates/blogs/entry_archive_month.html:61
+#: src/templates/blogs/entry_list.html:53
 #: src/templates/events/event_list.html:58
 #: src/templates/products/product_detail.html:152
 #: src/templates/products/product_list.html:59
@@ -1106,6 +1107,7 @@ msgstr "最近のお知らせ"
 #: src/templates/announcements/components/announcement_detail.html:22
 #: src/templates/blogs/components/entry_detail.html:21
 #: src/templates/blogs/components/entry_truncated.html:20
+#: src/templates/blogs/components/list-item.html:20
 #: src/templates/events/components/list-item.html:17
 #: src/templates/events/event_detail.html:33
 #: src/templates/projects/project_detail.html:53
@@ -1126,7 +1128,8 @@ msgstr "ページを開く"
 msgid "Home"
 msgstr "ホーム"
 
-#: src/templates/base.html:68 src/templates/blogs/entry_detail.html:25
+#: src/templates/base.html:68 src/templates/blogs/entry_archive_month.html:16
+#: src/templates/blogs/entry_detail.html:25
 #: src/templates/blogs/entry_form.html:26
 #: src/templates/blogs/entry_list.html:13
 #: src/templates/roughpages/drafts.authenticated.html:42
@@ -1201,6 +1204,43 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
+#: src/templates/blogs/components/hotentry_list.html:2
+msgid "Hot entries"
+msgstr "ホットエントリー"
+
+#: src/templates/blogs/entry_archive_month.html:8
+#: src/templates/blogs/entry_archive_month.html:22
+#, python-format
+msgid "blog on %(month)s"
+msgstr "%(month)sのブログ記事"
+
+#: src/templates/blogs/entry_archive_month.html:24
+#: src/templates/blogs/entry_list.html:23
+#, python-format
+msgid "There is one blog entry."
+msgid_plural "There are %(counter)s blog entries."
+msgstr[0] "%(counter)s件のブログ記事"
+
+#: src/templates/blogs/entry_archive_month.html:32
+#: src/templates/blogs/entry_archive_month.html:47
+#: src/templates/blogs/entry_form.html:10
+#: src/templates/blogs/entry_form.html:19
+#: src/templates/blogs/entry_form.html:31
+#: src/templates/blogs/entry_list.html:30
+msgid "Create a new blog entry"
+msgstr "ブログ記事を作成する"
+
+#: src/templates/blogs/entry_archive_month.html:45
+#, fuzzy
+#| msgid "'s blog entries"
+msgid "No blog entries found"
+msgstr "のブログ記事"
+
+#: src/templates/blogs/entry_archive_month.html:68
+#: src/templates/blogs/entry_list.html:60
+msgid "There is no category"
+msgstr "カテゴリはありません"
+
 #: src/templates/blogs/entry_detail.html:26
 #: src/templates/blogs/entry_form.html:28
 msgid "'s blog entries"
@@ -1218,13 +1258,6 @@ msgstr "この記事を削除してもよろしいですか？"
 msgid "Delete this blog entry"
 msgstr "記事を削除"
 
-#: src/templates/blogs/entry_form.html:10
-#: src/templates/blogs/entry_form.html:19
-#: src/templates/blogs/entry_form.html:31
-#: src/templates/blogs/entry_list.html:30
-msgid "Create a new blog entry"
-msgstr "ブログ記事を作成する"
-
 #: src/templates/blogs/entry_list.html:15
 #, python-format
 msgid "%(nickname)s's entries"
@@ -1234,23 +1267,9 @@ msgstr "%(nickname)sのブログ"
 msgid "Blog entries"
 msgstr "ブログ記事"
 
-#: src/templates/blogs/entry_list.html:23
-#, python-format
-msgid "There is one blog entry."
-msgid_plural "There are %(counter)s blog entries."
-msgstr[0] "%(counter)s件のブログ記事"
-
 #: src/templates/blogs/entry_list.html:36
 msgid "There are no drafts of blog entries."
 msgstr "ブログの下書きはありません"
-
-#: src/templates/blogs/entry_list.html:51
-msgid "Hot entries"
-msgstr "ホットエントリー"
-
-#: src/templates/blogs/entry_list.html:69
-msgid "There is no category"
-msgstr "カテゴリはありません"
 
 #: src/templates/comments/components/comment_form.html:13
 msgid "Post a comment"
