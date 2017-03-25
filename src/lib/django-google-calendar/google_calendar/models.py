@@ -35,6 +35,7 @@ class GoogleCalendarBridge(models.Model):
 
 
 def update_google_calendar(sender, instance, created, **kwargs):
+    # Ignore when events models are created by fixtures.
     if kwargs.get('raw', False):
         return
     backend = get_backend()
