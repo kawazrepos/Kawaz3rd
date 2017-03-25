@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 21:55+0900\n"
+"POT-Creation-Date: 2017-03-25 16:35+0900\n"
 "PO-Revision-Date: 2016-11-23 18:14+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -135,17 +135,17 @@ msgstr "ブログ記事"
 msgid "Entries"
 msgstr "ブログ記事"
 
-#: src/kawaz/apps/blogs/views.py:64
+#: src/kawaz/apps/blogs/views.py:65
 #, python-format
 msgid "A blog entry '%(title)s' was successfully created."
 msgstr "ブログ記事「%(title)s」を作成しました"
 
-#: src/kawaz/apps/blogs/views.py:80
+#: src/kawaz/apps/blogs/views.py:81
 #, python-format
 msgid "The blog entry '%(title)s' was successfully updated."
 msgstr "ブログ記事「%(title)s」を更新しました"
 
-#: src/kawaz/apps/blogs/views.py:90
+#: src/kawaz/apps/blogs/views.py:92
 msgid "The blog entry was successfully deleted."
 msgstr "ブログ記事を削除しました"
 
@@ -1003,11 +1003,11 @@ msgstr "対象オブジェクト"
 msgid "Content object"
 msgstr "ファイル"
 
-#: src/lib/django-activities/activities/models.py:69
+#: src/lib/django-activities/activities/models.py:74
 msgid "Activity"
 msgstr "最近の活動"
 
-#: src/lib/django-activities/activities/models.py:70
+#: src/lib/django-activities/activities/models.py:75
 #: src/templates/components/registration/index.authenticated.html:48
 msgid "Activities"
 msgstr "最近の活動"
@@ -1560,7 +1560,7 @@ msgstr "イベントから抜ける"
 
 #: src/templates/events/event_detail.html:146
 msgid "Log in to Join"
-msgstr "ログインして参加"
+msgstr "ログインしてください"
 
 #: src/templates/events/event_detail.html:153
 msgid "Application deadline"
