@@ -31,7 +31,7 @@ class HatenablogFeedScraper(object):
         for i, entry in enumerate(entries):
             url = entry.link.string
             title = entry.title.string
-            m = hashlib.md5(entry.description.string.encode('utf-8')).digest()
+            m = hashlib.md5(entry.description.string.encode('utf-8')).hexdigest()
 
             if self.verbose:
                 print("- Fetching entry '{}'... ({}/{})".format(
