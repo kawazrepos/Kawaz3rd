@@ -1,8 +1,6 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from django.test import TestCase, override_settings
 from django.template import Template, Context
-from ..templatetags import shortenurl
-
 
 
 URL = "http://www.kawaz.org"
@@ -17,10 +15,7 @@ class ShortenURLTestCase(TestCase):
             "{% endshortenurl %}"
         ))
 
-        mock = MagicMock()
-        mock.return_value = 'http://goo.gl/testurl'
-        shortenurl.shorten = mock
-
-        rendered = t.render(Context())
-
+        with patch('kawaz.core.utils.shortenurl.shorten') as shorten:
+            shorten.return_value = 'http://goo.gl/testurl'
+            rendered = t.render(Context())
         self.assertRegex(rendered, r'http:\/\/goo\.gl\/.+')
