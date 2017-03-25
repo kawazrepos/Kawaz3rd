@@ -35,6 +35,8 @@ class GoogleCalendarBridge(models.Model):
 
 
 def update_google_calendar(sender, instance, created, **kwargs):
+    if kwargs.get('raw', False):
+        return
     backend = get_backend()
     send_notifications = getattr(settings, 'GOOGLE_CALENDER_ENABLE_NOTIFICATIONS', False)
     backend.update(instance, sendNotifications=send_notifications)
