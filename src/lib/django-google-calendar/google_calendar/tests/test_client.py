@@ -4,7 +4,7 @@
 
 import os
 from django.test import TestCase
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from ..conf import settings
 from ..client import (require_enabled,
                       GoogleCalendarClient)
@@ -48,6 +48,17 @@ class GoogleCalendarClientTestCaseBase(TestCase):
                 'dateTime': '2014-12-03T10:25:00.000-07:00'
             },
         }
+        patcher1 = patch('google_calendar.backend.GoogleCalendarClient')
+        patcher2 = patch('google_calendar.models.GoogleCalendarBridge')
+        self.GoogleCalendarClient = patcher1.start()
+        self.GoogleCalendarBridge = patcher2.start()
+        self.addCleanup(patcher1.stop)
+        self.addCleanup(patcher2.stop)
+
+        self.bridge = MagicMock()
+        self.GoogleCalendarBridge.objects.get_or_create.return_value = [
+            self.bridge
+        ]
         self.client = GoogleCalendarClient(
             settings.GOOGLE_CALENDAR_CALENDAR_ID
         )
