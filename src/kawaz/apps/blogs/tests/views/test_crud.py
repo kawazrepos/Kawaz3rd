@@ -54,12 +54,12 @@ class EntryDetailViewTestCase(TestCase):
     def test_others_can_not_view_draft_entry(self):
         '''
         Tests others can not view draft entry
-        User will redirect to '/entries/1/update/'
+        User will redirect to '/entries/{entry.pk}/update/'
         '''
         entry = EntryFactory(pub_state='draft')
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.get(entry.get_absolute_url())
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/{}/1/update/'.format(entry.author.username))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/{0}/{1}/update/'.format(entry.author.username, entry.pk))
 
     def test_organizer_can_view_draft_entry(self):
         '''Tests organizer can view draft entry on update view'''
@@ -103,10 +103,10 @@ class EntryCreateViewTestCase(TestCase):
             'body' : '天気が良かったです',
         })
         today = datetime.today()
-        self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
+        entry = Entry.objects.last()
+        self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/{4}/'.format(self.user.username, today.year, today.month, today.day, entry.pk))
         self.assertEqual(Entry.objects.count(), 1)
-        e = Entry.objects.get(pk=1)
-        self.assertEqual(e.title, '日記です')
+        self.assertEqual(entry.title, '日記です')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_author_id(self):
@@ -125,11 +125,11 @@ class EntryCreateViewTestCase(TestCase):
             'author' : other.pk # crackers attempt to masquerade
         })
         today = datetime.today()
-        self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
+        entry = Entry.objects.last()
+        self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/{4}/'.format(self.user.username, today.year, today.month, today.day, entry.pk))
         self.assertEqual(Entry.objects.count(), 1)
-        e = Entry.objects.get(pk=1)
-        self.assertEqual(e.author, self.user)
-        self.assertNotEqual(e.author, other)
+        self.assertEqual(entry.author, self.user)
+        self.assertNotEqual(entry.author, other)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_can_create_entry_with_category(self):
@@ -145,11 +145,11 @@ class EntryCreateViewTestCase(TestCase):
             'category': category.pk
         })
         today = datetime.today()
-        self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/1/'.format(self.user.username, today.year, today.month, today.day))
+        entry = Entry.objects.last()
+        self.assertRedirects(r, '/blogs/{0}/{1}/{2}/{3}/{4}/'.format(self.user.username, today.year, today.month, today.day, entry.pk))
         self.assertEqual(Entry.objects.count(), 1)
-        e = Entry.objects.get(pk=1)
-        self.assertEqual(e.author, self.user)
-        self.assertEqual(e.category, category)
+        self.assertEqual(entry.author, self.user)
+        self.assertEqual(entry.category, category)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_can_create_entry_with_others_category(self):
@@ -180,15 +180,15 @@ class EntryUpdateViewTestCase(TestCase):
 
     def test_anonymous_user_can_not_view_entry_update_view(self):
         '''Tests anonymous user can not view EntryUpdateView'''
-        r = self.client.get('/blogs/author_kawaztan/1/update/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/update/')
+        r = self.client.get('/blogs/author_kawaztan/{}/update/'.format(self.entry.pk))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/{}/update/'.format(self.entry.pk))
 
     def test_authorized_user_can_view_entry_update_view(self):
         '''
         Tests authorized user can view EntryUpdateView
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.get('/blogs/author_kawaztan/1/update/')
+        r = self.client.get('/blogs/author_kawaztan/{}/update/'.format(self.entry.pk))
         self.assertTemplateUsed(r, 'blogs/entry_form.html')
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.entry)
@@ -198,12 +198,12 @@ class EntryUpdateViewTestCase(TestCase):
         Tests anonymous user can not update entry via EntryUpdateView
         It will redirect to LOGIN_URL
         '''
-        r = self.client.post('/blogs/author_kawaztan/1/update/', {
+        r = self.client.post('/blogs/author_kawaztan/{}/update/'.format(self.entry.pk), {
             'pub_state' : 'public',
             'title' : 'クラッカーだよー',
             'body' : 'うえーい',
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/{}/update/'.format(self.entry.pk))
         self.assertEqual(self.entry.title, 'かわずたんだよ☆')
 
     def test_other_user_cannot_update_via_update_view(self):
@@ -212,27 +212,27 @@ class EntryUpdateViewTestCase(TestCase):
         It will redirect to LOGIN_URL
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
-        r = self.client.post('/blogs/author_kawaztan/1/update/', {
+        r = self.client.post('/blogs/author_kawaztan/{}/update/'.format(self.entry.pk), {
             'pub_state' : 'public',
             'title' : 'いたずら日記です',
             'body' : '黒かわずたんだよーん',
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/{}/update/'.format(self.entry.pk))
         self.assertEqual(self.entry.title, 'かわずたんだよ☆')
 
     def test_author_can_update_via_update_view(self):
         '''Tests author user can update entry via EntryUpdateView'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/blogs/author_kawaztan/1/update/', {
+        r = self.client.post('/blogs/author_kawaztan/{}/update/'.format(self.entry.pk), {
             'pub_state' : 'public',
             'title' : 'やっぱり書き換えます！',
             'body' : 'うえーい',
         })
         tz = get_default_timezone()
         published_at = self.entry.published_at.astimezone(tz)
-        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(published_at.year, published_at.month, published_at.day))
+        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/{3}/'.format(published_at.year, published_at.month, published_at.day, self.entry.pk))
         self.assertEqual(Entry.objects.count(), 1)
-        e = Entry.objects.get(pk=1)
+        e = Entry.objects.last()
         self.assertEqual(e.title, 'やっぱり書き換えます！')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
@@ -245,7 +245,7 @@ class EntryUpdateViewTestCase(TestCase):
         '''
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/blogs/author_kawaztan/1/update/', {
+        r = self.client.post('/blogs/author_kawaztan/{}/update/'.format(self.entry.pk), {
             'pub_state' : 'public',
             'title' : 'ID書き換えます！',
             'body' : 'うえーい',
@@ -253,9 +253,9 @@ class EntryUpdateViewTestCase(TestCase):
         })
         tz = get_default_timezone()
         published_at = self.entry.published_at.astimezone(tz)
-        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/1/'.format(published_at.year, published_at.month, published_at.day))
+        self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/{3}/'.format(published_at.year, published_at.month, published_at.day, self.entry.pk))
         self.assertEqual(Entry.objects.count(), 1)
-        e = Entry.objects.get(pk=1)
+        e = Entry.objects.last()
         self.assertEqual(e.author, self.user)
         self.assertNotEqual(e.author, other)
         self.assertEqual(e.title, 'ID書き換えます！')
@@ -483,20 +483,20 @@ class EntryDeleteViewTestCase(TestCase):
 
     def test_anonymous_user_can_not_delete_via_delete_view(self):
         '''非ログインユーザーは記事の削除ができない'''
-        r = self.client.post('/blogs/author_kawaztan/1/delete/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/delete/')
+        r = self.client.post('/blogs/author_kawaztan/{}/delete/'.format(self.entry.pk))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/{}/delete/'.format(self.entry.pk))
         self.assertEqual(self.entry.title, 'かわずたんだよ☆')
 
     def test_other_user_cannot_delete_via_delete_view(self):
         '''作者以外のユーザーは記事の削除ができない'''
         self.assertTrue(self.client.login(username=self.other, password='password'))
-        r = self.client.post('/blogs/author_kawaztan/1/delete/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/1/delete/')
+        r = self.client.post('/blogs/author_kawaztan/{}/delete/'.format(self.entry.pk))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/blogs/author_kawaztan/{}/delete/'.format(self.entry.pk))
         self.assertEqual(self.entry.title, 'かわずたんだよ☆')
 
     def test_author_can_delete_via_delete_view(self):
         '''作者は記事を削除できる'''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/blogs/author_kawaztan/1/delete/')
+        r = self.client.post('/blogs/author_kawaztan/{}/delete/'.format(self.entry.pk))
         self.assertRedirects(r, '/blogs/')
         self.assertEqual(Entry.objects.count(), 0)

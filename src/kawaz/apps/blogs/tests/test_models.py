@@ -132,7 +132,7 @@ class EntryModelTestCase(TestCase):
         user = PersonaFactory(username='mecha_kawaztan')
         published_at = datetime.datetime(2112, 9, 21, tzinfo=timezone.utc)
         entry = EntryFactory(published_at=published_at, author=user)
-        self.assertEqual(entry.get_absolute_url(), '/blogs/mecha_kawaztan/2112/9/21/1/')
+        self.assertEqual(entry.get_absolute_url(), '/blogs/mecha_kawaztan/2112/9/21/{}/'.format(entry.pk))
 
     def test_get_absolute_url_of_draft(self):
         '''
@@ -140,7 +140,7 @@ class EntryModelTestCase(TestCase):
         '''
         user = PersonaFactory(username='kawaztan_kawaztan')
         entry = EntryFactory(pub_state='draft', author=user)
-        self.assertEqual(entry.get_absolute_url(), '/blogs/kawaztan_kawaztan/1/update/')
+        self.assertEqual(entry.get_absolute_url(), '/blogs/kawaztan_kawaztan/{}/update/'.format(entry.pk))
 
     def test_published_at_date_property(self):
         '''
