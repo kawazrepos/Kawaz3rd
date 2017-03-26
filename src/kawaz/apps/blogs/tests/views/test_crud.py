@@ -232,8 +232,8 @@ class EntryUpdateViewTestCase(TestCase):
         published_at = self.entry.published_at.astimezone(tz)
         self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/{3}/'.format(published_at.year, published_at.month, published_at.day, self.entry.pk))
         self.assertEqual(Entry.objects.count(), 1)
-        e = Entry.objects.last()
-        self.assertEqual(e.title, 'やっぱり書き換えます！')
+        entry = Entry.objects.last()
+        self.assertEqual(entry.title, 'やっぱり書き換えます！')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_author_id(self):
@@ -255,10 +255,10 @@ class EntryUpdateViewTestCase(TestCase):
         published_at = self.entry.published_at.astimezone(tz)
         self.assertRedirects(r, '/blogs/author_kawaztan/{0}/{1}/{2}/{3}/'.format(published_at.year, published_at.month, published_at.day, self.entry.pk))
         self.assertEqual(Entry.objects.count(), 1)
-        e = Entry.objects.last()
-        self.assertEqual(e.author, self.user)
-        self.assertNotEqual(e.author, other)
-        self.assertEqual(e.title, 'ID書き換えます！')
+        entry = Entry.objects.last()
+        self.assertEqual(entry.author, self.user)
+        self.assertNotEqual(entry.author, other)
+        self.assertEqual(entry.title, 'ID書き換えます！')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 

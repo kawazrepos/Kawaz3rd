@@ -192,8 +192,8 @@ class AnnouncementCreateViewTestCase(ViewTestCaseBase):
         announcement = Announcement.objects.last()
         self.assertRedirects(r, '/announcements/{}/'.format(announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.last()
-        self.assertEqual(e.title, '【悲報】データ消えました')
+        announcement = Announcement.objects.last()
+        self.assertEqual(announcement.title, '【悲報】データ消えました')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_authorized_user_can_create_via_create_view(self):
@@ -221,9 +221,9 @@ class AnnouncementCreateViewTestCase(ViewTestCaseBase):
         announcement = Announcement.objects.last()
         self.assertRedirects(r, '/announcements/{}/'.format(announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.last()
-        self.assertEqual(e.author, self.nerv)
-        self.assertEqual(e.last_modifier, self.nerv)
+        announcement = Announcement.objects.last()
+        self.assertEqual(announcement.author, self.nerv)
+        self.assertEqual(announcement.last_modifier, self.nerv)
 
     def test_staffs_cannot_modify_author_id(self):
         '''
@@ -244,9 +244,9 @@ class AnnouncementCreateViewTestCase(ViewTestCaseBase):
         announcement = Announcement.objects.last()
         self.assertRedirects(r, '/announcements/{}/'.format(announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.last()
-        self.assertEqual(e.author, self.nerv)
-        self.assertNotEqual(e.author, other)
+        announcement = Announcement.objects.last()
+        self.assertEqual(announcement.author, self.nerv)
+        self.assertNotEqual(announcement.author, other)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 
@@ -350,8 +350,8 @@ class AnnouncementUpdateViewTestCase(TestCase):
         })
         self.assertRedirects(r, '/announcements/{}/'.format(self.announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.last()
-        self.assertEqual(e.title, '【悲報】データ消えました')
+        announcement = Announcement.objects.last()
+        self.assertEqual(announcement.title, '【悲報】データ消えました')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_set_last_modifier_via_update_view(self):
@@ -368,9 +368,9 @@ class AnnouncementUpdateViewTestCase(TestCase):
         })
         self.assertRedirects(r, '/announcements/{}/'.format(self.announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.last()
-        self.assertEqual(e.last_modifier, self.nerv)
-        self.assertNotEqual(e.last_modifier, previous_modifier)
+        announcement = Announcement.objects.last()
+        self.assertEqual(announcement.last_modifier, self.nerv)
+        self.assertNotEqual(announcement.last_modifier, previous_modifier)
 
     def test_user_cannot_modify_author_id(self):
         '''
@@ -390,10 +390,10 @@ class AnnouncementUpdateViewTestCase(TestCase):
         })
         self.assertRedirects(r, '/announcements/{}/'.format(self.announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.last()
-        self.assertEqual(e.author, self.user)
-        self.assertNotEqual(e.author, other)
-        self.assertEqual(e.title, 'ID書き換えます！')
+        announcement = Announcement.objects.last()
+        self.assertEqual(announcement.author, self.user)
+        self.assertNotEqual(announcement.author, other)
+        self.assertEqual(announcement.title, 'ID書き換えます！')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 class AnnouncementDeleteViewTestCase(TestCase):

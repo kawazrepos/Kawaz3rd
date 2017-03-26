@@ -229,8 +229,8 @@ class EventUpdateViewTestCase(TestCase):
         })
         self.assertRedirects(r, '/events/{}/'.format(self.event.pk))
         self.assertEqual(Event.objects.count(), 1)
-        e = Event.objects.last()
-        self.assertEqual(e.title, '変更後のイベントです')
+        entry = Event.objects.last()
+        self.assertEqual(entry.title, '変更後のイベントです')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_organizer_id(self):
@@ -254,10 +254,10 @@ class EventUpdateViewTestCase(TestCase):
         })
         self.assertRedirects(r, '/events/{}/'.format(self.event.pk))
         self.assertEqual(Event.objects.count(), 1)
-        e = Event.objects.last()
-        self.assertEqual(e.organizer, self.user)
-        self.assertNotEqual(e.organizer, other)
-        self.assertEqual(e.title, '変更後のイベントです')
+        entry = Event.objects.last()
+        self.assertEqual(entry.organizer, self.user)
+        self.assertNotEqual(entry.organizer, other)
+        self.assertEqual(entry.title, '変更後のイベントです')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 
