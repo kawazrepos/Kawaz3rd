@@ -1,0 +1,26 @@
+{% load i18n %}
+<div class="blog-article{% if object.pub_state == "protected" %} bg-protected{% endif %}">
+    <div class="blog-article-header">
+
+        <p class="blog-article-info">
+            <small>
+                <time class="entry-pub-date" datetime="{{ object.published_at|date:"c" }}">{{ object.published_at|date:"Y/m/d" }}</time>
+                {% if object.pub_state == "protected" %}
+                    <span class="glyphicon glyphicon-lock text-protected" rel="tooltip" data-toggle="tooltip" data-placement="top" title="この記事は内部公開に設定されています"></span>
+                {% endif %}
+            </small>
+            <a href="{{ object.author.get_absolute_url }}">
+                <img src="{{ object.author.get_middle_avatar }}" alt="{{ object.author.nickname }} Avatar" rel="tooltip" data-toggle="tooltip" data-placement="top" title="{{ object.author.nickname }}" class="avatar avatar-middle" />
+            </a>
+        </p>
+        <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+        {% if object.category %}
+            <a class="badge" href="{{ object.category.get_absolute_url }}">{{ object.category.label }}</a>
+        {% else %}
+            <p class="badge">{% trans "None" %}</p>
+        {% endif %}
+    </div>
+    <article class="markdown">
+        {{ object.body | kfm | truncatechars_html:140}}
+    </article>
+</div>

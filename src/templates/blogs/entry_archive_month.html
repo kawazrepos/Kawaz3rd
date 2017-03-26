@@ -1,6 +1,73 @@
-{% extends "base.html" %}
-{% block content %}
-    {% for object in object_list %}
-        {{ object }}
-    {% endfor %}
+{% extends "twopane.html" %}
+
+{% load utils %}
+{% load staticfiles %}
+{% load i18n %}
+{% load blogs_tags %}
+
+{% block title %}{% blocktrans with month=month|date:"Y年n月" %}blog on {{ month }}{% endblocktrans %}{% endblock %}
+{% block pre_css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{% static "less/blogs.less" %}" media="screen">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'blogs_entry_list' %}">{% trans "Blog" %}</a></li>
+{% endblock %}
+
+{% block content-header %}
+    <div class="page-header blog-list-header row">
+        <div class="col col-lg-9 col-xs-12">
+            <h1>{% blocktrans with month=month|date:"Y年n月" %}blog on {{ month }}{% endblocktrans %}</h1>
+            {% if paginator.count > 0 %}
+            <small>{% blocktrans count counter=paginator.count %}There is one blog entry.{% plural %}There are {{ counter }} blog entries.{% endblocktrans %}</small>
+            {% endif %}
+        </div>
+        <div class="col col-lg-3 col-xs-12 header-right">
+        {% if user has 'blogs.add_event' %}
+            <a href="{% url "blogs_blog_create" %}"
+               class="btn btn-success btn-lg">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span>{% trans "Create a new blog entry" %}</span>
+            </a>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content-main %}
+    <div class="blog-list-wrap">
+        {% for object in object_list %}
+            {% include "blogs/components/list-item.html" %}
+        {% empty %}
+            <div class="alert alert-info">
+                <p>{% trans "No blog entries found" %}</p>
+                {% if user has 'blogs.add_event' %}
+                    <a href="{% url "blogs_blog_create" %}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> {% trans "Create a new blog entry" %}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% include "components/paginator.html" %}
+{% endblock %}
+
+{% block content-aside %}
+    {% include "blogs/components/hotentry_list.html" %}
+
+    {% if author %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{% trans "Categories" %}</h2>
+            </div>
+            <div class="list-group">
+                {% get_categories author as categories %}
+                {% for c in categories %}
+                    <a class="list-group-item{% if category and category.pk == c.pk %} active{% endif %}" href="{{ c.get_absolute_url }}">{{ c.label }}</a>
+                {% empty %}
+                    <div class="list-group-item list-group-item-warning">{% trans "There is no category" %}</div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
