@@ -135,10 +135,10 @@ class ProfileUpdateViewTestCase(ProfileViewTestCaseBase):
             username1 = "{}-{}".format(random_str(), i)
             username2 = "{}-{}".format(random_str(), i)
             kwargs.update({
-                'accounts-0-service': 1,
+                'accounts-0-service': self.services[0].pk,
                 'accounts-0-username': username1,
                 'accounts-0-pub_state': 'public',
-                'accounts-1-service': 2,
+                'accounts-1-service': self.services[1].pk,
                 'accounts-1-username': username2,
                 'accounts-1-pub_state': 'public',
                 'accounts-TOTAL_FORMS': 2,
@@ -154,12 +154,12 @@ class ProfileUpdateViewTestCase(ProfileViewTestCaseBase):
             p = Profile.objects.get(user=user)
             a = Account.objects.filter(profile=p)
             self.assertEqual(a.count(), 2)
-            self.assertEqual(a[0].service.pk, 1)
+            self.assertEqual(a[0].service.pk, self.services[0].pk)
             self.assertEqual(a[0].profile.user, user)
             self.assertEqual(a[0].username, username1)
             self.assertEqual(a[0].pub_state, 'public')
             self.assertEqual(a[1].profile.user, user)
-            self.assertEqual(a[1].service.pk, 2)
+            self.assertEqual(a[1].service.pk, self.services[1].pk)
             self.assertEqual(a[1].username, username2)
             self.assertEqual(a[1].pub_state, 'public')
 

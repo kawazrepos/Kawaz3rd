@@ -225,22 +225,21 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post(url, self.product_kwargs)
-            e = Product.objects.get(pk=i+1)
-            self.assertRedirects(r, e.get_absolute_url())
+            product = Product.objects.last()
+            self.assertRedirects(r, product.get_absolute_url())
             self.assertEqual(Product.objects.count(), 1)
-            self.assertEqual(e.pk, i+1)
-            self.assertEqual(e.title, 'かわずたんファンタジー')
+            self.assertEqual(product.title, 'かわずたんファンタジー')
             # administratorsに指定されたユーザーは管理者として登録されている
-            administrators_qs = e.administrators.all()
+            administrators_qs = product.administrators.all()
             for administrator in self.administrators:
                 self.assertIn(administrator, administrators_qs)
             # 作成者自身も管理者に追加される
             self.assertIn(user, administrators_qs)
-            self.assertEqual(e.administrators.count(),
+            self.assertEqual(product.administrators.count(),
                              len(self.administrators) + 1)
             self.assertIn('messages', r.cookies, "No messages are appeared")
             # 重複を避けるため削除する
-            e.delete()
+            product.delete()
 
     def test_set_last_modifier_via_create_view(self):
         """
@@ -252,12 +251,12 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
             with open(self.image_file, 'rb') as f:
                 self.product_kwargs['thumbnail'] = f
                 r = self.client.post(url, self.product_kwargs)
-            e = Product.objects.get(pk=i+1)
-            self.assertRedirects(r, e.get_absolute_url())
+            product = Product.objects.last()
+            self.assertRedirects(r, product.get_absolute_url())
             self.assertEqual(Product.objects.count(), 1)
-            self.assertEqual(e.last_modifier, user)
+            self.assertEqual(product.last_modifier, user)
             # 重複を避けるため削除する
-            e.delete()
+            product.delete()
 
     def test_member_can_create_screenshot_via_product_form(self):
         """
@@ -280,15 +279,15 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
                     'screenshots-0-image': f2,
                 })
                 r = self.client.post(url, self.product_kwargs)
-            e = Product.objects.get(pk=i+1)
-            self.assertRedirects(r, e.get_absolute_url())
+            product = Product.objects.last()
+            self.assertRedirects(r, product.get_absolute_url())
 
             self.assertEqual(Screenshot.objects.count(), 1)
-            obj = Screenshot.objects.get(pk=i+1)
+            release = Screenshot.objects.last()
             self.assertIn('messages', r.cookies, "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
-            obj.product.delete()
-            obj.delete()
+            release.product.delete()
+            release.delete()
 
     def test_member_can_create_url_release_via_product_form(self):
         """
@@ -307,18 +306,18 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
                     'url_releases-0-url': 'http://play.google.com',
                 })
                 r = self.client.post(url, self.product_kwargs)
-            e = Product.objects.get(pk=i+1)
-            self.assertRedirects(r, e.get_absolute_url())
+            product = Product.objects.last()
+            self.assertRedirects(r, product.get_absolute_url())
 
             self.assertEqual(URLRelease.objects.count(), 1)
-            obj = URLRelease.objects.get(pk=i+1)
-            self.assertEqual(obj.label, 'Android版')
-            self.assertEqual(obj.version, 'Version3.14')
-            self.assertEqual(obj.platform, self.platform)
+            release = URLRelease.objects.last()
+            self.assertEqual(release.label, 'Android版')
+            self.assertEqual(release.version, 'Version3.14')
+            self.assertEqual(release.platform, self.platform)
             self.assertIn('messages', r.cookies, "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
-            obj.product.delete()
-            obj.delete()
+            release.product.delete()
+            release.delete()
 
     def test_member_can_create_package_release_via_product_form(self):
         """
@@ -344,18 +343,18 @@ class ProductCreateViewTestCase(ViewTestCaseBase):
                     'package_releases-0-file_content': f2,
                 })
                 r = self.client.post(url, self.product_kwargs)
-            e = Product.objects.get(pk=i+1)
-            self.assertRedirects(r, e.get_absolute_url())
+            product = Product.objects.last()
+            self.assertRedirects(r, product.get_absolute_url())
 
             self.assertEqual(PackageRelease.objects.count(), 1)
-            obj = PackageRelease.objects.get(pk=i+1)
-            self.assertEqual(obj.label, 'Android版')
-            self.assertEqual(obj.version, 'Version3.14')
-            self.assertEqual(obj.platform, self.platform)
+            release = PackageRelease.objects.last()
+            self.assertEqual(release.label, 'Android版')
+            self.assertEqual(release.version, 'Version3.14')
+            self.assertEqual(release.platform, self.platform)
             self.assertIn('messages', r.cookies, "No messages are appeared")
             # 重複を避けるため削除する（プロダクトの削除も忘れずに）
-            obj.product.delete()
-            obj.delete()
+            release.product.delete()
+            release.delete()
 
 
 class ProductUpdateViewTestCase(ViewTestCaseBase):

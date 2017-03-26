@@ -157,7 +157,7 @@ class ActivitiesModelsActivityTestCase(TestCase):
         # it should not contain itself
         # the order of appearance is also important
         self.assertQuerysetEqual(activities,
-                                 (5, 4, 2, 1),
+                                 (activity5.pk, activity4.pk, activity2.pk, activity1.pk),
                                  transform=lambda x: x.pk)
 
     def test_get_previous_activities(self):
@@ -189,7 +189,7 @@ class ActivitiesModelsActivityTestCase(TestCase):
         self.assertEqual(len(activities), 2)
         # it should not contain newer activities
         self.assertQuerysetEqual(activities,
-                                 (2, 1),
+                                 (activity2.pk, activity1.pk),
                                  transform=lambda x: x.pk)
 
     def test_get_next_activities(self):
@@ -221,7 +221,7 @@ class ActivitiesModelsActivityTestCase(TestCase):
         self.assertEqual(len(activities), 2)
         # it should not contain older activities
         self.assertQuerysetEqual(activities,
-                                 (5, 4),
+                                 (activity5.pk, activity4.pk),
                                  transform=lambda x: x.pk)
 
 

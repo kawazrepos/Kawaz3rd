@@ -149,22 +149,22 @@ class GetProductsByCategoriesTestCase(TestCase):
         p1 = ProductFactory(categories=(c1,))
         p2 = ProductFactory(categories=[c0, c1])
 
-        categories0 = Category.objects.filter(pk__in=(1,))
+        categories0 = Category.objects.filter(pk__in=(c0.pk,))
         products0 = self._render_template(categories=categories0)
         self.assertEqual(len(products0), 2)
         self.assertEqual(products0[0], p0)
         self.assertEqual(products0[1], p2)
-        categories1 = Category.objects.filter(pk__in=(2,))
+        categories1 = Category.objects.filter(pk__in=(c1.pk,))
         products1 = self._render_template(categories=categories1)
         self.assertEqual(products1[0], p1)
         self.assertEqual(products1[1], p2)
         self.assertEqual(len(products1), 2)
-        categories2 = Category.objects.filter(pk__in=(1, 2))
+        categories2 = Category.objects.filter(pk__in=(c0.pk, c1.pk))
         products2 = self._render_template(categories=categories2)
         self.assertEqual(len(products2), 3)
-        self.assertEqual(products2[0], p0)
-        self.assertEqual(products2[1], p2)
-        self.assertEqual(products2[2], p1)
+        self.assertIn(p0, products2)
+        self.assertIn(p1, products2)
+        self.assertIn(p2, products2)
 
 
 class GetRelativeTestCase(TestCase):

@@ -138,12 +138,6 @@ if PRODUCT:
          'activities.notifiers.oauth.twitter.TwitterActivityNotifier',
          os.path.join(CONFIG_ROOT, 'activities', 'notifiers',
                       'credentials_twitter_kawazinfo.json')),
-        ('hipchat_kawaz_all',
-         'kawaz.core.activities.notifiers.hipchat.HipChatActivityNotifier',
-         'mytoken',
-         'roomid',
-         {'from_name': 'Kawazポータル', 'color': 'green', 'is_notify': True}
-        ),
         ('slack_kawaz_general',
          'kawaz.core.activities.notifiers.slack.SlackActivityNotifier',
          'https://kawaz.slack.com/token',
@@ -153,7 +147,6 @@ if PRODUCT:
 )
 ACTIVITIES_DEFAULT_NOTIFIERS = (
     'twitter_kawaz_info',
-    'hipchat_kawaz_all',
 )
 
 # utils
