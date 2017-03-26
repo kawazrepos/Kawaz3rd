@@ -165,8 +165,9 @@ class EntryMonthArchiveViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two entries')
-        self.assertEqual(list[0], self.entries[1], 'protected')
-        self.assertEqual(list[1], self.entries[0], 'public')
+        self.assertIn(self.entries[1], list, 'protected')
+        self.assertIn(self.entries[0], list, 'public')
+
 
 class EntryAuthorMonthArchiveViewTestCase(TestCase):
     def setUp(self):
@@ -226,8 +227,9 @@ class EntryAuthorMonthArchiveViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two entries')
-        self.assertEqual(list[0], self.entries[3], 'protected')
-        self.assertEqual(list[1], self.entries[1], 'public')
+        self.assertIn(self.entries[3], list, 'protected')
+        self.assertIn(self.entries[1], list, 'public')
+
 
 class EntryDayArchiveViewTestCase(TestCase):
     def setUp(self):
@@ -282,8 +284,9 @@ class EntryDayArchiveViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two entries')
-        self.assertEqual(list[0], self.entries[1], 'protected')
-        self.assertEqual(list[1], self.entries[0], 'public')
+        self.assertIn(self.entries[1], list, 'protected')
+        self.assertIn(self.entries[0], list, 'public')
+
 
 class EntryAuthorDayArchiveViewTestCase(TestCase):
     def setUp(self):
@@ -339,8 +342,8 @@ class EntryAuthorDayArchiveViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two entries')
-        self.assertEqual(list[0], self.entries[3], 'protected')
-        self.assertEqual(list[1], self.entries[1], 'public')
+        self.assertIn(self.entries[3], list, 'protected')
+        self.assertIn(self.entries[1], list, 'public')
 
 
 class EntryTodayArchiveViewTestCase(TestCase):
@@ -396,8 +399,8 @@ class EntryTodayArchiveViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two entries')
-        self.assertEqual(list[0], self.entries[1], 'protected')
-        self.assertEqual(list[1], self.entries[0], 'public')
+        self.assertIn(self.entries[1], list, 'protected')
+        self.assertIn(self.entries[0], list, 'public')
 
 class EntryAuthorTodayArchiveViewTestCase(TestCase):
     def setUp(self):
@@ -420,7 +423,6 @@ class EntryAuthorTodayArchiveViewTestCase(TestCase):
         Tests anonymous user can view public Entry written by specific author on today only.
         The protected entries are not displayed.
         '''
-        entry = self.entries[0]
         r = self.client.get('/blogs/{}/today/'.format(self.user.username))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
@@ -433,7 +435,6 @@ class EntryAuthorTodayArchiveViewTestCase(TestCase):
         Tests wille user can view public Entry written by specific author on today only.
         The protected entries are not displayed.
         '''
-        entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.wille, password='password'))
         r = self.client.get('/blogs/{}/today/'.format(self.user.username))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
@@ -446,12 +447,11 @@ class EntryAuthorTodayArchiveViewTestCase(TestCase):
         '''
         Tests authenticated user can view all published entries written by specific author on today.
         '''
-        entry = self.entries[0]
         self.assertTrue(self.client.login(username=self.user, password='password'))
         r = self.client.get('/blogs/{}/today/'.format(self.user.username))
         self.assertTemplateUsed('blogs/entry_archive_day.html')
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two entries')
-        self.assertEqual(list[0], self.entries[3], 'protected')
-        self.assertEqual(list[1], self.entries[1], 'public')
+        self.assertIn(self.entries[3], list, 'protected')
+        self.assertIn(self.entries[1], list, 'public')

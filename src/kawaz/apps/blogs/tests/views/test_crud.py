@@ -336,8 +336,9 @@ class EntryListViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two entries')
-        self.assertEqual(list[0], self.entries[1], 'protected')
-        self.assertEqual(list[1], self.entries[0], 'public')
+        self.assertIn(self.entries[1], list, 'protected')
+        self.assertIn(self.entries[0], list, 'public')
+
 
 class EntryAuthorListViewTestCase(TestCase):
     def setUp(self):
@@ -417,8 +418,8 @@ class EntryAuthorListViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two entries')
-        self.assertEqual(list[0], self.entries[3], 'protected')
-        self.assertEqual(list[1], self.entries[1], 'public')
+        self.assertIn(self.entries[3], list, 'protected')
+        self.assertIn(self.entries[1], list, 'public')
         self.assertEqual(r.context_data['author'], self.user)
 
 

@@ -57,8 +57,8 @@ class EntryManagerTestCase(TestCase):
         user = PersonaFactory()
         qs = Entry.objects.published(user)
         self.assertEqual(qs.count(), 2)
-        self.assertEqual(qs[0], self.entries[1])
-        self.assertEqual(qs[1], self.entries[0])
+        self.assertIn(self.entries[0], qs)
+        self.assertIn(self.entries[1], qs)
 
     def test_published_with_wille(self):
         '''Tests Entry.objects.published() with wille user returns only public entries '''

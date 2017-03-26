@@ -504,8 +504,8 @@ class ProjectListViewTestCase(TestCase):
         self.assertTrue('object_list' in r.context_data)
         list = r.context_data['object_list']
         self.assertEqual(list.count(), 2, 'object_list has two projects')
-        self.assertEqual(list[0], self.projects[1], 'protected')
-        self.assertEqual(list[1], self.projects[0], 'public')
+        self.assertIn(self.projects[1], list, 'protected')
+        self.assertIn(self.projects[0], list, 'public')
 
 
 class ProjectArchiveViewTestCase(ViewTestCaseBase):

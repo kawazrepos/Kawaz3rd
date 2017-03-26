@@ -43,8 +43,8 @@ class AnnouncementManagerTestCase(TestCase):
         user = PersonaFactory()
         qs = Announcement.objects.published(user)
         self.assertEqual(qs.count(), 2)
-        self.assertEqual(qs[0], b)
-        self.assertEqual(qs[1], a)
+        self.assertIn(b, qs)
+        self.assertIn(a, qs)
 
     def test_published_by_anonymous(self):
         """
