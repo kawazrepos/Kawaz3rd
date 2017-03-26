@@ -66,7 +66,7 @@
 </div>
 {% endblock %}
 {% block content %}
-    <h2>{% trans "Recent games" %}</h2>
+    <h2>{% trans "Recent products" %}</h2>
     <div id="recent_products" class="row list-group">
         {% get_products 'normal' as recent_products %}
         {% for product in recent_products|slice:":6" %}

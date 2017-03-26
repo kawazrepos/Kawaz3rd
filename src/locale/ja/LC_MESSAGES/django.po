@@ -1414,8 +1414,8 @@ msgid "See more"
 msgstr "もっと見る"
 
 #: src/templates/components/registration/index.anonymous.html:69
-msgid "Recent games"
-msgstr "最近のゲーム"
+msgid "Recent products"
+msgstr "最近の作品"
 
 #: src/templates/components/registration/index.anonymous.html:78
 msgid "Featured games"
