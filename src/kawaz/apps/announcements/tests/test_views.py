@@ -189,9 +189,10 @@ class AnnouncementCreateViewTestCase(ViewTestCaseBase):
             'body' : 'サードインパクトだ！',
             'silently' : True
         })
-        self.assertRedirects(r, '/announcements/1/')
+        announcement = Announcement.objects.last()
+        self.assertRedirects(r, '/announcements/{}/'.format(announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.get(pk=1)
+        e = Announcement.objects.last()
         self.assertEqual(e.title, '【悲報】データ消えました')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
@@ -217,9 +218,10 @@ class AnnouncementCreateViewTestCase(ViewTestCaseBase):
             'body' : 'サードインパクトだ！',
             'silently' : True
         })
-        self.assertRedirects(r, '/announcements/1/')
+        announcement = Announcement.objects.last()
+        self.assertRedirects(r, '/announcements/{}/'.format(announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.get(pk=1)
+        e = Announcement.objects.last()
         self.assertEqual(e.author, self.nerv)
         self.assertEqual(e.last_modifier, self.nerv)
 
@@ -239,9 +241,10 @@ class AnnouncementCreateViewTestCase(ViewTestCaseBase):
             'silently' : True,
             'author' : other.pk
         })
-        self.assertRedirects(r, '/announcements/1/')
+        announcement = Announcement.objects.last()
+        self.assertRedirects(r, '/announcements/{}/'.format(announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.get(pk=1)
+        e = Announcement.objects.last()
         self.assertEqual(e.author, self.nerv)
         self.assertNotEqual(e.author, other)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
@@ -265,29 +268,29 @@ class AnnouncementUpdateViewTestCase(TestCase):
 
     def test_anonymous_user_can_not_view_announcement_update_view(self):
         '''Tests anonymous user can not view AnnouncementUpdateView'''
-        r = self.client.get('/announcements/1/update/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/1/update/')
+        r = self.client.get('/announcements/{}/update/'.format(self.announcement.pk))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/{}/update/'.format(self.announcement.pk))
 
     def test_wille_user_can_not_view_announcement_update_view(self):
         '''Tests wille user can not view AnnouncementUpdateView'''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
-        r = self.client.get('/announcements/1/update/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/1/update/')
+        r = self.client.get('/announcements/{}/update/'.format(self.announcement.pk))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/{}/update/'.format(self.announcement.pk))
 
     def test_general_user_can_not_view_announcement_update_view(self):
         '''
         Tests general user can view AnnouncementUpdateView
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
-        r = self.client.get('/announcements/1/update/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/1/update/')
+        r = self.client.get('/announcements/{}/update/'.format(self.announcement.pk))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/{}/update/'.format(self.announcement.pk))
 
     def test_staff_can_view_announcement_update_view(self):
         '''
         Tests staff members can view AnnouncementUpdateView
         '''
         self.assertTrue(self.client.login(username=self.nerv, password='password'))
-        r = self.client.get('/announcements/1/update/')
+        r = self.client.get('/announcements/{}/update/'.format(self.announcement.pk))
         self.assertTemplateUsed(r, 'announcements/announcement_form.html')
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.announcement)
@@ -297,13 +300,13 @@ class AnnouncementUpdateViewTestCase(TestCase):
         Tests anonymous user can not update announcement via AnnouncementUpdateView
         It will redirect to LOGIN_URL
         '''
-        r = self.client.post('/announcements/1/update/', {
+        r = self.client.post('/announcements/{}/update/'.format(self.announcement.pk), {
             'pub_state' : 'public',
             'title' : '【悲報】データ消えました',
             'body' : 'サードインパクトだ！',
             'silently' : True,
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/{}/update/'.format(self.announcement.pk))
         self.assertEqual(self.announcement.title, 'かわずたんのお知らせだよ☆')
 
     def test_wille_user_can_not_update_via_update_view(self):
@@ -312,13 +315,13 @@ class AnnouncementUpdateViewTestCase(TestCase):
         It will redirect to LOGIN_URL
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
-        r = self.client.post('/announcements/1/update/', {
+        r = self.client.post('/announcements/{}/update/'.format(self.announcement.pk), {
             'pub_state' : 'public',
             'title' : '【悲報】データ消えました',
             'body' : 'サードインパクトだ！',
             'silently' : True,
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/{}/update/'.format(self.announcement.pk))
         self.assertEqual(self.announcement.title, 'かわずたんのお知らせだよ☆')
 
     def test_other_user_cannot_update_via_update_view(self):
@@ -327,27 +330,27 @@ class AnnouncementUpdateViewTestCase(TestCase):
         It will redirect to LOGIN_URL
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
-        r = self.client.post('/announcements/1/update/', {
+        r = self.client.post('/announcements/{}/update/'.format(self.announcement.pk), {
             'pub_state' : 'public',
             'title' : '【悲報】データ消えました',
             'body' : 'サードインパクトだ！',
             'silently' : True,
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/announcements/{}/update/'.format(self.announcement.pk))
         self.assertEqual(self.announcement.title, 'かわずたんのお知らせだよ☆')
 
     def test_staff_can_update_via_update_view(self):
         '''Tests author user can update announcement via AnnouncementUpdateView'''
         self.assertTrue(self.client.login(username=self.nerv, password='password'))
-        r = self.client.post('/announcements/1/update/', {
+        r = self.client.post('/announcements/{}/update/'.format(self.announcement.pk), {
             'pub_state' : 'public',
             'title' : '【悲報】データ消えました',
             'body' : 'サードインパクトだ！',
             'silently' : True,
         })
-        self.assertRedirects(r, '/announcements/1/')
+        self.assertRedirects(r, '/announcements/{}/'.format(self.announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.get(pk=1)
+        e = Announcement.objects.last()
         self.assertEqual(e.title, '【悲報】データ消えました')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
@@ -357,15 +360,15 @@ class AnnouncementUpdateViewTestCase(TestCase):
         """
         previous_modifier = self.announcement.last_modifier
         self.assertTrue(self.client.login(username=self.nerv, password='password'))
-        r = self.client.post('/announcements/1/update/', {
+        r = self.client.post('/announcements/{}/update/'.format(self.announcement.pk), {
             'pub_state' : 'public',
             'title' : '【悲報】データ消えました',
             'body' : 'サードインパクトだ！',
             'silently' : True,
         })
-        self.assertRedirects(r, '/announcements/1/')
+        self.assertRedirects(r, '/announcements/{}/'.format(self.announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.get(pk=1)
+        e = Announcement.objects.last()
         self.assertEqual(e.last_modifier, self.nerv)
         self.assertNotEqual(e.last_modifier, previous_modifier)
 
@@ -378,16 +381,16 @@ class AnnouncementUpdateViewTestCase(TestCase):
         '''
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.nerv, password='password'))
-        r = self.client.post('/announcements/1/update/', {
+        r = self.client.post('/announcements/{}/update/'.format(self.announcement.pk), {
             'pub_state' : 'public',
             'title' : 'ID書き換えます！',
             'body' : 'サードインパクトだ！',
             'silently' : True,
             'author' : other.pk # crackers attempt to masquerade
         })
-        self.assertRedirects(r, '/announcements/1/')
+        self.assertRedirects(r, '/announcements/{}/'.format(self.announcement.pk))
         self.assertEqual(Announcement.objects.count(), 1)
-        e = Announcement.objects.get(pk=1)
+        e = Announcement.objects.last()
         self.assertEqual(e.author, self.user)
         self.assertNotEqual(e.author, other)
         self.assertEqual(e.title, 'ID書き換えます！')
@@ -414,7 +417,7 @@ class AnnouncementDeleteViewTestCase(TestCase):
         Tests author can delete its own announcements via AnnouncementDeleteView
         '''
         self.assertTrue(self.client.login(username=self.user, password='password'))
-        r = self.client.post('/announcements/1/delete/', {})
+        r = self.client.post('/announcements/{}/delete/'.format(self.announcement.pk), {})
         self.assertRedirects(r, '/announcements/')
         self.assertEqual(Announcement.objects.count(), 0)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
@@ -424,7 +427,7 @@ class AnnouncementDeleteViewTestCase(TestCase):
         Tests members can delete its announcements via AnnouncementDeleteView
         '''
         self.assertTrue(self.client.login(username=self.nerv, password='password'))
-        r = self.client.post('/announcements/1/delete/', {})
+        r = self.client.post('/announcements/{}/delete/'.format(self.announcement.pk), {})
         self.assertRedirects(r, '/announcements/')
         self.assertEqual(Announcement.objects.count(), 0)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
@@ -434,26 +437,26 @@ class AnnouncementDeleteViewTestCase(TestCase):
         Tests others cannot delete announcements via AnnouncementDeleteView
         '''
         self.assertTrue(self.client.login(username=self.other, password='password'))
-        r = self.client.post('/announcements/1/delete/', {})
+        r = self.client.post('/announcements/{}/delete/'.format(self.announcement.pk), {})
         self.assertEqual(Announcement.objects.count(), 1)
-        self.assertRedirects(r, '{0}?next=/announcements/1/delete/'.format(settings.LOGIN_URL))
+        self.assertRedirects(r, '{0}?next=/announcements/{1}/delete/'.format(settings.LOGIN_URL, self.announcement.pk))
 
     def test_wille_cannot_delete_via_announcement_delete_view(self):
         '''
         Tests wille cannot delete announcements via AnnouncementDeleteView
         '''
         self.assertTrue(self.client.login(username=self.wille, password='password'))
-        r = self.client.post('/announcements/1/delete/', {})
+        r = self.client.post('/announcements/{}/delete/'.format(self.announcement.pk), {})
         self.assertEqual(Announcement.objects.count(), 1)
-        self.assertRedirects(r, '{0}?next=/announcements/1/delete/'.format(settings.LOGIN_URL))
+        self.assertRedirects(r, '{0}?next=/announcements/{1}/delete/'.format(settings.LOGIN_URL, self.announcement.pk))
 
     def test_anonymous_cannot_delete_via_announcement_delete_view(self):
         '''
         Tests anonymous cannot delete announcements via AnnouncementDeleteView
         '''
-        r = self.client.post('/announcements/1/delete/', {})
+        r = self.client.post('/announcements/{}/delete/'.format(self.announcement.pk), {})
         self.assertEqual(Announcement.objects.count(), 1)
-        self.assertRedirects(r, '{0}?next=/announcements/1/delete/'.format(settings.LOGIN_URL))
+        self.assertRedirects(r, '{0}?next=/announcements/{1}/delete/'.format(settings.LOGIN_URL, self.announcement.pk))
 
 
 class AnnouncementListViewTestCase(TestCase):
