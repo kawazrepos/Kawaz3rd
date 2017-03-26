@@ -162,9 +162,9 @@ class GetProductsByCategoriesTestCase(TestCase):
         categories2 = Category.objects.filter(pk__in=(c0.pk, c1.pk))
         products2 = self._render_template(categories=categories2)
         self.assertEqual(len(products2), 3)
-        self.assertEqual(products2[0], p0)
-        self.assertEqual(products2[1], p2)
-        self.assertEqual(products2[2], p1)
+        self.assertIn(p0, products2)
+        self.assertIn(p1, products2)
+        self.assertIn(p2, products2)
 
 
 class GetRelativeTestCase(TestCase):
