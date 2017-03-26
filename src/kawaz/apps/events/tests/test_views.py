@@ -63,13 +63,13 @@ class EventDetailViewTestCase(TestCase):
     def test_others_can_not_view_draft_event(self):
         '''
         Tests others can not view draft event
-        User will redirect to '/events/1/update/'
+        User will redirect to '/events/{event.pk}/update/'
         '''
         event = EventFactory(pub_state='draft')
         self.assertTrue(self.client.login(username=self.user,
                                           password='password'))
         r = self.client.get(event.get_absolute_url())
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/{}/update/'.format(event.pk))
 
     def test_organizer_can_view_draft_event(self):
         '''Tests organizer can view draft event on update view'''
@@ -122,10 +122,10 @@ class EventCreateViewTestCase(TestCase):
             'period_start': datetime.datetime.now()+datetime.timedelta(hours=1),
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3)
         })
-        self.assertRedirects(r, '/events/1/')
+        event = Event.objects.last()
+        self.assertRedirects(r, '/events/{}/'.format(event.pk))
         self.assertEqual(Event.objects.count(), 1)
-        e = Event.objects.get(pk=1)
-        self.assertEqual(e.title, 'テストイベント')
+        self.assertEqual(event.title, 'テストイベント')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
     def test_user_cannot_modify_organizer_id(self):
@@ -146,11 +146,11 @@ class EventCreateViewTestCase(TestCase):
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3),
             'organizer' : other.pk # crackers attempt to masquerade
         })
-        self.assertRedirects(r, '/events/1/')
+        event = Event.objects.last()
+        self.assertRedirects(r, '/events/{}/'.format(event.pk))
         self.assertEqual(Event.objects.count(), 1)
-        e = Event.objects.get(pk=1)
-        self.assertEqual(e.organizer, self.user)
-        self.assertNotEqual(e.organizer, other)
+        self.assertEqual(event.organizer, self.user)
+        self.assertNotEqual(event.organizer, other)
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
 
@@ -167,8 +167,8 @@ class EventUpdateViewTestCase(TestCase):
 
     def test_anonymous_user_can_not_view_event_update_view(self):
         '''Tests anonymous user can not view EventUpdateView'''
-        r = self.client.get('/events/1/update/')
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/1/update/')
+        r = self.client.get('/events/{}/update/'.format(self.event.pk))
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/{}/update/'.format(self.event.pk))
 
     def test_authorized_user_can_view_event_update_view(self):
         '''
@@ -176,7 +176,7 @@ class EventUpdateViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.user,
                                           password='password'))
-        r = self.client.get('/events/1/update/')
+        r = self.client.get('/events/{}/update/'.format(self.event.pk))
         self.assertTemplateUsed(r, 'events/event_form.html')
         self.assertTrue('object' in r.context_data)
         self.assertEqual(r.context_data['object'], self.event)
@@ -186,7 +186,7 @@ class EventUpdateViewTestCase(TestCase):
         Tests anonymous user can not update event via EventUpdateView
         It will redirect to LOGIN_URL
         '''
-        r = self.client.post('/events/1/update/', {
+        r = self.client.post('/events/{}/update/'.format(self.event.pk), {
             'pub_state': 'public',
             'title': '変更後のイベントです',
             'body': 'うえーい',
@@ -194,7 +194,7 @@ class EventUpdateViewTestCase(TestCase):
             'period_start': datetime.datetime.now()+datetime.timedelta(hours=1),
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3),
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/{}/update/'.format(self.event.pk))
         self.assertEqual(self.event.title, '変更前のイベントです')
 
     def test_other_user_cannot_update_via_update_view(self):
@@ -204,7 +204,7 @@ class EventUpdateViewTestCase(TestCase):
         '''
         self.assertTrue(self.client.login(username=self.other,
                                           password='password'))
-        r = self.client.post('/events/1/update/', {
+        r = self.client.post('/events/{}/update/'.format(self.event.pk), {
             'pub_state': 'public',
             'title': '変更後のイベントです',
             'body': 'うえーい',
@@ -212,14 +212,14 @@ class EventUpdateViewTestCase(TestCase):
             'period_start': datetime.datetime.now()+datetime.timedelta(hours=1),
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3)
         })
-        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/1/update/')
+        self.assertRedirects(r, settings.LOGIN_URL + '?next=/events/{}/update/'.format(self.event.pk))
         self.assertEqual(self.event.title, '変更前のイベントです')
 
     def test_organizer_can_update_via_update_view(self):
         '''Tests authorized user can update event via EventUpdateView'''
         self.assertTrue(self.client.login(username=self.user,
                                           password='password'))
-        r = self.client.post('/events/1/update/', {
+        r = self.client.post('/events/{}/update/'.format(self.event.pk), {
             'pub_state': 'public',
             'title': '変更後のイベントです',
             'body': 'うえーい',
@@ -227,9 +227,9 @@ class EventUpdateViewTestCase(TestCase):
             'period_start': datetime.datetime.now()+datetime.timedelta(hours=1),
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3)
         })
-        self.assertRedirects(r, '/events/1/')
+        self.assertRedirects(r, '/events/{}/'.format(self.event.pk))
         self.assertEqual(Event.objects.count(), 1)
-        e = Event.objects.get(pk=1)
+        e = Event.objects.last()
         self.assertEqual(e.title, '変更後のイベントです')
         self.assertTrue('messages' in r.cookies, "No messages are appeared")
 
@@ -243,7 +243,7 @@ class EventUpdateViewTestCase(TestCase):
         other = PersonaFactory()
         self.assertTrue(self.client.login(username=self.user,
                                           password='password'))
-        r = self.client.post('/events/1/update/', {
+        r = self.client.post('/events/{}/update/'.format(self.event.pk), {
             'pub_state': 'public',
             'title': '変更後のイベントです',
             'body': 'うえーい',
@@ -252,9 +252,9 @@ class EventUpdateViewTestCase(TestCase):
             'period_end': datetime.datetime.now()+datetime.timedelta(hours=3),
             'organizer': other.pk # crackers attempt to masquerade
         })
-        self.assertRedirects(r, '/events/1/')
+        self.assertRedirects(r, '/events/{}/'.format(self.event.pk))
         self.assertEqual(Event.objects.count(), 1)
-        e = Event.objects.get(pk=1)
+        e = Event.objects.last()
         self.assertEqual(e.organizer, self.user)
         self.assertNotEqual(e.organizer, other)
         self.assertEqual(e.title, '変更後のイベントです')
