@@ -9,6 +9,7 @@ before_install:
   - git submodule update --init --recursive
   - mv config/ci_settings.py src/kawaz/local_settings.py
   - mysql -uroot -e "create database kawaz_travis"
+  - mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
 install:
 - pip install tox
 - pip install coverage coveralls
