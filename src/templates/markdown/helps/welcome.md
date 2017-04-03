@@ -8,7 +8,7 @@
 
 ## プロフィールを登録しよう
 
-[こちら](http://www.kawaz.org/members/my/update/)から、あなたのプロフィールを登録できます。
+[こちら](https://www.kawaz.org/members/my/update/)から、あなたのプロフィールを登録できます。
 
 他のメンバーと交流するために、以下の点について必ず記入しましょう。
 
@@ -18,7 +18,7 @@
 
 ## 全体ミーティングに参加しよう
 
-[イベントの一覧ページ](http://www.kawaz.org/events/)　から、今後開催が予定されているミーティングがご覧になれます。
+[イベントの一覧ページ](https://www.kawaz.org/events/)　から、今後開催が予定されているミーティングがご覧になれます。
 
 都合の付く日を見つけて、ぜひイベントに参加してみましょう。
 
@@ -37,7 +37,7 @@ Slackについては以下を参照のこと
 
 [Slackについて](http://kawaz.org/helps/slack/)
 
-http://www.kawaz.org/announcements/32/
+https://www.kawaz.org/announcements/32/
 
 Slackに登録していない方は運営に連絡ください！
 

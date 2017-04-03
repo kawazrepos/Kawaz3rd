@@ -60,7 +60,7 @@
 
 ちょうどKawazブログと同じ書き方なので、同じやり方でOK。
 
-[Kawazでの記事の書き方について](http://www.kawaz.org/helps/markdown/)
+[Kawazでの記事の書き方について](https://www.kawaz.org/helps/markdown/)
 
 はてなブログの詳しい使い方はここに色々と載っているので見てみてね。
 

@@ -17,7 +17,7 @@
     <meta property="og:title" content="{{ object.title | truncatechars:70 }}" />
     <meta property="og:type" content="article" />
     <meta property="og:description" content="{{ object.description | kfm | striptags | strip_newlines:" " | truncatechars:200 }}" />
-    <meta property="og:image" content="http://{{ site.domain }}{{ MEDIA_URL }}{{ object.thumbnail }}" />
+    <meta property="og:image" content="https://{{ site.domain }}{{ MEDIA_URL }}{{ object.thumbnail }}" />
 {% endblock %}
 {% block title %}{{ object.title }}{% endblock %}
 {% block breadcrumb %}

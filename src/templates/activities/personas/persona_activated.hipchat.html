@@ -1,2 +1,2 @@
-<strong><a href="http://{{ site.domain }}{{ object.get_absolute_url }}">{{ object.nickname }}</a>さんが入会しました</strong>
+<strong><a href="https://{{ site.domain }}{{ object.get_absolute_url }}">{{ object.nickname }}</a>さんが入会しました</strong>
 <pre>{{  object.body | kfm | striptags | truncatechars_html:150 }}</pre>

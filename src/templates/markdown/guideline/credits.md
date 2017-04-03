@@ -88,7 +88,7 @@
 ゲーム中へのクレジットの表示が実装コストなどの問題から困難なとき、以下のような方法で配布サイトやREADMEへの記載を行ってください。
 
 - 公式サイトへのKawazロゴの記載
-- [http://www.kawaz.org](http://www.kawaz.org) へのリンク
+- [https://www.kawaz.org](https://www.kawaz.org) へのリンク
 - 「札幌ゲーム製作者コミュニティKawaz」の表記
 
 ### 出版物、頒布物に表示する
@@ -97,7 +97,7 @@ CDや画集の販売など、物理的な媒体で作品を配布する場合、
 
 - クレジット等への「札幌ゲーム製作者コミュニティKawaz」表記
 - Kawazロゴの表記
-- URL [http://www.kawaz.org](http://www.kawaz.org) の表記、か、URLへのQRコードの表記
+- URL [https://www.kawaz.org](https://www.kawaz.org) の表記、か、URLへのQRコードの表記
 
 例として、音楽CDの場合、CD本体への印字を強制するものではなく、ジャケットのクレジット欄や包装フィルムへシールを張る、ジャケットが存在しない場合、配布するパンフレットにURLを入れる等、本体に関わらない部分で構いません。
 

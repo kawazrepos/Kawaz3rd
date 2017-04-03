@@ -1,5 +1,5 @@
 {% load shortenurl %}
 {% shortenurl %}
-「{{ object }}」が作成されました http://{{ site.domain }}{{ object.get_absolute_url }}
+「{{ object }}」が作成されました https://{{ site.domain }}{{ object.get_absolute_url }}
 {% endshortenurl %}
 

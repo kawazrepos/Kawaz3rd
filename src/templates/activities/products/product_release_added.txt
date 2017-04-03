@@ -1,5 +1,5 @@
 {% load shortenurl %}
 {% shortenurl %}
-{{ object.last_modifier.nickname }}さんが「{{ release.product.title }}」に「{{ release.label }}」を追加しました http://{{ site.domain }}{{ release.get_absolute_url }}
+{{ object.last_modifier.nickname }}さんが「{{ release.product.title }}」に「{{ release.label }}」を追加しました https://{{ site.domain }}{{ release.get_absolute_url }}
 #Kawaz
 {% endshortenurl %}

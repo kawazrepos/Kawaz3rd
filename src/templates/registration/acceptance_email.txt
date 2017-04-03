@@ -8,7 +8,7 @@ Kawazへの登録申請ありがとうございます。会員登録が承認さ
 
 会員登録を完了するために{{ expiration_days }}日以内に以下のURLをクリックしてアカウントを有効にしてください。
 
-http://{{ site.domain }}{% url 'registration_activate' activation_key=activation_key %}
+https://{{ site.domain }}{% url 'registration_activate' activation_key=activation_key %}
 
 なお{{ expiration_days }}日以内にアカウントが有効化されない場合は自動的にアカウント情報が削除されるので注意してください。
 
@@ -22,7 +22,7 @@ http://{{ site.domain }}{% url 'registration_activate' activation_key=activation
 
 また、KawazではSlackというチャットツールの設定を使って交流やゲーム開発を行っています。
 詳しい登録作業については、以下のページを参照してください。
-http://www.kawaz.org/helps/slack/
+https://www.kawaz.org/helps/slack/
 
 このメールと同時に、KawazのSlackから招待メールが届きます。
 メールの差出人は「Slack」もしくはfeedback@slack.com、
@@ -35,7 +35,7 @@ http://www.kawaz.org/helps/slack/
 -------------------------------------------------------
 札幌ゲーム製作者コミュニティ - Kawaz
 
-ホームページ: http://{{ site.domain }}
+ホームページ: https://{{ site.domain }}
 責任者: {% settings 'GEEKDRUMS_NAME' %}
 連絡先: webmaster@kawaz.org
 -------------------------------------------------------

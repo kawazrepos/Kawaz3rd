@@ -1,1 +1,1 @@
-{{ object.administrator.nickname }}さんが「{{ object.title }}」を発足しました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
+{{ object.administrator.nickname }}さんが「{{ object.title }}」を発足しました https://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
