@@ -368,7 +368,7 @@ MESSAGE_TAGS = {
 }
 
 # 神、いわゆるゴッド
-GEEKDRUMS_NAME = 'miio'
+GEEKDRUMS_NAME = 'clpsplug'
 
 # 環境依存の設定（デプロイサーバー固有の設定など）を読み込む
 LOCAL_SETTINGS_LOADED = False
