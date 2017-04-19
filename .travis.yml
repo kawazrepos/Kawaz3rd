@@ -7,6 +7,8 @@ matrix:
 before_install:
   - ./utils/decrypt-files $password_for_secret_files
   - git submodule update --init --recursive
+  - export TZ=Asia/Tokyo
+  - date
 install:
 - pip install tox
 - pip install coverage coveralls
