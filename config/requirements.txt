@@ -25,5 +25,6 @@ livereload
 pygments
 docutils
 django-suit
+lxml
 # django-activities
 requests-oauthlib
