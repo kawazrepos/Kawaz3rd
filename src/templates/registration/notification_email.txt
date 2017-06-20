@@ -5,7 +5,7 @@
 {{ user.username }}さんが新規会員登録申請を行いました。以下のリンクをクリックして許可もしくは拒否を行ってください。
 なおこのメールは新規会員登録を許可もしくは拒否できるメンバー全員に自動的に送信されています。
 
-https://{{ site.domain }}/central-dogma/registration/registrationprofile/{{ profile.pk }}/
+{{ protocol }}://{{ domain }}/central-dogma/registration/registrationprofile/{{ profile.pk }}/
 
 
 {{ user.username }}さんの情報
@@ -27,7 +27,7 @@ https://{{ site.domain }}/central-dogma/registration/registrationprofile/{{ prof
 -------------------------------------------------------
 札幌ゲーム製作者コミュニティ - Kawaz
 
-ホームページ: https://{{ site.domain }}
+ホームページ: {{ protocol }}://{{ domain }}
 責任者: {% settings 'GEEKDRUMS_NAME' %}
 連絡先: webmaster@kawaz.org
 -------------------------------------------------------

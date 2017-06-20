@@ -9,24 +9,24 @@
 
 なお登録時のパスワードを忘れた場合はお手数ですが
 
-https://{{ site.domain }}{% url 'password_reset' %}
+{{ protocol }}://{{ domain }}{% url 'password_reset' %}
 
 より再設定を行ってください。今後とも宜しくお願いいたします。
 
 Kawazでは登録いただいたこのポータルサイトやチャットツールを使って、メンバー間の交流をしています。
 詳しくはこのページをどうぞ！
-https://www.kawaz.org/helps/welcome/
+https://{{site.domain}}/helps/welcome/
 
 また、Kawazでは定期的に開かれているミーティングをはじめとして、様々なイベントが開かれています。
 最初はちょっと勇気がいるかもしれませんが、はじめの一歩としてイベントに参加してみましょう！
-https://www.kawaz.org/helps/events/
+https://{{site.domain}}/helps/events/
 
 このメールが身に覚えのない方はお手数ですが webmaster@kawaz.org までご連絡をお願いいたします。
 
 -------------------------------------------------------
 札幌ゲーム製作者コミュニティ - Kawaz
 
-ホームページ: https://{{ site.domain }}
+ホームページ: {{ protocol }}://{{ domain }}
 責任者: {% settings 'GEEKDRUMS_NAME' %}
 連絡先:	 webmaster@kawaz.org
 -------------------------------------------------------
