@@ -2,7 +2,7 @@ import os
 import pytz
 import datetime
 import requests
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, PropertyMock
 from django.test import TestCase
 from ..models import HatenablogEntry
 from ..scraper import HatenablogFeedScraper
@@ -13,11 +13,11 @@ def get(url, **kwargs):
     load = lambda x: open(os.path.join(root, x), 'rb').read()
     response = MagicMock(spec=requests.Response)
     if url == 'feed_url':
-        response.text = load('feed.xml')
+        type(response).text = PropertyMock(return_value=load('feed.xml'))
     elif url == 'entry_url':
-        response.text = load('entry.html')
+        type(response).text = PropertyMock(return_value=load('entry.html'))
     elif url == 'thumbnail_url':
-        response.content = load('thumbnail.png')
+        type(response).content = PropertyMock(return_value=load('thumbnail.png'))
     return response
 
 
