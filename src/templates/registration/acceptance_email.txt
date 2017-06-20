@@ -22,7 +22,7 @@ Kawazへの登録申請ありがとうございます。会員登録が承認さ
 
 また、KawazではSlackというチャットツールの設定を使って交流やゲーム開発を行っています。
 詳しい登録作業については、以下のページを参照してください。
-https://{{site.domain}}/helps/slack/
+{{ protocol }}://{{ domain }}/helps/slack/
 
 このメールと同時に、KawazのSlackから招待メールが届きます。
 メールの差出人は「Slack」もしくはfeedback@slack.com、
