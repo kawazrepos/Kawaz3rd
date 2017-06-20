@@ -301,13 +301,13 @@ Web上の画像に直リンクしたいときにご利用ください。
 
     かわずたん！
 
-    ![かわずたん！](http://www.kawaz.org/statics/img/help/kawaztan.png)
+    ![かわずたん！](https://www.kawaz.org/statics/img/help/kawaztan.png)
 
 
 <div class="inner-markdown">
     <p>かわずたん！</p>
 
-    <p><img src="http://www.kawaz.org/statics/img/help/kawaztan.png" alt="かわずたん！"></p>
+    <p><img src="https://www.kawaz.org/statics/img/help/kawaztan.png" alt="かわずたん！"></p>
 
 </div>
 

@@ -1,4 +1,4 @@
 {% load shortenurl %}
 {% shortenurl %}
-「{{ object }}」が削除されました http://www.kawaz.org #Kawaz
+「{{ object }}」が削除されました https://www.kawaz.org #Kawaz
 {% endshortenurl %}

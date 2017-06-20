@@ -12,16 +12,16 @@
 
 - [2016](http://www.adventar.org/calendars/1728)
 - [2015](http://www.adventar.org/calendars/824)
-- [2014](http://www.kawaz.org/blogs/giginet/2014/12/1/644/)
-- [2013](http://www.kawaz.org/blogs/giginet/2013/11/29/540/)
-- [2012 Part2](http://www.kawaz.org/blogs/giginet/2012/11/30/406/)
-- [2012](http://www.kawaz.org/blogs/giginet/2012/05/04/290/)
+- [2014](https://www.kawaz.org/blogs/giginet/2014/12/1/644/)
+- [2013](https://www.kawaz.org/blogs/giginet/2013/11/29/540/)
+- [2012 Part2](https://www.kawaz.org/blogs/giginet/2012/11/30/406/)
+- [2012](https://www.kawaz.org/blogs/giginet/2012/05/04/290/)
 
 ## 運営手順
 
 1. （11月上旬頃）存在を思い出す
 2. [Adventer](http://www.adventar.org/)でKawaz Advent Calendarを作成する
-3. 告知を書く（[例](http://www.kawaz.org/announcements/33/)）
+3. 告知を書く（[例](https://www.kawaz.org/announcements/33/)）
 4. (~12/1)メンバーに声を掛け、Adventerに登録してもらう
 5. 12/25まで毎日メンバーが更新。コメントして盛り上がる
 

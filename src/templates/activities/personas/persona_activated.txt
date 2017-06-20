@@ -1,4 +1,4 @@
 {% load shortenurl %}
 {% shortenurl %}
-{{ object.nickname }}さんが入会しました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
+{{ object.nickname }}さんが入会しました https://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
 {% endshortenurl %}

@@ -1,4 +1,4 @@
 {% load shortenurl %}
 {% shortenurl %}
-{{ comment.user.nickname }}さんが「{{ comment.content_object }}」にコメントしました http://{{ site.domain }}{{ comment.get_absolute_url }} #Kawaz
+{{ comment.user.nickname }}さんが「{{ comment.content_object }}」にコメントしました https://{{ site.domain }}{{ comment.get_absolute_url }} #Kawaz
 {% endshortenurl %}

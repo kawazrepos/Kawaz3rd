@@ -1,4 +1,4 @@
 {% load shortenurl %}
 {% shortenurl %}
-「{{ object }}」にスクリーンショットが追加されました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
+「{{ object }}」にスクリーンショットが追加されました https://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
 {% endshortenurl %}

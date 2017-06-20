@@ -1,4 +1,4 @@
 {% load shortenurl %}
 {% shortenurl %}
-{{ user.nickname }}さんが「{{ object }}」への参加をやめました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
+{{ user.nickname }}さんが「{{ object }}」への参加をやめました https://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
 {% endshortenurl %}

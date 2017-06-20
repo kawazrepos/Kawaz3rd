@@ -1,5 +1,5 @@
 {% load shortenurl %}
 {% shortenurl %}
-{{ object.organizer.nickname }}さんが「{{ object.title }}」を企画しました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
+{{ object.organizer.nickname }}さんが「{{ object.title }}」を企画しました https://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
 {% endshortenurl %}
 

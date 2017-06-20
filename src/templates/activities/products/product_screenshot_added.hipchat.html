@@ -1,2 +1,2 @@
-<strong>{{ object.last_modifier.nickname }}さんが「<a href="http://{{ site.domain }}{{ object.get_absolute_url }}">{{ object.title }}</a>」にスクリーンショットを追加しました</strong>
+<strong>{{ object.last_modifier.nickname }}さんが「<a href="https://{{ site.domain }}{{ object.get_absolute_url }}">{{ object.title }}</a>」にスクリーンショットを追加しました</strong>
 <pre>{{ object.description | kfm | striptags | truncatechars_html:150 }}</pre>

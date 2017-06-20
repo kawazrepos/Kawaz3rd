@@ -42,12 +42,12 @@
 
 今月△日に全体ミーティングを開く予定です。
 
-http://www.kawaz.org/events/000/
+https://www.kawaz.org/events/000/
 
 顔合わせや、Kawazについての説明、すでに動いているゲーム開発プロジェクトへの参加などのために、なるべくご参加ください。
 もし、ご都合が付かない場合は毎月ミーティングを開催しておりますので、定期的にイベントページをチェックしてみてください。
 
-http://www.kawaz.org/events/
+https://www.kawaz.org/events/
 
 
 また、ログイン後は他のメンバーと交流するために、必ずプロフィール設定を行ってください。
@@ -71,7 +71,7 @@ Kawazに入会してやりたいことが示されていません。Kawazでは�
 
 もう一度規約をご確認の上、再送お願いします。
 
-http://www.kawaz.org/rules/
+https://www.kawaz.org/rules/
 
 何かございましたら、webmaster@kawaz.orgまでお問い合わせください。
 

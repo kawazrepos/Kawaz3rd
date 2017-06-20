@@ -1,4 +1,4 @@
 {% load shortenurl %}
 {% shortenurl %}
-{{ object.author.nickname }}さんが「{{ object.title }}」を書きました http://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
+{{ object.author.nickname }}さんが「{{ object.title }}」を書きました https://{{ site.domain }}{{ object.get_absolute_url }} #Kawaz
 {% endshortenurl %}

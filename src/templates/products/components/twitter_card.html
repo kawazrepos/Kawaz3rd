@@ -8,11 +8,11 @@
     {# twitter:description は200文字まで #}
     <meta name="twitter:description" content="{{ product.description | kfm | striptags | strip_newlines:" " | truncatechars:200 }}" />
     {% get_current_site as site %}
-    <meta name="twitter:url" content="{% block twittercard_url %}http://{{ site.domain }}{{ request.path }}{% endblock %}" />
+    <meta name="twitter:url" content="{% block twittercard_url %}https://{{ site.domain }}{{ request.path }}{% endblock %}" />
     {% if product.advertisement_image %}
-        <meta name="twitter:image:src" content="http://{{ site.domain }}{{ MEDIA_URL }}{{ product.advertisement_image }}" />
+        <meta name="twitter:image:src" content="https://{{ site.domain }}{{ MEDIA_URL }}{{ product.advertisement_image }}" />
     {% else %}
-        <meta name="twitter:image:src" content="http://{{ site.domain }}{{ MEDIA_URL }}{{ product.thumbnail }}" />
+        <meta name="twitter:image:src" content="https://{{ site.domain }}{{ MEDIA_URL }}{{ product.thumbnail }}" />
     {% endif %}
 {% else %}
     <meta name="twitter:card" content="app" />

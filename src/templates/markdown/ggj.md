@@ -297,7 +297,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
   </tr>
 </table>
 
-[Kawaz - GlobalGameJam2012 in Sapporo](http://www.kawaz.org/events/110/)
+[Kawaz - GlobalGameJam2012 in Sapporo](https://www.kawaz.org/events/110/)
 
 [ATND - GlobalGameJam2012 in 札幌](https://atnd.org/events/23583)
 
@@ -339,7 +339,7 @@ https://www.youtube.com/watch?v=PycGYySbL1A
   </tr>
 </table>
 
-[Kawaz - GlobalGameJam2011 in Sapporo](http://www.kawaz.org/projects/ggj11sap/)
+[Kawaz - GlobalGameJam2011 in Sapporo](https://www.kawaz.org/projects/ggj11sap/)
 
 [togetter - Global Game Jam 2011 ～北海道大学（札幌会場）の様子～](http://togetter.com/li/95407)
 

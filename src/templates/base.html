@@ -29,7 +29,7 @@
         {# twitter:description は200文字まで #}
         <meta name="twitter:description" content="{% block twittercard_description %}{% trans "View the contents on Web." %}{% endblock %}" />
         {% get_current_site as site %}
-        <meta name="twitter:url" content="{% block twittercard_url %}http://{{ site.domain }}{{ request.path }}{% endblock %}" />
+        <meta name="twitter:url" content="{% block twittercard_url %}https://{{ site.domain }}{{ request.path }}{% endblock %}" />
     {% endblock %}
     {% get_current_site as site %}
     {% block ogp %}
