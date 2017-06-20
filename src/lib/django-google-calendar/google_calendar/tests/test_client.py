@@ -4,7 +4,7 @@
 
 import os
 from django.test import TestCase
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch, PropertyMock
 from ..conf import settings
 from ..client import (require_enabled,
                       GoogleCalendarClient)
@@ -37,8 +37,10 @@ class GoogleCalendarClientRequireEnabledDecoratorTestCase(TestCase):
 
 
 class GoogleCalendarClientTestCaseBase(TestCase):
-    def setUp(self):
+    @patch('google_calendar.models.GoogleCalendarBridge')
+    def setUp(self, GoogleCalendarBridge):
         self.event = {
+            'id': 1000,
             'summary': 'Appointment',
             'location': 'Somewhere',
             'start': {
@@ -48,43 +50,61 @@ class GoogleCalendarClientTestCaseBase(TestCase):
                 'dateTime': '2014-12-03T10:25:00.000-07:00'
             },
         }
+        self.bridge = MagicMock()
+        GoogleCalendarBridge.objects.get_or_create.return_value = [
+            self.bridge
+        ]
         self.client = GoogleCalendarClient(
             settings.GOOGLE_CALENDAR_CALENDAR_ID
         )
 
 
 if os.path.exists(settings.GOOGLE_CALENDAR_CREDENTIALS):
+    @patch.object(
+        GoogleCalendarClient,
+        '_client',
+        new_callable=PropertyMock
+    )
     class GoogleCalendarClientTestCase(GoogleCalendarClientTestCaseBase):
 
-        def get_event_status(self, event):
-            e = self.client.get(event['id'])
-            return e['status']
-
-        def test_insert(self):
+        def test_insert(self, *args):
+            resource = MagicMock()
+            resource.execute.return_value = self.event
+            self.client._client.insert.return_value = resource
             event = self.client.insert(self.event)
+
             self.assertIsNotNone(event)
             self.assertEqual(event['summary'], 'Appointment')
+            self.client._client.insert.assert_called_with(
+                calendarId=self.client.calendar_id,
+                body=self.event)
 
-            # the event entry exists on the web
-            self.assertEqual(self.get_event_status(event), 'confirmed')
+        def test_patch(self, *args):
+            resource = MagicMock()
+            self.client._client.patch.return_value = resource
+            patched_event = dict(self.event)
+            patched_event['summary'] = 'foobar'
+            resource.execute.return_value = patched_event
 
-            # tearDown
-            self.client.delete(event['id'])
-
-        def test_patch(self):
-            event = self.client.insert(self.event)
-            event = self.client.patch(event['id'], {'summary': 'foobar'})
+            event = self.client.patch(
+                patched_event['id'],
+                {'summary': 'foobar'})
             self.assertEqual(event['summary'], 'foobar')
+            self.client._client.patch.assert_called_with(
+                calendarId=self.client.calendar_id,
+                eventId=patched_event['id'],
+                body={'summary': 'foobar'})
 
-            # tearDown
+        def test_delete(self, *args):
+            event = dict(self.event)
+            resource = MagicMock()
+            self.client._client.delete.return_value = resource
             self.client.delete(event['id'])
 
-        def test_delete(self):
-            event = self.client.insert(self.event)
-            self.client.delete(event['id'])
-
-            # the event entry should not exists on the web
-            self.assertEqual(self.get_event_status(event), 'cancelled')
+            self.assertEqual(self.client._client.delete.called, 1)
+            self.client._client.delete.assert_called_with(
+                calendarId=self.client.calendar_id,
+                eventId=self.event['id'])
 else:
     class GoogleCalendarClientTestCase(GoogleCalendarClientTestCaseBase):
         def setUp(self):
