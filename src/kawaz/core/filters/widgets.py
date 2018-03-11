@@ -1,6 +1,6 @@
 from urllib.parse import urlencode
 from django_filters.widgets import LinkWidget
-from django.forms.widgets import flatatt
+from django.forms.utils import flatatt
 from django.db.models.fields import BLANK_CHOICE_DASH
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
