@@ -10,11 +10,10 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.forms import widgets
 from django.forms import RadioSelect
-from django.forms.widgets import RadioFieldRenderer
 from django.utils.safestring import mark_safe
 
 
-class RadioWithHelpTextFieldRenderer(RadioFieldRenderer):
+class RadioWithHelpTextFieldRenderer(RadioSelect):
     # Ref: https://djangosnippets.org/snippets/2146/
     def __init__(self, name, value, attrs, choices, help_texts):
         self.help_texts = help_texts
